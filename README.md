@@ -1,2 +1,2 @@
 # Pokemon-FF7-Game
-A 2.5D Pokemon/FF7 clone.
+Another solo developer project inspired by Pokemon and FF7.
