@@ -19,13 +19,19 @@ public class CreateMonster : MonoBehaviour
 
     private void Start()
     {
-        nameText.text = monster.name + ($" Lvl: {monster.level}");
-        healthText.text = ($"HP: {monster.health.ToString()}/{monster.maxHealth.ToString()}");
-        sr.sprite = monster.baseSprite;
-
+        InitateStats();
         SetPositionAndOrientation(startingPosition, combatOrientation);
     }
 
+    // This function sets monster stats on HUD at battle start
+    private void InitateStats()
+    {
+        nameText.text = monster.name + ($" Lvl: {monster.level}");
+        healthText.text = ($"HP: {monster.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monster.speed.ToString()}");
+        sr.sprite = monster.baseSprite;
+    }
+
+    // This function sets monster sprite orientation at battle start
     private void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation)
     {
         transform.position = _startPos.transform.position;

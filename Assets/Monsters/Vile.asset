@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: Vile
   m_EditorClassIdentifier: 
   name: Vile
+  baseSprite: {fileID: 21300000, guid: 957a97f5ee59f0241b1bd7d1933ca8be, type: 3}
   level: 7
   monsterType: 2
   health: 32
   maxHealth: 32
-  baseSprite: {fileID: 21300000, guid: 957a97f5ee59f0241b1bd7d1933ca8be, type: 3}
+  mana: 0
+  maxMana: 0
+  physicalAttack: 0
+  magicAttack: 0
+  physicalDefense: 0
+  magicDefense: 0
+  speed: 6

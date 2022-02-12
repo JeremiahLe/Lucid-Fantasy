@@ -5,7 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Monster", menuName = "Monster")]
 public class Monster : ScriptableObject
 {
+    [Header("Monster Identifier")]
     public new string name;
+    public Sprite baseSprite;
+
+    [Header("Monster Combat Stats")]
     public int level;
 
     public enum MonsterType { Fire, Ice, Earth, Wind };
@@ -14,5 +18,14 @@ public class Monster : ScriptableObject
     public int health;
     public int maxHealth;
 
-    public Sprite baseSprite;
+    public int mana;
+    public int maxMana;
+
+    public int physicalAttack;
+    public int magicAttack;
+
+    public int physicalDefense;
+    public int magicDefense;
+
+    public int speed;
 }

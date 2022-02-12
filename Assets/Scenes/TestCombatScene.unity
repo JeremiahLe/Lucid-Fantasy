@@ -403,6 +403,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1758263236}
+  - component: {fileID: 1758263237}
   m_Layer: 0
   m_Name: CombatManagerObj
   m_TagString: Untagged
@@ -424,6 +425,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1758263237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758263235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cae1b36ca95c82b4481a90cdbec15103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BattleSequence: []
+  MonstersInBattle: []
 --- !u!1 &1776950149
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +578,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestMonsterObj
       objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monster
+      value: 
+      objectReference: {fileID: 11400000, guid: 622d592c26c65d24e9df7d9906fc1807, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: startingPosition
       value: 

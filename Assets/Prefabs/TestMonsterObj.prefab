@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 896763779794199981}
   m_Layer: 0
   m_Name: TestMonsterObj
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,6 +100,8 @@ MonoBehaviour:
   nameText: {fileID: 896763781175474198}
   healthText: {fileID: 896763780792935883}
   sr: {fileID: 896763779794199983}
+  startingPosition: {fileID: 0}
+  combatOrientation: 0
 --- !u!1 &896763780719976199
 GameObject:
   m_ObjectHideFlags: 0
