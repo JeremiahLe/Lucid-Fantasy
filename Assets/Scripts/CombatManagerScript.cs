@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class CombatManagerScript : MonoBehaviour
 {
     public List<GameObject> BattleSequence;
     public GameObject[] MonstersInBattle;
+    private TextMeshProUGUI CombatOrderTextList;
 
     // For Later
     //public List<Action> BattleActions;
@@ -34,11 +36,13 @@ public class CombatManagerScript : MonoBehaviour
     public void SortMonsterBattleSequence()
     {
         BattleSequence = BattleSequence.OrderByDescending(Monster => Monster.GetComponent<CreateMonster>().monster.speed).ToList();
+        CombatOrderTextList = GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>();
+        CombatOrderTextList.text = ($"Combat Order:\n");
 
         for (int i = 0; i < BattleSequence.Count; i++)
         {
             Monster monster = BattleSequence[i].GetComponent<CreateMonster>().monster;
-            Debug.Log($"Monster {i}: {monster.name} Speed: {monster.speed}");
+            CombatOrderTextList.text += ($"Monster {i + 1}: {monster.name} || Speed: {monster.speed}\n");
         }
     }
 }

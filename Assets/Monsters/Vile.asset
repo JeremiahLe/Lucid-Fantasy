@@ -20,8 +20,8 @@ MonoBehaviour:
   maxHealth: 32
   mana: 0
   maxMana: 0
-  physicalAttack: 0
-  magicAttack: 0
-  physicalDefense: 0
-  magicDefense: 0
+  physicalAttack: 3
+  magicAttack: 3
+  physicalDefense: 1
+  magicDefense: 1
   speed: 6
