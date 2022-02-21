@@ -15,6 +15,9 @@ public class Monster : ScriptableObject
     public enum MonsterType { Fire, Ice, Earth, Wind };
     public MonsterType monsterType;
 
+    public enum AIType { Ally, Enemy };
+    public AIType aiType;
+
     public int health;
     public int maxHealth;
 

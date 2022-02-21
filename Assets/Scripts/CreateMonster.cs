@@ -12,6 +12,8 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private SpriteRenderer sr;
 
+    [SerializeField] private Monster.AIType aiType;
+
     [SerializeField] private Transform startingPosition;
     private enum CombatOrientation { Left, Right };
     [SerializeField] private CombatOrientation combatOrientation;
@@ -29,6 +31,7 @@ public class CreateMonster : MonoBehaviour
         nameText.text = monster.name + ($" Lvl: {monster.level}");
         healthText.text = ($"HP: {monster.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monster.speed.ToString()}");
         sr.sprite = monster.baseSprite;
+        monster.aiType = aiType;
     }
 
     // This function sets monster sprite orientation at battle start

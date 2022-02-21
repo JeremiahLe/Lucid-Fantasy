@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
-  m_Name: Cloudboi
+  m_Name: WIndwoof
   m_EditorClassIdentifier: 
-  name: Cloudboi
+  name: Windwoof
   baseSprite: {fileID: 21300000, guid: c82a10bf2d38728458b2463c92fb2cc0, type: 3}
   level: 5
   monsterType: 3
