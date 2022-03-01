@@ -9,9 +9,15 @@ public class CombatManagerScript : MonoBehaviour
     public List<GameObject> BattleSequence;
     public GameObject[] MonstersInBattle;
 
+    public List<GameObject> ListOfAllys;
+    public List<GameObject> ListOfEnemies;
+
     private TextMeshProUGUI CombatOrderTextList;
     private TextMeshProUGUI BattleStartTextPopup;
     public MessageManager CombatLog;
+
+    private TextMeshProUGUI AllyTextList;
+    private TextMeshProUGUI EnemyTextList;
 
     // For Later
     //public List<Action> BattleActions;
@@ -40,6 +46,16 @@ public class CombatManagerScript : MonoBehaviour
                     CombatOrderTextList = child.GetComponent<TextMeshProUGUI>();
                     break;
 
+                case "ListOfAlliesText":
+                    AllyTextList = child.GetComponent<TextMeshProUGUI>();
+                    AllyTextList.text = ("Allies:\n");
+                    break;
+
+                case "ListOfEnemiesText":
+                    EnemyTextList = child.GetComponent<TextMeshProUGUI>();
+                    EnemyTextList.text = ("Enemies:\n");
+                    break;
+
                 case "CombatManagerObj":
                     CombatLog = GetComponent<MessageManager>();
                     break;
@@ -58,6 +74,17 @@ public class CombatManagerScript : MonoBehaviour
 
         foreach (GameObject monster in MonstersInBattle)
         {
+            if (monster.GetComponent<CreateMonster>().monster.aiType == Monster.AIType.Ally)
+            {
+                ListOfAllys.Add(monster);
+                UpdateMonsterList(monster, Monster.AIType.Ally);
+            }
+            else if (monster.GetComponent<CreateMonster>().monster.aiType == Monster.AIType.Enemy)
+            {
+                ListOfEnemies.Add(monster);
+                UpdateMonsterList(monster, Monster.AIType.Enemy);
+            }
+
             BattleSequence.Add(monster);
         }
 
@@ -82,6 +109,21 @@ public class CombatManagerScript : MonoBehaviour
     public void FadeText(TextMeshProUGUI textToFade)
     {
         textToFade.CrossFadeAlpha(0, 1f, true);
+    }
+
+    // This function properly updates the lists of ally and enemy monsters based on what is passed in
+    public void UpdateMonsterList(GameObject monster, Monster.AIType aIType)
+    {
+        Monster _monster = monster.GetComponent<CreateMonster>().monster;
+
+        if (aIType == Monster.AIType.Ally)
+        {
+            AllyTextList.text += ($"{_monster.name}, lvl: {_monster.level}\n");
+        }
+        else if (aIType == Monster.AIType.Enemy)
+        {
+            EnemyTextList.text += ($"{_monster.name}, lvl: {_monster.level}\n");
+        }
     }
 }
 

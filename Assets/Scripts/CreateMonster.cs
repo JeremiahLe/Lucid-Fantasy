@@ -23,6 +23,7 @@ public class CreateMonster : MonoBehaviour
     {
         InitateStats();
         SetPositionAndOrientation(startingPosition, combatOrientation);
+        SetAIType();
     }
 
     // This function sets monster stats on HUD at battle start
@@ -47,6 +48,15 @@ public class CreateMonster : MonoBehaviour
         else
         {
             sr.flipX = false;
+        }
+    }
+
+    // This function applies ai-specific rules at run-time (ie. red text for name if enemy)
+    private void SetAIType()
+    {
+        if (monster.aiType == Monster.AIType.Enemy)
+        {
+            nameText.color = Color.red;
         }
     }
 }
