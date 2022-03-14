@@ -16,6 +16,7 @@ MonoBehaviour:
   baseSprite: {fileID: 21300000, guid: 957a97f5ee59f0241b1bd7d1933ca8be, type: 3}
   level: 7
   monsterType: 2
+  aiType: 1
   health: 32
   maxHealth: 32
   mana: 0
@@ -25,3 +26,6 @@ MonoBehaviour:
   physicalDefense: 1
   magicDefense: 1
   speed: 6
+  ListOfMonsterAttacks:
+  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  - {fileID: 11400000, guid: 642a609bcd4f3b744b73b7627263f273, type: 2}

@@ -12,7 +12,7 @@ public class Monster : ScriptableObject
     [Header("Monster Combat Stats")]
     public int level;
 
-    public enum MonsterType { Fire, Ice, Earth, Wind };
+    public enum MonsterType { Fire, Ice, Earth, Wind, Neutral };
     public MonsterType monsterType;
 
     public enum AIType { Ally, Enemy };
@@ -31,4 +31,7 @@ public class Monster : ScriptableObject
     public int magicDefense;
 
     public int speed;
+
+    [Header("Monster Attack List")]
+    public List<MonsterAttack> ListOfMonsterAttacks;
 }
