@@ -19,6 +19,10 @@ public class CombatManagerScript : MonoBehaviour
     private TextMeshProUGUI AllyTextList;
     private TextMeshProUGUI EnemyTextList;
 
+    public GameObject CurrentMonsterTurn;
+    public HUDAnimationManager HUDanimationManager;
+    public ButtonManagerScript buttonManagerScript;
+
     // For Later
     //public List<Action> BattleActions;
 
@@ -61,10 +65,13 @@ public class CombatManagerScript : MonoBehaviour
                     break;
 
                 default:
-                    Debug.Log($"Missing a text object reference? {child.name}", this);
+                    //Debug.Log($"Missing a text object reference? {child.name}", this);
                     break;
             }
         }
+
+        HUDanimationManager = GetComponent<HUDAnimationManager>();
+        buttonManagerScript = GetComponent<ButtonManagerScript>();
     }
 
     // This function adds all monsters in battle into a list of monsters
@@ -74,12 +81,12 @@ public class CombatManagerScript : MonoBehaviour
 
         foreach (GameObject monster in MonstersInBattle)
         {
-            if (monster.GetComponent<CreateMonster>().monster.aiType == Monster.AIType.Ally)
+            if (monster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Ally)
             {
                 ListOfAllys.Add(monster);
                 UpdateMonsterList(monster, Monster.AIType.Ally);
             }
-            else if (monster.GetComponent<CreateMonster>().monster.aiType == Monster.AIType.Enemy)
+            else if (monster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy)
             {
                 ListOfEnemies.Add(monster);
                 UpdateMonsterList(monster, Monster.AIType.Enemy);
@@ -94,15 +101,17 @@ public class CombatManagerScript : MonoBehaviour
     // This function sorts the monster battle sequence by speed after all monsters have been identified and added to list
     public void SortMonsterBattleSequence()
     {
-        BattleSequence = BattleSequence.OrderByDescending(Monster => Monster.GetComponent<CreateMonster>().monster.speed).ToList();
+        BattleSequence = BattleSequence.OrderByDescending(Monster => Monster.GetComponent<CreateMonster>().monsterReference.speed).ToList();
         CombatOrderTextList.text = ($"Combat Order:\n");
 
         for (int i = 0; i < BattleSequence.Count; i++)
         {
-            Monster monster = BattleSequence[i].GetComponent<CreateMonster>().monster;
-            CombatOrderTextList.text += ($"Monster {i + 1}: {monster.name} || Speed: {monster.speed}\n");
+            Monster monster = BattleSequence[i].GetComponent<CreateMonster>().monsterReference;
+            CombatOrderTextList.text += ($"Monster {i + 1}: {monster.aiType} {monster.name} || Speed: {monster.speed}\n");
             CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} has joined the battle!"); // Update Combat Log with all monsters in battle
         }
+
+        SetCurrentMonsterTurn(); // This should be called after the order of monsters is decided.
     }
 
     // This function fades text passed in
@@ -114,7 +123,7 @@ public class CombatManagerScript : MonoBehaviour
     // This function properly updates the lists of ally and enemy monsters based on what is passed in
     public void UpdateMonsterList(GameObject monster, Monster.AIType aIType)
     {
-        Monster _monster = monster.GetComponent<CreateMonster>().monster;
+        Monster _monster = monster.GetComponent<CreateMonster>().monsterReference;
 
         if (aIType == Monster.AIType.Ally)
         {
@@ -123,6 +132,23 @@ public class CombatManagerScript : MonoBehaviour
         else if (aIType == Monster.AIType.Enemy)
         {
             EnemyTextList.text += ($"{_monster.name}, lvl: {_monster.level}\n");
+        }
+    }
+
+    // This function sets the monster turn by speed and priority
+    public void SetCurrentMonsterTurn()
+    {
+        CurrentMonsterTurn = BattleSequence[0];
+        Monster monster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+
+        // If enemy, AI move
+        //
+
+        // If ally, give player move
+        if (monster.aiType == Monster.AIType.Ally)
+        {
+            HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monster.name} do?");
+            buttonManagerScript.AssignAttackMoves(monster);
         }
     }
 }

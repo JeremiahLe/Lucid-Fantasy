@@ -6,6 +6,7 @@ using TMPro;
 public class CreateMonster : MonoBehaviour
 {
     public Monster monster;
+    public Monster monsterReference;
 
     [Header("Display Variables")]
     [SerializeField] private TextMeshProUGUI nameText;
@@ -18,21 +19,28 @@ public class CreateMonster : MonoBehaviour
     private enum CombatOrientation { Left, Right };
     [SerializeField] private CombatOrientation combatOrientation;
 
+    [Header("Additional Editable Variables")]
+    [SerializeReference] private int monsterSpeed;
+
 
     private void Start()
     {
         InitateStats();
-        SetPositionAndOrientation(startingPosition, combatOrientation);
         SetAIType();
     }
 
     // This function sets monster stats on HUD at battle start
     private void InitateStats()
     {
+        monsterReference = Instantiate(monster); // this is needed to create instances of the scriptable objects rather than editing them
+        monsterReference.aiType = aiType;
+
+        monsterSpeed = monster.speed; // this is needed to not edit the base scriptable objects
+        monsterReference.speed = monsterSpeed;
+
         nameText.text = monster.name + ($" Lvl: {monster.level}");
-        healthText.text = ($"HP: {monster.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monster.speed.ToString()}");
+        healthText.text = ($"HP: {monster.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
         sr.sprite = monster.baseSprite;
-        monster.aiType = aiType;
     }
 
     // This function sets monster sprite orientation at battle start
@@ -51,12 +59,14 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function applies ai-specific rules at run-time (ie. red text for name if enemy)
+    // This function applies ai-specific rules at run-time (ie. red text for name if enemy) and then sets position and orientation
     private void SetAIType()
     {
-        if (monster.aiType == Monster.AIType.Enemy)
+        if (monsterReference.aiType == Monster.AIType.Enemy)
         {
             nameText.color = Color.red;
+            combatOrientation = CombatOrientation.Left;
+            SetPositionAndOrientation(startingPosition, combatOrientation);
         }
     }
 }

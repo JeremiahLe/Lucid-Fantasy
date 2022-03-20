@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class HUDManagerScript : MonoBehaviour
+public class ButtonManagerScript : MonoBehaviour
 {
     public GameObject AttacksButton;
     public GameObject AutoBattleButton;
@@ -17,6 +18,8 @@ public class HUDManagerScript : MonoBehaviour
 
     public List<GameObject> AttacksHUDButtons;
     public List<GameObject> InitialHUDButtons;
+
+    public List<MonsterAttack> ListOfMonsterAttacks;
 
     // Start is called before the first frame update
     void Start()
@@ -34,8 +37,6 @@ public class HUDManagerScript : MonoBehaviour
         AttacksHUDButtons.Add(Attack2Button);
         AttacksHUDButtons.Add(Attack3Button);
         AttacksHUDButtons.Add(Attack4Button);
-
-        AttacksHUDButtons.Add(BackButton);
 
         // Hide all attack buttons at start
         HideAllButtons("AttacksHUDButtons");
@@ -76,6 +77,27 @@ public class HUDManagerScript : MonoBehaviour
         foreach (GameObject button in InitialHUDButtons)
         {
             button.SetActive(true);
+        }
+    }
+
+    // This function assigns the current ally monsters attack moves to each of the four attack buttons
+    public void AssignAttackMoves(Monster monster)
+    {
+        foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
+        {
+            ListOfMonsterAttacks.Add(attack);
+        }
+    }
+
+    // This function displays the names of the attack moves the current monster has
+    public void DisplayAttackMoves()
+    {   
+        for (int i = 0; i < ListOfMonsterAttacks.Count; i++)
+        {
+            if (ListOfMonsterAttacks[i] != null)
+            {
+                AttacksHUDButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = ListOfMonsterAttacks[i].monsterAttackName;
+            }
         }
     }
 }
