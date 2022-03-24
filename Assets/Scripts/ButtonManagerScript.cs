@@ -6,6 +6,7 @@ using TMPro;
 
 public class ButtonManagerScript : MonoBehaviour
 {
+    // Button Objects
     public GameObject AttacksButton;
     public GameObject AutoBattleButton;
 
@@ -21,10 +22,21 @@ public class ButtonManagerScript : MonoBehaviour
 
     public List<MonsterAttack> ListOfMonsterAttacks;
 
+    public MonsterAttackManager monsterAttackManager;
+    public CombatManagerScript combatManagerScript;
+
     // Start is called before the first frame update
     void Start()
     {
+        InitializeComponents();
         AddButtonsToList();
+    }
+
+    // This functions initializes the gameObject's components
+    public void InitializeComponents()
+    {
+        monsterAttackManager = GetComponent<MonsterAttackManager>();
+        combatManagerScript = GetComponent<CombatManagerScript>();
     }
 
     // This function adds all the HUD buttons to an initial list to turn them off and on at will (may be slow)
@@ -78,6 +90,9 @@ public class ButtonManagerScript : MonoBehaviour
         {
             button.SetActive(true);
         }
+
+        // This should reset the message at the top of screen ( What will <monster name> do? )
+        combatManagerScript.ResetCombatMessage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name);
     }
 
     // This function assigns the current ally monsters attack moves to each of the four attack buttons

@@ -23,6 +23,9 @@ public class CombatManagerScript : MonoBehaviour
     public HUDAnimationManager HUDanimationManager;
     public ButtonManagerScript buttonManagerScript;
 
+    public GameObject monsterTargeter;
+    public GameObject CurrentTargetedMonster;
+
     // For Later
     //public List<Action> BattleActions;
 
@@ -149,6 +152,31 @@ public class CombatManagerScript : MonoBehaviour
         {
             HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monster.name} do?");
             buttonManagerScript.AssignAttackMoves(monster);
+        }
+    }
+
+    // This function resets the combat message from an attack or something else to the default what will monster do? It also serves to reset combat targeting
+    public void ResetCombatMessage(string monsterName)
+    {
+        HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monsterName} do?");
+        monsterTargeter.SetActive(false);
+        CurrentTargetedMonster = null;
+    }
+
+    // This function gets called when an attack is chosen and the target is required
+    public void TargetingEnemyMonsters(bool targeting)
+    {
+        switch (targeting)
+        {
+            case true:
+                monsterTargeter.SetActive(true);
+                CurrentTargetedMonster = ListOfEnemies[0];
+                monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
+                break;
+
+            default:
+                Debug.Log("Missing target or attack reference?", this);
+                break;
         }
     }
 }
