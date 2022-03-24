@@ -104,7 +104,7 @@ public class ButtonManagerScript : MonoBehaviour
         }
     }
 
-    // This function displays the names of the attack moves the current monster has
+    // This function displays the names of the attack moves the current monster has // Git edit
     public void DisplayAttackMoves()
     {   
         for (int i = 0; i < ListOfMonsterAttacks.Count; i++)
