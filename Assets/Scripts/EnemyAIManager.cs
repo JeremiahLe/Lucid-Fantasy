@@ -70,7 +70,7 @@ public class EnemyAIManager : MonoBehaviour
         return randMove;
     }
 
-    // This function returns a random target from the list of ally monsters
+    // This function returns a random target from the list of ally monsters // GitHub edit
     public GameObject GetRandomTarget()
     {
         GameObject randTarget = listOfAllies[Random.Range(0, listOfAllies.Count)];
