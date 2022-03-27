@@ -14,6 +14,7 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private SpriteRenderer sr;
 
     [SerializeField] private Monster.AIType aiType;
+    [SerializeField] private Monster.AILevel aiLevel;
 
     [SerializeField] private Transform startingPosition;
     private enum CombatOrientation { Left, Right };
@@ -22,10 +23,16 @@ public class CreateMonster : MonoBehaviour
     [Header("Additional Editable Variables")]
     [SerializeReference] private int monsterSpeed;
 
+    public Animator monsterAnimator;
+    public GameObject combatManagerObject;
+    public CombatManagerScript combatManagerScript;
+    public MonsterAttackManager monsterAttackManager;
+
 
     private void Start()
     {
         InitateStats();
+        InitializeComponents();
         SetAIType();
     }
 
@@ -39,8 +46,22 @@ public class CreateMonster : MonoBehaviour
         monsterReference.speed = monsterSpeed;
 
         nameText.text = monster.name + ($" Lvl: {monster.level}");
-        healthText.text = ($"HP: {monster.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
+        healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
         sr.sprite = monster.baseSprite;
+    }
+
+    // This function should be called when stats get updated
+    public void UpdateStats()
+    {
+        healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
+    }
+
+    // This function initializes a gameObjects components
+    public void InitializeComponents()
+    {
+        monsterAnimator = GetComponent<Animator>();
+        combatManagerScript = combatManagerObject.GetComponent<CombatManagerScript>();
+        monsterAttackManager = combatManagerObject.GetComponent<MonsterAttackManager>();
     }
 
     // This function sets monster sprite orientation at battle start
@@ -67,6 +88,21 @@ public class CreateMonster : MonoBehaviour
             nameText.color = Color.red;
             combatOrientation = CombatOrientation.Left;
             SetPositionAndOrientation(startingPosition, combatOrientation);
+            monsterReference.aiLevel = aiLevel;
         }
+        else if (monsterReference.aiType == Monster.AIType.Ally)
+        {
+            nameText.color = Color.white;
+            combatOrientation = CombatOrientation.Right;
+            SetPositionAndOrientation(startingPosition, combatOrientation);
+            monsterReference.aiLevel = Monster.AILevel.Player;
+        }
+    }
+
+    // This function ends the attack animation, and calls other scripts 
+    public void AttackAnimationEnd()
+    {
+        monsterAnimator.SetBool("attackAnimationPlaying", false);
+        monsterAttackManager.DealDamage();
     }
 }

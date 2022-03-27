@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 [CreateAssetMenu(fileName = "New Monster", menuName = "Monster")]
 public class Monster : ScriptableObject
@@ -17,6 +18,9 @@ public class Monster : ScriptableObject
 
     public enum AIType { Ally, Enemy };
     public AIType aiType;
+
+    public enum AILevel { Smart, Random, Bad, Player };
+    public AILevel aiLevel;
 
     public int health;
     public int maxHealth;

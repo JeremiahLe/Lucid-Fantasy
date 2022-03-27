@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Wild Claws
   m_EditorClassIdentifier: 
   monsterAttackName: Wild Claws
-  monsterAttackType: 4
+  monsterAttackElement: 4
+  monsterAttackType: 0
   monsterAttackDamage: 15
+  monsterAttackDescription: Ravage the opponent with sharp claws. 50% to critically
+    strike.

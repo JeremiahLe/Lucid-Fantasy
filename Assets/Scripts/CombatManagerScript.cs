@@ -20,11 +20,17 @@ public class CombatManagerScript : MonoBehaviour
     private TextMeshProUGUI EnemyTextList;
 
     public GameObject CurrentMonsterTurn;
+
     public HUDAnimationManager HUDanimationManager;
     public ButtonManagerScript buttonManagerScript;
+    public EnemyAIManager enemyAIManager;
+
+    public Animator CurrentMonsterTurnAnimator;
 
     public GameObject monsterTargeter;
     public GameObject CurrentTargetedMonster;
+
+    public int currentIndex = 0;
 
     // For Later
     //public List<Action> BattleActions;
@@ -40,6 +46,10 @@ public class CombatManagerScript : MonoBehaviour
     // This function initializes all components at start
     public void InitializeComponents()
     {
+        // This fixes the build bug
+        Resources.LoadAll<Monster>("Assets/Monsters");
+        Resources.LoadAll<MonsterAttack>("Assets/Monster Attacks");
+
         Transform[] children = transform.GetComponentsInChildren<Transform>();
         foreach (var child in children)
         {
@@ -75,6 +85,7 @@ public class CombatManagerScript : MonoBehaviour
 
         HUDanimationManager = GetComponent<HUDAnimationManager>();
         buttonManagerScript = GetComponent<ButtonManagerScript>();
+        enemyAIManager = GetComponent<EnemyAIManager>();
     }
 
     // This function adds all monsters in battle into a list of monsters
@@ -141,17 +152,29 @@ public class CombatManagerScript : MonoBehaviour
     // This function sets the monster turn by speed and priority
     public void SetCurrentMonsterTurn()
     {
-        CurrentMonsterTurn = BattleSequence[0];
+        CurrentMonsterTurn = BattleSequence[currentIndex];
         Monster monster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
 
         // If enemy, AI move
-        //
-
-        // If ally, give player move
-        if (monster.aiType == Monster.AIType.Ally)
+        if (monster.aiType == Monster.AIType.Enemy)
         {
+            buttonManagerScript.HideAllButtons("All");
+            HUDanimationManager.MonsterCurrentTurnText.text = ($"Enemy {monster.name} turn...");
+
+            // Call enemy AI script after a delay
+            enemyAIManager.currentEnemyTurnGameObject = CurrentMonsterTurn;
+            enemyAIManager.currentEnemyTurn = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+            enemyAIManager.listOfAllies = ListOfAllys;
+            enemyAIManager.Invoke("SelectMove", 1.4f);
+        }
+        // If ally, give player move
+        else if (monster.aiType == Monster.AIType.Ally)
+        {
+            buttonManagerScript.ListOfMonsterAttacks.Clear();
             HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monster.name} do?");
             buttonManagerScript.AssignAttackMoves(monster);
+            buttonManagerScript.ResetHUD();
+            CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
         }
     }
 
@@ -160,7 +183,18 @@ public class CombatManagerScript : MonoBehaviour
     {
         HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monsterName} do?");
         monsterTargeter.SetActive(false);
-        CurrentTargetedMonster = null;
+    }
+
+    // This override function sets the combat message to something specific
+    public void EditCombatMessage(string message)
+    {
+        HUDanimationManager.MonsterCurrentTurnText.text = (message);
+    }
+
+    // This function sets the combat message to nothing
+    public void EditCombatMessage()
+    {
+        HUDanimationManager.MonsterCurrentTurnText.text = "";
     }
 
     // This function gets called when an attack is chosen and the target is required
@@ -178,6 +212,21 @@ public class CombatManagerScript : MonoBehaviour
                 Debug.Log("Missing target or attack reference?", this);
                 break;
         }
+    }
+
+    // This function moves the current monster turn to the next in line
+    public void NextMonsterTurn()
+    {
+        if (currentIndex + 1 >= MonstersInBattle.Count())
+        {
+            currentIndex = 0;
+        }
+        else if (currentIndex + 1 <= MonstersInBattle.Count())
+        {
+            currentIndex++;
+        }
+
+        SetCurrentMonsterTurn();
     }
 }
 

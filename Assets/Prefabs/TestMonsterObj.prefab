@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 896763779794199982}
   - component: {fileID: 896763779794199983}
   - component: {fileID: 896763779794199981}
+  - component: {fileID: 1925426735}
   m_Layer: 0
   m_Name: TestMonsterObj
   m_TagString: Monster
@@ -97,11 +98,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monster: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
+  monsterReference: {fileID: 0}
   nameText: {fileID: 896763781175474198}
   healthText: {fileID: 896763780792935883}
   sr: {fileID: 896763779794199983}
+  aiType: 0
+  aiLevel: 0
   startingPosition: {fileID: 0}
-  combatOrientation: 0
+  combatOrientation: 1
+  monsterSpeed: 7
+  monsterAnimator: {fileID: 0}
+  combatManagerObject: {fileID: 0}
+  combatManagerScript: {fileID: 0}
+  monsterAttackManager: {fileID: 0}
+--- !u!95 &1925426735
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896763779794199976}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5fd3475acce47f140a2e0cc41385e372, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &896763780719976199
 GameObject:
   m_ObjectHideFlags: 0
