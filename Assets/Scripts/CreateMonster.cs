@@ -54,6 +54,18 @@ public class CreateMonster : MonoBehaviour
     public void UpdateStats()
     {
         healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
+        CheckHealth();
+    } 
+
+    // This function checks the monster's health
+    public void CheckHealth()
+    {
+        if (monsterReference.health <= 0)
+        {
+            combatManagerScript.RemoveMonsterFromList(gameObject, monsterReference.aiType);
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} has been defeated!");
+            Destroy(gameObject);
+        }
     }
 
     // This function initializes a gameObjects components

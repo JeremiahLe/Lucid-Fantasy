@@ -17,12 +17,13 @@ MonoBehaviour:
   level: 5
   monsterType: 3
   aiType: 0
+  aiLevel: 0
   health: 20
   maxHealth: 20
   mana: 0
   maxMana: 0
   physicalAttack: 2
-  magicAttack: 4
+  magicAttack: 40
   physicalDefense: 1
   magicDefense: 2
   speed: 11

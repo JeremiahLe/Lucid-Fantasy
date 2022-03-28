@@ -54,7 +54,7 @@ public class EnemyAIManager : MonoBehaviour
                 combatManagerScript.CurrentTargetedMonster = currentEnemyTargetGameObject;
                 monsterAttackManager.currentMonsterAttack = currentEnemyMonsterAttack;
 
-                monsterAttackManager.Invoke("UseMonsterAttack", 1.3f);
+                monsterAttackManager.Invoke("UseMonsterAttack", 1.7f);
                 break;
             default:
                 Debug.Log("Missing AI Level or monster reference?", this);

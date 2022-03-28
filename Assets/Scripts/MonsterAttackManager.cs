@@ -65,6 +65,7 @@ public class MonsterAttackManager : MonoBehaviour
     {
         currentMonsterAttackDescription.text = "";
         currentMonsterAttackDescription.gameObject.SetActive(false);
+        combatManagerScript.monsterTargeter.SetActive(false);
     }
 
     // This function uses the selected monster attack on the selected monster
