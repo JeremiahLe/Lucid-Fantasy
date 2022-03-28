@@ -95,7 +95,7 @@ public class CombatManagerScript : MonoBehaviour
     // This function adds all monsters in battle into a list of monsters
     public void GetAllMonstersInBattle()
     {
-        MonstersInBattle = GameObject.FindGameObjectsWithTag("Monster");
+        MonstersInBattle = GameObject.FindGameObjectsWithTag("Monster"); // TODO: Fix delete monsters bug - GitHub Comment
 
         foreach (GameObject monster in MonstersInBattle)
         {
