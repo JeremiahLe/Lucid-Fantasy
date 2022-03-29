@@ -15,6 +15,7 @@ public class MonsterAttackManager : MonoBehaviour
     public CombatManagerScript combatManagerScript;
     public HUDAnimationManager HUDanimationManager;
     public EnemyAIManager enemyAIManager;
+    public UIManager uiManager;
 
     public TextMeshProUGUI currentMonsterAttackDescription;
 
@@ -34,6 +35,7 @@ public class MonsterAttackManager : MonoBehaviour
         HUDanimationManager = GetComponent<HUDAnimationManager>();
         enemyAIManager = GetComponent<EnemyAIManager>();
         CombatLog = GetComponent<MessageManager>();
+        uiManager = GetComponent<UIManager>();
 
         currentMonsterAttackDescription.gameObject.SetActive(false);
     }
@@ -42,8 +44,9 @@ public class MonsterAttackManager : MonoBehaviour
     public void AssignCurrentButtonAttack(string buttonNumber)
     {
         currentMonsterAttack = buttonManagerScript.ListOfMonsterAttacks[int.Parse(buttonNumber)];
+        combatManagerScript.CurrentMonsterAttack = currentMonsterAttack;
         combatManagerScript.TargetingEnemyMonsters(true);
-        HUDanimationManager.MonsterCurrentTurnText.text = ($"Windwoof will use {ReturnCurrentButtonAttack().monsterAttackName} on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.name}?");
+        HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} will use {ReturnCurrentButtonAttack().monsterAttackName} on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType} {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.name}?");
         buttonManagerScript.HideAllButtons("AttacksHUDButtons");
         buttonManagerScript.ShowButton("ConfirmButton");
 
@@ -52,6 +55,12 @@ public class MonsterAttackManager : MonoBehaviour
             $"\n{currentMonsterAttack.monsterAttackDescription}" +
             $"\nBase Power: {currentMonsterAttack.monsterAttackDamage} ({currentMonsterAttack.monsterAttackType.ToString()})" +
             $"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
+    }
+
+    // This function updates the targeted enemy text on screen
+    public void UpdateCurrentTargetText()
+    {
+        HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} will use {ReturnCurrentButtonAttack().monsterAttackName} on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType} {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.name}?");
     }
 
     // This function assigns the monster attack that is connected to the pressed button
@@ -74,7 +83,7 @@ public class MonsterAttackManager : MonoBehaviour
         combatManagerScript.CurrentMonsterTurnAnimator.SetBool("attackAnimationPlaying", true);
         buttonManagerScript.HideAllButtons("All");
         ResetHUD();
-        combatManagerScript.EditCombatMessage();
+        uiManager.EditCombatMessage();
     }
 
     // This function uses the current move to deal damage to the target (should be called after attack animation ends)
@@ -86,6 +95,7 @@ public class MonsterAttackManager : MonoBehaviour
         currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
         currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats();
         combatManagerScript.monsterTargeter.SetActive(false);
+        combatManagerScript.targeting = false;
 
         combatManagerScript.Invoke("NextMonsterTurn", 0.1f);
     }
@@ -101,7 +111,7 @@ public class MonsterAttackManager : MonoBehaviour
         }
         else if (monsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Physical)
         {
-            calculatedDamage = currentMonster.physicalAttack + (currentMonster.magicAttack * Mathf.RoundToInt(currentMonsterAttack.monsterAttackDamage * .1f)) - currentTargetedMonster.physicalDefense;
+            calculatedDamage = currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(currentMonsterAttack.monsterAttackDamage * .1f)) - currentTargetedMonster.physicalDefense;
         }
 
         CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");

@@ -18,6 +18,7 @@ public class EnemyAIManager : MonoBehaviour
 
     public MonsterAttackManager monsterAttackManager;
     public CombatManagerScript combatManagerScript;
+    public UIManager uiManager;
 
     // Start function
     public void Start()
@@ -30,6 +31,7 @@ public class EnemyAIManager : MonoBehaviour
     {
         monsterAttackManager = GetComponent<MonsterAttackManager>();
         combatManagerScript = GetComponent<CombatManagerScript>();
+        uiManager = GetComponent<UIManager>();
     }
 
     // This function selects a monster attack for the enemy AI
@@ -48,7 +50,7 @@ public class EnemyAIManager : MonoBehaviour
                 monsterTargeter.SetActive(true);
                 monsterTargeter.transform.position = new Vector3(currentEnemyTargetGameObject.transform.position.x, currentEnemyTargetGameObject.transform.position.y + 2.5f, currentEnemyTargetGameObject.transform.position.z);
 
-                combatManagerScript.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.name}!");
+                uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
 
                 combatManagerScript.CurrentMonsterTurnAnimator = currentEnemyTurnGameObject.GetComponent<Animator>();
                 combatManagerScript.CurrentTargetedMonster = currentEnemyTargetGameObject;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 896763779794199983}
   - component: {fileID: 896763779794199981}
   - component: {fileID: 1925426735}
+  - component: {fileID: 1814965424145561688}
   m_Layer: 0
   m_Name: TestMonsterObj
   m_TagString: Monster
@@ -107,6 +108,7 @@ MonoBehaviour:
   startingPosition: {fileID: 0}
   combatOrientation: 1
   monsterSpeed: 7
+  monsterLevel: 0
   monsterAnimator: {fileID: 0}
   combatManagerObject: {fileID: 0}
   combatManagerScript: {fileID: 0}
@@ -130,6 +132,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!61 &1814965424145561688
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896763779794199976}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.857143, y: 2.857143}
+    newSize: {x: 10, y: 10}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.857143, y: 2.857143}
+  m_EdgeRadius: 0
 --- !u!1 &896763780719976199
 GameObject:
   m_ObjectHideFlags: 0

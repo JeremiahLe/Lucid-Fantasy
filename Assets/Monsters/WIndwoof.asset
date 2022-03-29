@@ -23,7 +23,7 @@ MonoBehaviour:
   mana: 0
   maxMana: 0
   physicalAttack: 2
-  magicAttack: 40
+  magicAttack: 4
   physicalDefense: 1
   magicDefense: 2
   speed: 11

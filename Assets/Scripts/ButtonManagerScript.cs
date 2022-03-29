@@ -26,6 +26,7 @@ public class ButtonManagerScript : MonoBehaviour
 
     public MonsterAttackManager monsterAttackManager;
     public CombatManagerScript combatManagerScript;
+    public UIManager uiManager;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +41,7 @@ public class ButtonManagerScript : MonoBehaviour
     {
         monsterAttackManager = GetComponent<MonsterAttackManager>();
         combatManagerScript = GetComponent<CombatManagerScript>();
+        uiManager = GetComponent<UIManager>();
     }
 
     // This function adds all the HUD buttons to an initial list to turn them off and on at will (may be slow)
@@ -134,10 +136,14 @@ public class ButtonManagerScript : MonoBehaviour
         }
 
         // This should reset the message at the top of screen ( What will <monster name> do? ) && hide the confirm attack button plus attack description
-        combatManagerScript.ResetCombatMessage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name);
+        uiManager.ResetCombatMessage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name);
         monsterAttackManager.ResetHUD();
+
         HideButton(ConfirmButton);
         ShowButton("BackButton");
+
+        combatManagerScript.CurrentMonsterAttack = null;
+        combatManagerScript.targeting = false;
     }
 
     // This function assigns the current ally monsters attack moves to each of the four attack buttons

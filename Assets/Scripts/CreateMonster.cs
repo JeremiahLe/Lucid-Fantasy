@@ -16,12 +16,13 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private Monster.AIType aiType;
     [SerializeField] private Monster.AILevel aiLevel;
 
-    [SerializeField] private Transform startingPosition;
+    [SerializeField] public Transform startingPosition;
     private enum CombatOrientation { Left, Right };
     [SerializeField] private CombatOrientation combatOrientation;
 
     [Header("Additional Editable Variables")]
     [SerializeReference] private int monsterSpeed;
+    [SerializeReference] private int monsterLevel;
 
     public Animator monsterAnimator;
     public GameObject combatManagerObject;
@@ -42,10 +43,12 @@ public class CreateMonster : MonoBehaviour
         monsterReference = Instantiate(monster); // this is needed to create instances of the scriptable objects rather than editing them
         monsterReference.aiType = aiType;
 
-        monsterSpeed = monster.speed; // this is needed to not edit the base scriptable objects
+        //monsterSpeed = monster.speed; // this is needed to not edit the base scriptable objects
         monsterReference.speed = monsterSpeed;
 
-        nameText.text = monster.name + ($" Lvl: {monster.level}");
+        //monsterReference.level = monsterLevel; // optional level adjustments
+
+        nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
         healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
         sr.sprite = monster.baseSprite;
     }
@@ -64,7 +67,6 @@ public class CreateMonster : MonoBehaviour
         {
             combatManagerScript.RemoveMonsterFromList(gameObject, monsterReference.aiType);
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} has been defeated!");
-            Destroy(gameObject);
         }
     }
 
@@ -79,6 +81,8 @@ public class CreateMonster : MonoBehaviour
     // This function sets monster sprite orientation at battle start
     private void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation)
     {
+        Debug.Log("Position set called", this); // TODO - FIX ME
+
         transform.position = _startPos.transform.position;
         combatOrientation = _combatOrientation;
 
@@ -116,5 +120,11 @@ public class CreateMonster : MonoBehaviour
     {
         monsterAnimator.SetBool("attackAnimationPlaying", false);
         monsterAttackManager.DealDamage();
+    }
+
+    // This function passes in the new target to the combatManager
+    private void OnMouseEnter()
+    {
+        combatManagerScript.CycleTargets(gameObject);
     }
 }

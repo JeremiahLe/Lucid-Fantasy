@@ -15,6 +15,6 @@ MonoBehaviour:
   monsterAttackName: Dark Vine
   monsterAttackElement: 2
   monsterAttackType: 1
-  monsterAttackDamage: 20
+  monsterAttackDamage: 25
   monsterAttackDescription: Hit the target with a vine of dark energy and drain some
     HP.
