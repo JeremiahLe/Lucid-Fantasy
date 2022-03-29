@@ -81,7 +81,7 @@ public class CreateMonster : MonoBehaviour
     // This function sets monster sprite orientation at battle start
     private void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation)
     {
-        Debug.Log("Position set called", this); // TODO - FIX ME
+        Debug.Log("Position set called", this); // TODO - FIX ME - GitHub Commenting
 
         transform.position = _startPos.transform.position;
         combatOrientation = _combatOrientation;
