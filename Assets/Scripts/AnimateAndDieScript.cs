@@ -23,7 +23,7 @@ public class AnimateAndDieScript : MonoBehaviour
         Invoke("Die", .75f);
     }
 
-    // Die
+    // Die - GitHub comment
     void Die()
     {
         gameObject.SetActive(false);
