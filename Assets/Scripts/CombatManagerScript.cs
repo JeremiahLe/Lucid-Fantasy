@@ -258,7 +258,7 @@ public class CombatManagerScript : MonoBehaviour
     public GameObject GetRandomTarget()
     {
         GameObject randTarget = ListOfEnemies[Random.Range(0, ListOfEnemies.Count)];
-        Debug.Log($"{randTarget.GetComponent<CreateMonster>().monsterReference.name} {randTarget.transform.position}");
+        // Debug.Log($"{randTarget.GetComponent<CreateMonster>().monsterReference.name} {randTarget.transform.position}");
 
         if (randTarget.transform.position != randTarget.GetComponent<CreateMonster>().startingPosition.transform.position)
         {
@@ -355,6 +355,7 @@ public class CombatManagerScript : MonoBehaviour
             currentIndex++;
         }
 
+        CurrentTargetedMonster = null; // may fix a weird non-targeting bug with miss text gameobject
         SetCurrentMonsterTurn();
     }
 

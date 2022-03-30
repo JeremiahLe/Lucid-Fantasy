@@ -17,3 +17,4 @@ MonoBehaviour:
   monsterAttackType: 1
   monsterAttackDamage: 30
   monsterAttackDescription: Shoot a gust of wind at the opponent.
+  monsterAttackAccuracy: 100

@@ -35,6 +35,7 @@ public class Monster : ScriptableObject
     public int magicDefense;
 
     public int speed;
+    public int evasion;
 
     [Header("Monster Attack List")]
     public List<MonsterAttack> ListOfMonsterAttacks;

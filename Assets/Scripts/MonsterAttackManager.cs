@@ -16,10 +16,12 @@ public class MonsterAttackManager : MonoBehaviour
     public HUDAnimationManager HUDanimationManager;
     public EnemyAIManager enemyAIManager;
     public UIManager uiManager;
+    public MessageManager CombatLog;
 
     public TextMeshProUGUI currentMonsterAttackDescription;
+    public GameObject monsterAttackMissText;
 
-    public MessageManager CombatLog;
+    public Vector3 cachedTransform;
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +55,7 @@ public class MonsterAttackManager : MonoBehaviour
         currentMonsterAttackDescription.gameObject.SetActive(true);
         currentMonsterAttackDescription.text = ($"{currentMonsterAttack.monsterAttackName}" +
             $"\n{currentMonsterAttack.monsterAttackDescription}" +
-            $"\nBase Power: {currentMonsterAttack.monsterAttackDamage} ({currentMonsterAttack.monsterAttackType.ToString()})" +
+            $"\nBase Power: {currentMonsterAttack.monsterAttackDamage} ({currentMonsterAttack.monsterAttackType.ToString()}) | Accuracy: {currentMonsterAttack.monsterAttackAccuracy}%" +
             $"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
     }
 
@@ -90,14 +92,49 @@ public class MonsterAttackManager : MonoBehaviour
     public void DealDamage()
     {
         currentTargetedMonster = combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
-        currentTargetedMonster.health -= CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
-
         currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
-        currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats();
-        combatManagerScript.monsterTargeter.SetActive(false);
-        combatManagerScript.targeting = false;
 
-        combatManagerScript.Invoke("NextMonsterTurn", 0.1f);
+        if (currentTargetedMonsterGameObject != null)
+        {
+            cachedTransform = currentTargetedMonsterGameObject.transform.position;
+        }
+
+        if (CheckAttackHit())
+        {
+            currentTargetedMonster.health -= CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
+
+            //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats();
+            combatManagerScript.monsterTargeter.SetActive(false);
+            combatManagerScript.targeting = false;
+
+            combatManagerScript.Invoke("NextMonsterTurn", 0.1f);
+        }
+        else
+        {
+            CombatLog.SendMessageToCombatLog
+                ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.aiType} " +
+                $"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name}'s " +
+                $"{currentMonsterAttack.monsterAttackName} missed {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+
+            monsterAttackMissText.SetActive(true);
+            monsterAttackMissText.transform.position = cachedTransform;
+            combatManagerScript.Invoke("NextMonsterTurn", 0.1f);
+        }
+    }
+
+    // This function checks accuracy and evasion
+    public bool CheckAttackHit()
+    {
+        float hitChance = (currentMonsterAttack.monsterAttackAccuracy - currentTargetedMonster.evasion) / 100;
+        float randValue = Random.value;
+
+        if (randValue < hitChance)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     // This function returns a damage number based on attack, defense + other calcs

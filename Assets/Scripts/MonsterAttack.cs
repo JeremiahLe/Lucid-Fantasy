@@ -9,9 +9,13 @@ using System.IO;
 public class MonsterAttack : ScriptableObject
 {
     public string monsterAttackName;
+
     public Monster.MonsterType monsterAttackElement;
     public enum MonsterAttackType { Physical, Magical };
     public MonsterAttackType monsterAttackType;
+
     public float monsterAttackDamage;
     public string monsterAttackDescription;
+
+    public float monsterAttackAccuracy;
 }
