@@ -104,7 +104,7 @@ public class MonsterAttackManager : MonoBehaviour
         {
             currentTargetedMonster.health -= CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
 
-            // Trigger all attack after effects (buffs, debuffs etc.)
+            // Trigger all attack after effects (buffs, debuffs etc.) - Git Comment
             foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
             {
 
