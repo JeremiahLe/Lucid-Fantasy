@@ -18,4 +18,8 @@ public class MonsterAttack : ScriptableObject
     public string monsterAttackDescription;
 
     public float monsterAttackAccuracy;
+    public float monsterAttackCritChance = 10f; // default crit chance
+
+    [Header("Monster Attack Effect List")]
+    public List<AttackEffect> ListOfAttackEffects;
 }

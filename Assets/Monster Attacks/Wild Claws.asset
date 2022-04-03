@@ -19,3 +19,4 @@ MonoBehaviour:
   monsterAttackDescription: Ravage the opponent with sharp claws. Always 50% to critically
     strike.
   monsterAttackAccuracy: 85
+  monsterAttackCritChance: 50

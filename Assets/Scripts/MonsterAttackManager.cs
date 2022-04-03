@@ -20,6 +20,7 @@ public class MonsterAttackManager : MonoBehaviour
 
     public TextMeshProUGUI currentMonsterAttackDescription;
     public GameObject monsterAttackMissText;
+    public GameObject monsterCritText;
 
     public Vector3 cachedTransform;
 
@@ -103,6 +104,12 @@ public class MonsterAttackManager : MonoBehaviour
         {
             currentTargetedMonster.health -= CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
 
+            // Trigger all attack after effects (buffs, debuffs etc.)
+            foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
+            {
+
+            }
+
             //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats();
             combatManagerScript.monsterTargeter.SetActive(false);
@@ -137,10 +144,24 @@ public class MonsterAttackManager : MonoBehaviour
         return false;
     }
 
-    // This function returns a damage number based on attack, defense + other calcs
-    public int CalculatedDamage(Monster currentMonster, MonsterAttack monsterAttack)
+    // This function checks crit chance
+    public bool CheckAttackCrit()
     {
-        int calculatedDamage = 0;
+        float critChance = currentMonsterAttack.monsterAttackCritChance / 100;
+        float randValue = Random.value;
+
+        if (randValue < critChance)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    // This function returns a damage number based on attack, defense + other calcs
+    public float CalculatedDamage(Monster currentMonster, MonsterAttack monsterAttack)
+    {
+        float calculatedDamage = 0;
 
         if (monsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Magical)
         {
@@ -149,6 +170,15 @@ public class MonsterAttackManager : MonoBehaviour
         else if (monsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Physical)
         {
             calculatedDamage = currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(currentMonsterAttack.monsterAttackDamage * .1f)) - currentTargetedMonster.physicalDefense;
+        }
+
+        if (CheckAttackCrit())
+        {
+            calculatedDamage *= 2;
+            CombatLog.SendMessageToCombatLog($"Critical Hit!!! {currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
+            monsterCritText.SetActive(true);
+            monsterCritText.transform.position = cachedTransform;
+            return calculatedDamage;
         }
 
         CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");

@@ -22,20 +22,20 @@ public class Monster : ScriptableObject
     public enum AILevel { Smart, Random, Bad, Player };
     public AILevel aiLevel;
 
-    public int health;
-    public int maxHealth;
+    public float health;
+    public float maxHealth;
 
-    public int mana;
-    public int maxMana;
+    public float mana;
+    public float maxMana;
 
-    public int physicalAttack;
-    public int magicAttack;
+    public float physicalAttack;
+    public float magicAttack;
 
-    public int physicalDefense;
-    public int magicDefense;
+    public float physicalDefense;
+    public float magicDefense;
 
-    public int speed;
-    public int evasion;
+    public float speed;
+    public float evasion;
 
     [Header("Monster Attack List")]
     public List<MonsterAttack> ListOfMonsterAttacks;

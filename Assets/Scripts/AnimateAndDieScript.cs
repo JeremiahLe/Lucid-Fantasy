@@ -7,7 +7,7 @@ public class AnimateAndDieScript : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Invoke("Die", .75f);
+        Invoke("Die", .85f);
     }
 
     public float frequency;
@@ -20,7 +20,7 @@ public class AnimateAndDieScript : MonoBehaviour
         newPos.y += Mathf.Sin(Time.fixedTime * Mathf.PI * frequency) * amplitude;
         transform.position = newPos;
 
-        Invoke("Die", .75f);
+        Invoke("Die", .85f);
     }
 
     // Die
