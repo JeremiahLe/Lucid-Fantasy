@@ -18,7 +18,7 @@ public class CreateMonster : MonoBehaviour
 
     [SerializeField] public Transform startingPosition;
     private enum CombatOrientation { Left, Right };
-    [SerializeField] private CombatOrientation combatOrientation;
+    private CombatOrientation combatOrientation;
 
     [Header("Additional Editable Variables")]
     [SerializeReference] private int monsterSpeed;
@@ -28,7 +28,6 @@ public class CreateMonster : MonoBehaviour
     public GameObject combatManagerObject;
     public CombatManagerScript combatManagerScript;
     public MonsterAttackManager monsterAttackManager;
-
 
     private void Start()
     {
@@ -50,7 +49,7 @@ public class CreateMonster : MonoBehaviour
 
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
         healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
-        sr.sprite = monster.baseSprite;
+        //sr.sprite = monster.baseSprite;
     }
 
     // This function should be called when stats get updated
@@ -83,17 +82,28 @@ public class CreateMonster : MonoBehaviour
     {
         // Debug.Log("Position set called", this); // TODO - FIX ME - GitHub Commenting
 
-        transform.position = _startPos.transform.position;
-        combatOrientation = _combatOrientation;
+        transform.position = startingPosition.transform.position;
 
-        if (combatOrientation == CombatOrientation.Left)
+        if (monsterReference.aiType == Monster.AIType.Ally)
         {
-            sr.flipX = true;
+            transform.localRotation = new Quaternion(0f, 180f, 0f, 0f);
+            SetMonsterUIStatsRotation();
         }
-        else
+        else if (monsterReference.aiType == Monster.AIType.Enemy)
         {
-            sr.flipX = false;
+            transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
         }
+        
+    }
+
+    // This function is a temporary rotation fix to monster UI elements facing the camera
+    public void SetMonsterUIStatsRotation()
+    {
+        nameText.transform.LookAt(Camera.main.transform);
+        nameText.transform.localRotation = Quaternion.Euler(0, 180, 0);
+
+        healthText.transform.LookAt(Camera.main.transform);
+        healthText.transform.localRotation = Quaternion.Euler(0, 180, 0);
     }
 
     // This function applies ai-specific rules at run-time (ie. red text for name if enemy) and then sets position and orientation
@@ -102,14 +112,14 @@ public class CreateMonster : MonoBehaviour
         if (monsterReference.aiType == Monster.AIType.Enemy)
         {
             nameText.color = Color.red;
-            combatOrientation = CombatOrientation.Left;
+            combatOrientation = CombatOrientation.Right;
             SetPositionAndOrientation(startingPosition, combatOrientation);
             monsterReference.aiLevel = aiLevel;
         }
         else if (monsterReference.aiType == Monster.AIType.Ally)
         {
             nameText.color = Color.white;
-            combatOrientation = CombatOrientation.Right;
+            combatOrientation = CombatOrientation.Left;
             SetPositionAndOrientation(startingPosition, combatOrientation);
             monsterReference.aiLevel = Monster.AILevel.Player;
         }

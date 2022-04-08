@@ -79,7 +79,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // This function updates on-screen battle sequence
+    // This function updates on-screen battle sequence - TODO - Implement Me
     public void UpdateBattleSequenceList(List<GameObject> currentBattleSequence)
     {
 

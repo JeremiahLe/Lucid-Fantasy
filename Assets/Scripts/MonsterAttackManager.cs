@@ -7,6 +7,8 @@ using TMPro;
 public class MonsterAttackManager : MonoBehaviour
 {
     public MonsterAttack currentMonsterAttack;
+    public Monster currentMonsterTurn;
+    public GameObject currentMonsterTurnGameObject;
 
     public GameObject currentTargetedMonsterGameObject;
     public Monster currentTargetedMonster;
@@ -23,6 +25,7 @@ public class MonsterAttackManager : MonoBehaviour
     public GameObject monsterCritText;
 
     public Vector3 cachedTransform;
+    public float cachedDamage;
 
     // Start is called before the first frame update
     void Start()
@@ -47,9 +50,12 @@ public class MonsterAttackManager : MonoBehaviour
     public void AssignCurrentButtonAttack(string buttonNumber)
     {
         currentMonsterAttack = buttonManagerScript.ListOfMonsterAttacks[int.Parse(buttonNumber)];
+        currentMonsterTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference; // unrelated to UI popup (missing reassignment calls?)
         combatManagerScript.CurrentMonsterAttack = currentMonsterAttack;
+
         combatManagerScript.TargetingEnemyMonsters(true);
         HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} will use {ReturnCurrentButtonAttack().monsterAttackName} on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType} {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.name}?");
+
         buttonManagerScript.HideAllButtons("AttacksHUDButtons");
         buttonManagerScript.ShowButton("ConfirmButton");
 
@@ -83,6 +89,9 @@ public class MonsterAttackManager : MonoBehaviour
     // This function uses the selected monster attack on the selected monster
     public void UseMonsterAttack()
     {
+        currentMonsterTurnGameObject = combatManagerScript.CurrentMonsterTurn;
+        currentMonsterTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference; // unrelated to UI popup (missing reassignment calls?)
+
         combatManagerScript.CurrentMonsterTurnAnimator.SetBool("attackAnimationPlaying", true);
         buttonManagerScript.HideAllButtons("All");
         ResetHUD();
@@ -98,6 +107,7 @@ public class MonsterAttackManager : MonoBehaviour
         if (currentTargetedMonsterGameObject != null)
         {
             cachedTransform = currentTargetedMonsterGameObject.transform.position;
+            cachedTransform.y += 1;
         }
 
         if (CheckAttackHit())
@@ -105,10 +115,13 @@ public class MonsterAttackManager : MonoBehaviour
             currentTargetedMonster.health -= CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
 
             // Trigger all attack after effects (buffs, debuffs etc.) - Git Comment
+            
             foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
             {
-
+                effect.TriggerEffects(this);
+                //Debug.Log("Called attack effect!");
             }
+            
 
             //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats();
@@ -178,10 +191,12 @@ public class MonsterAttackManager : MonoBehaviour
             CombatLog.SendMessageToCombatLog($"Critical Hit!!! {currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
             monsterCritText.SetActive(true);
             monsterCritText.transform.position = cachedTransform;
+            cachedDamage = calculatedDamage;
             return calculatedDamage;
         }
 
         CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
+        cachedDamage = calculatedDamage;
         return calculatedDamage;
     }
 }

@@ -68,7 +68,7 @@ public class EnemyAIManager : MonoBehaviour
     public MonsterAttack GetRandomMove()
     {
         MonsterAttack randMove = enemyListOfMonsterAttacks[Random.Range(0, enemyListOfMonsterAttacks.Count)];
-        Debug.Log($"{randMove.monsterAttackName}");
+        Debug.Log($"Random move selected: {randMove.monsterAttackName}");
         return randMove;
     }
 
@@ -76,7 +76,7 @@ public class EnemyAIManager : MonoBehaviour
     public GameObject GetRandomTarget()
     {
         GameObject randTarget = listOfAllies[Random.Range(0, listOfAllies.Count)];
-        Debug.Log($"{randTarget.GetComponent<CreateMonster>().monsterReference.name}");
+        Debug.Log($"Random target selected: {randTarget.GetComponent<CreateMonster>().monsterReference.name}");
         return randTarget;
     }
 }

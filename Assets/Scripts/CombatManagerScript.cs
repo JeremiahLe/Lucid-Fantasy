@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using TMPro;
 using UnityEngine.SceneManagement;
 
 public class CombatManagerScript : MonoBehaviour
@@ -24,7 +23,7 @@ public class CombatManagerScript : MonoBehaviour
     public MonsterAttack CurrentMonsterAttack;
     public Animator CurrentMonsterTurnAnimator;
 
-    public enum MonsterTurn { AllyTurn, EnemyTurn}
+    public enum MonsterTurn { AllyTurn, EnemyTurn }
     public MonsterTurn monsterTurn;
 
     public GameObject monsterTargeter;
@@ -162,12 +161,6 @@ public class CombatManagerScript : MonoBehaviour
         SetCurrentMonsterTurn(); // This should be called after the order of monsters is decided.
     }
 
-    // This function fades text passed in
-    public void FadeText(TextMeshProUGUI textToFade)
-    {
-        textToFade.CrossFadeAlpha(0, 1f, true);
-    }
-
     // This function properly updates the lists of ally and enemy monsters based on what is passed in
     public void UpdateMonsterList(GameObject monster, Monster.AIType aIType)
     {
@@ -216,21 +209,25 @@ public class CombatManagerScript : MonoBehaviour
             // If ally, give player move
             else if (monster.aiType == Monster.AIType.Ally)
             {
-                if (!autoBattle)
+                if (!autoBattle) // manual targeting
                 {
                     monsterTurn = MonsterTurn.AllyTurn;
+
                     buttonManagerScript.ListOfMonsterAttacks.Clear();
                     HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monster.name} do?");
                     buttonManagerScript.AssignAttackMoves(monster);
                     buttonManagerScript.ResetHUD();
+
                     CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
                 }
-                else
+                else // auto battle - TODO - make auto battle less random!!
                 {
                     monsterTurn = MonsterTurn.AllyTurn;
+
                     buttonManagerScript.ListOfMonsterAttacks.Clear();
                     HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monster.name} do?");
                     buttonManagerScript.AssignAttackMoves(monster);
+
                     CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
 
                     monsterAttackManager.currentMonsterAttack = GetRandomMove();
@@ -258,8 +255,7 @@ public class CombatManagerScript : MonoBehaviour
     public GameObject GetRandomTarget()
     {
         GameObject randTarget = ListOfEnemies[Random.Range(0, ListOfEnemies.Count)];
-        // Debug.Log($"{randTarget.GetComponent<CreateMonster>().monsterReference.name} {randTarget.transform.position}");
-
+      
         if (randTarget.transform.position != randTarget.GetComponent<CreateMonster>().startingPosition.transform.position)
         {
             randTarget.transform.position = randTarget.GetComponent<CreateMonster>().startingPosition.transform.position;

@@ -19,3 +19,6 @@ MonoBehaviour:
   monsterAttackDescription: Hit the target with a vine of dark energy and drain some
     HP.
   monsterAttackAccuracy: 90
+  monsterAttackCritChance: 10
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: 95c24029f4969704582d92369bf62a8e, type: 2}
