@@ -49,7 +49,7 @@ public class CreateMonster : MonoBehaviour
 
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
         healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
-        //sr.sprite = monster.baseSprite;
+        sr.sprite = monster.baseSprite;
     }
 
     // This function should be called when stats get updated
@@ -86,12 +86,14 @@ public class CreateMonster : MonoBehaviour
 
         if (monsterReference.aiType == Monster.AIType.Ally)
         {
-            transform.localRotation = new Quaternion(0f, 180f, 0f, 0f);
-            SetMonsterUIStatsRotation();
+            //transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
+            //SetMonsterUIStatsRotation();
+            sr.flipX = false;
         }
         else if (monsterReference.aiType == Monster.AIType.Enemy)
         {
-            transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
+            //transform.localRotation = new Quaternion(0f, 180f, 0f, 0f);
+            sr.flipX = true;
         }
         
     }

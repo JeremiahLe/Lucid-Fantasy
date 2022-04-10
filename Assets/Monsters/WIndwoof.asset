@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Windwoof
   m_EditorClassIdentifier: 
   name: Windwoof
-  baseSprite: {fileID: 21300000, guid: c82a10bf2d38728458b2463c92fb2cc0, type: 3}
+  baseSprite: {fileID: 21300000, guid: ba3d41af14ff2ff498f55ce5d95e1b8a, type: 3}
   level: 5
   monsterType: 3
   aiType: 0
@@ -27,6 +27,7 @@ MonoBehaviour:
   physicalDefense: 1
   magicDefense: 2
   speed: 11
+  evasion: 0
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
