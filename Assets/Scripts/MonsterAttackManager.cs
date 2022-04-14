@@ -29,7 +29,7 @@ public class MonsterAttackManager : MonoBehaviour
 
     public AudioClip CritSound;
     public AudioClip HitSound;
-    public AudioClip MissSound;
+    public AudioClip MissSound; // TODO - move sound calls to a Sound Manager
 
     // Start is called before the first frame update
     void Start()
