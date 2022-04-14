@@ -20,5 +20,6 @@ MonoBehaviour:
     HP.
   monsterAttackAccuracy: 90
   monsterAttackCritChance: 10
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 77da43f64d7d8504a990f84655ea12a5, type: 3}
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 95c24029f4969704582d92369bf62a8e, type: 2}

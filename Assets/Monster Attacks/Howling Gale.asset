@@ -18,3 +18,6 @@ MonoBehaviour:
   monsterAttackDamage: 30
   monsterAttackDescription: Shoot a gust of wind at the opponent.
   monsterAttackAccuracy: 100
+  monsterAttackCritChance: 10
+  monsterAttackSoundEffect: {fileID: 8300000, guid: cfdad33ec73454443952015ae32a27a0, type: 3}
+  ListOfAttackEffects: []

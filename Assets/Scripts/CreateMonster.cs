@@ -132,6 +132,13 @@ public class CreateMonster : MonoBehaviour
     {
         monsterAnimator.SetBool("attackAnimationPlaying", false);
         monsterAttackManager.DealDamage();
+        //monsterAttackManager.currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
+    }
+
+    // This function ends the hit animation
+    public void HitAnimationEnd()
+    {
+        monsterAnimator.SetBool("hitAnimationPlaying", false);
     }
 
     // This function passes in the new target to the combatManager

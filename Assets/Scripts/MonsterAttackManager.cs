@@ -27,6 +27,10 @@ public class MonsterAttackManager : MonoBehaviour
     public Vector3 cachedTransform;
     public float cachedDamage;
 
+    public AudioClip CritSound;
+    public AudioClip HitSound;
+    public AudioClip MissSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,6 +97,9 @@ public class MonsterAttackManager : MonoBehaviour
         currentMonsterTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference; // unrelated to UI popup (missing reassignment calls?)
 
         combatManagerScript.CurrentMonsterTurnAnimator.SetBool("attackAnimationPlaying", true);
+        AudioClip monsterAttackSound = currentMonsterAttack.monsterAttackSoundEffect;
+        combatManagerScript.GetComponent<AudioSource>().PlayOneShot(monsterAttackSound);
+
         buttonManagerScript.HideAllButtons("All");
         ResetHUD();
         uiManager.EditCombatMessage();
@@ -113,9 +120,11 @@ public class MonsterAttackManager : MonoBehaviour
         if (CheckAttackHit())
         {
             currentTargetedMonster.health -= CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
+            currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
+            combatManagerScript.GetComponent<AudioSource>().PlayOneShot(HitSound);
 
             // Trigger all attack after effects (buffs, debuffs etc.) - TODO - Implement other buffs/debuffs and durations
-            
+
             foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
             {
                 effect.TriggerEffects(this);
@@ -137,6 +146,7 @@ public class MonsterAttackManager : MonoBehaviour
                 $"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name}'s " +
                 $"{currentMonsterAttack.monsterAttackName} missed {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
 
+            combatManagerScript.GetComponent<AudioSource>().PlayOneShot(MissSound);
             monsterAttackMissText.SetActive(true);
             monsterAttackMissText.transform.position = cachedTransform;
             combatManagerScript.Invoke("NextMonsterTurn", 0.1f);
@@ -192,6 +202,7 @@ public class MonsterAttackManager : MonoBehaviour
             monsterCritText.SetActive(true);
             monsterCritText.transform.position = cachedTransform;
             cachedDamage = calculatedDamage;
+            combatManagerScript.GetComponent<AudioSource>().PlayOneShot(CritSound);
             return calculatedDamage;
         }
 

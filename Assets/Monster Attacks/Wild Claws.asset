@@ -20,3 +20,5 @@ MonoBehaviour:
     strike.
   monsterAttackAccuracy: 85
   monsterAttackCritChance: 50
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 36ed39ba7d9e47641b32ed1d328779c6, type: 3}
+  ListOfAttackEffects: []

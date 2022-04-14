@@ -106,7 +106,6 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   startingPosition: {fileID: 0}
-  combatOrientation: 1
   monsterSpeed: 7
   monsterLevel: 0
   monsterAnimator: {fileID: 0}
@@ -126,7 +125,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 5fd3475acce47f140a2e0cc41385e372, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
