@@ -49,7 +49,7 @@ public class SceneButtonManager : MonoBehaviour
         QuitButton.gameObject.SetActive(false);
     }
 
-    // This function is called when create match button is clicked
+    // This function is called when create match button is clicked - TODO - Create room function
     public void CreateMatchClicked()
     {
         MainMenu.SetActive(false);
