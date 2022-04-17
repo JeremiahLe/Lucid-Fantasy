@@ -10,8 +10,15 @@ public class MessageManager : MonoBehaviour
 
     public GameObject CombatLog, TextObject;
 
+    public HUDAnimationManager HUDanimationManager;
+
     [SerializeField]
     List<Message> messageList = new List<Message>();
+
+    public void Awake()
+    {
+        HUDanimationManager = GetComponent<HUDAnimationManager>();
+    }
 
     // This function sends a message to the combat log
     public void SendMessageToCombatLog(string text)
@@ -30,6 +37,7 @@ public class MessageManager : MonoBehaviour
         newMessage.textObject.text = newMessage.text;
 
         messageList.Add(newMessage);
+        HUDanimationManager.UpdateScrollBar();
     }
 }
 

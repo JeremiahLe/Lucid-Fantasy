@@ -21,6 +21,9 @@ public class MonsterAttackManager : MonoBehaviour
     public MessageManager CombatLog;
 
     public TextMeshProUGUI currentMonsterAttackDescription;
+    public Image TextBackImage;
+    public Image TextBackImageBorder; // temporary
+
     public GameObject monsterAttackMissText;
     public GameObject monsterCritText;
 
@@ -48,6 +51,8 @@ public class MonsterAttackManager : MonoBehaviour
         uiManager = GetComponent<UIManager>();
 
         currentMonsterAttackDescription.gameObject.SetActive(false);
+        TextBackImage.enabled = false;
+        TextBackImageBorder.enabled = false;
     }
 
     // This function assigns the monster attack that is connected to the pressed button
@@ -68,6 +73,8 @@ public class MonsterAttackManager : MonoBehaviour
             $"\n{currentMonsterAttack.monsterAttackDescription}" +
             $"\nBase Power: {currentMonsterAttack.monsterAttackDamage} ({currentMonsterAttack.monsterAttackType.ToString()}) | Accuracy: {currentMonsterAttack.monsterAttackAccuracy}%" +
             $"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
+        TextBackImage.enabled = true;
+        TextBackImageBorder.enabled = true;
     }
 
     // This function updates the targeted enemy text on screen
@@ -86,6 +93,9 @@ public class MonsterAttackManager : MonoBehaviour
     public void ResetHUD()
     {
         currentMonsterAttackDescription.text = "";
+        TextBackImage.enabled = false;
+        TextBackImageBorder.enabled = false;
+
         currentMonsterAttackDescription.gameObject.SetActive(false);
         combatManagerScript.monsterTargeter.SetActive(false);
     }
@@ -198,15 +208,20 @@ public class MonsterAttackManager : MonoBehaviour
         if (CheckAttackCrit())
         {
             calculatedDamage *= 2;
-            CombatLog.SendMessageToCombatLog($"Critical Hit!!! {currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
+            CombatLog.SendMessageToCombatLog($"Critical Hit!!! {currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
+                $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
+
             monsterCritText.SetActive(true);
             monsterCritText.transform.position = cachedTransform;
+
             cachedDamage = calculatedDamage;
             combatManagerScript.GetComponent<AudioSource>().PlayOneShot(CritSound);
             return calculatedDamage;
         }
 
-        CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
+        CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
+            $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
+
         cachedDamage = calculatedDamage;
         return calculatedDamage;
     }
