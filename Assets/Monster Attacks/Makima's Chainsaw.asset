@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
+  m_Name: Makima's Chainsaw
+  m_EditorClassIdentifier: 
+  monsterAttackName: Makima's Chainsaw
+  monsterAttackElement: 4
+  monsterAttackType: 0
+  monsterAttackDamage: 65
+  monsterAttackDescription: Eviscerate with a controlling saw. Executes at 50% HP.
+  monsterAttackAccuracy: 75
+  monsterAttackCritChance: 12
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 9a8857bb46171b0409b4d21b0b2c4019, type: 3}
+  ListOfAttackEffects: []
