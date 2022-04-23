@@ -148,6 +148,10 @@ public class MonsterAttackManager : MonoBehaviour
     // This function uses the current move to deal damage to the target (should be called after attack animation ends)
     public void DealDamage()
     {
+        // Pre Attack Effects Go Here
+        
+        //
+        
         currentTargetedMonster = combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
         currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
 
