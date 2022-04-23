@@ -20,6 +20,10 @@ public class MonsterAttack : ScriptableObject
     public float monsterAttackAccuracy;
     public float monsterAttackCritChance = 10f; // default crit chance
 
+    public bool attackHasCooldown;
+    public bool attackOnCooldown;
+    public int attackCooldown;
+
     public AudioClip monsterAttackSoundEffect;
 
     [Header("Monster Attack Effect List")]

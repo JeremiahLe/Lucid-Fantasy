@@ -17,8 +17,11 @@ MonoBehaviour:
   monsterAttackType: 1
   monsterAttackDamage: 15
   monsterAttackDescription: Return 75% of damage taken this turn with a towering
-    storm.
+    storm. [1 round cooldown]
   monsterAttackAccuracy: 100
   monsterAttackCritChance: 0
+  attackHasCooldown: 1
+  attackOnCooldown: 0
+  attackCooldown: 2
   monsterAttackSoundEffect: {fileID: 8300000, guid: 05bf5654ccfe6784890522e8969c78a7, type: 3}
   ListOfAttackEffects: []

@@ -69,6 +69,10 @@ public class EnemyAIManager : MonoBehaviour
     {
         MonsterAttack randMove = enemyListOfMonsterAttacks[Random.Range(0, enemyListOfMonsterAttacks.Count)];
         Debug.Log($"Random move selected: {randMove.monsterAttackName}");
+        while (randMove.attackOnCooldown)
+        {
+            randMove = enemyListOfMonsterAttacks[Random.Range(0, enemyListOfMonsterAttacks.Count)];
+        }
         return randMove;
     }
 

@@ -21,7 +21,7 @@ public class CreateMonster : MonoBehaviour
     private CombatOrientation combatOrientation;
 
     [Header("Additional Editable Variables")]
-    [SerializeReference] private int monsterSpeed;
+    [SerializeReference] public int monsterSpeed;
     [SerializeReference] private int monsterLevel;
 
     [DisplayWithoutEdit] public float monsterPhysicalAttack;
@@ -30,6 +30,10 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public float monsterMagicDefense;
 
     [DisplayWithoutEdit] public float monsterEvasion;
+
+    [DisplayWithoutEdit] public float monsterDamageTakenThisRound;
+
+    List<MonsterAttack> ListOfMonsterAttacksReference;
 
     public Animator monsterAnimator;
     public GameObject combatManagerObject;
@@ -49,6 +53,7 @@ public class CreateMonster : MonoBehaviour
         // this is needed to create instances of the scriptable objects rather than editing them
         monsterReference = Instantiate(monster);
         monsterReference.aiType = aiType;
+        monsterReference.maxHealth = monster.health;
 
         // Non editable init stats display
         monsterPhysicalAttack = monsterReference.physicalAttack;
@@ -76,7 +81,25 @@ public class CreateMonster : MonoBehaviour
         monsterMagicDefense = monsterReference.magicDefense;
 
         monsterEvasion = monsterReference.evasion;
+        monsterReference.speed = monsterSpeed;
     } 
+
+    // This function is called on round start to refresh cooldowns if needed && reset damage taken per round
+    public void CheckCooldowns()
+    {
+        monsterDamageTakenThisRound = 0;
+
+        foreach (MonsterAttack attack in monsterReference.ListOfMonsterAttacks)
+        {
+            if (attack.attackOnCooldown)
+            {
+                attack.attackCooldown -= 1;
+                if (attack.attackCooldown <= 0) {
+                    attack.attackOnCooldown = false;
+                }
+            }
+        }
+    }
 
     // This function checks the monster's health
     public void CheckHealth()
@@ -94,6 +117,14 @@ public class CreateMonster : MonoBehaviour
         monsterAnimator = GetComponent<Animator>();
         combatManagerScript = combatManagerObject.GetComponent<CombatManagerScript>();
         monsterAttackManager = combatManagerObject.GetComponent<MonsterAttackManager>();
+
+        // Create instances of the monster's attacks
+        monsterReference.ListOfMonsterAttacks.Clear();
+        foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
+        {
+            MonsterAttack attackInstance = Instantiate(attack);
+            monsterReference.ListOfMonsterAttacks.Add(attackInstance);
+        }
     }
 
     // This function sets monster sprite orientation at battle start

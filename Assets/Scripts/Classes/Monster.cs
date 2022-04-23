@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+[System.Serializable]
 [CreateAssetMenu(fileName = "New Monster", menuName = "Monster")]
 public class Monster : ScriptableObject
 {
@@ -23,7 +24,7 @@ public class Monster : ScriptableObject
     public AILevel aiLevel;
 
     public float health;
-    public float maxHealth;
+    [DisplayWithoutEdit] public float maxHealth;
 
     public float mana;
     public float maxMana;

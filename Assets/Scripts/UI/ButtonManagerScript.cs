@@ -57,6 +57,7 @@ public class ButtonManagerScript : MonoBehaviour
 
         // Hide all attack buttons at start
         HideAllButtons("AttacksHUDButtons");
+        HideAllButtons("All"); // round start implementation
     }
 
     // This function stores all buttons to be hidden manually
@@ -151,6 +152,7 @@ public class ButtonManagerScript : MonoBehaviour
     {
         foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
         {
+            //MonsterAttack attackInstance = Instantiate(attack);
             ListOfMonsterAttacks.Add(attack);
         }
     }

@@ -29,6 +29,7 @@ MonoBehaviour:
   speed: 45
   evasion: 5
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
-  - {fileID: 11400000, guid: 1269aaf784782ee4f81b62eaddab4ccc, type: 2}
+  - {fileID: 11400000, guid: 4c1a33fa6254d194385548d0069f95ec, type: 2}
   - {fileID: 11400000, guid: 2acc426b2e55e9b4bb97d85ff2a15cd5, type: 2}
+  - {fileID: 11400000, guid: 1269aaf784782ee4f81b62eaddab4ccc, type: 2}
+  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}

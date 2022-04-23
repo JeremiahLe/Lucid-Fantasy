@@ -18,18 +18,18 @@ MonoBehaviour:
   monsterType: 3
   aiType: 0
   aiLevel: 0
-  health: 3400
-  maxHealth: 3400
+  health: 3750
+  maxHealth: 3750
   mana: 0
   maxMana: 0
   physicalAttack: 100
   magicAttack: 100
-  physicalDefense: 550
-  magicDefense: 450
+  physicalDefense: 800
+  magicDefense: 750
   speed: 10
   evasion: 0
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
   - {fileID: 11400000, guid: 3bb4d934fd63955419d688bedba37d81, type: 2}
-  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
   - {fileID: 11400000, guid: 4c1a33fa6254d194385548d0069f95ec, type: 2}
+  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}

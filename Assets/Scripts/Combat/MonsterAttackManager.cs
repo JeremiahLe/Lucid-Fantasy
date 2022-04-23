@@ -62,8 +62,17 @@ public class MonsterAttackManager : MonoBehaviour
         currentMonsterTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference; // unrelated to UI popup (missing reassignment calls?)
         combatManagerScript.CurrentMonsterAttack = currentMonsterAttack;
 
+        if (currentMonsterAttack.attackOnCooldown)
+        {
+            uiManager.EditCombatMessage($"{currentMonsterAttack.monsterAttackName} is on cooldown!");
+            return;
+        }
+
         combatManagerScript.TargetingEnemyMonsters(true);
-        HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} will use {ReturnCurrentButtonAttack().monsterAttackName} on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType} {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.name}?");
+        HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} " +
+            $"will use {ReturnCurrentButtonAttack().monsterAttackName} " +
+            $"on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType} " +
+            $"{combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.name}?");
 
         buttonManagerScript.HideAllButtons("AttacksHUDButtons");
         buttonManagerScript.ShowButton("ConfirmButton");
@@ -80,7 +89,22 @@ public class MonsterAttackManager : MonoBehaviour
     // This function updates the targeted enemy text on screen
     public void UpdateCurrentTargetText()
     {
-        HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} will use {ReturnCurrentButtonAttack().monsterAttackName} on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType} {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.name}?");
+        if (currentMonsterTurnGameObject != null)
+        {
+            // Is the monster targeting itself?
+            if (combatManagerScript.CurrentMonsterTurn == combatManagerScript.CurrentTargetedMonster)
+            {
+                HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} " +
+                    $"will use {ReturnCurrentButtonAttack().monsterAttackName} on self?");
+            }
+            else
+            {
+                HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} " +
+                    $"will use {ReturnCurrentButtonAttack().monsterAttackName} " +
+                    $"on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType} " +
+                    $"{combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.name}?");
+            }
+        }
     }
 
     // This function assigns the monster attack that is connected to the pressed button
@@ -106,6 +130,12 @@ public class MonsterAttackManager : MonoBehaviour
         currentMonsterTurnGameObject = combatManagerScript.CurrentMonsterTurn;
         currentMonsterTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference; // unrelated to UI popup (missing reassignment calls?)
 
+        // does attack have a cooldown? if so, activate it
+        if (currentMonsterAttack.attackHasCooldown)
+        {
+            currentMonsterAttack.attackOnCooldown = true;
+        }
+
         combatManagerScript.CurrentMonsterTurnAnimator.SetBool("attackAnimationPlaying", true);
         AudioClip monsterAttackSound = currentMonsterAttack.monsterAttackSoundEffect;
         combatManagerScript.GetComponent<AudioSource>().PlayOneShot(monsterAttackSound);
@@ -129,16 +159,21 @@ public class MonsterAttackManager : MonoBehaviour
 
         if (CheckAttackHit())
         {
-            currentTargetedMonster.health -= CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
+            float calculatedDamage = CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
+            currentTargetedMonster.health -= calculatedDamage;
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterDamageTakenThisRound += calculatedDamage;
+
             currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
             combatManagerScript.GetComponent<AudioSource>().PlayOneShot(HitSound);
 
             // Trigger all attack after effects (buffs, debuffs etc.) - TODO - Implement other buffs/debuffs and durations
-
-            foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
+            if (currentMonsterTurnGameObject != null)
             {
-                effect.TriggerEffects(this);
-                //Debug.Log("Called attack effect!");
+                foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
+                {
+                    effect.TriggerEffects(this);
+                    //Debug.Log("Called attack effect!");
+                }
             }
             
             //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
@@ -146,7 +181,7 @@ public class MonsterAttackManager : MonoBehaviour
             combatManagerScript.monsterTargeter.SetActive(false);
             combatManagerScript.targeting = false;
 
-            combatManagerScript.Invoke("NextMonsterTurn", 0.1f);
+            combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
         }
         else
         {
@@ -158,7 +193,7 @@ public class MonsterAttackManager : MonoBehaviour
             combatManagerScript.GetComponent<AudioSource>().PlayOneShot(MissSound);
             monsterAttackMissText.SetActive(true);
             monsterAttackMissText.transform.position = cachedTransform;
-            combatManagerScript.Invoke("NextMonsterTurn", 0.1f);
+            combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
         }
     }
 
@@ -196,6 +231,21 @@ public class MonsterAttackManager : MonoBehaviour
         float calculatedDamage = 0;
         float matchingElementBoost = 0;
 
+        /*
+        // Check if targeting self?
+        if (currentMonster == currentTargetedMonster)
+        {
+            calculatedDamage = 0;
+
+            // Send log message
+            CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} deal 0 damage to itself..." +
+                $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
+
+            cachedDamage = calculatedDamage;
+            return calculatedDamage;
+        }
+        */
+
         // First check if attack element matches monster's element. If so, boost base damage by 5%
         if (monsterAttack.monsterAttackElement == currentMonster.monsterType)
         {
@@ -221,7 +271,7 @@ public class MonsterAttackManager : MonoBehaviour
         // Now check for critical hit
         if (CheckAttackCrit())
         {
-            calculatedDamage *= 2;
+            calculatedDamage *= 2f;
             CombatLog.SendMessageToCombatLog($"Critical Hit!!! {currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
                 $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
 
