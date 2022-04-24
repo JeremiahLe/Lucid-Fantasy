@@ -150,7 +150,7 @@ public class ButtonManagerScript : MonoBehaviour
         HideButton(ConfirmButton);
         HideButton(ConfirmQuitButton);
         HideButton(ContinueButton);
-        QuitButton.SetActive(true);
+        QuitButton.SetActive(true); // GitHub comment
         BackButton.SetActive(false);
 
         combatManagerScript.CurrentMonsterAttack = null;
