@@ -54,25 +54,17 @@ public class CombatManagerScript : MonoBehaviour
 
     private void Update()
     {
-        //CheckInputs();
+        CheckInputs();
     }
 
-    /*
+    
     public void CheckInputs()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Ally)
-                CycleTargets(Monster.AIType.Enemy, 1);
-        }
-        else
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Ally)
-                CycleTargets(Monster.AIType.Enemy, -1);
+            SceneManager.LoadScene(0);
         }
     }
-    */
 
     // This function initializes all components at start
     public void InitializeComponents()

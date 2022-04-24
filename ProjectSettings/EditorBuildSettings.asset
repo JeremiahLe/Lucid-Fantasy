@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScreen.unity
     guid: a8a15194b48dfc84fa160a91d6d87b3e
   - enabled: 1
-    path: Assets/Scenes/TestCombatScene.unity
-    guid: 84007b4dc83a40e408b68358cdeefcec
+    path: Assets/Scenes/CameraScene.unity
+    guid: b581d8bf9cecab941b64f4cb5e909ba3
   m_configObjects: {}

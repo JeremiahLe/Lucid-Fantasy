@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ButtonManagerScript : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class ButtonManagerScript : MonoBehaviour
     public GameObject BackButton;
 
     public GameObject ConfirmButton;
+    public GameObject ConfirmQuitButton;
+    public GameObject ContinueButton;
+    public GameObject QuitButton;
 
     public List<GameObject> AttacksHUDButtons;
     public List<GameObject> InitialHUDButtons;
@@ -121,6 +125,9 @@ public class ButtonManagerScript : MonoBehaviour
 
             BackButton.SetActive(false);
             ConfirmButton.SetActive(false);
+            HideButton(ConfirmQuitButton);
+            HideButton(ContinueButton);
+            QuitButton.SetActive(false);
         }
     }
 
@@ -141,10 +148,37 @@ public class ButtonManagerScript : MonoBehaviour
         monsterAttackManager.ResetHUD();
 
         HideButton(ConfirmButton);
-        ShowButton("BackButton");
+        HideButton(ConfirmQuitButton);
+        HideButton(ContinueButton);
+        QuitButton.SetActive(true);
+        BackButton.SetActive(false);
 
         combatManagerScript.CurrentMonsterAttack = null;
         combatManagerScript.targeting = false;
+    }
+
+    // This function is called when back is clicked to check Quit
+    public void CheckQuit()
+    {
+        if (AttacksButton.activeInHierarchy)
+        {
+            AttacksButton.SetActive(false);
+            AutoBattleButton.SetActive(false);
+
+            ConfirmQuitButton.SetActive(true);
+            ContinueButton.SetActive(true);
+            QuitButton.SetActive(false);
+        }
+        else 
+        {
+            ResetHUD();
+        }
+    }
+
+    // This function quits the game
+    public void QuitButtonClicked()
+    {
+        SceneManager.LoadScene(0);
     }
 
     // This function assigns the current ally monsters attack moves to each of the four attack buttons
@@ -159,7 +193,10 @@ public class ButtonManagerScript : MonoBehaviour
 
     // This function displays the names of the attack moves the current monster has // Git edit
     public void DisplayAttackMoves()
-    {   
+    {
+        QuitButton.SetActive(false);
+        BackButton.SetActive(true);
+
         for (int i = 0; i < ListOfMonsterAttacks.Count; i++)
         {
             if (ListOfMonsterAttacks[i] != null)
