@@ -22,10 +22,10 @@ MonoBehaviour:
   maxHealth: 2750
   mana: 0
   maxMana: 0
-  physicalAttack: 150
-  magicAttack: 100
+  physicalAttack: 155
+  magicAttack: 120
   physicalDefense: 180
-  magicDefense: 330
+  magicDefense: 320
   speed: 45
   evasion: 5
   ListOfMonsterAttacks:

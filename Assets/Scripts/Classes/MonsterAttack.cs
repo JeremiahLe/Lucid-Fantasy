@@ -23,6 +23,7 @@ public class MonsterAttack : ScriptableObject
     public bool attackHasCooldown;
     public bool attackOnCooldown;
     public int attackCooldown;
+    public int attackBaseCooldown;
 
     public AudioClip monsterAttackSoundEffect;
 

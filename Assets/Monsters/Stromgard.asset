@@ -24,8 +24,8 @@ MonoBehaviour:
   maxMana: 0
   physicalAttack: 100
   magicAttack: 100
-  physicalDefense: 800
-  magicDefense: 750
+  physicalDefense: 650
+  magicDefense: 625
   speed: 10
   evasion: 0
   ListOfMonsterAttacks:

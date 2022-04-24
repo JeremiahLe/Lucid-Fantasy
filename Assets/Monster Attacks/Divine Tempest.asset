@@ -15,7 +15,7 @@ MonoBehaviour:
   monsterAttackName: Divine Tempest
   monsterAttackElement: 3
   monsterAttackType: 1
-  monsterAttackDamage: 70
+  monsterAttackDamage: 65
   monsterAttackDescription: Conjure a beautiful storm. Raises speed of all allies.
     [1 round cooldown]
   monsterAttackAccuracy: 100
@@ -23,6 +23,7 @@ MonoBehaviour:
   attackHasCooldown: 1
   attackOnCooldown: 0
   attackCooldown: 2
+  attackBaseCooldown: 2
   monsterAttackSoundEffect: {fileID: 8300000, guid: cfdad33ec73454443952015ae32a27a0, type: 3}
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 1d36bce9eedc849499c3b1ec6e28967d, type: 2}

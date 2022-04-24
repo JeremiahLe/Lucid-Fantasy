@@ -134,7 +134,7 @@ public class AttackEffect : ScriptableObject
             // Calculate speed buff (% of current speed)
             if (monsterReference.aiType == Monster.AIType.Ally)
             {
-                foreach (GameObject monsterObj in combatManagerScript.ListOfAllys)
+                foreach (GameObject monsterObj in combatManagerScript.ListOfAllys.ToArray()) //ToArray avoids missing lists
                 {
                     if (monsterObj == null)
                     {
@@ -142,6 +142,11 @@ public class AttackEffect : ScriptableObject
                     }
 
                     Monster monster = monsterObj.GetComponent<CreateMonster>().monsterReference;
+
+                    if (monster.health <= 0) // fixed dual combat log calls
+                    {
+                        continue;
+                    }
 
                     float fromValue = monster.speed;
                     float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
@@ -157,11 +162,14 @@ public class AttackEffect : ScriptableObject
 
                     // Update monster's speed element
                     monsterObj.GetComponent<CreateMonster>().UpdateStats();
+
+                    // Does this actually work?
+                    combatManagerScript.SortMonsterBattleSequence();
                 }
             }
             else if (monsterReference.aiType == Monster.AIType.Enemy)
             {
-                foreach (GameObject monsterObj in combatManagerScript.ListOfEnemies)
+                foreach (GameObject monsterObj in combatManagerScript.ListOfEnemies) //ToArray avoids missing lists
                 {
                     if (monsterObj == null)
                     {
@@ -184,6 +192,9 @@ public class AttackEffect : ScriptableObject
 
                     // Update monster's speed element
                     monsterObj.GetComponent<CreateMonster>().UpdateStats();
+
+                    // Does this actually work?
+                    combatManagerScript.SortMonsterBattleSequence();
                 }
             }
         }

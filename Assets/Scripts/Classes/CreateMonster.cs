@@ -32,6 +32,7 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public float monsterEvasion;
 
     [DisplayWithoutEdit] public float monsterDamageTakenThisRound;
+    [DisplayWithoutEdit] public bool monsterActionAvailable = true;
 
     List<MonsterAttack> ListOfMonsterAttacksReference;
 
@@ -55,6 +56,9 @@ public class CreateMonster : MonoBehaviour
         monsterReference.aiType = aiType;
         monsterReference.maxHealth = monster.health;
 
+        // this one does affect the base scriptable object
+        monster.maxHealth = monster.health;
+
         // Non editable init stats display
         monsterPhysicalAttack = monsterReference.physicalAttack;
         monsterMagicAttack = monsterReference.magicAttack;
@@ -62,7 +66,7 @@ public class CreateMonster : MonoBehaviour
         monsterMagicDefense = monsterReference.magicDefense;
 
         monsterEvasion = monsterReference.evasion;
-        monsterReference.speed = monsterSpeed;
+        monsterReference.speed = monsterSpeed; /*Random.Range(1, 10);*/
 
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
         healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
@@ -88,6 +92,7 @@ public class CreateMonster : MonoBehaviour
     public void CheckCooldowns()
     {
         monsterDamageTakenThisRound = 0;
+        monsterActionAvailable = true;
 
         foreach (MonsterAttack attack in monsterReference.ListOfMonsterAttacks)
         {
@@ -96,6 +101,7 @@ public class CreateMonster : MonoBehaviour
                 attack.attackCooldown -= 1;
                 if (attack.attackCooldown <= 0) {
                     attack.attackOnCooldown = false;
+                    attack.attackCooldown = attack.attackBaseCooldown;
                 }
             }
         }

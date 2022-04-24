@@ -23,5 +23,6 @@ MonoBehaviour:
   attackHasCooldown: 1
   attackOnCooldown: 0
   attackCooldown: 2
+  attackBaseCooldown: 2
   monsterAttackSoundEffect: {fileID: 8300000, guid: 05bf5654ccfe6784890522e8969c78a7, type: 3}
   ListOfAttackEffects: []

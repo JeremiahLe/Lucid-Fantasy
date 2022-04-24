@@ -130,6 +130,8 @@ public class MonsterAttackManager : MonoBehaviour
         currentMonsterTurnGameObject = combatManagerScript.CurrentMonsterTurn;
         currentMonsterTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference; // unrelated to UI popup (missing reassignment calls?)
 
+        // take away action
+        currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterActionAvailable = false;
         // does attack have a cooldown? if so, activate it
         if (currentMonsterAttack.attackHasCooldown)
         {
@@ -170,8 +172,11 @@ public class MonsterAttackManager : MonoBehaviour
             currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
             combatManagerScript.GetComponent<AudioSource>().PlayOneShot(HitSound);
 
+            Monster monsterWhoUsedAttack = currentMonsterTurn;
+            monsterWhoUsedAttack.health = currentMonsterTurn.health;
+
             // Trigger all attack after effects (buffs, debuffs etc.) - TODO - Implement other buffs/debuffs and durations
-            if (currentMonsterTurnGameObject != null)
+            if (currentMonsterTurnGameObject != null && monsterWhoUsedAttack.health > 0)
             {
                 foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
                 {

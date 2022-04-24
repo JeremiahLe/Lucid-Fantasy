@@ -53,7 +53,14 @@ public class UIManager : MonoBehaviour
     public void InitiateMonsterTurnIndicator(GameObject currentMonsterTurn)
     {
         monsterTurnIndicator.SetActive(true);
-        monsterTurnIndicator.transform.position = new Vector3(currentMonsterTurn.transform.position.x, currentMonsterTurn.transform.position.y + 2.5f, currentMonsterTurn.transform.position.z);
+        if (currentMonsterTurn != null)
+        {
+            monsterTurnIndicator.transform.position = new Vector3(currentMonsterTurn.transform.position.x, currentMonsterTurn.transform.position.y + 2.5f, currentMonsterTurn.transform.position.z);
+        }
+        else
+        {
+            monsterTurnIndicator.SetActive(false);
+        }
     }
 
     // This function updates the UI elements on screen when called (monster init, list clearing/updating)

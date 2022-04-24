@@ -165,6 +165,13 @@ public class ButtonManagerScript : MonoBehaviour
             if (ListOfMonsterAttacks[i] != null)
             {
                 AttacksHUDButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = ListOfMonsterAttacks[i].monsterAttackName;
+
+                if (ListOfMonsterAttacks[i].attackOnCooldown)
+                {
+                    var colors = AttacksHUDButtons[i].GetComponent<Button>().colors;
+                    colors.normalColor = Color.red;
+                    AttacksHUDButtons[i].GetComponent<Button>().colors = colors;
+                }
             }
         }
     }
