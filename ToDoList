@@ -1,0 +1,10 @@
+[ 4/26/22 ]
+Short-Term
+- Implement MonsterAbilityClass
+ - Passive, RoundStart
+- Implement StatusEffects
+ - Poisoned, Stunned, Confused
+ 
+Long-Term
+ - Finish Room Creation and Setup
+ - Finish Multiplayer setup
