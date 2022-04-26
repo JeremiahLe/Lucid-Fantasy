@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: Wild Claws
   m_EditorClassIdentifier: 
   monsterAttackName: Wild Claws
-  monsterAttackElement: 4
-  monsterAttackType: 0
-  monsterAttackDamage: 15
   monsterAttackDescription: Ravage the opponent with sharp claws. Always 50% to critically
     strike.
+  monsterAttackElement: 5
+  monsterAttackType: 0
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 36ed39ba7d9e47641b32ed1d328779c6, type: 3}
+  monsterAttackDamage: 15
   monsterAttackAccuracy: 85
   monsterAttackCritChance: 50
-  monsterAttackSoundEffect: {fileID: 8300000, guid: 36ed39ba7d9e47641b32ed1d328779c6, type: 3}
+  attackHasCooldown: 0
+  attackOnCooldown: 0
+  attackBaseCooldown: 0
+  attackCurrentCooldown: 0
   ListOfAttackEffects: []

@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Sirenix.OdinInspector;
 
 [System.Serializable]
 [CreateAssetMenu(fileName = "New Monster", menuName = "Monster")]
 public class Monster : ScriptableObject
 {
-    [Header("Monster Identifier")]
+    [Title("Monster Identifier")]
     public new string name;
+    [AssetSelector(Paths = "Assets/Sprites/Renders")]
     public Sprite baseSprite;
 
-    [Header("Monster Combat Stats")]
-    public int level;
-
-    public enum MonsterType { Fire, Ice, Earth, Wind, Neutral };
+    [Title("Setup")]
+    public enum MonsterType { Fire, Ice, Earth, Wind, Shadow, Neutral };
     public MonsterType monsterType;
 
     public enum AIType { Ally, Enemy };
@@ -23,20 +23,28 @@ public class Monster : ScriptableObject
     public enum AILevel { Smart, Random, Bad, Player };
     public AILevel aiLevel;
 
-    public float health;
+    [Title("Monster Combat Stats")]
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1, 50)] public float level;
+
+    [Range(1, 10000)] public float health;
     [DisplayWithoutEdit] public float maxHealth;
 
-    public float mana;
-    public float maxMana;
+    //[PropertySpace(SpaceBefore = 15)]
+    //public float mana;
+    //public float maxMana;
 
-    public float physicalAttack;
-    public float magicAttack;
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1, 300)] public float physicalAttack;
+    [Range(1, 300)] public float magicAttack;
 
-    public float physicalDefense;
-    public float magicDefense;
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1, 1000)] public float physicalDefense;
+    [Range(1, 1000)] public float magicDefense;
 
-    public float speed;
-    public float evasion;
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1, 100)] public float speed;
+    [Range(0, 99)] public float evasion;
 
     [Header("Monster Attack List")]
     public List<MonsterAttack> ListOfMonsterAttacks;

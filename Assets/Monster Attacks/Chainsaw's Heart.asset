@@ -13,17 +13,18 @@ MonoBehaviour:
   m_Name: Chainsaw's Heart
   m_EditorClassIdentifier: 
   monsterAttackName: Chainsaw's Heart
-  monsterAttackElement: 4
-  monsterAttackType: 0
-  monsterAttackDamage: 65
   monsterAttackDescription: Eviscerate with a controlling chainsaw. Executes at 50%
     health. [1 round cooldown]
+  monsterAttackElement: 4
+  monsterAttackType: 0
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 9a8857bb46171b0409b4d21b0b2c4019, type: 3}
+  monsterAttackDamage: 65
+  monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 75
   monsterAttackCritChance: 12
   attackHasCooldown: 1
   attackOnCooldown: 0
-  attackCooldown: 2
   attackBaseCooldown: 2
-  monsterAttackSoundEffect: {fileID: 8300000, guid: 9a8857bb46171b0409b4d21b0b2c4019, type: 3}
+  attackCurrentCooldown: 0
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 1372b5dc6c372a545b667b5217c12949, type: 2}

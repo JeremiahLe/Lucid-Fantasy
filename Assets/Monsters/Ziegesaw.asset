@@ -14,22 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Ziegesaw
   baseSprite: {fileID: 21300000, guid: e00095bcb3786454d99197ea4e9c5e5b, type: 3}
-  level: 50
   monsterType: 4
   aiType: 0
   aiLevel: 0
+  level: 50
   health: 2750
   maxHealth: 2750
-  mana: 0
-  maxMana: 0
-  physicalAttack: 155
-  magicAttack: 120
+  physicalAttack: 165
+  magicAttack: 100
   physicalDefense: 180
   magicDefense: 320
   speed: 45
   evasion: 5
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 4c1a33fa6254d194385548d0069f95ec, type: 2}
   - {fileID: 11400000, guid: 2acc426b2e55e9b4bb97d85ff2a15cd5, type: 2}
+  - {fileID: 11400000, guid: 7dd8ef701b149f2438862dd21e4346bb, type: 2}
   - {fileID: 11400000, guid: 1269aaf784782ee4f81b62eaddab4ccc, type: 2}
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}

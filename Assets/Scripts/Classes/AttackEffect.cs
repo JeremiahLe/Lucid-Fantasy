@@ -2,20 +2,25 @@ using System; // allows serialization of custom classes
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [Serializable]
 [CreateAssetMenu(fileName = "New Monster Attack Effect", menuName = "Monster Attack Effects")]
 public class AttackEffect : ScriptableObject
 {
-    public enum TypeOfEffect { MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies }
+    public enum TypeOfEffect { MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter75, DoublePowerIfStatBoost }
     public TypeOfEffect typeOfEffect;
 
     public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance }
     public StatEnumToChange statEnumToChange;
 
+    public enum EffectTime { PreAttack, PostAttack }
+    public EffectTime effectTime;
+
+    [PropertyRange(0, 100)]
     public float amountToChange;
 
-    public CombatManagerScript combatManagerScript;
+    [DisplayWithoutEdit] public CombatManagerScript combatManagerScript;
 
     // Initial function that is called by monsterAttackManager that enacts attack after effects
     public void TriggerEffects(MonsterAttackManager monsterAttackManager)
@@ -46,6 +51,24 @@ public class AttackEffect : ScriptableObject
                     targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue
                     targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
                     SpeedBuffAllies(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                }
+                break;
+
+            case TypeOfEffect.DoublePowerIfStatBoost:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue
+                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+                    DoublePowerIfStatBoost(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                }
+                break;
+
+            case TypeOfEffect.Counter75:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue
+                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+                    Counter75(targetMonster, monsterAttackManager, targetMonsterGameObject);
                 }
                 break;
 
@@ -99,6 +122,7 @@ public class AttackEffect : ScriptableObject
 
         // Update monster's UI health element
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
     }
 
     // Half health execute
@@ -116,6 +140,20 @@ public class AttackEffect : ScriptableObject
 
             // remove monster
             monsterAttackManager.currentTargetedMonster.health = 0;
+        }
+    }
+
+    // Double power of monster attack
+    public void DoublePowerIfStatBoost(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
+    {
+        // Check if the monster had recieved a stat boost this round
+        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound)
+        {
+            monsterAttackManager.currentMonsterAttack.monsterAttackDamage *= 2f;
+
+            // Send buff message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} had it's power doubled!");
         }
     }
 
@@ -162,6 +200,7 @@ public class AttackEffect : ScriptableObject
 
                     // Update monster's speed element
                     monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                    monsterObj.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
                     // Does this actually work?
                     combatManagerScript.SortMonsterBattleSequence();
@@ -192,11 +231,23 @@ public class AttackEffect : ScriptableObject
 
                     // Update monster's speed element
                     monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                    monsterObj.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
                     // Does this actually work?
                     combatManagerScript.SortMonsterBattleSequence();
                 }
             }
         }
+    }
+
+    // 75% Counter
+    public void Counter75(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
+    {
+        // Check the amount of damage taken this round
+        monsterAttackManager.currentMonsterAttack.monsterAttackFlatDamageBonus = Mathf.RoundToInt(monsterReferenceGameObject.GetComponent<CreateMonster>().monsterDamageTakenThisRound * .75f);
+
+        // Send buff message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained {monsterAttackManager.currentMonsterAttack.monsterAttackFlatDamageBonus} additional damage!");
     }
 }

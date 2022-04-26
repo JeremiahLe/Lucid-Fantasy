@@ -153,14 +153,14 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 1526e02488ea3094b8eab99e70a805d2, type: 2}
+      objectReference: {fileID: 11400000, guid: 5efd682e756fd9e4fa674fb3b5b32b31, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterLevel
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterSpeed
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: startingPosition
@@ -524,7 +524,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.002254486, y: 228.84802}
+  m_AnchoredPosition: {x: -0.0008049011, y: 228.84753}
   m_SizeDelta: {x: -0.0024719238, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &93912620
@@ -1080,7 +1080,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 6b265e53011d7d34a8bea4bf4f4d14df, type: 2}
+      objectReference: {fileID: 11400000, guid: 5efd682e756fd9e4fa674fb3b5b32b31, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterLevel
       value: 4
@@ -1289,6 +1289,10 @@ PrefabInstance:
     - target: {fileID: 8782123564164499196, guid: 927f375ed00ff1f44a7e79be62816fec, type: 3}
       propertyPath: m_SortingOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782123564164499198, guid: 927f375ed00ff1f44a7e79be62816fec, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 8782123564164499199, guid: 927f375ed00ff1f44a7e79be62816fec, type: 3}
       propertyPath: m_Name
@@ -2133,7 +2137,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.48235297, g: 0.59607846, b: 0.7176471, a: 1}
+    m_NormalColor: {r: 0.46274513, g: 0.57254905, b: 0.6901961, a: 1}
     m_HighlightedColor: {r: 0.7075472, g: 0.67083484, b: 0.67083484, a: 1}
     m_PressedColor: {r: 0.5660378, g: 0.5633678, b: 0.5633678, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2552,7 +2556,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 1526e02488ea3094b8eab99e70a805d2, type: 2}
+      objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterLevel
       value: 6
@@ -4659,6 +4663,8 @@ GameObject:
   - component: {fileID: 1758263242}
   - component: {fileID: 1758263243}
   - component: {fileID: 1758263244}
+  - component: {fileID: 1758263245}
+  - component: {fileID: 1758263246}
   - component: {fileID: 1758263238}
   m_Layer: 0
   m_Name: CombatManagerObj
@@ -4695,26 +4701,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cae1b36ca95c82b4481a90cdbec15103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BattleSequence: []
   MonstersInBattle: []
+  BattleSequence: []
   ListOfAllys: []
   ListOfEnemies: []
-  initialAllyList: []
-  initialEnemyList: []
   CombatLog: {fileID: 0}
   HUDanimationManager: {fileID: 0}
   buttonManagerScript: {fileID: 0}
   enemyAIManager: {fileID: 0}
   monsterAttackManager: {fileID: 0}
   uiManager: {fileID: 0}
-  CurrentMonsterTurn: {fileID: 0}
-  CurrentMonsterAttack: {fileID: 0}
-  CurrentMonsterTurnAnimator: {fileID: 0}
-  monsterTurn: 0
-  monsterTargeter: {fileID: 1526557040}
-  CurrentTargetedMonster: {fileID: 0}
-  currentRound: 0
+  soundEffectManager: {fileID: 0}
   firstMonsterTurn: {fileID: 0}
+  CurrentMonsterTurn: {fileID: 0}
+  CurrentTargetedMonster: {fileID: 0}
+  monsterTargeter: {fileID: 1526557040}
+  CurrentMonsterTurnAnimator: {fileID: 0}
+  CurrentMonsterAttack: {fileID: 0}
+  monsterTurn: 0
+  currentRound: 0
   autoBattle: 0
   battleOver: 0
   targeting: 0
@@ -4860,6 +4865,14 @@ MonoBehaviour:
   monsterAttackManager: {fileID: 0}
   combatManagerScript: {fileID: 0}
   uiManager: {fileID: 0}
+  startColors:
+    m_NormalColor: {r: 0, g: 0, b: 0, a: 0}
+    m_HighlightedColor: {r: 0, g: 0, b: 0, a: 0}
+    m_PressedColor: {r: 0, g: 0, b: 0, a: 0}
+    m_SelectedColor: {r: 0, g: 0, b: 0, a: 0}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0}
+    m_ColorMultiplier: 0
+    m_FadeDuration: 0
 --- !u!114 &1758263241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4899,6 +4912,7 @@ MonoBehaviour:
   enemyAIManager: {fileID: 0}
   uiManager: {fileID: 0}
   CombatLog: {fileID: 0}
+  soundEffectManager: {fileID: 0}
   currentMonsterAttackDescription: {fileID: 1529536261}
   TextBackImage: {fileID: 2060818102}
   TextBackImageBorder: {fileID: 976399302}
@@ -4906,7 +4920,9 @@ MonoBehaviour:
   monsterCritText: {fileID: 699824926}
   cachedTransform: {x: 0, y: 0, z: 0}
   cachedDamage: 0
-  CritSound: {fileID: 8300000, guid: ce8ad027e88ecda4a9c934a122b16e00, type: 3}
+  calculatedDamage: 0
+  matchingElementBoost: 0
+  CritSound: {fileID: 8300000, guid: 68049c95379dcb84fb188fdedd8c569a, type: 3}
   HitSound: {fileID: 8300000, guid: 762b582ee4ca74a458d76f52b4a557ef, type: 3}
   MissSound: {fileID: 8300000, guid: 0f2966a1a653a844796724ba7d95e1e8, type: 3}
 --- !u!114 &1758263243
@@ -4954,6 +4970,116 @@ MonoBehaviour:
   monsterTurnIndicator: {fileID: 1307613179}
   HUDanimationManager: {fileID: 0}
   combatManagerScript: {fileID: 0}
+--- !u!114 &1758263245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758263235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18eccf23612ad374aab10b5d99cfaeb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffectAudioSource: {fileID: 1758263246}
+  soundEffectQueue: []
+--- !u!82 &1758263246
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758263235}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.084
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1776950149
 GameObject:
   m_ObjectHideFlags: 0
@@ -6772,10 +6898,10 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: b791c9afb11f3c84dbca12f92dab05bd, type: 2}
+      objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterSpeed
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: startingPosition

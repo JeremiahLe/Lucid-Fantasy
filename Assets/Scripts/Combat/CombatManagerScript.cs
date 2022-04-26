@@ -3,46 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using Sirenix.OdinInspector;
 
 public class CombatManagerScript : MonoBehaviour
 {
-    public List<GameObject> BattleSequence;
+    [Title("Monster Lists")]
     public GameObject[] MonstersInBattle;
-
+    public List<GameObject> BattleSequence;
     public List<GameObject> ListOfAllys;
     public List<GameObject> ListOfEnemies;
 
-    public List<GameObject> initialAllyList;
-    public List<GameObject> initialEnemyList;
-
+    [Title("Auto-set Components")]
     public MessageManager CombatLog;
     public HUDAnimationManager HUDanimationManager;
     public ButtonManagerScript buttonManagerScript;
     public EnemyAIManager enemyAIManager;
     public MonsterAttackManager monsterAttackManager;
     public UIManager uiManager;
+    public SoundEffectManager soundEffectManager;
 
+    [Title("Battle Variables")]
+    public GameObject firstMonsterTurn;
     public GameObject CurrentMonsterTurn;
-    public MonsterAttack CurrentMonsterAttack;
+
+    public GameObject CurrentTargetedMonster;
+    public GameObject monsterTargeter;
+
     public Animator CurrentMonsterTurnAnimator;
+    public MonsterAttack CurrentMonsterAttack;
 
     public enum MonsterTurn { AllyTurn, EnemyTurn }
     public MonsterTurn monsterTurn;
 
-    public GameObject monsterTargeter;
-    public GameObject CurrentTargetedMonster;
-
     public int currentRound = 1;
-    public GameObject firstMonsterTurn;
 
-    //public int currentIndex = 0;
     public bool autoBattle = false;
     public bool battleOver = false;
     public bool targeting = false;
 
     // For Later
     //public List<Action> BattleActions;
-    
+
     // TODO - clean up this script
 
     // Start is called before the first frame update
@@ -57,12 +58,15 @@ public class CombatManagerScript : MonoBehaviour
         CheckInputs();
     }
 
-    
     public void CheckInputs()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
@@ -150,7 +154,8 @@ public class CombatManagerScript : MonoBehaviour
     {
         BattleSequence = BattleSequence.OrderByDescending(Monster => Monster.GetComponent<CreateMonster>().monsterSpeed).ToList();
 
-        // randomizes positions of speed ties
+        // randomizes positions of speed ties // I don't want to shuffle on game start. There is no need. Nvm
+        
         var speedTies = BattleSequence.GroupBy(Monster => Monster.GetComponent<CreateMonster>().monsterReference.speed).Where(timesRepeated => timesRepeated.Count() > 1).Select(y => new { Value = y.Key, Count = y.Count() });
 
         foreach (var speed in speedTies)
@@ -202,10 +207,12 @@ public class CombatManagerScript : MonoBehaviour
         for (int i = 0; i < BattleSequence.Count; i++)
         {
             Monster monster = BattleSequence[i].GetComponent<CreateMonster>().monsterReference;
+
             if (monster == null)
             {
                 continue;
             }
+
             uiManager.CombatOrderTextList.text += ($"Monster {i + 1}: {monster.aiType} {monster.name} || Speed: {monster.speed}\n");
         }
 
@@ -557,7 +564,7 @@ public class CombatManagerScript : MonoBehaviour
                 monsterTargeter.SetActive(true);
                 targeting = true;
                 CurrentTargetedMonster = GetRandomTarget(); // for autoBattle fixme properly
-                //monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
+                monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
                 break;
 
             default:

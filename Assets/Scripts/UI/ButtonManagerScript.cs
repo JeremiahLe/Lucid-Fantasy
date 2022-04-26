@@ -32,6 +32,8 @@ public class ButtonManagerScript : MonoBehaviour
     public CombatManagerScript combatManagerScript;
     public UIManager uiManager;
 
+    public ColorBlock startColors;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +60,8 @@ public class ButtonManagerScript : MonoBehaviour
         AttacksHUDButtons.Add(Attack2Button);
         AttacksHUDButtons.Add(Attack3Button);
         AttacksHUDButtons.Add(Attack4Button);
+
+        startColors = AttacksHUDButtons[0].GetComponent<Button>().colors;
 
         // Hide all attack buttons at start
         HideAllButtons("AttacksHUDButtons");
@@ -206,8 +210,13 @@ public class ButtonManagerScript : MonoBehaviour
                 if (ListOfMonsterAttacks[i].attackOnCooldown)
                 {
                     var colors = AttacksHUDButtons[i].GetComponent<Button>().colors;
-                    colors.normalColor = Color.red;
+                    colors.normalColor = Color.gray;
                     AttacksHUDButtons[i].GetComponent<Button>().colors = colors;
+                    AttacksHUDButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = ($"<s>{ListOfMonsterAttacks[i].monsterAttackName}</s>");
+                }
+                else
+                {
+                    AttacksHUDButtons[i].GetComponent<Button>().colors = startColors;
                 }
             }
         }

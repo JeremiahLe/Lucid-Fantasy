@@ -14,14 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Hurrikanine
   baseSprite: {fileID: 21300000, guid: d4389a02943c8e049a1ed15dbeee46ab, type: 3}
-  level: 50
   monsterType: 3
   aiType: 0
   aiLevel: 0
+  level: 50
   health: 2100
   maxHealth: 2100
-  mana: 0
-  maxMana: 0
   physicalAttack: 75
   magicAttack: 215
   physicalDefense: 150
@@ -29,7 +27,7 @@ MonoBehaviour:
   speed: 60
   evasion: 10
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 4c1a33fa6254d194385548d0069f95ec, type: 2}
   - {fileID: 11400000, guid: 3bb4d934fd63955419d688bedba37d81, type: 2}
+  - {fileID: 11400000, guid: 4c1a33fa6254d194385548d0069f95ec, type: 2}
   - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}

@@ -14,6 +14,7 @@ public class SceneButtonManager : MonoBehaviour
     [Header("Menus")]
     public GameObject MainMenu;
     public GameObject CreateRoomMenu;
+    public GameObject QuickplaySettingsMenu;
 
     [Header("Scene Buttons")]
     public Button QuickplayButton;
@@ -56,6 +57,13 @@ public class SceneButtonManager : MonoBehaviour
         CreateRoomMenu.SetActive(true);
     }
 
+    // This function is called when create match button is clicked - TODO - Create room function
+    public void QuickplayClicked()
+    {
+        MainMenu.SetActive(false);
+        QuickplaySettingsMenu.SetActive(true);
+    }
+
     // This function is called after the client successfully connects to the server
     public void Connected()
     {
@@ -85,6 +93,13 @@ public class SceneButtonManager : MonoBehaviour
         QuickplayButton.gameObject.SetActive(true);
         MultiplayerButton.gameObject.SetActive(true);
         QuitButton.gameObject.SetActive(true);
+    }
+
+    // This override function is called when the Back button is clicked
+    public void BackButtonClickedNotOnline(string Override)
+    {
+        QuickplaySettingsMenu.SetActive(false);
+        MainMenu.SetActive(true);
     }
 
     // This function quits the game when called

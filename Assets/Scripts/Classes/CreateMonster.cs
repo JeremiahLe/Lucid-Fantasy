@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Sirenix.OdinInspector;
 
 public class CreateMonster : MonoBehaviour
 {
-    public Monster monster;
+    [Title("Monster ScriptableObject and Reference Clone")]
+    [Required] public Monster monster;
     public Monster monsterReference;
+    List<MonsterAttack> ListOfMonsterAttacksReference;
 
-    [Header("Display Variables")]
+    [Title("UI Elements")]
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private SpriteRenderer sr;
 
+    [Title("Monster AI and Scene Setup")]
     [SerializeField] private Monster.AIType aiType;
     [SerializeField] private Monster.AILevel aiLevel;
 
@@ -20,9 +24,9 @@ public class CreateMonster : MonoBehaviour
     private enum CombatOrientation { Left, Right };
     private CombatOrientation combatOrientation;
 
-    [Header("Additional Editable Variables")]
+    [Title("Combat Stats")]
+    [DisplayWithoutEdit] private int monsterLevel;
     [SerializeReference] public int monsterSpeed;
-    [SerializeReference] private int monsterLevel;
 
     [DisplayWithoutEdit] public float monsterPhysicalAttack;
     [DisplayWithoutEdit] public float monsterMagicAttack;
@@ -31,13 +35,14 @@ public class CreateMonster : MonoBehaviour
 
     [DisplayWithoutEdit] public float monsterEvasion;
 
+    [Title("Combat Functions & Status")]
     [DisplayWithoutEdit] public float monsterDamageTakenThisRound;
     [DisplayWithoutEdit] public bool monsterActionAvailable = true;
+    [DisplayWithoutEdit] public bool monsterRecievedStatBoostThisRound = false;
 
-    List<MonsterAttack> ListOfMonsterAttacksReference;
-
+    [Title("Components")]
+    [Required] public GameObject combatManagerObject;
     public Animator monsterAnimator;
-    public GameObject combatManagerObject;
     public CombatManagerScript combatManagerScript;
     public MonsterAttackManager monsterAttackManager;
 
@@ -93,15 +98,16 @@ public class CreateMonster : MonoBehaviour
     {
         monsterDamageTakenThisRound = 0;
         monsterActionAvailable = true;
+        monsterRecievedStatBoostThisRound = false;
 
         foreach (MonsterAttack attack in monsterReference.ListOfMonsterAttacks)
         {
             if (attack.attackOnCooldown)
             {
-                attack.attackCooldown -= 1;
-                if (attack.attackCooldown <= 0) {
+                attack.attackCurrentCooldown -= 1;
+                if (attack.attackCurrentCooldown <= 0) {
                     attack.attackOnCooldown = false;
-                    attack.attackCooldown = attack.attackBaseCooldown;
+                    attack.attackCurrentCooldown = attack.attackBaseCooldown;
                 }
             }
         }
