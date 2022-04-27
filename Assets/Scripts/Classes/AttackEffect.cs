@@ -8,7 +8,7 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "New Monster Attack Effect", menuName = "Monster Attack Effects")]
 public class AttackEffect : ScriptableObject
 {
-    public enum TypeOfEffect { MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter75, DoublePowerIfStatBoost }
+    public enum TypeOfEffect { MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter75, DoublePowerIfStatBoost, OnCriticalStrikeBuff, DamageAllEnemies, CripplingFearEffect }
     public TypeOfEffect typeOfEffect;
 
     public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance }
@@ -48,7 +48,7 @@ public class AttackEffect : ScriptableObject
             case TypeOfEffect.SpeedBuffAllies:
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
-                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue
+                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue // WHY THE FUCK IS THERE INSTANTIATION GOING ON
                     targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
                     SpeedBuffAllies(targetMonster, monsterAttackManager, targetMonsterGameObject);
                 }
@@ -57,7 +57,7 @@ public class AttackEffect : ScriptableObject
             case TypeOfEffect.DoublePowerIfStatBoost:
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
-                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue
+                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue // WHY THE FUCK IS THERE INSTANTIATION GOING ON
                     targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
                     DoublePowerIfStatBoost(targetMonster, monsterAttackManager, targetMonsterGameObject);
                 }
@@ -66,9 +66,36 @@ public class AttackEffect : ScriptableObject
             case TypeOfEffect.Counter75:
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
-                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue
+                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue // WHY THE FUCK IS THERE INSTANTIATION GOING ON
                     targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
                     Counter75(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                }
+                break;
+
+            case TypeOfEffect.OnCriticalStrikeBuff:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.currentMonsterTurn; // should still be the monster who used the move, NOT the one next in Queue
+                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+                    OnCriticalStrikeBuff(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                }
+                break;
+
+            case TypeOfEffect.DamageAllEnemies:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.currentMonsterTurn; // should still be the monster who used the move, NOT the one next in Queue
+                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+                    DamageAllEnemies(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                }
+                break;
+
+            case TypeOfEffect.CripplingFearEffect:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.currentMonsterTurn; // should still be the monster who used the move, NOT the one next in Queue
+                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+                    CripplingFearEffect(targetMonster, monsterAttackManager, targetMonsterGameObject);
                 }
                 break;
 
@@ -140,6 +167,44 @@ public class AttackEffect : ScriptableObject
 
             // remove monster
             monsterAttackManager.currentTargetedMonster.health = 0;
+        }
+    }
+
+    // Half health execute
+    public void DamageAllEnemies(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
+    {
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+
+        if (monsterReference.aiType == Monster.AIType.Ally)
+        {
+            // Get all other enemies that weren't the main target
+            foreach (GameObject monster in combatManagerScript.ListOfEnemies.ToArray())
+            {
+                if (monster == combatManagerScript.CurrentTargetedMonster || monster == null)
+                {
+                    continue;
+                }
+
+                // First set the monster targeted then get damage calced
+                //monsterAttackManager.currentTargetedMonster = monster.GetComponent<CreateMonster>().monsterReference;
+                //monsterAttackManager.currentTargetedMonsterGameObject = monster;
+
+                monsterAttackManager.DealDamageOthers(monster);
+            }
+        }
+        else if (monsterReference.aiType == Monster.AIType.Enemy)
+        {
+            // Get all other enemies that weren't the main target
+            foreach (GameObject monster in combatManagerScript.ListOfAllys.ToArray())
+            {
+                if (monster == monsterAttackManager.currentMonsterTurnGameObject || monster == null)
+                {
+                    continue;
+                }
+
+                // First set the monster targeted then get damage calced
+                monsterAttackManager.DealDamageOthers(monster);
+            }
         }
     }
 
@@ -240,6 +305,104 @@ public class AttackEffect : ScriptableObject
         }
     }
 
+    // Nerf all enemies speed if user's speed is the slowest in the battle. Otherwise, lower user's attack stats
+    public void CripplingFearEffect(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
+    {
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+
+        if (monsterReferenceGameObject == null)
+        {
+            return;
+        }
+
+        if (monsterReference != null)
+        {
+            // If user's position in the battle order is the last index, Count - 1;
+            if (combatManagerScript.BattleSequence.IndexOf(monsterReferenceGameObject) == combatManagerScript.BattleSequence.Count - 1)
+            {
+                if (monsterReference.aiType == Monster.AIType.Ally)
+                {
+                    foreach (GameObject monsterObj in combatManagerScript.ListOfEnemies.ToArray()) //ToArray avoids missing lists
+                    {
+                        if (monsterObj == null)
+                        {
+                            continue;
+                        }
+
+                        Monster monster = monsterObj.GetComponent<CreateMonster>().monsterReference;
+
+                        if (monster.health <= 0) // fixed dual combat log calls
+                        {
+                            continue;
+                        }
+
+                        // Calculate speed nerf (% of current speed)
+                        float fromValue = monster.speed;
+                        float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+                        if (toValue <= 1)
+                        {
+                            toValue = 1; // prevent buffs of 0
+                        }
+                        monster.speed -= toValue;
+                        monsterObj.GetComponent<CreateMonster>().monsterSpeed -= (int)toValue;
+
+                        // Send speed buff message to combat log
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {statEnumToChange.ToString()} was lowered!");
+
+                        // Update monster's speed element
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                        monsterObj.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+
+                        // Does this actually work?
+                        combatManagerScript.SortMonsterBattleSequence();
+                    }
+                }
+                else 
+                if (monsterReference.aiType == Monster.AIType.Enemy)
+                {
+                    foreach (GameObject monsterObj in combatManagerScript.ListOfAllys.ToArray()) //ToArray avoids missing lists
+                    {
+                        if (monsterObj == null)
+                        {
+                            continue;
+                        }
+
+                        Monster monster = monsterObj.GetComponent<CreateMonster>().monsterReference;
+
+                        if (monster.health <= 0) // fixed dual combat log calls
+                        {
+                            continue;
+                        }
+
+                        // Calculate speed nerf (% of current speed)
+                        float fromValue = monster.speed;
+                        float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+                        if (toValue <= 1)
+                        {
+                            toValue = 1; // prevent buffs of 0
+                        }
+                        monster.speed -= toValue;
+                        monsterObj.GetComponent<CreateMonster>().monsterSpeed -= (int)toValue;
+
+                        // Send speed buff message to combat log
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {statEnumToChange.ToString()} was lowered!");
+
+                        // Update monster's speed element
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                        monsterObj.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+
+                        // Does this actually work?
+                        combatManagerScript.SortMonsterBattleSequence();
+                    }
+                }
+            }
+            else // the user's not the slowest, so reduce their attack stats
+            {
+                LowerOffensiveStats(monsterReference, monsterAttackManager, monsterReferenceGameObject);
+            }
+        }
+    }
+
     // 75% Counter
     public void Counter75(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
@@ -249,5 +412,93 @@ public class AttackEffect : ScriptableObject
         // Send buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained {monsterAttackManager.currentMonsterAttack.monsterAttackFlatDamageBonus} additional damage!");
+    }
+
+    // Critical Strike Buff
+    public void OnCriticalStrikeBuff(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
+    {
+        // Check if the monster critically struck with attack this round
+        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterCriticallyStrikedThisRound)
+        {
+            switch (statEnumToChange) {
+                case (StatEnumToChange.PhysicalAttack):
+
+                    // Calculate buff
+                    float fromValue = monsterReference.physicalAttack;
+                    float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+                    if (toValue <= 1)
+                    {
+                        toValue = 1; // prevent buffs of 0
+                    }
+                    monsterReference.physicalAttack += toValue;
+                    Debug.Log($"{fromValue} + {toValue}");
+
+                    // Send buff message to combat log
+                    combatManagerScript = monsterAttackManager.combatManagerScript;
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statEnumToChange.ToString()}!");
+
+                    // Update monster's UI health element
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+
+                    break;
+
+                case (StatEnumToChange.MagicAttack):
+
+                    // Calculate buff
+                    fromValue = monsterReference.physicalAttack;
+                    toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+                    if (toValue <= 1)
+                    {
+                        toValue = 1; // prevent buffs of 0
+                    }
+                    monsterReference.magicAttack += toValue;
+
+                    // Send buff message to combat log
+                    combatManagerScript = monsterAttackManager.combatManagerScript;
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statEnumToChange.ToString()}!");
+
+                    // Update monster's UI health element
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+
+                    break;
+
+                default:
+                    Debug.Log("Missing enum type?", this);
+                    break;
+        }
+        }
+
+
+    }
+
+    // Lower Offensive Stats
+    public void LowerOffensiveStats(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
+    {
+        // Physical Attack nerf (20%)
+        float fromValue = monsterReference.physicalAttack;
+        float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+        if (toValue <= 1)
+        {
+            toValue = 1; // prevent buffs of 0
+        }
+        monsterReference.physicalAttack -= toValue;
+
+        // Magic Attack nerf (20%)
+        fromValue = monsterReference.magicAttack;
+        toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+        if (toValue <= 1)
+        {
+            toValue = 1; // prevent buffs of 0
+        }
+        monsterReference.magicAttack -= toValue;
+
+        // Send speed buff message to combat log
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} lowered its Physical and Magic Attack!");
+
+        // Update monster's stats
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
     }
 }

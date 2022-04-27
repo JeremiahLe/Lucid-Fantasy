@@ -694,7 +694,7 @@ public class CombatManagerScript : MonoBehaviour
             // check if any cooldowns need to be updated
             foreach (GameObject monster in BattleSequence)
             {
-                monster.GetComponent<CreateMonster>().CheckCooldowns();
+                monster.GetComponent<CreateMonster>().OnRoundStart();
             }
 
             // Then call Next Monster

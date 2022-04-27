@@ -22,7 +22,7 @@ public class SoundEffectManager : MonoBehaviour
     // This plays every sound effect in the queue
     IEnumerator PlaySoundEffects()
     {
-        Debug.Log("I got called");
+        //Debug.Log("I got called");
         foreach (AudioClip clip in soundEffectQueue.ToArray())
         {
             soundEffectAudioSource.PlayOneShot(clip);

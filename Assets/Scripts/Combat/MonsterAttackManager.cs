@@ -94,21 +94,20 @@ public class MonsterAttackManager : MonoBehaviour
     // This function updates the targeted enemy text on screen
     public void UpdateCurrentTargetText()
     {
-        if (currentMonsterTurnGameObject != null)
+        // Is the monster targeting itself?
+        if (combatManagerScript.CurrentMonsterTurn == combatManagerScript.CurrentTargetedMonster)
         {
-            // Is the monster targeting itself?
-            if (combatManagerScript.CurrentMonsterTurn == combatManagerScript.CurrentTargetedMonster)
-            {
-                HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} " +
-                    $"will use {ReturnCurrentButtonAttack().monsterAttackName} on self?");
-            }
-            else
-            {
-                HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} " +
-                    $"will use {ReturnCurrentButtonAttack().monsterAttackName} " +
-                    $"on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType} " +
-                    $"{combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.name}?");
-            }
+            //Debug.Log("I got called!");
+            HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} " +
+                $"will use {ReturnCurrentButtonAttack().monsterAttackName} on self?");
+        }
+        else
+        {
+            //Debug.Log("I got called!");
+            HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} " +
+                $"will use {ReturnCurrentButtonAttack().monsterAttackName} " +
+                $"on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType} " +
+                $"{combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.name}?");
         }
     }
 
@@ -351,6 +350,8 @@ public class MonsterAttackManager : MonoBehaviour
             cachedDamage = calculatedDamage;
             soundEffectManager.AddSoundEffectToQueue(CritSound);
 
+            currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterCriticallyStrikedThisRound = true;
+
             return calculatedDamage;
         }
 
@@ -360,5 +361,89 @@ public class MonsterAttackManager : MonoBehaviour
 
         cachedDamage = calculatedDamage;
         return calculatedDamage;
+    }
+
+    // This function uses the current move to deal damage to the other targets (should be called initial hit)
+    public void DealDamageOthers(GameObject otherSpecificTarget)
+    {
+        //yield return new WaitForSeconds(0);
+
+        currentTargetedMonster = otherSpecificTarget.GetComponent<CreateMonster>().monsterReference;
+        Monster monster = otherSpecificTarget.GetComponent<CreateMonster>().monsterReference;
+
+        // Pre Attack Effects Go Here 
+        foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
+        {
+            if (effect.effectTime == AttackEffect.EffectTime.PreAttack)
+            {
+                effect.TriggerEffects(this);
+            }
+        }
+
+        //currentTargetedMonster = combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+        //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+
+        if (otherSpecificTarget != null)
+        {
+            cachedTransform = otherSpecificTarget.transform.position;
+            cachedTransform.y += 1;
+        }
+
+        if (CheckAttackHit())
+        {
+            float calculatedDamage = CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
+            monster.health -= calculatedDamage;
+            otherSpecificTarget.GetComponent<CreateMonster>().monsterDamageTakenThisRound += calculatedDamage;
+
+            otherSpecificTarget.GetComponent<CreateMonster>().UpdateStats();
+            //Debug.Log("You've reached update stats!");
+
+            otherSpecificTarget.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
+
+            soundEffectManager.AddSoundEffectToQueue(HitSound);
+            soundEffectManager.BeginSoundEffectQueue();
+
+            Monster monsterWhoUsedAttack = currentMonsterTurn;
+            monsterWhoUsedAttack.health = currentMonsterTurn.health;
+
+            // Trigger all attack after effects (buffs, debuffs etc.) - TODO - Implement other buffs/debuffs and durations
+            if (currentMonsterTurnGameObject != null && monsterWhoUsedAttack.health > 0)
+            {
+                foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
+                {
+                    // Don't forever trigger damage
+                    if (effect.typeOfEffect == AttackEffect.TypeOfEffect.DamageAllEnemies)
+                    {
+                        continue;
+                    }
+
+                    // Don't forever trigger all nerfs
+                    if (effect.typeOfEffect == AttackEffect.TypeOfEffect.CripplingFearEffect)
+                    {
+                        continue;
+                    }
+
+                    if (effect.effectTime == AttackEffect.EffectTime.PostAttack)
+                    {
+                        effect.TriggerEffects(this);
+                    }
+                }
+            }
+
+            //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+        }
+        else
+        {
+            CombatLog.SendMessageToCombatLog
+                ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.aiType} " +
+                $"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name}'s " +
+                $"{currentMonsterAttack.monsterAttackName} missed {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+
+            soundEffectManager.AddSoundEffectToQueue(MissSound);
+            soundEffectManager.BeginSoundEffectQueue();
+
+            monsterAttackMissText.SetActive(true);
+            monsterAttackMissText.transform.position = cachedTransform;
+        }
     }
 }

@@ -39,6 +39,8 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public float monsterDamageTakenThisRound;
     [DisplayWithoutEdit] public bool monsterActionAvailable = true;
     [DisplayWithoutEdit] public bool monsterRecievedStatBoostThisRound = false;
+    [DisplayWithoutEdit] public bool monsterCriticallyStrikedThisRound = false;
+
 
     [Title("Components")]
     [Required] public GameObject combatManagerObject;
@@ -81,6 +83,8 @@ public class CreateMonster : MonoBehaviour
     // This function should be called when stats get updated
     public void UpdateStats()
     {
+        //Debug.Log($"{gameObject.name} called update stats! from {}");
+
         healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
         CheckHealth();
 
@@ -96,10 +100,6 @@ public class CreateMonster : MonoBehaviour
     // This function is called on round start to refresh cooldowns if needed && reset damage taken per round
     public void CheckCooldowns()
     {
-        monsterDamageTakenThisRound = 0;
-        monsterActionAvailable = true;
-        monsterRecievedStatBoostThisRound = false;
-
         foreach (MonsterAttack attack in monsterReference.ListOfMonsterAttacks)
         {
             if (attack.attackOnCooldown)
@@ -111,6 +111,22 @@ public class CreateMonster : MonoBehaviour
                 }
             }
         }
+    }
+
+    // This function is called on round start to adjust all round start variables
+    public void OnRoundStart()
+    {
+        CheckCooldowns(); // Check for attack cooldowns
+        ResetRoundCombatVariables(); // Refresh per-round combat variables
+    }
+
+    // Refresh per-round combat variables
+    public void ResetRoundCombatVariables()
+    {
+        monsterDamageTakenThisRound = 0;
+        monsterActionAvailable = true;
+        monsterRecievedStatBoostThisRound = false;
+        monsterCriticallyStrikedThisRound = false;
     }
 
     // This function checks the monster's health
