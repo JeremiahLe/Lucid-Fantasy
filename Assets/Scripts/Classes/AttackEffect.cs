@@ -197,7 +197,7 @@ public class AttackEffect : ScriptableObject
             // Get all other enemies that weren't the main target
             foreach (GameObject monster in combatManagerScript.ListOfAllys.ToArray())
             {
-                if (monster == monsterAttackManager.currentMonsterTurnGameObject || monster == null)
+                if (monster == combatManagerScript.CurrentTargetedMonster || monster == null)
                 {
                     continue;
                 }
