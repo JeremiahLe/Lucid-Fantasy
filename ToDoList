@@ -4,6 +4,11 @@ Short-Term
  - Passive, RoundStart
 - Implement StatusEffects
  - Poisoned, Stunned, Confused
+
+[ 4/30/22 ]
+- Clean up scripts
+- Finish Attack Effect + Modifier rework
+- Finish Galeforce implementation
  
 Long-Term
  - Finish Room Creation and Setup
