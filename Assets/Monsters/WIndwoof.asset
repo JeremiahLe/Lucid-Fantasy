@@ -19,7 +19,7 @@ MonoBehaviour:
   aiLevel: 0
   level: 5
   health: 24
-  maxHealth: 20
+  maxHealth: 24
   physicalAttack: 1
   magicAttack: 4
   physicalDefense: 1
@@ -29,3 +29,6 @@ MonoBehaviour:
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
+  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
+  ListOfModifiers: []

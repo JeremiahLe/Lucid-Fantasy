@@ -40,6 +40,7 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public bool monsterActionAvailable = true;
     [DisplayWithoutEdit] public bool monsterRecievedStatBoostThisRound = false;
     [DisplayWithoutEdit] public bool monsterCriticallyStrikedThisRound = false;
+    [DisplayWithoutEdit] public List<Modifier> ListOfModifiers;
 
 
     [Title("Components")]
@@ -83,7 +84,7 @@ public class CreateMonster : MonoBehaviour
     // This function should be called when stats get updated
     public void UpdateStats()
     {
-        //Debug.Log($"{gameObject.name} called update stats! from {}");
+        CheckStatsCap();
 
         healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
         CheckHealth();
@@ -95,7 +96,20 @@ public class CreateMonster : MonoBehaviour
 
         monsterEvasion = monsterReference.evasion;
         monsterReference.speed = monsterSpeed;
+
+        CheckStatsCap();
     } 
+
+    // This function checks stat caps
+    public void CheckStatsCap()
+    {
+        if (monsterSpeed < 1)
+        {
+            Debug.Log("Called stat minimum cap! (Speed)");
+            monsterSpeed = 1;
+            healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
+        }
+    }
 
     // This function is called on round start to refresh cooldowns if needed && reset damage taken per round
     public void CheckCooldowns()
@@ -118,6 +132,50 @@ public class CreateMonster : MonoBehaviour
     {
         CheckCooldowns(); // Check for attack cooldowns
         ResetRoundCombatVariables(); // Refresh per-round combat variables
+        CheckModifiers();
+    }
+
+    // This function checks modifiers, permanent or tempoerary
+    public void CheckModifiers()
+    {
+        foreach (Modifier modifier in monsterReference.ListOfModifiers.ToArray())
+        {
+            if (modifier.modifierDurationType == Modifier.ModifierDurationType.Temporary)
+            {
+                modifier.modifierCurrentDuration -= 1;
+                if (modifier.modifierCurrentDuration == 0)
+                {
+                    modifier.ResetModifiedStat(monsterReference);
+                    UpdateStats();
+                    monsterReference.ListOfModifiers.Remove(modifier);
+                }
+            }
+        }
+    }
+
+    // This function modifies stats by modifier value
+    public void ModifyStats(AttackEffect.StatEnumToChange statToModify, Modifier modifier)
+    {
+        switch (statToModify)
+        {
+            case (AttackEffect.StatEnumToChange.Evasion):
+                monsterReference.evasion += modifier.modifierAmount;
+                break;
+
+            case (AttackEffect.StatEnumToChange.Speed):
+                monsterSpeed += (int)modifier.modifierAmount;
+                UpdateStats();
+                break;
+
+            case (AttackEffect.StatEnumToChange.MagicAttack):
+                monsterReference.magicAttack += (int)modifier.modifierAmount;
+                break;
+
+            default:
+                Debug.Log("Missing stat to modify to modifier?", this);
+                break;
+        }
+
     }
 
     // Refresh per-round combat variables
@@ -217,6 +275,12 @@ public class CreateMonster : MonoBehaviour
     public void HitAnimationEnd()
     {
         monsterAnimator.SetBool("hitAnimationPlaying", false);
+    }
+
+    // This function ends the buff animation
+    public void BuffAnimationEnd()
+    {
+        monsterAnimator.SetBool("buffAnimationPlaying", false);
     }
 
     // This function passes in the new target to the combatManager

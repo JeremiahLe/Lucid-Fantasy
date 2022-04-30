@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
-  m_Name: OnCriticalStrikeBuff
+  m_Name: GaleforceEffect
   m_EditorClassIdentifier: 
-  typeOfEffect: 6
-  statEnumToChange: 2
-  effectTime: 1
-  amountToChange: 40
+  typeOfEffect: 0
+  statEnumToChange: 0
+  effectTime: 0
+  temporaryModifier: 0
+  amountToChange: 0
   combatManagerScript: {fileID: 0}
+  ListOfModifiers: []

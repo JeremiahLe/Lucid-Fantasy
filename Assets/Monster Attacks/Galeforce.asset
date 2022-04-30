@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
-  m_Name: Divine Tempest
+  m_Name: Galeforce
   m_EditorClassIdentifier: 
-  monsterAttackName: Divine Tempest
-  monsterAttackDescription: Conjure a beautiful storm, dealing damage. Raises speed
-    of all allies by 20%. [1 round cooldown]
+  monsterAttackName: Galeforce
+  monsterAttackDescription: "Blast the target with incredibly fast splitting winds.
+    Deals bonus damage \nbased on the user's total speed."
   monsterAttackElement: 3
-  monsterAttackType: 1
+  monsterAttackType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: 863a4aefa06f6354394638fe929c64fb, type: 3}
-  monsterAttackDamage: 70
+  monsterAttackDamage: 15
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
   monsterAttackCritChance: 10
-  attackHasCooldown: 1
+  attackHasCooldown: 0
   attackOnCooldown: 0
-  attackBaseCooldown: 2
+  attackBaseCooldown: 0
   attackCurrentCooldown: 0
-  ListOfAttackEffects:
-  - {fileID: 11400000, guid: 1d36bce9eedc849499c3b1ec6e28967d, type: 2}
+  ListOfAttackEffects: []

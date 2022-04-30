@@ -15,7 +15,7 @@ MonoBehaviour:
   monsterAttackName: Wild Blades
   monsterAttackDescription: "Slash the opponent with sharp blades of tooth, fang,
     or steel. Slightly above average \ncritical strike rate. Raises Physical Attack
-    on successful critical strike."
+    by 40% on successful critical strike."
   monsterAttackElement: 5
   monsterAttackType: 0
   monsterAttackSoundEffect: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}

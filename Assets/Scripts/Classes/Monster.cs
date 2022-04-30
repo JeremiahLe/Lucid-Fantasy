@@ -48,4 +48,7 @@ public class Monster : ScriptableObject
 
     [Header("Monster Attack List")]
     public List<MonsterAttack> ListOfMonsterAttacks;
+
+    [Header("Monster Modifier List")]
+    public List<Modifier> ListOfModifiers;
 }

@@ -16,7 +16,7 @@ public class MonsterAttack : ScriptableObject
 
     // Using Monster's Enums Title
     public Monster.MonsterType monsterAttackElement;
-    public enum MonsterAttackType { Physical, Magical, True, Split };
+    public enum MonsterAttackType { Physical, Magical, True, Split, SelfTarget, AllyTarget };
     public MonsterAttackType monsterAttackType;
 
     [AssetSelector(Paths = "Assets/Music/SoundEffects/MonsterAttacks")]

@@ -43,14 +43,40 @@ public class EnemyAIManager : MonoBehaviour
         {
             case Monster.AILevel.Random:
                 currentEnemyMonsterAttack = GetRandomMove();
-                currentEnemyTargetGameObject = GetRandomTarget();
+
+                // What type of attack move was selected?
+                switch (currentEnemyMonsterAttack.monsterAttackType)
+                {
+                    // If self targeting move, return self
+                    case (MonsterAttack.MonsterAttackType.SelfTarget):
+                        currentEnemyTargetGameObject = combatManagerScript.CurrentMonsterTurn;
+                        break;
+
+                    case (MonsterAttack.MonsterAttackType.AllyTarget):
+                        currentEnemyTargetGameObject = GetRandomTarget(combatManagerScript.ListOfEnemies);
+                        break;
+
+                    default:
+                        currentEnemyTargetGameObject = GetRandomTarget(combatManagerScript.ListOfAllys);
+                        break;
+
+                }
+
+                //currentEnemyTargetGameObject = GetRandomTarget();
 
                 currentEnemyTarget = currentEnemyTargetGameObject.GetComponent<CreateMonster>().monsterReference;
 
                 monsterTargeter.SetActive(true);
                 monsterTargeter.transform.position = new Vector3(currentEnemyTargetGameObject.transform.position.x, currentEnemyTargetGameObject.transform.position.y + 2.5f, currentEnemyTargetGameObject.transform.position.z);
 
-                uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
+                // Targeting self?
+                if (currentEnemyTarget == currentEnemyTurn)
+                {
+                    uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
+                }
+                else {
+                    uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
+                }
 
                 combatManagerScript.CurrentMonsterTurnAnimator = currentEnemyTurnGameObject.GetComponent<Animator>();
                 combatManagerScript.CurrentTargetedMonster = currentEnemyTargetGameObject;
@@ -77,9 +103,9 @@ public class EnemyAIManager : MonoBehaviour
     }
 
     // This function returns a random target from the list of ally monsters // GitHub edit
-    public GameObject GetRandomTarget()
+    public GameObject GetRandomTarget(List<GameObject> whoAmITargeting)
     {
-        GameObject randTarget = listOfAllies[Random.Range(0, listOfAllies.Count)];
+        GameObject randTarget = whoAmITargeting[Random.Range(0, whoAmITargeting.Count)];
         Debug.Log($"Random target selected: {randTarget.GetComponent<CreateMonster>().monsterReference.name}");
         return randTarget;
     }

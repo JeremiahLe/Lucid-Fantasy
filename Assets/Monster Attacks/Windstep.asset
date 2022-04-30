@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
+  m_Name: Windstep
+  m_EditorClassIdentifier: 
+  monsterAttackName: Windstep
+  monsterAttackDescription: Raise user's speed by 20%. Also slightly raise evasion
+    by 5% this round.
+  monsterAttackElement: 3
+  monsterAttackType: 4
+  monsterAttackSoundEffect: {fileID: 8300000, guid: cfdad33ec73454443952015ae32a27a0, type: 3}
+  monsterAttackDamage: 0
+  monsterAttackFlatDamageBonus: 0
+  monsterAttackAccuracy: 100
+  monsterAttackCritChance: 0
+  attackHasCooldown: 0
+  attackOnCooldown: 0
+  attackBaseCooldown: 0
+  attackCurrentCooldown: 0
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: 8c13b7a16f158fd42840b5b8bccfe3fc, type: 2}
+  - {fileID: 11400000, guid: 3c1f3acad3fced341ab4704329b172da, type: 2}
+  - {fileID: 11400000, guid: 67f324394f14e894c9b8df9497bf4c8f, type: 2}

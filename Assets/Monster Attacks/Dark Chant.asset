@@ -13,16 +13,18 @@ MonoBehaviour:
   m_Name: Dark Chant
   m_EditorClassIdentifier: 
   monsterAttackName: Dark Chant
+  monsterAttackDescription: Initiate a dark chant, dealing damage and raising magical
+    attack by 25%.
   monsterAttackElement: 4
   monsterAttackType: 1
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 3c2948abf854c904fa95d79bdb0e7e1e, type: 3}
   monsterAttackDamage: 15
-  monsterAttackDescription: Initiate a dark chant, dealing damage and raising magical
-    attack.
+  monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 90
   monsterAttackCritChance: 10
   attackHasCooldown: 0
   attackOnCooldown: 0
-  attackCooldown: 0
-  monsterAttackSoundEffect: {fileID: 8300000, guid: 3c2948abf854c904fa95d79bdb0e7e1e, type: 3}
+  attackBaseCooldown: 0
+  attackCurrentCooldown: 0
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 0a2cfb615bdf23544981e82466763864, type: 2}

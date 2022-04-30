@@ -450,7 +450,9 @@ public class CombatManagerScript : MonoBehaviour
         CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
 
         monsterAttackManager.currentMonsterAttack = GetRandomMove();
-        CurrentTargetedMonster = GetRandomTarget();
+
+        AttackTypeTargeting();
+
         Monster targetedMonster = CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
 
         monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
@@ -543,10 +545,31 @@ public class CombatManagerScript : MonoBehaviour
         return randMove;
     }
 
-    // This function returns a random target from the list of ally monsters // GitHub edit
-    public GameObject GetRandomTarget()
+    // what type of attack was selected
+    public void AttackTypeTargeting()
     {
-        GameObject randTarget = ListOfEnemies[Random.Range(0, ListOfEnemies.Count)];
+        // What type of attack move was selected?
+        switch (monsterAttackManager.currentMonsterAttack.monsterAttackType)
+        {
+            // If self targeting move, return self
+            case (MonsterAttack.MonsterAttackType.SelfTarget):
+                CurrentTargetedMonster = CurrentMonsterTurn;
+                break;
+
+            case (MonsterAttack.MonsterAttackType.AllyTarget):
+                CurrentTargetedMonster = GetRandomTarget(ListOfAllys);
+                break;
+
+            default:
+                CurrentTargetedMonster = GetRandomTarget(ListOfEnemies);
+                break;
+        }
+    }
+
+    // This function returns a random target from the list of ally monsters // GitHub edit
+    public GameObject GetRandomTarget(List<GameObject> whoAmITargeting)
+    {
+        GameObject randTarget = whoAmITargeting[Random.Range(0, whoAmITargeting.Count)];
       
         if (randTarget.transform.position != randTarget.GetComponent<CreateMonster>().startingPosition.transform.position)
         {
@@ -563,7 +586,7 @@ public class CombatManagerScript : MonoBehaviour
             case true:
                 monsterTargeter.SetActive(true);
                 targeting = true;
-                CurrentTargetedMonster = GetRandomTarget(); // for autoBattle fixme properly
+                AttackTypeTargeting(); // for autoBattle fixme properly
                 monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
                 break;
 

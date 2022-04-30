@@ -10,10 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
-  m_Name: OnCriticalStrikeBuff
+  m_Name: Dark Chant Magic Attack Buff
   m_EditorClassIdentifier: 
-  typeOfEffect: 6
-  statEnumToChange: 2
+  typeOfEffect: 1
+  statEnumToChange: 3
   effectTime: 1
-  amountToChange: 40
+  temporaryModifier: 0
+  amountToChange: 25
   combatManagerScript: {fileID: 0}
+  ListOfModifiers:
+  - {fileID: 11400000, guid: c545fcc90096979498db50cf4e037b14, type: 2}

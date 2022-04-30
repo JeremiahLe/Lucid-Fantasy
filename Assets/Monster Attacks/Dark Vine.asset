@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Dark Vine
   m_EditorClassIdentifier: 
   monsterAttackName: Dark Vine
-  monsterAttackDescription: Hit the target with a vine of dark energy and drain some
-    HP.
+  monsterAttackDescription: Hit the target with a vine of dark energy and drain HP
+    equal to 40% of damage dealt.
   monsterAttackElement: 2
   monsterAttackType: 1
   monsterAttackSoundEffect: {fileID: 8300000, guid: 77da43f64d7d8504a990f84655ea12a5, type: 3}

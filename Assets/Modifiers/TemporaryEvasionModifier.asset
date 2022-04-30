@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
-  m_Name: OnCriticalStrikeBuff
+  m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
+  m_Name: TemporaryEvasionModifier
   m_EditorClassIdentifier: 
-  typeOfEffect: 6
-  statEnumToChange: 2
-  effectTime: 1
-  amountToChange: 40
-  combatManagerScript: {fileID: 0}
+  modifierDurationType: 0
+  statModified: 7
+  modifierDuration: 1
+  modifierCurrentDuration: 1
