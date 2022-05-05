@@ -9,6 +9,10 @@ Short-Term
 - Clean up scripts
 - Finish Attack Effect + Modifier rework
 - Finish Galeforce implementation
+
+[ 5/4/22 ]
+- Clean up scripts
+- AbilityClass(), multiplayer, or quickplay 
  
 Long-Term
  - Finish Room Creation and Setup
