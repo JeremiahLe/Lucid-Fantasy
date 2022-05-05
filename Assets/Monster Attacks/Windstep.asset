@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Windstep
   m_EditorClassIdentifier: 
   monsterAttackName: Windstep
-  monsterAttackDescription: Raise user's speed by 20%. Also slightly raise evasion
-    by 5% this round.
+  monsterAttackDescription: Raise user's speed by 20%. Also increase evasion by a
+    flat 50% this round.
   monsterAttackElement: 3
-  monsterAttackType: 4
+  monsterAttackType: 1
+  monsterAttackDamageType: 1
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 2
   monsterAttackSoundEffect: {fileID: 8300000, guid: cfdad33ec73454443952015ae32a27a0, type: 3}
   monsterAttackDamage: 0
   monsterAttackFlatDamageBonus: 0

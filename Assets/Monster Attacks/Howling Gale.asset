@@ -15,7 +15,10 @@ MonoBehaviour:
   monsterAttackName: Howling Gale
   monsterAttackDescription: Shoot a gust of wind at the opponent.
   monsterAttackElement: 3
-  monsterAttackType: 1
+  monsterAttackType: 0
+  monsterAttackDamageType: 1
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: cfdad33ec73454443952015ae32a27a0, type: 3}
   monsterAttackDamage: 30
   monsterAttackFlatDamageBonus: 0

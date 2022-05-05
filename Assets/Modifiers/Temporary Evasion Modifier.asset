@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
-  m_Name: TemporaryEvasionModifier
+  m_Name: Temporary Evasion Modifier
   m_EditorClassIdentifier: 
+  modifierSource: Windstep Evasion Buff
   modifierDurationType: 0
   statModified: 7
   modifierDuration: 1
   modifierCurrentDuration: 1
+  modifierAmount: 50

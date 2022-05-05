@@ -14,10 +14,24 @@ public class MonsterAttack : ScriptableObject
     [TextArea]
     public string monsterAttackDescription;
 
-    // Using Monster's Enums Title
+    // What element is the attack?
     public Monster.MonsterType monsterAttackElement;
-    public enum MonsterAttackType { Physical, Magical, True, Split, SelfTarget, AllyTarget };
+
+    // What type of attack is it? (Attack, Buff, other)
+    public enum MonsterAttackType { Attack, Buff, Other };
     public MonsterAttackType monsterAttackType;
+
+    // What type of damage does it deal?
+    public enum MonsterAttackDamageType { Physical, Magical, True, Split };
+    public MonsterAttackDamageType monsterAttackDamageType;
+
+    // How many targets does the attack have?
+    public enum MonsterAttackTargetCount { SingleTarget, MultiTarget, AllTargets, Everything };
+    public MonsterAttackTargetCount monsterAttackTargetCount;
+
+    // What should the attack be targeting, if any limits?
+    public enum MonsterAttackTargetType { EnemyTarget, AllyTarget, SelfTarget, Any }
+    public MonsterAttackTargetType monsterAttackTargetType;
 
     [AssetSelector(Paths = "Assets/Music/SoundEffects/MonsterAttacks")]
     public AudioClip monsterAttackSoundEffect;

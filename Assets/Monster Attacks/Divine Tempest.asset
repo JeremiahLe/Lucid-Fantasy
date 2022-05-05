@@ -16,7 +16,10 @@ MonoBehaviour:
   monsterAttackDescription: Conjure a beautiful storm, dealing damage. Raises speed
     of all allies by 20%. [1 round cooldown]
   monsterAttackElement: 3
-  monsterAttackType: 1
+  monsterAttackType: 0
+  monsterAttackDamageType: 1
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: 863a4aefa06f6354394638fe929c64fb, type: 3}
   monsterAttackDamage: 70
   monsterAttackFlatDamageBonus: 0

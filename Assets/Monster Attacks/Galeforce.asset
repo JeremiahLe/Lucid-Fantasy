@@ -14,16 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterAttackName: Galeforce
   monsterAttackDescription: "Blast the target with incredibly fast splitting winds.
-    Deals bonus damage \nbased on the user's total speed."
+    Deals 50% of the user's total speed \nas bonus damage."
   monsterAttackElement: 3
-  monsterAttackType: 3
+  monsterAttackType: 0
+  monsterAttackDamageType: 1
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: 863a4aefa06f6354394638fe929c64fb, type: 3}
-  monsterAttackDamage: 15
+  monsterAttackDamage: 12
   monsterAttackFlatDamageBonus: 0
-  monsterAttackAccuracy: 100
+  monsterAttackAccuracy: 85
   monsterAttackCritChance: 10
   attackHasCooldown: 0
   attackOnCooldown: 0
   attackBaseCooldown: 0
   attackCurrentCooldown: 0
-  ListOfAttackEffects: []
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: 68296c12f80ff194991aab38a6b1a4e9, type: 2}

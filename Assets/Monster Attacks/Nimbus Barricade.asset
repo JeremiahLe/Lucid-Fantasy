@@ -16,7 +16,10 @@ MonoBehaviour:
   monsterAttackDescription: Return 75% of damage taken this turn with a towering
     storm. [1 round cooldown]
   monsterAttackElement: 3
-  monsterAttackType: 3
+  monsterAttackType: 0
+  monsterAttackDamageType: 1
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: 30908e25bb2aa054dbb38b86e897a8ff, type: 3}
   monsterAttackDamage: 25
   monsterAttackFlatDamageBonus: 0

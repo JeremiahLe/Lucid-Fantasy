@@ -549,14 +549,14 @@ public class CombatManagerScript : MonoBehaviour
     public void AttackTypeTargeting()
     {
         // What type of attack move was selected?
-        switch (monsterAttackManager.currentMonsterAttack.monsterAttackType)
+        switch (monsterAttackManager.currentMonsterAttack.monsterAttackTargetType)
         {
             // If self targeting move, return self
-            case (MonsterAttack.MonsterAttackType.SelfTarget):
+            case (MonsterAttack.MonsterAttackTargetType.SelfTarget):
                 CurrentTargetedMonster = CurrentMonsterTurn;
                 break;
 
-            case (MonsterAttack.MonsterAttackType.AllyTarget):
+            case (MonsterAttack.MonsterAttackTargetType.AllyTarget):
                 CurrentTargetedMonster = GetRandomTarget(ListOfAllys);
                 break;
 

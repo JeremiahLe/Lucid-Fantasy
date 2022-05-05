@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
-  m_Name: GaleforceEffect
+  m_Name: Wild Blades Effect
   m_EditorClassIdentifier: 
-  typeOfEffect: 12
-  statEnumToChange: 6
-  effectTime: 0
+  typeOfEffect: 6
+  statEnumToChange: 2
+  effectTime: 1
   modifierCalledOnce: 0
-  amountToChange: 50
+  amountToChange: 40
   combatManagerScript: {fileID: 0}
-  ListOfModifiers: []
+  ListOfModifiers:
+  - {fileID: 11400000, guid: ea0981e850e299d48bd320e87a92c983, type: 2}

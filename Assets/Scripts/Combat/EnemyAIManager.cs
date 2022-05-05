@@ -45,14 +45,14 @@ public class EnemyAIManager : MonoBehaviour
                 currentEnemyMonsterAttack = GetRandomMove();
 
                 // What type of attack move was selected?
-                switch (currentEnemyMonsterAttack.monsterAttackType)
+                switch (currentEnemyMonsterAttack.monsterAttackTargetType)
                 {
                     // If self targeting move, return self
-                    case (MonsterAttack.MonsterAttackType.SelfTarget):
+                    case (MonsterAttack.MonsterAttackTargetType.SelfTarget):
                         currentEnemyTargetGameObject = combatManagerScript.CurrentMonsterTurn;
                         break;
 
-                    case (MonsterAttack.MonsterAttackType.AllyTarget):
+                    case (MonsterAttack.MonsterAttackTargetType.AllyTarget):
                         currentEnemyTargetGameObject = GetRandomTarget(combatManagerScript.ListOfEnemies);
                         break;
 

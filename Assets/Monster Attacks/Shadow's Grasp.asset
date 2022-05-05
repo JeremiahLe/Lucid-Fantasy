@@ -16,7 +16,10 @@ MonoBehaviour:
   monsterAttackDescription: Crush the target with a shadowy hand. Attack stat type
     varies based on user's highest offensive stat.
   monsterAttackElement: 4
-  monsterAttackType: 3
+  monsterAttackType: 0
+  monsterAttackDamageType: 3
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: 89f5721be4fad1649b74071704904251, type: 3}
   monsterAttackDamage: 50
   monsterAttackFlatDamageBonus: 0

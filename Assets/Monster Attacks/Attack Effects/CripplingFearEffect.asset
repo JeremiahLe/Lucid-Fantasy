@@ -17,3 +17,5 @@ MonoBehaviour:
   effectTime: 1
   amountToChange: 20
   combatManagerScript: {fileID: 0}
+  ListOfModifiers:
+  - {fileID: 11400000, guid: 3283ba40c8f610e45a7c510c336a3797, type: 2}

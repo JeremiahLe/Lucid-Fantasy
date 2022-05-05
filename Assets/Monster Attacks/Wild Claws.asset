@@ -17,6 +17,9 @@ MonoBehaviour:
     to critically strike.
   monsterAttackElement: 5
   monsterAttackType: 0
+  monsterAttackDamageType: 0
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: 36ed39ba7d9e47641b32ed1d328779c6, type: 3}
   monsterAttackDamage: 15
   monsterAttackFlatDamageBonus: 0

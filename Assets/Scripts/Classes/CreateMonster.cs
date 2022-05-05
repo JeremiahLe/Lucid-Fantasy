@@ -124,6 +124,15 @@ public class CreateMonster : MonoBehaviour
                     attack.attackCurrentCooldown = attack.attackBaseCooldown;
                 }
             }
+
+            // Check for resetting single called modifiers
+            foreach(AttackEffect attackEffect in attack.ListOfAttackEffects)
+            {
+                if (attackEffect.modifierCalledOnce)
+                {
+                    attackEffect.modifierCalledOnce = false;
+                }
+            }
         }
     }
 
@@ -156,6 +165,8 @@ public class CreateMonster : MonoBehaviour
     // This function modifies stats by modifier value
     public void ModifyStats(AttackEffect.StatEnumToChange statToModify, Modifier modifier)
     {
+        Debug.Log("Modify Stats got called!");
+
         switch (statToModify)
         {
             case (AttackEffect.StatEnumToChange.Evasion):
@@ -169,6 +180,10 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatEnumToChange.MagicAttack):
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
+                break;
+
+            case (AttackEffect.StatEnumToChange.PhysicalAttack):
+                monsterReference.physicalAttack += (int)modifier.modifierAmount;
                 break;
 
             default:

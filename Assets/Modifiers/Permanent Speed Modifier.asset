@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
-  m_Name: PermanentMagicAttackBuff
+  m_Name: Permanent Speed Modifier
   m_EditorClassIdentifier: 
-  modifierSource: 
+  modifierSource: Windstep Speed Buff
   modifierDurationType: 1
-  statModified: 3
+  statModified: 6
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 0
+  modifierAmount: 1
