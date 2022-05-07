@@ -10,7 +10,7 @@ public class AttackEffect : ScriptableObject
 {
     public enum TypeOfEffect { MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter,
         DoublePowerIfStatBoost, OnCriticalStrikeBuff, DamageAllEnemies, CripplingFearEffect, NonDamagingMove,
-        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat }
+        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats }
 
     public TypeOfEffect typeOfEffect;
 
@@ -22,7 +22,7 @@ public class AttackEffect : ScriptableObject
 
     public bool modifierCalledOnce = false;
 
-    [PropertyRange(0, 100)]
+    [PropertyRange(0, 400)]
     public float amountToChange;
 
     [DisplayWithoutEdit] public CombatManagerScript combatManagerScript;
@@ -106,15 +106,6 @@ public class AttackEffect : ScriptableObject
                 }
                 break;
 
-            /*case TypeOfEffect.DamageAllEnemies:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = monsterAttackManager.currentMonsterTurn; // should still be the monster who used the move, NOT the one next in Queue
-                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-                    DamageAllEnemies(targetMonster, monsterAttackManager, targetMonsterGameObject);
-                }
-                break;*/
-
             case TypeOfEffect.CripplingFearEffect:
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
@@ -139,6 +130,15 @@ public class AttackEffect : ScriptableObject
                     targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
                     targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                     EvasionBuffTarget(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                }
+                break;
+
+            case TypeOfEffect.IncreaseOffensiveStats:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                    IncreaseOffensiveStats(targetMonster, monsterAttackManager, targetMonsterGameObject);
                 }
                 break;
 
@@ -620,7 +620,7 @@ public class AttackEffect : ScriptableObject
         toValue *= -1;
 
         // Alt modifier call
-        Modifier mod = new Modifier();
+        Modifier mod = CreateInstance<Modifier>();
         mod.modifierSource = name;
         mod.modifierAmount = toValue;
         mod.statModified = StatEnumToChange.PhysicalAttack;
@@ -637,7 +637,7 @@ public class AttackEffect : ScriptableObject
         toValue *= -1;
 
         // Alt modifier call
-        Modifier mod2 = new Modifier();
+        Modifier mod2 = CreateInstance<Modifier>();
         mod2.modifierSource = name;
         mod2.modifierAmount = toValue;
         mod2.statModified = StatEnumToChange.MagicAttack;
@@ -645,7 +645,52 @@ public class AttackEffect : ScriptableObject
         monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod2.statModified, mod2);
 
         // Send speed buff message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} lowered its Physical and Magic Attack!");
+
+        // Update monster's stats
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+    }
+
+    // Increase Offensive Stats
+    public void IncreaseOffensiveStats(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
+    {
+        // Physical Attack buff
+        float fromValue = monsterReference.physicalAttack;
+        float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+        if (toValue <= 1)
+        {
+            toValue = 1; // prevent buffs of 0
+        }
+
+        // Alt modifier call
+        Modifier mod = CreateInstance<Modifier>();
+        mod.modifierSource = name;
+        mod.modifierAmount = toValue;
+        mod.statModified = StatEnumToChange.PhysicalAttack;
+        monsterReference.ListOfModifiers.Add(mod);
+        monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod.statModified, mod);
+
+        // Magic Attack buff
+        fromValue = monsterReference.magicAttack;
+        toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+        if (toValue <= 1)
+        {
+            toValue = 1; // prevent buffs of 0
+        }
+
+        // Alt modifier call
+        Modifier mod2 = CreateInstance<Modifier>();
+        mod2.modifierSource = name;
+        mod2.modifierAmount = toValue;
+        mod2.statModified = StatEnumToChange.MagicAttack;
+        monsterReference.ListOfModifiers.Add(mod2);
+        monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod2.statModified, mod2);
+
+        // Send speed buff message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} increased its Physical and Magic Attack!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
