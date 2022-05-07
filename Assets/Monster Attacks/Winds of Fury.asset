@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Winds of Fury
   m_EditorClassIdentifier: 
   monsterAttackName: Winds of Fury
-  monsterAttackDescription: Reduce the target's health to 15% of their max health.
-    Increase their speed by 400% and offensive stats by 35%.
+  monsterAttackDescription: "Reduce the target's health to 15% of their max health.
+    \nIncrease their speed by 400% and offensive stats by 100%."
   monsterAttackElement: 3
   monsterAttackType: 1
   monsterAttackDamageType: 1
@@ -29,4 +29,6 @@ MonoBehaviour:
   attackOnCooldown: 0
   attackBaseCooldown: 0
   attackCurrentCooldown: 0
-  ListOfAttackEffects: []
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: 3c470c88e93df6d40901317e746fe004, type: 2}
+  - {fileID: 11400000, guid: 7341cc70b236d544d8a8e4f490ba79e5, type: 2}

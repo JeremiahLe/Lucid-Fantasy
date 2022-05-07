@@ -216,6 +216,7 @@ public class MonsterAttackManager : MonoBehaviour
             soundEffectManager.BeginSoundEffectQueue();
             UpdateHUDElements();
 
+            combatManagerScript.CurrentMonsterTurnAnimator = combatManagerScript.CurrentTargetedMonster.GetComponent<Animator>();
             combatManagerScript.CurrentMonsterTurnAnimator.SetBool("buffAnimationPlaying", true);
 
             // Send log message
@@ -226,7 +227,7 @@ public class MonsterAttackManager : MonoBehaviour
             }
             else // targeting ssomething else
             {
-                CombatLog.SendMessageToCombatLog($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} used {currentMonsterAttack.monsterAttackName} " +
+                CombatLog.SendMessageToCombatLog($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} used {currentMonsterAttack.monsterAttackName} on " +
                     $"{currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
             }
 

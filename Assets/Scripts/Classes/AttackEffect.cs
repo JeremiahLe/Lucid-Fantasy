@@ -10,7 +10,7 @@ public class AttackEffect : ScriptableObject
 {
     public enum TypeOfEffect { MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter,
         DoublePowerIfStatBoost, OnCriticalStrikeBuff, DamageAllEnemies, CripplingFearEffect, NonDamagingMove,
-        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats }
+        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut }
 
     public TypeOfEffect typeOfEffect;
 
@@ -142,6 +142,15 @@ public class AttackEffect : ScriptableObject
                 }
                 break;
 
+            case TypeOfEffect.HealthCut:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                    HealthCut(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                }
+                break;
+
             default:
                 Debug.Log("Missing effect or attack reference?", this);
                 break;
@@ -260,6 +269,24 @@ public class AttackEffect : ScriptableObject
             // remove monster
             monsterAttackManager.currentTargetedMonster.health = 0;
         }
+    }
+
+    // Health Cut
+    public void HealthCut(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
+    {
+        // Is target's health 50% or less of maximum?
+        float currentHealth = monsterAttackManager.currentTargetedMonster.health;
+        float maxHealth = monsterAttackManager.currentTargetedMonster.maxHealth;
+
+        currentHealth = Mathf.RoundToInt((amountToChange / 100f) * maxHealth);
+
+        // Send execute message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+            $"health was lowered!");
+
+        // reduce health
+        monsterAttackManager.currentTargetedMonster.health = currentHealth;
     }
 
     // Damage All enemies
@@ -623,6 +650,7 @@ public class AttackEffect : ScriptableObject
         Modifier mod = CreateInstance<Modifier>();
         mod.modifierSource = name;
         mod.modifierAmount = toValue;
+        mod.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod.statModified = StatEnumToChange.PhysicalAttack;
         monsterReference.ListOfModifiers.Add(mod);
         monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod.statModified, mod);
@@ -640,6 +668,7 @@ public class AttackEffect : ScriptableObject
         Modifier mod2 = CreateInstance<Modifier>();
         mod2.modifierSource = name;
         mod2.modifierAmount = toValue;
+        mod2.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod2.statModified = StatEnumToChange.MagicAttack;
         monsterReference.ListOfModifiers.Add(mod2);
         monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod2.statModified, mod2);
@@ -668,6 +697,7 @@ public class AttackEffect : ScriptableObject
         Modifier mod = CreateInstance<Modifier>();
         mod.modifierSource = name;
         mod.modifierAmount = toValue;
+        mod.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod.statModified = StatEnumToChange.PhysicalAttack;
         monsterReference.ListOfModifiers.Add(mod);
         monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod.statModified, mod);
@@ -684,6 +714,7 @@ public class AttackEffect : ScriptableObject
         Modifier mod2 = CreateInstance<Modifier>();
         mod2.modifierSource = name;
         mod2.modifierAmount = toValue;
+        mod2.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod2.statModified = StatEnumToChange.MagicAttack;
         monsterReference.ListOfModifiers.Add(mod2);
         monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod2.statModified, mod2);
