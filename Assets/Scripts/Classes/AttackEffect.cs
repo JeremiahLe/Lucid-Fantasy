@@ -280,6 +280,16 @@ public class AttackEffect : ScriptableObject
 
         currentHealth = Mathf.RoundToInt((amountToChange / 100f) * maxHealth);
 
+        if (monsterAttackManager.currentTargetedMonster.health <= currentHealth)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"health couldn't go any lower!");
+
+            return;
+        }
+
         // Send execute message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +

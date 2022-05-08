@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Nimbus Barricade
   m_EditorClassIdentifier: 
   monsterAttackName: Nimbus Barricade
-  monsterAttackDescription: Return 75% of damage taken this turn with a towering
+  monsterAttackDescription: Return 125% of damage taken this turn with a towering
     storm. [1 round cooldown]
   monsterAttackElement: 3
   monsterAttackType: 0

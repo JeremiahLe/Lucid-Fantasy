@@ -15,5 +15,7 @@ MonoBehaviour:
   typeOfEffect: 4
   statEnumToChange: 0
   effectTime: 0
-  amountToChange: 75
+  modifierCalledOnce: 0
+  amountToChange: 125
   combatManagerScript: {fileID: 0}
+  ListOfModifiers: []

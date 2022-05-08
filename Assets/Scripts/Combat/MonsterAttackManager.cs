@@ -359,6 +359,7 @@ public class MonsterAttackManager : MonoBehaviour
             }
 
             // Invoke after
+            ClearCachedModifiers();
             combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
         }
     }
@@ -414,6 +415,7 @@ public class MonsterAttackManager : MonoBehaviour
         }
 
         // Out of loop, next turn
+        ClearCachedModifiers();
         combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
     }
 
@@ -599,6 +601,13 @@ public class MonsterAttackManager : MonoBehaviour
         return calculatedDamage;
     }
 
+    // This function serves to clear cached damage bonuses etc. to prevent unwanted buffs
+    public void ClearCachedModifiers()
+    {
+        bonusDamagePercent = 0;
+        cachedBonusDamagePercent = 0;
+        recievedDamagePercentBonus = false;
+    }
     // This function uses the current move to deal damage to the other targets (should be called initial hit)
     /*public void DealDamageOthers(GameObject otherSpecificTarget)
     {
