@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
   m_Name: Winds of Fury Health Cut
   m_EditorClassIdentifier: 
-  typeOfEffect: 0
+  typeOfEffect: 15
   statEnumToChange: 0
-  effectTime: 0
+  effectTime: 1
   modifierCalledOnce: 0
-  amountToChange: 0
+  amountToChange: 15
   combatManagerScript: {fileID: 0}
   ListOfModifiers: []

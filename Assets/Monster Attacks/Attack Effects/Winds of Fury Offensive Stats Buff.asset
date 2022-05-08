@@ -16,6 +16,6 @@ MonoBehaviour:
   statEnumToChange: 2
   effectTime: 1
   modifierCalledOnce: 0
-  amountToChange: 35
+  amountToChange: 100
   combatManagerScript: {fileID: 0}
   ListOfModifiers: []
