@@ -33,6 +33,7 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public float monsterPhysicalDefense;
     [DisplayWithoutEdit] public float monsterMagicDefense;
 
+    [DisplayWithoutEdit] public float monsterCritChance;
     [DisplayWithoutEdit] public float monsterEvasion;
 
     [Title("Combat Functions & Status")]
@@ -40,8 +41,12 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public bool monsterActionAvailable = true;
     [DisplayWithoutEdit] public bool monsterRecievedStatBoostThisRound = false;
     [DisplayWithoutEdit] public bool monsterCriticallyStrikedThisRound = false;
-    [DisplayWithoutEdit] public List<Modifier> ListOfModifiers;
 
+    [DisplayWithoutEdit] public bool monsterImmuneToDebuffs = false;
+    [DisplayWithoutEdit] public bool monsterImmuneToStatChanges = false;
+    [DisplayWithoutEdit] public bool monsterImmuneToDamage = false;
+
+    [DisplayWithoutEdit] public List<Modifier> ListOfModifiers;
 
     [Title("Components")]
     [Required] public GameObject combatManagerObject;
@@ -73,6 +78,7 @@ public class CreateMonster : MonoBehaviour
         monsterPhysicalDefense = monsterReference.physicalDefense;
         monsterMagicDefense = monsterReference.magicDefense;
 
+        monsterCritChance = monsterReference.critChance;
         monsterEvasion = monsterReference.evasion;
         monsterReference.speed = monsterSpeed; /*Random.Range(1, 10);*/
 
@@ -94,6 +100,7 @@ public class CreateMonster : MonoBehaviour
         monsterPhysicalDefense = monsterReference.physicalDefense;
         monsterMagicDefense = monsterReference.magicDefense;
 
+        monsterCritChance = monsterReference.critChance;
         monsterEvasion = monsterReference.evasion;
         monsterReference.speed = monsterSpeed;
 
@@ -148,13 +155,36 @@ public class CreateMonster : MonoBehaviour
     public void CheckModifiers()
     {
         foreach (Modifier modifier in monsterReference.ListOfModifiers.ToArray())
-        {
+        {   
+            // Check statuses
+            if (modifier.statusEffect)
+            {
+                switch (modifier.statusEffectType)
+                {
+                    case (Modifier.StatusEffectType.Poisoned):
+                        int poisonDamage = Mathf.RoundToInt(.10f * monsterReference.maxHealth);
+
+                        monsterAnimator.SetBool("hitAnimationPlaying", true);
+                        monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
+                        monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
+
+                        monsterReference.health -= poisonDamage;
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is poisoned and takes {poisonDamage} damage!");
+                        UpdateStats();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            // Check temps
             if (modifier.modifierDurationType == Modifier.ModifierDurationType.Temporary)
             {
                 modifier.modifierCurrentDuration -= 1;
                 if (modifier.modifierCurrentDuration == 0)
                 {
-                    modifier.ResetModifiedStat(monsterReference);
+                    modifier.ResetModifiedStat(monsterReference, gameObject);
                     UpdateStats();
                     monsterReference.ListOfModifiers.Remove(modifier);
                 }
@@ -181,9 +211,32 @@ public class CreateMonster : MonoBehaviour
             case (AttackEffect.StatEnumToChange.MagicAttack):
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
+            case (AttackEffect.StatEnumToChange.MagicDefense):
+                monsterReference.magicDefense += (int)modifier.modifierAmount;
+                break;
 
             case (AttackEffect.StatEnumToChange.PhysicalAttack):
                 monsterReference.physicalAttack += (int)modifier.modifierAmount;
+                break;
+
+            case (AttackEffect.StatEnumToChange.PhysicalDefense):
+                monsterReference.physicalDefense += (int)modifier.modifierAmount;
+                break;
+
+            case (AttackEffect.StatEnumToChange.CritChance):
+                monsterReference.critChance += (int)modifier.modifierAmount;
+                break;
+
+            case (AttackEffect.StatEnumToChange.Debuffs):
+                monsterImmuneToDebuffs = true;
+                break;
+
+            case (AttackEffect.StatEnumToChange.StatChanges):
+                monsterImmuneToStatChanges = true;
+                break;
+
+            case (AttackEffect.StatEnumToChange.Damage):
+                monsterImmuneToDamage = true;
                 break;
 
             default:

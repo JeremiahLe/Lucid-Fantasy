@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeOfEffect: 8
   statEnumToChange: 6
-  effectTime: 1
+  statChangeType: 1
+  effectTime: 2
+  modifierCalledOnce: 1
+  flatBuff: 0
+  modifierDuration: 0
   amountToChange: 20
   combatManagerScript: {fileID: 0}
   ListOfModifiers:

@@ -41,6 +41,7 @@ public class MonsterAttack : ScriptableObject
     [DisplayWithoutEdit] public float monsterAttackFlatDamageBonus;
     public float monsterAttackAccuracy;
     public float monsterAttackCritChance = 10f; // default crit chance
+    public bool monsterAttackNeverMiss = false;
 
     [Title("Monster Attack Other Data")]
     public bool attackHasCooldown;

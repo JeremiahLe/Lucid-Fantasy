@@ -45,6 +45,7 @@ public class Monster : ScriptableObject
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 100)] public float speed;
     [Range(0, 99)] public float evasion;
+    [Range(0, 100)] public float critChance;
 
     [Header("Monster Attack List")]
     public List<MonsterAttack> ListOfMonsterAttacks;

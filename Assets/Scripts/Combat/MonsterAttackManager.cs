@@ -277,7 +277,7 @@ public class MonsterAttackManager : MonoBehaviour
             {
                 if (effect.effectTime == AttackEffect.EffectTime.PostAttack)
                 {
-                    effect.TriggerEffects(this);
+                    effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
                 }
             }
         }
@@ -291,7 +291,7 @@ public class MonsterAttackManager : MonoBehaviour
         {
             if (effect.effectTime == AttackEffect.EffectTime.PreAttack)
             {
-                effect.TriggerEffects(this);
+                effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
             }
         }
     }
@@ -353,7 +353,7 @@ public class MonsterAttackManager : MonoBehaviour
                 {
                     if (effect.typeOfEffect == AttackEffect.TypeOfEffect.DamageAllEnemies)
                     {
-                        effect.TriggerEffects(this);
+                        effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
                     }
                 }
             }
@@ -453,6 +453,12 @@ public class MonsterAttackManager : MonoBehaviour
     // This function checks accuracy and evasion
     public bool CheckAttackHit(bool selfTargeting)
     {
+        // first check if never miss
+        if (currentMonsterAttack.monsterAttackNeverMiss)
+        {
+            return true;
+        }
+
         float hitChance = 0f;
 
         // don't use evasion as a stat when self-targeting
@@ -478,7 +484,7 @@ public class MonsterAttackManager : MonoBehaviour
     // This function checks crit chance
     public bool CheckAttackCrit()
     {
-        float critChance = currentMonsterAttack.monsterAttackCritChance / 100;
+        float critChance = (currentMonsterAttack.monsterAttackCritChance + combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.critChance) / 100;
         float randValue = Random.value;
 
         if (randValue < critChance)

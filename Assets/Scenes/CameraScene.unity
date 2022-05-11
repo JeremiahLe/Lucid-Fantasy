@@ -524,7 +524,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.0019340515, y: 228.84741}
+  m_AnchoredPosition: {x: -0.0020332336, y: 228.84723}
   m_SizeDelta: {x: -0.0024719238, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &93912620
@@ -1063,7 +1063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199976, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: aIType
@@ -4906,6 +4906,7 @@ MonoBehaviour:
   currentMonsterTurnGameObject: {fileID: 0}
   currentTargetedMonsterGameObject: {fileID: 0}
   currentTargetedMonster: {fileID: 0}
+  ListOfTargetedMonsters: []
   buttonManagerScript: {fileID: 0}
   combatManagerScript: {fileID: 0}
   HUDanimationManager: {fileID: 0}
@@ -4921,7 +4922,9 @@ MonoBehaviour:
   cachedTransform: {x: 0, y: 0, z: 0}
   cachedDamage: 0
   calculatedDamage: 0
-  matchingElementBoost: 0
+  bonusDamagePercent: 0
+  cachedBonusDamagePercent: 0
+  recievedDamagePercentBonus: 0
   dontDealDamage: 0
   CritSound: {fileID: 8300000, guid: 68049c95379dcb84fb188fdedd8c569a, type: 3}
   HitSound: {fileID: 8300000, guid: 762b582ee4ca74a458d76f52b4a557ef, type: 3}

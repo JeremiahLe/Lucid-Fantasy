@@ -8,19 +8,28 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "New Monster Attack Effect", menuName = "Monster Attack Effects")]
 public class AttackEffect : ScriptableObject
 {
+    [Title("Effect Initialization Enumerators")]
     public enum TypeOfEffect { MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter,
         DoublePowerIfStatBoost, OnCriticalStrikeBuff, DamageAllEnemies, CripplingFearEffect, NonDamagingMove,
-        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut }
+        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity }
 
     public TypeOfEffect typeOfEffect;
 
-    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance }
+    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage }
     public StatEnumToChange statEnumToChange;
 
-    public enum EffectTime { PreAttack, PostAttack }
+    public enum StatChangeType { Buff, Debuff, None }
+    public StatChangeType statChangeType;
+
+    public enum EffectTime { PreAttack, DuringAttack, PostAttack }
     public EffectTime effectTime;
 
+    [Title("Modifier Adjustments")]
     public bool modifierCalledOnce = false;
+    public bool flatBuff = false;
+
+    [PropertyRange(0, 10)]
+    public int modifierDuration;
 
     [PropertyRange(0, 400)]
     public float amountToChange;
@@ -30,7 +39,7 @@ public class AttackEffect : ScriptableObject
     public List<Modifier> ListOfModifiers;
 
     // Initial function that is called by monsterAttackManager that enacts attack after effects
-    public void TriggerEffects(MonsterAttackManager monsterAttackManager)
+    public void TriggerEffects(MonsterAttackManager monsterAttackManager, string effectTrigger)
     {
         switch (typeOfEffect)
         {
@@ -151,6 +160,33 @@ public class AttackEffect : ScriptableObject
                 }
                 break;
 
+            case TypeOfEffect.BuffTarget:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                    BuffTargetStat(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                }
+                break;
+
+            case TypeOfEffect.DebuffTarget:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                    DebuffTargetStat(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                }
+                break;
+
+            case TypeOfEffect.GrantImmunity:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                    GrantTargetImmunity(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                }
+                break;
+
             default:
                 Debug.Log("Missing effect or attack reference?", this);
                 break;
@@ -194,6 +230,12 @@ public class AttackEffect : ScriptableObject
             toValue = 1; // prevent buffs of 0
         }
 
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
+
         // Add modifiers
         AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject);
 
@@ -216,6 +258,11 @@ public class AttackEffect : ScriptableObject
         {
             toValue = 1; // prevent buffs of 0
         }
+
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+            return;
+
 
         // Add modifiers
         AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject);
@@ -240,6 +287,11 @@ public class AttackEffect : ScriptableObject
         {
             toValue = 1; // prevent buffs of 0
         }
+
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+            return;
+
 
         // Add modifiers
         AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject);
@@ -279,6 +331,12 @@ public class AttackEffect : ScriptableObject
         float maxHealth = monsterAttackManager.currentTargetedMonster.maxHealth;
 
         currentHealth = Mathf.RoundToInt((amountToChange / 100f) * maxHealth);
+
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
 
         if (monsterAttackManager.currentTargetedMonster.health <= currentHealth)
         {
@@ -387,6 +445,12 @@ public class AttackEffect : ScriptableObject
                         toValue = 1; // prevent buffs of 0
                     }
 
+                    // Check if immune to skip modifiers
+                    if (CheckImmunities(monster, monsterAttackManager, monsterObj))
+                    {
+                        return;
+                    }
+
                     // Add modifiers
                     AddModifiers(toValue, false, monster, monsterObj);
 
@@ -417,6 +481,12 @@ public class AttackEffect : ScriptableObject
                     if (toValue <= 1)
                     {
                         toValue = 1; // prevent buffs of 0
+                    }
+
+                    // Check if immune to skip modifiers
+                    if (CheckImmunities(monster, monsterAttackManager, monsterObj))
+                    {
+                        return;
                     }
 
                     // Add modifiers
@@ -470,6 +540,12 @@ public class AttackEffect : ScriptableObject
                         toValue = 1; // prevent buffs of 0
                     }
 
+                    // Check if immune to skip modifiers
+                    if (CheckImmunities(monster, monsterAttackManager, monsterObj))
+                    {
+                        return;
+                    }
+
                     // Add modifiers
                     AddModifiers(toValue, true, monster, monsterObj);
 
@@ -500,6 +576,12 @@ public class AttackEffect : ScriptableObject
                     if (toValue <= 1)
                     {
                         toValue = 1; // prevent buffs of 0
+                    }
+
+                    // Check if immune to skip modifiers
+                    if (CheckImmunities(monster, monsterAttackManager, monsterObj))
+                    {
+                        return;
                     }
 
                     // Add modifiers
@@ -575,6 +657,24 @@ public class AttackEffect : ScriptableObject
             case (StatEnumToChange.Speed):
                 return monsterAttackManager.currentMonsterTurn.speed;
 
+            case (StatEnumToChange.PhysicalAttack):
+                return monsterAttackManager.currentMonsterTurn.physicalAttack;
+
+            case (StatEnumToChange.PhysicalDefense):
+                return monsterAttackManager.currentMonsterTurn.physicalDefense;
+
+            case (StatEnumToChange.MagicAttack):
+                return monsterAttackManager.currentMonsterTurn.magicAttack;
+
+            case (StatEnumToChange.MagicDefense):
+                return monsterAttackManager.currentMonsterTurn.magicDefense;
+
+            case (StatEnumToChange.Evasion):
+                return monsterAttackManager.currentMonsterTurn.evasion;
+
+            case (StatEnumToChange.CritChance):
+                return monsterAttackManager.currentMonsterTurn.critChance;
+
             default:
                 Debug.Log("Missing stat or monster reference?", this);
                 return 0;
@@ -599,6 +699,12 @@ public class AttackEffect : ScriptableObject
                         toValue = 1; // prevent buffs of 0
                     }
 
+                    // Check if immune to skip modifiers
+                    if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+                    {
+                        return;
+                    }
+
                     // Add modifiers
                     AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject);
 
@@ -620,6 +726,12 @@ public class AttackEffect : ScriptableObject
                     if (toValue <= 1)
                     {
                         toValue = 1; // prevent buffs of 0
+                    }
+
+                    // Check if immune to skip modifiers
+                    if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+                    {
+                        return;
                     }
 
                     // Add modifiers
@@ -738,6 +850,196 @@ public class AttackEffect : ScriptableObject
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
     }
 
+    // Delegate Buff Function Test
+    public void BuffTargetStat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
+    {
+        // Calculate buff
+        float fromValue = GetBonusDamageSource(statEnumToChange, monsterAttackManager);
+        float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+        if (toValue <= 1)
+        {
+            toValue = 1; // prevent buffs of 0
+        }
+
+        if (flatBuff)
+        {
+            toValue = amountToChange;
+        }
+
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
+
+        // Add modifiers
+        AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+
+        // Send speed buff message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!");
+
+        // Update monster's stats
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+
+        // Update combat order if speed was adjusted
+        if (statEnumToChange == StatEnumToChange.Speed)
+        {
+            combatManagerScript.SortMonsterBattleSequence();
+        }
+    }
+
+    // Delegate Debuff Function Test
+    public void DebuffTargetStat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
+    {
+        // Calculate debuff
+        float fromValue = GetBonusDamageSource(statEnumToChange, monsterAttackManager);
+        float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+        if (toValue <= 1)
+        {
+            toValue = 1; // prevent buffs of 0
+        }
+
+        if (flatBuff)
+        {
+            toValue = amountToChange;
+        }
+
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
+
+        // Add modifiers
+        AddModifiers(toValue, true, monsterReference, monsterReferenceGameObject, modifierDuration);
+
+        // Send speed buff message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was decreased by {effectTriggerName}!");
+
+        // Update monster's stats
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+
+        // Update combat order if speed was adjusted
+        if (statEnumToChange == StatEnumToChange.Speed)
+        {
+            combatManagerScript.SortMonsterBattleSequence();
+        }
+    }
+
+    // Delegate Buff Function Test
+    public void GrantTargetImmunity(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
+    {
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
+
+        float toValue = 0;
+        
+        // First check if already immune
+        switch (statEnumToChange)
+        {
+            case (StatEnumToChange.Debuffs):
+                if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs)
+                {
+                    // Send message to combat log
+                    combatManagerScript = monsterAttackManager.combatManagerScript;
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already immune to status effects and debuffs!");
+                    return;
+                }
+                break;
+
+            case (StatEnumToChange.StatChanges):
+                if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges)
+                {
+                    // Send message to combat log
+                    combatManagerScript = monsterAttackManager.combatManagerScript;
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already immune to stat changes!");
+                    return;
+                }
+                break;
+
+            case (StatEnumToChange.Damage):
+                if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage)
+                {
+                    // Send message to combat log
+                    combatManagerScript = monsterAttackManager.combatManagerScript;
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already immune to damage!");
+                    return;
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        // Create Modifier
+        CreateModifier(monsterReference, monsterAttackManager, monsterReferenceGameObject, 0, modifierDuration, false);
+
+        // Add modifiers
+        AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+
+        // Send message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} gained immunity to status effects and debuffs!");
+
+        // Update monster's stats
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+
+        // Update combat order if speed was adjusted
+        if (statEnumToChange == StatEnumToChange.Speed)
+        {
+            combatManagerScript.SortMonsterBattleSequence();
+        }
+    }
+
+    // Check Immunities
+    public bool CheckImmunities(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
+    {
+        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs || monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges)
+        {
+            if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs && statChangeType == StatChangeType.Debuff)
+            {
+                // Send immune message to combat log
+                combatManagerScript = monsterAttackManager.combatManagerScript;
+                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to status effects and debuffs!");
+                return true;
+            }
+            else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges && statChangeType != StatChangeType.None) {
+                // Send immune message to combat log
+                combatManagerScript = monsterAttackManager.combatManagerScript;
+                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to stat changes! Its {statEnumToChange} cannot be effected!");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Delegate Create Modifier test
+    public void CreateModifier(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, float toValue, int modifierDuration, bool statusEffect)
+    {
+        Modifier mod = CreateInstance<Modifier>();
+        mod.modifierSource = name;
+        mod.modifierAmount = toValue;
+        mod.modifierDuration = modifierDuration;
+        mod.modifierCurrentDuration = modifierDuration;
+        if (modifierDuration > 0)
+        {
+            mod.modifierDurationType = Modifier.ModifierDurationType.Temporary;
+        }
+        mod.statModified = statEnumToChange;
+        mod.statusEffect = statusEffect;
+        monsterReference.ListOfModifiers.Add(mod);
+        monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod.statModified, mod);
+    }
+
     // Add modifiers
     public void AddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj)
     {
@@ -753,6 +1055,32 @@ public class AttackEffect : ScriptableObject
             Modifier mod = Instantiate(modifier);
             mod.modifierSource = name;
             mod.modifierAmount = toValue;
+            monster.ListOfModifiers.Add(mod);
+            monsterObj.GetComponent<CreateMonster>().ModifyStats(statEnumToChange, mod);
+        }
+    }
+
+    // Add modifiers duration override
+    public void AddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj, int duration)
+    {
+        // First check if not buff
+        if (statDecrease)
+        {
+            toValue *= -1;
+        }
+
+        // Apply modifiers
+        foreach (Modifier modifier in ListOfModifiers)
+        {
+            Modifier mod = Instantiate(modifier);
+            mod.modifierSource = name;
+            mod.modifierAmount = toValue;
+            mod.modifierDuration = duration;
+            mod.modifierCurrentDuration = duration;
+            if (duration > 0)
+            {
+                mod.modifierDurationType = Modifier.ModifierDurationType.Temporary;
+            }
             monster.ListOfModifiers.Add(mod);
             monsterObj.GetComponent<CreateMonster>().ModifyStats(statEnumToChange, mod);
         }

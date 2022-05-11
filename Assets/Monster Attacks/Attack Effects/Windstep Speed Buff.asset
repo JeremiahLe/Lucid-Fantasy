@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
   m_Name: Windstep Speed Buff
   m_EditorClassIdentifier: 
-  typeOfEffect: 10
+  typeOfEffect: 16
   statEnumToChange: 6
-  effectTime: 1
-  temporaryModifier: 0
+  statChangeType: 0
+  effectTime: 2
+  modifierCalledOnce: 0
+  flatBuff: 0
+  modifierDuration: 0
   amountToChange: 20
   combatManagerScript: {fileID: 0}
   ListOfModifiers:

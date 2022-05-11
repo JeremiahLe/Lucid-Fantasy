@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
   m_Name: Windstep Evasion Buff
   m_EditorClassIdentifier: 
-  typeOfEffect: 11
+  typeOfEffect: 16
   statEnumToChange: 7
-  effectTime: 1
-  temporaryModifier: 1
+  statChangeType: 0
+  effectTime: 2
+  modifierCalledOnce: 0
+  flatBuff: 1
+  modifierDuration: 1
   amountToChange: 50
   combatManagerScript: {fileID: 0}
   ListOfModifiers:

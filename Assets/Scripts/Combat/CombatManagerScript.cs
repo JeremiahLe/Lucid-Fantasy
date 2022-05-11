@@ -714,8 +714,8 @@ public class CombatManagerScript : MonoBehaviour
             CombatLog.SendMessageToCombatLog($"-- Round {currentRound} -- ");
             SortMonsterBattleSequence(); // non battle start version
 
-            // check if any cooldowns need to be updated
-            foreach (GameObject monster in BattleSequence)
+            // check if any cooldowns need to be updated // toArray fixes on round start poison death
+            foreach (GameObject monster in BattleSequence.ToArray())
             {
                 monster.GetComponent<CreateMonster>().OnRoundStart();
             }
