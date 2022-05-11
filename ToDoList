@@ -13,7 +13,12 @@ Short-Term
 [ 5/4/22 ]
 - Clean up scripts
 - AbilityClass(), multiplayer, or quickplay 
- 
+
+[ 5/10/22 ]
+ - Finish rework of modifiers and attack effects
+- Clean up scripts (attack effect, combat manager)
+- Implement damage immunity
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
