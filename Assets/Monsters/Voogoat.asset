@@ -19,16 +19,17 @@ MonoBehaviour:
   aiLevel: 0
   level: 6
   health: 100
-  maxHealth: 30
+  maxHealth: 100
   physicalAttack: 2
   magicAttack: 5
   physicalDefense: 5
   magicDefense: 1
   speed: 1
   evasion: 9
+  critChance: 0
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: 1269aaf784782ee4f81b62eaddab4ccc, type: 2}
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
   - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
-  - {fileID: 11400000, guid: 7dd8ef701b149f2438862dd21e4346bb, type: 2}
+  - {fileID: 11400000, guid: f2727f88e849c3840ae05a8ce85d9108, type: 2}
   ListOfModifiers: []

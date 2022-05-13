@@ -15,6 +15,8 @@ public class SceneButtonManager : MonoBehaviour
     public GameObject MainMenu;
     public GameObject CreateRoomMenu;
     public GameObject QuickplaySettingsMenu;
+    public GameObject MultiplayerMenu;
+    public GameObject TeamBuilderMenu;
 
     [Header("Scene Buttons")]
     public Button QuickplayButton;
@@ -45,16 +47,16 @@ public class SceneButtonManager : MonoBehaviour
         launcherScript.ConnectToMasterServer();
         connectingText.text = "Connecting to Server...";
 
-        QuickplayButton.gameObject.SetActive(false);
-        MultiplayerButton.gameObject.SetActive(false);
-        QuitButton.gameObject.SetActive(false);
+        MainMenu.SetActive(false);
     }
 
     // This function is called when create match button is clicked - TODO - Create room function
     public void CreateMatchClicked()
     {
-        MainMenu.SetActive(false);
         CreateRoomMenu.SetActive(true);
+
+        MainMenu.SetActive(false);
+        MultiplayerMenu.SetActive(false);
     }
 
     // This function is called when create match button is clicked - TODO - Create room function
@@ -64,20 +66,25 @@ public class SceneButtonManager : MonoBehaviour
         QuickplaySettingsMenu.SetActive(true);
     }
 
+    // This function is called when team builder button is clicked
+    public void TeamBuilderClicked()
+    {
+        MainMenu.SetActive(false);
+        TeamBuilderMenu.SetActive(true);
+    }
+
     // This function is called after the client successfully connects to the server
     public void Connected()
     {
         connectingText.text = "";
 
-        CreateMatchButton.gameObject.SetActive(true);
-        FindMatchButton.gameObject.SetActive(true);
-        BackButton.gameObject.SetActive(true);
+        MultiplayerMenu.SetActive(true);
     }
 
     // This function is called when return to Multiplayer button is clicked
     public void ReturnToMultiplayerMenu()
     {
-        MainMenu.SetActive(true);
+        MultiplayerMenu.SetActive(true);
         CreateRoomMenu.SetActive(false);
     }
 
@@ -86,20 +93,18 @@ public class SceneButtonManager : MonoBehaviour
     {
         PhotonNetwork.Disconnect();
 
-        CreateMatchButton.gameObject.SetActive(false);
-        FindMatchButton.gameObject.SetActive(false);
-        BackButton.gameObject.SetActive(false);
+        MainMenu.SetActive(true);
 
-        QuickplayButton.gameObject.SetActive(true);
-        MultiplayerButton.gameObject.SetActive(true);
-        QuitButton.gameObject.SetActive(true);
+        MultiplayerMenu.SetActive(false);
     }
 
     // This override function is called when the Back button is clicked
     public void BackButtonClickedNotOnline(string Override)
     {
-        QuickplaySettingsMenu.SetActive(false);
         MainMenu.SetActive(true);
+
+        QuickplaySettingsMenu.SetActive(false);
+        TeamBuilderMenu.SetActive(false);
     }
 
     // This function quits the game when called

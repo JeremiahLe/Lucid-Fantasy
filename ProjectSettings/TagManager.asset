@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Monster
   - Bullet
+  - GameManager
   layers:
   - Default
   - TransparentFX
