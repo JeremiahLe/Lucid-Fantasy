@@ -19,6 +19,12 @@ Short-Term
 - Clean up scripts (attack effect, combat manager)
 - Implement damage immunity
 
+[ 5/12/22 ]
+- Implement searching and adding monsters to team
+- implement adjusting monster moves, stats, and nickname
+- implement I/O team importing/exporting
+- implement team builder usability into quickplay
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
