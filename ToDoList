@@ -25,6 +25,9 @@ Short-Term
 - implement I/O team importing/exporting
 - implement team builder usability into quickplay
 
+[ 5/13/22 ]
+- Adjust and grab base stats, abilities, and attacks
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
