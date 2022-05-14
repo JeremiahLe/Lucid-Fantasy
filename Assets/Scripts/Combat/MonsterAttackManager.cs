@@ -576,9 +576,13 @@ public class MonsterAttackManager : MonoBehaviour
         calculatedDamage += monsterAttack.monsterAttackFlatDamageBonus;
 
         // Check if attack element matches monster's element. If so, + flat bonus damage by 25% of calculated damage
-        if (monsterAttack.monsterAttackElement == currentMonster.monsterType)
+        if (monsterAttack.monsterAttackElement == currentMonster.monsterElement)
         {
             calculatedDamage += Mathf.RoundToInt(calculatedDamage * .25f);
+        }
+        else if (monsterAttack.monsterAttackElement == currentMonster.monsterSubElement)
+        {
+            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .15f);
         }
 
         // Now check for critical hit

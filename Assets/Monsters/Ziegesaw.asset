@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Ziegesaw
   baseSprite: {fileID: 21300000, guid: e00095bcb3786454d99197ea4e9c5e5b, type: 3}
-  monsterType: 4
+  monsterElement: 4
+  monsterSubElement: 6
   aiType: 0
   aiLevel: 0
   level: 50

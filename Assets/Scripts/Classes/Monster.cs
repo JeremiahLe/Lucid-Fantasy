@@ -14,8 +14,9 @@ public class Monster : ScriptableObject
     public Sprite baseSprite;
 
     [Title("Setup")]
-    public enum MonsterType { Fire, Ice, Earth, Wind, Shadow, Neutral };
-    public MonsterType monsterType;
+    public enum MonsterElement { Fire, Ice, Earth, Wind, Shadow, Neutral, None };
+    public MonsterElement monsterElement;
+    public MonsterElement monsterSubElement;
 
     public enum AIType { Ally, Enemy };
     public AIType aiType;
@@ -52,4 +53,7 @@ public class Monster : ScriptableObject
 
     [Header("Monster Modifier List")]
     public List<Modifier> ListOfModifiers;
+
+    [Header("Monster Available Attack List")]
+    public List<MonsterAttack> ListOfMonsterAttacksAvailable;
 }

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Voogoat
   baseSprite: {fileID: 21300000, guid: d8bb3cb4522dcab438476fa380de63da, type: 3}
-  monsterType: 4
+  monsterElement: 4
+  monsterSubElement: 6
   aiType: 0
   aiLevel: 0
   level: 6

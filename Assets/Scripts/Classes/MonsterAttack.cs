@@ -15,7 +15,7 @@ public class MonsterAttack : ScriptableObject
     public string monsterAttackDescription;
 
     // What element is the attack?
-    public Monster.MonsterType monsterAttackElement;
+    public Monster.MonsterElement monsterAttackElement;
 
     // What type of attack is it? (Attack, Buff, other)
     public enum MonsterAttackType { Attack, Buff, Other };

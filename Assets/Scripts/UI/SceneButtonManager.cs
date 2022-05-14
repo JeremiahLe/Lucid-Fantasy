@@ -86,6 +86,7 @@ public class SceneButtonManager : MonoBehaviour
     {
         MultiplayerMenu.SetActive(true);
         CreateRoomMenu.SetActive(false);
+        TeamBuilderMenu.SetActive(false);
     }
 
     // This function is called when the Back button is clicked

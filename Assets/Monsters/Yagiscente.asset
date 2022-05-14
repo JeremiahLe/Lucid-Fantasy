@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Yagiscente
   baseSprite: {fileID: 21300000, guid: 0ecc6650b62f3524694e91de94ca81e0, type: 3}
-  monsterType: 4
+  monsterElement: 4
+  monsterSubElement: 6
   aiType: 0
   aiLevel: 0
   level: 50
@@ -26,8 +27,10 @@ MonoBehaviour:
   magicDefense: 50
   speed: 1
   evasion: 10
+  critChance: 0
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: f7e3ed342b10ba848b6de742bb92c023, type: 2}
   - {fileID: 11400000, guid: 7dd8ef701b149f2438862dd21e4346bb, type: 2}
   - {fileID: 11400000, guid: 1269aaf784782ee4f81b62eaddab4ccc, type: 2}
   - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
+  ListOfModifiers: []
