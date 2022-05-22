@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 using TMPro;
 
 public class MonsterAttackManager : MonoBehaviour
 {
+    [Title("Current Components")]
     public MonsterAttack currentMonsterAttack;
     public Monster currentMonsterTurn;
     public GameObject currentMonsterTurnGameObject;
@@ -14,14 +16,16 @@ public class MonsterAttackManager : MonoBehaviour
     public Monster currentTargetedMonster;
     public List<GameObject> ListOfTargetedMonsters;
 
-    public ButtonManagerScript buttonManagerScript;
-    public CombatManagerScript combatManagerScript;
-    public HUDAnimationManager HUDanimationManager;
-    public EnemyAIManager enemyAIManager;
-    public UIManager uiManager;
-    public MessageManager CombatLog;
-    public SoundEffectManager soundEffectManager;
+    [Title("Required Components")]
+    [Required] public ButtonManagerScript buttonManagerScript;
+    [Required] public CombatManagerScript combatManagerScript;
+    [Required] public HUDAnimationManager HUDanimationManager;
+    [Required] public EnemyAIManager enemyAIManager;
+    [Required] public UIManager uiManager;
+    [Required] public MessageManager CombatLog;
+    [Required] public SoundEffectManager soundEffectManager;
 
+    [Title("UI Elements")]
     public TextMeshProUGUI currentMonsterAttackDescription;
     public Image TextBackImage;
     public Image TextBackImageBorder; // temporary
@@ -29,6 +33,11 @@ public class MonsterAttackManager : MonoBehaviour
     public GameObject monsterAttackMissText;
     public GameObject monsterCritText;
 
+    public Sprite poisonedUISprite;
+    public Sprite noUISprite;
+    public Sprite burningUISprite;
+
+    [Title("Combat Variables")]
     public Vector3 cachedTransform;
     public float cachedDamage;
 
@@ -39,9 +48,10 @@ public class MonsterAttackManager : MonoBehaviour
 
     public bool dontDealDamage = false;
 
+    [Title("Combat Audio Elements")]
     public AudioClip CritSound;
     public AudioClip HitSound;
-    public AudioClip MissSound; 
+    public AudioClip MissSound;
 
     // Start is called before the first frame update
     void Start()

@@ -14,20 +14,31 @@ public class Modifier : ScriptableObject
 
     public AttackEffect.StatEnumToChange statModified;
 
-    [DisplayWithoutEdit] public int modifierDuration;
-    [DisplayWithoutEdit] public int modifierCurrentDuration;
+    public int modifierDuration;
+    public int modifierCurrentDuration;
 
-    [DisplayWithoutEdit] public float modifierAmount;
+    public float modifierAmount;
 
     public bool statusEffect = false;
-    public enum StatusEffectType { None, Poisoned, Stunned, Dazed, Crippled, Weakened }
+    public enum StatusEffectType { None, Poisoned, Stunned, Dazed, Crippled, Weakened, Burning }
     public StatusEffectType statusEffectType;
+
+    [Header("Adventure Variables")]
+    public string modifierName;
+    public string modifierDescription;
+    public Sprite baseSprite;
 
     // This function resets the modified stat that was created 
     public void ResetModifiedStat(Monster monsterReference, GameObject monsterReferenceGameObject)
     {
         // reset duration
         modifierCurrentDuration = modifierDuration;
+
+        if (statusEffect)
+        {
+            monsterReferenceGameObject.GetComponent<CreateMonster>().statusEffectUISprite.sprite = monsterReferenceGameObject.GetComponent<CreateMonster>().monsterAttackManager.noUISprite;
+            monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} {statusEffectType.ToString()} status was cleared!");
+        }
        
         switch (statModified)
         {

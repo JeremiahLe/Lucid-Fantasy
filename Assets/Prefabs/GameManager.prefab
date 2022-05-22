@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3603385240357516424}
   - component: {fileID: 3603385240357516427}
   - component: {fileID: 3603385240357516426}
+  - component: {fileID: 1827473419063040709}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -144,11 +145,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launcherScript: {fileID: 0}
   connectingText: {fileID: 0}
+  SceneTransitions: {fileID: 0}
   MainMenu: {fileID: 0}
   CreateRoomMenu: {fileID: 0}
   QuickplaySettingsMenu: {fileID: 0}
   MultiplayerMenu: {fileID: 0}
   TeamBuilderMenu: {fileID: 0}
+  SingleplayerMenu: {fileID: 0}
   QuickplayButton: {fileID: 0}
   MultiplayerButton: {fileID: 0}
   BackButton: {fileID: 0}
@@ -180,8 +183,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTeams: 12
+  currentSelectedTeam:
+    teamName: 
+    teamDate: 
+    teamNameObject: {fileID: 0}
+    teamButtonIcon: {fileID: 0}
+    teamButtonScript: {fileID: 0}
+    teamListOfMonsters: []
   TeamListLog: {fileID: 0}
   TeamButtonObject: {fileID: 5040782623180309060, guid: 74378fa26f831304cac8c1569bd4a097, type: 3}
-  TeamMaxAlertText: {fileID: 0}
   TeamViewerObject: {fileID: 0}
+  TeamMaxAlertText: {fileID: 0}
+  teamNameInput: {fileID: 0}
   teamList: []
+--- !u!114 &1827473419063040709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3603385240357516431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd4322b95cde9654d83ccf4a6502a8ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSelectedAdventure: {fileID: 0}
+  ConfirmAdventureButton: {fileID: 0}

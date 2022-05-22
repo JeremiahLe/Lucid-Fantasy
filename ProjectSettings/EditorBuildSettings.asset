@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/QuickplayHard.unity
     guid: e374eddac08f33a43b456b932576f6a2
+  - enabled: 1
+    path: Assets/Scenes/AdventureBeginScene.unity
+    guid: e9e5d247305953545a7eaaa34d097990
+  - enabled: 1
+    path: Assets/Scenes/BasicAdventureScene.unity
+    guid: cf90873ff6115d94a97d72f88b730bc7
   m_configObjects: {}

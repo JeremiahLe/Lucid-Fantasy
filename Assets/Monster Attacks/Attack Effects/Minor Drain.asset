@@ -20,5 +20,6 @@ MonoBehaviour:
   flatBuff: 0
   modifierDuration: 0
   amountToChange: 40
+  effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
   ListOfModifiers: []

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Sirenix.OdinInspector;
+using UnityEngine.UI;
 
 public class CreateMonster : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private SpriteRenderer sr;
+
+    [SerializeField] public Image statusEffectUISprite;
 
     [Title("Monster AI and Scene Setup")]
     [SerializeField] private Monster.AIType aiType;
@@ -85,6 +88,18 @@ public class CreateMonster : MonoBehaviour
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
         healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
         sr.sprite = monster.baseSprite;
+
+        // if adventure mode, check adventure modifiers
+        if (combatManagerScript.adventureMode)
+        {
+            CheckAdventureModifiers();
+        }
+    }
+
+    //
+    public void CheckAdventureModifiers()
+    {
+
     }
 
     // This function should be called when stats get updated
@@ -162,7 +177,8 @@ public class CreateMonster : MonoBehaviour
                 switch (modifier.statusEffectType)
                 {
                     case (Modifier.StatusEffectType.Poisoned):
-                        int poisonDamage = Mathf.RoundToInt(.10f * monsterReference.maxHealth);
+                        statusEffectUISprite.sprite = monsterAttackManager.poisonedUISprite;
+                        int poisonDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.maxHealth);
 
                         monsterAnimator.SetBool("hitAnimationPlaying", true);
                         monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
@@ -170,6 +186,19 @@ public class CreateMonster : MonoBehaviour
 
                         monsterReference.health -= poisonDamage;
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is poisoned and takes {poisonDamage} damage!");
+                        UpdateStats();
+                        break;
+
+                    case (Modifier.StatusEffectType.Burning):
+                        statusEffectUISprite.sprite = monsterAttackManager.burningUISprite;
+                        int burningDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.health);
+
+                        monsterAnimator.SetBool("hitAnimationPlaying", true);
+                        monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
+                        monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
+
+                        monsterReference.health -= burningDamage;
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is burning and takes {burningDamage} damage!");
                         UpdateStats();
                         break;
 
@@ -237,6 +266,11 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatEnumToChange.Damage):
                 monsterImmuneToDamage = true;
+                break;
+
+            case (AttackEffect.StatEnumToChange.BothOffensiveStats):
+                monsterReference.physicalAttack += (int)modifier.modifierAmount;
+                monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
 
             default:

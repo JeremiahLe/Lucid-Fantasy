@@ -34,3 +34,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a1865f6b4da98b242b4dcee12fdd2377, type: 2}
   - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
   ListOfModifiers: []
+  ListOfMonsterAttacksAvailable:
+  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
+  - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
+  - {fileID: 11400000, guid: a1865f6b4da98b242b4dcee12fdd2377, type: 2}
+  - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
+  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}

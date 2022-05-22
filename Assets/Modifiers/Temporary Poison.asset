@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Temporary Poison
   m_EditorClassIdentifier: 
   modifierSource: 
-  modifierDurationType: 0
+  modifierDurationType: 1
   statModified: 0
-  modifierDuration: 0
-  modifierCurrentDuration: -43
+  modifierDuration: 3
+  modifierCurrentDuration: 3
   modifierAmount: 0
-  statusEffect: 1
+  statusEffect: 0
   statusEffectType: 1

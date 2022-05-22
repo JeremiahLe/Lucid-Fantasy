@@ -26,7 +26,7 @@ public class Monster : ScriptableObject
 
     [Title("Monster Combat Stats")]
     [PropertySpace(SpaceBefore = 15)]
-    [Range(1, 50)] public float level;
+    [Range(1, 50)] public int level;
 
     [Range(1, 10000)] public float health;
     [DisplayWithoutEdit] public float maxHealth;

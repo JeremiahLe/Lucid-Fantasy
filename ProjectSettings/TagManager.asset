@@ -7,6 +7,9 @@ TagManager:
   - Monster
   - Bullet
   - GameManager
+  - ConfirmAdventureButton
+  - AdventureMenu
+  - SubscreenMenu
   layers:
   - Default
   - TransparentFX
@@ -43,6 +46,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: FrontUISort
+    uniqueID: 208410089
     locked: 0
   - name: BackUISort
     uniqueID: 1274029727

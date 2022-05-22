@@ -37,6 +37,8 @@ public class CombatManagerScript : MonoBehaviour
 
     public int currentRound = 1;
 
+    public Scene previousScene;
+    public bool adventureMode = false;
     public bool autoBattle = false;
     public bool battleOver = false;
     public bool targeting = false;
@@ -806,6 +808,22 @@ public class CombatManagerScript : MonoBehaviour
     // This function emits temporary win/lose message conditions based on monster lists
     public void CheckMonstersAlive()
     {
+        // First check if adventure mode
+        if (adventureMode)
+        {
+            if (ListOfAllys.Count() == 0)
+            {
+                uiManager.EditCombatMessage("You lose!");
+                BattleOver(false);
+            }
+            else if (ListOfEnemies.Count() == 0)
+            {
+                uiManager.EditCombatMessage("You win!");
+                BattleOver(true);
+            }
+        }
+
+        // Else, regular battle
         if (ListOfAllys.Count() == 0)
         {
             uiManager.EditCombatMessage("You lose!");
@@ -828,6 +846,25 @@ public class CombatManagerScript : MonoBehaviour
 
         buttonManagerScript.HideAllButtons("All");
         Invoke("RestartBattleScene", 3.0f);
+    }
+
+    // Tjis function should call all battle over functions
+    public void BattleOver(bool wonBattle)
+    {
+        battleOver = true;
+        CurrentMonsterTurn = null;
+        targeting = false;
+
+        buttonManagerScript.HideAllButtons("All");
+
+        if (wonBattle)
+        {
+            SceneManager.LoadScene(previousScene.name);
+        }
+        else
+        {
+            SceneManager.LoadScene("StartScreen");
+        }
     }
 
     // This function resets the battle scene

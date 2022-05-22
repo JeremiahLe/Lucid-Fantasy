@@ -10,6 +10,7 @@ public class SceneButtonManager : MonoBehaviour
 {
     public LauncherScript launcherScript;
     public TextMeshProUGUI connectingText;
+    public Animator SceneTransitions;
 
     [Header("Menus")]
     public GameObject MainMenu;
@@ -17,6 +18,7 @@ public class SceneButtonManager : MonoBehaviour
     public GameObject QuickplaySettingsMenu;
     public GameObject MultiplayerMenu;
     public GameObject TeamBuilderMenu;
+    public GameObject SingleplayerMenu;
 
     [Header("Scene Buttons")]
     public Button QuickplayButton;
@@ -39,6 +41,12 @@ public class SceneButtonManager : MonoBehaviour
     {
         // TODO - Random Team + Enemies, Set difficulty, pick monsters for team on Quickplay 
         SceneManager.LoadScene(sceneName);
+    }
+
+    // This function loads a hardcoded scene by index on button press
+    public void GoToSceneCoroutine(string sceneName)
+    {
+        StartCoroutine(SceneTransition(sceneName));
     }
 
     // This function is called when the Multiplayer button is clicked
@@ -64,6 +72,7 @@ public class SceneButtonManager : MonoBehaviour
     {
         MainMenu.SetActive(false);
         QuickplaySettingsMenu.SetActive(true);
+        SingleplayerMenu.SetActive(false);
     }
 
     // This function is called when team builder button is clicked
@@ -71,6 +80,34 @@ public class SceneButtonManager : MonoBehaviour
     {
         MainMenu.SetActive(false);
         TeamBuilderMenu.SetActive(true);
+    }
+
+    // This function is called when Singleplayer is clicked
+    public void SingleplayerClicked()
+    {
+        MainMenu.SetActive(false);
+        SingleplayerMenu.SetActive(true);
+    }
+
+    // This function is called when Adventure is clicked
+    public void AdventureClicked()
+    {
+        StartCoroutine(SceneTransition("AdventureBeginScene"));
+    }
+
+    // This function is called when return to main menu is clicked
+    public void ReturnToMainMenuClicked()
+    {
+        StartCoroutine(SceneTransition("StartScreen"));
+    }
+
+    IEnumerator SceneTransition(string sceneName)
+    {
+        SceneTransitions.SetTrigger("Start");
+
+        yield return new WaitForSeconds(1.75f);
+
+        GoToScene(sceneName);
     }
 
     // This function is called after the client successfully connects to the server
@@ -105,6 +142,7 @@ public class SceneButtonManager : MonoBehaviour
         MainMenu.SetActive(true);
 
         QuickplaySettingsMenu.SetActive(false);
+        SingleplayerMenu.SetActive(false);
         TeamBuilderMenu.SetActive(false);
     }
 

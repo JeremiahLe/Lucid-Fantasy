@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199976, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: aIType
@@ -174,6 +174,10 @@ PrefabInstance:
       propertyPath: combatManagerObject
       value: 
       objectReference: {fileID: 1758263235}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: statusEffectUISprite
+      value: 
+      objectReference: {fileID: 2111455274}
     - target: {fileID: 896763779794199982, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -524,7 +528,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.0020332336, y: 228.84723}
+  m_AnchoredPosition: {x: -0.0017738342, y: 228.84692}
   m_SizeDelta: {x: -0.0024719238, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &93912620
@@ -782,6 +786,17 @@ Transform:
   m_Father: {fileID: 1758263236}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &267351178 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3009462644611246781, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+  m_PrefabInstance: {fileID: 1045439484}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &280864977
 GameObject:
   m_ObjectHideFlags: 0
@@ -2577,6 +2592,10 @@ PrefabInstance:
       propertyPath: combatManagerObject
       value: 
       objectReference: {fileID: 1758263235}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: statusEffectUISprite
+      value: 
+      objectReference: {fileID: 267351178}
     - target: {fileID: 896763779794199982, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -3182,6 +3201,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215200435}
   m_CullTransparentMesh: 1
+--- !u!114 &1298930295 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3009462644611246781, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+  m_PrefabInstance: {fileID: 896763780072422931}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1307613179 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4872080172360947126, guid: 3f5f56a5475c20f4fac3ae7aa65de132, type: 3}
@@ -3269,7 +3299,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1591087554}
   m_HandleRect: {fileID: 1591087553}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.9999952
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4919,6 +4949,9 @@ MonoBehaviour:
   TextBackImageBorder: {fileID: 976399302}
   monsterAttackMissText: {fileID: 566322321}
   monsterCritText: {fileID: 699824926}
+  poisonedUISprite: {fileID: 21300000, guid: 8e8b0e28cfec1b248a4b7abc51592156, type: 3}
+  noUISprite: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
+  burningUISprite: {fileID: 21300000, guid: eadece0b349312944b34389091c36639, type: 3}
   cachedTransform: {x: 0, y: 0, z: 0}
   cachedDamage: 0
   calculatedDamage: 0
@@ -6842,6 +6875,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094166688}
   m_CullTransparentMesh: 1
+--- !u!114 &2111455274 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3009462644611246781, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+  m_PrefabInstance: {fileID: 3197154}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2116949257
 GameObject:
   m_ObjectHideFlags: 0
@@ -6902,7 +6946,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
+      objectReference: {fileID: 11400000, guid: 992be654725a3e64895704cfb30bfedd, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterSpeed
       value: 7
@@ -6915,6 +6959,18 @@ PrefabInstance:
       propertyPath: combatManagerObject
       value: 
       objectReference: {fileID: 1758263235}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: statusEffectUISprite
+      value: 
+      objectReference: {fileID: 1298930295}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: ListOfModifiers.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: ListOfModifiers.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a16f3a7dbe9933142a5f022fffa03736, type: 2}
     - target: {fileID: 896763779794199982, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_RootOrder
       value: 3

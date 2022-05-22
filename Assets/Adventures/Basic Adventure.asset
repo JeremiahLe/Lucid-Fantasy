@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 027dfed74fd3fb145a78e10ea1538787, type: 3}
+  m_Name: Basic Adventure
+  m_EditorClassIdentifier: 
+  adventureName: Basic Adventure
+  adventureDifficulty: 0
+  adventureDescription: This is a basic adventure. It's super easy.
+  adventureIcon: {fileID: 21300000, guid: ff89f168bae13b14f9e2c759a24bbd2a, type: 3}
+  adventureBoss: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}

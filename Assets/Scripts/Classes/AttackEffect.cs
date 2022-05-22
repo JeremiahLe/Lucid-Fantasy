@@ -11,11 +11,11 @@ public class AttackEffect : ScriptableObject
     [Title("Effect Initialization Enumerators")]
     public enum TypeOfEffect { MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter,
         DoublePowerIfStatBoost, OnCriticalStrikeBuff, DamageAllEnemies, CripplingFearEffect, NonDamagingMove,
-        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity }
+        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity, InflictBurning }
 
     public TypeOfEffect typeOfEffect;
 
-    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage }
+    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats }
     public StatEnumToChange statEnumToChange;
 
     public enum StatChangeType { Buff, Debuff, None }
@@ -33,6 +33,9 @@ public class AttackEffect : ScriptableObject
 
     [PropertyRange(0, 400)]
     public float amountToChange;
+
+    [PropertyRange(0, 100)]
+    public float effectTriggerChance;
 
     [DisplayWithoutEdit] public CombatManagerScript combatManagerScript;
 
@@ -184,6 +187,15 @@ public class AttackEffect : ScriptableObject
                     targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
                     targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                     GrantTargetImmunity(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                }
+                break;
+
+            case TypeOfEffect.InflictBurning:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                    InflictBurning(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                 }
                 break;
 
@@ -922,6 +934,44 @@ public class AttackEffect : ScriptableObject
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+
+        // Update combat order if speed was adjusted
+        if (statEnumToChange == StatEnumToChange.Speed)
+        {
+            combatManagerScript.SortMonsterBattleSequence();
+        }
+    }
+
+    // Delegate Debuff Function Test
+    public void InflictBurning(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
+    {
+        // see if effect hits
+        float hitChance = (effectTriggerChance/ 100);
+        float randValue = UnityEngine.Random.value;
+
+        if (randValue > hitChance)
+        {
+            return;
+        }
+
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
+
+        // Get damage amount
+        float toValue = (amountToChange / 100);
+
+        // Add modifiers
+        AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+
+        // Send message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s was burned by {effectTriggerName}!");
+
+        // Update monster's stats
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
 
         // Update combat order if speed was adjusted
         if (statEnumToChange == StatEnumToChange.Speed)

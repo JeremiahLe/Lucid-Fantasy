@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 027dfed74fd3fb145a78e10ea1538787, type: 3}
+  m_Name: Basic Adventure Hard
+  m_EditorClassIdentifier: 
+  adventureName: Basic Adventure Hard
+  adventureDifficulty: 2
+  adventureDescription: A harder basic adventure. Features higher statted monsters.
+  adventureIcon: {fileID: 21300000, guid: 7377013011b4c3348809ff574abe799e, type: 3}
+  adventureBoss: {fileID: 11400000, guid: b791c9afb11f3c84dbca12f92dab05bd, type: 2}
