@@ -13,6 +13,11 @@ public class CombatManagerScript : MonoBehaviour
     public List<GameObject> ListOfAllys;
     public List<GameObject> ListOfEnemies;
 
+    [Title("Monster Positions")]
+    public List<GameObject> ListOfAllyPositions;
+    public List<GameObject> ListOfEnemyPositions;
+    public bool wonBattle;
+
     [Title("Auto-set Components")]
     public MessageManager CombatLog;
     public HUDAnimationManager HUDanimationManager;
@@ -37,11 +42,14 @@ public class CombatManagerScript : MonoBehaviour
 
     public int currentRound = 1;
 
-    public Scene previousScene;
+    public string previousSceneName;
     public bool adventureMode = false;
     public bool autoBattle = false;
     public bool battleOver = false;
     public bool targeting = false;
+
+    GameObject AdventureManagerGameObject;
+    AdventureManager adventureManager;
 
     // For Later
     //public List<Action> BattleActions;
@@ -122,6 +130,43 @@ public class CombatManagerScript : MonoBehaviour
         monsterAttackManager = GetComponent<MonsterAttackManager>();
         uiManager = GetComponent<UIManager>();
         CombatLog = GetComponent<MessageManager>();
+
+        // Adventure mode
+        if (adventureMode)
+        {
+            AdventureManagerGameObject = GameObject.FindGameObjectWithTag("GameManager");
+            adventureManager = AdventureManagerGameObject.GetComponent<AdventureManager>();
+
+            // initiate allies
+            int i = 0;
+            foreach(GameObject monsterPos in ListOfAllyPositions)
+            {
+                if (adventureManager.ListOfAllyBattleMonsters.Count > i)
+                {
+                    monsterPos.SetActive(true);
+                    monsterPos.GetComponent<CreateMonster>().monster = adventureManager.ListOfAllyBattleMonsters[i];
+                    monsterPos.GetComponent<CreateMonster>().monster.aiType = Monster.AIType.Ally;
+                    monsterPos.GetComponent<CreateMonster>().monster.aiLevel = Monster.AILevel.Player;
+                    monsterPos.GetComponent<CreateMonster>().monsterSpeed = (int)adventureManager.ListOfAllyBattleMonsters[i].speed;
+                }
+                i++;
+            }
+
+            // initiate enemies
+            i = 0;
+            foreach (GameObject monsterPos in ListOfEnemyPositions)
+            {
+                if (adventureManager.ListOfEnemyBattleMonsters.Count > i)
+                {
+                    monsterPos.SetActive(true);
+                    monsterPos.GetComponent<CreateMonster>().monster = adventureManager.ListOfEnemyBattleMonsters[i];
+                    monsterPos.GetComponent<CreateMonster>().monster.aiType = Monster.AIType.Enemy;
+                    monsterPos.GetComponent<CreateMonster>().monster.aiLevel = Monster.AILevel.Random;
+                    monsterPos.GetComponent<CreateMonster>().monsterSpeed = (int)adventureManager.ListOfEnemyBattleMonsters[i].speed;
+                }
+                i++;
+            }
+        }
 
         // This hides all HUD elements before round start animation is done
         uiManager.HideEverything();
@@ -813,14 +858,30 @@ public class CombatManagerScript : MonoBehaviour
         {
             if (ListOfAllys.Count() == 0)
             {
+                battleOver = true;
+                CurrentMonsterTurn = null;
+                targeting = false;
+
+                buttonManagerScript.HideAllButtons("All");
+
                 uiManager.EditCombatMessage("You lose!");
-                BattleOver(false);
+                wonBattle = false;
+                Invoke("AdventureBattleOver", 3.0f);
             }
             else if (ListOfEnemies.Count() == 0)
             {
+                battleOver = true;
+                CurrentMonsterTurn = null;
+                targeting = false;
+
+                buttonManagerScript.HideAllButtons("All");
+
                 uiManager.EditCombatMessage("You win!");
-                BattleOver(true);
+                wonBattle = true;
+                Invoke("AdventureBattleOver", 3.0f);
             }
+
+            return;
         }
 
         // Else, regular battle
@@ -849,7 +910,7 @@ public class CombatManagerScript : MonoBehaviour
     }
 
     // Tjis function should call all battle over functions
-    public void BattleOver(bool wonBattle)
+    public void AdventureBattleOver()
     {
         battleOver = true;
         CurrentMonsterTurn = null;
@@ -859,7 +920,15 @@ public class CombatManagerScript : MonoBehaviour
 
         if (wonBattle)
         {
-            SceneManager.LoadScene(previousScene.name);
+            adventureManager.ListOfAllyBattleMonsters.Clear();
+            adventureManager.ListOfEnemyBattleMonsters.Clear();
+
+            if (adventureManager.BossBattle)
+            {
+                adventureManager.BossDefeated = true;
+            }
+
+            SceneManager.LoadScene(previousSceneName);
         }
         else
         {

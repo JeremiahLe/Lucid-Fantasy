@@ -67,13 +67,22 @@ public class CreateMonster : MonoBehaviour
     // This function sets monster stats on HUD at battle start
     private void InitateStats()
     {
+        combatManagerScript = combatManagerObject.GetComponent<CombatManagerScript>();
+
         // this is needed to create instances of the scriptable objects rather than editing them
-        monsterReference = Instantiate(monster);
-        monsterReference.aiType = aiType;
-        monsterReference.maxHealth = monster.health;
+        if (!combatManagerScript.adventureMode)
+        {
+            monsterReference = Instantiate(monster);
+            monsterReference.aiType = aiType;
+            monsterReference.maxHealth = monster.health;
+        }
 
         // this one does affect the base scriptable object
-        monster.maxHealth = monster.health;
+        if (combatManagerScript.adventureMode)
+        {
+            monsterReference = monster;
+            monster.maxHealth = monster.health;
+        }
 
         // Non editable init stats display
         monsterPhysicalAttack = monsterReference.physicalAttack;
@@ -303,15 +312,18 @@ public class CreateMonster : MonoBehaviour
     public void InitializeComponents()
     {
         monsterAnimator = GetComponent<Animator>();
-        combatManagerScript = combatManagerObject.GetComponent<CombatManagerScript>();
+        //combatManagerScript = combatManagerObject.GetComponent<CombatManagerScript>();
         monsterAttackManager = combatManagerObject.GetComponent<MonsterAttackManager>();
 
         // Create instances of the monster's attacks
-        monsterReference.ListOfMonsterAttacks.Clear();
-        foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
+        if (!combatManagerScript.adventureMode)
         {
-            MonsterAttack attackInstance = Instantiate(attack);
-            monsterReference.ListOfMonsterAttacks.Add(attackInstance);
+            monsterReference.ListOfMonsterAttacks.Clear();
+            foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
+            {
+                MonsterAttack attackInstance = Instantiate(attack);
+                monsterReference.ListOfMonsterAttacks.Add(attackInstance);
+            }
         }
     }
 

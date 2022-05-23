@@ -30,6 +30,8 @@ public class Monster : ScriptableObject
 
     [Range(1, 10000)] public float health;
     [DisplayWithoutEdit] public float maxHealth;
+    [DisplayWithoutEdit] public float cachedHealth;
+    [DisplayWithoutEdit] public float cachedMaxHealth;
 
     //[PropertySpace(SpaceBefore = 15)]
     //public float mana;

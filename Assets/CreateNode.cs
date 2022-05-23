@@ -40,10 +40,13 @@ public class CreateNode : MonoBehaviour
     //public Transform TransformThree;
     #endregion
 
-    void Start()
+    void Awake()
     {
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
         adventureManager = GameManager.GetComponent<AdventureManager>();
+
+        nodeSelectionTargeter = adventureManager.nodeSelectionTargeter;
+        selectedPosition = GetComponentInChildren<Transform>();
 
         sr = GetComponent<SpriteRenderer>();
 
@@ -100,10 +103,23 @@ public class CreateNode : MonoBehaviour
         #endregion
     }
 
+    private void OnEnable()
+    {
+        nodeSelectionTargeter = adventureManager.nodeSelectionTargeter;
+        selectedPosition = GetComponentInChildren<Transform>();
+
+        sr = GetComponent<SpriteRenderer>();
+
+        if (nodeLocked)
+        {
+            sr.color = Color.red;
+        }
+    }
+
     // This function passes in the new target to the combatManager
     private void OnMouseEnter()
     {
-        nodeSelectionTargeter.transform.position = selectedPosition.transform.position;
+        nodeSelectionTargeter.transform.position = new Vector3(selectedPosition.transform.position.x, selectedPosition.transform.position.y + 1.55f, selectedPosition.transform.position.z);
         adventureManager.currentSelectedNode = gameObject;
     }
 

@@ -2693,6 +2693,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: ListOfAvailableRewardModifiers.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardMonsters.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 992be654725a3e64895704cfb30bfedd, type: 2}
@@ -2704,6 +2708,22 @@ PrefabInstance:
       propertyPath: ListOfAvailableRewardMonsters.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: ListOfAvailableRewardModifiers.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: aa51da2736b0c534cac0f515d1634c06, type: 2}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: ListOfAvailableRewardModifiers.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 546598aa11e3ae946af8e11355d7589e, type: 2}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: ListOfAvailableRewardModifiers.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 31007e97733cce44f8874d212e4037da, type: 2}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: ListOfAvailableRewardModifiers.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 237ae308f32b21d429d1b8bd091ab8ca, type: 2}
     - target: {fileID: 3603385240357516424, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: MainMenu
       value: 

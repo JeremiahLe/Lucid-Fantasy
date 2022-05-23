@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
-  m_Name: Tempered Offense
+  m_Name: VirulentVenom
   m_EditorClassIdentifier: 
   modifierSource: 
   modifierDurationType: 1
-  statModified: 2
+  statModified: 0
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 0
-  statusEffect: 0
-  statusEffectType: 0
-  modifierName: Tempered Offense
-  modifierAdventureReference: 1
-  modifierDescription: All allied monsters gain +10% physical and magic attack.
+  modifierAmount: 10
+  statusEffect: 1
+  statusEffectType: 1
+  modifierName: Virulent Venom
+  modifierAdventureReference: 2
+  modifierDescription: Poison a non-poisoned random enemy at round start.
   adventureModifier: 1
-  modifierAdventureCallTime: 0
-  modifierRarity: 1
-  baseSprite: {fileID: 21300000, guid: a78065a1c934179448214262df19e409, type: 3}
+  modifierAdventureCallTime: 1
+  modifierRarity: 2
+  baseSprite: {fileID: 21300000, guid: ab486a05cbd82a741bf2e1d070bf94b1, type: 3}

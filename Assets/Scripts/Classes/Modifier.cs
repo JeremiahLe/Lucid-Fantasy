@@ -25,7 +25,17 @@ public class Modifier : ScriptableObject
 
     [Header("Adventure Variables")]
     public string modifierName;
+    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense }
+    public ModifierAdventureReference modifierAdventureReference;
     public string modifierDescription;
+
+    public bool adventureModifier = false;
+    public enum ModifierAdventureCallTime { GameStart, RoundStart }
+    public ModifierAdventureCallTime modifierAdventureCallTime;
+
+    public enum ModifierRarity { Common, Uncommon, Rare, Legendary }
+    public ModifierRarity modifierRarity;
+
     public Sprite baseSprite;
 
     // This function resets the modified stat that was created 

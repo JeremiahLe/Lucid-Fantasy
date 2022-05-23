@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;    
 
 public class SubscreenManager : MonoBehaviour
 {
@@ -8,9 +10,16 @@ public class SubscreenManager : MonoBehaviour
     public GameObject RewardSlotTwo;
     public GameObject RewardSlotThree;
 
+    public List<GameObject> listOfMonsterSlots;
     public List<GameObject> listOfRewardSlots;
 
+    public GameObject BattleImage;
+    public Sprite mysteryIcon;
+
     public AdventureManager adventureManager;
+
+    public int randomBattleMonsterCount;
+    public int randomBattleMonsterLimit;
 
     //
     public void Awake()
@@ -63,6 +72,94 @@ public class SubscreenManager : MonoBehaviour
     }
 
     //
+    public void HideRewardSlots()
+    {
+        foreach (GameObject rewardSlot in listOfRewardSlots)
+        {
+            rewardSlot.SetActive(false);
+        }
+    }
+
+    //
+    public void LoadRandomBattle()
+    {
+        randomBattleMonsterLimit = GetRandomBattleMonsterLimit();
+        randomBattleMonsterCount = GetRandomBattleMonsterCount();
+
+        adventureManager.randomBattleMonsterCount = randomBattleMonsterCount;
+        adventureManager.randomBattleMonsterLimit = randomBattleMonsterLimit;
+
+        BattleImage.SetActive(true);
+        BattleImage.GetComponent<Image>().sprite = mysteryIcon;
+        BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle: Random" +
+            $"\nEnemies present: {randomBattleMonsterCount}" +
+            $"\nAllies allowed: {randomBattleMonsterLimit}");
+
+        bool bossAdded = false;
+        // populate enemy list
+        for (int j = 0; j < randomBattleMonsterCount; j++)
+        {
+            if (adventureManager.currentSelectedNode.GetComponent<CreateNode>().nodeType == CreateNode.NodeType.Boss && !bossAdded)
+            {
+                adventureManager.ListOfEnemyBattleMonsters.Add(GetBossMonster(adventureManager.adventureBoss));
+                BattleImage.GetComponent<Image>().sprite = adventureManager.adventureBoss.baseSprite;
+                BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle: Boss + Random" +
+                $"\nEnemies present: {randomBattleMonsterCount}" +
+                $"\nAllies allowed: {randomBattleMonsterLimit}");
+                bossAdded = true;
+                continue;
+            }
+
+            adventureManager.ListOfEnemyBattleMonsters.Add(GetRandomMonster());
+        }
+
+        // Show allied monsters
+        int i = 0;
+        foreach(GameObject monsterSlot in listOfMonsterSlots)
+        {
+            if (adventureManager.ListOfCurrentMonsters.Count > i)
+            {
+                monsterSlot.SetActive(true);
+                monsterSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
+                monsterSlot.GetComponent<CreateReward>().subscreenManager = this;
+                monsterSlot.GetComponent<CreateReward>().monsterReward = adventureManager.ListOfCurrentMonsters[i];
+                monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
+                monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"{monsterSlot.GetComponent<CreateReward>().monsterReward.name} Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
+                    $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}" +
+                    $"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement}" +
+                        $"\n-{monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[0].monsterAttackName}" +
+                        $"\n-{monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[1].monsterAttackName}" +
+                        $"\n-{monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[2].monsterAttackName}" +
+                        $"\n-{monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[3].monsterAttackName}");
+            }
+
+            i++;
+        }
+    }
+
+    //
+    public int GetRandomBattleMonsterCount()
+    {
+        if (randomBattleMonsterLimit == 1)
+        {
+            return 1;
+        }
+
+        return 2;
+    }
+
+    //
+    public int GetRandomBattleMonsterLimit()
+    {
+        if (adventureManager.ListOfCurrentMonsters.Count == 1)
+        {
+            return 1;
+        }
+
+        return 2;
+    }
+
+    //
     public Monster GetRandomMonster()
     {
         Monster randMonster = Instantiate(adventureManager.ListOfAvailableRewardMonsters[Random.Range(0, adventureManager.ListOfAvailableRewardMonsters.Count)]);
@@ -79,10 +176,37 @@ public class SubscreenManager : MonoBehaviour
     }
 
     //
+
+    public Monster GetBossMonster(Monster setMonster)
+    {
+        Monster newMonster = Instantiate(setMonster);
+
+        // random moves
+        for (int i = 0; i < 4; i++)
+        {
+            MonsterAttack randomAttack = newMonster.ListOfMonsterAttacksAvailable[Random.Range(0, newMonster.ListOfMonsterAttacksAvailable.Count)];
+            newMonster.ListOfMonsterAttacks[i] = randomAttack;
+            newMonster.ListOfMonsterAttacksAvailable.Remove(randomAttack);
+        }
+
+        // bonus stats
+        newMonster.health += Mathf.RoundToInt(newMonster.health * .5f);
+
+        return newMonster;
+    }
+
+    //
     public Modifier GetRandomModifier()
     {
-        Modifier randModifier = Instantiate(adventureManager.ListOfAvailableRewardModifiers[Random.Range(0, adventureManager.ListOfAvailableRewardModifiers.Count)]);
+        if (adventureManager.ListOfAvailableRewardModifiers.Count == 0)
+        {
+            return null; 
+        }
 
-        return randModifier;
+        Modifier randModifier = adventureManager.ListOfAvailableRewardModifiers[Random.Range(0, adventureManager.ListOfAvailableRewardModifiers.Count)];
+        adventureManager.ListOfAvailableRewardModifiers.Remove(randModifier);
+        Modifier randModifierSO = Instantiate(randModifier);
+
+        return randModifierSO;
     }
 }

@@ -18,9 +18,13 @@ public class CreateReward : MonoBehaviour
     public TextMeshProUGUI rewardName;
     public TextMeshProUGUI rewardDescription;
 
+    public bool selected;
+    public Sprite selectedSprite;
+
     public void Awake()
     {
         //adventureManager = subscreenManager.adventureManager;
+        rewardImage = GetComponent<Image>();
     }
 
     // Select reward
@@ -29,14 +33,56 @@ public class CreateReward : MonoBehaviour
         if (rewardType == AdventureManager.RewardType.Monster)
         {
             adventureManager.ListOfCurrentMonsters.Add(monsterReward);
+            monsterReward = null;
             adventureManager.SubscreenMenu.SetActive(false);
             adventureManager.ActivateNextNode();
         }
         else
         {
             adventureManager.ListOfCurrentModifiers.Add(modifierReward);
+            modifierReward = null;
+            adventureManager.ResetModifierList();
             adventureManager.SubscreenMenu.SetActive(false);
             adventureManager.ActivateNextNode();
         }
+    }
+
+    // 
+    public void SelectMonsterForBattle()
+    {
+        if (!selected)
+        {
+            selected = true;
+            rewardImage = GetComponent<Image>();
+            rewardImage.sprite = selectedSprite;
+            adventureManager.ListOfAllyBattleMonsters.Add(monsterReward);
+            adventureManager.subScreenMenuText.text = ($"Current monsters: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
+        }
+        else
+        {
+            selected = false;
+            rewardImage = GetComponent<Image>();
+            rewardImage.sprite = monsterReward.baseSprite;
+            adventureManager.ListOfAllyBattleMonsters.Remove(monsterReward);
+            adventureManager.subScreenMenuText.text = ($"Current monsters: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
+        }
+    }
+
+    // Begin battle
+    public void GoToBattleScene()
+    {
+        if (adventureManager.ListOfAllyBattleMonsters.Count == 0)
+        {
+            adventureManager.subScreenMenuText.text = ($"Please select atleast one monster.");
+            return;
+        }
+        else
+        if (adventureManager.ListOfAllyBattleMonsters.Count > adventureManager.randomBattleMonsterLimit)
+        {
+            adventureManager.subScreenMenuText.text = ($"Too many monsters selected!");
+            return;
+        }
+
+        adventureManager.GoToBattleScene();
     }
 }
