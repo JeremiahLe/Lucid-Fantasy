@@ -48,8 +48,8 @@ public class CombatManagerScript : MonoBehaviour
     public bool battleOver = false;
     public bool targeting = false;
 
-    GameObject AdventureManagerGameObject;
-    AdventureManager adventureManager;
+    public GameObject AdventureManagerGameObject;
+    public AdventureManager adventureManager;
 
     // For Later
     //public List<Action> BattleActions;
@@ -224,6 +224,17 @@ public class CombatManagerScript : MonoBehaviour
             if (monsterJoinedBattle)
             {
                 CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} has joined the battle!"); // Update Combat Log with all monsters in battle
+            }
+        }
+
+        // if adventure mode, check adventure modifiers
+        if (adventureMode)
+        {
+            foreach (GameObject monsterObj in ListOfAllys)
+            {
+                Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
+                adventureManager.ApplyAdventureModifiers(monster);
+                monsterObj.GetComponent<CreateMonster>().UpdateStats();
             }
         }
 
@@ -761,6 +772,12 @@ public class CombatManagerScript : MonoBehaviour
             CombatLog.SendMessageToCombatLog($"-- Round {currentRound} -- ");
             SortMonsterBattleSequence(); // non battle start version
 
+            // call round start Adventure Modifiers
+            if (adventureMode)
+            {
+                adventureManager.ApplyRoundStartAdventureModifiers();
+            }
+
             // check if any cooldowns need to be updated // toArray fixes on round start poison death
             foreach (GameObject monster in BattleSequence.ToArray())
             {
@@ -805,6 +822,7 @@ public class CombatManagerScript : MonoBehaviour
     public void RemoveMonsterFromList(GameObject monsterToRemove, Monster.AIType allyOrEnemy)
     {
         Monster monsterRef = monsterToRemove.GetComponent<CreateMonster>().monsterReference;
+        Monster monster = monsterToRemove.GetComponent<CreateMonster>().monster;
 
         switch (allyOrEnemy)
         {
@@ -813,6 +831,12 @@ public class CombatManagerScript : MonoBehaviour
                 Destroy(monsterToRemove);
                 uiManager.UpdateMonsterList(ListOfAllys, Monster.AIType.Ally);
                 Debug.Log($"Removed {monsterToRemove.GetComponent<CreateMonster>().monsterReference.name}", this);
+                if (adventureMode)
+                {
+                    adventureManager.ListOfAllyBattleMonsters.Remove(monster);
+                    adventureManager.ListOfCurrentMonsters.Remove(monster);
+                    adventureManager.playerMonstersLost += 1;
+                }
                 break;
 
             case Monster.AIType.Enemy:
@@ -920,6 +944,22 @@ public class CombatManagerScript : MonoBehaviour
 
         if (wonBattle)
         {
+            // Clear out stat changes
+            foreach(Monster monster in adventureManager.ListOfAllyBattleMonsters)
+            {
+                monster.ListOfModifiers.Clear();
+
+                monster.physicalAttack = monster.cachedPhysicalAttack;
+                monster.magicAttack = monster.cachedMagicAttack;
+
+                monster.physicalDefense = monster.cachedPhysicalDefense;
+                monster.magicDefense = monster.cachedMagicDefense;
+
+                monster.speed = monster.cachedSpeed;
+                monster.evasion = monster.cachedEvasion;
+                monster.critChance = monster.cachedCritChance;
+            }
+
             adventureManager.ListOfAllyBattleMonsters.Clear();
             adventureManager.ListOfEnemyBattleMonsters.Clear();
 

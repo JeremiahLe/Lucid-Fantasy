@@ -25,7 +25,7 @@ public class Modifier : ScriptableObject
 
     [Header("Adventure Variables")]
     public string modifierName;
-    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense }
+    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots }
     public ModifierAdventureReference modifierAdventureReference;
     public string modifierDescription;
 
@@ -48,6 +48,17 @@ public class Modifier : ScriptableObject
         {
             monsterReferenceGameObject.GetComponent<CreateMonster>().statusEffectUISprite.sprite = monsterReferenceGameObject.GetComponent<CreateMonster>().monsterAttackManager.noUISprite;
             monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} {statusEffectType.ToString()} status was cleared!");
+
+            switch (statusEffectType)
+            {
+                case StatusEffectType.Poisoned:
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsPoisoned = false;
+                    break;
+
+                default:
+                    break;
+            }
+
         }
        
         switch (statModified)

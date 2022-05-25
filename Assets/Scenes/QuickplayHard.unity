@@ -174,6 +174,18 @@ PrefabInstance:
       propertyPath: combatManagerObject
       value: 
       objectReference: {fileID: 1758263235}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: StatScreenWindowText
+      value: 
+      objectReference: {fileID: 3197157}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: statusEffectUISprite
+      value: 
+      objectReference: {fileID: 3197159}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: StatScreenWindowGameObject
+      value: 
+      objectReference: {fileID: 3197158}
     - target: {fileID: 896763779794199982, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -268,6 +280,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3197157 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4818900678482613730, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+  m_PrefabInstance: {fileID: 3197154}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &3197158 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4818900678288431136, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+  m_PrefabInstance: {fileID: 3197154}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3197159 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3009462644611246781, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+  m_PrefabInstance: {fileID: 3197154}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &25389116
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -524,7 +563,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.001789093, y: 228.84619}
+  m_AnchoredPosition: {x: -0.0019264221, y: 228.84576}
   m_SizeDelta: {x: -0.0024719238, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &93912620
@@ -2567,6 +2606,10 @@ PrefabInstance:
       propertyPath: combatManagerObject
       value: 
       objectReference: {fileID: 1758263235}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: statusEffectUISprite
+      value: 
+      objectReference: {fileID: 1045439485}
     - target: {fileID: 896763779794199982, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2637,6 +2680,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+--- !u!114 &1045439485 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3009462644611246781, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+  m_PrefabInstance: {fileID: 1045439484}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1075100786
 GameObject:
   m_ObjectHideFlags: 0
@@ -4499,6 +4553,9 @@ MonoBehaviour:
   BattleSequence: []
   ListOfAllys: []
   ListOfEnemies: []
+  ListOfAllyPositions: []
+  ListOfEnemyPositions: []
+  wonBattle: 0
   CombatLog: {fileID: 0}
   HUDanimationManager: {fileID: 0}
   buttonManagerScript: {fileID: 0}
@@ -4514,9 +4571,13 @@ MonoBehaviour:
   CurrentMonsterAttack: {fileID: 0}
   monsterTurn: 0
   currentRound: 0
+  previousSceneName: 
+  adventureMode: 0
   autoBattle: 0
   battleOver: 0
   targeting: 0
+  AdventureManagerGameObject: {fileID: 0}
+  adventureManager: {fileID: 0}
 --- !u!82 &1758263238
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4713,6 +4774,9 @@ MonoBehaviour:
   TextBackImageBorder: {fileID: 976399302}
   monsterAttackMissText: {fileID: 566322321}
   monsterCritText: {fileID: 699824926}
+  poisonedUISprite: {fileID: 0}
+  noUISprite: {fileID: 0}
+  burningUISprite: {fileID: 0}
   cachedTransform: {x: 0, y: 0, z: 0}
   cachedDamage: 0
   calculatedDamage: 0
@@ -4723,8 +4787,6 @@ MonoBehaviour:
   CritSound: {fileID: 8300000, guid: 68049c95379dcb84fb188fdedd8c569a, type: 3}
   HitSound: {fileID: 8300000, guid: 762b582ee4ca74a458d76f52b4a557ef, type: 3}
   MissSound: {fileID: 8300000, guid: 0f2966a1a653a844796724ba7d95e1e8, type: 3}
-  poisonedUISprite: {fileID: 0}
-  noUISprite: {fileID: 0}
 --- !u!114 &1758263243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6623,6 +6685,18 @@ PrefabInstance:
       propertyPath: combatManagerObject
       value: 
       objectReference: {fileID: 1758263235}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: StatScreenWindowText
+      value: 
+      objectReference: {fileID: 896763780072422932}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: statusEffectUISprite
+      value: 
+      objectReference: {fileID: 896763780072422934}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: StatScreenWindowGameObject
+      value: 
+      objectReference: {fileID: 896763780072422933}
     - target: {fileID: 896763779794199982, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -6721,6 +6795,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+--- !u!114 &896763780072422932 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4818900678482613730, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+  m_PrefabInstance: {fileID: 896763780072422931}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &896763780072422933 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4818900678288431136, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+  m_PrefabInstance: {fileID: 896763780072422931}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &896763780072422934 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3009462644611246781, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+  m_PrefabInstance: {fileID: 896763780072422931}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4872080171361681997
 PrefabInstance:
   m_ObjectHideFlags: 0

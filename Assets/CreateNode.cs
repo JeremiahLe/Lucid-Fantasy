@@ -114,6 +114,8 @@ public class CreateNode : MonoBehaviour
         {
             sr.color = Color.red;
         }
+
+
     }
 
     // This function passes in the new target to the combatManager
@@ -128,7 +130,7 @@ public class CreateNode : MonoBehaviour
     {
         if (nodeLocked)
         {
-            routeText.text = ($"Route is locked! Select previous route first!");
+            routeText.text = ($"Route is locked!");
         }
     }
 }

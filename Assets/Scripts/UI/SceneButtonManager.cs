@@ -105,7 +105,7 @@ public class SceneButtonManager : MonoBehaviour
     {
         SceneTransitions.SetTrigger("Start");
 
-        yield return new WaitForSeconds(1.75f);
+        yield return new WaitForSeconds(.5f);
 
         GoToScene(sceneName);
     }

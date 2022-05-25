@@ -33,10 +33,7 @@ public class Monster : ScriptableObject
     [DisplayWithoutEdit] public float cachedHealth;
     [DisplayWithoutEdit] public float cachedMaxHealth;
 
-    //[PropertySpace(SpaceBefore = 15)]
-    //public float mana;
-    //public float maxMana;
-
+    [Title("Adventure - Monster Combat Stats Cached")]
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 300)] public float physicalAttack;
     [Range(1, 300)] public float magicAttack;
@@ -50,6 +47,10 @@ public class Monster : ScriptableObject
     [Range(0, 99)] public float evasion;
     [Range(0, 100)] public float critChance;
 
+    //[PropertySpace(SpaceBefore = 15)]
+    //public float mana;
+    //public float maxMana;
+
     [Header("Monster Attack List")]
     public List<MonsterAttack> ListOfMonsterAttacks;
 
@@ -58,4 +59,21 @@ public class Monster : ScriptableObject
 
     [Header("Monster Available Attack List")]
     public List<MonsterAttack> ListOfMonsterAttacksAvailable;
+
+    [Title("Adventure - Monster Combat Stats Cached")]
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1, 300)] public float cachedPhysicalAttack;
+    [Range(1, 300)] public float cachedMagicAttack;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1, 1000)] public float cachedPhysicalDefense;
+    [Range(1, 1000)] public float cachedMagicDefense;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1, 100)] public float cachedSpeed;
+    [Range(0, 99)] public float cachedEvasion;
+    [Range(0, 100)] public float cachedCritChance;
+
+    public float cachedDamageDone;
+    public int monsterKills;
 }

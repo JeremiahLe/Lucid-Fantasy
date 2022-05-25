@@ -341,11 +341,22 @@ public class MonsterAttackManager : MonoBehaviour
 
             Monster monsterWhoUsedAttack = currentMonsterTurn;
             monsterWhoUsedAttack.health = currentMonsterTurn.health;
+            monsterWhoUsedAttack.cachedDamageDone += calculatedDamage;
 
             TriggerPostAttackEffects(monsterWhoUsedAttack);
 
             //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats();
+
+            // Add to killcount if applicable
+            if (combatManagerScript.adventureMode)
+            {
+                if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.health <= 0)
+                {
+                    monsterWhoUsedAttack.monsterKills += 1;
+                }
+            }
+
             combatManagerScript.monsterTargeter.SetActive(false);
             combatManagerScript.targeting = false;
 

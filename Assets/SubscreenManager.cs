@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;    
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class SubscreenManager : MonoBehaviour
 {
@@ -10,8 +11,12 @@ public class SubscreenManager : MonoBehaviour
     public GameObject RewardSlotTwo;
     public GameObject RewardSlotThree;
 
+    public GameObject ReturnToMainMenuButton;
+
     public List<GameObject> listOfMonsterSlots;
     public List<GameObject> listOfRewardSlots;
+
+    public TextMeshProUGUI titleText;
 
     public GameObject BattleImage;
     public Sprite mysteryIcon;
@@ -44,10 +49,10 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = monster.baseSprite;
                     rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{monster.name} Lvl.{monster.level}" +
                         $"\n{monster.monsterElement}/{monster.monsterSubElement}" +
-                        $"\n-{monster.ListOfMonsterAttacks[0].monsterAttackName}" +
-                        $"\n-{monster.ListOfMonsterAttacks[1].monsterAttackName}" +
-                        $"\n-{monster.ListOfMonsterAttacks[2].monsterAttackName}" +
-                        $"\n-{monster.ListOfMonsterAttacks[3].monsterAttackName}");
+                        $"\n- {monster.ListOfMonsterAttacks[0].monsterAttackName}" +
+                        $"\n- {monster.ListOfMonsterAttacks[1].monsterAttackName}" +
+                        $"\n- {monster.ListOfMonsterAttacks[2].monsterAttackName}" +
+                        $"\n- {monster.ListOfMonsterAttacks[3].monsterAttackName}");
                 }
                 break;
 
@@ -62,7 +67,7 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().modifierReward = modifier;
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = modifier.baseSprite;
                     rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{modifier.modifierName}" +
-                        $"\n-{modifier.modifierDescription}");
+                        $"\n- {modifier.modifierDescription}");
                 }
                 break;
 
@@ -113,9 +118,16 @@ public class SubscreenManager : MonoBehaviour
             adventureManager.ListOfEnemyBattleMonsters.Add(GetRandomMonster());
         }
 
+        // Show allied monsters to choose from
+        ShowAlliedMonstersAvailable();
+    }
+
+    // TODO - Also show dead monsters?
+    public void ShowAlliedMonstersAvailable()
+    {
         // Show allied monsters
         int i = 0;
-        foreach(GameObject monsterSlot in listOfMonsterSlots)
+        foreach (GameObject monsterSlot in listOfMonsterSlots)
         {
             if (adventureManager.ListOfCurrentMonsters.Count > i)
             {
@@ -127,10 +139,10 @@ public class SubscreenManager : MonoBehaviour
                 monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"{monsterSlot.GetComponent<CreateReward>().monsterReward.name} Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
                     $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}" +
                     $"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement}" +
-                        $"\n-{monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[0].monsterAttackName}" +
-                        $"\n-{monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[1].monsterAttackName}" +
-                        $"\n-{monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[2].monsterAttackName}" +
-                        $"\n-{monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[3].monsterAttackName}");
+                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[0].monsterAttackName}" +
+                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[1].monsterAttackName}" +
+                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[2].monsterAttackName}" +
+                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[3].monsterAttackName}");
             }
 
             i++;
@@ -145,7 +157,7 @@ public class SubscreenManager : MonoBehaviour
             return 1;
         }
 
-        return 2;
+        return Random.Range(2, 3);
     }
 
     //
@@ -191,7 +203,9 @@ public class SubscreenManager : MonoBehaviour
 
         // bonus stats
         newMonster.health += Mathf.RoundToInt(newMonster.health * .5f);
-
+        newMonster.maxHealth = newMonster.health;
+        newMonster.name += ($" (Boss)")
+;
         return newMonster;
     }
 
@@ -208,5 +222,37 @@ public class SubscreenManager : MonoBehaviour
         Modifier randModifierSO = Instantiate(randModifier);
 
         return randModifierSO;
+    }
+
+
+    //
+    public void ShowFinalResultsMenu(bool Win)
+    {
+
+        ReturnToMainMenuButton.SetActive(true);
+        BattleImage.SetActive(true);
+
+        Monster monster = adventureManager.GetMVPMonster();
+        BattleImage.GetComponent<Image>().sprite = monster.baseSprite;
+        BattleImage.GetComponentInChildren<TextMeshProUGUI>().text =
+            ($"MVP: {monster.name}" +
+            $"\nDamage Done: {monster.cachedDamageDone}" +
+            $"\nKills: {monster.monsterKills}");
+
+        if (Win)
+        {
+            titleText.text = "Adventure Completed!";
+        }
+        else
+        {
+            titleText.text = "Adventure Failed...";
+        }
+    }
+
+
+    //
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("StartScreen");
     }
 }

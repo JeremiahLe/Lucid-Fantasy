@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Linq;
 
 public class AdventureManager : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class AdventureManager : MonoBehaviour
     public bool adventureBegin = false;
     public GameObject ConfirmAdventureMenu;
     public SceneButtonManager sceneButtonManager;
+
+    [Title("SFX")]
+    public AudioSource GameManagerAudioSource;
+    public AudioClip adventureBGM;
+    public AudioClip combatBGM;
+    public AudioClip bossBGM;
 
     [Title("Adventure Components")]
     public GameObject nodeSelectionTargeter;
@@ -37,8 +44,11 @@ public class AdventureManager : MonoBehaviour
     public GameObject RewardSlotThree;
 
     [Title("Adventure - Player Components")]
-    public int rerollAmount;
-    public int playerGold;
+    public int rerollAmount = 0;
+    public int timesRerolled = 0;
+
+    public int playerGold = 0;
+    public int playerMonstersLost = 0;
 
     public List<Monster> ListOfCurrentMonsters;
     public List<Modifier> ListOfCurrentModifiers;
@@ -50,14 +60,18 @@ public class AdventureManager : MonoBehaviour
     public Monster currentHoveredRewardMonster;
     public Modifier currentHoveredRewardModifier;
 
+    [Title("Nodes")]
+    public GameObject NodeToReturnTo;
+
     public List<GameObject> ListOfUnlockedNodes;
     public List<GameObject> ListOfLockedNodes;
 
     public GameObject[] ListOfAllNodes;
+
     public bool BossDefeated = false;
     public bool BossBattle = false;
 
-    [Title("Monster Lists")]
+    [Title("Rewards")]
     public List<Monster> ListOfAvailableRewardMonsters;
     public List<Modifier> ListOfAvailableRewardModifiers;
 
@@ -68,7 +82,6 @@ public class AdventureManager : MonoBehaviour
     public int randomBattleMonsterLimit;
 
     [Title("Adventure - Battle Setup and Components")]
-    public GameObject NodeToReturnTo;
     public GameObject CombatManagerObject;
     public CombatManagerScript combatManagerScript;
 
@@ -83,6 +96,7 @@ public class AdventureManager : MonoBehaviour
     public void Awake()
     {
         sceneButtonManager = GetComponent<SceneButtonManager>();
+        GameManagerAudioSource = GetComponent<AudioSource>();
         CopyDefaultModifierList();
     }
     
@@ -190,6 +204,7 @@ public class AdventureManager : MonoBehaviour
             case "Basic Adventure":
                 DontDestroyOnLoad(gameObject);
                 SceneManager.sceneLoaded += OnSceneLoaded;
+                adventureBegin = false;
                 sceneButtonManager.GoToSceneCoroutine("BasicAdventureScene");
                 break;
 
@@ -209,20 +224,31 @@ public class AdventureManager : MonoBehaviour
     {
         if (scene.name == "StartScreen")
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            foreach (GameObject node in ListOfAllNodes)
+            {
+                Destroy(node);
+            }
         }
-        else if (scene.name == "AdventureBeginScene")
-        {
-            //Destroy(gameObject);
-        }
-        else if (scene.name != "SetupCombatScene")
+        else if (scene.name == "BasicAdventureScene")
         {
             AdventureMenu = GameObject.FindGameObjectWithTag("AdventureMenu");
             SubscreenMenu = GameObject.FindGameObjectWithTag("SubscreenMenu");
+            
+            if (SubscreenMenu == null)
+            {
+                SubscreenMenu = FindInActiveObjectByTag("SubscreenMenu");
+            }
+
             subscreenManager = SubscreenMenu.GetComponent<SubscreenManager>();
-            SubscreenMenu.SetActive(false);
             InitiateSceneData();
             adventureSceneName = SceneManager.GetActiveScene().name;
+            if (!BossDefeated)
+            {
+                SubscreenMenu.SetActive(false);
+            }
+            GameManagerAudioSource.Stop();
+            GameManagerAudioSource.PlayOneShot(adventureBGM, .60f);
         }
         else
         if (scene.name == "SetupCombatScene")
@@ -231,6 +257,107 @@ public class AdventureManager : MonoBehaviour
             combatManagerScript = CombatManagerObject.GetComponent<CombatManagerScript>();
             combatManagerScript.adventureMode = true;
             combatManagerScript.previousSceneName = adventureSceneName;
+
+            if (BossBattle)
+            {
+                GameManagerAudioSource.Stop();
+                GameManagerAudioSource.PlayOneShot(bossBGM, .30f);
+                return;
+            }
+
+            GameManagerAudioSource.Stop();
+            GameManagerAudioSource.PlayOneShot(combatBGM, .30f);
+        }
+    }
+
+    // This function is called at Game Start, before Round 1, to apply any adventure modifiers
+    public void ApplyGameStartAdventureModifiers()
+    {
+        foreach (Modifier modifier in ListOfCurrentModifiers)
+        {
+            // Only apply Game Start modifiers
+            if (modifier.modifierAdventureCallTime == Modifier.ModifierAdventureCallTime.GameStart)
+            {
+                // Get specific Modifier
+                switch (modifier.modifierAdventureReference)
+                {
+
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    // This function is called every Round Start by CombatManagerScript, to apply any adventure modifiers
+    public void ApplyRoundStartAdventureModifiers()
+    {
+        foreach (Modifier modifier in ListOfCurrentModifiers)
+        {
+            // Only apply Round Start modifiers
+            if (modifier.modifierAdventureCallTime == Modifier.ModifierAdventureCallTime.RoundStart)
+            {
+                // Get specific Modifier
+                switch (modifier.modifierAdventureReference)
+                {
+                    case Modifier.ModifierAdventureReference.VirulentVenom:
+
+                        // Get random enemy from list of unpoisoned enemies
+                        List<GameObject> listOfUnpoisonedEnemies = combatManagerScript.ListOfEnemies.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().monsterIsPoisoned == false).ToList();
+
+                        // If no monsters are unpoisoned, break out
+                        if (listOfUnpoisonedEnemies.Count == 0)
+                        {
+                            continue;
+                        }
+
+                        // Otherwise, poison randomly selected monster
+                        if (listOfUnpoisonedEnemies.Count != 0) {
+                            GameObject randomEnemyToPoison = combatManagerScript.GetRandomTarget(listOfUnpoisonedEnemies);
+                            Monster monster = randomEnemyToPoison.GetComponent<CreateMonster>().monsterReference;
+                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was poisoned by {modifier.modifierName}.");
+                            monster.ListOfModifiers.Add(modifier);
+                        }
+
+                        // Clear list
+                        listOfUnpoisonedEnemies.Clear();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    // This function is called at Game Start by CombatManagerScript as it registers every Monster in Combat, before Round 1
+    public void ApplyAdventureModifiers(Monster monster)
+    {
+        foreach (Modifier modifier in ListOfCurrentModifiers)
+        {
+            // Get specific Modifier
+            switch (modifier.modifierAdventureReference)
+            {
+                case Modifier.ModifierAdventureReference.WildFervor:
+                    monster.critChance += modifier.modifierAmount;
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} critical chance was increased by {modifier.modifierName}.");
+                    break;
+
+                case Modifier.ModifierAdventureReference.TemperedOffense:
+                    monster.physicalAttack += Mathf.RoundToInt(monster.physicalAttack * (modifier.modifierAmount / 100f) + 1f);
+                    monster.magicAttack += Mathf.RoundToInt(monster.magicAttack * (modifier.modifierAmount / 100f) + 1f);
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} physical and magic attack was increased by {modifier.modifierName}.");
+                    break;
+
+                case Modifier.ModifierAdventureReference.TemperedDefense:
+                    monster.physicalDefense += Mathf.RoundToInt(monster.physicalAttack * (modifier.modifierAmount / 100f) + 1f);
+                    monster.magicDefense += Mathf.RoundToInt(monster.magicAttack * (modifier.modifierAmount / 100f) + 1f);
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} physical and magic defense was increased by {modifier.modifierName}.");
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 
@@ -267,16 +394,22 @@ public class AdventureManager : MonoBehaviour
 
         foreach (GameObject node in ListOfUnlockedNodes)
         {
-            node.SetActive(true);
-            node.GetComponent<CreateNode>().nodeLocked = false;
-            node.GetComponent<SpriteRenderer>().color = Color.white;
+            if (node != null)
+            {
+                node.SetActive(true);
+                node.GetComponent<CreateNode>().nodeLocked = false;
+                node.GetComponent<SpriteRenderer>().color = Color.white;
+            }
         }
         //
         foreach (GameObject node in ListOfLockedNodes)
         {
-            node.SetActive(true);
-            node.GetComponent<CreateNode>().nodeLocked = true;
-            node.GetComponent<SpriteRenderer>().color = Color.red;
+            if (node != null)
+            {
+                node.SetActive(true);
+                node.GetComponent<CreateNode>().nodeLocked = true;
+                node.GetComponent<SpriteRenderer>().color = Color.red;
+            }
         }
 
         //
@@ -285,11 +418,17 @@ public class AdventureManager : MonoBehaviour
             cachedSelectedNode = NodeToReturnTo;
             ActivateNextNode();
         }
+
     }
 
     // this function runs on click
     public void CheckNodeLocked()
     {
+        if (currentSelectedNode == null)
+        {
+            return;
+        }
+
         if (currentSelectedNode != null)
         {
             NodeComponent = currentSelectedNode.GetComponent<CreateNode>();
@@ -297,7 +436,7 @@ public class AdventureManager : MonoBehaviour
 
         if (NodeComponent.nodeLocked && !BossDefeated)
         {
-            routeText.text = ($"Route is locked! Select previous route first!");
+            routeText.text = ($"Route is locked!");
             return;
         }
 
@@ -314,6 +453,7 @@ public class AdventureManager : MonoBehaviour
         {
             node.GetComponent<CreateNode>().nodeLocked = false;
             node.GetComponent<SpriteRenderer>().color = Color.white;
+            //node.GetComponent<Animator>().SetBool("unlocked", true);
             ListOfUnlockedNodes.Add(node);
         }
         //
@@ -327,6 +467,7 @@ public class AdventureManager : MonoBehaviour
         if (BossDefeated)
         {
             routeText.text = ($"You Win!");
+            ShowFinalResultsMenu(true);
         }
     }
 
@@ -378,11 +519,46 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
+    //
+    public void ShowFinalResultsMenu(bool Win)
+    {
+        SubscreenMenu.SetActive(true);
+        subscreenManager.ShowFinalResultsMenu(Win);
+    }
+
+    //
+    public Monster GetMVPMonster()
+    {
+        // Get monster from list with most damage done
+        ListOfCurrentMonsters = ListOfCurrentMonsters.OrderByDescending(Monster => Monster.cachedDamageDone).ToList();
+        Monster mvp = ListOfCurrentMonsters[0];
+
+        return mvp;
+    }
+
+    //
     RewardType ReturnRandomRewardType()
     {
         RewardType randReward = (RewardType)Random.Range(0, 1);
         return randReward;
     }
 
+    //
+    GameObject FindInActiveObjectByTag(string tag)
+    {
+
+        Transform[] objs = Resources.FindObjectsOfTypeAll<Transform>() as Transform[];
+        for (int i = 0; i < objs.Length; i++)
+        {
+            if (objs[i].hideFlags == HideFlags.None)
+            {
+                if (objs[i].CompareTag(tag))
+                {
+                    return objs[i].gameObject;
+                }
+            }
+        }
+        return null;
+    }
 
 }

@@ -21,6 +21,8 @@ MonoBehaviour:
   level: 5
   health: 64
   maxHealth: 64
+  cachedHealth: 0
+  cachedMaxHealth: 0
   physicalAttack: 1
   magicAttack: 4
   physicalDefense: 1
@@ -42,3 +44,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a1865f6b4da98b242b4dcee12fdd2377, type: 2}
   - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  cachedPhysicalAttack: 1
+  cachedMagicAttack: 1
+  cachedPhysicalDefense: 1
+  cachedMagicDefense: 1
+  cachedSpeed: 1
+  cachedEvasion: 0
+  cachedCritChance: 0

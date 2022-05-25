@@ -19,6 +19,10 @@ public class CreateMonster : MonoBehaviour
 
     [SerializeField] public Image statusEffectUISprite;
 
+    [SerializeField] public GameObject StatScreenWindowGameObject;
+    [SerializeField] public Image StatScreenWindow;
+    [SerializeField] public TextMeshProUGUI StatScreenWindowText;
+
     [Title("Monster AI and Scene Setup")]
     [SerializeField] private Monster.AIType aiType;
     [SerializeField] private Monster.AILevel aiLevel;
@@ -49,6 +53,12 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public bool monsterImmuneToStatChanges = false;
     [DisplayWithoutEdit] public bool monsterImmuneToDamage = false;
 
+    [DisplayWithoutEdit] public bool monsterIsPoisoned = false;
+    [DisplayWithoutEdit] public bool monsterIsBurning = false;
+    [DisplayWithoutEdit] public bool monsterIsDazed = false;
+    [DisplayWithoutEdit] public bool monsterIsCrippled = false;
+    [DisplayWithoutEdit] public bool monsterIsWeakened = false;
+
     [DisplayWithoutEdit] public List<Modifier> ListOfModifiers;
 
     [Title("Components")]
@@ -75,13 +85,34 @@ public class CreateMonster : MonoBehaviour
             monsterReference = Instantiate(monster);
             monsterReference.aiType = aiType;
             monsterReference.maxHealth = monster.health;
+
+            // Clear cache
+            monster.cachedPhysicalAttack = monsterReference.physicalAttack;
+            monster.cachedMagicAttack = monsterReference.magicAttack;
+
+            monster.cachedPhysicalDefense = monsterReference.physicalDefense;
+            monster.cachedMagicDefense = monsterReference.magicDefense;
+
+            monster.cachedSpeed = monsterReference.speed;
+            monster.cachedEvasion = monsterReference.evasion;
+            monster.cachedCritChance = monsterReference.critChance;
         }
 
-        // this one does affect the base scriptable object
+        // if adevnture mode, cache stats only for Player
         if (combatManagerScript.adventureMode)
         {
             monsterReference = monster;
-            monster.maxHealth = monster.health;
+            monster.cachedPhysicalAttack = monsterReference.physicalAttack;
+            monster.cachedMagicAttack = monsterReference.magicAttack;
+
+            monster.cachedPhysicalDefense = monsterReference.physicalDefense;
+            monster.cachedMagicDefense = monsterReference.magicDefense;
+
+            monster.cachedSpeed = monsterReference.speed;
+            monster.cachedEvasion = monsterReference.evasion;
+            monster.cachedCritChance = monsterReference.critChance;
+
+            //monster.maxHealth = monster.health; not needed?
         }
 
         // Non editable init stats display
@@ -97,18 +128,17 @@ public class CreateMonster : MonoBehaviour
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
         healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
         sr.sprite = monster.baseSprite;
-
-        // if adventure mode, check adventure modifiers
-        if (combatManagerScript.adventureMode)
-        {
-            CheckAdventureModifiers();
-        }
     }
 
     //
     public void CheckAdventureModifiers()
     {
-
+        // if adventure mode, check adventure modifiers
+        if (combatManagerScript.adventureMode && monster.aiType == Monster.AIType.Ally)
+        {
+            combatManagerScript.adventureManager.ApplyAdventureModifiers(monster);
+            UpdateStats();
+        }
     }
 
     // This function should be called when stats get updated
@@ -186,8 +216,9 @@ public class CreateMonster : MonoBehaviour
                 switch (modifier.statusEffectType)
                 {
                     case (Modifier.StatusEffectType.Poisoned):
+                        monsterIsPoisoned = true;
                         statusEffectUISprite.sprite = monsterAttackManager.poisonedUISprite;
-                        int poisonDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.maxHealth);
+                        int poisonDamage = Mathf.RoundToInt((modifier.modifierAmount / 100f) * monsterReference.maxHealth);
 
                         monsterAnimator.SetBool("hitAnimationPlaying", true);
                         monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
@@ -401,5 +432,49 @@ public class CreateMonster : MonoBehaviour
     private void OnMouseEnter()
     {
         combatManagerScript.CycleTargets(gameObject);
+        DisplayStatScreenWindow(true);
+    }
+
+    // This function passes in the new target to the combatManager
+    private void OnMouseExit()
+    {
+        combatManagerScript.CycleTargets(gameObject);
+        DisplayStatScreenWindow(false);
+    }
+
+    // This function is called when the mouse hovers the monster, bringing up the stat screen window
+    public void DisplayStatScreenWindow(bool showWindow)
+    {
+        if (showWindow)
+        {
+            StatScreenWindowGameObject.SetActive(true);
+            StatScreenWindowText.text =
+                ($"Elements: {monster.monsterElement}/{monster.monsterSubElement}" +
+                $"\nPhysical Attack: {monsterReference.physicalAttack} ({ReturnSign(monsterReference.physicalAttack, monsterReference.cachedPhysicalAttack)}{monsterReference.physicalAttack - monsterReference.cachedPhysicalAttack})" +
+                $"\nMagic Attack: {monsterReference.magicAttack} ({ReturnSign(monsterReference.magicAttack, monsterReference.cachedMagicAttack)}{monsterReference.magicAttack - monsterReference.cachedMagicAttack})" +
+                $"\nPhysical Defense: {monsterReference.physicalDefense} ({ReturnSign(monsterReference.physicalDefense, monsterReference.cachedPhysicalDefense)}{monsterReference.physicalDefense - monsterReference.cachedPhysicalDefense})" +
+                $"\nMagic Defense: {monsterReference.magicDefense} ({ReturnSign(monsterReference.magicDefense, monsterReference.cachedMagicDefense)}{monsterReference.magicDefense - monsterReference.cachedMagicDefense})" +
+                $"\nEvasion: {monsterReference.evasion} ({ReturnSign(monsterReference.evasion, monsterReference.cachedEvasion)}{monsterReference.evasion - monsterReference.cachedEvasion})" +
+                $"\nCrit Chance: {monsterReference.critChance} (+{monsterReference.critChance - monsterReference.cachedCritChance})");
+        }
+        else 
+        if (!showWindow)
+        {
+            StatScreenWindowGameObject.SetActive(false);
+            StatScreenWindowText.text = "";
+        }
+    }
+
+    // Return negative or positive sign
+    public string ReturnSign(float currentStat, float baseStat)
+    {
+        // if currentStat is smaller than baseStat, must be stat debuffed
+        if (currentStat < baseStat)
+        {
+            return "";
+        }
+
+        // regular buff
+        return "+";
     }
 }
