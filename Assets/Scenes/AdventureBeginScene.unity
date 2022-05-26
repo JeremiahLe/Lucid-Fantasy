@@ -160,7 +160,7 @@ RectTransform:
   - {fileID: 700579310}
   - {fileID: 1923113185}
   m_Father: {fileID: 1932943010}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -448,7 +448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2851473890221524778, guid: e6e2daa9e9e3be04a8a95c4e8e5a0bc1, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2851473890221524778, guid: e6e2daa9e9e3be04a8a95c4e8e5a0bc1, type: 3}
       propertyPath: m_AnchorMax.x
@@ -525,6 +525,10 @@ PrefabInstance:
     - target: {fileID: 2851473890221524779, guid: e6e2daa9e9e3be04a8a95c4e8e5a0bc1, type: 3}
       propertyPath: m_Name
       value: AdventureButton (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2851473890221524779, guid: e6e2daa9e9e3be04a8a95c4e8e5a0bc1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6e2daa9e9e3be04a8a95c4e8e5a0bc1, type: 3}
@@ -1043,7 +1047,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1885437046977057422, guid: 4a17baaafb024df4ca13cca12757f736, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a17baaafb024df4ca13cca12757f736, type: 3}
@@ -1083,7 +1087,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1932943010}
-  m_RootOrder: 1
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1848,8 +1852,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30, y: -3.2878}
-  m_SizeDelta: {x: 1458.5056, y: 798.5107}
+  m_AnchoredPosition: {x: 2.3664, y: 7.7656}
+  m_SizeDelta: {x: 1922.7478, y: 1096.9521}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1535554707
 MonoBehaviour:
@@ -1864,7 +1868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0.9372549}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2192,11 +2196,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1736771222}
-  - {fileID: 908802972}
   - {fileID: 2058616681}
   - {fileID: 299617925}
   - {fileID: 630856433}
   - {fileID: 420426852}
+  - {fileID: 908802972}
   m_Father: {fileID: 1101214616}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2233,7 +2237,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1932943010}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2083633162
 GameObject:
@@ -2362,7 +2366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2851473890221524778, guid: e6e2daa9e9e3be04a8a95c4e8e5a0bc1, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2851473890221524778, guid: e6e2daa9e9e3be04a8a95c4e8e5a0bc1, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2450,6 +2454,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: winBGM
+      value: 
+      objectReference: {fileID: 8300000, guid: 610538fc2b0ebb0419a2217320df6263, type: 3}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: bossBGM
       value: 
       objectReference: {fileID: 8300000, guid: 7aeefde7b06a83541967aa266f9e0293, type: 3}
@@ -2457,6 +2465,10 @@ PrefabInstance:
       propertyPath: combatBGM
       value: 
       objectReference: {fileID: 8300000, guid: b9e11bdfb87f4a545b606bfe8248b101, type: 3}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: defeatBGM
+      value: 
+      objectReference: {fileID: 8300000, guid: bc95cab475244de4f8ffa3ab17abc636, type: 3}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: adventureBGM
       value: 

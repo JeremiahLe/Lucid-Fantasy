@@ -17,6 +17,8 @@ public class SubscreenManager : MonoBehaviour
     public List<GameObject> listOfRewardSlots;
 
     public TextMeshProUGUI titleText;
+    public TextMeshProUGUI summaryText;
+    public TextMeshProUGUI monsterListText;
 
     public GameObject BattleImage;
     public Sprite mysteryIcon;
@@ -228,9 +230,9 @@ public class SubscreenManager : MonoBehaviour
     //
     public void ShowFinalResultsMenu(bool Win)
     {
-
         ReturnToMainMenuButton.SetActive(true);
         BattleImage.SetActive(true);
+        BattleImage.GetComponent<Button>().enabled = false;
 
         Monster monster = adventureManager.GetMVPMonster();
         BattleImage.GetComponent<Image>().sprite = monster.baseSprite;
@@ -239,14 +241,29 @@ public class SubscreenManager : MonoBehaviour
             $"\nDamage Done: {monster.cachedDamageDone}" +
             $"\nKills: {monster.monsterKills}");
 
+        summaryText.text = ($"Adventure Summary: " +
+            $"\nGold Spent: {adventureManager.playerGoldSpent}" +
+            $"\nRerolls: {adventureManager.timesRerolled}" +
+            $"\nAlly Monsters Defeated: {adventureManager.playerMonstersLost}" +
+            $"\nEnemy Monsters Defeated: {adventureManager.playerMonstersKilled}" +
+            $"\nModifiers:");
+
+        foreach(Modifier modifier in adventureManager.ListOfCurrentModifiers)
+        {
+            summaryText.text += ($"\n{modifier.modifierName}");
+        }
+
         if (Win)
         {
+            adventureManager.PlayNewBGM(adventureManager.winBGM, .35f);
             titleText.text = "Adventure Completed!";
         }
         else
         {
             titleText.text = "Adventure Failed...";
         }
+
+        // Reset bools
     }
 
 

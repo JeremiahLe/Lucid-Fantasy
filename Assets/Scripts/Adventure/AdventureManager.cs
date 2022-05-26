@@ -16,9 +16,13 @@ public class AdventureManager : MonoBehaviour
 
     [Title("SFX")]
     public AudioSource GameManagerAudioSource;
+
     public AudioClip adventureBGM;
     public AudioClip combatBGM;
     public AudioClip bossBGM;
+
+    public AudioClip winBGM;
+    public AudioClip defeatBGM;
 
     [Title("Adventure Components")]
     public GameObject nodeSelectionTargeter;
@@ -48,10 +52,15 @@ public class AdventureManager : MonoBehaviour
     public int timesRerolled = 0;
 
     public int playerGold = 0;
+    public int playerGoldSpent = 0;
+
     public int playerMonstersLost = 0;
+    public int playerMonstersKilled = 0;
 
     public List<Monster> ListOfCurrentMonsters;
     public List<Modifier> ListOfCurrentModifiers;
+
+    public List<Monster> ListOfAllMonsters;
 
     [Title("Other Adventure Modules")]
     public enum RewardType { Monster, Modifier }
@@ -70,6 +79,8 @@ public class AdventureManager : MonoBehaviour
 
     public bool BossDefeated = false;
     public bool BossBattle = false;
+
+    public bool adventureFailed = false;
 
     [Title("Rewards")]
     public List<Monster> ListOfAvailableRewardMonsters;
@@ -243,12 +254,23 @@ public class AdventureManager : MonoBehaviour
             subscreenManager = SubscreenMenu.GetComponent<SubscreenManager>();
             InitiateSceneData();
             adventureSceneName = SceneManager.GetActiveScene().name;
+
+            // Is the boss till alive
             if (!BossDefeated)
             {
                 SubscreenMenu.SetActive(false);
             }
-            GameManagerAudioSource.Stop();
-            GameManagerAudioSource.PlayOneShot(adventureBGM, .60f);
+
+            // Check if battle over
+            if (!adventureFailed)
+            {
+                PlayNewBGM(adventureBGM, .60f);
+            }
+            else
+            {
+                PlayNewBGM(defeatBGM, .35f);
+                ShowFinalResultsMenu(false);
+            }
         }
         else
         if (scene.name == "SetupCombatScene")
@@ -258,15 +280,15 @@ public class AdventureManager : MonoBehaviour
             combatManagerScript.adventureMode = true;
             combatManagerScript.previousSceneName = adventureSceneName;
 
+            // Boss Music
             if (BossBattle)
             {
-                GameManagerAudioSource.Stop();
-                GameManagerAudioSource.PlayOneShot(bossBGM, .30f);
+                PlayNewBGM(bossBGM, .35f);
                 return;
             }
 
-            GameManagerAudioSource.Stop();
-            GameManagerAudioSource.PlayOneShot(combatBGM, .30f);
+            // Combat Music
+            PlayNewBGM(combatBGM, .30f);
         }
     }
 
@@ -449,19 +471,22 @@ public class AdventureManager : MonoBehaviour
     //
     public void ActivateNextNode()
     {
-        foreach (GameObject node in cachedSelectedNode.GetComponent<CreateNode>().nodesToUnlock)
+        if (!adventureFailed)
         {
-            node.GetComponent<CreateNode>().nodeLocked = false;
-            node.GetComponent<SpriteRenderer>().color = Color.white;
-            //node.GetComponent<Animator>().SetBool("unlocked", true);
-            ListOfUnlockedNodes.Add(node);
-        }
-        //
-        foreach (GameObject node in cachedSelectedNode.GetComponent<CreateNode>().nodesToLock)
-        {
-            node.GetComponent<CreateNode>().nodeLocked = true;
-            node.GetComponent<SpriteRenderer>().color = Color.red;
-            ListOfLockedNodes.Add(node);
+            foreach (GameObject node in cachedSelectedNode.GetComponent<CreateNode>().nodesToUnlock)
+            {
+                node.GetComponent<CreateNode>().nodeLocked = false;
+                node.GetComponent<SpriteRenderer>().color = Color.white;
+                //node.GetComponent<Animator>().SetBool("unlocked", true);
+                ListOfUnlockedNodes.Add(node);
+            }
+            //
+            foreach (GameObject node in cachedSelectedNode.GetComponent<CreateNode>().nodesToLock)
+            {
+                node.GetComponent<CreateNode>().nodeLocked = true;
+                node.GetComponent<SpriteRenderer>().color = Color.red;
+                ListOfLockedNodes.Add(node);
+            }
         }
 
         if (BossDefeated)
@@ -530,8 +555,8 @@ public class AdventureManager : MonoBehaviour
     public Monster GetMVPMonster()
     {
         // Get monster from list with most damage done
-        ListOfCurrentMonsters = ListOfCurrentMonsters.OrderByDescending(Monster => Monster.cachedDamageDone).ToList();
-        Monster mvp = ListOfCurrentMonsters[0];
+        ListOfAllMonsters = ListOfAllMonsters.OrderByDescending(Monster => Monster.cachedDamageDone).ToList();
+        Monster mvp = ListOfAllMonsters[0];
 
         return mvp;
     }
@@ -559,6 +584,13 @@ public class AdventureManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    //
+    public void PlayNewBGM(AudioClip newBGM, float scale)
+    {
+        GameManagerAudioSource.Stop();
+        GameManagerAudioSource.PlayOneShot(newBGM, scale);
     }
 
 }

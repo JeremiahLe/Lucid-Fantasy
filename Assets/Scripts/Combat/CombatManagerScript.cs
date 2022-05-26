@@ -830,7 +830,7 @@ public class CombatManagerScript : MonoBehaviour
                 ListOfAllys.Remove(monsterToRemove);
                 Destroy(monsterToRemove);
                 uiManager.UpdateMonsterList(ListOfAllys, Monster.AIType.Ally);
-                Debug.Log($"Removed {monsterToRemove.GetComponent<CreateMonster>().monsterReference.name}", this);
+                //Debug.Log($"Removed {monsterToRemove.GetComponent<CreateMonster>().monsterReference.name}", this);
                 if (adventureMode)
                 {
                     adventureManager.ListOfAllyBattleMonsters.Remove(monster);
@@ -843,7 +843,11 @@ public class CombatManagerScript : MonoBehaviour
                 ListOfEnemies.Remove(monsterToRemove);
                 Destroy(monsterToRemove);
                 uiManager.UpdateMonsterList(ListOfEnemies, Monster.AIType.Enemy);
-                Debug.Log($"Removed {monsterToRemove.GetComponent<CreateMonster>().monsterReference.name}", this);
+                //Debug.Log($"Removed {monsterToRemove.GetComponent<CreateMonster>().monsterReference.name}", this);
+                if (adventureMode)
+                {
+                    adventureManager.playerMonstersKilled += 1;
+                }
                 break;
 
             default:
@@ -963,6 +967,7 @@ public class CombatManagerScript : MonoBehaviour
             adventureManager.ListOfAllyBattleMonsters.Clear();
             adventureManager.ListOfEnemyBattleMonsters.Clear();
 
+            // If boss fight
             if (adventureManager.BossBattle)
             {
                 adventureManager.BossDefeated = true;
@@ -972,7 +977,8 @@ public class CombatManagerScript : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("StartScreen");
+            adventureManager.adventureFailed = true;
+            SceneManager.LoadScene(previousSceneName);
         }
     }
 
