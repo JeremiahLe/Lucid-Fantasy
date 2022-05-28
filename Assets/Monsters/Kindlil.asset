@@ -10,50 +10,50 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
-  m_Name: Embear
+  m_Name: Kindlil
   m_EditorClassIdentifier: 
-  name: Embear
-  baseSprite: {fileID: 21300000, guid: 18245bd4d5c12fb418456028008b4bb4, type: 3}
+  name: Kindlil
+  baseSprite: {fileID: 21300000, guid: 2c5790dd696c7d7408bd84406a4f6c9e, type: 3}
   monsterElement: 0
   monsterSubElement: 6
   aiType: 0
   aiLevel: 0
-  level: 7
-  health: 125
-  maxHealth: 125
+  level: 6
+  health: 52
+  maxHealth: 52
   cachedHealth: 0
   cachedMaxHealth: 0
-  physicalAttack: 4
-  magicAttack: 5
-  physicalDefense: 3
-  magicDefense: 2
-  speed: 3
-  evasion: 0
+  physicalAttack: 1
+  magicAttack: 7
+  physicalDefense: 4
+  magicDefense: 1
+  speed: 5
+  evasion: 12
   critChance: 0
   healthScaler: 1.01
   physicalAttackScaler: 1.01
-  magicAttackScaler: 1.01
+  magicAttackScaler: 1.02
   physicalDefenseScaler: 1.01
-  magicDefenseScaler: 1.01
+  magicDefenseScaler: 1.02
   speedScaler: 1.01
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: 7ab31fe3800ad4c4b9ed05b763aee7cd, type: 2}
-  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
-  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
-  - {fileID: 11400000, guid: 48d9334f640a4fc448bcae0417a1c0c3, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
+  - {fileID: 11400000, guid: 61c4c5159eda87947ba2fdefbd4779bf, type: 2}
+  - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
-  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
   - {fileID: 11400000, guid: 7ab31fe3800ad4c4b9ed05b763aee7cd, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
-  - {fileID: 11400000, guid: 48d9334f640a4fc448bcae0417a1c0c3, type: 2}
-  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
+  - {fileID: 11400000, guid: 61c4c5159eda87947ba2fdefbd4779bf, type: 2}
+  - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
   cachedPhysicalAttack: 1
-  cachedMagicAttack: 1
-  cachedPhysicalDefense: 1
+  cachedMagicAttack: 8
+  cachedPhysicalDefense: 6
   cachedMagicDefense: 1
-  cachedSpeed: 1
-  cachedEvasion: 0
+  cachedSpeed: 5
+  cachedEvasion: 99
   cachedCritChance: 0
   cachedDamageDone: 0
   monsterKills: 0

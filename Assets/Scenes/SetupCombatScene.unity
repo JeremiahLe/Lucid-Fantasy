@@ -552,7 +552,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.0011405945, y: 228.84613}
+  m_AnchoredPosition: {x: -0.0018501282, y: 228.84662}
   m_SizeDelta: {x: -0.0024719238, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &93912620
@@ -5183,7 +5183,7 @@ MonoBehaviour:
   monsterCritText: {fileID: 699824926}
   poisonedUISprite: {fileID: 21300000, guid: 8e8b0e28cfec1b248a4b7abc51592156, type: 3}
   noUISprite: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
-  burningUISprite: {fileID: 21300000, guid: eadece0b349312944b34389091c36639, type: 3}
+  burningUISprite: {fileID: 21300000, guid: 884db12ad07c0e444b5e3f1f064a979a, type: 3}
   cachedTransform: {x: 0, y: 0, z: 0}
   cachedDamage: 0
   calculatedDamage: 0

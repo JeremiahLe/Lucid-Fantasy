@@ -19,11 +19,13 @@ public class SceneButtonManager : MonoBehaviour
     public GameObject MultiplayerMenu;
     public GameObject TeamBuilderMenu;
     public GameObject SingleplayerMenu;
+    public GameObject CreditsMenu;
 
     [Header("Scene Buttons")]
     public Button QuickplayButton;
     public Button MultiplayerButton;
     public Button BackButton;
+    public Button CreditsButton;
 
     public Button CreateMatchButton;
     public Button FindMatchButton;
@@ -87,6 +89,12 @@ public class SceneButtonManager : MonoBehaviour
     {
         MainMenu.SetActive(false);
         SingleplayerMenu.SetActive(true);
+    }
+
+    // This function is called when Singleplayer is clicked
+    public void CreditsClicked()
+    {
+        CreditsMenu.SetActive(true);
     }
 
     // This function is called when Adventure is clicked

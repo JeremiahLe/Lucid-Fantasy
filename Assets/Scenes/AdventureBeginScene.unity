@@ -1047,7 +1047,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1885437046977057422, guid: 4a17baaafb024df4ca13cca12757f736, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a17baaafb024df4ca13cca12757f736, type: 3}
@@ -2474,6 +2474,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: eb7ae0a03637bfe4db9da0c8530e26b8, type: 3}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: rerollAmount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ConfirmAdventureMenu
       value: 
       objectReference: {fileID: 420426851}
@@ -2483,11 +2487,11 @@ PrefabInstance:
       objectReference: {fileID: 914339914}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardMonsters.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardModifiers.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardMonsters.Array.data[0]
@@ -2501,6 +2505,10 @@ PrefabInstance:
       propertyPath: ListOfAvailableRewardMonsters.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: ListOfAvailableRewardMonsters.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: aa870661d7d028f4f800ed129db05300, type: 2}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardModifiers.Array.data[0]
       value: 

@@ -236,6 +236,8 @@ public class CombatManagerScript : MonoBehaviour
                 adventureManager.ApplyAdventureModifiers(monster);
                 monsterObj.GetComponent<CreateMonster>().UpdateStats();
             }
+
+            adventureManager.ApplyGameStartAdventureModifiers();
         }
 
         StartCoroutine(IncrementNewRoundIE()); // Initiate the battle
@@ -783,6 +785,9 @@ public class CombatManagerScript : MonoBehaviour
             {
                 monster.GetComponent<CreateMonster>().OnRoundStart();
             }
+
+            // Sort after monster on round starts are called
+            SortMonsterBattleSequence(); // non battle start version
 
             // Then call Next Monster
             SetCurrentMonsterTurn();

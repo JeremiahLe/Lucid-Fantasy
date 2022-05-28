@@ -22,7 +22,7 @@ MonoBehaviour:
   statusEffectType: 1
   modifierName: Virulent Venom
   modifierAdventureReference: 2
-  modifierDescription: Poison a non-poisoned random enemy at round start.
+  modifierDescription: 'Round Start: Poison a random, non-poisoned enemy.'
   adventureModifier: 1
   modifierAdventureCallTime: 1
   modifierRarity: 2

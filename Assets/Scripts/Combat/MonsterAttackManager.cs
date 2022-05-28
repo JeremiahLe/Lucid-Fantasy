@@ -130,6 +130,12 @@ public class MonsterAttackManager : MonoBehaviour
     // This function updates the targeted enemy text on screen
     public void UpdateCurrentTargetText()
     {
+        // Fixes a weird targeting bug
+        if (combatManagerScript.CurrentTargetedMonster == null)
+        {
+            return;
+        }
+
         // Is the monster targeting itself?
         if (combatManagerScript.CurrentMonsterTurn == combatManagerScript.CurrentTargetedMonster)
         {
@@ -172,8 +178,12 @@ public class MonsterAttackManager : MonoBehaviour
         currentMonsterTurnGameObject = combatManagerScript.CurrentMonsterTurn;
         currentMonsterTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference; // unrelated to UI popup (missing reassignment calls?)
 
-        // take away action
-        currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterActionAvailable = false;
+        // fix missing target bug?
+        currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+        currentTargetedMonster = currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterReference;
+
+    // take away action
+    currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterActionAvailable = false;
 
         // does attack have a cooldown? if so, activate it
         if (currentMonsterAttack.attackHasCooldown)

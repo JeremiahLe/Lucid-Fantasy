@@ -27,6 +27,10 @@ public class CreateNode : MonoBehaviour
     public enum NodeType { Start, RandomCombat, PresetCombat, RandomReward, MonsterReward, ModifierReward, Shop, Boss, End }
     public NodeType nodeType;
 
+    public enum NodeState { Locked, Unlocked }
+    public NodeState nodeState;
+
+    public bool nodeInDefaultState = true;
     public bool nodeLocked;
 
     public List<GameObject> nodesToUnlock;
@@ -42,18 +46,12 @@ public class CreateNode : MonoBehaviour
 
     void Awake()
     {
-        GameManager = GameObject.FindGameObjectWithTag("GameManager");
-        adventureManager = GameManager.GetComponent<AdventureManager>();
+        GetSceneComponents();
 
-        nodeSelectionTargeter = adventureManager.nodeSelectionTargeter;
-        selectedPosition = GetComponentInChildren<Transform>();
-
-        sr = GetComponent<SpriteRenderer>();
-
-        if (nodeLocked)
-        {
-            sr.color = Color.red;
-        }
+        //if (nodeLocked)
+        //{
+        //    sr.color = Color.red;
+        //}
 
         #region
         /*
@@ -103,17 +101,49 @@ public class CreateNode : MonoBehaviour
         #endregion
     }
 
-    private void OnEnable()
+    public void GetSceneComponents()
     {
+        GameManager = GameObject.FindGameObjectWithTag("GameManager");
+        adventureManager = GameManager.GetComponent<AdventureManager>();
+
         nodeSelectionTargeter = adventureManager.nodeSelectionTargeter;
         selectedPosition = GetComponentInChildren<Transform>();
 
         sr = GetComponent<SpriteRenderer>();
+    }
 
-        if (nodeLocked)
+    // This function sets the node to the passed state
+    public void SetNodeState(NodeState newState)
+    {
+        switch (newState)
         {
-            sr.color = Color.red;
+            case (NodeState.Locked):
+                sr.color = Color.red;
+                nodeState = NodeState.Locked;
+                break;
+
+            case (NodeState.Unlocked):
+                sr.color = Color.white;
+                nodeState = NodeState.Unlocked;
+                break;
+
+            default:
+                break;
         }
+
+    }
+
+    private void OnEnable()
+    {
+        //nodeSelectionTargeter = adventureManager.nodeSelectionTargeter;
+        selectedPosition = GetComponentInChildren<Transform>();
+
+        sr = GetComponent<SpriteRenderer>();
+
+        //if (nodeLocked)
+        //{
+        //    sr.color = Color.red;
+        //}
 
 
     }

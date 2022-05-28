@@ -11,6 +11,9 @@ public class CreateReward : MonoBehaviour
     public Monster monsterReward;
     public Modifier modifierReward;
 
+    public GameObject StatScreenWindowGameObject;
+    public TextMeshProUGUI StatScreenWindowText;
+
     public AdventureManager.RewardType rewardType;
     public SubscreenManager subscreenManager;
     public AdventureManager adventureManager;
@@ -97,4 +100,60 @@ public class CreateReward : MonoBehaviour
             adventureManager.GoToBattleScene();
         }
     }
+
+    public float delayTime = 0.01f;
+    public float currentTime = 0.0f;
+    public bool windowShowing = false;
+
+    // Check mouse hover
+    private void OnMouseOver()
+    {
+        if (rewardType == AdventureManager.RewardType.Monster)
+        {
+            if (currentTime >= delayTime)
+            {
+                if (!windowShowing)
+                {
+                    //DisplayStatScreenWindow(true);
+                    windowShowing = true;
+                }
+            }
+            else
+            {
+                currentTime += Time.deltaTime;
+            }
+        }
+    }
+
+    // This function passes in the new target to the combatManager
+    private void OnMouseExit()
+    {
+        windowShowing = false;
+        currentTime = 0.0f;
+        DisplayStatScreenWindow(false);
+    }
+
+    
+    public void DisplayStatScreenWindow(bool showWindow)
+    {
+        if (showWindow)
+        {
+            StatScreenWindowGameObject.SetActive(true);
+            StatScreenWindowText.text =
+                (
+                $"\nPhysical Attack: {monsterReward.physicalAttack}" +
+                $"\nMagic Attack: {monsterReward.magicAttack}" +
+                $"\nPhysical Defense: {monsterReward.physicalDefense}" +
+                $"\nMagic Defense: {monsterReward.magicDefense}" +
+                $"\nEvasion: {monsterReward.evasion}" +
+                $"\nCrit Chance: {monsterReward.critChance}");
+        }
+        else
+        if (!showWindow)
+        {
+            StatScreenWindowGameObject.SetActive(false);
+            StatScreenWindowText.text = "";
+        }
+    }
+    
 }

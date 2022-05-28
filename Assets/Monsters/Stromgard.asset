@@ -21,13 +21,21 @@ MonoBehaviour:
   level: 50
   health: 4750
   maxHealth: 4750
+  cachedHealth: 0
+  cachedMaxHealth: 0
   physicalAttack: 125
   magicAttack: 125
   physicalDefense: 475
   magicDefense: 450
-  speed: 10
+  speed: 6
   evasion: 0
   critChance: 0
+  healthScaler: 1.01
+  physicalAttackScaler: 1.01
+  magicAttackScaler: 1.01
+  physicalDefenseScaler: 1.01
+  magicDefenseScaler: 1.01
+  speedScaler: 1.01
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: 4c1a33fa6254d194385548d0069f95ec, type: 2}
   - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
@@ -43,3 +51,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
   - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
   - {fileID: 11400000, guid: 4c1a33fa6254d194385548d0069f95ec, type: 2}
+  cachedPhysicalAttack: 1
+  cachedMagicAttack: 1
+  cachedPhysicalDefense: 1
+  cachedMagicDefense: 1
+  cachedSpeed: 1
+  cachedEvasion: 0
+  cachedCritChance: 0
+  cachedDamageDone: 0
+  monsterKills: 0

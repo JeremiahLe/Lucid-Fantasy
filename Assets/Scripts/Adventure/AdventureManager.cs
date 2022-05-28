@@ -9,8 +9,15 @@ using System.Linq;
 
 public class AdventureManager : MonoBehaviour
 {
-    [Title("Pre-Adventure Components")]
+    [Title("Bools")]
     public bool adventureBegin = false;
+    public bool AdventureMode = false;
+    public bool adventureFailed = false;
+    public bool BossDefeated = false;
+    public bool BossBattle = false;
+
+    [Title("Pre-Adventure Components")]
+    public static GameObject thisManager;
     public GameObject ConfirmAdventureMenu;
     public SceneButtonManager sceneButtonManager;
 
@@ -25,8 +32,10 @@ public class AdventureManager : MonoBehaviour
     public AudioClip defeatBGM;
 
     [Title("Adventure Components")]
+    public float adventureTimer;
+    public bool timeStarted = false;
+
     public GameObject nodeSelectionTargeter;
-    public bool AdventureMode = false;
     public string adventureSceneName;
     public Adventure currentSelectedAdventure;
 
@@ -70,17 +79,14 @@ public class AdventureManager : MonoBehaviour
     public Modifier currentHoveredRewardModifier;
 
     [Title("Nodes")]
+    public GameObject dontDisappear;
     public GameObject NodeToReturnTo;
 
     public List<GameObject> ListOfUnlockedNodes;
     public List<GameObject> ListOfLockedNodes;
 
     public GameObject[] ListOfAllNodes;
-
-    public bool BossDefeated = false;
-    public bool BossBattle = false;
-
-    public bool adventureFailed = false;
+    public GameObject[] ListOfSavedNodes;
 
     [Title("Rewards")]
     public List<Monster> ListOfAvailableRewardMonsters;
@@ -104,11 +110,36 @@ public class AdventureManager : MonoBehaviour
     {
     }
 
+    public void Update()
+    {
+        if (timeStarted == true)
+        {
+            adventureTimer += Time.deltaTime;
+        }
+    }
+
     public void Awake()
     {
+        thisManager = gameObject;
+        
         sceneButtonManager = GetComponent<SceneButtonManager>();
         GameManagerAudioSource = GetComponent<AudioSource>();
+        adventureBegin = false;
         CopyDefaultModifierList();
+
+        //
+        GameObject[] managers = GameObject.FindGameObjectsWithTag("GameManager");
+        int numManagers = managers.Length;
+        if (numManagers > 1)
+        {
+            foreach (GameObject manager in managers)
+            {
+                if (manager != thisManager)
+                {
+                    Destroy(manager);
+                }
+            }
+        }
     }
     
     //
@@ -130,7 +161,8 @@ public class AdventureManager : MonoBehaviour
                 modifierDurationType = item.modifierDurationType,
                 modifierRarity = item.modifierRarity,
                 modifierSource = item.modifierSource,
-                statModified = item.statModified
+                statModified = item.statModified,
+                baseSprite = item.baseSprite
             });
         }
     }
@@ -156,7 +188,8 @@ public class AdventureManager : MonoBehaviour
                 modifierDurationType = item.modifierDurationType,
                 modifierRarity = item.modifierRarity,
                 modifierSource = item.modifierSource,
-                statModified = item.statModified
+                statModified = item.statModified,
+                baseSprite = item.baseSprite
             });
         }
     }
@@ -195,10 +228,17 @@ public class AdventureManager : MonoBehaviour
         //
         foreach (GameObject node in ListOfAllNodes)
         {
-            //Destroy(node);
+            node.GetComponent<CreateNode>().nodeInDefaultState = false;
+            node.SetActive(false);
+            DontDestroyOnLoad(node);
         }
 
+        if (ListOfSavedNodes.Count() == 0)
+        {
+            ListOfSavedNodes = ListOfAllNodes;
+        }
         NodeToReturnTo = cachedSelectedNode;
+
         if (NodeToReturnTo.GetComponent<CreateNode>().nodeType == CreateNode.NodeType.Boss)
         {
             BossBattle = true;
@@ -233,10 +273,57 @@ public class AdventureManager : MonoBehaviour
     // When adventure scene is loaded, get scene data
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        switch (scene.name)
+        {
+            case ("StartScreen"):
+
+                // Destroy manager object and clear nodes
+                Destroy(gameObject);
+                foreach (GameObject node in ListOfAllNodes)
+                {
+                    Destroy(node);
+                }
+                foreach (GameObject node in ListOfSavedNodes)
+                {
+                    Destroy(node);
+                }
+                break;
+
+            case ("SetupCombatScene"):
+
+                // Get combat scene components
+                CombatManagerObject = GameObject.FindGameObjectWithTag("GameController");
+                combatManagerScript = CombatManagerObject.GetComponent<CombatManagerScript>();
+                combatManagerScript.adventureMode = true;
+                combatManagerScript.previousSceneName = adventureSceneName;
+
+                // Boss Music
+                if (BossBattle)
+                {
+                    PlayNewBGM(bossBGM, .50f);
+                    return;
+                }
+
+                // Combat Music
+                PlayNewBGM(combatBGM, .35f);
+                break;
+
+            default:
+                InitiateSceneData();
+                break;
+        }
+
+        #region Old Code
+        /*
         if (scene.name == "StartScreen")
         {
-            gameObject.SetActive(false);
+            // Destroy manager object and clear nodes
+            Destroy(gameObject);
             foreach (GameObject node in ListOfAllNodes)
+            {
+                Destroy(node);
+            }
+            foreach (GameObject node in ListOfSavedNodes)
             {
                 Destroy(node);
             }
@@ -245,7 +332,7 @@ public class AdventureManager : MonoBehaviour
         {
             AdventureMenu = GameObject.FindGameObjectWithTag("AdventureMenu");
             SubscreenMenu = GameObject.FindGameObjectWithTag("SubscreenMenu");
-            
+
             if (SubscreenMenu == null)
             {
                 SubscreenMenu = FindInActiveObjectByTag("SubscreenMenu");
@@ -272,8 +359,7 @@ public class AdventureManager : MonoBehaviour
                 ShowFinalResultsMenu(false);
             }
         }
-        else
-        if (scene.name == "SetupCombatScene")
+        else if (scene.name == "SetupCombatScene")
         {
             CombatManagerObject = GameObject.FindGameObjectWithTag("GameController");
             combatManagerScript = CombatManagerObject.GetComponent<CombatManagerScript>();
@@ -290,6 +376,8 @@ public class AdventureManager : MonoBehaviour
             // Combat Music
             PlayNewBGM(combatBGM, .30f);
         }
+        */
+        #endregion
     }
 
     // This function is called at Game Start, before Round 1, to apply any adventure modifiers
@@ -303,6 +391,13 @@ public class AdventureManager : MonoBehaviour
                 // Get specific Modifier
                 switch (modifier.modifierAdventureReference)
                 {
+                    case (Modifier.ModifierAdventureReference.WindsweptBoots):
+                        GameObject monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
+                        Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
+                        monster.speed += modifier.modifierAmount;
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName}!");
+                        break;
 
                     default:
                         break;
@@ -383,8 +478,122 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
-    // 
     public void InitiateSceneData()
+    {
+        // Get important components
+        timeStarted = true;
+        adventureSceneName = SceneManager.GetActiveScene().name;
+        AdventureMenu = GameObject.FindGameObjectWithTag("AdventureMenu");
+        routeText = AdventureMenu.GetComponentInChildren<TextMeshProUGUI>();
+        SubscreenMenu = GameObject.FindGameObjectWithTag("SubscreenMenu");
+
+        // Find subscreen if still not found
+        if (SubscreenMenu == null)
+        {
+            SubscreenMenu = FindInActiveObjectByTag("SubscreenMenu");
+        }
+
+        subscreenManager = SubscreenMenu.GetComponent<SubscreenManager>();
+        subScreenMenuText = SubscreenMenu.GetComponentInChildren<TextMeshProUGUI>();
+
+        nodeSelectionTargeter = GameObject.FindGameObjectWithTag("Targeter");
+
+        // Once all components are accounted for, call other inits
+        InitiateAdventureData();
+        InitiateNodes();
+    }
+
+    //
+    public void InitiateNodes()
+    {
+        Debug.Log("InitiateNodes got called!");
+
+        // Get all nodes in scene at adventure start
+        ListOfAllNodes = GameObject.FindGameObjectsWithTag("Node");
+
+        foreach (GameObject node in ListOfAllNodes)
+        {
+            // Get node component and apply targeter component etc.
+            node.SetActive(true);
+            CreateNode nodeComponent = node.GetComponent<CreateNode>();
+            nodeComponent.nodeSelectionTargeter = nodeSelectionTargeter;
+
+            // If not beginning of adventure, all default nodes should be turned off
+            if (nodeComponent.nodeInDefaultState == true && adventureBegin)
+            {
+                node.SetActive(false);
+            }
+
+            // If null, the adventure just started
+            if (NodeToReturnTo == null)
+            {
+                // Set start to unlocked if start of adventure
+                if (nodeComponent.nodeType == CreateNode.NodeType.Start)
+                {
+                    nodeComponent.SetNodeState(CreateNode.NodeState.Unlocked);
+                    node.GetComponent<Animator>().SetBool("unlocked", true);
+                }
+                else
+                {
+                    nodeComponent.SetNodeState(CreateNode.NodeState.Locked);
+                }
+            }
+            else
+            {
+                InitiateSavedNodes();
+            }
+        }
+
+        // Adventure has begun!
+        adventureBegin = true;
+    }
+
+    //
+    public void InitiateSavedNodes()
+    {
+        // Activate new set of nodes
+        foreach(GameObject node in ListOfSavedNodes)
+        {
+            node.SetActive(true);
+            CreateNode nodeComponent = node.GetComponent<CreateNode>();
+            nodeComponent.GetSceneComponents();
+        }
+
+        // Unlock next node from node to return to
+        ActivateNextNode();
+    }
+
+    // This function sets the adventure data
+    public void InitiateAdventureData()
+    {
+        // Set adventure boss
+        if (adventureBoss == null)
+        {
+            adventureBoss = currentSelectedAdventure.adventureBoss;
+        }
+
+        // Is the boss still alive
+        if (!BossDefeated)
+        {
+            SubscreenMenu.SetActive(false);
+        }
+
+        // Check if battle over
+        if (!adventureFailed)
+        {
+            PlayNewBGM(adventureBGM, .60f);
+        }
+        else
+        {
+            PlayNewBGM(defeatBGM, .35f);
+            ShowFinalResultsMenu(false);
+        }
+    }
+
+    #region Old Code
+    //
+    /*
+    public void InitiateSceneData2()
     {
         routeText = AdventureMenu.GetComponentInChildren<TextMeshProUGUI>();
         subScreenMenuText = SubscreenMenu.GetComponentInChildren<TextMeshProUGUI>();
@@ -442,6 +651,8 @@ public class AdventureManager : MonoBehaviour
         }
 
     }
+    */
+    #endregion
 
     // this function runs on click
     public void CheckNodeLocked()
@@ -477,7 +688,7 @@ public class AdventureManager : MonoBehaviour
             {
                 node.GetComponent<CreateNode>().nodeLocked = false;
                 node.GetComponent<SpriteRenderer>().color = Color.white;
-                //node.GetComponent<Animator>().SetBool("unlocked", true);
+                node.GetComponent<Animator>().SetBool("unlocked", true);
                 ListOfUnlockedNodes.Add(node);
             }
             //
@@ -568,6 +779,22 @@ public class AdventureManager : MonoBehaviour
         return randReward;
     }
 
+
+    //
+    public Monster GetRandomMonster(List<Monster> listOfMonsters)
+    {
+        Monster monster = listOfMonsters[Random.Range(0, listOfMonsters.Count)];
+        return monster;
+    }
+
+    //
+    public GameObject GetRandomMonsterGameObject(List<GameObject> listOfMonsters)
+    {
+        GameObject monster = listOfMonsters[Random.Range(0, listOfMonsters.Count)];
+        return monster;
+    }
+
+
     //
     GameObject FindInActiveObjectByTag(string tag)
     {
@@ -591,6 +818,12 @@ public class AdventureManager : MonoBehaviour
     {
         GameManagerAudioSource.Stop();
         GameManagerAudioSource.PlayOneShot(newBGM, scale);
+    }
+
+    // WOW I CAN'T BELIEVE THIS FIXED ALL MY PROBLEMS
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
 }

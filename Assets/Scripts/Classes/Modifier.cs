@@ -55,6 +55,10 @@ public class Modifier : ScriptableObject
                     monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsPoisoned = false;
                     break;
 
+                case StatusEffectType.Burning:
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsBurning = false;
+                    break;
+
                 default:
                     break;
             }

@@ -22,7 +22,7 @@ MonoBehaviour:
   statusEffectType: 0
   modifierName: Wild Fervor
   modifierAdventureReference: 0
-  modifierDescription: All allied monsters gain +30% critical chance.
+  modifierDescription: 'Game Start: All allied monsters gain +30% critical chance.'
   adventureModifier: 1
   modifierAdventureCallTime: 0
   modifierRarity: 3

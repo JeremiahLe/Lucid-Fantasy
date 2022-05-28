@@ -22,7 +22,7 @@ MonoBehaviour:
   statusEffectType: 0
   modifierName: Windswept Boots
   modifierAdventureReference: 4
-  modifierDescription: A random allied monster gains +5 speed.
+  modifierDescription: 'Game Start: A random allied monster gains +5 speed.'
   adventureModifier: 1
   modifierAdventureCallTime: 0
   modifierRarity: 1

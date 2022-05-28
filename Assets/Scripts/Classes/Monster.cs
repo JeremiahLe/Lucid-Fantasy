@@ -29,11 +29,10 @@ public class Monster : ScriptableObject
     [Range(1, 50)] public int level;
 
     [Range(1, 10000)] public float health;
-    [DisplayWithoutEdit] public float maxHealth;
+    [Range(1, 10000)] public float maxHealth;
     [DisplayWithoutEdit] public float cachedHealth;
     [DisplayWithoutEdit] public float cachedMaxHealth;
 
-    [Title("Adventure - Monster Combat Stats Cached")]
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 300)] public float physicalAttack;
     [Range(1, 300)] public float magicAttack;
@@ -46,6 +45,21 @@ public class Monster : ScriptableObject
     [Range(1, 100)] public float speed;
     [Range(0, 99)] public float evasion;
     [Range(0, 100)] public float critChance;
+
+    [Title("Monster Scaling Stats")]
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1.01f, 2f)] public float healthScaler;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1.01f, 10f)] public float physicalAttackScaler;
+    [Range(1.01f, 10f)] public float magicAttackScaler;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1.01f, 10f)] public float physicalDefenseScaler;
+    [Range(1.01f, 10f)] public float magicDefenseScaler;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1.01f, 1.25f)] public float speedScaler;
 
     //[PropertySpace(SpaceBefore = 15)]
     //public float mana;

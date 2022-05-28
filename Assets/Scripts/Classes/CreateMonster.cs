@@ -123,7 +123,7 @@ public class CreateMonster : MonoBehaviour
 
         monsterCritChance = monsterReference.critChance;
         monsterEvasion = monsterReference.evasion;
-        monsterReference.speed = monsterSpeed; /*Random.Range(1, 10);*/
+        monsterSpeed = (int)monsterReference.speed; /*Random.Range(1, 10);*/
 
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
         healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
@@ -156,7 +156,7 @@ public class CreateMonster : MonoBehaviour
 
         monsterCritChance = monsterReference.critChance;
         monsterEvasion = monsterReference.evasion;
-        monsterReference.speed = monsterSpeed;
+        monsterSpeed = (int)monsterReference.speed;
 
         CheckStatsCap();
     } 
@@ -230,6 +230,7 @@ public class CreateMonster : MonoBehaviour
                         break;
 
                     case (Modifier.StatusEffectType.Burning):
+                        monsterIsBurning = true;
                         statusEffectUISprite.sprite = monsterAttackManager.burningUISprite;
                         int burningDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.health);
 
@@ -273,7 +274,7 @@ public class CreateMonster : MonoBehaviour
                 break;
 
             case (AttackEffect.StatEnumToChange.Speed):
-                monsterSpeed += (int)modifier.modifierAmount;
+                monsterReference.speed += (int)modifier.modifierAmount;
                 UpdateStats();
                 break;
 
@@ -318,6 +319,26 @@ public class CreateMonster : MonoBehaviour
                 break;
         }
 
+    }
+
+    // This function inflicts statuses
+    public void InflictStatus(Modifier.StatusEffectType statusEffect)
+    {
+        switch (statusEffect)
+        {
+            case (Modifier.StatusEffectType.Poisoned):
+                monsterIsPoisoned = true;
+                statusEffectUISprite.sprite = monsterAttackManager.poisonedUISprite;
+                break;
+
+            case (Modifier.StatusEffectType.Burning):
+                monsterIsBurning = true;
+                statusEffectUISprite.sprite = monsterAttackManager.burningUISprite;
+                break;
+
+            default:
+                break;
+        }
     }
 
     // Refresh per-round combat variables
@@ -428,16 +449,42 @@ public class CreateMonster : MonoBehaviour
         monsterAnimator.SetBool("buffAnimationPlaying", false);
     }
 
+    public float delayTime = 0.01f;
+    public float currentTime = 0.0f;
+    public bool windowShowing = false;
+
     // This function passes in the new target to the combatManager
     private void OnMouseEnter()
     {
         combatManagerScript.CycleTargets(gameObject);
+        if (currentTime < delayTime)
+        {
+            return;
+        }
         DisplayStatScreenWindow(true);
+    }
+
+    private void OnMouseOver()
+    {
+        if (currentTime >= delayTime)
+        {
+            if (!windowShowing)
+            {
+                DisplayStatScreenWindow(true);
+                windowShowing = true;
+            }
+        }
+        else
+        {
+            currentTime += Time.deltaTime;
+        }
     }
 
     // This function passes in the new target to the combatManager
     private void OnMouseExit()
     {
+        windowShowing = false;
+        currentTime = 0.0f;
         combatManagerScript.CycleTargets(gameObject);
         DisplayStatScreenWindow(false);
     }

@@ -12,6 +12,10 @@ public class SubscreenManager : MonoBehaviour
     public GameObject RewardSlotThree;
 
     public GameObject ReturnToMainMenuButton;
+    public GameObject RerollButton;
+    public GameObject FightButton;
+
+    public AdventureManager.RewardType thisRewardType;
 
     public List<GameObject> listOfMonsterSlots;
     public List<GameObject> listOfRewardSlots;
@@ -19,6 +23,7 @@ public class SubscreenManager : MonoBehaviour
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI summaryText;
     public TextMeshProUGUI monsterListText;
+    public TextMeshProUGUI rerollsLeftText;
 
     public GameObject BattleImage;
     public Sprite mysteryIcon;
@@ -37,12 +42,16 @@ public class SubscreenManager : MonoBehaviour
     // load reward slots
     public void LoadRewardSlots(AdventureManager.RewardType rewardType)
     {
+        rerollsLeftText.text = ($"Rerolls left: {adventureManager.rerollAmount}");
+        RerollButton.SetActive(true);
+
         switch (rewardType)
         {
             case AdventureManager.RewardType.Monster:
                 foreach (GameObject rewardSlot in listOfRewardSlots)
                 {
                     rewardSlot.SetActive(true);
+                    thisRewardType = rewardType;
                     Monster monster = GetRandomMonster();
                     rewardSlot.GetComponent<CreateReward>().subscreenManager = this;
                     rewardSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
@@ -62,6 +71,7 @@ public class SubscreenManager : MonoBehaviour
                 foreach (GameObject rewardSlot in listOfRewardSlots)
                 {
                     rewardSlot.SetActive(true);
+                    thisRewardType = rewardType;
                     Modifier modifier = GetRandomModifier();
                     rewardSlot.GetComponent<CreateReward>().subscreenManager = this;
                     rewardSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
@@ -81,6 +91,9 @@ public class SubscreenManager : MonoBehaviour
     //
     public void HideRewardSlots()
     {
+        rerollsLeftText.text = ("");
+        RerollButton.SetActive(false);
+
         foreach (GameObject rewardSlot in listOfRewardSlots)
         {
             rewardSlot.SetActive(false);
@@ -90,6 +103,10 @@ public class SubscreenManager : MonoBehaviour
     //
     public void LoadRandomBattle()
     {
+        FightButton.SetActive(true);
+        FightButton.GetComponent<CreateReward>().subscreenManager = this;
+        FightButton.GetComponent<CreateReward>().adventureManager = adventureManager;
+
         randomBattleMonsterLimit = GetRandomBattleMonsterLimit();
         randomBattleMonsterCount = GetRandomBattleMonsterCount();
 
@@ -108,7 +125,7 @@ public class SubscreenManager : MonoBehaviour
         {
             if (adventureManager.currentSelectedNode.GetComponent<CreateNode>().nodeType == CreateNode.NodeType.Boss && !bossAdded)
             {
-                adventureManager.ListOfEnemyBattleMonsters.Add(GetBossMonster(adventureManager.adventureBoss));
+                adventureManager.ListOfEnemyBattleMonsters.Add(GetBossMonster(adventureManager.adventureBoss, 10));
                 BattleImage.GetComponent<Image>().sprite = adventureManager.adventureBoss.baseSprite;
                 BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle: Boss + Random" +
                 $"\nEnemies present: {randomBattleMonsterCount}" +
@@ -159,7 +176,7 @@ public class SubscreenManager : MonoBehaviour
             return 1;
         }
 
-        return Random.Range(2, 3);
+        return Random.Range(2, 4);
     }
 
     //
@@ -186,12 +203,27 @@ public class SubscreenManager : MonoBehaviour
             randMonster.ListOfMonsterAttacksAvailable.Remove(randomAttack);
         }
 
+        // random stats 
+        randMonster.level = Random.Range(5, 9);
+        randMonster.health = Mathf.RoundToInt(randMonster.health + randMonster.level);
+        randMonster.maxHealth = randMonster.health;
+
+        randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) * randMonster.physicalAttackScaler);
+
+        randMonster.magicAttack = Mathf.RoundToInt((randMonster.magicAttack + randMonster.level - 5) * randMonster.magicAttackScaler);
+
+        randMonster.physicalDefense = Mathf.RoundToInt((randMonster.physicalDefense + randMonster.level - 5) * randMonster.physicalDefenseScaler);
+
+        randMonster.magicDefense = Mathf.RoundToInt((randMonster.magicDefense + randMonster.level - 5) * randMonster.magicDefenseScaler);
+
+        randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) * randMonster.speedScaler);
+
         return randMonster;
     }
 
     //
 
-    public Monster GetBossMonster(Monster setMonster)
+    public Monster GetBossMonster(Monster setMonster, int level)
     {
         Monster newMonster = Instantiate(setMonster);
 
@@ -204,8 +236,19 @@ public class SubscreenManager : MonoBehaviour
         }
 
         // bonus stats
+        newMonster.level = level;
         newMonster.health += Mathf.RoundToInt(newMonster.health * .5f);
         newMonster.maxHealth = newMonster.health;
+
+        newMonster.physicalAttack = Mathf.RoundToInt((newMonster.physicalAttack + newMonster.level - 5) * newMonster.physicalAttackScaler);
+
+        newMonster.magicAttack = Mathf.RoundToInt((newMonster.magicAttack + newMonster.level - 5) * newMonster.magicAttackScaler);
+
+        newMonster.physicalDefense = Mathf.RoundToInt((newMonster.physicalDefense + newMonster.level - 5) * newMonster.physicalDefenseScaler);
+
+        newMonster.magicDefense = Mathf.RoundToInt((newMonster.magicDefense + newMonster.level - 5) * newMonster.magicDefenseScaler);
+
+        newMonster.speed = Mathf.RoundToInt((newMonster.speed + newMonster.level - 5) * newMonster.speedScaler);
         newMonster.name += ($" (Boss)")
 ;
         return newMonster;
@@ -230,6 +273,12 @@ public class SubscreenManager : MonoBehaviour
     //
     public void ShowFinalResultsMenu(bool Win)
     {
+        // Get ADVENTURE TIME
+        adventureManager.timeStarted = false;
+        int minutes = Mathf.FloorToInt(adventureManager.adventureTimer / 60F);
+        int seconds = Mathf.FloorToInt(adventureManager.adventureTimer - minutes * 60);
+        string niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
+
         ReturnToMainMenuButton.SetActive(true);
         BattleImage.SetActive(true);
         BattleImage.GetComponent<Button>().enabled = false;
@@ -242,20 +291,21 @@ public class SubscreenManager : MonoBehaviour
             $"\nKills: {monster.monsterKills}");
 
         summaryText.text = ($"Adventure Summary: " +
+            $"\nTime: {niceTime}" +
             $"\nGold Spent: {adventureManager.playerGoldSpent}" +
             $"\nRerolls: {adventureManager.timesRerolled}" +
             $"\nAlly Monsters Defeated: {adventureManager.playerMonstersLost}" +
             $"\nEnemy Monsters Defeated: {adventureManager.playerMonstersKilled}" +
-            $"\nModifiers:");
+            $"\nModifiers: ");
 
         foreach(Modifier modifier in adventureManager.ListOfCurrentModifiers)
         {
-            summaryText.text += ($"\n{modifier.modifierName}");
+            summaryText.text += ($"{modifier.modifierName}\n");
         }
 
         if (Win)
         {
-            adventureManager.PlayNewBGM(adventureManager.winBGM, .35f);
+            adventureManager.PlayNewBGM(adventureManager.winBGM, .60f);
             titleText.text = "Adventure Completed!";
         }
         else
@@ -271,5 +321,22 @@ public class SubscreenManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene("StartScreen");
+    }
+
+    //
+    public void RerollRewards()
+    {
+        if (adventureManager.rerollAmount >= 1)
+        {
+            adventureManager.rerollAmount -= 1;
+            adventureManager.timesRerolled += 1;
+
+            if (thisRewardType == AdventureManager.RewardType.Modifier)
+            {
+                adventureManager.ResetModifierList();
+            }
+
+            LoadRewardSlots(thisRewardType);
+        }
     }
 }

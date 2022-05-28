@@ -22,7 +22,8 @@ MonoBehaviour:
   statusEffectType: 0
   modifierName: Tempered Offense
   modifierAdventureReference: 1
-  modifierDescription: All allied monsters gain +15% physical and magic attack.
+  modifierDescription: 'Game Start: All allied monsters gain +15% physical and magic
+    attack.'
   adventureModifier: 1
   modifierAdventureCallTime: 0
   modifierRarity: 1

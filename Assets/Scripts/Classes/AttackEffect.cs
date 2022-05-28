@@ -9,9 +9,13 @@ using Sirenix.OdinInspector;
 public class AttackEffect : ScriptableObject
 {
     [Title("Effect Initialization Enumerators")]
-    public enum TypeOfEffect { MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter,
+    public enum TypeOfEffect
+    {
+        MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter,
         DoublePowerIfStatBoost, OnCriticalStrikeBuff, DamageAllEnemies, CripplingFearEffect, NonDamagingMove,
-        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity, InflictBurning }
+        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity, InflictBurning,
+        DamageBonusIfTargetStatusEffect
+    }
 
     public TypeOfEffect typeOfEffect;
 
@@ -23,6 +27,8 @@ public class AttackEffect : ScriptableObject
 
     public enum EffectTime { PreAttack, DuringAttack, PostAttack }
     public EffectTime effectTime;
+
+    public Modifier.StatusEffectType attackEffectStatus;
 
     [Title("Modifier Adjustments")]
     public bool modifierCalledOnce = false;
@@ -196,6 +202,15 @@ public class AttackEffect : ScriptableObject
                     targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
                     targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                     InflictBurning(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                }
+                break;
+
+            case TypeOfEffect.DamageBonusIfTargetStatusEffect:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                    BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                 }
                 break;
 
@@ -418,6 +433,31 @@ public class AttackEffect : ScriptableObject
             // Send buff message to combat log
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} had it's power doubled!");
+        }
+    }
+
+    // Double power of monster attack
+    public void BonusDamageIfTargetStatusEffect(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
+    {
+        // Check if the monster had recieved a stat boost this round
+        switch (attackEffectStatus)
+        {
+            case (Modifier.StatusEffectType.Burning):
+                if (monsterAttackManager.currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterIsBurning)
+                {
+                    // apply bonus damage
+                    monsterAttackManager.recievedDamagePercentBonus = true;
+                    float bonusDamagePercent = (amountToChange / 100f) * 10f;
+                    monsterAttackManager.cachedBonusDamagePercent = bonusDamagePercent;
+
+                    // Send buff message to combat log
+                    combatManagerScript = monsterAttackManager.combatManagerScript;
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained bonus damage!");
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -691,7 +731,7 @@ public class AttackEffect : ScriptableObject
                 Debug.Log("Missing stat or monster reference?", this);
                 return 0;
         }
-        
+
     }
 
     // Critical Strike Buff
@@ -700,7 +740,8 @@ public class AttackEffect : ScriptableObject
         // Check if the monster critically struck with attack this round
         if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterCriticallyStrikedThisRound)
         {
-            switch (statEnumToChange) {
+            switch (statEnumToChange)
+            {
                 case (StatEnumToChange.PhysicalAttack):
 
                     // Calculate buff
@@ -762,7 +803,7 @@ public class AttackEffect : ScriptableObject
                 default:
                     Debug.Log("Missing enum type?", this);
                     break;
-        }
+            }
         }
 
 
@@ -925,7 +966,7 @@ public class AttackEffect : ScriptableObject
         }
 
         // Add modifiers
-        AddModifiers(toValue, true, monsterReference, monsterReferenceGameObject, modifierDuration);
+        CreateAndAddModifiers(toValue, true, monsterReference, monsterReferenceGameObject, modifierDuration);
 
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
@@ -945,17 +986,24 @@ public class AttackEffect : ScriptableObject
     // Delegate Debuff Function Test
     public void InflictBurning(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
     {
-        // see if effect hits
-        float hitChance = (effectTriggerChance/ 100);
-        float randValue = UnityEngine.Random.value;
-
-        if (randValue > hitChance)
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
         {
             return;
         }
 
-        // Check if immune to skip modifiers
-        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        // Check if already burned
+        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsBurning == true)
+        {
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already burned!");
+            return;
+        }
+
+        // see if effect hits
+        float hitChance = (effectTriggerChance / 100);
+        float randValue = UnityEngine.Random.value;
+
+        if (randValue > hitChance)
         {
             return;
         }
@@ -964,14 +1012,16 @@ public class AttackEffect : ScriptableObject
         float toValue = (amountToChange / 100);
 
         // Add modifiers
-        AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+        //AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+        CreateAndAddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration, Modifier.StatusEffectType.Burning);
 
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s was burned by {effectTriggerName}!");
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was burned by {effectTriggerName}!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Burning);
 
         // Update combat order if speed was adjusted
         if (statEnumToChange == StatEnumToChange.Speed)
@@ -990,7 +1040,7 @@ public class AttackEffect : ScriptableObject
         }
 
         float toValue = 0;
-        
+
         // First check if already immune
         switch (statEnumToChange)
         {
@@ -1061,7 +1111,8 @@ public class AttackEffect : ScriptableObject
                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to status effects and debuffs!");
                 return true;
             }
-            else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges && statChangeType != StatChangeType.None) {
+            else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges && statChangeType != StatChangeType.None)
+            {
                 // Send immune message to combat log
                 combatManagerScript = monsterAttackManager.combatManagerScript;
                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to stat changes! Its {statEnumToChange} cannot be effected!");
@@ -1154,5 +1205,66 @@ public class AttackEffect : ScriptableObject
             monster.ListOfModifiers.Add(mod);
             monsterObj.GetComponent<CreateMonster>().ModifyStats(statToChange, mod);
         }
+    }
+
+    // Create and Add modifiers
+    public void CreateAndAddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj, int duration)
+    {
+        // First check if not buff
+        if (statDecrease)
+        {
+            toValue *= -1;
+        }
+
+        // Create and Apply modifier
+        Modifier mod = CreateInstance<Modifier>();
+        mod.modifierSource = name;
+        mod.statModified = statEnumToChange;
+        mod.modifierAmount = toValue;
+        mod.modifierDuration = duration;
+        mod.modifierCurrentDuration = duration;
+        if (duration > 0)
+        {
+            mod.modifierDurationType = Modifier.ModifierDurationType.Temporary;
+        }
+        else
+        {
+            mod.modifierDurationType = Modifier.ModifierDurationType.Permanent;
+        }
+        monster.ListOfModifiers.Add(mod);
+        monsterObj.GetComponent<CreateMonster>().ModifyStats(statEnumToChange, mod);
+    }
+
+    // Create and Add modifiers
+    public void CreateAndAddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj, int duration, Modifier.StatusEffectType statusEffect)
+    {
+        // First check if not buff
+        if (statDecrease)
+        {
+            toValue *= -1;
+        }
+
+        // Create and Apply modifier
+        Modifier mod = CreateInstance<Modifier>();
+        mod.modifierSource = name;
+        mod.statModified = statEnumToChange;
+        mod.modifierAmount = toValue;
+        mod.modifierDuration = duration;
+        mod.modifierCurrentDuration = duration;
+
+        // status effect
+        mod.statusEffect = true;
+        mod.statusEffectType = statusEffect;
+
+        if (duration > 0)
+        {
+            mod.modifierDurationType = Modifier.ModifierDurationType.Temporary;
+        }
+        else
+        {
+            mod.modifierDurationType = Modifier.ModifierDurationType.Permanent;
+        }
+        monster.ListOfModifiers.Add(mod);
+        monsterObj.GetComponent<CreateMonster>().ModifyStats(statEnumToChange, mod);
     }
 }
