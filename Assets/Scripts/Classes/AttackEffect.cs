@@ -676,7 +676,7 @@ public class AttackEffect : ScriptableObject
     public void AddBonusDamageFlat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
         // Get bonus damage amount source
-        float bonusAmountSource = GetBonusDamageSource(statEnumToChange, monsterAttackManager);
+        float bonusAmountSource = GetBonusDamageSource(statEnumToChange, monsterReference);
 
         // calc bonus
         monsterAttackManager.currentMonsterAttack.monsterAttackFlatDamageBonus = Mathf.RoundToInt(bonusAmountSource * (amountToChange / 100));
@@ -690,7 +690,7 @@ public class AttackEffect : ScriptableObject
     public void AddBonusDamage(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
         // Get bonus damage amount source
-        float bonusAmountSource = GetBonusDamageSource(statEnumToChange, monsterAttackManager);
+        float bonusAmountSource = GetBonusDamageSource(statEnumToChange, monsterReference);
 
         // calc bonus
         monsterAttackManager.recievedDamagePercentBonus = true;
@@ -702,30 +702,30 @@ public class AttackEffect : ScriptableObject
     }
 
     // Get bonus damage source
-    float GetBonusDamageSource(StatEnumToChange statEnumToChange, MonsterAttackManager monsterAttackManager)
+    float GetBonusDamageSource(StatEnumToChange statEnumToChange, Monster monsterRef)
     {
         switch (statEnumToChange)
         {
             case (StatEnumToChange.Speed):
-                return monsterAttackManager.currentMonsterTurn.speed;
+                return monsterRef.speed;
 
             case (StatEnumToChange.PhysicalAttack):
-                return monsterAttackManager.currentMonsterTurn.physicalAttack;
+                return monsterRef.physicalAttack;
 
             case (StatEnumToChange.PhysicalDefense):
-                return monsterAttackManager.currentMonsterTurn.physicalDefense;
+                return monsterRef.physicalDefense;
 
             case (StatEnumToChange.MagicAttack):
-                return monsterAttackManager.currentMonsterTurn.magicAttack;
+                return monsterRef.magicAttack;
 
             case (StatEnumToChange.MagicDefense):
-                return monsterAttackManager.currentMonsterTurn.magicDefense;
+                return monsterRef.magicDefense;
 
             case (StatEnumToChange.Evasion):
-                return monsterAttackManager.currentMonsterTurn.evasion;
+                return monsterRef.evasion;
 
             case (StatEnumToChange.CritChance):
-                return monsterAttackManager.currentMonsterTurn.critChance;
+                return monsterRef.critChance;
 
             default:
                 Debug.Log("Missing stat or monster reference?", this);
@@ -907,7 +907,7 @@ public class AttackEffect : ScriptableObject
     public void BuffTargetStat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
     {
         // Calculate buff
-        float fromValue = GetBonusDamageSource(statEnumToChange, monsterAttackManager);
+        float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);
         float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
         if (toValue <= 1)
         {
@@ -947,7 +947,7 @@ public class AttackEffect : ScriptableObject
     public void DebuffTargetStat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
     {
         // Calculate debuff
-        float fromValue = GetBonusDamageSource(statEnumToChange, monsterAttackManager);
+        float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);
         float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
         if (toValue <= 1)
         {
