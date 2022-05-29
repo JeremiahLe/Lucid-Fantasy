@@ -74,7 +74,7 @@ public class CombatManagerScript : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
-        else if (Input.GetKeyDown(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.R) && !adventureMode)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
@@ -234,7 +234,8 @@ public class CombatManagerScript : MonoBehaviour
             {
                 Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
                 adventureManager.ApplyAdventureModifiers(monster);
-                monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
+                monsterObj.GetComponent<CreateMonster>().CheckAdventureEquipment();
             }
 
             adventureManager.ApplyGameStartAdventureModifiers();
@@ -957,7 +958,8 @@ public class CombatManagerScript : MonoBehaviour
             // Clear out stat changes
             foreach(Monster monster in adventureManager.ListOfAllyBattleMonsters)
             {
-                monster.ListOfModifiers.Clear();
+                // Only remove non equipment modifiers
+                monster.ListOfModifiers = monster.ListOfModifiers.Where(mod => mod.adventureEquipment == true).ToList();
 
                 monster.physicalAttack = monster.cachedPhysicalAttack;
                 monster.magicAttack = monster.cachedMagicAttack;

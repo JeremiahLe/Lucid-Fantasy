@@ -13,11 +13,13 @@ public class SubscreenManager : MonoBehaviour
 
     public GameObject ReturnToMainMenuButton;
     public GameObject RerollButton;
+    public GameObject ConfirmEquipmentButton;
     public GameObject FightButton;
 
     public AdventureManager.RewardType thisRewardType;
 
     public List<GameObject> listOfMonsterSlots;
+    public List<GameObject> listOfMonsterSlotsEquipment;
     public List<GameObject> listOfRewardSlots;
 
     public TextMeshProUGUI titleText;
@@ -76,6 +78,24 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().subscreenManager = this;
                     rewardSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
                     rewardSlot.GetComponent<CreateReward>().rewardType = AdventureManager.RewardType.Modifier;
+                    rewardSlot.GetComponent<CreateReward>().modifierReward = modifier;
+                    rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = modifier.baseSprite;
+                    rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{modifier.modifierName}" +
+                        $"\n- {modifier.modifierDescription}");
+                }
+                break;
+
+            case AdventureManager.RewardType.Equipment:
+                ShowAlliedMonstersAvailableEquipment();
+                ConfirmEquipmentButton.SetActive(true);
+                foreach (GameObject rewardSlot in listOfRewardSlots)
+                {
+                    rewardSlot.SetActive(true);
+                    thisRewardType = rewardType;
+                    Modifier modifier = GetRandomEquipment();
+                    rewardSlot.GetComponent<CreateReward>().subscreenManager = this;
+                    rewardSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
+                    rewardSlot.GetComponent<CreateReward>().rewardType = AdventureManager.RewardType.Equipment;
                     rewardSlot.GetComponent<CreateReward>().modifierReward = modifier;
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = modifier.baseSprite;
                     rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{modifier.modifierName}" +
@@ -168,6 +188,49 @@ public class SubscreenManager : MonoBehaviour
         }
     }
 
+    // TODO - Also show dead monsters?
+    public void ShowAlliedMonstersAvailableEquipment()
+    {
+        // Show allied monsters
+        int i = 0;
+        foreach (GameObject monsterSlot in listOfMonsterSlotsEquipment)
+        {
+            if (adventureManager.ListOfCurrentMonsters.Count > i)
+            {
+                monsterSlot.SetActive(true);
+                monsterSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
+                monsterSlot.GetComponent<CreateReward>().subscreenManager = this;
+                monsterSlot.GetComponent<CreateReward>().monsterReward = adventureManager.ListOfCurrentMonsters[i];
+                monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
+                monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"{monsterSlot.GetComponent<CreateReward>().monsterReward.name} Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
+                    $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}" +
+                    $"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement}" +
+                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[0].monsterAttackName}" +
+                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[1].monsterAttackName}" +
+                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[2].monsterAttackName}" +
+                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[3].monsterAttackName}");
+            }
+
+            i++;
+        }
+    }
+
+    // Override for equipment
+    public void ShowAlliedMonstersAvailableEquipment(bool Hide)
+    {
+        // Hide allied monsters
+        int i = 0;
+        foreach (GameObject monsterSlot in listOfMonsterSlotsEquipment)
+        {
+            if (adventureManager.ListOfCurrentMonsters.Count > i)
+            {
+                monsterSlot.SetActive(false);
+            }
+
+            i++;
+        }
+    }
+
     //
     public int GetRandomBattleMonsterCount()
     {
@@ -176,7 +239,7 @@ public class SubscreenManager : MonoBehaviour
             return 1;
         }
 
-        return Random.Range(2, 4);
+        return Random.Range(3, 4);
     }
 
     //
@@ -269,6 +332,27 @@ public class SubscreenManager : MonoBehaviour
         return randModifierSO;
     }
 
+    //
+    public Modifier GetRandomEquipment()
+    {
+        if (adventureManager.ListOfAvailableRewardEquipment.Count == 0)
+        {
+            return null;
+        }
+
+        Modifier randModifier = adventureManager.ListOfAvailableRewardEquipment[Random.Range(0, adventureManager.ListOfAvailableRewardEquipment.Count)];
+        adventureManager.ListOfAvailableRewardEquipment.Remove(randModifier);
+
+        Modifier randModifierSO = Instantiate(randModifier);
+
+        // Fix weird reroll bugged amounts?
+        randModifierSO.adventureEquipment = true;
+        randModifierSO.modifierAmountFlatBuff = randModifier.modifierAmountFlatBuff;
+        randModifierSO.modifierAmount = randModifier.modifierAmount;
+
+        return randModifierSO;
+    }
+
 
     //
     public void ShowFinalResultsMenu(bool Win)
@@ -336,7 +420,14 @@ public class SubscreenManager : MonoBehaviour
                 adventureManager.ResetModifierList();
             }
 
+            if (thisRewardType == AdventureManager.RewardType.Equipment)
+            {
+                adventureManager.ResetEquipmentList();
+                adventureManager.currentSelectedEquipment = null;
+                adventureManager.currentSelectedMonsterForEquipment = null;
+            }
+
             LoadRewardSlots(thisRewardType);
-        }
+        } 
     }
 }

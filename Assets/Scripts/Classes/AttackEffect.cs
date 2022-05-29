@@ -253,7 +253,7 @@ public class AttackEffect : ScriptableObject
         }
 
         // Update monster's UI health element
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
     }
 
     // MagicalAttackBuffSelf
@@ -281,7 +281,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statEnumToChange.ToString()}!");
 
         // Update monster's UI health element
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
     }
 
@@ -309,7 +309,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statEnumToChange.ToString()}!");
 
         // Update UI, stats, and combat manager
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
         combatManagerScript.SortMonsterBattleSequence();
     }
@@ -338,7 +338,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statEnumToChange.ToString()}!");
 
         // Update UI, stats, and combat manager
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
     }
 
@@ -520,7 +520,7 @@ public class AttackEffect : ScriptableObject
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} raised its {statEnumToChange.ToString()}!");
 
                     // Update monster's speed element
-                    monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
                     monsterObj.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
                     // Does this actually work?
@@ -558,7 +558,7 @@ public class AttackEffect : ScriptableObject
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} raised its {statEnumToChange.ToString()}!");
 
                     // Update monster's speed element
-                    monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
                     monsterObj.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
                     // Does this actually work?
@@ -615,7 +615,7 @@ public class AttackEffect : ScriptableObject
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {statEnumToChange.ToString()} was lowered!");
 
                     // Update monster's speed element
-                    monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
                     monsterObj.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
                     // Does this actually work?
@@ -653,7 +653,7 @@ public class AttackEffect : ScriptableObject
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {statEnumToChange.ToString()} was lowered!");
 
                     // Update monster's speed element
-                    monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
                     monsterObj.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
                     // Does this actually work?
@@ -776,7 +776,7 @@ public class AttackEffect : ScriptableObject
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statEnumToChange.ToString()}!");
 
                     // Update monster's UI health element
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
                     monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
                     break;
@@ -805,7 +805,7 @@ public class AttackEffect : ScriptableObject
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statEnumToChange.ToString()}!");
 
                     // Update monster's UI health element
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
                     monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
                     break;
@@ -863,7 +863,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} lowered its Physical and Magic Attack!");
 
         // Update monster's stats
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
     }
 
@@ -909,7 +909,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} increased its Physical and Magic Attack!");
 
         // Update monster's stats
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
     }
 
@@ -947,7 +947,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!");
 
         // Update monster's stats
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
         // Update combat order if speed was adjusted
@@ -991,7 +991,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was decreased by {effectTriggerName}!");
 
         // Update monster's stats
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
         // Update combat order if speed was adjusted
@@ -1043,7 +1043,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was burned by {effectTriggerName}!");
 
         // Update monster's stats
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Burning);
 
         // Update combat order if speed was adjusted
@@ -1095,7 +1095,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was poisoned by {effectTriggerName}!");
 
         // Update monster's stats
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Poisoned);
 
         // Update combat order if speed was adjusted
@@ -1164,7 +1164,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} gained immunity to status effects and debuffs!");
 
         // Update monster's stats
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
         // Update combat order if speed was adjusted

@@ -24,7 +24,7 @@ public class CreateNode : MonoBehaviour
     public AdventureManager adventureManager;
 
     [Title("Node Data")]
-    public enum NodeType { Start, RandomCombat, PresetCombat, RandomReward, MonsterReward, ModifierReward, Shop, Boss, End }
+    public enum NodeType { Start, RandomCombat, PresetCombat, RandomReward, MonsterReward, ModifierReward, Shop, Boss, End, EquipmentReward }
     public NodeType nodeType;
 
     public enum NodeState { Locked, Unlocked }

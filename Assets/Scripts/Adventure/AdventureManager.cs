@@ -78,6 +78,9 @@ public class AdventureManager : MonoBehaviour
     public Monster currentHoveredRewardMonster;
     public Modifier currentHoveredRewardModifier;
 
+    public Modifier currentSelectedEquipment;
+    public Monster currentSelectedMonsterForEquipment;
+
     [Title("Nodes")]
     public GameObject dontDisappear;
     public GameObject NodeToReturnTo;
@@ -91,8 +94,10 @@ public class AdventureManager : MonoBehaviour
     [Title("Rewards")]
     public List<Monster> ListOfAvailableRewardMonsters;
     public List<Modifier> ListOfAvailableRewardModifiers;
+    public List<Modifier> ListOfAvailableRewardEquipment;
 
     public List<Modifier> DefaultListOfAvailableRewardModifiers;
+    public List<Modifier> DefaultListOfAvailableRewardEquipment;
 
     [Title("Pre-Battle Setup")]
     public int randomBattleMonsterCount;
@@ -126,6 +131,7 @@ public class AdventureManager : MonoBehaviour
         GameManagerAudioSource = GetComponent<AudioSource>();
         adventureBegin = false;
         CopyDefaultModifierList();
+        CopyDefaultEquipmentList();
 
         //
         GameObject[] managers = GameObject.FindGameObjectsWithTag("GameManager");
@@ -168,6 +174,31 @@ public class AdventureManager : MonoBehaviour
     }
 
     //
+    public void CopyDefaultEquipmentList()
+    {
+        // Copy list
+        foreach (var item in ListOfAvailableRewardEquipment)
+        {
+            DefaultListOfAvailableRewardEquipment.Add(new Modifier
+            {
+                modifierName = item.modifierName,
+                modifierAdventureReference = item.modifierAdventureReference,
+                adventureModifier = item.adventureModifier,
+                modifierAdventureCallTime = item.modifierAdventureCallTime,
+                modifierAmount = item.modifierAmount,
+                modifierDescription = item.modifierDescription,
+                modifierCurrentDuration = item.modifierCurrentDuration,
+                modifierDuration = item.modifierDuration,
+                modifierDurationType = item.modifierDurationType,
+                modifierRarity = item.modifierRarity,
+                modifierSource = item.modifierSource,
+                statModified = item.statModified,
+                baseSprite = item.baseSprite
+            });
+        }
+    }
+
+    //
     public void ResetModifierList()
     {
         ListOfAvailableRewardModifiers.Clear();
@@ -188,6 +219,35 @@ public class AdventureManager : MonoBehaviour
                 modifierDurationType = item.modifierDurationType,
                 modifierRarity = item.modifierRarity,
                 modifierSource = item.modifierSource,
+                statModified = item.statModified,
+                baseSprite = item.baseSprite
+            });
+        }
+    }
+
+    //
+    public void ResetEquipmentList()
+    {
+        ListOfAvailableRewardEquipment.Clear();
+
+        // Copy list
+        foreach (var item in DefaultListOfAvailableRewardEquipment)
+        {
+            ListOfAvailableRewardEquipment.Add(new Modifier
+            {
+                modifierName = item.modifierName,
+                modifierAdventureReference = item.modifierAdventureReference,
+                adventureModifier = item.adventureModifier,
+                modifierAdventureCallTime = item.modifierAdventureCallTime,
+                modifierAmount = item.modifierAmount,
+                modifierDescription = item.modifierDescription,
+                modifierCurrentDuration = item.modifierCurrentDuration,
+                modifierDuration = item.modifierDuration,
+                modifierDurationType = item.modifierDurationType,
+                modifierRarity = item.modifierRarity,
+                modifierSource = item.modifierSource,
+                modifierAmountFlatBuff = item.modifierAmountFlatBuff,
+                adventureEquipment = item.adventureEquipment,
                 statModified = item.statModified,
                 baseSprite = item.baseSprite
             });
@@ -395,7 +455,7 @@ public class AdventureManager : MonoBehaviour
                         GameObject monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
                         Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
                         monster.speed += modifier.modifierAmount;
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats();
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName}!");
                         break;
 
@@ -433,6 +493,7 @@ public class AdventureManager : MonoBehaviour
                             GameObject randomEnemyToPoison = combatManagerScript.GetRandomTarget(listOfUnpoisonedEnemies);
                             Monster monster = randomEnemyToPoison.GetComponent<CreateMonster>().monsterReference;
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was poisoned by {modifier.modifierName}.");
+                            modifier.modifierAmount /= 100f;
                             monster.ListOfModifiers.Add(modifier);
                         }
 
@@ -728,12 +789,18 @@ public class AdventureManager : MonoBehaviour
 
             case CreateNode.NodeType.ModifierReward:
                 currentRewardType = RewardType.Modifier;
-                subScreenMenuText.text = ($"Select {currentRewardType.ToString()}...");
+                subScreenMenuText.text = ($"Select Augment...");
                 subscreenManager.LoadRewardSlots(RewardType.Modifier);
                 break;
 
+            case CreateNode.NodeType.EquipmentReward:
+                currentRewardType = RewardType.Equipment;
+                subScreenMenuText.text = ($"Select {currentRewardType.ToString()} and Monster...");
+                subscreenManager.LoadRewardSlots(RewardType.Equipment);
+                break;
+
             case CreateNode.NodeType.MonsterReward:
-                currentRewardType = RewardType.Monster;
+                currentRewardType = RewardType.Equipment;
                 subScreenMenuText.text = ($"Select {currentRewardType.ToString()}...");
                 subscreenManager.LoadRewardSlots(RewardType.Monster);
                 break;

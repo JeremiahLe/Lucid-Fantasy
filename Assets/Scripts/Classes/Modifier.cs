@@ -18,6 +18,7 @@ public class Modifier : ScriptableObject
     public int modifierCurrentDuration;
 
     public float modifierAmount;
+    public bool modifierAmountFlatBuff;
 
     public bool statusEffect = false;
     public enum StatusEffectType { None, Poisoned, Stunned, Dazed, Crippled, Weakened, Burning }
@@ -30,6 +31,7 @@ public class Modifier : ScriptableObject
     public string modifierDescription;
 
     public bool adventureModifier = false;
+    public bool adventureEquipment = false;
     public enum ModifierAdventureCallTime { GameStart, RoundStart }
     public ModifierAdventureCallTime modifierAdventureCallTime;
 

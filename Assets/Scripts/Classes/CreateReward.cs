@@ -35,6 +35,8 @@ public class CreateReward : MonoBehaviour
     // Select reward
     public void SelectReward()
     {
+        adventureManager.routeText.text = ($"Select Destination...");
+
         if (selectable)
         {
             if (rewardType == AdventureManager.RewardType.Monster)
@@ -45,13 +47,30 @@ public class CreateReward : MonoBehaviour
                 adventureManager.SubscreenMenu.SetActive(false);
                 adventureManager.ActivateNextNode();
             }
-            else
+            else if (rewardType == AdventureManager.RewardType.Modifier)
             {
                 adventureManager.ListOfCurrentModifiers.Add(modifierReward);
                 modifierReward = null;
                 adventureManager.ResetModifierList();
                 adventureManager.SubscreenMenu.SetActive(false);
                 adventureManager.ActivateNextNode();
+            }
+            else if (rewardType == AdventureManager.RewardType.Equipment)
+            {
+                if (!selected)
+                {
+                    selected = true;
+                    rewardImage = GetComponent<Image>();
+                    rewardImage.sprite = selectedSprite;
+                    adventureManager.currentSelectedEquipment = modifierReward;
+                }
+                else
+                {
+                    selected = false;
+                    rewardImage = GetComponent<Image>();
+                    rewardImage.sprite = modifierReward.baseSprite;
+                    adventureManager.currentSelectedEquipment = null;
+                }
             }
         }
     }
@@ -77,6 +96,48 @@ public class CreateReward : MonoBehaviour
                 adventureManager.ListOfAllyBattleMonsters.Remove(monsterReward);
                 adventureManager.subScreenMenuText.text = ($"Current monsters: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
             }
+        }
+    }
+
+    // 
+    public void SelectMonsterForEquipment()
+    {
+        if (selectable)
+        {
+            if (!selected)
+            {
+                selected = true;
+                rewardImage = GetComponent<Image>();
+                rewardImage.sprite = selectedSprite;
+                adventureManager.currentSelectedMonsterForEquipment = monsterReward;
+            }
+            else
+            {
+                selected = false;
+                rewardImage = GetComponent<Image>();
+                rewardImage.sprite = monsterReward.baseSprite;
+                adventureManager.currentSelectedMonsterForEquipment = null;
+            }
+        }
+    }
+
+    //
+    public void ConfirmEquipment()
+    {
+        if (adventureManager.currentSelectedEquipment != null && adventureManager.currentSelectedMonsterForEquipment != null)
+        {
+            adventureManager.currentSelectedMonsterForEquipment.ListOfModifiers.Add(adventureManager.currentSelectedEquipment);
+            subscreenManager.ShowAlliedMonstersAvailableEquipment(false);
+            subscreenManager.ConfirmEquipmentButton.SetActive(false);
+
+            modifierReward = null;
+            adventureManager.ResetEquipmentList();
+            adventureManager.SubscreenMenu.SetActive(false);
+            adventureManager.ActivateNextNode();
+        }
+        else
+        {
+            adventureManager.subScreenMenuText.text = ($"Please select an equipment and monster.");
         }
     }
 

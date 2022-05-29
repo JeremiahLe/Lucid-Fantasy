@@ -252,7 +252,7 @@ public class MonsterAttackManager : MonoBehaviour
             }
 
             Monster monsterWhoUsedAttack = currentMonsterTurn;
-            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats();
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(false);
 
             TriggerPostAttackEffects(monsterWhoUsedAttack);
 
@@ -356,7 +356,7 @@ public class MonsterAttackManager : MonoBehaviour
             TriggerPostAttackEffects(monsterWhoUsedAttack);
 
             //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
-            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats();
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true);
 
             // Add to killcount if applicable
             if (combatManagerScript.adventureMode)
@@ -429,12 +429,23 @@ public class MonsterAttackManager : MonoBehaviour
 
                 Monster monsterWhoUsedAttack = currentMonsterTurn;
                 monsterWhoUsedAttack.health = currentMonsterTurn.health;
+                monsterWhoUsedAttack.cachedDamageDone += calculatedDamage;
 
                 // Trigger post attack effects
                 TriggerPostAttackEffects(monsterWhoUsedAttack);
 
                 // End of turn stuff
-                currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats();
+                currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true);
+
+                // Add to killcount if applicable
+                if (combatManagerScript.adventureMode)
+                {
+                    if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.health <= 0)
+                    {
+                        monsterWhoUsedAttack.monsterKills += 1;
+                    }
+                }
+
                 combatManagerScript.monsterTargeter.SetActive(false);
                 combatManagerScript.targeting = false;
             }
