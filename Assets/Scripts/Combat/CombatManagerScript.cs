@@ -759,6 +759,7 @@ public class CombatManagerScript : MonoBehaviour
     {
         if (!battleOver)
         {
+            autoBattle = false;
             currentRound += 1;
             uiManager.IncrementRoundCount(currentRound);
 

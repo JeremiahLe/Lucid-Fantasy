@@ -628,7 +628,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &5566526004445483498
+--- !u!95 &1896270405723846274
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -638,7 +638,7 @@ Animator:
   m_GameObject: {fileID: 4818900678288431136}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 69b67cd1b5aea0a44832c027b9db66d4, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9c4fa71e14efb724d9e49330300b5a79, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

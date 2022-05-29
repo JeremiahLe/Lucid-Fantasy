@@ -916,6 +916,10 @@ public class AttackEffect : ScriptableObject
     // Delegate Buff Function Test
     public void BuffTargetStat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
     {
+        // Grab new refs?
+        monsterReference = monsterAttackManager.currentTargetedMonster;
+        monsterReferenceGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
+
         // Calculate buff
         float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);
         float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
@@ -956,6 +960,10 @@ public class AttackEffect : ScriptableObject
     // Delegate Debuff Function Test
     public void DebuffTargetStat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
     {
+        // Grab new refs?
+        monsterReference = monsterAttackManager.currentTargetedMonster;
+        monsterReferenceGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
+
         // Calculate debuff
         float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);
         float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
@@ -1043,6 +1051,10 @@ public class AttackEffect : ScriptableObject
     // Delegate Debuff Function Test
     public void InflictPoisoned(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
     {
+        // Grab new refs?
+        monsterReference = monsterAttackManager.currentTargetedMonster;
+        monsterReferenceGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
+
         // Check if immune to skip modifiers
         if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
         {

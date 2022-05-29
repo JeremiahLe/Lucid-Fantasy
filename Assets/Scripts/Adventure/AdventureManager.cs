@@ -72,7 +72,7 @@ public class AdventureManager : MonoBehaviour
     public List<Monster> ListOfAllMonsters;
 
     [Title("Other Adventure Modules")]
-    public enum RewardType { Monster, Modifier }
+    public enum RewardType { Monster, Modifier, Equipment }
     public RewardType currentRewardType;
 
     public Monster currentHoveredRewardMonster;

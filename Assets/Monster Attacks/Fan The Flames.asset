@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fan The Flames
   m_EditorClassIdentifier: 
   monsterAttackName: Fan The Flames
-  monsterAttackDescription: Fan the flames of the fire, dealing 50% bonus damage
+  monsterAttackDescription: Fan the flames of the fire, dealing 75% bonus damage
     if the target is burned.
   monsterAttackElement: 0
   monsterAttackType: 0
@@ -21,7 +21,7 @@ MonoBehaviour:
   monsterAttackTargetCount: 0
   monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: bddba377ce4bb4d43beb831c3f9d5b01, type: 3}
-  monsterAttackDamage: 40
+  monsterAttackDamage: 20
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
   monsterAttackCritChance: 10
