@@ -1004,6 +1004,10 @@ public class AttackEffect : ScriptableObject
     // Delegate Debuff Function Test
     public void InflictBurning(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
     {
+        // Grab new refs?
+        monsterReference = monsterAttackManager.currentTargetedMonster;
+        monsterReferenceGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
+
         // Check if immune to skip modifiers
         if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
         {
@@ -1013,6 +1017,7 @@ public class AttackEffect : ScriptableObject
         // Check if already burned
         if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsBurning == true)
         {
+            combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already burned!");
             return;
         }
