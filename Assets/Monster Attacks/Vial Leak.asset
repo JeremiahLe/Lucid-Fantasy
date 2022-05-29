@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Vial Leak
   m_EditorClassIdentifier: 
   monsterAttackName: Vial Leak
-  monsterAttackDescription: Spill a wave of chemicals, lowering the defensive stats
-    of all enemies hit by 20% for 2 rounds. Has a 25% chance to inflict Poisoned
-    status, as well.
+  monsterAttackDescription: "Spill a wave of chemicals, lowering the defensive stats
+    of all enemies hit \nby 20% for 2 rounds. Has a 25% chance to inflict Poisoned
+    status."
   monsterAttackElement: 9
   monsterAttackType: 0
   monsterAttackDamageType: 1

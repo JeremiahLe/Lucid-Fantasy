@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Honed Precision
   m_EditorClassIdentifier: 
   monsterAttackName: Honed Precision
-  monsterAttackDescription: Breifly raise user's critical strike chance by 100% for
-    2 rounds.
+  monsterAttackDescription: Raise user's critical strike chance by 100% for 2 rounds.
   monsterAttackElement: 5
   monsterAttackType: 1
   monsterAttackDamageType: 0
@@ -25,6 +24,7 @@ MonoBehaviour:
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
   monsterAttackCritChance: 0
+  monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0
   attackBaseCooldown: 0

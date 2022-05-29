@@ -1064,6 +1064,7 @@ public class AttackEffect : ScriptableObject
         // Check if already poisened
         if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsPoisoned == true)
         {
+            combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already poisoned!");
             return;
         }

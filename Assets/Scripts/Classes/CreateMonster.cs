@@ -242,7 +242,7 @@ public class CreateMonster : MonoBehaviour
                     case (Modifier.StatusEffectType.Poisoned):
                         monsterIsPoisoned = true;
                         statusEffectUISprite.sprite = monsterAttackManager.poisonedUISprite;
-                        int poisonDamage = Mathf.RoundToInt((modifier.modifierAmount / 100f) * monsterReference.maxHealth);
+                        int poisonDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.maxHealth);
 
                         monsterAnimator.SetBool("hitAnimationPlaying", true);
                         monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);

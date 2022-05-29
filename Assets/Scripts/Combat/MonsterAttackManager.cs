@@ -182,8 +182,8 @@ public class MonsterAttackManager : MonoBehaviour
         currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
         currentTargetedMonster = currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterReference;
 
-    // take away action
-    currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterActionAvailable = false;
+        // take away action
+        currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterActionAvailable = false;
 
         // does attack have a cooldown? if so, activate it
         if (currentMonsterAttack.attackHasCooldown)
