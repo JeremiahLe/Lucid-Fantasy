@@ -2487,7 +2487,7 @@ PrefabInstance:
       objectReference: {fileID: 914339914}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardMonsters.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardModifiers.Array.size
@@ -2509,6 +2509,10 @@ PrefabInstance:
       propertyPath: ListOfAvailableRewardMonsters.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: aa870661d7d028f4f800ed129db05300, type: 2}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: ListOfAvailableRewardMonsters.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 622d592c26c65d24e9df7d9906fc1807, type: 2}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardModifiers.Array.data[0]
       value: 

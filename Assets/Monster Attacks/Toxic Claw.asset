@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
+  m_Name: Toxic Claw
+  m_EditorClassIdentifier: 
+  monsterAttackName: Toxic Claw
+  monsterAttackDescription: Ravage the target with chemically soaked claws. Has a
+    33% chance to inflict poison.
+  monsterAttackElement: 9
+  monsterAttackType: 0
+  monsterAttackDamageType: 0
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 0
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}
+  monsterAttackDamage: 40
+  monsterAttackFlatDamageBonus: 0
+  monsterAttackAccuracy: 100
+  monsterAttackCritChance: 10
+  monsterAttackNeverMiss: 0
+  attackHasCooldown: 0
+  attackOnCooldown: 0
+  attackBaseCooldown: 0
+  attackCurrentCooldown: 0
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: 3fd155f6d508c3744b1c9aeeaeab9c3f, type: 2}

@@ -14,7 +14,11 @@ public class Monster : ScriptableObject
     public Sprite baseSprite;
 
     [Title("Setup")]
-    public enum MonsterElement { Fire, Ice, Earth, Wind, Shadow, Neutral, None };
+    public enum MonsterElement
+    { Fire, Water, Earth, Wind,
+        Shadow, Neutral, None, Light, Time,
+        Elixir, Electric, Stone, Sound  };
+
     public MonsterElement monsterElement;
     public MonsterElement monsterSubElement;
 

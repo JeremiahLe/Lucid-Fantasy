@@ -13,7 +13,8 @@ public class AttackEffect : ScriptableObject
     {
         MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter,
         DoublePowerIfStatBoost, OnCriticalStrikeBuff, DamageAllEnemies, CripplingFearEffect, NonDamagingMove,
-        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity, InflictBurning,
+        SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity,
+        InflictBurning, InflictPoisoned,
         DamageBonusIfTargetStatusEffect
     }
 
@@ -202,6 +203,15 @@ public class AttackEffect : ScriptableObject
                     targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
                     targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                     InflictBurning(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                }
+                break;
+
+            case TypeOfEffect.InflictPoisoned:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                    InflictPoisoned(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                 }
                 break;
 
@@ -1022,6 +1032,53 @@ public class AttackEffect : ScriptableObject
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
         monsterReferenceGameObject.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Burning);
+
+        // Update combat order if speed was adjusted
+        if (statEnumToChange == StatEnumToChange.Speed)
+        {
+            combatManagerScript.SortMonsterBattleSequence();
+        }
+    }
+
+    // Delegate Debuff Function Test
+    public void InflictPoisoned(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
+    {
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
+
+        // Check if already poisened
+        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsPoisoned == true)
+        {
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already poisoned!");
+            return;
+        }
+
+        // see if effect hits
+        float hitChance = (effectTriggerChance / 100);
+        float randValue = UnityEngine.Random.value;
+
+        if (randValue > hitChance)
+        {
+            return;
+        }
+
+        // Get damage amount
+        float toValue = (amountToChange / 100);
+
+        // Add modifiers
+        //AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+        CreateAndAddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration, Modifier.StatusEffectType.Poisoned);
+
+        // Send message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was poisoned by {effectTriggerName}!");
+
+        // Update monster's stats
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats();
+        monsterReferenceGameObject.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Poisoned);
 
         // Update combat order if speed was adjusted
         if (statEnumToChange == StatEnumToChange.Speed)

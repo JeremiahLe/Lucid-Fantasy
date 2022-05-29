@@ -166,9 +166,33 @@ public class CreateMonster : MonoBehaviour
     {
         if (monsterSpeed < 1)
         {
-            Debug.Log("Called stat minimum cap! (Speed)");
             monsterSpeed = 1;
             healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
+        }
+
+        if (monsterPhysicalAttack < 1)
+        {
+            monsterPhysicalAttack = 1;
+        }
+
+        if (monsterMagicAttack < 1)
+        {
+            monsterMagicAttack = 1;
+        }
+
+        if (monsterPhysicalDefense < 1)
+        {
+            monsterPhysicalDefense = 1;
+        }
+
+        if (monsterMagicDefense < 1)
+        {
+            monsterMagicDefense = 1;
+        }
+
+        if (monsterCritChance < 1)
+        {
+            monsterCritChance = 0;
         }
     }
 

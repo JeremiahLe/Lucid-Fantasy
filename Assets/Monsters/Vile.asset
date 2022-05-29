@@ -13,34 +13,42 @@ MonoBehaviour:
   m_Name: Vile
   m_EditorClassIdentifier: 
   name: Vile
-  baseSprite: {fileID: 21300000, guid: 957a97f5ee59f0241b1bd7d1933ca8be, type: 3}
-  monsterElement: 2
-  monsterSubElement: 6
+  baseSprite: {fileID: 21300000, guid: 3e26b457512cf8340b97f1fbcf5d2720, type: 3}
+  monsterElement: 9
+  monsterSubElement: 5
   aiType: 1
   aiLevel: 0
-  level: 7
-  health: 42
-  maxHealth: 32
+  level: 5
+  health: 70
+  maxHealth: 70
   cachedHealth: 0
   cachedMaxHealth: 0
-  physicalAttack: 3
-  magicAttack: 3
+  physicalAttack: 4
+  magicAttack: 4
   physicalDefense: 1
   magicDefense: 1
-  speed: 6
-  evasion: 5
+  speed: 8
+  evasion: 2
   critChance: 0
   healthScaler: 1.01
-  physicalAttackScaler: 1.01
+  physicalAttackScaler: 1.02
   magicAttackScaler: 1.01
   physicalDefenseScaler: 1.01
   magicDefenseScaler: 1.01
   speedScaler: 1.01
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 642a609bcd4f3b744b73b7627263f273, type: 2}
-  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
+  - {fileID: 11400000, guid: 16a75152e030c7845970bbe112763381, type: 2}
+  - {fileID: 11400000, guid: b3a70bf2336b0274492a6af14387179c, type: 2}
   ListOfModifiers: []
-  ListOfMonsterAttacksAvailable: []
+  ListOfMonsterAttacksAvailable:
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
+  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
+  - {fileID: 11400000, guid: 16a75152e030c7845970bbe112763381, type: 2}
+  - {fileID: 11400000, guid: b3a70bf2336b0274492a6af14387179c, type: 2}
   cachedPhysicalAttack: 1
   cachedMagicAttack: 1
   cachedPhysicalDefense: 1
