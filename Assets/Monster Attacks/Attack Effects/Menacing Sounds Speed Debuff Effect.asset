@@ -16,10 +16,11 @@ MonoBehaviour:
   statEnumToChange: 6
   statChangeType: 1
   effectTime: 2
+  attackEffectStatus: 0
   modifierCalledOnce: 0
   flatBuff: 0
   modifierDuration: 3
   amountToChange: 35
-  effectTriggerChance: 0
+  effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
   ListOfModifiers: []

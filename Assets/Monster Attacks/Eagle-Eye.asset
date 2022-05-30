@@ -10,25 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
-  m_Name: Nimbus Barricade
+  m_Name: Eagle-Eye
   m_EditorClassIdentifier: 
-  monsterAttackName: Nimbus Barricade
-  monsterAttackDescription: "Return 125% of damage taken this turn with a towering
-    storm. \n[1 round cooldown - excluding this one]"
-  monsterAttackElement: 3
-  monsterAttackType: 0
+  monsterAttackName: Eagle-Eye
+  monsterAttackDescription: "Raise user's crit chance by 10% and crit damage multiplier
+    to 2.5 for 3 rounds. \n[1 Round Cooldown - excluding this one]"
+  monsterAttackElement: 1
+  monsterAttackType: 1
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
-  monsterAttackTargetType: 3
-  monsterAttackSoundEffect: {fileID: 8300000, guid: 30908e25bb2aa054dbb38b86e897a8ff, type: 3}
-  monsterAttackDamage: 25
+  monsterAttackTargetType: 2
+  monsterAttackSoundEffect: {fileID: 8300000, guid: cfdad33ec73454443952015ae32a27a0, type: 3}
+  monsterAttackDamage: 0
   monsterAttackFlatDamageBonus: 0
-  monsterAttackAccuracy: 110
-  monsterAttackCritChance: 0
+  monsterAttackAccuracy: 100
+  monsterAttackCritChance: 10
   monsterAttackNeverMiss: 0
   attackHasCooldown: 1
   attackOnCooldown: 0
   attackBaseCooldown: 2
   attackCurrentCooldown: 0
   ListOfAttackEffects:
-  - {fileID: 11400000, guid: c3e0ce69d43786b4ab5c46cc0ccd65fa, type: 2}
+  - {fileID: 11400000, guid: 428188d86349ac845bf3000548781d5c, type: 2}
+  - {fileID: 11400000, guid: a9acc7c95b6d8984a9bdeaa629cbc34a, type: 2}

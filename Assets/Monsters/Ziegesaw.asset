@@ -30,6 +30,7 @@ MonoBehaviour:
   speed: 12
   evasion: 5
   critChance: 5
+  critDamage: 2
   healthScaler: 1.01
   physicalAttackScaler: 1.01
   magicAttackScaler: 1.01
@@ -51,6 +52,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
   - {fileID: 11400000, guid: f2727f88e849c3840ae05a8ce85d9108, type: 2}
+  - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
   cachedPhysicalAttack: 1
   cachedMagicAttack: 1
   cachedPhysicalDefense: 1

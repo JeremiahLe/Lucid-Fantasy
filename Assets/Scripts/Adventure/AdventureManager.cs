@@ -168,7 +168,9 @@ public class AdventureManager : MonoBehaviour
                 modifierRarity = item.modifierRarity,
                 modifierSource = item.modifierSource,
                 statModified = item.statModified,
-                baseSprite = item.baseSprite
+                baseSprite = item.baseSprite,
+                statusEffect = item.statusEffect,
+                statusEffectType = item.statusEffectType,
             });
         }
     }
@@ -193,7 +195,9 @@ public class AdventureManager : MonoBehaviour
                 modifierRarity = item.modifierRarity,
                 modifierSource = item.modifierSource,
                 statModified = item.statModified,
-                baseSprite = item.baseSprite
+                baseSprite = item.baseSprite,
+                modifierAmountFlatBuff = item.modifierAmountFlatBuff,
+                adventureEquipment = item.adventureEquipment,
             });
         }
     }
@@ -220,7 +224,9 @@ public class AdventureManager : MonoBehaviour
                 modifierRarity = item.modifierRarity,
                 modifierSource = item.modifierSource,
                 statModified = item.statModified,
-                baseSprite = item.baseSprite
+                baseSprite = item.baseSprite,
+                statusEffect = item.statusEffect,
+                statusEffectType = item.statusEffectType,
             });
         }
     }
@@ -493,7 +499,7 @@ public class AdventureManager : MonoBehaviour
                             GameObject randomEnemyToPoison = combatManagerScript.GetRandomTarget(listOfUnpoisonedEnemies);
                             Monster monster = randomEnemyToPoison.GetComponent<CreateMonster>().monsterReference;
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was poisoned by {modifier.modifierName}.");
-                            modifier.modifierAmount /= 100f;
+                            //modifier.modifierAmount /= 100f;
                             monster.ListOfModifiers.Add(modifier);
                         }
 
@@ -593,6 +599,11 @@ public class AdventureManager : MonoBehaviour
                 {
                     nodeComponent.SetNodeState(CreateNode.NodeState.Unlocked);
                     node.GetComponent<Animator>().SetBool("unlocked", true);
+
+                    // set targeted node to start node
+                    Transform selectedPosition = node.GetComponent<CreateNode>().selectedPosition;
+                    nodeSelectionTargeter.transform.position = new Vector3(selectedPosition.transform.position.x, selectedPosition.transform.position.y + 1.55f, selectedPosition.transform.position.z);
+                    currentSelectedNode = node;
                 }
                 else
                 {
@@ -800,7 +811,7 @@ public class AdventureManager : MonoBehaviour
                 break;
 
             case CreateNode.NodeType.MonsterReward:
-                currentRewardType = RewardType.Equipment;
+                currentRewardType = RewardType.Monster;
                 subScreenMenuText.text = ($"Select {currentRewardType.ToString()}...");
                 subscreenManager.LoadRewardSlots(RewardType.Monster);
                 break;
@@ -884,6 +895,7 @@ public class AdventureManager : MonoBehaviour
     public void PlayNewBGM(AudioClip newBGM, float scale)
     {
         GameManagerAudioSource.Stop();
+        GameManagerAudioSource.loop = true;
         GameManagerAudioSource.PlayOneShot(newBGM, scale);
     }
 

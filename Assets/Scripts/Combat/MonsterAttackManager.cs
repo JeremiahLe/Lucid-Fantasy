@@ -503,14 +503,16 @@ public class MonsterAttackManager : MonoBehaviour
 
         float hitChance = 0f;
 
-        // don't use evasion as a stat when self-targeting
-        if (!selfTargeting)
+        // don't use evasion as a stat when self-targeting or ally targeting
+        if (!selfTargeting || currentMonsterTurn.aiType != currentTargetedMonster.aiType)
         {
             hitChance = (currentMonsterAttack.monsterAttackAccuracy - currentTargetedMonster.evasion) / 100;
+            //Debug.Log($"Attack: {currentMonsterAttack.monsterAttackName}, Hit chance: {hitChance}% & not targeting self or ally!");
         }
         else
         {
             hitChance = (currentMonsterAttack.monsterAttackAccuracy / 100);
+            //Debug.Log($"Attack: {currentMonsterAttack.monsterAttackName}, Hit chance: {hitChance}%");
         }
 
         float randValue = Random.value;
@@ -630,7 +632,7 @@ public class MonsterAttackManager : MonoBehaviour
         // Now check for critical hit
         if (CheckAttackCrit())
         {
-            calculatedDamage *= 2f;
+            calculatedDamage = Mathf.RoundToInt(calculatedDamage * currentMonster.critDamage);
             CombatLog.SendMessageToCombatLog($"Critical Hit!!! {currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
                 $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
 

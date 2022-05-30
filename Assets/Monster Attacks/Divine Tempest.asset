@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Divine Tempest
   m_EditorClassIdentifier: 
   monsterAttackName: Divine Tempest
-  monsterAttackDescription: Conjure a beautiful storm, dealing damage. Raises speed
-    of all allies by 20%. [1 round cooldown]
+  monsterAttackDescription: "Conjure a beautiful storm, dealing damage. Raises speed
+    of all allies by 20%. \n[1 round cooldown - excluding this one]"
   monsterAttackElement: 3
   monsterAttackType: 0
   monsterAttackDamageType: 1
@@ -25,6 +25,7 @@ MonoBehaviour:
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
   monsterAttackCritChance: 10
+  monsterAttackNeverMiss: 0
   attackHasCooldown: 1
   attackOnCooldown: 0
   attackBaseCooldown: 2

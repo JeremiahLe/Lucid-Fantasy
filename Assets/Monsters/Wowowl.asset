@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
-  m_Name: Hurrikanine
+  m_Name: Wowowl
   m_EditorClassIdentifier: 
-  name: Hurrikanine
-  baseSprite: {fileID: 21300000, guid: d4389a02943c8e049a1ed15dbeee46ab, type: 3}
+  name: Wowowl
+  baseSprite: {fileID: 21300000, guid: 514c0da08ea083d48bd2ac1fd8f88d50, type: 3}
   monsterElement: 3
-  monsterSubElement: 7
+  monsterSubElement: 5
   aiType: 0
   aiLevel: 0
-  level: 50
-  health: 2100
-  maxHealth: 2100
+  level: 5
+  health: 43
+  maxHealth: 43
   cachedHealth: 0
   cachedMaxHealth: 0
-  physicalAttack: 75
-  magicAttack: 215
-  physicalDefense: 150
-  magicDefense: 245
-  speed: 20
+  physicalAttack: 3
+  magicAttack: 1
+  physicalDefense: 4
+  magicDefense: 7
+  speed: 5
   evasion: 10
-  critChance: 0
+  critChance: 10
   critDamage: 2
   healthScaler: 1.01
   physicalAttackScaler: 1.01
@@ -38,28 +38,29 @@ MonoBehaviour:
   magicDefenseScaler: 1.01
   speedScaler: 1.01
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 3bb4d934fd63955419d688bedba37d81, type: 2}
-  - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
-  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
-  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
-  ListOfModifiers: []
-  ListOfMonsterAttacksAvailable:
-  - {fileID: 11400000, guid: 3bb4d934fd63955419d688bedba37d81, type: 2}
-  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
-  - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
-  - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
-  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
-  - {fileID: 11400000, guid: a1865f6b4da98b242b4dcee12fdd2377, type: 2}
-  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
-  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  - {fileID: 11400000, guid: 931569915445bf84a9e5cd6ddfa021ea, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
-  cachedPhysicalAttack: 1
+  - {fileID: 11400000, guid: 1f5b150b34cf7cb4bbcc827883477aeb, type: 2}
+  ListOfModifiers: []
+  ListOfMonsterAttacksAvailable:
+  - {fileID: 11400000, guid: 931569915445bf84a9e5cd6ddfa021ea, type: 2}
+  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
+  - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
+  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  - {fileID: 11400000, guid: a1865f6b4da98b242b4dcee12fdd2377, type: 2}
+  - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
+  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
+  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  - {fileID: 11400000, guid: 1f5b150b34cf7cb4bbcc827883477aeb, type: 2}
+  cachedPhysicalAttack: 3
   cachedMagicAttack: 1
-  cachedPhysicalDefense: 1
-  cachedMagicDefense: 1
-  cachedSpeed: 1
-  cachedEvasion: 0
-  cachedCritChance: 0
+  cachedPhysicalDefense: 4
+  cachedMagicDefense: 7
+  cachedSpeed: 5
+  cachedEvasion: 10
+  cachedCritChance: 10
   cachedDamageDone: 0
   monsterKills: 0

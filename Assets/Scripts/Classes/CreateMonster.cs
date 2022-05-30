@@ -184,9 +184,9 @@ public class CreateMonster : MonoBehaviour
     // This function checks stat caps
     public void CheckStatsCap()
     {
-        if (monsterSpeed < 1)
+        if (monsterReference.speed < 1)
         {
-            monsterSpeed = 1;
+            monsterReference.speed = 1;
             healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
         }
 
@@ -213,6 +213,11 @@ public class CreateMonster : MonoBehaviour
         if (monsterCritChance < 1)
         {
             monsterCritChance = 0;
+        }
+
+        if (monsterReference.critDamage > 2.5f)
+        {
+            monsterReference.critDamage = 2.5f;
         }
     }
 
@@ -277,6 +282,10 @@ public class CreateMonster : MonoBehaviour
                         monsterIsBurning = true;
                         statusEffectUISprite.sprite = monsterAttackManager.burningUISprite;
                         int burningDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.health);
+                        if (burningDamage < 1)
+                        {
+                            burningDamage = 1; // Fix zero damage burn
+                        }
 
                         monsterAnimator.SetBool("hitAnimationPlaying", true);
                         monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
@@ -309,7 +318,7 @@ public class CreateMonster : MonoBehaviour
     // This function modifies stats by modifier value
     public void ModifyStats(AttackEffect.StatEnumToChange statToModify, Modifier modifier)
     {
-        Debug.Log("Modify Stats got called!");
+        //Debug.Log("Modify Stats got called!");
 
         switch (statToModify)
         {
@@ -339,6 +348,10 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatEnumToChange.CritChance):
                 monsterReference.critChance += (int)modifier.modifierAmount;
+                break;
+
+            case (AttackEffect.StatEnumToChange.CritDamage):
+                monsterReference.critDamage += modifier.modifierAmount;
                 break;
 
             case (AttackEffect.StatEnumToChange.Debuffs):
@@ -411,6 +424,10 @@ public class CreateMonster : MonoBehaviour
                 monsterReference.critChance += (int)modifier.modifierAmount;
                 break;
 
+            case (AttackEffect.StatEnumToChange.CritDamage):
+                monsterReference.critDamage += (int)modifier.modifierAmount;
+                break;
+
             case (AttackEffect.StatEnumToChange.Debuffs):
                 monsterImmuneToDebuffs = true;
                 break;
@@ -471,6 +488,10 @@ public class CreateMonster : MonoBehaviour
     {
         if (monsterReference.health <= 0)
         {
+            // remove statuses to prevent two status death call bug
+            monsterIsPoisoned = false;
+            monsterIsBurning = false;
+
             combatManagerScript.RemoveMonsterFromList(gameObject, monsterReference.aiType);
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} has been defeated!");
         }
@@ -667,6 +688,8 @@ public class CreateMonster : MonoBehaviour
             case (AttackEffect.StatEnumToChange.CritChance):
                 return monsterRef.critChance;
 
+            case (AttackEffect.StatEnumToChange.CritDamage):
+                return monsterRef.critDamage;
             default:
                 Debug.Log("Missing stat or monster reference?", this);
                 return 0;

@@ -20,7 +20,7 @@ public class AttackEffect : ScriptableObject
 
     public TypeOfEffect typeOfEffect;
 
-    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats }
+    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage }
     public StatEnumToChange statEnumToChange;
 
     public enum StatChangeType { Buff, Debuff, None }
@@ -737,6 +737,9 @@ public class AttackEffect : ScriptableObject
             case (StatEnumToChange.CritChance):
                 return monsterRef.critChance;
 
+            case (StatEnumToChange.CritDamage):
+                return monsterRef.critDamage;
+
             default:
                 Debug.Log("Missing stat or monster reference?", this);
                 return 0;
@@ -939,8 +942,27 @@ public class AttackEffect : ScriptableObject
             return;
         }
 
+        // see if effect hits
+        float hitChance = (effectTriggerChance / 100);
+        float randValue = UnityEngine.Random.value;
+
+        if (randValue > hitChance)
+        {
+            return;
+        }
+
+        // Check if certain stat change reaches upper cap
+        if (statEnumToChange == StatEnumToChange.CritDamage && fromValue >= 2.5)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{statEnumToChange.ToString()} couldn't go any higher!");
+            return;
+        }
+
         // Add modifiers
-        AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+        CreateAndAddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
 
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
@@ -980,6 +1002,25 @@ public class AttackEffect : ScriptableObject
         // Check if immune to skip modifiers
         if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
         {
+            return;
+        }
+
+        // see if effect hits
+        float hitChance = (effectTriggerChance / 100);
+        float randValue = UnityEngine.Random.value;
+
+        if (randValue > hitChance)
+        {
+            return;
+        }
+
+        // Check stat change reaches lower cap
+        if (fromValue <= 1)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{statEnumToChange.ToString()} couldn't go any lower!");
             return;
         }
 

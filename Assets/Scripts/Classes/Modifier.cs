@@ -81,6 +81,10 @@ public class Modifier : ScriptableObject
                 monsterReference.critChance += -1f * (modifierAmount);
                 break;
 
+            case (AttackEffect.StatEnumToChange.CritDamage):
+                monsterReference.critDamage += -1f * (modifierAmount);
+                break;
+
             case (AttackEffect.StatEnumToChange.PhysicalAttack):
                 monsterReference.physicalAttack += -1f * (modifierAmount);
                 break;

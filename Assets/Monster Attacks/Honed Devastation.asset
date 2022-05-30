@@ -10,25 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
-  m_Name: Nimbus Barricade
+  m_Name: Honed Devastation
   m_EditorClassIdentifier: 
-  monsterAttackName: Nimbus Barricade
-  monsterAttackDescription: "Return 125% of damage taken this turn with a towering
-    storm. \n[1 round cooldown - excluding this one]"
-  monsterAttackElement: 3
-  monsterAttackType: 0
+  monsterAttackName: Honed Devastation
+  monsterAttackDescription: Raise user's critical strike damage to 2.5 for 2 rounds.
+  monsterAttackElement: 5
+  monsterAttackType: 1
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
-  monsterAttackTargetType: 3
-  monsterAttackSoundEffect: {fileID: 8300000, guid: 30908e25bb2aa054dbb38b86e897a8ff, type: 3}
-  monsterAttackDamage: 25
+  monsterAttackTargetType: 2
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}
+  monsterAttackDamage: 0
   monsterAttackFlatDamageBonus: 0
-  monsterAttackAccuracy: 110
+  monsterAttackAccuracy: 100
   monsterAttackCritChance: 0
   monsterAttackNeverMiss: 0
-  attackHasCooldown: 1
+  attackHasCooldown: 0
   attackOnCooldown: 0
-  attackBaseCooldown: 2
+  attackBaseCooldown: 0
   attackCurrentCooldown: 0
   ListOfAttackEffects:
-  - {fileID: 11400000, guid: c3e0ce69d43786b4ab5c46cc0ccd65fa, type: 2}
+  - {fileID: 11400000, guid: 89253154d9726034bb44836e918d5c08, type: 2}

@@ -332,14 +332,14 @@ public class CombatManagerScript : MonoBehaviour
 
         if (nextFastestMonsterWithActionAvailable == null)
         {
-            Debug.Log("Returned Null");
+            //Debug.Log("Returned Null");
             return null;
         }
 
         // At round start in the case of a speed tie
         if (nextFastestMonsterWithActionAvailable != firstMonsterTurn && firstMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable)
         {
-            Debug.Log("Returned first monster!");
+            //Debug.Log("Returned first monster!");
             return firstMonsterTurn;
         }
 
@@ -381,7 +381,7 @@ public class CombatManagerScript : MonoBehaviour
         else
         {
             InitiateCombat();
-            Debug.Log("Combat!");
+            //Debug.Log("Combat!");
         }
 
         #region Old Code BYE BYE JANK INDEX SYSTEM

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterAttackName: Unleash Power
   monsterAttackDescription: "Unleash all stored energy. Power doubles if the user
-    received \na stat change this round. [1 Round Cooldown]"
+    received \na stat change this round. [1 Round Cooldown - excluding this one]"
   monsterAttackElement: 4
   monsterAttackType: 0
   monsterAttackDamageType: 1
@@ -25,6 +25,7 @@ MonoBehaviour:
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
   monsterAttackCritChance: 10
+  monsterAttackNeverMiss: 0
   attackHasCooldown: 1
   attackOnCooldown: 0
   attackBaseCooldown: 2

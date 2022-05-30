@@ -34,6 +34,7 @@ public class SubscreenManager : MonoBehaviour
 
     public int randomBattleMonsterCount;
     public int randomBattleMonsterLimit;
+    bool bossAdded = false;
 
     //
     public void Awake()
@@ -139,7 +140,6 @@ public class SubscreenManager : MonoBehaviour
             $"\nEnemies present: {randomBattleMonsterCount}" +
             $"\nAllies allowed: {randomBattleMonsterLimit}");
 
-        bool bossAdded = false;
         // populate enemy list
         for (int j = 0; j < randomBattleMonsterCount; j++)
         {
@@ -239,7 +239,7 @@ public class SubscreenManager : MonoBehaviour
             return 1;
         }
 
-        return Random.Range(3, 4);
+        return Random.Range(2, 4);
     }
 
     //
