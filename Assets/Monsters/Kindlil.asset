@@ -24,7 +24,7 @@ MonoBehaviour:
   cachedHealth: 0
   cachedMaxHealth: 0
   physicalAttack: 1
-  magicAttack: 7
+  magicAttack: 8
   physicalDefense: 4
   magicDefense: 1
   speed: 5
@@ -55,7 +55,7 @@ MonoBehaviour:
   cachedPhysicalDefense: 4
   cachedMagicDefense: 1
   cachedSpeed: 5
-  cachedEvasion: 12
+  cachedEvasion: 8
   cachedCritChance: 0
   cachedDamageDone: 0
   monsterKills: 0
