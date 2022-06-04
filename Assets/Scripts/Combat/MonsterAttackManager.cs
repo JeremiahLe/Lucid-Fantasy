@@ -228,6 +228,10 @@ public class MonsterAttackManager : MonoBehaviour
             return;
         }
 
+        // Use buff animation play
+        //combatManagerScript.CurrentMonsterTurnAnimator = combatManagerScript.CurrentMonsterTurn.GetComponent<Animator>();
+        //combatManagerScript.CurrentMonsterTurnAnimator.SetBool("useBuffAnimationPlaying", true);
+
         // Check if the attack actually hits
         if (CheckAttackHit(true))
         {
@@ -344,6 +348,7 @@ public class MonsterAttackManager : MonoBehaviour
             currentTargetedMonster.health -= calculatedDamage;
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterDamageTakenThisRound += calculatedDamage;
 
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().ShowDamageOrStatusEffectPopup(calculatedDamage);
             currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
 
             soundEffectManager.AddSoundEffectToQueue(HitSound);
@@ -423,6 +428,7 @@ public class MonsterAttackManager : MonoBehaviour
                 currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterDamageTakenThisRound += calculatedDamage;
 
                 // Visual and Sound cues
+                currentTargetedMonsterGameObject.GetComponent<CreateMonster>().ShowDamageOrStatusEffectPopup(calculatedDamage);
                 currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
                 soundEffectManager.AddSoundEffectToQueue(HitSound);
                 soundEffectManager.BeginSoundEffectQueue();
@@ -472,8 +478,10 @@ public class MonsterAttackManager : MonoBehaviour
         soundEffectManager.AddSoundEffectToQueue(MissSound);
         soundEffectManager.BeginSoundEffectQueue();
 
-        monsterAttackMissText.SetActive(true);
-        monsterAttackMissText.transform.position = cachedTransform;
+        //monsterAttackMissText.SetActive(true);
+        //monsterAttackMissText.transform.position = cachedTransform;
+
+        currentTargetedMonsterGameObject.GetComponent<CreateMonster>().ShowDamageOrStatusEffectPopup("Miss");
         combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
     }
 
@@ -488,8 +496,10 @@ public class MonsterAttackManager : MonoBehaviour
         soundEffectManager.AddSoundEffectToQueue(MissSound);
         soundEffectManager.BeginSoundEffectQueue();
 
-        monsterAttackMissText.SetActive(true);
-        monsterAttackMissText.transform.position = cachedTransform;
+        //monsterAttackMissText.SetActive(true);
+        //monsterAttackMissText.transform.position = cachedTransform;
+
+        currentTargetedMonsterGameObject.GetComponent<CreateMonster>().ShowDamageOrStatusEffectPopup("Miss");
     }
 
     // This function checks accuracy and evasion
@@ -569,11 +579,11 @@ public class MonsterAttackManager : MonoBehaviour
         switch (monsterAttack.monsterAttackDamageType)
         {
             case (MonsterAttack.MonsterAttackDamageType.Magical):
-                calculatedDamage = currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) - currentTargetedMonster.magicDefense;
+                calculatedDamage = Mathf.RoundToInt(currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.magicDefense + 1)));
                 break;
 
             case (MonsterAttack.MonsterAttackDamageType.Physical):
-                calculatedDamage = currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) - currentTargetedMonster.physicalDefense;
+                calculatedDamage = Mathf.RoundToInt(currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.physicalDefense + 1)));
                 break;
 
             case (MonsterAttack.MonsterAttackDamageType.True):
@@ -592,11 +602,11 @@ public class MonsterAttackManager : MonoBehaviour
                 highestStatType = ReturnMonsterHighestAttackStat(currentMonster);
                 if (highestStatType == MonsterAttack.MonsterAttackDamageType.Magical)
                 {
-                    calculatedDamage = currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) - currentTargetedMonster.magicDefense;
+                    calculatedDamage = Mathf.RoundToInt(currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.magicDefense + 1)));
                 }
                 else
                 {
-                    calculatedDamage = currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) - currentTargetedMonster.physicalDefense;
+                    calculatedDamage = Mathf.RoundToInt(currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.physicalDefense + 1)));
                 }
                 break;
 
@@ -610,21 +620,23 @@ public class MonsterAttackManager : MonoBehaviour
         cachedBonusDamagePercent = 0;
 
         // Check if resistances are TOO high or base damage TOO low; if so, make the base damage at minimum 1% of their max health
-        if (calculatedDamage <= Mathf.RoundToInt(currentTargetedMonster.maxHealth * 0.05f))
-        {
-            Debug.Log("Stat check resistance buff!");
-            calculatedDamage = Mathf.RoundToInt(currentTargetedMonster.maxHealth * 0.05f);
-        }
+        //if (calculatedDamage <= Mathf.RoundToInt(currentTargetedMonster.maxHealth * 0.05f))
+        //{
+        //    Debug.Log("Stat check resistance buff!");
+        //    calculatedDamage = Mathf.RoundToInt(currentTargetedMonster.maxHealth * 0.05f);
+        //}
 
-        // Check for additional bonus damage
+        // Check for additional flat bonus damage
         calculatedDamage += monsterAttack.monsterAttackFlatDamageBonus;
 
-        // Check if attack element matches monster's element. If so, + flat bonus damage by 25% of calculated damage
+        // Check monster main element bonus
         if (monsterAttack.monsterAttackElement == currentMonster.monsterElement)
         {
             calculatedDamage += Mathf.RoundToInt(calculatedDamage * .25f);
         }
-        else if (monsterAttack.monsterAttackElement == currentMonster.monsterSubElement)
+
+        // Check sub element bonus
+        if (monsterAttack.monsterAttackElement == currentMonster.monsterSubElement)
         {
             calculatedDamage += Mathf.RoundToInt(calculatedDamage * .15f);
         }

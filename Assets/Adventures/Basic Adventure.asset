@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Basic Adventure
   m_EditorClassIdentifier: 
   adventureName: Basic Adventure
-  adventureDifficulty: 0
-  adventureDescription: 'This is a basic adventure. Moderately easy. Everything is
-    random. Boss: Windwoof'
+  adventureDifficulty: 1
+  adventureDescription: "Basic adventure. Varying difficulty. Everything is random.
+    \nAverage Clear Time: ~ 3 minutes\nBoss: Windwoof"
   adventureIcon: {fileID: 21300000, guid: ff89f168bae13b14f9e2c759a24bbd2a, type: 3}
   adventureBoss: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}

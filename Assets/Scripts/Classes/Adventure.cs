@@ -14,6 +14,7 @@ public class Adventure : ScriptableObject
     public enum AdventureDifficulty { Easy, Medium, Hard }
     public AdventureDifficulty adventureDifficulty;
 
+    [TextArea]
     public string adventureDescription;
 
     public Sprite adventureIcon;

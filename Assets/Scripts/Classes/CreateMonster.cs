@@ -13,6 +13,7 @@ public class CreateMonster : MonoBehaviour
     List<MonsterAttack> ListOfMonsterAttacksReference;
 
     [Title("UI Elements")]
+    [SerializeField] private GameObject monsterCanvas;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private SpriteRenderer sr;
@@ -22,6 +23,13 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] public GameObject StatScreenWindowGameObject;
     [SerializeField] public Image StatScreenWindow;
     [SerializeField] public TextMeshProUGUI StatScreenWindowText;
+
+    [SerializeField] public Slider HealthbarSlider;
+    Color HealthbarSliderOriginalColor;
+    Color HealthbarSliderTargetColor;
+    [SerializeField] public Image HealthbarSliderFill;
+    [SerializeField] public GameObject monsterStatusTextObject;
+    [SerializeField] public TextMeshProUGUI monsterStatusText;
 
     [Title("Monster AI and Scene Setup")]
     [SerializeField] private Monster.AIType aiType;
@@ -126,8 +134,14 @@ public class CreateMonster : MonoBehaviour
         monsterSpeed = (int)monsterReference.speed; /*Random.Range(1, 10);*/
 
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
-        healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
+        healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}"); //\nSpeed: {monsterReference.speed.ToString()}
         sr.sprite = monster.baseSprite;
+
+        // Initiate healthbar
+        HealthbarSlider.maxValue = monsterReference.maxHealth;
+        HealthbarSlider.value = monsterReference.health;
+        HealthbarSliderOriginalColor = Color.green;
+        HealthbarSliderTargetColor = Color.red;
     }
 
     //
@@ -161,12 +175,20 @@ public class CreateMonster : MonoBehaviour
     {
         CheckStatsCap();
 
-        healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
+        healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}"); // \nSpeed: { monsterReference.speed.ToString()}
+
+        // Should also be called when healed
+        HealthbarSlider.value = monsterReference.health;
+        HealthbarSliderFill.color = new Color(Mathf.Clamp((1 - monsterReference.health / monsterReference.maxHealth), 0, .75f), Mathf.Clamp((monsterReference.health / monsterReference.maxHealth), 0, .75f), 0, 1f);
 
         // Fix dual calls
         if (damageTaken)
         {
             CheckHealth();
+
+            // Should also be called when healed
+            //HealthbarSlider.value = monsterReference.health;
+            //HealthbarSliderFill.color = new Color(Mathf.Clamp((1 - monsterReference.health / monsterReference.maxHealth), 0, 1), Mathf.Clamp((monsterReference.health / monsterReference.maxHealth), 0, 1), 0, 1f);
         }
 
         monsterPhysicalAttack = monsterReference.physicalAttack;
@@ -229,7 +251,8 @@ public class CreateMonster : MonoBehaviour
             if (attack.attackOnCooldown)
             {
                 attack.attackCurrentCooldown -= 1;
-                if (attack.attackCurrentCooldown <= 0) {
+                if (attack.attackCurrentCooldown <= 0)
+                {
                     attack.attackOnCooldown = false;
                     attack.attackCurrentCooldown = attack.attackBaseCooldown;
                 }
@@ -274,6 +297,7 @@ public class CreateMonster : MonoBehaviour
                         monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
 
                         monsterReference.health -= poisonDamage;
+                        ShowDamageOrStatusEffectPopup(poisonDamage);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is poisoned and takes {poisonDamage} damage!");
                         UpdateStats(true);
                         break;
@@ -292,6 +316,7 @@ public class CreateMonster : MonoBehaviour
                         monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
 
                         monsterReference.health -= burningDamage;
+                        ShowDamageOrStatusEffectPopup(burningDamage);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is burning and takes {burningDamage} damage!");
                         UpdateStats(true);
                         break;
@@ -486,8 +511,11 @@ public class CreateMonster : MonoBehaviour
     // This function checks the monster's health
     public void CheckHealth()
     {
+        // Called after a delay
         if (monsterReference.health <= 0)
         {
+            transform.DetachChildren();
+
             // remove statuses to prevent two status death call bug
             monsterIsPoisoned = false;
             monsterIsBurning = false;
@@ -586,6 +614,12 @@ public class CreateMonster : MonoBehaviour
         monsterAnimator.SetBool("buffAnimationPlaying", false);
     }
 
+    // This function ends the buff animation
+    public void UseBuffAnimationEnd()
+    {
+        monsterAnimator.SetBool("useBuffAnimationPlaying", false);
+    }
+
     public float delayTime = 0.01f;
     public float currentTime = 0.0f;
     public bool windowShowing = false;
@@ -639,7 +673,8 @@ public class CreateMonster : MonoBehaviour
                 $"\nPhysical Defense: {monsterReference.physicalDefense} ({ReturnSign(monsterReference.physicalDefense, monsterReference.cachedPhysicalDefense)}{monsterReference.physicalDefense - monsterReference.cachedPhysicalDefense})" +
                 $"\nMagic Defense: {monsterReference.magicDefense} ({ReturnSign(monsterReference.magicDefense, monsterReference.cachedMagicDefense)}{monsterReference.magicDefense - monsterReference.cachedMagicDefense})" +
                 $"\nEvasion: {monsterReference.evasion} ({ReturnSign(monsterReference.evasion, monsterReference.cachedEvasion)}{monsterReference.evasion - monsterReference.cachedEvasion})" +
-                $"\nCrit Chance: {monsterReference.critChance} (+{monsterReference.critChance - monsterReference.cachedCritChance})");
+                $"\nCrit Chance: {monsterReference.critChance} (+{monsterReference.critChance - monsterReference.cachedCritChance})" +
+                $"\nSpeed: {monsterReference.speed} (+{monsterReference.speed - monsterReference.cachedSpeed})");
         }
         else
         if (!showWindow)
@@ -695,5 +730,33 @@ public class CreateMonster : MonoBehaviour
                 return 0;
         }
 
+    }
+
+    // This function is called by monster attack manager to show damage popup
+    public void ShowDamageOrStatusEffectPopup(float damage)
+    {
+        monsterStatusTextObject.SetActive(true);
+        monsterStatusText.color = Color.red;
+        monsterStatusText.text = ($"-{damage}");
+    }
+
+    // This function is called by monster attack manager to show damage popup
+    public void ShowDamageOrStatusEffectPopup(string condition)
+    {
+        monsterStatusTextObject.SetActive(true);
+        monsterStatusText.color = Color.white;
+        monsterStatusText.text = ($"{condition}!");
+    }
+
+    // This function is called by monster attack manager to show damage popup
+    public void ShowDamageOrStatusEffectPopup()
+    {
+        monsterStatusTextObject.SetActive(false);
+        monsterStatusText.text = ($"");
+    }
+
+    // This function is called by monster attack manager to show damage popup
+    public void CreateStatusEffectPopup(AttackEffect.StatEnumToChange stat, bool isBuff)
+    {
     }
 }
