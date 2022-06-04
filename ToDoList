@@ -58,6 +58,15 @@ Short-Term
 - Implement element advantages/disadvantags
 - Implement monster abilities
 
+[ 6/3/22 ]
+UI/UX Update Part 1
+- Added healthbars and damage effects
+- Cleaned various UI
+Adjusted Damage Formula
+- Defense now scales exponentially rather than flat
+Adjusted some monster base stats
+Imported Various Assets/Packages
+
 
 Long-Term
  - Finish Room Creation and Setup
