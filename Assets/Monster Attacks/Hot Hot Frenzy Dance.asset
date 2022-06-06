@@ -30,4 +30,8 @@ MonoBehaviour:
   attackOnCooldown: 0
   attackBaseCooldown: 0
   attackCurrentCooldown: 0
-  ListOfAttackEffects: []
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: 9b0bf2a942f353646aa4f375e3943dba, type: 2}
+  - {fileID: 11400000, guid: a094757deb19447489bebd8136b05910, type: 2}
+  - {fileID: 11400000, guid: ccd013b0dc9e21c4ba256a4796a4cb90, type: 2}
+  - {fileID: 11400000, guid: 943be3b503faf0a44a93b5b27d2b9cf9, type: 2}

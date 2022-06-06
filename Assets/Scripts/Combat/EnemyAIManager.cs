@@ -20,6 +20,8 @@ public class EnemyAIManager : MonoBehaviour
     public CombatManagerScript combatManagerScript;
     public UIManager uiManager;
 
+    public List<List<GameObject>> allListsOfMonsters;
+
     // Start function
     public void Start()
     {
@@ -32,6 +34,14 @@ public class EnemyAIManager : MonoBehaviour
         monsterAttackManager = GetComponent<MonsterAttackManager>();
         combatManagerScript = GetComponent<CombatManagerScript>();
         uiManager = GetComponent<UIManager>();
+    }
+
+    // This function initiates list of each list for Dazed Status
+    public void InformLists()
+    {
+        allListsOfMonsters = new List<List<GameObject>>();
+        allListsOfMonsters.Add(combatManagerScript.ListOfAllys);
+        allListsOfMonsters.Add(combatManagerScript.ListOfEnemies);
     }
 
     // This function selects a monster attack for the enemy AI
@@ -57,9 +67,15 @@ public class EnemyAIManager : MonoBehaviour
                         break;
 
                     default:
-                        currentEnemyTargetGameObject = GetRandomTarget(combatManagerScript.ListOfAllys);
+                        if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
+                        {
+                            currentEnemyTargetGameObject = GetRandomTarget(GetRandomList());
+                        }
+                        else
+                        {
+                            currentEnemyTargetGameObject = GetRandomTarget(combatManagerScript.ListOfAllys);
+                        }
                         break;
-
                 }
 
                 //currentEnemyTargetGameObject = GetRandomTarget();
@@ -72,13 +88,34 @@ public class EnemyAIManager : MonoBehaviour
                 // Targeting self?
                 if (currentEnemyTarget == currentEnemyTurn)
                 {
-                    uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
+                    // Dazed?
+                    if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
+                    {
+                        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} is Dazed and will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
+                    }
+                    else
+                    {
+                        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
+                    }
                 }
                 else {
-                    uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
+                    // Dazed?
+                    if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
+                    {
+                        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} is Dazed and will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
+                    }
+                    else
+                    {
+                        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
+                    }
                 }
 
-                combatManagerScript.CurrentMonsterTurnAnimator = currentEnemyTurnGameObject.GetComponent<Animator>();
+                // Dazed?
+                if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
+                {
+
+                }
+                    combatManagerScript.CurrentMonsterTurnAnimator = currentEnemyTurnGameObject.GetComponent<Animator>();
                 combatManagerScript.CurrentTargetedMonster = currentEnemyTargetGameObject;
                 monsterAttackManager.currentMonsterAttack = currentEnemyMonsterAttack;
 
@@ -108,5 +145,13 @@ public class EnemyAIManager : MonoBehaviour
         GameObject randTarget = whoAmITargeting[Random.Range(0, whoAmITargeting.Count)];
         Debug.Log($"Random target selected: {randTarget.GetComponent<CreateMonster>().monsterReference.name}");
         return randTarget;
+    }
+
+    // This function returns a random target from the list of ally monsters // GitHub edit
+    public List<GameObject> GetRandomList()
+    {
+        List<GameObject> randList = allListsOfMonsters[Random.Range(0, allListsOfMonsters.Count)];
+        Debug.Log($"Random list selected: {randList}");
+        return randList;
     }
 }

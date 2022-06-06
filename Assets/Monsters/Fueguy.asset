@@ -39,9 +39,9 @@ MonoBehaviour:
   speedScaler: 1.01
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: 61c4c5159eda87947ba2fdefbd4779bf, type: 2}
-  - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
   - {fileID: 11400000, guid: 7ab31fe3800ad4c4b9ed05b763aee7cd, type: 2}
   - {fileID: 11400000, guid: e99082d6380a9e444aa569ffb028e0bc, type: 2}
+  - {fileID: 11400000, guid: 088624301c21364408a42b2e6fbeb5b4, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
   - {fileID: 11400000, guid: 61c4c5159eda87947ba2fdefbd4779bf, type: 2}
@@ -50,6 +50,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
   - {fileID: 11400000, guid: 7ab31fe3800ad4c4b9ed05b763aee7cd, type: 2}
   - {fileID: 11400000, guid: e99082d6380a9e444aa569ffb028e0bc, type: 2}
+  - {fileID: 11400000, guid: 088624301c21364408a42b2e6fbeb5b4, type: 2}
   cachedPhysicalAttack: 50
   cachedMagicAttack: 155
   cachedPhysicalDefense: 125

@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
-  m_Name: GaleforceEffect
+  m_Name: Hot Hot Frenzy Dance Speed Effect
   m_EditorClassIdentifier: 
-  typeOfEffect: 12
+  typeOfEffect: 16
   statEnumToChange: 6
   statChangeType: 0
-  effectTime: 0
+  effectTime: 2
   attackEffectStatus: 0
   modifierCalledOnce: 0
   flatBuff: 0
   modifierDuration: 0
-  amountToChange: 75
+  amountToChange: 20
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
   ListOfModifiers: []

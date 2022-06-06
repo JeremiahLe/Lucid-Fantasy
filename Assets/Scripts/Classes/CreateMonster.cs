@@ -63,7 +63,7 @@ public class CreateMonster : MonoBehaviour
 
     [DisplayWithoutEdit] public bool monsterIsPoisoned = false;
     [DisplayWithoutEdit] public bool monsterIsBurning = false;
-    [DisplayWithoutEdit] public bool monsterIsDazed = false;
+     public bool monsterIsDazed = false;
     [DisplayWithoutEdit] public bool monsterIsCrippled = false;
     [DisplayWithoutEdit] public bool monsterIsWeakened = false;
 
@@ -396,6 +396,10 @@ public class CreateMonster : MonoBehaviour
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
 
+            case (AttackEffect.StatEnumToChange.Health):
+                monsterReference.health += (int)modifier.modifierAmount;
+                break;
+
             default:
                 Debug.Log("Missing stat to modify to modifier?", this);
                 break;
@@ -674,7 +678,7 @@ public class CreateMonster : MonoBehaviour
                 $"\nMagic Defense: {monsterReference.magicDefense} ({ReturnSign(monsterReference.magicDefense, monsterReference.cachedMagicDefense)}{monsterReference.magicDefense - monsterReference.cachedMagicDefense})" +
                 $"\nEvasion: {monsterReference.evasion} ({ReturnSign(monsterReference.evasion, monsterReference.cachedEvasion)}{monsterReference.evasion - monsterReference.cachedEvasion})" +
                 $"\nCrit Chance: {monsterReference.critChance} (+{monsterReference.critChance - monsterReference.cachedCritChance})" +
-                $"\nSpeed: {monsterReference.speed} (+{monsterReference.speed - monsterReference.cachedSpeed})");
+                $"\nSpeed: {monsterReference.speed} ({ReturnSign(monsterReference.speed, monsterReference.cachedSpeed)}{monsterReference.speed - monsterReference.cachedSpeed})");
         }
         else
         if (!showWindow)

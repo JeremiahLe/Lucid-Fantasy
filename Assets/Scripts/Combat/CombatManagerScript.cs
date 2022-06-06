@@ -193,6 +193,7 @@ public class CombatManagerScript : MonoBehaviour
             }
         }
 
+        enemyAIManager.InformLists(); // Tell the enemy AI manager that all lists have been compiled
         SortMonsterBattleSequence(true); // This should be called after the foreach loop, meaning all monsters in battle have been added to list
     }
 
@@ -220,7 +221,17 @@ public class CombatManagerScript : MonoBehaviour
         for (int i = 0; i < BattleSequence.Count; i++)
         {
             Monster monster = BattleSequence[i].GetComponent<CreateMonster>().monsterReference;
-            uiManager.CombatOrderTextList.text += ($"Monster {i + 1}: {monster.aiType} {monster.name} || Speed: {monster.speed}\n");
+
+            // Get text color
+            if (monster.aiType == Monster.AIType.Ally)
+            {
+                uiManager.CombatOrderTextList.text += ($"{monster.aiType} {monster.name} || Speed: <b>{monster.speed}</b>\n");
+            }
+            else if (monster.aiType == Monster.AIType.Enemy)
+            {
+                uiManager.CombatOrderTextList.text += ($"<color=red>{monster.aiType} {monster.name}</color> || Speed: <b>{monster.speed}</b>\n");
+            }
+
             if (monsterJoinedBattle)
             {
                 CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} has joined the battle!"); // Update Combat Log with all monsters in battle
@@ -242,6 +253,13 @@ public class CombatManagerScript : MonoBehaviour
         }
 
         StartCoroutine(IncrementNewRoundIE()); // Initiate the battle
+    }
+
+    // This text function returns a color based on ai type
+    Color ReturnColor()
+    {
+        Color color = Color.red;
+        return color;
     }
 
     // This override function sorts the monster battle sequence by speed after round increment
@@ -274,7 +292,15 @@ public class CombatManagerScript : MonoBehaviour
                 continue;
             }
 
-            uiManager.CombatOrderTextList.text += ($"Monster {i + 1}: {monster.aiType} {monster.name} || Speed: {monster.speed}\n");
+            // Get text color
+            if (monster.aiType == Monster.AIType.Ally)
+            {
+                uiManager.CombatOrderTextList.text += ($"{monster.aiType} {monster.name} || Speed: <b>{monster.speed}</b>\n"); //Monster {i + 1}:
+            }
+            else if (monster.aiType == Monster.AIType.Enemy)
+            {
+                uiManager.CombatOrderTextList.text += ($"<color=red>{monster.aiType} {monster.name}</color> || Speed: <b>{monster.speed}</b>\n");
+            }
         }
 
         /*

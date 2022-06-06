@@ -895,8 +895,8 @@ public class AdventureManager : MonoBehaviour
     public void PlayNewBGM(AudioClip newBGM, float scale)
     {
         GameManagerAudioSource.Stop();
-        GameManagerAudioSource.loop = true;
         GameManagerAudioSource.PlayOneShot(newBGM, scale);
+        GameManagerAudioSource.loop = true;
     }
 
     // WOW I CAN'T BELIEVE THIS FIXED ALL MY PROBLEMS

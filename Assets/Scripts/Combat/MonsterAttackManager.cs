@@ -180,7 +180,7 @@ public class MonsterAttackManager : MonoBehaviour
 
         // fix missing target bug?
         currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
-        currentTargetedMonster = currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterReference;
+        currentTargetedMonster = currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
 
         // take away action
         currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterActionAvailable = false;
@@ -191,6 +191,9 @@ public class MonsterAttackManager : MonoBehaviour
             currentMonsterAttack.attackOnCooldown = true;
             currentMonsterAttack.attackCurrentCooldown = currentMonsterAttack.attackBaseCooldown;
         }
+
+        // Check if dazed
+        //if (currentMonsterTurnGameObject)
 
         // First check if the move should deal damage or not
         if (currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Buff)

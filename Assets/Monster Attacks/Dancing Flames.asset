@@ -10,25 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
-  m_Name: Galeforce
+  m_Name: Dancing Flames
   m_EditorClassIdentifier: 
-  monsterAttackName: Galeforce
-  monsterAttackDescription: "Blast the target with incredibly fast splitting winds.
-    Deals 75% of the user's total speed \nas bonus damage."
-  monsterAttackElement: 3
+  monsterAttackName: Dancing Flames
+  monsterAttackDescription: Whip up dancing flames, damaging all enemies. 25% chance
+    to inflict Dazed on the user.
+  monsterAttackElement: 0
   monsterAttackType: 0
   monsterAttackDamageType: 1
-  monsterAttackTargetCount: 0
-  monsterAttackTargetType: 3
-  monsterAttackSoundEffect: {fileID: 8300000, guid: 863a4aefa06f6354394638fe929c64fb, type: 3}
-  monsterAttackDamage: 25
+  monsterAttackTargetCount: 2
+  monsterAttackTargetType: 0
+  monsterAttackSoundEffect: {fileID: 8300000, guid: bddba377ce4bb4d43beb831c3f9d5b01, type: 3}
+  monsterAttackDamage: 40
   monsterAttackFlatDamageBonus: 0
-  monsterAttackAccuracy: 85
+  monsterAttackAccuracy: 95
   monsterAttackCritChance: 10
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0
   attackBaseCooldown: 0
   attackCurrentCooldown: 0
-  ListOfAttackEffects:
-  - {fileID: 11400000, guid: 68296c12f80ff194991aab38a6b1a4e9, type: 2}
+  ListOfAttackEffects: []

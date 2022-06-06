@@ -45,7 +45,6 @@ MonoBehaviour:
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
   - {fileID: 11400000, guid: 931569915445bf84a9e5cd6ddfa021ea, type: 2}
-  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
   - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
   - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}

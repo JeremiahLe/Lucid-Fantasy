@@ -20,7 +20,7 @@ public class AttackEffect : ScriptableObject
 
     public TypeOfEffect typeOfEffect;
 
-    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage }
+    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth }
     public StatEnumToChange statEnumToChange;
 
     public enum StatChangeType { Buff, Debuff, None }
@@ -740,6 +740,12 @@ public class AttackEffect : ScriptableObject
             case (StatEnumToChange.CritDamage):
                 return monsterRef.critDamage;
 
+            case (StatEnumToChange.MaxHealth):
+                return monsterRef.maxHealth;
+
+            case (StatEnumToChange.Health):
+                return monsterRef.health;
+
             default:
                 Debug.Log("Missing stat or monster reference?", this);
                 return 0;
@@ -995,10 +1001,19 @@ public class AttackEffect : ScriptableObject
             toValue = 1; // prevent buffs of 0
         }
 
+        // Check if flat buff
         if (flatBuff)
         {
             toValue = amountToChange;
         }
+
+        // Check if health debuff to x (toValue) percentage of max health
+        if (statEnumToChange == StatEnumToChange.MaxHealth)
+        {
+            statEnumToChange = StatEnumToChange.Health;
+        }
+
+        // health -= .10 * maxHealth
 
         // Check if immune to skip modifiers
         if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
@@ -1034,7 +1049,15 @@ public class AttackEffect : ScriptableObject
         monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(statEnumToChange, false);
 
         // Update monster's stats
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
+        if (statEnumToChange == StatEnumToChange.Health)
+        {
+            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(true); // if health changed, check health
+        }
+        else
+        {
+            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
+        }
+
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
         // Update combat order if speed was adjusted
