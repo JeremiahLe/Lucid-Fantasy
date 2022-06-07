@@ -36,6 +36,7 @@ public class MonsterAttackManager : MonoBehaviour
     public Sprite poisonedUISprite;
     public Sprite noUISprite;
     public Sprite burningUISprite;
+    public Sprite dazedUISprite;
 
     [Title("Combat Variables")]
     public Vector3 cachedTransform;
@@ -167,21 +168,113 @@ public class MonsterAttackManager : MonoBehaviour
         TextBackImageBorder.enabled = false;
 
         currentMonsterAttackDescription.gameObject.SetActive(false);
-        combatManagerScript.monsterTargeter.SetActive(false);
+    }
+
+    // This coroutine serves as a delay after the attack button is selected in order to check dazed/target re-direction etc.
+    IEnumerator TargetMonsterCheck()
+    {
+        // Enemy AI manager handles this
+        if (combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy)
+        {
+            yield return new WaitForSeconds(1.3f);
+            Invoke("ConfirmMonsterAttack", 0.1f);
+            yield break;
+        }
+
+        // fix missing target bug?
+        currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+        currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
+
+        // Check if current monster is dazed
+        if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
+        {
+            // 50% chance to select a different move
+            float selectAnotherMove = Random.value;
+
+            // Not selecting another move, continue
+            if (selectAnotherMove < .5f)
+            {
+                uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+                yield return new WaitForSeconds(1.3f);
+                Invoke("ConfirmMonsterAttack", 0.1f);
+                yield break;
+            }
+
+            // Selecting another move since Dazed
+            MonsterAttack dazedAttackChoice = combatManagerScript.GetRandomMove();
+
+            // Check selected move target type
+            if (dazedAttackChoice.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.SelfTarget)
+            {
+                combatManagerScript.CurrentTargetedMonster = combatManagerScript.CurrentMonsterTurn; // Update the combat manager, since this script references it later
+
+                // Update targeting
+                currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+                currentTargetedMonster = currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
+
+                uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on itself!");
+                yield return new WaitForSeconds(1.3f);
+                Invoke("ConfirmMonsterAttack", 0.1f);
+                yield break;
+            }
+            else // Not targeting self only, grab a random list, allys or enemies
+            {
+                combatManagerScript.CurrentTargetedMonster = enemyAIManager.GetRandomTarget(enemyAIManager.GetRandomList()); // this is quite the line of code
+
+                // Update targeting
+                currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+                currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
+
+                uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+                yield return new WaitForSeconds(1.3f);
+                Invoke("ConfirmMonsterAttack", 0.1f);
+                yield break;
+            }
+        }
+
+        // Not dazed, continue
+        if (currentTargetedMonsterGameObject == currentMonsterTurnGameObject)
+        {
+            uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} will use {currentMonsterAttack.monsterAttackName} on itself!");
+        }
+        else
+        {
+            uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+        }
+
+        yield return new WaitForSeconds(1.3f);
+        Invoke("ConfirmMonsterAttack", 0.1f);
+        yield break;
     }
 
     // This function uses the selected monster attack on the selected monster
     public void UseMonsterAttack()
     {
+        // Are you trying to target the wrong target?
+        if (currentMonsterAttack.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.SelfTarget && combatManagerScript.CurrentTargetedMonster != combatManagerScript.CurrentMonsterTurn)
+        {
+            uiManager.EditCombatMessage($"{currentMonsterAttack.monsterAttackName} can only be used on self!");
+            return;
+        }
+
+        // Hide buttons and Attack UI and display targeting text
+        combatManagerScript.targeting = false;
+        HideButtonsAndAttackUI();
+
+        // Idk what this does
         dontDealDamage = false;
 
+        // Assign this scripts current monster turn obj and monster ref from combat manager
         currentMonsterTurnGameObject = combatManagerScript.CurrentMonsterTurn;
         currentMonsterTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference; // unrelated to UI popup (missing reassignment calls?)
 
-        // fix missing target bug?
-        currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
-        currentTargetedMonster = currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
+        // Check if dazed/target-redirect/etc.
+        StartCoroutine(TargetMonsterCheck());
+    }
 
+    // This function extends from UseMonsterAttack to work with the new coroutine
+    public void ConfirmMonsterAttack()
+    {
         // take away action
         currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterActionAvailable = false;
 
@@ -192,9 +285,6 @@ public class MonsterAttackManager : MonoBehaviour
             currentMonsterAttack.attackCurrentCooldown = currentMonsterAttack.attackBaseCooldown;
         }
 
-        // Check if dazed
-        //if (currentMonsterTurnGameObject)
-
         // First check if the move should deal damage or not
         if (currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Buff)
         {
@@ -202,23 +292,24 @@ public class MonsterAttackManager : MonoBehaviour
             currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
 
             UseMonsterBuff();
+            return;
+        }
+
+        // Not using a buff
+        // Get the list of targeted monsters
+        if (combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy)
+        {
+            ListOfTargetedMonsters = combatManagerScript.ListOfEnemies;
         }
         else
-        { 
-            // Get the list of targeted monsters
-            if (combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy)
-            {
-                ListOfTargetedMonsters = combatManagerScript.ListOfEnemies;
-            }
-            else
-            {
-                ListOfTargetedMonsters = combatManagerScript.ListOfAllys;
-            }
-
-            combatManagerScript.CurrentMonsterTurnAnimator.SetBool("attackAnimationPlaying", true);
-            QueueAttackSound();
-            UpdateHUDElements();
+        {
+            ListOfTargetedMonsters = combatManagerScript.ListOfAllys;
         }
+
+        // Trigger animations and sounds
+        combatManagerScript.CurrentMonsterTurnAnimator.SetBool("attackAnimationPlaying", true);
+        QueueAttackSound();
+        UpdateHUDElements();
     }
 
     // This function is called when the monster attack does not deal damage
@@ -287,6 +378,13 @@ public class MonsterAttackManager : MonoBehaviour
         uiManager.EditCombatMessage();
     }
 
+    // Update HUD elements
+    public void HideButtonsAndAttackUI()
+    {
+        buttonManagerScript.HideAllButtons("All");
+        ResetHUD();
+    }
+
     // Queue Attack Sound
     public void QueueAttackSound()
     {
@@ -303,6 +401,22 @@ public class MonsterAttackManager : MonoBehaviour
             foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
             {
                 if (effect.effectTime == AttackEffect.EffectTime.PostAttack)
+                {
+                    effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
+                }
+            }
+        }
+    }
+
+    // trigger during attack effects
+    public void TriggerDuringAttackEffects(Monster monsterWhoUsedAttack)
+    {
+        // Trigger all attack after effects (buffs, debuffs etc.) - TODO - Implement other buffs/debuffs and durations
+        if (currentMonsterTurnGameObject != null && monsterWhoUsedAttack.health > 0)
+        {
+            foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
+            {
+                if (effect.effectTime == AttackEffect.EffectTime.DuringAttack)
                 {
                     effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
                 }
@@ -408,8 +522,9 @@ public class MonsterAttackManager : MonoBehaviour
     {
         // Check pre attack effects, buffs etc.
         PreAttackEffectCheck();
+        Monster monsterWhoUsedAttack = currentMonsterTurn;
 
-        foreach(GameObject monsterObj in ListOfTargetedMonsters.ToArray())
+        foreach (GameObject monsterObj in ListOfTargetedMonsters.ToArray())
         {
             // Get Monster Reference
             Monster monster = monsterObj.GetComponent<CreateMonster>().monsterReference;
@@ -436,12 +551,12 @@ public class MonsterAttackManager : MonoBehaviour
                 soundEffectManager.AddSoundEffectToQueue(HitSound);
                 soundEffectManager.BeginSoundEffectQueue();
 
-                Monster monsterWhoUsedAttack = currentMonsterTurn;
+                monsterWhoUsedAttack = currentMonsterTurn;
                 monsterWhoUsedAttack.health = currentMonsterTurn.health;
                 monsterWhoUsedAttack.cachedDamageDone += calculatedDamage;
 
-                // Trigger post attack effects
-                TriggerPostAttackEffects(monsterWhoUsedAttack);
+                // Trigger DURING attack effects
+                TriggerDuringAttackEffects(monsterWhoUsedAttack);
 
                 // End of turn stuff
                 currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true);
@@ -465,6 +580,10 @@ public class MonsterAttackManager : MonoBehaviour
             }
         }
 
+        // Trigger post attack effects
+        monsterWhoUsedAttack = currentMonsterTurn;
+        TriggerPostAttackEffects(monsterWhoUsedAttack);
+
         // Out of loop, next turn
         ClearCachedModifiers();
         combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
@@ -476,7 +595,7 @@ public class MonsterAttackManager : MonoBehaviour
         CombatLog.SendMessageToCombatLog
                 ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.aiType} " +
                 $"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name}'s " +
-                $"{currentMonsterAttack.monsterAttackName} missed {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+                $"{currentMonsterAttack.monsterAttackName} missed {currentTargetedMonster.aiType} {currentTargetedMonster.name}!", currentMonsterTurn.aiType);
 
         soundEffectManager.AddSoundEffectToQueue(MissSound);
         soundEffectManager.BeginSoundEffectQueue();
@@ -494,7 +613,7 @@ public class MonsterAttackManager : MonoBehaviour
         CombatLog.SendMessageToCombatLog
                 ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.aiType} " +
                 $"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name}'s " +
-                $"{currentMonsterAttack.monsterAttackName} missed {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+                $"{currentMonsterAttack.monsterAttackName} missed {currentTargetedMonster.aiType} {currentTargetedMonster.name}!", currentMonsterTurn.aiType);
 
         soundEffectManager.AddSoundEffectToQueue(MissSound);
         soundEffectManager.BeginSoundEffectQueue();
@@ -649,7 +768,7 @@ public class MonsterAttackManager : MonoBehaviour
         {
             calculatedDamage = Mathf.RoundToInt(calculatedDamage * currentMonster.critDamage);
             CombatLog.SendMessageToCombatLog($"Critical Hit!!! {currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
-                $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
+                $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!", currentMonsterTurn.aiType);
 
             monsterCritText.SetActive(true);
             monsterCritText.transform.position = cachedTransform;
@@ -664,7 +783,7 @@ public class MonsterAttackManager : MonoBehaviour
 
         // Send log message
         CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
-            $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!");
+            $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!", currentMonsterTurn.aiType);
 
         cachedDamage = calculatedDamage;
         return calculatedDamage;
@@ -676,7 +795,9 @@ public class MonsterAttackManager : MonoBehaviour
         bonusDamagePercent = 0;
         cachedBonusDamagePercent = 0;
         recievedDamagePercentBonus = false;
+        combatManagerScript.monsterTargeter.SetActive(false);
     }
+
     // This function uses the current move to deal damage to the other targets (should be called initial hit)
     /*public void DealDamageOthers(GameObject otherSpecificTarget)
     {

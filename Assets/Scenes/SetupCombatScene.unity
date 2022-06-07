@@ -584,7 +584,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.00012588501, y: 228.84625}
+  m_AnchoredPosition: {x: -0.0021476746, y: 228.84625}
   m_SizeDelta: {x: -0.0024719238, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &93912620
@@ -818,7 +818,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 9bc6eda72138ee74bab794604d884013, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.97199994, g: 0.97199994, b: 0.97199994, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5376,6 +5376,7 @@ MonoBehaviour:
   poisonedUISprite: {fileID: 21300000, guid: 8e8b0e28cfec1b248a4b7abc51592156, type: 3}
   noUISprite: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
   burningUISprite: {fileID: 21300000, guid: 884db12ad07c0e444b5e3f1f064a979a, type: 3}
+  dazedUISprite: {fileID: 0}
   cachedTransform: {x: 0, y: 0, z: 0}
   cachedDamage: 0
   calculatedDamage: 0

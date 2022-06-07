@@ -81,7 +81,6 @@ public class EnemyAIManager : MonoBehaviour
                 //currentEnemyTargetGameObject = GetRandomTarget();
 
                 currentEnemyTarget = currentEnemyTargetGameObject.GetComponent<CreateMonster>().monsterReference;
-
                 monsterTargeter.SetActive(true);
                 monsterTargeter.transform.position = new Vector3(currentEnemyTargetGameObject.transform.position.x, currentEnemyTargetGameObject.transform.position.y + 2.5f, currentEnemyTargetGameObject.transform.position.z);
 
@@ -91,7 +90,7 @@ public class EnemyAIManager : MonoBehaviour
                     // Dazed?
                     if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
                     {
-                        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} is Dazed and will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
+                        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} is Dazed will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
                     }
                     else
                     {
@@ -110,16 +109,11 @@ public class EnemyAIManager : MonoBehaviour
                     }
                 }
 
-                // Dazed?
-                if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
-                {
-
-                }
-                    combatManagerScript.CurrentMonsterTurnAnimator = currentEnemyTurnGameObject.GetComponent<Animator>();
+                combatManagerScript.CurrentMonsterTurnAnimator = currentEnemyTurnGameObject.GetComponent<Animator>();
                 combatManagerScript.CurrentTargetedMonster = currentEnemyTargetGameObject;
                 monsterAttackManager.currentMonsterAttack = currentEnemyMonsterAttack;
 
-                monsterAttackManager.Invoke("UseMonsterAttack", 1.7f);
+                monsterAttackManager.Invoke("UseMonsterAttack", 0.1f);
                 break;
             default:
                 Debug.Log("Missing AI Level or monster reference?", this);

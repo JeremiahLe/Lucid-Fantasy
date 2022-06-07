@@ -24,7 +24,7 @@ MonoBehaviour:
   cachedHealth: 0
   cachedMaxHealth: 0
   physicalAttack: 50
-  magicAttack: 155
+  magicAttack: 1
   physicalDefense: 125
   magicDefense: 70
   speed: 10
@@ -52,7 +52,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e99082d6380a9e444aa569ffb028e0bc, type: 2}
   - {fileID: 11400000, guid: 088624301c21364408a42b2e6fbeb5b4, type: 2}
   cachedPhysicalAttack: 50
-  cachedMagicAttack: 155
+  cachedMagicAttack: 1
   cachedPhysicalDefense: 125
   cachedMagicDefense: 70
   cachedSpeed: 10

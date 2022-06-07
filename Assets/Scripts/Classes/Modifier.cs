@@ -49,7 +49,7 @@ public class Modifier : ScriptableObject
         if (statusEffect)
         {
             monsterReferenceGameObject.GetComponent<CreateMonster>().statusEffectUISprite.sprite = monsterReferenceGameObject.GetComponent<CreateMonster>().monsterAttackManager.noUISprite;
-            monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} {statusEffectType.ToString()} status was cleared!");
+            monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statusEffectType.ToString()} status was cleared!", monsterReference.aiType);
 
             switch (statusEffectType)
             {
@@ -59,6 +59,10 @@ public class Modifier : ScriptableObject
 
                 case StatusEffectType.Burning:
                     monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsBurning = false;
+                    break;
+
+                case StatusEffectType.Dazed:
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsDazed = false;
                     break;
 
                 default:

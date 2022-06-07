@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
   m_Name: Fan The Flames Effect
   m_EditorClassIdentifier: 
-  typeOfEffect: 21
+  typeOfEffect: 22
   statEnumToChange: 0
   statChangeType: 0
   effectTime: 0
   attackEffectStatus: 6
+  inflictSelf: 0
   modifierCalledOnce: 0
   flatBuff: 0
   modifierDuration: 0

@@ -298,7 +298,7 @@ public class CreateMonster : MonoBehaviour
 
                         monsterReference.health -= poisonDamage;
                         ShowDamageOrStatusEffectPopup(poisonDamage);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is poisoned and takes {poisonDamage} damage!");
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Poisoned and takes {poisonDamage} damage!", monsterReference.aiType);
                         UpdateStats(true);
                         break;
 
@@ -317,11 +317,8 @@ public class CreateMonster : MonoBehaviour
 
                         monsterReference.health -= burningDamage;
                         ShowDamageOrStatusEffectPopup(burningDamage);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is burning and takes {burningDamage} damage!");
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Burning and takes {burningDamage} damage!", monsterReference.aiType);
                         UpdateStats(true);
-                        break;
-
-                    default:
                         break;
                 }
             }
@@ -480,7 +477,7 @@ public class CreateMonster : MonoBehaviour
         }
 
         // Send log message
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statToModify} was increased by {modifier.modifierName}!");
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statToModify} was increased by {modifier.modifierName}!", monsterReference.aiType);
     }
 
     // This function inflicts statuses
@@ -496,6 +493,11 @@ public class CreateMonster : MonoBehaviour
             case (Modifier.StatusEffectType.Burning):
                 monsterIsBurning = true;
                 statusEffectUISprite.sprite = monsterAttackManager.burningUISprite;
+                break;
+
+            case (Modifier.StatusEffectType.Dazed):
+                monsterIsDazed = true;
+                statusEffectUISprite.sprite = monsterAttackManager.dazedUISprite;
                 break;
 
             default:
@@ -525,7 +527,7 @@ public class CreateMonster : MonoBehaviour
             monsterIsBurning = false;
 
             combatManagerScript.RemoveMonsterFromList(gameObject, monsterReference.aiType);
-            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} has been defeated!");
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} has been defeated!", monsterReference.aiType);
         }
     }
 

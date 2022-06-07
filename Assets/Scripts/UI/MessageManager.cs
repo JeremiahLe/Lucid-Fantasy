@@ -39,6 +39,31 @@ public class MessageManager : MonoBehaviour
         messageList.Add(newMessage);
         HUDanimationManager.UpdateScrollBar();
     }
+
+    // This function sends a message to the combat log
+    public void SendMessageToCombatLog(string text, Monster.AIType aIType)
+    {
+        if (messageList.Count >= maxMessages)
+        {
+            Destroy(messageList[0].textObject.gameObject);
+            messageList.Remove(messageList[0]);
+        }
+
+        Message newMessage = new Message();
+        newMessage.text = text;
+
+        GameObject newText = Instantiate(TextObject, CombatLog.transform);
+        newMessage.textObject = newText.GetComponent<TextMeshProUGUI>();
+        newMessage.textObject.text = newMessage.text;
+
+        /*if (aIType == Monster.AIType.Enemy)
+        {
+            newMessage.textObject.color = Color.red;
+        }*/
+
+        messageList.Add(newMessage);
+        HUDanimationManager.UpdateScrollBar();
+    }
 }
 
 [System.Serializable]

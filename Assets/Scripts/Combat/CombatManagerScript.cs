@@ -545,8 +545,8 @@ public class CombatManagerScript : MonoBehaviour
         monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
         monsterTargeter.SetActive(true);
 
-        uiManager.EditCombatMessage($"Ally {monster.name} will use {monsterAttackManager.currentMonsterAttack.monsterAttackName} on {targetedMonster.aiType} {targetedMonster.name}!");
-        monsterAttackManager.Invoke("UseMonsterAttack", 1.7f);
+        //uiManager.EditCombatMessage($"Ally {monster.name} will use {monsterAttackManager.currentMonsterAttack.monsterAttackName} on {targetedMonster.aiType} {targetedMonster.name}!");
+        monsterAttackManager.Invoke("UseMonsterAttack", 0.1f);
     }
 
     #region Old Code
