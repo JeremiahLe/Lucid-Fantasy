@@ -14,7 +14,7 @@ public class AttackEffect : ScriptableObject
         MinorDrain, MagicalAttackBuffSelf, HalfHealthExecute, SpeedBuffAllies, Counter,
         DoublePowerIfStatBoost, OnCriticalStrikeBuff, DamageAllEnemies, CripplingFearEffect, NonDamagingMove,
         SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity,
-        InflictBurning, InflictPoisoned,
+        InflictBurning, InflictPoisoned, InflictDazed,
         DamageBonusIfTargetStatusEffect
     }
 
@@ -32,6 +32,7 @@ public class AttackEffect : ScriptableObject
     public Modifier.StatusEffectType attackEffectStatus;
 
     [Title("Modifier Adjustments")]
+    public bool inflictSelf = false;
     public bool modifierCalledOnce = false;
     public bool flatBuff = false;
 
@@ -200,18 +201,54 @@ public class AttackEffect : ScriptableObject
             case TypeOfEffect.InflictBurning:
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
-                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
-                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
-                    InflictBurning(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                    if (!inflictSelf)
+                    {
+                        targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                        InflictBurning(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                    }
+                    else
+                    {
+                        targetMonster = monsterAttackManager.combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentMonsterTurn;
+                        InflictBurning(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                    }
                 }
                 break;
 
             case TypeOfEffect.InflictPoisoned:
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
-                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
-                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
-                    InflictPoisoned(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                    if (!inflictSelf)
+                    {
+                        targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                        InflictPoisoned(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                    }
+                    else
+                    {
+                        targetMonster = monsterAttackManager.combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentMonsterTurn;
+                        InflictPoisoned(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                    }
+                }
+                break;
+
+            case TypeOfEffect.InflictDazed:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    if (!inflictSelf)
+                    {
+                        targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                        InflictDazed(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                    }
+                    else
+                    {
+                        targetMonster = monsterAttackManager.combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentMonsterTurn;
+                        InflictDazed(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                    }
                 }
                 break;
 
@@ -963,7 +1000,7 @@ public class AttackEffect : ScriptableObject
             // Send execute message to combat log
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
-                $"{statEnumToChange.ToString()} couldn't go any higher!");
+                $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
             return;
         }
 
@@ -972,7 +1009,7 @@ public class AttackEffect : ScriptableObject
 
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!");
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
         monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(statEnumToChange, true);
 
         // Update monster's stats
@@ -1036,7 +1073,7 @@ public class AttackEffect : ScriptableObject
             // Send execute message to combat log
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
-                $"{statEnumToChange.ToString()} couldn't go any lower!");
+                $"{statEnumToChange.ToString()} couldn't go any lower!", monsterReference.aiType);
             return;
         }
 
@@ -1045,7 +1082,7 @@ public class AttackEffect : ScriptableObject
 
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was decreased by {effectTriggerName}!");
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was decreased by {effectTriggerName}!", monsterReference.aiType);
         monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(statEnumToChange, false);
 
         // Update monster's stats
@@ -1084,7 +1121,7 @@ public class AttackEffect : ScriptableObject
         if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsBurning == true)
         {
             combatManagerScript = monsterAttackManager.combatManagerScript;
-            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already burned!");
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already Burning!", monsterReference.aiType);
             return;
         }
 
@@ -1136,7 +1173,7 @@ public class AttackEffect : ScriptableObject
         if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsPoisoned == true)
         {
             combatManagerScript = monsterAttackManager.combatManagerScript;
-            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already poisoned!");
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already Poisoned!", monsterReference.aiType);
             return;
         }
 
@@ -1163,6 +1200,66 @@ public class AttackEffect : ScriptableObject
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Poisoned);
+
+        // Update combat order if speed was adjusted
+        if (statEnumToChange == StatEnumToChange.Speed)
+        {
+            combatManagerScript.SortMonsterBattleSequence();
+        }
+    }
+
+    // Delegate Debuff Function Test
+    public void InflictDazed(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
+    {
+        // Grab new refs?
+        if (inflictSelf)
+        {
+            monsterReference = monsterAttackManager.currentMonsterTurn;
+            monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+        }
+        else
+        {
+            monsterReference = monsterAttackManager.currentTargetedMonster;
+            monsterReferenceGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
+        }
+
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
+
+        // Check if already dazed
+        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsDazed == true)
+        {
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already Dazed!", monsterReference.aiType);
+            return;
+        }
+
+        // see if effect hits
+        float hitChance = (effectTriggerChance / 100);
+        float randValue = UnityEngine.Random.value;
+
+        if (randValue > hitChance)
+        {
+            return;
+        }
+
+        // Get damage amount
+        float toValue = (amountToChange / 100);
+
+        // Add modifiers
+        //AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+        CreateAndAddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration, Modifier.StatusEffectType.Dazed);
+
+        // Send message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was Dazed by {effectTriggerName}!");
+
+        // Update monster's stats
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
+        monsterReferenceGameObject.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Dazed);
 
         // Update combat order if speed was adjusted
         if (statEnumToChange == StatEnumToChange.Speed)
