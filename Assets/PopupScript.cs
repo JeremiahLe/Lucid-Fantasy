@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class PopupScript : MonoBehaviour
 {
+    public bool instantiated = false;
+    public GameObject parentObj = null;
+
     public void OnEnable()
     {
-        Invoke("OnAnimationEnd", 1.0f);
+        float deathTime = Random.Range(0.75f, 1.5f);
+        Invoke("OnAnimationEnd", deathTime);
     }
 
     public void OnAnimationEnd()
     {
-        gameObject.SetActive(false);
+        if (instantiated)
+        {
+            Destroy(parentObj);
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

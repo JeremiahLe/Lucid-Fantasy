@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
-  m_Name: Honed Precision Critical Chance Buff
+  m_Name: Shriek Dazed Effect
   m_EditorClassIdentifier: 
-  typeOfEffect: 16
-  statEnumToChange: 8
-  statChangeType: 0
+  typeOfEffect: 21
+  statEnumToChange: 0
+  statChangeType: 1
   effectTime: 2
-  attackEffectStatus: 0
+  attackEffectStatus: 3
   inflictSelf: 0
   modifierCalledOnce: 0
-  flatBuff: 1
+  flatBuff: 0
   modifierDuration: 3
-  amountToChange: 100
-  effectTriggerChance: 100
+  amountToChange: 0
+  effectTriggerChance: 25
   combatManagerScript: {fileID: 0}
-  ListOfModifiers:
-  - {fileID: 11400000, guid: c270f5bfd6a2c744696580ba7c31d57c, type: 2}
+  ListOfModifiers: []

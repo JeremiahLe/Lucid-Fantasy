@@ -24,9 +24,9 @@ MonoBehaviour:
   cachedHealth: 0
   cachedMaxHealth: 0
   physicalAttack: 75
-  magicAttack: 215
-  physicalDefense: 150
-  magicDefense: 245
+  magicAttack: 225
+  physicalDefense: 125
+  magicDefense: 185
   speed: 20
   evasion: 10
   critChance: 0

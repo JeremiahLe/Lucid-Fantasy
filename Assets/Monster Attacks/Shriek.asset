@@ -10,24 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
-  m_Name: Menacing Sounds
+  m_Name: Shriek
   m_EditorClassIdentifier: 
-  monsterAttackName: Menacing Sounds
-  monsterAttackDescription: Scare a target, lowering their speed by 35% for 3 rounds.
+  monsterAttackName: Shriek
+  monsterAttackDescription: 'Shriek at the opponent, dealing damage and lowering
+    the target''s physical and magic
+
+    attack. 25% chance to also inflict Dazed.'
   monsterAttackElement: 12
-  monsterAttackType: 1
+  monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
-  monsterAttackTargetType: 3
+  monsterAttackTargetType: 0
   monsterAttackSoundEffect: {fileID: 8300000, guid: 608cc8864e214fe469c181c8704401de, type: 3}
-  monsterAttackDamage: 0
+  monsterAttackDamage: 35
   monsterAttackFlatDamageBonus: 0
-  monsterAttackAccuracy: 90
-  monsterAttackCritChance: 0
+  monsterAttackAccuracy: 100
+  monsterAttackCritChance: 10
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0
   attackBaseCooldown: 0
   attackCurrentCooldown: 0
   ListOfAttackEffects:
-  - {fileID: 11400000, guid: d6bd6d66fed792740addbd0783dd44c7, type: 2}
+  - {fileID: 11400000, guid: 3b4eb94f81a6c7f48a057935d12853e2, type: 2}
+  - {fileID: 11400000, guid: 9be58f3441e1f2341878f9cb425b0e6b, type: 2}
+  - {fileID: 11400000, guid: 2c9b1d090902f804682d80456eb25b16, type: 2}

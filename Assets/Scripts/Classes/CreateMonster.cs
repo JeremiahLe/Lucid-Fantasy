@@ -24,6 +24,9 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] public Image StatScreenWindow;
     [SerializeField] public TextMeshProUGUI StatScreenWindowText;
 
+    [SerializeField] public Transform popupPosTransform;
+    [SerializeField] private GameObject monsterStatusTextObjectCanvas;
+
     [SerializeField] public Slider HealthbarSlider;
     Color HealthbarSliderOriginalColor;
     Color HealthbarSliderTargetColor;
@@ -764,5 +767,30 @@ public class CreateMonster : MonoBehaviour
     // This function is called by monster attack manager to show damage popup
     public void CreateStatusEffectPopup(AttackEffect.StatEnumToChange stat, bool isBuff)
     {
+        GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
+        effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
+        effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
+        effectPopup.GetComponentInChildren<Animator>().speed = Random.Range(0.25f, 1.5f);
+
+        if (!isBuff)
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} down!");
+        }
+        else
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} up!");
+        }
+    }
+
+    // This function is called by monster attack manager to show damage popup
+    public void CreateStatusEffectPopup(string condition)
+    {
+        GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
+        effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
+        effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
+        effectPopup.GetComponentInChildren<Animator>().speed = Random.Range(0.25f, 1.5f);
+
+        effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{condition}!");
+
     }
 }

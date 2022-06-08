@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
-  m_Name: Ziegesaw
+  m_Name: Bloo
   m_EditorClassIdentifier: 
-  name: Ziegesaw
-  baseSprite: {fileID: 21300000, guid: e00095bcb3786454d99197ea4e9c5e5b, type: 3}
+  name: Bloo
+  baseSprite: {fileID: 21300000, guid: 1874c472cccf8f04882aa49b260a1c36, type: 3}
   monsterElement: 4
-  monsterSubElement: 6
+  monsterSubElement: 12
   aiType: 0
   aiLevel: 0
-  level: 50
-  health: 2750
-  maxHealth: 2750
+  level: 5
+  health: 58
+  maxHealth: 58
   cachedHealth: 0
   cachedMaxHealth: 0
-  physicalAttack: 185
-  magicAttack: 100
-  physicalDefense: 160
-  magicDefense: 275
-  speed: 12
+  physicalAttack: 5
+  magicAttack: 6
+  physicalDefense: 2
+  magicDefense: 2
+  speed: 1
   evasion: 5
-  critChance: 5
+  critChance: 0
   critDamage: 2
   healthScaler: 1.01
   physicalAttackScaler: 1.01
@@ -38,27 +38,24 @@ MonoBehaviour:
   magicDefenseScaler: 1.01
   speedScaler: 1.01
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 2acc426b2e55e9b4bb97d85ff2a15cd5, type: 2}
-  - {fileID: 11400000, guid: 7dd8ef701b149f2438862dd21e4346bb, type: 2}
   - {fileID: 11400000, guid: 1269aaf784782ee4f81b62eaddab4ccc, type: 2}
-  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
+  - {fileID: 11400000, guid: 7dd8ef701b149f2438862dd21e4346bb, type: 2}
+  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
+  - {fileID: 11400000, guid: c25107f645a56b64eaa69da9fedd4f57, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
-  - {fileID: 11400000, guid: 2acc426b2e55e9b4bb97d85ff2a15cd5, type: 2}
-  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
   - {fileID: 11400000, guid: 1269aaf784782ee4f81b62eaddab4ccc, type: 2}
+  - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   - {fileID: 11400000, guid: 7dd8ef701b149f2438862dd21e4346bb, type: 2}
-  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
-  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
-  - {fileID: 11400000, guid: f2727f88e849c3840ae05a8ce85d9108, type: 2}
-  - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
-  cachedPhysicalAttack: 1
-  cachedMagicAttack: 1
-  cachedPhysicalDefense: 1
-  cachedMagicDefense: 1
+  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
+  - {fileID: 11400000, guid: c25107f645a56b64eaa69da9fedd4f57, type: 2}
+  cachedPhysicalAttack: 5
+  cachedMagicAttack: 6
+  cachedPhysicalDefense: 2
+  cachedMagicDefense: 2
   cachedSpeed: 1
-  cachedEvasion: 0
+  cachedEvasion: 5
   cachedCritChance: 0
   cachedDamageDone: 0
   monsterKills: 0

@@ -316,6 +316,7 @@ public class AttackEffect : ScriptableObject
         // Send buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statEnumToChange.ToString()}!");
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(statEnumToChange, true);
 
         // Update monster's UI health element
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
@@ -426,6 +427,7 @@ public class AttackEffect : ScriptableObject
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
             $"health was lowered!");
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.Health, false);
 
         // reduce health
         monsterAttackManager.currentTargetedMonster.health = currentHealth;
@@ -820,6 +822,7 @@ public class AttackEffect : ScriptableObject
                     // Send buff message to combat log
                     combatManagerScript = monsterAttackManager.combatManagerScript;
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statEnumToChange.ToString()}!");
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.PhysicalAttack, true);
 
                     // Update monster's UI health element
                     monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
@@ -849,6 +852,7 @@ public class AttackEffect : ScriptableObject
                     // Send buff message to combat log
                     combatManagerScript = monsterAttackManager.combatManagerScript;
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statEnumToChange.ToString()}!");
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.MagicAttack, true);
 
                     // Update monster's UI health element
                     monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
@@ -907,6 +911,8 @@ public class AttackEffect : ScriptableObject
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} lowered its Physical and Magic Attack!");
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.PhysicalAttack, false);
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.MagicAttack, false);
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
@@ -1144,6 +1150,7 @@ public class AttackEffect : ScriptableObject
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was burned by {effectTriggerName}!");
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Burning!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
@@ -1196,6 +1203,7 @@ public class AttackEffect : ScriptableObject
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was poisoned by {effectTriggerName}!");
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Poisoned!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
@@ -1256,6 +1264,7 @@ public class AttackEffect : ScriptableObject
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was Dazed by {effectTriggerName}!");
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Dazed!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
@@ -1325,6 +1334,7 @@ public class AttackEffect : ScriptableObject
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} gained immunity to status effects and debuffs!");
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Granted Debuff and Status Immunity!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
@@ -1354,6 +1364,7 @@ public class AttackEffect : ScriptableObject
                 // Send immune message to combat log
                 combatManagerScript = monsterAttackManager.combatManagerScript;
                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to stat changes! Its {statEnumToChange} cannot be effected!");
+                monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune");
                 return true;
             }
         }
@@ -1473,7 +1484,7 @@ public class AttackEffect : ScriptableObject
         monsterObj.GetComponent<CreateMonster>().ModifyStats(statEnumToChange, mod);
     }
 
-    // Create and Add modifiers
+    // Create and Add modifiers - Status Effect
     public void CreateAndAddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj, int duration, Modifier.StatusEffectType statusEffect)
     {
         // First check if not buff
