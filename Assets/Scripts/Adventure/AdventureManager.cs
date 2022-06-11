@@ -280,29 +280,37 @@ public class AdventureManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // save nodes
-        foreach (GameObject node in ListOfUnlockedNodes)
-        {
-            node.SetActive(false);
-            DontDestroyOnLoad(node);
-        }
-        //
-        foreach (GameObject node in ListOfLockedNodes)
-        {
-            node.SetActive(false);
-            DontDestroyOnLoad(node);
-        }
-        //
-        foreach (GameObject node in ListOfAllNodes)
-        {
-            node.GetComponent<CreateNode>().nodeInDefaultState = false;
-            node.SetActive(false);
-            DontDestroyOnLoad(node);
-        }
-
         if (ListOfSavedNodes.Count() == 0)
         {
+            foreach (GameObject node in ListOfUnlockedNodes)
+            {
+                node.SetActive(false);
+                DontDestroyOnLoad(node);
+            }
+
+            //
+            foreach (GameObject node in ListOfLockedNodes)
+            {
+                node.SetActive(false);
+                DontDestroyOnLoad(node);
+            }
+
+            //
+            foreach (GameObject node in ListOfAllNodes)
+            {
+                node.GetComponent<CreateNode>().nodeInDefaultState = false;
+                node.SetActive(false);
+                DontDestroyOnLoad(node);
+            }
+
             ListOfSavedNodes = ListOfAllNodes;
         }
+
+        foreach (GameObject node in ListOfSavedNodes)
+        {
+            node.SetActive(false);
+        }
+
         NodeToReturnTo = cachedSelectedNode;
 
         if (NodeToReturnTo.GetComponent<CreateNode>().nodeType == CreateNode.NodeType.Boss)
@@ -354,6 +362,7 @@ public class AdventureManager : MonoBehaviour
                     Destroy(node);
                 }
                 break;
+                
 
             case ("SetupCombatScene"):
 
@@ -584,6 +593,7 @@ public class AdventureManager : MonoBehaviour
             node.SetActive(true);
             CreateNode nodeComponent = node.GetComponent<CreateNode>();
             nodeComponent.nodeSelectionTargeter = nodeSelectionTargeter;
+            nodeComponent.routeText = routeText;
 
             // If not beginning of adventure, all default nodes should be turned off
             if (nodeComponent.nodeInDefaultState == true && adventureBegin)

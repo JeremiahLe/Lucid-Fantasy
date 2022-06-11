@@ -108,7 +108,7 @@ public class CreateNode : MonoBehaviour
         adventureManager = GameManager.GetComponent<AdventureManager>();
 
         nodeSelectionTargeter = adventureManager.nodeSelectionTargeter;
-        //selectedPosition = GetComponentInChildren<Transform>();
+        routeText = adventureManager.routeText;
 
         sr = GetComponent<SpriteRenderer>();
     }
@@ -189,7 +189,7 @@ public class CreateNode : MonoBehaviour
 
     private void OnEnable()
     {
-        //selectedPosition = GetComponentInChildren<Transform>();
+        routeText = adventureManager.routeText;
     }
 
     // This function passes in the new target to the combatManager
