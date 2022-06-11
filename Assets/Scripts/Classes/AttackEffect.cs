@@ -557,6 +557,7 @@ public class AttackEffect : ScriptableObject
 
                     // Send speed buff message to combat log
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} raised its {statEnumToChange.ToString()}!");
+                    monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.Speed, true);
 
                     // Update monster's speed element
                     monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
@@ -595,6 +596,7 @@ public class AttackEffect : ScriptableObject
 
                     // Send speed buff message to combat log
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} raised its {statEnumToChange.ToString()}!");
+                    monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.Speed, true);
 
                     // Update monster's speed element
                     monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
@@ -690,6 +692,7 @@ public class AttackEffect : ScriptableObject
 
                     // Send speed buff message to combat log
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {statEnumToChange.ToString()} was lowered!");
+                    monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.Speed, false);
 
                     // Update monster's speed element
                     monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
@@ -1334,7 +1337,7 @@ public class AttackEffect : ScriptableObject
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} gained immunity to status effects and debuffs!");
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Granted Debuff and Status Immunity!");
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Gained Debuff and Status Immunity!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false);
@@ -1357,6 +1360,7 @@ public class AttackEffect : ScriptableObject
                 // Send immune message to combat log
                 combatManagerScript = monsterAttackManager.combatManagerScript;
                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to status effects and debuffs!");
+                monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune");
                 return true;
             }
             else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges && statChangeType != StatChangeType.None)

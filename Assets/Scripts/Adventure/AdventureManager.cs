@@ -759,15 +759,16 @@ public class AdventureManager : MonoBehaviour
             foreach (GameObject node in cachedSelectedNode.GetComponent<CreateNode>().nodesToUnlock)
             {
                 node.GetComponent<CreateNode>().nodeLocked = false;
-                node.GetComponent<SpriteRenderer>().color = Color.white;
+                node.GetComponent<CreateNode>().SetNodeState(CreateNode.NodeState.Unlocked);
                 node.GetComponent<Animator>().SetBool("unlocked", true);
                 ListOfUnlockedNodes.Add(node);
+                nodeSelectionTargeter.transform.position = ListOfUnlockedNodes[0].GetComponent<CreateNode>().selectedPosition.transform.position;
             }
             //
             foreach (GameObject node in cachedSelectedNode.GetComponent<CreateNode>().nodesToLock)
             {
                 node.GetComponent<CreateNode>().nodeLocked = true;
-                node.GetComponent<SpriteRenderer>().color = Color.red;
+                node.GetComponent<CreateNode>().SetNodeState(CreateNode.NodeState.Locked);
                 ListOfLockedNodes.Add(node);
             }
         }
@@ -806,7 +807,7 @@ public class AdventureManager : MonoBehaviour
 
             case CreateNode.NodeType.EquipmentReward:
                 currentRewardType = RewardType.Equipment;
-                subScreenMenuText.text = ($"Select {currentRewardType.ToString()} and Monster...");
+                subScreenMenuText.text = ($"Select 1 {currentRewardType.ToString()} and Monster...");
                 subscreenManager.LoadRewardSlots(RewardType.Equipment);
                 break;
 

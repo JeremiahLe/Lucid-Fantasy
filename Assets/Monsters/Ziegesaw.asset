@@ -23,7 +23,7 @@ MonoBehaviour:
   maxHealth: 2750
   cachedHealth: 0
   cachedMaxHealth: 0
-  physicalAttack: 185
+  physicalAttack: 285
   magicAttack: 100
   physicalDefense: 160
   magicDefense: 275
@@ -53,12 +53,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
   - {fileID: 11400000, guid: f2727f88e849c3840ae05a8ce85d9108, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
-  cachedPhysicalAttack: 1
-  cachedMagicAttack: 1
-  cachedPhysicalDefense: 1
-  cachedMagicDefense: 1
-  cachedSpeed: 1
-  cachedEvasion: 0
-  cachedCritChance: 0
+  cachedPhysicalAttack: 185
+  cachedMagicAttack: 100
+  cachedPhysicalDefense: 160
+  cachedMagicDefense: 275
+  cachedSpeed: 12
+  cachedEvasion: 5
+  cachedCritChance: 5
   cachedDamageDone: 0
   monsterKills: 0

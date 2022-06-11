@@ -215,6 +215,24 @@ public class SubscreenManager : MonoBehaviour
         }
     }
 
+    // TODO - Also show dead monsters?
+    public void DisableAlliedMonstersAvailableEquipment()
+    {
+        foreach (GameObject monsterSlot in listOfMonsterSlotsEquipment)
+        {
+            monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
+        }
+    }
+
+    // TODO - Also show dead monsters?
+    public void DisableEquipmentSlots()
+    {
+        foreach (GameObject equipmentSlot in listOfRewardSlots)
+        {
+            equipmentSlot.GetComponent<CreateReward>().rewardImage.sprite = equipmentSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
+        }
+    }
+
     // Override for equipment
     public void ShowAlliedMonstersAvailableEquipment(bool Hide)
     {

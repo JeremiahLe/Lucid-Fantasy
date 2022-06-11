@@ -15,8 +15,9 @@ MonoBehaviour:
   typeOfEffect: 17
   statEnumToChange: 5
   statChangeType: 1
-  effectTime: 2
+  effectTime: 1
   attackEffectStatus: 0
+  inflictSelf: 0
   modifierCalledOnce: 0
   flatBuff: 0
   modifierDuration: 2

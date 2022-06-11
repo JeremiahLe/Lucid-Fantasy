@@ -59,6 +59,12 @@ public class CreateReward : MonoBehaviour
             {
                 if (!selected)
                 {
+                    foreach (GameObject monsterEquipmentSelection in subscreenManager.listOfRewardSlots)
+                    {
+                        monsterEquipmentSelection.GetComponent<CreateReward>().rewardImage.sprite = monsterEquipmentSelection.GetComponent<CreateReward>().modifierReward.baseSprite;
+                        monsterEquipmentSelection.GetComponent<CreateReward>().selected = false;
+                    }
+
                     selected = true;
                     rewardImage = GetComponent<Image>();
                     rewardImage.sprite = selectedSprite;
@@ -106,6 +112,15 @@ public class CreateReward : MonoBehaviour
         {
             if (!selected)
             {
+                foreach (GameObject monsterEquipmentSelection in subscreenManager.listOfMonsterSlotsEquipment)
+                {
+                    if (monsterEquipmentSelection.activeInHierarchy)
+                    {
+                        monsterEquipmentSelection.GetComponent<CreateReward>().rewardImage.sprite = monsterEquipmentSelection.GetComponent<CreateReward>().monsterReward.baseSprite;
+                        monsterEquipmentSelection.GetComponent<CreateReward>().selected = false;
+                    }
+                }
+
                 selected = true;
                 rewardImage = GetComponent<Image>();
                 rewardImage.sprite = selectedSprite;
@@ -137,7 +152,7 @@ public class CreateReward : MonoBehaviour
         }
         else
         {
-            adventureManager.subScreenMenuText.text = ($"Please select an equipment and monster.");
+            adventureManager.subScreenMenuText.text = ($"Please select 1 equipment and monster.");
         }
     }
 

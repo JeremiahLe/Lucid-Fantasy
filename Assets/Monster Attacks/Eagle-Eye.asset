@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Eagle-Eye
   m_EditorClassIdentifier: 
   monsterAttackName: Eagle-Eye
-  monsterAttackDescription: "Raise user's crit chance by 10% and crit damage multiplier
-    to 2.5 for 3 rounds. \n[1 Round Cooldown - excluding this one]"
+  monsterAttackDescription: "Raise user's crit chance by 50% and crit damage multiplier
+    to 2.5 for 3 rounds. \n[1 Round Cooldown]"
   monsterAttackElement: 1
   monsterAttackType: 1
   monsterAttackDamageType: 1

@@ -23,8 +23,8 @@ MonoBehaviour:
   maxHealth: 4750
   cachedHealth: 0
   cachedMaxHealth: 0
-  physicalAttack: 125
-  magicAttack: 125
+  physicalAttack: 225
+  magicAttack: 225
   physicalDefense: 475
   magicDefense: 450
   speed: 6

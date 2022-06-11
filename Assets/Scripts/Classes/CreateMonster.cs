@@ -60,15 +60,15 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public bool monsterRecievedStatBoostThisRound = false;
     [DisplayWithoutEdit] public bool monsterCriticallyStrikedThisRound = false;
 
-    [DisplayWithoutEdit] public bool monsterImmuneToDebuffs = false;
-    [DisplayWithoutEdit] public bool monsterImmuneToStatChanges = false;
-    [DisplayWithoutEdit] public bool monsterImmuneToDamage = false;
+    public bool monsterImmuneToDebuffs = false;
+    public bool monsterImmuneToStatChanges = false;
+    public bool monsterImmuneToDamage = false;
 
-    [DisplayWithoutEdit] public bool monsterIsPoisoned = false;
-    [DisplayWithoutEdit] public bool monsterIsBurning = false;
-     public bool monsterIsDazed = false;
-    [DisplayWithoutEdit] public bool monsterIsCrippled = false;
-    [DisplayWithoutEdit] public bool monsterIsWeakened = false;
+    public bool monsterIsPoisoned = false;
+    public bool monsterIsBurning = false;
+    public bool monsterIsDazed = false;
+    public bool monsterIsCrippled = false;
+    public bool monsterIsWeakened = false;
 
     [DisplayWithoutEdit] public List<Modifier> ListOfModifiers;
 
@@ -646,6 +646,15 @@ public class CreateMonster : MonoBehaviour
 
     private void OnMouseOver()
     {
+        // Confirm Target
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (monsterAttackManager.currentMonsterAttack != null && combatManagerScript.monsterTurn == CombatManagerScript.MonsterTurn.AllyTurn && combatManagerScript.targeting)
+            {
+                monsterAttackManager.UseMonsterAttack();
+            }
+        }
+
         if (currentTime >= delayTime)
         {
             if (!windowShowing)

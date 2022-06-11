@@ -692,7 +692,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.0014915466, y: 228.84705}
+  m_AnchoredPosition: {x: -0.00024795532, y: 228.84674}
   m_SizeDelta: {x: -0.0024719238, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &93912620
@@ -1313,6 +1313,10 @@ PrefabInstance:
       propertyPath: combatManagerObject
       value: 
       objectReference: {fileID: 1758263235}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterImmuneToStatChanges
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 896763779794199982, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -1867,7 +1871,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1738984091}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1414773099}
@@ -3767,7 +3771,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1591087554}
   m_HandleRect: {fileID: 1591087553}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.9999952
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5164,7 +5168,6 @@ MonoBehaviour:
   Attack3Button: {fileID: 1164872741}
   Attack4Button: {fileID: 33097225}
   BackButton: {fileID: 1995164774}
-  ConfirmButton: {fileID: 1897697796}
   ConfirmQuitButton: {fileID: 141794203}
   ContinueButton: {fileID: 2094166688}
   QuitButton: {fileID: 1828101445}
@@ -6015,7 +6018,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1897697797
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6392,6 +6395,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1758263240}
         m_TargetAssemblyTypeName: HUDManagerScript, Assembly-CSharp
         m_MethodName: ResetHUD
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1758263242}
+        m_TargetAssemblyTypeName: MonsterAttackManager, Assembly-CSharp
+        m_MethodName: ClearCurrentButtonAttack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7134,7 +7149,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 53682ef80a39d0d408cebe19a557e246, type: 2}
+      objectReference: {fileID: 11400000, guid: 5efd682e756fd9e4fa674fb3b5b32b31, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: delayTime
       value: 0.15
@@ -7594,7 +7609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1202099246714189985, guid: 90972aa46bbd86b40ace3d16e1317918, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -543.43
+      value: -544.2
       objectReference: {fileID: 0}
     - target: {fileID: 1202099246714189985, guid: 90972aa46bbd86b40ace3d16e1317918, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -160,6 +160,12 @@ public class MonsterAttackManager : MonoBehaviour
         return currentMonsterAttack;
     }
 
+    // This function clears the assigned monster attask
+    public void ClearCurrentButtonAttack()
+    {
+        currentMonsterAttack = null;
+    }
+
     // This function serves as a reset to visual elements on screen (monster attack description)
     public void ResetHUD()
     {
@@ -701,11 +707,13 @@ public class MonsterAttackManager : MonoBehaviour
         switch (monsterAttack.monsterAttackDamageType)
         {
             case (MonsterAttack.MonsterAttackDamageType.Magical):
-                calculatedDamage = Mathf.RoundToInt(currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.magicDefense + 1)));
+                //calculatedDamage = Mathf.RoundToInt(currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.magicDefense + 1)));
+                calculatedDamage = Mathf.RoundToInt((100 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (125 + currentTargetedMonster.magicDefense));
                 break;
 
             case (MonsterAttack.MonsterAttackDamageType.Physical):
-                calculatedDamage = Mathf.RoundToInt(currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.physicalDefense + 1)));
+                //calculatedDamage = Mathf.RoundToInt(currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.physicalDefense + 1)));
+                calculatedDamage = Mathf.RoundToInt((100 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (125 + currentTargetedMonster.physicalDefense));
                 break;
 
             case (MonsterAttack.MonsterAttackDamageType.True):

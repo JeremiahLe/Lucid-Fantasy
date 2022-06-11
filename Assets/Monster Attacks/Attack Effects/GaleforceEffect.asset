@@ -17,10 +17,11 @@ MonoBehaviour:
   statChangeType: 0
   effectTime: 0
   attackEffectStatus: 0
+  inflictSelf: 0
   modifierCalledOnce: 0
   flatBuff: 0
   modifierDuration: 0
-  amountToChange: 75
+  amountToChange: 35
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
   ListOfModifiers: []

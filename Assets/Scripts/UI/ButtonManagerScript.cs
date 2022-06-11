@@ -18,7 +18,7 @@ public class ButtonManagerScript : MonoBehaviour
 
     public GameObject BackButton;
 
-    public GameObject ConfirmButton;
+    //public GameObject ConfirmButton;
     public GameObject ConfirmQuitButton;
     public GameObject ContinueButton;
     public GameObject QuitButton;
@@ -71,7 +71,7 @@ public class ButtonManagerScript : MonoBehaviour
     // This function stores all buttons to be hidden manually
     public void ManualHideButtons()
     {
-        HideButton(ConfirmButton);
+        //HideButton(ConfirmButton);
     }
 
     // This function manually hides a button in start
@@ -86,7 +86,7 @@ public class ButtonManagerScript : MonoBehaviour
         switch (buttonName)
         {
             case "ConfirmButton":
-                ConfirmButton.SetActive(true);
+                //ConfirmButton.SetActive(true);
                 break;
             case "BackButton":
                 BackButton.SetActive(true);
@@ -128,7 +128,7 @@ public class ButtonManagerScript : MonoBehaviour
             }
 
             BackButton.SetActive(false);
-            ConfirmButton.SetActive(false);
+            //ConfirmButton.SetActive(false);
             HideButton(ConfirmQuitButton);
             HideButton(ContinueButton);
             QuitButton.SetActive(false);
@@ -151,7 +151,7 @@ public class ButtonManagerScript : MonoBehaviour
         uiManager.ResetCombatMessage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name);
         monsterAttackManager.ResetHUD();
 
-        HideButton(ConfirmButton);
+        //HideButton(ConfirmButton);
         HideButton(ConfirmQuitButton);
         HideButton(ContinueButton);
         QuitButton.SetActive(true); // GitHub comment

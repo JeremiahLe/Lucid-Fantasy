@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using TMPro;
+using UnityEngine.UI;
 
 public class CreateNode : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class CreateNode : MonoBehaviour
 
     public SpriteRenderer sr;
     public TextMeshProUGUI routeText;
+
+    public Image nodeImage;
+    public Sprite unlockedSprite;
+    public Sprite lockedSprite;
+    public TextMeshProUGUI nodeName;
 
     [Title("Game Manager Data")]
     public GameObject GameManager;
@@ -102,7 +108,7 @@ public class CreateNode : MonoBehaviour
         adventureManager = GameManager.GetComponent<AdventureManager>();
 
         nodeSelectionTargeter = adventureManager.nodeSelectionTargeter;
-        selectedPosition = GetComponentInChildren<Transform>();
+        //selectedPosition = GetComponentInChildren<Transform>();
 
         sr = GetComponent<SpriteRenderer>();
     }
@@ -113,12 +119,14 @@ public class CreateNode : MonoBehaviour
         switch (newState)
         {
             case (NodeState.Locked):
-                sr.color = Color.red;
+                nodeImage.color = Color.red;
+                nodeImage.sprite = lockedSprite;
                 nodeState = NodeState.Locked;
                 break;
 
             case (NodeState.Unlocked):
-                sr.color = Color.white;
+                nodeImage.color = Color.white;
+                nodeImage.sprite = unlockedSprite;
                 nodeState = NodeState.Unlocked;
                 break;
 
@@ -126,6 +134,50 @@ public class CreateNode : MonoBehaviour
                 break;
         }
 
+        SetNodeName();
+    }
+
+    // This function handles node naming
+    public void SetNodeName()
+    {
+        //nodeName.text = ($"{nodeType.ToString()}");
+
+        
+        switch (nodeType)
+        {
+            case (NodeType.Start):
+                nodeName.text = ($"Start");
+                break;
+
+            case (NodeType.Boss):
+                nodeName.text = ($"Boss");
+                break;
+
+            case (NodeType.RandomCombat):
+                nodeName.text = ($"Combat");
+                break;
+
+            case (NodeType.EquipmentReward):
+                nodeName.text = ($"Equipment");
+                break;
+
+            case (NodeType.ModifierReward):
+                nodeName.text = ($"Modifier");
+                break;
+
+            case (NodeType.MonsterReward):
+                nodeName.text = ($"Monster");
+                break;
+
+            case (NodeType.Shop):
+                nodeName.text = ($"Shop");
+                break;
+
+            default:
+                Debug.Log("Missing node state or name ref?", this);
+                break;
+        }
+        
     }
 
     // This function is called when a node is unlocked
@@ -137,23 +189,25 @@ public class CreateNode : MonoBehaviour
 
     private void OnEnable()
     {
-        selectedPosition = GetComponentInChildren<Transform>();
-        sr = GetComponent<SpriteRenderer>();
+        //selectedPosition = GetComponentInChildren<Transform>();
     }
 
     // This function passes in the new target to the combatManager
     private void OnMouseEnter()
     {
-        nodeSelectionTargeter.transform.position = new Vector3(selectedPosition.transform.position.x, selectedPosition.transform.position.y + 1.55f, selectedPosition.transform.position.z);
+        nodeSelectionTargeter.transform.position = selectedPosition.transform.position;
         adventureManager.currentSelectedNode = gameObject;
     }
 
     // this function runs on click
     public void CheckNodeLocked()
     {
-        if (nodeLocked)
+        if (adventureManager != null && nodeState == NodeState.Unlocked)
         {
-            routeText.text = ($"Route is locked!");
+            adventureManager.CheckNodeLocked();
+            return;
         }
+
+        routeText.text = "Destination is locked!";
     }
 }

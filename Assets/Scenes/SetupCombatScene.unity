@@ -584,7 +584,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.0021476746, y: 228.84625}
+  m_AnchoredPosition: {x: -0.0010871887, y: 228.84576}
   m_SizeDelta: {x: -0.0024719238, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &93912620
@@ -818,7 +818,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 9bc6eda72138ee74bab794604d884013, type: 3}
-  m_Color: {r: 0.97199994, g: 0.97199994, b: 0.97199994, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3939,8 +3939,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.5
-  m_fontSizeBase: 0.5
+  m_fontSize: 0.6
+  m_fontSizeBase: 0.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5309,7 +5309,6 @@ MonoBehaviour:
   Attack3Button: {fileID: 1164872741}
   Attack4Button: {fileID: 33097225}
   BackButton: {fileID: 1995164774}
-  ConfirmButton: {fileID: 1897697796}
   ConfirmQuitButton: {fileID: 141794203}
   ContinueButton: {fileID: 2094166688}
   QuitButton: {fileID: 1828101445}
@@ -5376,7 +5375,7 @@ MonoBehaviour:
   poisonedUISprite: {fileID: 21300000, guid: 8e8b0e28cfec1b248a4b7abc51592156, type: 3}
   noUISprite: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
   burningUISprite: {fileID: 21300000, guid: 884db12ad07c0e444b5e3f1f064a979a, type: 3}
-  dazedUISprite: {fileID: 0}
+  dazedUISprite: {fileID: 21300000, guid: cce1c87a134224318ae0c69fdb6858d0, type: 3}
   cachedTransform: {x: 0, y: 0, z: 0}
   cachedDamage: 0
   calculatedDamage: 0
@@ -6160,7 +6159,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1897697797
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6537,6 +6536,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1758263240}
         m_TargetAssemblyTypeName: HUDManagerScript, Assembly-CSharp
         m_MethodName: ResetHUD
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1758263242}
+        m_TargetAssemblyTypeName: MonsterAttackManager, Assembly-CSharp
+        m_MethodName: ClearCurrentButtonAttack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7878,7 +7889,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9081610192043222377, guid: dd5c453fac9110549bef3d6857c20245, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -543.43
+      value: -544.2
       objectReference: {fileID: 0}
     - target: {fileID: 9081610192043222377, guid: dd5c453fac9110549bef3d6857c20245, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

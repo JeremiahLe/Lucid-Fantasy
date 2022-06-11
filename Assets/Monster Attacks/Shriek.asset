@@ -16,7 +16,8 @@ MonoBehaviour:
   monsterAttackDescription: 'Shriek at the opponent, dealing damage and lowering
     the target''s physical and magic
 
-    attack. 25% chance to also inflict Dazed.'
+    attack by 10%. 25% chance to also inflict
+    Dazed.'
   monsterAttackElement: 12
   monsterAttackType: 0
   monsterAttackDamageType: 1

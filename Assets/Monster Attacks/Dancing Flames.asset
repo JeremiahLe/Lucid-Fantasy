@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dancing Flames
   m_EditorClassIdentifier: 
   monsterAttackName: Dancing Flames
-  monsterAttackDescription: Whip up dancing flames, damaging all enemies. 25% chance
+  monsterAttackDescription: Whip up dancing flames, damaging all enemies. 33% chance
     to inflict Dazed on the user and hit targets.
   monsterAttackElement: 0
   monsterAttackType: 0
