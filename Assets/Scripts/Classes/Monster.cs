@@ -93,6 +93,17 @@ public class Monster : ScriptableObject
     [Range(0, 99)] public float cachedEvasion;
     [Range(0, 100)] public float cachedCritChance;
 
+
+    [Title("Adventure - Monster Other Stats")]
     public float cachedDamageDone;
     public int monsterKills;
+
+    public int monsterCurrentExp;
+    public int monsterExpToNextLevel = 125;
+
+    public Monster firstEvolutionPath;
+    public Monster secondEvolutionPath;
+
+    public int firstEvolutionLevelReq = 20;
+    public int secondEvolutionLevelReq = 20;
 }

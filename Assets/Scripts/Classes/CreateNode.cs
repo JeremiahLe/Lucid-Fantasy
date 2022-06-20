@@ -196,12 +196,14 @@ public class CreateNode : MonoBehaviour
     private void OnMouseEnter()
     {
         nodeSelectionTargeter.transform.position = selectedPosition.transform.position;
-        adventureManager.currentSelectedNode = gameObject;
+        //adventureManager.currentSelectedNode = gameObject;
     }
 
     // this function runs on click
     public void CheckNodeLocked()
     {
+        adventureManager.currentSelectedNode = gameObject;
+
         if (adventureManager != null && nodeState == NodeState.Unlocked)
         {
             adventureManager.CheckNodeLocked();

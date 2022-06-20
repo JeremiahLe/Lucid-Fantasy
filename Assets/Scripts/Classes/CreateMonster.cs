@@ -28,9 +28,18 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private GameObject monsterStatusTextObjectCanvas;
 
     [SerializeField] public Slider HealthbarSlider;
+    [SerializeField] public Slider HealthbarSliderDamaged;
+
     Color HealthbarSliderOriginalColor;
     Color HealthbarSliderTargetColor;
+    Color damagedColor;
+
+    const float DAMAGED_HEALTH_FADE_TIMER_MAX = .75f;
+    float damagedHealthFadeTimer;
+
     [SerializeField] public Image HealthbarSliderFill;
+    [SerializeField] public Image HealthbarSliderFillDamagedFade;
+
     [SerializeField] public GameObject monsterStatusTextObject;
     [SerializeField] public TextMeshProUGUI monsterStatusText;
 
@@ -126,6 +135,13 @@ public class CreateMonster : MonoBehaviour
             //monster.maxHealth = monster.health; not needed?
         }
 
+        InitiateCreateMonsterObjectStats();
+
+        InitiateHealthBars();
+    }
+
+    public void InitiateCreateMonsterObjectStats()
+    {
         // Non editable init stats display
         monsterPhysicalAttack = monsterReference.physicalAttack;
         monsterMagicAttack = monsterReference.magicAttack;
@@ -140,14 +156,39 @@ public class CreateMonster : MonoBehaviour
         healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}"); //\nSpeed: {monsterReference.speed.ToString()}
         sr.sprite = monster.baseSprite;
 
-        // Initiate healthbar
-        HealthbarSlider.maxValue = monsterReference.maxHealth;
-        HealthbarSlider.value = monsterReference.health;
-        HealthbarSliderOriginalColor = Color.green;
-        HealthbarSliderTargetColor = Color.red;
+        InitiateHealthBars();
     }
 
-    //
+    public void InitiateHealthBars()
+    {
+        // Initiate healthbars
+        HealthbarSlider.maxValue = monsterReference.maxHealth;
+        HealthbarSlider.value = monsterReference.health;
+
+        HealthbarSliderDamaged.value = HealthbarSlider.value;
+        HealthbarSliderDamaged.maxValue = HealthbarSlider.maxValue;
+
+        // Set damaged health bar alpha to - and color to white
+        damagedColor.a = 0f;
+        damagedColor = Color.white;
+        HealthbarSliderFillDamagedFade.color = damagedColor;
+    }
+
+    private void Update()
+    {
+        if (damagedColor.a > 0)
+        {
+            damagedHealthFadeTimer -= Time.deltaTime;
+            if (damagedHealthFadeTimer < 0)
+            {
+                float fadeAmount = 5f;
+                damagedColor.a -= fadeAmount * Time.deltaTime;
+                HealthbarSliderFillDamagedFade.color = damagedColor;
+                HealthbarSliderDamaged.value = monsterReference.health;
+            }
+        }
+    }
+
     public void CheckAdventureModifiers()
     {
         // if adventure mode, check adventure modifiers
@@ -159,7 +200,36 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    //
+    public void UpdateHealthBar(bool damageTaken)
+    {
+        if (damageTaken)
+        {
+            //HealthbarSliderDamaged.value = monsterReference.health;
+
+            // Should also be called when healed
+            HealthbarSlider.value = monsterReference.health;
+            HealthbarSliderFill.color = new Color(Mathf.Clamp((1 - monsterReference.health / monsterReference.maxHealth), 0, .75f), Mathf.Clamp((monsterReference.health / monsterReference.maxHealth), 0, .75f), 0, 1f);
+
+            if (damagedColor.a <= 0)
+            {
+                //HealthbarSliderFillDamagedFade.fillAmount = HealthbarSlider.value;
+                //StartCoroutine("FadeHealthbarDamageTaken", 0.1f);
+            }
+
+            damagedColor.a = 1;
+            HealthbarSliderFillDamagedFade.color = damagedColor;
+            damagedHealthFadeTimer = DAMAGED_HEALTH_FADE_TIMER_MAX;
+        }
+    }
+
+    IEnumerator FadeHealthbarDamageTaken()
+    {
+        yield return new WaitForSeconds(.75f);
+        float fadeAmount = 5f;
+        damagedColor.a -= fadeAmount * Time.deltaTime;
+        HealthbarSliderFillDamagedFade.color = damagedColor;
+    }
+
     public void CheckAdventureEquipment()
     {
         foreach (Modifier equipment in monsterReference.ListOfModifiers)
@@ -172,28 +242,27 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-
     // This function should be called when stats get updated
     public void UpdateStats(bool damageTaken)
     {
+        // Initial check of stats are out of bounds
         CheckStatsCap();
 
+        // Update healthbar and text
         healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}"); // \nSpeed: { monsterReference.speed.ToString()}
 
-        // Should also be called when healed
-        HealthbarSlider.value = monsterReference.health;
-        HealthbarSliderFill.color = new Color(Mathf.Clamp((1 - monsterReference.health / monsterReference.maxHealth), 0, .75f), Mathf.Clamp((monsterReference.health / monsterReference.maxHealth), 0, .75f), 0, 1f);
-
-        // Fix dual calls
+        // Only check monster is alive if damage was taken - Fixes dual death call bug
         if (damageTaken)
         {
             CheckHealth();
-
-            // Should also be called when healed
-            //HealthbarSlider.value = monsterReference.health;
-            //HealthbarSliderFill.color = new Color(Mathf.Clamp((1 - monsterReference.health / monsterReference.maxHealth), 0, 1), Mathf.Clamp((monsterReference.health / monsterReference.maxHealth), 0, 1), 0, 1f);
+            UpdateHealthBar(damageTaken);
+        }
+        else
+        {
+            UpdateHealthBar(false);
         }
 
+        // Update all stats
         monsterPhysicalAttack = monsterReference.physicalAttack;
         monsterMagicAttack = monsterReference.magicAttack;
         monsterPhysicalDefense = monsterReference.physicalDefense;
@@ -203,6 +272,7 @@ public class CreateMonster : MonoBehaviour
         monsterEvasion = monsterReference.evasion;
         monsterSpeed = (int)monsterReference.speed;
 
+        // Check if stats are out of bounds
         CheckStatsCap();
     }
 
@@ -212,7 +282,6 @@ public class CreateMonster : MonoBehaviour
         if (monsterReference.speed < 1)
         {
             monsterReference.speed = 1;
-            healthText.text = ($"HP: {monsterReference.health.ToString()}/{monster.maxHealth.ToString()}\nSpeed: {monsterReference.speed.ToString()}");
         }
 
         if (monsterPhysicalAttack < 1)
@@ -407,7 +476,7 @@ public class CreateMonster : MonoBehaviour
 
     }
 
-    // This function modifies stats by modifier value
+    // This function modifies stats by modifier value from an adventure equipment
     public void ModifyStats(AttackEffect.StatEnumToChange statToModify, Modifier modifier, string equipmentName)
     {
         Debug.Log("Modify Stats with equipment got called!");
@@ -758,7 +827,7 @@ public class CreateMonster : MonoBehaviour
         monsterStatusText.text = ($"-{damage}");
     }
 
-    // This function is called by monster attack manager to show damage popup
+    // This function is called by monster attack manager to show condition popup
     public void ShowDamageOrStatusEffectPopup(string condition)
     {
         monsterStatusTextObject.SetActive(true);
@@ -766,14 +835,14 @@ public class CreateMonster : MonoBehaviour
         monsterStatusText.text = ($"{condition}!");
     }
 
-    // This function is called by monster attack manager to show damage popup
+    // This function is called by monster attack manager to clear any current popups
     public void ShowDamageOrStatusEffectPopup()
     {
         monsterStatusTextObject.SetActive(false);
         monsterStatusText.text = ($"");
     }
 
-    // This function is called by monster attack manager to show damage popup
+    // This function is called by monster attack manager to create a buff/debuff popup
     public void CreateStatusEffectPopup(AttackEffect.StatEnumToChange stat, bool isBuff)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
@@ -791,7 +860,7 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function is called by monster attack manager to show damage popup
+    // This function is called by monster attack manager to create a status effect popup
     public void CreateStatusEffectPopup(string condition)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);

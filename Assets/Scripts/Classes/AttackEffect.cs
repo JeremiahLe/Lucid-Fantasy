@@ -654,6 +654,7 @@ public class AttackEffect : ScriptableObject
 
                     // Send speed buff message to combat log
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {statEnumToChange.ToString()} was lowered!");
+                    monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.Speed, false);
 
                     // Update monster's speed element
                     monsterObj.GetComponent<CreateMonster>().UpdateStats(false);

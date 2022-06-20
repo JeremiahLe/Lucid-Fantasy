@@ -481,7 +481,7 @@ public class CombatManagerScript : MonoBehaviour
 
         if (!battleOver)
         {
-            // If enemy, AI move
+            // If enemy, AI mov
             if (monster.aiType == Monster.AIType.Enemy)
             {
                 targeting = false;
