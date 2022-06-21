@@ -31,18 +31,21 @@ public class SubscreenManager : MonoBehaviour
     public Sprite mysteryIcon;
 
     public AdventureManager adventureManager;
+    public GameObject monsterStatsWindow;
+    public MonsterStatScreenScript monsterStatScreenScript;
+    public MonstersSubScreenManager monstersSubScreenManager;
 
     public int randomBattleMonsterCount;
     public int randomBattleMonsterLimit;
     bool bossAdded = false;
 
-    //
     public void Awake()
     {
         adventureManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AdventureManager>();
+        monstersSubScreenManager.adventureManager = adventureManager;
     }
 
-    // load reward slots
+    // This function grabs random rewards and displays them on screen
     public void LoadRewardSlots(AdventureManager.RewardType rewardType)
     {
         rerollsLeftText.text = ($"Rerolls left: {adventureManager.rerollAmount}");
@@ -58,6 +61,7 @@ public class SubscreenManager : MonoBehaviour
                     Monster monster = GetRandomMonster();
                     rewardSlot.GetComponent<CreateReward>().subscreenManager = this;
                     rewardSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
+                    rewardSlot.GetComponent<CreateReward>().monsterStatScreenScript = monsterStatScreenScript;
                     rewardSlot.GetComponent<CreateReward>().rewardType = AdventureManager.RewardType.Monster;
                     rewardSlot.GetComponent<CreateReward>().monsterReward = monster;
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = monster.baseSprite;
@@ -109,7 +113,7 @@ public class SubscreenManager : MonoBehaviour
         }
     }
 
-    //
+    // This function hides all displayed rewards
     public void HideRewardSlots()
     {
         rerollsLeftText.text = ("");
@@ -121,7 +125,7 @@ public class SubscreenManager : MonoBehaviour
         }
     }
 
-    //
+    // This function grabs enemy random monsters for a battle
     public void LoadRandomBattle()
     {
         FightButton.SetActive(true);
@@ -140,7 +144,7 @@ public class SubscreenManager : MonoBehaviour
             $"\nEnemies present: {randomBattleMonsterCount}" +
             $"\nAllies allowed: {randomBattleMonsterLimit}");
 
-        // populate enemy list
+        // populate enemy list && check if boss battle
         for (int j = 0; j < randomBattleMonsterCount; j++)
         {
             if (adventureManager.currentSelectedNode.GetComponent<CreateNode>().nodeType == CreateNode.NodeType.Boss && !bossAdded)
@@ -161,7 +165,7 @@ public class SubscreenManager : MonoBehaviour
         ShowAlliedMonstersAvailable();
     }
 
-    // TODO - Also show dead monsters?
+    // This function shows the player's currently available monsters for battle
     public void ShowAlliedMonstersAvailable()
     {
         // Show allied monsters
@@ -173,6 +177,7 @@ public class SubscreenManager : MonoBehaviour
                 monsterSlot.SetActive(true);
                 monsterSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
                 monsterSlot.GetComponent<CreateReward>().subscreenManager = this;
+                monsterSlot.GetComponent<CreateReward>().monsterStatScreenScript = monsterStatScreenScript;
                 monsterSlot.GetComponent<CreateReward>().monsterReward = adventureManager.ListOfCurrentMonsters[i];
                 monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
                 monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"{monsterSlot.GetComponent<CreateReward>().monsterReward.name} Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
@@ -188,7 +193,7 @@ public class SubscreenManager : MonoBehaviour
         }
     }
 
-    // TODO - Also show dead monsters?
+    // This function shows the player's currently available monsters to recieve an equipment
     public void ShowAlliedMonstersAvailableEquipment()
     {
         // Show allied monsters
@@ -200,6 +205,7 @@ public class SubscreenManager : MonoBehaviour
                 monsterSlot.SetActive(true);
                 monsterSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
                 monsterSlot.GetComponent<CreateReward>().subscreenManager = this;
+                monsterSlot.GetComponent<CreateReward>().monsterStatScreenScript = monsterStatScreenScript;
                 monsterSlot.GetComponent<CreateReward>().monsterReward = adventureManager.ListOfCurrentMonsters[i];
                 monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
                 monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"{monsterSlot.GetComponent<CreateReward>().monsterReward.name} Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
@@ -215,7 +221,7 @@ public class SubscreenManager : MonoBehaviour
         }
     }
 
-    // TODO - Also show dead monsters?
+    // This function hides the player's currently available monsters to recieve an equipment
     public void DisableAlliedMonstersAvailableEquipment()
     {
         foreach (GameObject monsterSlot in listOfMonsterSlotsEquipment)
@@ -224,7 +230,7 @@ public class SubscreenManager : MonoBehaviour
         }
     }
 
-    // TODO - Also show dead monsters?
+    // This function hides the player's selected equipment
     public void DisableEquipmentSlots()
     {
         foreach (GameObject equipmentSlot in listOfRewardSlots)
@@ -249,7 +255,7 @@ public class SubscreenManager : MonoBehaviour
         }
     }
 
-    //
+    // This function determines how many enemy monsters will populate a battle
     public int GetRandomBattleMonsterCount()
     {
         if (randomBattleMonsterLimit == 1)
@@ -260,7 +266,7 @@ public class SubscreenManager : MonoBehaviour
         return Random.Range(2, 4);
     }
 
-    //
+    // This function determines hpw many monsters the player can bring into battle
     public int GetRandomBattleMonsterLimit()
     {
         if (adventureManager.ListOfCurrentMonsters.Count == 1)
@@ -271,7 +277,7 @@ public class SubscreenManager : MonoBehaviour
         return 2;
     }
 
-    //
+    // This function returns a randomly created monster
     public Monster GetRandomMonster()
     {
         Monster randMonster = Instantiate(adventureManager.ListOfAvailableRewardMonsters[Random.Range(0, adventureManager.ListOfAvailableRewardMonsters.Count)]);
@@ -301,9 +307,8 @@ public class SubscreenManager : MonoBehaviour
 
         return randMonster;
     }
-
-    //
-
+    
+    // This function returns a randomly created boss monster
     public Monster GetBossMonster(Monster setMonster, int level)
     {
         Monster newMonster = Instantiate(setMonster);
@@ -335,7 +340,7 @@ public class SubscreenManager : MonoBehaviour
         return newMonster;
     }
 
-    //
+    // This function returns a random modifier
     public Modifier GetRandomModifier()
     {
         if (adventureManager.ListOfAvailableRewardModifiers.Count == 0)
@@ -350,7 +355,7 @@ public class SubscreenManager : MonoBehaviour
         return randModifierSO;
     }
 
-    //
+    // This function returns a random equipment
     public Modifier GetRandomEquipment()
     {
         if (adventureManager.ListOfAvailableRewardEquipment.Count == 0)
@@ -371,8 +376,7 @@ public class SubscreenManager : MonoBehaviour
         return randModifierSO;
     }
 
-
-    //
+    // This function displays the final results screen
     public void ShowFinalResultsMenu(bool Win)
     {
         // Get ADVENTURE TIME
@@ -418,14 +422,13 @@ public class SubscreenManager : MonoBehaviour
         // Reset bools
     }
 
-
-    //
+    // This functions returns to the main menu screen
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene("StartScreen");
     }
 
-    //
+    // This functions rerolls the currently displayed rewards
     public void RerollRewards()
     {
         if (adventureManager.rerollAmount >= 1)

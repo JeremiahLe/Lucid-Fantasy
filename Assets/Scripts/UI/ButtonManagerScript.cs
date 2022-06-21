@@ -10,6 +10,7 @@ public class ButtonManagerScript : MonoBehaviour
     // Button Objects
     public GameObject AttacksButton;
     public GameObject AutoBattleButton;
+    public GameObject PassButton;
 
     public GameObject Attack1Button;
     public GameObject Attack2Button;
@@ -55,6 +56,7 @@ public class ButtonManagerScript : MonoBehaviour
     {
         InitialHUDButtons.Add(AttacksButton);
         InitialHUDButtons.Add(AutoBattleButton);
+        InitialHUDButtons.Add(PassButton);
 
         AttacksHUDButtons.Add(Attack1Button);
         AttacksHUDButtons.Add(Attack2Button);
@@ -168,6 +170,7 @@ public class ButtonManagerScript : MonoBehaviour
         {
             AttacksButton.SetActive(false);
             AutoBattleButton.SetActive(false);
+            PassButton.SetActive(false);
 
             ConfirmQuitButton.SetActive(true);
             ContinueButton.SetActive(true);
@@ -183,6 +186,24 @@ public class ButtonManagerScript : MonoBehaviour
     public void QuitButtonClicked()
     {
         SceneManager.LoadScene(0);
+    }
+
+    // This function passes the current monster's turn
+    public void PassButtonClicked()
+    {
+        HideAllButtons("All");
+        Monster monster = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} passed!");
+        uiManager.EditCombatMessage($"{monster.aiType} {monster.name} passed!");
+        combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
+
+        Invoke("CallNextMonsterTurn", 1.0f);
+    }
+
+    // This helper function calls the combatManagerScript's nextMonsterTurn function
+    public void CallNextMonsterTurn()
+    {
+        combatManagerScript.NextMonsterTurn();
     }
 
     // This function assigns the current ally monsters attack moves to each of the four attack buttons

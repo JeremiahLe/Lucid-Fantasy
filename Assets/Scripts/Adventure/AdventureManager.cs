@@ -46,11 +46,13 @@ public class AdventureManager : MonoBehaviour
 
     public GameObject AdventureMenu;
     public GameObject SubscreenMenu;
+    public GameObject MonstersSubscreen;
 
     public TextMeshProUGUI routeText;
     public TextMeshProUGUI subScreenMenuText;
 
     public SubscreenManager subscreenManager;
+    public MonstersSubScreenManager monstersSubScreenManager;
 
     public GameObject RewardSlotOne;
     public GameObject RewardSlotTwo;
@@ -147,8 +149,8 @@ public class AdventureManager : MonoBehaviour
             }
         }
     }
-    
-    //
+
+    // This function copies the modifier list to modify it
     public void CopyDefaultModifierList()
     {
         // Copy list
@@ -175,7 +177,7 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
-    //
+    // This function copies the equipment list to modify it
     public void CopyDefaultEquipmentList()
     {
         // Copy list
@@ -202,7 +204,7 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
-    //
+    // This function resets the currently displayed modifier list upon reroll to prevent duplicates
     public void ResetModifierList()
     {
         ListOfAvailableRewardModifiers.Clear();
@@ -231,7 +233,7 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
-    //
+    // This function resets the currently displayed equipment list upon reroll to prevent duplicates
     public void ResetEquipmentList()
     {
         ListOfAvailableRewardEquipment.Clear();
@@ -274,7 +276,7 @@ public class AdventureManager : MonoBehaviour
         currentSelectedAdventure = null;
     }
 
-    //
+    // This function handles the saving of nodes before going to the battle scene
     public void GoToBattleScene()
     {
         DontDestroyOnLoad(gameObject);
@@ -554,6 +556,7 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
+    // This function is called as soon as the adventure scene is loaded
     public void InitiateSceneData()
     {
         // Get important components
@@ -571,6 +574,7 @@ public class AdventureManager : MonoBehaviour
 
         subscreenManager = SubscreenMenu.GetComponent<SubscreenManager>();
         subScreenMenuText = SubscreenMenu.GetComponentInChildren<TextMeshProUGUI>();
+        monstersSubScreenManager = subscreenManager.monstersSubScreenManager;
 
         nodeSelectionTargeter = GameObject.FindGameObjectWithTag("Targeter");
 
@@ -579,7 +583,7 @@ public class AdventureManager : MonoBehaviour
         InitiateNodes();
     }
 
-    //
+    // This function handles which nodes should be disabled/enabled
     public void InitiateNodes()
     {
         Debug.Log("InitiateNodes got called!");
@@ -630,7 +634,7 @@ public class AdventureManager : MonoBehaviour
         adventureBegin = true;
     }
 
-    //
+    // This function activates the nodes post combat
     public void InitiateSavedNodes()
     {
         // Activate new set of nodes
@@ -736,7 +740,7 @@ public class AdventureManager : MonoBehaviour
     */
     #endregion
 
-    // this function runs on click
+    // This function runs when a node is clicked
     public void CheckNodeLocked()
     {
         if (currentSelectedNode == null)
@@ -761,7 +765,7 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
-    //
+    // This function activates the next node to unlock
     public void ActivateNextNode()
     {
         if (!adventureFailed)
@@ -790,7 +794,7 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
-    //
+    // This function displays the subscreen menu, showing either pre-combat data or avaiable rewards - Extend to show current team/modifiers/equipment
     public void ShowSubscreenMenu()
     {
         SubscreenMenu.SetActive(true);
@@ -799,7 +803,7 @@ public class AdventureManager : MonoBehaviour
         switch (NodeComponent.nodeType)
         {
             case CreateNode.NodeType.Start:
-                subScreenMenuText.text = ($"Select starting monster...");
+                subScreenMenuText.text = ($"Select starting monster...\n(Right-click for monster info)");
                 subscreenManager.LoadRewardSlots(RewardType.Monster);
                 break;
 
@@ -823,7 +827,7 @@ public class AdventureManager : MonoBehaviour
 
             case CreateNode.NodeType.MonsterReward:
                 currentRewardType = RewardType.Monster;
-                subScreenMenuText.text = ($"Select {currentRewardType.ToString()}...");
+                subScreenMenuText.text = ($"Select {currentRewardType.ToString()}...\n(Right-click for monster info)");
                 subscreenManager.LoadRewardSlots(RewardType.Monster);
                 break;
 
@@ -844,14 +848,20 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
-    //
+    // This function displays the monsters menu, showing the player's team
+    public void ShowMonstersSubscreenMenu()
+    {
+        MonstersSubscreen.SetActive(true);
+    }
+
+    // This function displays the final screen post-adventure
     public void ShowFinalResultsMenu(bool Win)
     {
         SubscreenMenu.SetActive(true);
         subscreenManager.ShowFinalResultsMenu(Win);
     }
 
-    //
+    // This function returns the MVP monster at the end of the adventure, sorted by damage done and kills
     public Monster GetMVPMonster()
     {
         // Get monster from list with most damage done
@@ -861,33 +871,30 @@ public class AdventureManager : MonoBehaviour
         return mvp;
     }
 
-    //
+    // This function returns a random reward type
     RewardType ReturnRandomRewardType()
     {
         RewardType randReward = (RewardType)Random.Range(0, 1);
         return randReward;
     }
 
-
-    //
+    // This function returns a random monster scriptableObject from a list
     public Monster GetRandomMonster(List<Monster> listOfMonsters)
     {
         Monster monster = listOfMonsters[Random.Range(0, listOfMonsters.Count)];
         return monster;
     }
 
-    //
+    // This function returns a random monster gameObject from a list
     public GameObject GetRandomMonsterGameObject(List<GameObject> listOfMonsters)
     {
         GameObject monster = listOfMonsters[Random.Range(0, listOfMonsters.Count)];
         return monster;
     }
 
-
-    //
+    // This helper function finds inactive nodes to add into a list
     GameObject FindInActiveObjectByTag(string tag)
     {
-
         Transform[] objs = Resources.FindObjectsOfTypeAll<Transform>() as Transform[];
         for (int i = 0; i < objs.Length; i++)
         {
@@ -902,7 +909,7 @@ public class AdventureManager : MonoBehaviour
         return null;
     }
 
-    //
+    // This function handles the currently playing BGM - TODO - Create an AudioManager Script
     public void PlayNewBGM(AudioClip newBGM, float scale)
     {
         GameManagerAudioSource.Stop();
@@ -910,10 +917,9 @@ public class AdventureManager : MonoBehaviour
         GameManagerAudioSource.loop = true;
     }
 
-    // WOW I CAN'T BELIEVE THIS FIXED ALL MY PROBLEMS
+    // Unload adventure mode data
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-
 }

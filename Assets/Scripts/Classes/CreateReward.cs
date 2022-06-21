@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class CreateReward : MonoBehaviour
+public class CreateReward : MonoBehaviour, IPointerClickHandler
 {
     public Image rewardImage;
 
@@ -17,22 +18,21 @@ public class CreateReward : MonoBehaviour
     public AdventureManager.RewardType rewardType;
     public SubscreenManager subscreenManager;
     public AdventureManager adventureManager;
+    public MonsterStatScreenScript monsterStatScreenScript;
 
     public TextMeshProUGUI rewardName;
     public TextMeshProUGUI rewardDescription;
 
     public bool selected;
     public Sprite selectedSprite;
-
     public bool selectable = true;
 
     public void Awake()
     {
-        //adventureManager = subscreenManager.adventureManager;
         rewardImage = GetComponent<Image>();
     }
 
-    // Select reward
+    // This function handles the selection of rewards
     public void SelectReward()
     {
         adventureManager.routeText.text = ($"Select Destination...");
@@ -81,7 +81,7 @@ public class CreateReward : MonoBehaviour
         }
     }
 
-    // 
+    // This function selects a monster for battle
     public void SelectMonsterForBattle()
     {
         if (selectable)
@@ -105,7 +105,7 @@ public class CreateReward : MonoBehaviour
         }
     }
 
-    // 
+    // This function selects a monster to recieve an equipment
     public void SelectMonsterForEquipment()
     {
         if (selectable)
@@ -136,7 +136,7 @@ public class CreateReward : MonoBehaviour
         }
     }
 
-    //
+    // This function confirms the player's equipment and monster selection
     public void ConfirmEquipment()
     {
         if (adventureManager.currentSelectedEquipment != null && adventureManager.currentSelectedMonsterForEquipment != null)
@@ -156,7 +156,7 @@ public class CreateReward : MonoBehaviour
         }
     }
 
-    // Begin battle
+    // This function travels to the battle scene once the player selects their monsters
     public void GoToBattleScene()
     {
         if (selectable)
@@ -177,59 +177,16 @@ public class CreateReward : MonoBehaviour
         }
     }
 
-    public float delayTime = 0.01f;
-    public float currentTime = 0.0f;
-    public bool windowShowing = false;
-
-    // Check mouse hover
-    private void OnMouseOver()
+    // This function displays monster stats on right-click
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if (rewardType == AdventureManager.RewardType.Monster)
+        if (rewardType == AdventureManager.RewardType.Monster && monsterReward != null)
         {
-            if (currentTime >= delayTime)
+            if (eventData.button == PointerEventData.InputButton.Right)
             {
-                if (!windowShowing)
-                {
-                    //DisplayStatScreenWindow(true);
-                    windowShowing = true;
-                }
-            }
-            else
-            {
-                currentTime += Time.deltaTime;
+                subscreenManager.monsterStatsWindow.SetActive(true);
+                monsterStatScreenScript.DisplayMonsterStatScreenStats(monsterReward);
             }
         }
     }
-
-    // This function passes in the new target to the combatManager
-    private void OnMouseExit()
-    {
-        windowShowing = false;
-        currentTime = 0.0f;
-        DisplayStatScreenWindow(false);
-    }
-
-    
-    public void DisplayStatScreenWindow(bool showWindow)
-    {
-        if (showWindow)
-        {
-            StatScreenWindowGameObject.SetActive(true);
-            StatScreenWindowText.text =
-                (
-                $"\nPhysical Attack: {monsterReward.physicalAttack}" +
-                $"\nMagic Attack: {monsterReward.magicAttack}" +
-                $"\nPhysical Defense: {monsterReward.physicalDefense}" +
-                $"\nMagic Defense: {monsterReward.magicDefense}" +
-                $"\nEvasion: {monsterReward.evasion}" +
-                $"\nCrit Chance: {monsterReward.critChance}");
-        }
-        else
-        if (!showWindow)
-        {
-            StatScreenWindowGameObject.SetActive(false);
-            StatScreenWindowText.text = "";
-        }
-    }
-    
 }

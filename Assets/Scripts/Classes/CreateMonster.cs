@@ -34,9 +34,6 @@ public class CreateMonster : MonoBehaviour
     Color HealthbarSliderTargetColor;
     Color damagedColor;
 
-    const float DAMAGED_HEALTH_FADE_TIMER_MAX = .75f;
-    float damagedHealthFadeTimer;
-
     [SerializeField] public Image HealthbarSliderFill;
     [SerializeField] public Image HealthbarSliderFillDamagedFade;
 
@@ -87,15 +84,16 @@ public class CreateMonster : MonoBehaviour
     public CombatManagerScript combatManagerScript;
     public MonsterAttackManager monsterAttackManager;
 
+    // Start
     private void Start()
     {
-        InitateStats();
+        InitiateStats();
         InitializeComponents();
         SetAIType();
     }
 
     // This function sets monster stats on HUD at battle start
-    private void InitateStats()
+    private void InitiateStats()
     {
         combatManagerScript = combatManagerObject.GetComponent<CombatManagerScript>();
 
@@ -118,7 +116,7 @@ public class CreateMonster : MonoBehaviour
             monster.cachedCritChance = monsterReference.critChance;
         }
 
-        // if adevnture mode, cache stats only for Player
+        // if adventure mode, cache stats only for Player
         if (combatManagerScript.adventureMode)
         {
             monsterReference = monster;
@@ -140,6 +138,7 @@ public class CreateMonster : MonoBehaviour
         InitiateHealthBars();
     }
 
+    // This function initiates the monster Object's CreateMonster() stats
     public void InitiateCreateMonsterObjectStats()
     {
         // Non editable init stats display
@@ -159,6 +158,7 @@ public class CreateMonster : MonoBehaviour
         InitiateHealthBars();
     }
 
+    // This function initiates the monster's healthbars
     public void InitiateHealthBars()
     {
         // Initiate healthbars
@@ -169,26 +169,30 @@ public class CreateMonster : MonoBehaviour
         HealthbarSliderDamaged.maxValue = HealthbarSlider.maxValue;
 
         // Set damaged health bar alpha to - and color to white
-        damagedColor.a = 0f;
+        damagedColor.a = 1f;
         damagedColor = Color.white;
         HealthbarSliderFillDamagedFade.color = damagedColor;
     }
 
-    private void Update()
+    // This function initializes a gameObjects components
+    public void InitializeComponents()
     {
-        if (damagedColor.a > 0)
+        monsterAnimator = GetComponent<Animator>();
+        monsterAttackManager = combatManagerObject.GetComponent<MonsterAttackManager>();
+
+        // Create instances of the monster's attacks
+        if (!combatManagerScript.adventureMode)
         {
-            damagedHealthFadeTimer -= Time.deltaTime;
-            if (damagedHealthFadeTimer < 0)
+            monsterReference.ListOfMonsterAttacks.Clear();
+            foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
             {
-                float fadeAmount = 5f;
-                damagedColor.a -= fadeAmount * Time.deltaTime;
-                HealthbarSliderFillDamagedFade.color = damagedColor;
-                HealthbarSliderDamaged.value = monsterReference.health;
+                MonsterAttack attackInstance = Instantiate(attack);
+                monsterReference.ListOfMonsterAttacks.Add(attackInstance);
             }
         }
     }
 
+    // This function checks for adventure modifiers and applies them either per round or at game start
     public void CheckAdventureModifiers()
     {
         // if adventure mode, check adventure modifiers
@@ -200,36 +204,7 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    public void UpdateHealthBar(bool damageTaken)
-    {
-        if (damageTaken)
-        {
-            //HealthbarSliderDamaged.value = monsterReference.health;
-
-            // Should also be called when healed
-            HealthbarSlider.value = monsterReference.health;
-            HealthbarSliderFill.color = new Color(Mathf.Clamp((1 - monsterReference.health / monsterReference.maxHealth), 0, .75f), Mathf.Clamp((monsterReference.health / monsterReference.maxHealth), 0, .75f), 0, 1f);
-
-            if (damagedColor.a <= 0)
-            {
-                //HealthbarSliderFillDamagedFade.fillAmount = HealthbarSlider.value;
-                //StartCoroutine("FadeHealthbarDamageTaken", 0.1f);
-            }
-
-            damagedColor.a = 1;
-            HealthbarSliderFillDamagedFade.color = damagedColor;
-            damagedHealthFadeTimer = DAMAGED_HEALTH_FADE_TIMER_MAX;
-        }
-    }
-
-    IEnumerator FadeHealthbarDamageTaken()
-    {
-        yield return new WaitForSeconds(.75f);
-        float fadeAmount = 5f;
-        damagedColor.a -= fadeAmount * Time.deltaTime;
-        HealthbarSliderFillDamagedFade.color = damagedColor;
-    }
-
+    // Check any adventure equipment modifiers at game start
     public void CheckAdventureEquipment()
     {
         foreach (Modifier equipment in monsterReference.ListOfModifiers)
@@ -240,6 +215,34 @@ public class CreateMonster : MonoBehaviour
                 UpdateStats(false);
             }
         }
+    }
+
+    // Update current health bar and call damaged healthbar fade
+    public void UpdateHealthBar(bool damageTaken)
+    {
+        if (damageTaken)
+        {
+            // Should also be called when healed
+            HealthbarSlider.value = monsterReference.health;
+            HealthbarSliderFill.color = new Color(Mathf.Clamp((1 - monsterReference.health / monsterReference.maxHealth), 0, .75f), Mathf.Clamp((monsterReference.health / monsterReference.maxHealth), 0, .75f), 0, 1f);
+
+            // Fade out damaged healthbar
+            Invoke("FadeHealthBarDamageTaken", .5f);
+        }
+    }
+
+    // Fades the damaged health bar
+    public void FadeHealthBarDamageTaken()
+    {
+        HealthbarSliderFillDamagedFade.CrossFadeAlpha(0, .75f, false);
+        Invoke("AdjustHealthBarDamageTaken", .75f);
+    }
+
+    // Adjusts the damaged health bar to match the current health bar after its faded
+    public void AdjustHealthBarDamageTaken()
+    {
+        HealthbarSliderDamaged.value = monsterReference.health;
+        HealthbarSliderFillDamagedFade.CrossFadeAlpha(1, .1f, false);
     }
 
     // This function should be called when stats get updated
@@ -577,7 +580,7 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // Refresh per-round combat variables
+    // This function refreshs per-round combat variables
     public void ResetRoundCombatVariables()
     {
         monsterDamageTakenThisRound = 0;
@@ -603,41 +606,17 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function initializes a gameObjects components
-    public void InitializeComponents()
-    {
-        monsterAnimator = GetComponent<Animator>();
-        //combatManagerScript = combatManagerObject.GetComponent<CombatManagerScript>();
-        monsterAttackManager = combatManagerObject.GetComponent<MonsterAttackManager>();
-
-        // Create instances of the monster's attacks
-        if (!combatManagerScript.adventureMode)
-        {
-            monsterReference.ListOfMonsterAttacks.Clear();
-            foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
-            {
-                MonsterAttack attackInstance = Instantiate(attack);
-                monsterReference.ListOfMonsterAttacks.Add(attackInstance);
-            }
-        }
-    }
-
     // This function sets monster sprite orientation at battle start
     private void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation)
     {
-        // Debug.Log("Position set called", this); // TODO - FIX ME - GitHub Commenting
-
         transform.position = startingPosition.transform.position;
 
         if (monsterReference.aiType == Monster.AIType.Ally)
         {
-            //transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
-            //SetMonsterUIStatsRotation();
             sr.flipX = false;
         }
         else if (monsterReference.aiType == Monster.AIType.Enemy)
         {
-            //transform.localRotation = new Quaternion(0f, 180f, 0f, 0f);
             sr.flipX = true;
         }
 
@@ -677,7 +656,6 @@ public class CreateMonster : MonoBehaviour
     {
         monsterAnimator.SetBool("attackAnimationPlaying", false);
         monsterAttackManager.DealDamage();
-        //monsterAttackManager.currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
     }
 
     // This function ends the hit animation
@@ -698,11 +676,12 @@ public class CreateMonster : MonoBehaviour
         monsterAnimator.SetBool("useBuffAnimationPlaying", false);
     }
 
+    // Variables for mouse events
     public float delayTime = 0.01f;
     public float currentTime = 0.0f;
     public bool windowShowing = false;
 
-    // This function passes in the new target to the combatManager
+    // This function passes in the new target to the combatManager and displays the stat screen window of the currently hovered monster
     private void OnMouseEnter()
     {
         combatManagerScript.CycleTargets(gameObject);
@@ -713,6 +692,7 @@ public class CreateMonster : MonoBehaviour
         DisplayStatScreenWindow(true);
     }
 
+    // This function selects the hovered monster for combat
     private void OnMouseOver()
     {
         // Confirm Target
@@ -738,7 +718,7 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function passes in the new target to the combatManager
+    // This function hides the stat screen window of the last hovered monster
     private void OnMouseExit()
     {
         windowShowing = false;
@@ -771,7 +751,7 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // Return negative or positive sign
+    // This function returns a negative or positive sign for text applications
     public string ReturnSign(float currentStat, float baseStat)
     {
         // if currentStat is smaller than baseStat, must be stat debuffed
@@ -784,7 +764,7 @@ public class CreateMonster : MonoBehaviour
         return "+";
     }
 
-    // Get bonus damage source
+    // This function returns a bonus damage source based on the enum StatEnumToChange
     float GetStatToChange(AttackEffect.StatEnumToChange statEnumToChange, Monster monsterRef)
     {
         switch (statEnumToChange)

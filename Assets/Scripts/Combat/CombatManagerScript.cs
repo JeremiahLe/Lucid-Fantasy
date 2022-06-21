@@ -51,11 +51,6 @@ public class CombatManagerScript : MonoBehaviour
     public GameObject AdventureManagerGameObject;
     public AdventureManager adventureManager;
 
-    // For Later
-    //public List<Action> BattleActions;
-
-    // TODO - clean up this script
-
     // Start is called before the first frame update
     void Start()
     {

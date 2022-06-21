@@ -398,7 +398,7 @@ public class MonsterAttackManager : MonoBehaviour
         soundEffectManager.AddSoundEffectToQueue(monsterAttackSound);
     }
 
-    // trigger attack effects
+    // trigger post attack effects
     public void TriggerPostAttackEffects(Monster monsterWhoUsedAttack)
     {
         // Trigger all attack after effects (buffs, debuffs etc.) - TODO - Implement other buffs/debuffs and durations
@@ -595,7 +595,7 @@ public class MonsterAttackManager : MonoBehaviour
         combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
     }
 
-    // Attack missed function
+    // This function is called when an attack misses
     public void AttackMissed()
     {
         CombatLog.SendMessageToCombatLog
@@ -613,7 +613,7 @@ public class MonsterAttackManager : MonoBehaviour
         combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
     }
 
-    // Attack missed function override
+    // This override function is called when an AOE Attack misses
     public void AttackMissed(bool DontAdvanceTurn)
     {
         CombatLog.SendMessageToCombatLog
@@ -630,7 +630,7 @@ public class MonsterAttackManager : MonoBehaviour
         currentTargetedMonsterGameObject.GetComponent<CreateMonster>().ShowDamageOrStatusEffectPopup("Miss");
     }
 
-    // This function checks accuracy and evasion
+    // This function is called to check accuracy and evasion
     public bool CheckAttackHit(bool selfTargeting)
     {
         // first check if never miss
@@ -663,7 +663,7 @@ public class MonsterAttackManager : MonoBehaviour
         return false;
     }
 
-    // This function checks crit chance
+    // This function is called to check if an attack critically hits
     public bool CheckAttackCrit()
     {
         float critChance = (currentMonsterAttack.monsterAttackCritChance + combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.critChance) / 100;
@@ -797,7 +797,7 @@ public class MonsterAttackManager : MonoBehaviour
         return calculatedDamage;
     }
 
-    // This function serves to clear cached damage bonuses etc. to prevent unwanted buffs
+    // This function clears cached damage bonuses etc. to prevent unwanted buffs
     public void ClearCachedModifiers()
     {
         bonusDamagePercent = 0;
