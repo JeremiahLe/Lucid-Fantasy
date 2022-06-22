@@ -30,7 +30,7 @@ MonoBehaviour:
   speed: 18
   evasion: 5
   critChance: 0
-  critDamage: 2
+  critDamage: 1.5
   healthScaler: 1.01
   physicalAttackScaler: 1.01
   magicAttackScaler: 1.01
