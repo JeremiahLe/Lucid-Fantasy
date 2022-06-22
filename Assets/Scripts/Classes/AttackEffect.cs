@@ -431,6 +431,9 @@ public class AttackEffect : ScriptableObject
 
         // reduce health
         monsterAttackManager.currentTargetedMonster.health = currentHealth;
+
+        // Update monster's stats
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(true);
     }
 
     // Damage All enemies

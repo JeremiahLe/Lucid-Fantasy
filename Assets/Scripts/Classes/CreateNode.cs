@@ -111,6 +111,12 @@ public class CreateNode : MonoBehaviour
         routeText = adventureManager.routeText;
 
         sr = GetComponent<SpriteRenderer>();
+
+        // NG+ bug fix?
+        if (nodeState == NodeState.Unlocked)
+        {
+            nodeLocked = false;
+        }
     }
 
     // This function sets the node to the passed state

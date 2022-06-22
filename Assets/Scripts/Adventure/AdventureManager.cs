@@ -68,6 +68,8 @@ public class AdventureManager : MonoBehaviour
     public int playerMonstersLost = 0;
     public int playerMonstersKilled = 0;
 
+    public int adventureNGNumber = 1;
+
     public List<Monster> ListOfCurrentMonsters;
     public List<Modifier> ListOfCurrentModifiers;
 
@@ -282,7 +284,7 @@ public class AdventureManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // save nodes
-        if (ListOfSavedNodes.Count() == 0)
+        if (ListOfSavedNodes.Count() == 0 || ListOfSavedNodes[0] == null)
         {
             foreach (GameObject node in ListOfUnlockedNodes)
             {
@@ -305,8 +307,12 @@ public class AdventureManager : MonoBehaviour
                 DontDestroyOnLoad(node);
             }
 
+            // Fix missing saved nodes bug on NG+
             ListOfSavedNodes = ListOfAllNodes;
         }
+
+        // Fix missing saved nodes bug on NG+
+        //ListOfSavedNodes = ListOfAllNodes; // NVM, this breaks everything
 
         foreach (GameObject node in ListOfSavedNodes)
         {
@@ -674,6 +680,31 @@ public class AdventureManager : MonoBehaviour
             PlayNewBGM(defeatBGM, .35f);
             ShowFinalResultsMenu(false);
         }
+    }
+
+    // This function resets all locked nodes to initiate NG+
+    public void InitiateNewGame()
+    {
+        adventureNGNumber += 1;
+        BossBattle = false;
+        BossDefeated = false;
+        adventureFailed = false;
+        adventureBegin = false;
+        NodeToReturnTo = null;
+
+        // Clear lists
+        foreach (GameObject node in ListOfAllNodes)
+        {
+            Destroy(node);
+        }
+        foreach (GameObject node in ListOfSavedNodes)
+        {
+            Destroy(node);
+        }
+        ListOfUnlockedNodes.Clear();
+        ListOfLockedNodes.Clear();
+
+        Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
     }
 
     #region Old Code

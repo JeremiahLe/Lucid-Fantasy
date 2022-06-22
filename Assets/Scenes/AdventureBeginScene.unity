@@ -2397,6 +2397,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 960093470}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: adventureNGNumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ConfirmAdventureMenu
       value: 
       objectReference: {fileID: 420426851}

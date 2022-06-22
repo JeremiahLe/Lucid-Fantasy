@@ -15,6 +15,7 @@ public class SubscreenManager : MonoBehaviour
     public GameObject RerollButton;
     public GameObject ConfirmEquipmentButton;
     public GameObject FightButton;
+    public GameObject EnterNewGameButton;
 
     public AdventureManager.RewardType thisRewardType;
 
@@ -149,7 +150,7 @@ public class SubscreenManager : MonoBehaviour
         {
             if (adventureManager.currentSelectedNode.GetComponent<CreateNode>().nodeType == CreateNode.NodeType.Boss && !bossAdded)
             {
-                adventureManager.ListOfEnemyBattleMonsters.Add(GetBossMonster(adventureManager.adventureBoss, 10));
+                adventureManager.ListOfEnemyBattleMonsters.Add(GetBossMonster(adventureManager.adventureBoss, 5 + (2 * adventureManager.adventureNGNumber))); // difficulty scaled
                 BattleImage.GetComponent<Image>().sprite = adventureManager.adventureBoss.baseSprite;
                 BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle: Boss + Random" +
                 $"\nEnemies present: {randomBattleMonsterCount}" +
@@ -158,7 +159,7 @@ public class SubscreenManager : MonoBehaviour
                 continue;
             }
 
-            adventureManager.ListOfEnemyBattleMonsters.Add(GetRandomMonster());
+            adventureManager.ListOfEnemyBattleMonsters.Add(GetRandomMonster(adventureManager.adventureNGNumber));
         }
 
         // Show allied monsters to choose from
@@ -274,7 +275,12 @@ public class SubscreenManager : MonoBehaviour
             return 1;
         }
 
-        return 2;
+        if (adventureManager.ListOfCurrentMonsters.Count == 3)
+        {
+            return 3;
+        }
+
+        return Random.Range(2, 5);
     }
 
     // This function returns a randomly created monster
@@ -291,7 +297,7 @@ public class SubscreenManager : MonoBehaviour
         }
 
         // random stats 
-        randMonster.level = Random.Range(5, 9);
+        randMonster.level = GetMonsterRandomLevelRange();
         randMonster.health = Mathf.RoundToInt(randMonster.health + randMonster.level);
         randMonster.maxHealth = randMonster.health;
 
@@ -307,7 +313,41 @@ public class SubscreenManager : MonoBehaviour
 
         return randMonster;
     }
-    
+
+    // This function returns a randomly created monster with scaled difficulty
+    public Monster GetRandomMonster(int enemyLevelScaler)
+    {
+        // Scale level by NG+
+        int scaledLevel = enemyLevelScaler - 2;
+
+        Monster randMonster = Instantiate(adventureManager.ListOfAvailableRewardMonsters[Random.Range(0, adventureManager.ListOfAvailableRewardMonsters.Count)]);
+
+        // random moves
+        for (int i = 0; i < 4; i++)
+        {
+            MonsterAttack randomAttack = randMonster.ListOfMonsterAttacksAvailable[Random.Range(0, randMonster.ListOfMonsterAttacksAvailable.Count)];
+            randMonster.ListOfMonsterAttacks[i] = randomAttack;
+            randMonster.ListOfMonsterAttacksAvailable.Remove(randomAttack);
+        }
+
+        // random stats 
+        randMonster.level = GetMonsterRandomLevelRange() + scaledLevel;
+        randMonster.health = Mathf.RoundToInt(randMonster.health + randMonster.level);
+        randMonster.maxHealth = randMonster.health;
+
+        randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) * randMonster.physicalAttackScaler);
+
+        randMonster.magicAttack = Mathf.RoundToInt((randMonster.magicAttack + randMonster.level - 5) * randMonster.magicAttackScaler);
+
+        randMonster.physicalDefense = Mathf.RoundToInt((randMonster.physicalDefense + randMonster.level - 5) * randMonster.physicalDefenseScaler);
+
+        randMonster.magicDefense = Mathf.RoundToInt((randMonster.magicDefense + randMonster.level - 5) * randMonster.magicDefenseScaler);
+
+        randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) * randMonster.speedScaler);
+
+        return randMonster;
+    }
+
     // This function returns a randomly created boss monster
     public Monster GetBossMonster(Monster setMonster, int level)
     {
@@ -323,7 +363,7 @@ public class SubscreenManager : MonoBehaviour
 
         // bonus stats
         newMonster.level = level;
-        newMonster.health += Mathf.RoundToInt(newMonster.health * .5f);
+        newMonster.health += Mathf.RoundToInt((newMonster.health + newMonster.level) * .4f);
         newMonster.maxHealth = newMonster.health;
 
         newMonster.physicalAttack = Mathf.RoundToInt((newMonster.physicalAttack + newMonster.level - 5) * newMonster.physicalAttackScaler);
@@ -376,6 +416,27 @@ public class SubscreenManager : MonoBehaviour
         return randModifierSO;
     }
 
+    // This function returns a random level range for randomly generated monsters based on what NG+ the player's adventure is on
+    public int GetMonsterRandomLevelRange()
+    {
+        int adventureNGNum = adventureManager.adventureNGNumber;
+
+        switch (adventureManager.adventureNGNumber)
+        {
+            case (1):
+                return Random.Range(5, 9);
+
+            case (2):
+                return Random.Range(7, 11);
+
+            case (3):
+                return Random.Range(9, 14);
+
+            default:
+                return Random.Range(5, 9);
+        }
+    }
+
     // This function displays the final results screen
     public void ShowFinalResultsMenu(bool Win)
     {
@@ -398,6 +459,7 @@ public class SubscreenManager : MonoBehaviour
 
         summaryText.text = ($"Adventure Summary: " +
             $"\nTime: {niceTime}" +
+            $"\nRun: {adventureManager.adventureNGNumber}" +
             $"\nGold Spent: {adventureManager.playerGoldSpent}" +
             $"\nRerolls: {adventureManager.timesRerolled}" +
             $"\nAlly Monsters Defeated: {adventureManager.playerMonstersLost}" +
@@ -412,6 +474,7 @@ public class SubscreenManager : MonoBehaviour
         if (Win)
         {
             adventureManager.PlayNewBGM(adventureManager.winBGM, .60f);
+            EnterNewGameButton.SetActive(true);
             titleText.text = "Adventure Completed!";
         }
         else
@@ -426,6 +489,12 @@ public class SubscreenManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene("StartScreen");
+    }
+
+    // This helper function calls the actual function on the AdventureManager script
+    public void CallNewGameFunction()
+    {
+        adventureManager.InitiateNewGame();
     }
 
     // This functions rerolls the currently displayed rewards
