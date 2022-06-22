@@ -255,6 +255,7 @@ public class AttackEffect : ScriptableObject
             case TypeOfEffect.DamageBonusIfTargetStatusEffect:
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
+                    monsterAttackManager.currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster; // fix fan the flames bug?
                     targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
                     targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                     BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
@@ -495,7 +496,7 @@ public class AttackEffect : ScriptableObject
         switch (attackEffectStatus)
         {
             case (Modifier.StatusEffectType.Burning):
-                if (monsterAttackManager.currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterIsBurning)
+                if (combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterIsBurning)
                 {
                     // apply bonus damage
                     monsterAttackManager.recievedDamagePercentBonus = true;
