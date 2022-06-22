@@ -95,6 +95,10 @@ Imported Various Assets/Packages
 - Added monster stats screen
 - Added health bar damaged fade UI effect
 
+[6/21/22]
+- Implement XP and leveling
+- Implement new monster select screen and holder (similar to team creation)
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
