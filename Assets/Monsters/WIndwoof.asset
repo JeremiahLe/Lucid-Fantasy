@@ -31,7 +31,7 @@ MonoBehaviour:
   evasion: 0
   critChance: 0
   critDamage: 1.5
-  healthScaler: 1.01
+  healthScaler: 1.02
   physicalAttackScaler: 1.01
   magicAttackScaler: 1.13
   physicalDefenseScaler: 1.01
