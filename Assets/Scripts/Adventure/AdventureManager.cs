@@ -383,12 +383,12 @@ public class AdventureManager : MonoBehaviour
                 // Boss Music
                 if (BossBattle)
                 {
-                    PlayNewBGM(bossBGM, .50f);
+                    PlayNewBGM(bossBGM, .065f);
                     return;
                 }
 
                 // Combat Music
-                PlayNewBGM(combatBGM, .35f);
+                PlayNewBGM(combatBGM, .055f);
                 break;
 
             default:
@@ -464,9 +464,20 @@ public class AdventureManager : MonoBehaviour
     }
 
     // This function is called at Game Start, before Round 1, to apply any adventure modifiers
-    public void ApplyGameStartAdventureModifiers()
+    public void ApplyGameStartAdventureModifiers(Monster.AIType aIType)
     {
-        foreach (Modifier modifier in ListOfCurrentModifiers)
+        List<Modifier> whatListShouldIUse;
+        // Apply ally or enemy modifiers?
+        if (aIType == Monster.AIType.Ally)
+        {
+            whatListShouldIUse = ListOfCurrentModifiers;
+        }
+        else
+        {
+            whatListShouldIUse = ListOfEnemyModifiers;
+        }
+
+        foreach (Modifier modifier in whatListShouldIUse)
         {
             // Only apply Game Start modifiers
             if (modifier.modifierAdventureCallTime == Modifier.ModifierAdventureCallTime.GameStart)
@@ -475,10 +486,18 @@ public class AdventureManager : MonoBehaviour
                 switch (modifier.modifierAdventureReference)
                 {
                     case (Modifier.ModifierAdventureReference.WindsweptBoots):
-                        GameObject monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
+                        GameObject monsterObj;
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
+                        }
+                        else
+                        {
+                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfEnemies);
+                        }
                         Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
                         monster.speed += modifier.modifierAmount;
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName}!");
                         break;
 
@@ -490,9 +509,20 @@ public class AdventureManager : MonoBehaviour
     }
 
     // This function is called every Round Start by CombatManagerScript, to apply any adventure modifiers
-    public void ApplyRoundStartAdventureModifiers()
+    public void ApplyRoundStartAdventureModifiers(Monster.AIType aIType)
     {
-        foreach (Modifier modifier in ListOfCurrentModifiers)
+        List<Modifier> whatListShouldIUse;
+        // Apply ally or enemy modifiers?
+        if (aIType == Monster.AIType.Ally)
+        {
+            whatListShouldIUse = ListOfCurrentModifiers;
+        }
+        else
+        {
+            whatListShouldIUse = ListOfEnemyModifiers;
+        }
+
+        foreach (Modifier modifier in whatListShouldIUse)
         {
             // Only apply Round Start modifiers
             if (modifier.modifierAdventureCallTime == Modifier.ModifierAdventureCallTime.RoundStart)
@@ -502,8 +532,17 @@ public class AdventureManager : MonoBehaviour
                 {
                     case Modifier.ModifierAdventureReference.VirulentVenom:
 
+                        List<GameObject> listOfUnpoisonedEnemies;
+
                         // Get random enemy from list of unpoisoned enemies
-                        List<GameObject> listOfUnpoisonedEnemies = combatManagerScript.ListOfEnemies.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().monsterIsPoisoned == false).ToList();
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            listOfUnpoisonedEnemies = combatManagerScript.ListOfEnemies.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().monsterIsPoisoned == false).ToList();
+                        }
+                        else
+                        {
+                            listOfUnpoisonedEnemies = combatManagerScript.ListOfAllys.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().monsterIsPoisoned == false).ToList();
+                        }
 
                         // If no monsters are unpoisoned, break out
                         if (listOfUnpoisonedEnemies.Count == 0)
@@ -516,7 +555,14 @@ public class AdventureManager : MonoBehaviour
                             GameObject randomEnemyToPoison = combatManagerScript.GetRandomTarget(listOfUnpoisonedEnemies);
                             Monster monster = randomEnemyToPoison.GetComponent<CreateMonster>().monsterReference;
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was poisoned by {modifier.modifierName}.");
-                            //modifier.modifierAmount /= 100f;
+                            randomEnemyToPoison.GetComponent<CreateMonster>().monsterIsPoisoned = true;
+
+                            if (aIType == Monster.AIType.Ally)
+                            {
+                                modifier.modifierOwnerGameObject = combatManagerScript.ListOfAllys[0];
+                                modifier.modifierOwner = modifier.modifierOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
+                            }
+
                             monster.ListOfModifiers.Add(modifier);
                         }
 
@@ -532,9 +578,20 @@ public class AdventureManager : MonoBehaviour
     }
 
     // This function is called at Game Start by CombatManagerScript as it registers every Monster in Combat, before Round 1
-    public void ApplyAdventureModifiers(Monster monster)
+    public void ApplyAdventureModifiers(Monster monster, Monster.AIType aIType)
     {
-        foreach (Modifier modifier in ListOfCurrentModifiers)
+        List<Modifier> whatListShouldIUse; 
+        // Apply ally or enemy modifiers?
+        if (aIType == Monster.AIType.Ally)
+        {
+            whatListShouldIUse = ListOfCurrentModifiers;
+        }
+        else
+        {
+            whatListShouldIUse = ListOfEnemyModifiers;
+        }
+
+        foreach (Modifier modifier in whatListShouldIUse)
         {
             // Get specific Modifier
             switch (modifier.modifierAdventureReference)
@@ -673,11 +730,11 @@ public class AdventureManager : MonoBehaviour
         // Check if battle over
         if (!adventureFailed)
         {
-            PlayNewBGM(adventureBGM, .60f);
+            PlayNewBGM(adventureBGM, .09f);
         }
         else
         {
-            PlayNewBGM(defeatBGM, .35f);
+            PlayNewBGM(defeatBGM, .08f);
             ShowFinalResultsMenu(false);
         }
     }
@@ -687,6 +744,38 @@ public class AdventureManager : MonoBehaviour
     {
         adventureNGNumber += 1;
         rerollAmount += 3;
+
+        BossBattle = false;
+        BossDefeated = false;
+        adventureFailed = false;
+        adventureBegin = false;
+        NodeToReturnTo = null;
+
+        // start giving enemies modifiers
+        if (adventureNGNumber >= 3)
+        {
+            ListOfEnemyModifiers.Add(subscreenManager.GetRandomModifier());
+        }
+
+        // Clear lists
+        foreach (GameObject node in ListOfAllNodes)
+        {
+            Destroy(node);
+        }
+        foreach (GameObject node in ListOfSavedNodes)
+        {
+            Destroy(node);
+        }
+        ListOfUnlockedNodes.Clear();
+        ListOfLockedNodes.Clear();
+
+        Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
+    }
+
+    // This function resets all locked nodes to restart game
+    public void RestartGame()
+    {
+        rerollAmount = 3;
 
         BossBattle = false;
         BossDefeated = false;
@@ -705,6 +794,9 @@ public class AdventureManager : MonoBehaviour
         }
         ListOfUnlockedNodes.Clear();
         ListOfLockedNodes.Clear();
+        ListOfCurrentModifiers.Clear();
+        ListOfCurrentMonsters.Clear();
+        ListOfEnemyBattleMonsters.Clear();
 
         Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
     }
@@ -946,8 +1038,9 @@ public class AdventureManager : MonoBehaviour
     public void PlayNewBGM(AudioClip newBGM, float scale)
     {
         GameManagerAudioSource.Stop();
-        GameManagerAudioSource.PlayOneShot(newBGM, scale);
-        GameManagerAudioSource.loop = true;
+        GameManagerAudioSource.clip = newBGM;
+        GameManagerAudioSource.volume = scale;
+        GameManagerAudioSource.Play();
     }
 
     // Unload adventure mode data

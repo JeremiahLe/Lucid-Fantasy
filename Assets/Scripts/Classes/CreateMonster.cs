@@ -120,6 +120,7 @@ public class CreateMonster : MonoBehaviour
         if (combatManagerScript.adventureMode)
         {
             monsterReference = monster;
+            monster.cachedLevel = monsterReference.level;
             monster.cachedPhysicalAttack = monsterReference.physicalAttack;
             monster.cachedMagicAttack = monsterReference.magicAttack;
 
@@ -193,6 +194,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function checks for adventure modifiers and applies them either per round or at game start
+    /*
     public void CheckAdventureModifiers()
     {
         // if adventure mode, check adventure modifiers
@@ -200,9 +202,10 @@ public class CreateMonster : MonoBehaviour
         {
             combatManagerScript.adventureManager.ApplyAdventureModifiers(monster);
             CheckAdventureEquipment();
-            UpdateStats(false);
+            UpdateStats(false, null, false);
         }
     }
+    */
 
     // Check any adventure equipment modifiers at game start
     public void CheckAdventureEquipment()
@@ -212,7 +215,7 @@ public class CreateMonster : MonoBehaviour
             if (equipment.adventureEquipment)
             {
                 ModifyStats(equipment.statModified, equipment, "adventure");
-                UpdateStats(false);
+                UpdateStats(false, null, false);
             }
         }
     }
@@ -246,7 +249,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function should be called when stats get updated
-    public void UpdateStats(bool damageTaken)
+    public void UpdateStats(bool damageTaken, GameObject damageSourceGameObject, bool externalDamageTaken)
     {
         // Initial check of stats are out of bounds
         CheckStatsCap();
@@ -257,7 +260,7 @@ public class CreateMonster : MonoBehaviour
         // Only check monster is alive if damage was taken - Fixes dual death call bug
         if (damageTaken)
         {
-            CheckHealth();
+            CheckHealth(externalDamageTaken, damageSourceGameObject);
             UpdateHealthBar(damageTaken);
         }
         else
@@ -277,6 +280,80 @@ public class CreateMonster : MonoBehaviour
 
         // Check if stats are out of bounds
         CheckStatsCap();
+    }
+
+    // This function is called to grant a monster exp upon kill or combat win in adventure mode
+    public void GrantExp(int expGained)
+    {
+        // Gain exp
+        monsterReference.monsterCurrentExp += expGained;
+        // Show level up animation
+        CreateStatusEffectPopup($"+{expGained} Exp");
+
+        if (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
+        {
+            LevelUp(true);
+        }
+    }
+
+    // This function level ups the monster
+    public void LevelUp(bool levelUpOnce)
+    {
+        // Show level up animation
+        if (levelUpOnce)
+        {
+            CreateStatusEffectPopup("Level Up!!!");
+            monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.LevelUpSound);
+        }
+
+        // Level up, heal, and update states
+        monsterReference.level += 1;
+        monsterReference.monsterCurrentExp = Mathf.Abs(monsterReference.monsterExpToNextLevel - monsterReference.monsterCurrentExp);
+
+        monsterReference.monsterExpToNextLevel = Mathf.RoundToInt(monsterReference.monsterExpToNextLevel * 1.25f);
+
+        monsterReference.maxHealth = Mathf.RoundToInt((monsterReference.maxHealth + monsterReference.level) * monsterReference.healthScaler);
+        monsterReference.health = monsterReference.maxHealth;
+
+        // Basic int to add new stats to cached monster data
+        int newStatToCache = 0;
+
+        // Physical Attack
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalAttack + 1) * monsterReference.physicalAttackScaler);
+        monsterReference.physicalAttack += newStatToCache - monsterReference.cachedPhysicalAttack;
+        monster.cachedPhysicalAttack = newStatToCache;
+
+        // Magic Attack
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicAttack + 1) * monsterReference.magicAttackScaler);
+        monsterReference.magicAttack += newStatToCache - monsterReference.cachedMagicAttack;
+        monster.cachedMagicAttack = newStatToCache;
+
+        // Physical Defense
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalDefense + 1) * monsterReference.physicalDefenseScaler);
+        monsterReference.physicalDefense += newStatToCache - monsterReference.cachedPhysicalDefense;
+        monster.cachedPhysicalDefense = newStatToCache;
+
+        // Magic Defense
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicDefense + 1) * monsterReference.magicDefenseScaler);
+        monsterReference.magicDefense += newStatToCache - monsterReference.cachedMagicDefense;
+        monster.cachedMagicDefense = newStatToCache;
+
+        // Speed
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedSpeed + 1) * monsterReference.speedScaler);
+        monsterReference.speed += newStatToCache - monsterReference.cachedSpeed;
+        monster.cachedSpeed = newStatToCache;
+
+        // Finally, update in-combat stats
+        UpdateStats(true, null, false);
+        combatManagerScript.SortMonsterBattleSequence();
+        nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
+        InitiateHealthBars();
+
+        // Check if exp is still overcapped
+        while (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
+        {
+            LevelUp(false);
+        }
     }
 
     // This function checks stat caps
@@ -374,7 +451,12 @@ public class CreateMonster : MonoBehaviour
                         monsterReference.health -= poisonDamage;
                         ShowDamageOrStatusEffectPopup(poisonDamage);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Poisoned and takes {poisonDamage} damage!", monsterReference.aiType);
-                        UpdateStats(true);
+                        UpdateStats(true, modifier.modifierOwnerGameObject, true);
+
+                        if (modifier.modifierOwnerGameObject != null)
+                        {
+                            modifier.modifierOwner.cachedDamageDone += poisonDamage;
+                        }
                         break;
 
                     case (Modifier.StatusEffectType.Burning):
@@ -393,7 +475,12 @@ public class CreateMonster : MonoBehaviour
                         monsterReference.health -= burningDamage;
                         ShowDamageOrStatusEffectPopup(burningDamage);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Burning and takes {burningDamage} damage!", monsterReference.aiType);
-                        UpdateStats(true);
+                        UpdateStats(true, modifier.modifierOwnerGameObject, true);
+
+                        if (modifier.modifierOwnerGameObject != null)
+                        {
+                            modifier.modifierOwner.cachedDamageDone += burningDamage;
+                        }
                         break;
                 }
             }
@@ -405,7 +492,7 @@ public class CreateMonster : MonoBehaviour
                 if (modifier.modifierCurrentDuration == 0)
                 {
                     modifier.ResetModifiedStat(monsterReference, gameObject);
-                    UpdateStats(false);
+                    UpdateStats(false, null, false);
                     monsterReference.ListOfModifiers.Remove(modifier);
                 }
             }
@@ -425,7 +512,7 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatEnumToChange.Speed):
                 monsterReference.speed += (int)modifier.modifierAmount;
-                UpdateStats(false);
+                UpdateStats(false, null, false);
                 break;
 
             case (AttackEffect.StatEnumToChange.MagicAttack):
@@ -503,7 +590,7 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatEnumToChange.Speed):
                 monsterReference.speed += (int)modifier.modifierAmount;
-                UpdateStats(false);
+                UpdateStats(false, null, false);
                 break;
 
             case (AttackEffect.StatEnumToChange.MagicAttack):
@@ -590,7 +677,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function checks the monster's health
-    public void CheckHealth()
+    public void CheckHealth(bool killedExternally, GameObject externalKillerGameObject)
     {
         // Called after a delay
         if (monsterReference.health <= 0)
@@ -600,6 +687,17 @@ public class CreateMonster : MonoBehaviour
             // remove statuses to prevent two status death call bug
             monsterIsPoisoned = false;
             monsterIsBurning = false;
+
+            // Check for status or ability kills
+            if (killedExternally && combatManagerScript.adventureMode)
+            {
+                if (externalKillerGameObject == null)
+                {
+                    externalKillerGameObject = combatManagerScript.GetRandomTarget(combatManagerScript.ListOfAllys);
+                }
+                externalKillerGameObject.GetComponent<CreateMonster>().monsterReference.monsterKills += 1;
+                externalKillerGameObject.GetComponent<CreateMonster>().GrantExp(15 * monsterReference.level);
+            }
 
             combatManagerScript.RemoveMonsterFromList(gameObject, monsterReference.aiType);
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} has been defeated!", monsterReference.aiType);
@@ -702,6 +800,13 @@ public class CreateMonster : MonoBehaviour
             {
                 monsterAttackManager.UseMonsterAttack();
             }
+        }
+
+        // Show detailed monster info window
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            combatManagerScript.uiManager.DetailedMonsterStatsWindow.SetActive(true);
+            combatManagerScript.uiManager.DetailedMonsterStatsWindow.GetComponent<MonsterStatScreenScript>().DisplayMonsterStatScreenStats(monsterReference);
         }
 
         if (currentTime >= delayTime)

@@ -9,6 +9,9 @@ public class Modifier : ScriptableObject
 {
     [DisplayWithoutEdit] public string modifierSource;
 
+    [DisplayWithoutEdit] public GameObject modifierOwnerGameObject;
+    [DisplayWithoutEdit] public Monster modifierOwner;
+
     public enum ModifierDurationType { Temporary, Permanent }
     public ModifierDurationType modifierDurationType;
 

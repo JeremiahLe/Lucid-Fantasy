@@ -33,8 +33,8 @@ MonoBehaviour:
   critDamage: 1.5
   healthScaler: 1.01
   physicalAttackScaler: 1.01
-  magicAttackScaler: 1.02
-  physicalDefenseScaler: 1.01
+  magicAttackScaler: 1.12
+  physicalDefenseScaler: 1.05
   magicDefenseScaler: 1.02
   speedScaler: 1.01
   ListOfMonsterAttacks:
@@ -57,6 +57,7 @@ MonoBehaviour:
   cachedSpeed: 5
   cachedEvasion: 8
   cachedCritChance: 0
+  cachedLevel: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0

@@ -30,4 +30,10 @@ public class SoundEffectManager : MonoBehaviour
             soundEffectQueue.Remove(clip);
         }
     }
+
+    // This plays a specific sound effect
+    public void PlaySoundEffect(AudioClip clip)
+    {
+        soundEffectAudioSource.PlayOneShot(clip);
+    }
 }

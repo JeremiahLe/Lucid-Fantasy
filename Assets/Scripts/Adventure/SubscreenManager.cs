@@ -16,6 +16,7 @@ public class SubscreenManager : MonoBehaviour
     public GameObject ConfirmEquipmentButton;
     public GameObject FightButton;
     public GameObject EnterNewGameButton;
+    public GameObject RestartGameButton;
 
     public AdventureManager.RewardType thisRewardType;
 
@@ -143,7 +144,14 @@ public class SubscreenManager : MonoBehaviour
         BattleImage.GetComponent<Image>().sprite = mysteryIcon;
         BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle: Random" +
             $"\nEnemies present: {randomBattleMonsterCount}" +
-            $"\nAllies allowed: {randomBattleMonsterLimit}");
+            $"\nAllies allowed: {randomBattleMonsterLimit}" +
+                $"\nEnemy Modifiers: ");
+
+                foreach (Modifier modifier in adventureManager.ListOfEnemyModifiers)
+                {
+                    BattleImage.GetComponentInChildren<TextMeshProUGUI>().text +=
+                        ($"{modifier.modifierName}\n");
+                }
 
         // populate enemy list && check if boss battle
         for (int j = 0; j < randomBattleMonsterCount; j++)
@@ -154,7 +162,15 @@ public class SubscreenManager : MonoBehaviour
                 BattleImage.GetComponent<Image>().sprite = adventureManager.adventureBoss.baseSprite;
                 BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle: Boss + Random" +
                 $"\nEnemies present: {randomBattleMonsterCount}" +
-                $"\nAllies allowed: {randomBattleMonsterLimit}");
+                $"\nAllies allowed: {randomBattleMonsterLimit}" +
+                $"\nEnemy Modifiers: ");
+
+                foreach(Modifier modifier in adventureManager.ListOfEnemyModifiers)
+                {
+                    BattleImage.GetComponentInChildren<TextMeshProUGUI>().text +=
+                        ($"{modifier.modifierName}\n");
+                }
+
                 bossAdded = true;
                 continue;
             }
@@ -298,7 +314,7 @@ public class SubscreenManager : MonoBehaviour
 
         // random stats 
         randMonster.level = GetMonsterRandomLevelRange();
-        randMonster.health = Mathf.RoundToInt(randMonster.health + randMonster.level);
+        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) * randMonster.healthScaler);
         randMonster.maxHealth = randMonster.health;
 
         randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) * randMonster.physicalAttackScaler);
@@ -332,18 +348,18 @@ public class SubscreenManager : MonoBehaviour
 
         // random stats 
         randMonster.level = GetMonsterRandomLevelRange() + scaledLevel;
-        randMonster.health = Mathf.RoundToInt(randMonster.health + randMonster.level);
+        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) * (randMonster.healthScaler + .1f * adventureManager.adventureNGNumber));
         randMonster.maxHealth = randMonster.health;
 
-        randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) * randMonster.physicalAttackScaler);
+        randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 4) * randMonster.physicalAttackScaler);
 
-        randMonster.magicAttack = Mathf.RoundToInt((randMonster.magicAttack + randMonster.level - 5) * randMonster.magicAttackScaler);
+        randMonster.magicAttack = Mathf.RoundToInt((randMonster.magicAttack + randMonster.level - 4) * randMonster.magicAttackScaler);
 
-        randMonster.physicalDefense = Mathf.RoundToInt((randMonster.physicalDefense + randMonster.level - 5) * randMonster.physicalDefenseScaler);
+        randMonster.physicalDefense = Mathf.RoundToInt((randMonster.physicalDefense + randMonster.level - 4) * randMonster.physicalDefenseScaler);
 
-        randMonster.magicDefense = Mathf.RoundToInt((randMonster.magicDefense + randMonster.level - 5) * randMonster.magicDefenseScaler);
+        randMonster.magicDefense = Mathf.RoundToInt((randMonster.magicDefense + randMonster.level - 4) * randMonster.magicDefenseScaler);
 
-        randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) * randMonster.speedScaler);
+        randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 4) * randMonster.speedScaler);
 
         return randMonster;
     }
@@ -363,7 +379,7 @@ public class SubscreenManager : MonoBehaviour
 
         // bonus stats
         newMonster.level = level;
-        newMonster.health += Mathf.RoundToInt((newMonster.health + newMonster.level) * .4f);
+        newMonster.health += Mathf.RoundToInt((newMonster.health + newMonster.level) * .95f);
         newMonster.maxHealth = newMonster.health;
 
         newMonster.physicalAttack = Mathf.RoundToInt((newMonster.physicalAttack + newMonster.level - 5) * newMonster.physicalAttackScaler);
@@ -433,7 +449,7 @@ public class SubscreenManager : MonoBehaviour
                 return Random.Range(9, 14);
 
             default:
-                return Random.Range(5, 9);
+                return Random.Range(5 + (2 * adventureManager.adventureNGNumber) - Random.Range(1, 5), 5 + (2 * adventureManager.adventureNGNumber));
         }
     }
 
@@ -473,13 +489,18 @@ public class SubscreenManager : MonoBehaviour
 
         if (Win)
         {
-            adventureManager.PlayNewBGM(adventureManager.winBGM, .60f);
+            adventureManager.PlayNewBGM(adventureManager.winBGM, .20f);
             EnterNewGameButton.SetActive(true);
             titleText.text = "Adventure Completed!";
         }
         else
         {
             titleText.text = "Adventure Failed...";
+            
+            if (adventureManager.adventureNGNumber <= 1)
+            {
+                RestartGameButton.SetActive(true);
+            }
         }
 
         // Reset bools
@@ -495,6 +516,12 @@ public class SubscreenManager : MonoBehaviour
     public void CallNewGameFunction()
     {
         adventureManager.InitiateNewGame();
+    }
+
+    // This helper function calls the actual function on the AdventureManager script
+    public void CallRestartGameFunction()
+    {
+        adventureManager.RestartGame();
     }
 
     // This functions rerolls the currently displayed rewards

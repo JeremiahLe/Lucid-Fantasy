@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
     public HUDAnimationManager HUDanimationManager;
     public CombatManagerScript combatManagerScript;
 
+    public GameObject DetailedMonsterStatsWindow;
+
     Monster monsterRef;
 
     // Start is called before the first frame update

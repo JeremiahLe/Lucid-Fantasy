@@ -53,6 +53,7 @@ public class MonsterAttackManager : MonoBehaviour
     public AudioClip CritSound;
     public AudioClip HitSound;
     public AudioClip MissSound;
+    public AudioClip LevelUpSound;
 
     // Start is called before the first frame update
     void Start()
@@ -356,7 +357,7 @@ public class MonsterAttackManager : MonoBehaviour
             }
 
             Monster monsterWhoUsedAttack = currentMonsterTurn;
-            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(false);
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
 
             TriggerPostAttackEffects(monsterWhoUsedAttack);
 
@@ -478,20 +479,23 @@ public class MonsterAttackManager : MonoBehaviour
             soundEffectManager.BeginSoundEffectQueue();
 
             Monster monsterWhoUsedAttack = currentMonsterTurn;
+            GameObject monsterWhoUsedAttackGameObject = currentMonsterTurnGameObject;
+
             monsterWhoUsedAttack.health = currentMonsterTurn.health;
             monsterWhoUsedAttack.cachedDamageDone += calculatedDamage;
 
             TriggerPostAttackEffects(monsterWhoUsedAttack);
 
             //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
-            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true);
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);
 
             // Add to killcount if applicable
-            if (combatManagerScript.adventureMode)
+            if (combatManagerScript.adventureMode && monsterWhoUsedAttack.aiType == Monster.AIType.Ally && monsterWhoUsedAttack != currentTargetedMonster)
             {
                 if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.health <= 0)
                 {
                     monsterWhoUsedAttack.monsterKills += 1;
+                    monsterWhoUsedAttackGameObject.GetComponent<CreateMonster>().GrantExp(15 * currentTargetedMonster.level);
                 }
             }
 
@@ -557,6 +561,7 @@ public class MonsterAttackManager : MonoBehaviour
                 soundEffectManager.AddSoundEffectToQueue(HitSound);
                 soundEffectManager.BeginSoundEffectQueue();
 
+                GameObject monsterWhoUsedAttackGameObject = currentMonsterTurnGameObject;
                 monsterWhoUsedAttack = currentMonsterTurn;
                 monsterWhoUsedAttack.health = currentMonsterTurn.health;
                 monsterWhoUsedAttack.cachedDamageDone += calculatedDamage;
@@ -565,7 +570,7 @@ public class MonsterAttackManager : MonoBehaviour
                 TriggerDuringAttackEffects(monsterWhoUsedAttack);
 
                 // End of turn stuff
-                currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true);
+                currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);
 
                 // Add to killcount if applicable
                 if (combatManagerScript.adventureMode)
@@ -573,6 +578,7 @@ public class MonsterAttackManager : MonoBehaviour
                     if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.health <= 0)
                     {
                         monsterWhoUsedAttack.monsterKills += 1;
+                        monsterWhoUsedAttackGameObject.GetComponent<CreateMonster>().GrantExp(15 * currentTargetedMonster.level);
                     }
                 }
 

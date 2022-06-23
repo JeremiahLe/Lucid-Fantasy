@@ -93,6 +93,7 @@ public class Monster : ScriptableObject
     [Range(0, 99)] public float cachedEvasion;
     [Range(0, 100)] public float cachedCritChance;
 
+    public int cachedLevel;
 
     [Title("Adventure - Monster Other Stats")]
     public float cachedDamageDone;

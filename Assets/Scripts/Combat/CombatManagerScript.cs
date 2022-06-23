@@ -239,12 +239,23 @@ public class CombatManagerScript : MonoBehaviour
             foreach (GameObject monsterObj in ListOfAllys)
             {
                 Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
-                adventureManager.ApplyAdventureModifiers(monster);
-                monsterObj.GetComponent<CreateMonster>().UpdateStats(false);
+                adventureManager.ApplyAdventureModifiers(monster, Monster.AIType.Ally);
+                monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
                 monsterObj.GetComponent<CreateMonster>().CheckAdventureEquipment();
             }
 
-            adventureManager.ApplyGameStartAdventureModifiers();
+            adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Ally);
+
+            // Enemy modifiers and equipment
+            foreach (GameObject monsterObj in ListOfEnemies)
+            {
+                Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
+                adventureManager.ApplyAdventureModifiers(monster, Monster.AIType.Enemy);
+                monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                monsterObj.GetComponent<CreateMonster>().CheckAdventureEquipment();
+            }
+
+            adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Enemy);
         }
 
         StartCoroutine(IncrementNewRoundIE()); // Initiate the battle
@@ -800,7 +811,8 @@ public class CombatManagerScript : MonoBehaviour
             // call round start Adventure Modifiers
             if (adventureMode)
             {
-                adventureManager.ApplyRoundStartAdventureModifiers();
+                adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Ally);
+                adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Enemy);
             }
 
             // check if any cooldowns need to be updated // toArray fixes on round start poison death
@@ -934,6 +946,16 @@ public class CombatManagerScript : MonoBehaviour
 
                 uiManager.EditCombatMessage("You win!");
                 wonBattle = true;
+
+                // Grant all alive allies a bit of exp for winning
+                foreach (GameObject monsterObj in ListOfAllys)
+                {
+                    if (monsterObj != null)
+                    {
+                        monsterObj.GetComponent<CreateMonster>().GrantExp(Mathf.RoundToInt(.25f * monsterObj.GetComponent<CreateMonster>().monsterReference.monsterExpToNextLevel));
+                    }
+                }
+
                 Invoke("AdventureBattleOver", 3.0f);
             }
 
