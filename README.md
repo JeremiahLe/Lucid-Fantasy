@@ -1,2 +1,2 @@
 # Pokemon-FF7-Game
-Another solo developer project inspired by Pokemon and FF7.
+A solo-developer project inspired by Pokemon, FF7, and Fire Emblem. Demo available on itch.io https://jayzireael.itch.io/lucid-fantasy
