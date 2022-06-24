@@ -50,6 +50,7 @@ public class Monster : ScriptableObject
     [Range(0, 99)] public float evasion;
     [Range(0, 100)] public float critChance;
     [Range(1.5f, 2.5f)] public float critDamage;
+    [Range(0f, 100f)] public float bonusAccuracy;
 
     [Title("Monster Scaling Stats")]
     [PropertySpace(SpaceBefore = 15)]

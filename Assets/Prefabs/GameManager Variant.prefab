@@ -45,11 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardEquipment.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardModifiers.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardMonsters.Array.data[0]
@@ -100,6 +100,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2e9e7660adb796445970ed13cc4a6aff, type: 2}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 79b9b9a29806a504bad2dd1d270b9b41, type: 2}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableRewardModifiers.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 31007e97733cce44f8874d212e4037da, type: 2}
@@ -119,6 +123,14 @@ PrefabInstance:
       propertyPath: ListOfAvailableRewardModifiers.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: fb914f9f53c3c334ba0cac03b7052d18, type: 2}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: ListOfAvailableRewardModifiers.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 797c177fae28a274083518819cd7344a, type: 2}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: ListOfAvailableRewardModifiers.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 79b9b9a29806a504bad2dd1d270b9b41, type: 2}
     - target: {fileID: 3603385240357516424, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: MainMenu
       value: 

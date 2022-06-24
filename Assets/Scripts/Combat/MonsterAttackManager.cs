@@ -111,7 +111,9 @@ public class MonsterAttackManager : MonoBehaviour
                 currentMonsterAttackDescription.gameObject.SetActive(true);
                 currentMonsterAttackDescription.text = ($"{currentMonsterAttack.monsterAttackName}" +
                     $"\n{currentMonsterAttack.monsterAttackDescription}" +
-                    $"\nBuff Type: ({currentMonsterAttack.monsterAttackType.ToString()}) | Accuracy: {currentMonsterAttack.monsterAttackAccuracy}%" +
+                    $"\nBuff Type: ({currentMonsterAttack.monsterAttackType.ToString()}) " +
+                    $"| Accuracy: {currentMonsterAttack.monsterAttackAccuracy}% " +
+                    $"({currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy - combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.evasion}%)" +
                     $"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
                 TextBackImage.enabled = true;
                 TextBackImageBorder.enabled = true;
@@ -121,7 +123,9 @@ public class MonsterAttackManager : MonoBehaviour
                 currentMonsterAttackDescription.gameObject.SetActive(true);
                 currentMonsterAttackDescription.text = ($"{currentMonsterAttack.monsterAttackName}" +
                     $"\n{currentMonsterAttack.monsterAttackDescription}" +
-                    $"\nBase Power: {currentMonsterAttack.monsterAttackDamage} ({currentMonsterAttack.monsterAttackDamageType.ToString()}) | Accuracy: {currentMonsterAttack.monsterAttackAccuracy}%" +
+                    $"\nBase Power: {currentMonsterAttack.monsterAttackDamage} ({currentMonsterAttack.monsterAttackDamageType.ToString()}) " +
+                    $"| Accuracy: {currentMonsterAttack.monsterAttackAccuracy}% " +
+                    $"({currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy - combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.evasion}%)" +
                     $"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
                 TextBackImage.enabled = true;
                 TextBackImageBorder.enabled = true;
@@ -132,6 +136,9 @@ public class MonsterAttackManager : MonoBehaviour
     // This function updates the targeted enemy text on screen
     public void UpdateCurrentTargetText()
     {
+        // Update accuracy check - TODO - Don't show allies evasion
+        SetMonsterAttackDescriptionText(currentMonsterAttack.monsterAttackType);
+
         // Fixes a weird targeting bug
         if (combatManagerScript.CurrentTargetedMonster == null)
         {
@@ -650,12 +657,12 @@ public class MonsterAttackManager : MonoBehaviour
         // don't use evasion as a stat when self-targeting or ally targeting
         if (!selfTargeting || currentMonsterTurn.aiType != currentTargetedMonster.aiType)
         {
-            hitChance = (currentMonsterAttack.monsterAttackAccuracy - currentTargetedMonster.evasion) / 100;
+            hitChance = (currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy - currentTargetedMonster.evasion) / 100;
             //Debug.Log($"Attack: {currentMonsterAttack.monsterAttackName}, Hit chance: {hitChance}% & not targeting self or ally!");
         }
         else
         {
-            hitChance = (currentMonsterAttack.monsterAttackAccuracy / 100);
+            hitChance = (currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy / 100);
             //Debug.Log($"Attack: {currentMonsterAttack.monsterAttackName}, Hit chance: {hitChance}%");
         }
 

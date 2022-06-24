@@ -182,7 +182,7 @@ public class CreateMonster : MonoBehaviour
         monsterAttackManager = combatManagerObject.GetComponent<MonsterAttackManager>();
 
         // Create instances of the monster's attacks
-        if (!combatManagerScript.adventureMode)
+        if (!combatManagerScript.adventureMode) // accuracy is alterable now
         {
             monsterReference.ListOfMonsterAttacks.Clear();
             foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
@@ -192,6 +192,54 @@ public class CreateMonster : MonoBehaviour
             }
         }
     }
+
+    /*
+    // This function deep copies the list of a monster's attacks
+    public void MonsterAttackListDeepCopy()
+    {
+        // Create blank temp monster
+        copiedMonsterAttackList = Instantiate(monster);
+        copiedMonsterAttackList.ListOfMonsterAttacks.Clear();
+
+        // clone attack list
+        foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
+        {
+            MonsterAttack attackInstance = Instantiate(attack);
+            copiedMonsterAttackList.ListOfMonsterAttacks.Add(attackInstance);
+        }
+
+        
+        // Create a copy list
+        CopyList = new List<MonsterAttack>();
+        foreach (var item in copiedMonsterAttackList.ListOfMonsterAttacks)
+        {
+            CopyList.Add(new MonsterAttack
+                {
+                   monsterAttackName = item.monsterAttackName,
+                   monsterAttackDescription = item.monsterAttackDescription,
+                   monsterAttackElement = item.monsterAttackElement,
+                   monsterAttackType = item.monsterAttackType,
+                   monsterAttackDamageType = item.monsterAttackDamageType,
+                   monsterAttackTargetCount = item.monsterAttackTargetCount,
+                   monsterAttackTargetType = item.monsterAttackTargetType,
+                   monsterAttackSoundEffect = item.monsterAttackSoundEffect,
+                   monsterAttackDamage = item.monsterAttackDamage,
+                   monsterAttackFlatDamageBonus = item.monsterAttackFlatDamageBonus,
+                   monsterAttackAccuracy = item.monsterAttackAccuracy,
+                   monsterAttackCritChance = item.monsterAttackCritChance,
+                   monsterAttackNeverMiss = item.monsterAttackNeverMiss,
+                   attackHasCooldown = item.attackHasCooldown,
+                   attackOnCooldown = item.attackOnCooldown,
+                   attackBaseCooldown = item.attackBaseCooldown,
+                   attackCurrentCooldown = item.attackCurrentCooldown,
+                   ListOfAttackEffects = item.ListOfAttackEffects
+                });
+        }
+
+        // Reference copy list
+        //combatManagerScript.CombatLog.SendMessageToCombatLog("Copied list!");
+    }
+    */
 
     // This function checks for adventure modifiers and applies them either per round or at game start
     /*
@@ -633,6 +681,10 @@ public class CreateMonster : MonoBehaviour
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
 
+            case (AttackEffect.StatEnumToChange.Accuracy):
+                monsterReference.bonusAccuracy += (int)modifier.modifierAmount;
+                break;
+
             default:
                 Debug.Log("Missing stat to modify to modifier?", this);
                 break;
@@ -665,6 +717,9 @@ public class CreateMonster : MonoBehaviour
             default:
                 break;
         }
+
+        // Create popup
+        CreateStatusEffectPopup($"{statusEffect.ToString()}!");
     }
 
     // This function refreshs per-round combat variables

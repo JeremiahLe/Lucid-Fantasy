@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
   m_Name: GaleforceEffect
   m_EditorClassIdentifier: 
-  typeOfEffect: 12
+  typeOfEffect: 13
   statEnumToChange: 6
   statChangeType: 0
   effectTime: 0
@@ -21,7 +21,7 @@ MonoBehaviour:
   modifierCalledOnce: 0
   flatBuff: 0
   modifierDuration: 0
-  amountToChange: 35
+  amountToChange: 175
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
   ListOfModifiers: []

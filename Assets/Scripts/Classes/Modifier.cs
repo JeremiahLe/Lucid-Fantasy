@@ -29,7 +29,7 @@ public class Modifier : ScriptableObject
 
     [Header("Adventure Variables")]
     public string modifierName;
-    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots }
+    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots, RagingFire }
     public ModifierAdventureReference modifierAdventureReference;
     public string modifierDescription;
 
@@ -118,6 +118,10 @@ public class Modifier : ScriptableObject
 
             case (AttackEffect.StatEnumToChange.Damage):
                 monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage = false;
+                break;
+
+            case (AttackEffect.StatEnumToChange.Accuracy):
+                monsterReference.bonusAccuracy += -1f * (modifierAmount);
                 break;
 
             default:

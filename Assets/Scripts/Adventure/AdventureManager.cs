@@ -512,6 +512,8 @@ public class AdventureManager : MonoBehaviour
     public void ApplyRoundStartAdventureModifiers(Monster.AIType aIType)
     {
         List<Modifier> whatListShouldIUse;
+        List<GameObject> listOfUnstatusedEnemies;
+
         // Apply ally or enemy modifiers?
         if (aIType == Monster.AIType.Ally)
         {
@@ -529,30 +531,29 @@ public class AdventureManager : MonoBehaviour
             {
                 // Get specific Modifier
                 switch (modifier.modifierAdventureReference)
-                {
+                {               
+                    #region Virulent Venom
                     case Modifier.ModifierAdventureReference.VirulentVenom:
-
-                        List<GameObject> listOfUnpoisonedEnemies;
 
                         // Get random enemy from list of unpoisoned enemies
                         if (aIType == Monster.AIType.Ally)
                         {
-                            listOfUnpoisonedEnemies = combatManagerScript.ListOfEnemies.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().monsterIsPoisoned == false).ToList();
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().monsterIsPoisoned == false).ToList();
                         }
                         else
                         {
-                            listOfUnpoisonedEnemies = combatManagerScript.ListOfAllys.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().monsterIsPoisoned == false).ToList();
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().monsterIsPoisoned == false).ToList();
                         }
 
                         // If no monsters are unpoisoned, break out
-                        if (listOfUnpoisonedEnemies.Count == 0)
+                        if (listOfUnstatusedEnemies.Count() == 0)
                         {
                             continue;
                         }
 
                         // Otherwise, poison randomly selected monster
-                        if (listOfUnpoisonedEnemies.Count != 0) {
-                            GameObject randomEnemyToPoison = combatManagerScript.GetRandomTarget(listOfUnpoisonedEnemies);
+                        if (listOfUnstatusedEnemies.Count != 0) {
+                            GameObject randomEnemyToPoison = combatManagerScript.GetRandomTarget(listOfUnstatusedEnemies);
                             Monster monster = randomEnemyToPoison.GetComponent<CreateMonster>().monsterReference;
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was poisoned by {modifier.modifierName}.");
                             randomEnemyToPoison.GetComponent<CreateMonster>().monsterIsPoisoned = true;
@@ -563,12 +564,58 @@ public class AdventureManager : MonoBehaviour
                                 modifier.modifierOwner = modifier.modifierOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
                             }
 
-                            monster.ListOfModifiers.Add(modifier);
+                            Modifier newModifier = Instantiate(modifier);
+                            monster.ListOfModifiers.Add(newModifier);
+                            randomEnemyToPoison.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Poisoned);
                         }
 
                         // Clear list
-                        listOfUnpoisonedEnemies.Clear();
+                        listOfUnstatusedEnemies.Clear();
                         break;
+                    #endregion
+
+                    #region Raging Fire
+                    case Modifier.ModifierAdventureReference.RagingFire:
+
+                        // Get random enemy from list of unpoisoned enemies
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isBurning => isBurning.GetComponent<CreateMonster>().monsterIsBurning == false).ToList();
+                        }
+                        else
+                        {
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isBurning => isBurning.GetComponent<CreateMonster>().monsterIsBurning == false).ToList();
+                        }
+
+                        // If no monsters are unpoisoned, break out
+                        if (listOfUnstatusedEnemies.Count == 0)
+                        {
+                            continue;
+                        }
+
+                        // Otherwise, poison randomly selected monster
+                        if (listOfUnstatusedEnemies.Count != 0)
+                        {
+                            GameObject randomEnemyToBurn = combatManagerScript.GetRandomTarget(listOfUnstatusedEnemies);
+                            Monster monster = randomEnemyToBurn.GetComponent<CreateMonster>().monsterReference;
+                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was burned by {modifier.modifierName}.");
+                            randomEnemyToBurn.GetComponent<CreateMonster>().monsterIsBurning = true;
+
+                            if (aIType == Monster.AIType.Ally)
+                            {
+                                modifier.modifierOwnerGameObject = combatManagerScript.ListOfAllys[0];
+                                modifier.modifierOwner = modifier.modifierOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
+                            }
+
+                            Modifier newModifier = Instantiate(modifier);
+                            monster.ListOfModifiers.Add(newModifier);
+                            randomEnemyToBurn.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Burning);
+                        }
+
+                        // Clear list
+                        listOfUnstatusedEnemies.Clear();
+                        break;
+                    #endregion Raging Fire
 
                     default:
                         break;

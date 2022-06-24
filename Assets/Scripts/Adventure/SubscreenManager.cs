@@ -67,7 +67,7 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().rewardType = AdventureManager.RewardType.Monster;
                     rewardSlot.GetComponent<CreateReward>().monsterReward = monster;
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = monster.baseSprite;
-                    rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{monster.name} Lvl.{monster.level}" +
+                    rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"<b>{monster.name} Lvl.{monster.level}</b>" +
                         $"\n{monster.monsterElement}/{monster.monsterSubElement}" +
                         $"\n- {monster.ListOfMonsterAttacks[0].monsterAttackName}" +
                         $"\n- {monster.ListOfMonsterAttacks[1].monsterAttackName}" +
@@ -87,8 +87,9 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().rewardType = AdventureManager.RewardType.Modifier;
                     rewardSlot.GetComponent<CreateReward>().modifierReward = modifier;
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = modifier.baseSprite;
-                    rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{modifier.modifierName}" +
-                        $"\n- {modifier.modifierDescription}");
+                    //rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{modifier.modifierName}" +
+                        //$"\n- {modifier.modifierDescription}");
+                    rewardSlot.GetComponent<CreateReward>().SetRarityColor();
                 }
                 break;
 
@@ -105,8 +106,9 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().rewardType = AdventureManager.RewardType.Equipment;
                     rewardSlot.GetComponent<CreateReward>().modifierReward = modifier;
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = modifier.baseSprite;
-                    rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{modifier.modifierName}" +
-                        $"\n- {modifier.modifierDescription}");
+                    //rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{modifier.modifierName}" +
+                        //$"\n- {modifier.modifierDescription}");
+                    rewardSlot.GetComponent<CreateReward>().SetRarityColor();
                 }
                 break;
 
@@ -348,7 +350,7 @@ public class SubscreenManager : MonoBehaviour
 
         // random stats 
         randMonster.level = GetMonsterRandomLevelRange() + scaledLevel;
-        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) * (randMonster.healthScaler + .1f * adventureManager.adventureNGNumber));
+        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) * (randMonster.healthScaler + .15f * adventureManager.adventureNGNumber));
         randMonster.maxHealth = randMonster.health;
 
         randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 4) * randMonster.physicalAttackScaler);
@@ -379,7 +381,7 @@ public class SubscreenManager : MonoBehaviour
 
         // bonus stats
         newMonster.level = level;
-        newMonster.health += Mathf.RoundToInt((newMonster.health + newMonster.level) * .95f);
+        newMonster.health += Mathf.RoundToInt((newMonster.health + newMonster.level) * 1.25f);
         newMonster.maxHealth = newMonster.health;
 
         newMonster.physicalAttack = Mathf.RoundToInt((newMonster.physicalAttack + newMonster.level - 5) * newMonster.physicalAttackScaler);
@@ -391,7 +393,7 @@ public class SubscreenManager : MonoBehaviour
         newMonster.magicDefense = Mathf.RoundToInt((newMonster.magicDefense + newMonster.level - 5) * newMonster.magicDefenseScaler);
 
         newMonster.speed = Mathf.RoundToInt((newMonster.speed + newMonster.level - 5) * newMonster.speedScaler);
-        newMonster.name += ($" (Boss)")
+        newMonster.name += ($" <Boss>")
 ;
         return newMonster;
     }

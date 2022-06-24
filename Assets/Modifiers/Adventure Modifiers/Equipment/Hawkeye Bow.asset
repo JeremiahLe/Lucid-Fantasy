@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
-  m_Name: Shadow Mask
+  m_Name: Hawkeye Bow
   m_EditorClassIdentifier: 
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
   modifierDurationType: 1
-  statModified: 7
+  statModified: 15
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 7
+  modifierAmount: 5
   modifierAmountFlatBuff: 1
   statusEffect: 0
   statusEffectType: 0
-  modifierName: Shadow Mask
+  modifierName: Hawkeye Bow
   modifierAdventureReference: 0
-  modifierDescription: +7 Evasion
+  modifierDescription: +5 Accuracy to all moves
   adventureModifier: 0
   adventureEquipment: 1
   modifierAdventureCallTime: 0
-  modifierRarity: 2
-  baseSprite: {fileID: 21300000, guid: b165ff5e72e25ce4c94a71ce6546383a, type: 3}
+  modifierRarity: 1
+  baseSprite: {fileID: 21300000, guid: 6ff3410819386234ea76b27adcce675c, type: 3}

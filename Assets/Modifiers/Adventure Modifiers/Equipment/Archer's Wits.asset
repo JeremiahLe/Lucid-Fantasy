@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Archer's Wits
   m_EditorClassIdentifier: 
   modifierSource: 
+  modifierOwnerGameObject: {fileID: 0}
+  modifierOwner: {fileID: 0}
   modifierDurationType: 1
   statModified: 8
   modifierDuration: 0
@@ -27,5 +29,5 @@ MonoBehaviour:
   adventureModifier: 0
   adventureEquipment: 1
   modifierAdventureCallTime: 0
-  modifierRarity: 0
+  modifierRarity: 1
   baseSprite: {fileID: 21300000, guid: c9e8aa189fc39594fbfc08eccb97d23f, type: 3}

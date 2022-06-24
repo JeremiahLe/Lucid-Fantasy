@@ -239,6 +239,7 @@ public class CombatManagerScript : MonoBehaviour
             foreach (GameObject monsterObj in ListOfAllys)
             {
                 Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
+
                 adventureManager.ApplyAdventureModifiers(monster, Monster.AIType.Ally);
                 monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
                 monsterObj.GetComponent<CreateMonster>().CheckAdventureEquipment();
@@ -997,7 +998,7 @@ public class CombatManagerScript : MonoBehaviour
         buttonManagerScript.HideAllButtons("All");
 
         if (wonBattle)
-        {
+        {   
             // Clear out stat changes
             foreach(Monster monster in adventureManager.ListOfAllyBattleMonsters)
             {

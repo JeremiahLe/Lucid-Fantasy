@@ -20,7 +20,7 @@ public class AttackEffect : ScriptableObject
 
     public TypeOfEffect typeOfEffect;
 
-    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth }
+    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy }
     public StatEnumToChange statEnumToChange;
 
     public enum StatChangeType { Buff, Debuff, None }
@@ -1158,7 +1158,6 @@ public class AttackEffect : ScriptableObject
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was burned by {effectTriggerName}!");
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Burning!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
@@ -1211,7 +1210,6 @@ public class AttackEffect : ScriptableObject
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was poisoned by {effectTriggerName}!");
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Poisoned!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
@@ -1272,7 +1270,6 @@ public class AttackEffect : ScriptableObject
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was Dazed by {effectTriggerName}!");
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Dazed!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);

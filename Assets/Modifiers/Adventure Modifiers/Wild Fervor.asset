@@ -13,17 +13,21 @@ MonoBehaviour:
   m_Name: Wild Fervor
   m_EditorClassIdentifier: 
   modifierSource: 
+  modifierOwnerGameObject: {fileID: 0}
+  modifierOwner: {fileID: 0}
   modifierDurationType: 1
   statModified: 8
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 30
+  modifierAmount: 25
+  modifierAmountFlatBuff: 0
   statusEffect: 0
   statusEffectType: 0
   modifierName: Wild Fervor
   modifierAdventureReference: 0
-  modifierDescription: 'Game Start: All allied monsters gain +30% critical chance.'
+  modifierDescription: 'Game Start: All allied monsters gain +25% critical chance.'
   adventureModifier: 1
+  adventureEquipment: 0
   modifierAdventureCallTime: 0
   modifierRarity: 3
   baseSprite: {fileID: 21300000, guid: e58c5f96aab1fb54c8cae84faea8cc62, type: 3}
