@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Bionine
   baseSprite: {fileID: 21300000, guid: a6b376644589ef34895ee43b49996650, type: 3}
-  monsterElement: 9
-  monsterSubElement: 5
+  monsterElement: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   aiType: 0
   aiLevel: 0
   level: 50
@@ -31,6 +31,7 @@ MonoBehaviour:
   evasion: 5
   critChance: 0
   critDamage: 1.5
+  bonusAccuracy: 0
   healthScaler: 1.01
   physicalAttackScaler: 1.01
   magicAttackScaler: 1.01
@@ -58,6 +59,7 @@ MonoBehaviour:
   cachedSpeed: 18
   cachedEvasion: 5
   cachedCritChance: 0
+  cachedLevel: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0

@@ -19,8 +19,8 @@ public class Monster : ScriptableObject
         Shadow, Neutral, None, Light, Time,
         Elixir, Electric, Stone, Sound  };
 
-    public MonsterElement monsterElement;
-    public MonsterElement monsterSubElement;
+    public ElementClass monsterElement;
+    public ElementClass monsterSubElement;
 
     public enum AIType { Ally, Enemy };
     public AIType aiType;

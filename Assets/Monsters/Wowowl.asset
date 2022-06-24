@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Wowowl
   baseSprite: {fileID: 21300000, guid: 514c0da08ea083d48bd2ac1fd8f88d50, type: 3}
-  monsterElement: 3
-  monsterSubElement: 5
+  monsterElement: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   aiType: 0
   aiLevel: 0
   level: 5
@@ -31,6 +31,7 @@ MonoBehaviour:
   evasion: 10
   critChance: 10
   critDamage: 1.5
+  bonusAccuracy: 0
   healthScaler: 1.02
   physicalAttackScaler: 1.02
   magicAttackScaler: 1.02

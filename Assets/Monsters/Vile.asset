@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Vile
   baseSprite: {fileID: 21300000, guid: 3e26b457512cf8340b97f1fbcf5d2720, type: 3}
-  monsterElement: 9
-  monsterSubElement: 5
+  monsterElement: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   aiType: 1
   aiLevel: 0
   level: 5
@@ -31,6 +31,7 @@ MonoBehaviour:
   evasion: 2
   critChance: 0
   critDamage: 1.5
+  bonusAccuracy: 0
   healthScaler: 1.02
   physicalAttackScaler: 1.15
   magicAttackScaler: 1.15

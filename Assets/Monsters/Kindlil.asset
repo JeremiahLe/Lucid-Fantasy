@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Kindlil
   baseSprite: {fileID: 21300000, guid: 2c5790dd696c7d7408bd84406a4f6c9e, type: 3}
-  monsterElement: 0
-  monsterSubElement: 6
+  monsterElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
   aiLevel: 0
   level: 6
@@ -31,6 +31,7 @@ MonoBehaviour:
   evasion: 8
   critChance: 0
   critDamage: 1.5
+  bonusAccuracy: 0
   healthScaler: 1.02
   physicalAttackScaler: 1.01
   magicAttackScaler: 1.12

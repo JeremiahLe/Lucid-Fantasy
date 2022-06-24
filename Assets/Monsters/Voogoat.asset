@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Voogoat
   baseSprite: {fileID: 21300000, guid: d8bb3cb4522dcab438476fa380de63da, type: 3}
-  monsterElement: 4
-  monsterSubElement: 6
+  monsterElement: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
   aiLevel: 0
   level: 6
@@ -31,6 +31,7 @@ MonoBehaviour:
   evasion: 9
   critChance: 0
   critDamage: 1.5
+  bonusAccuracy: 0
   healthScaler: 1.13
   physicalAttackScaler: 1.01
   magicAttackScaler: 1.07

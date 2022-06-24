@@ -54,6 +54,7 @@ public class MonsterAttackManager : MonoBehaviour
     public AudioClip HitSound;
     public AudioClip MissSound;
     public AudioClip LevelUpSound;
+    public AudioClip ResistSound;
 
     // Start is called before the first frame update
     void Start()
@@ -772,17 +773,23 @@ public class MonsterAttackManager : MonoBehaviour
         // Check for additional flat bonus damage
         calculatedDamage += monsterAttack.monsterAttackFlatDamageBonus;
 
-        // Check monster main element bonus
-        if (monsterAttack.monsterAttackElement == currentMonster.monsterElement)
+        // Check monster main element bonus/ /  fix ToStrings?
+        if (monsterAttack.monsterAttackElement == currentMonster.monsterElement.element)
         {
             calculatedDamage += Mathf.RoundToInt(calculatedDamage * .25f);
+            Debug.Log("Main element bonus!");
         }
 
-        // Check sub element bonus
-        if (monsterAttack.monsterAttackElement == currentMonster.monsterSubElement)
+        // Check sub element bonus //  fix ToStrings?
+        if (monsterAttack.monsterAttackElement == currentMonster.monsterSubElement.element)
         {
             calculatedDamage += Mathf.RoundToInt(calculatedDamage * .15f);
+            Debug.Log("Sub element bonus!");
         }
+
+        // Check elemental weaknesses and resistances and apply bonus damage
+        float elementCheckDamageBonus = CheckElementWeakness(currentMonsterAttack.monsterAttackElement, currentTargetedMonster);
+        calculatedDamage = Mathf.RoundToInt(calculatedDamage * elementCheckDamageBonus);
 
         // Now check for critical hit
         if (CheckAttackCrit())
@@ -791,11 +798,24 @@ public class MonsterAttackManager : MonoBehaviour
             CombatLog.SendMessageToCombatLog($"Critical Hit!!! {currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
                 $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!", currentMonsterTurn.aiType);
 
+            // Add elemental matchup to combat log
+            if (elementCheckDamageBonus > 1f)
+            {
+                CombatLog.SendMessageToCombatLog($"It was super effective!");
+                soundEffectManager.AddSoundEffectToQueue(CritSound);
+                currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Super Effective!");
+            }
+            else if (elementCheckDamageBonus < 1f)
+            {
+                CombatLog.SendMessageToCombatLog($"It wasn't very effective!");
+                soundEffectManager.AddSoundEffectToQueue(ResistSound);
+                currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Resist!");
+            }
+
             monsterCritText.SetActive(true);
             monsterCritText.transform.position = cachedTransform;
 
             cachedDamage = calculatedDamage;
-            soundEffectManager.AddSoundEffectToQueue(CritSound);
 
             currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterCriticallyStrikedThisRound = true;
 
@@ -806,8 +826,80 @@ public class MonsterAttackManager : MonoBehaviour
         CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
             $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!", currentMonsterTurn.aiType);
 
+        // Add elemental matchup to combat log
+        if (elementCheckDamageBonus > 1f)
+        {
+            CombatLog.SendMessageToCombatLog($"It was super effective!");
+            soundEffectManager.AddSoundEffectToQueue(CritSound);
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Super Effective!");
+        }
+        else if (elementCheckDamageBonus < 1f)
+        {
+            CombatLog.SendMessageToCombatLog($"It wasn't very effective!");
+            soundEffectManager.AddSoundEffectToQueue(ResistSound);
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Resist!");
+        }
+
         cachedDamage = calculatedDamage;
         return calculatedDamage;
+    }
+
+    // This function checks elemental weaknesses and resistances and returns a damage multipler
+    public float CheckElementWeakness(ElementClass.MonsterElement attackElement, Monster targetedMonster)
+    {
+        // Both main element and sub element are weak
+        if (targetedMonster.monsterElement.listOfWeaknesses.Contains(attackElement) && targetedMonster.monsterSubElement.listOfWeaknesses.Contains(attackElement))
+        {
+            //Debug.Log("Two weaknesses!");
+            return 2f;
+        }
+
+        // One element is weak
+        // First check if no resistances. Either one or the other is weak to attack element and neither are resistance
+        if (!targetedMonster.monsterElement.listOfResistances.Contains(attackElement) && !targetedMonster.monsterSubElement.listOfResistances.Contains(attackElement))
+        {
+            if (targetedMonster.monsterElement.listOfWeaknesses.Contains(attackElement) && !targetedMonster.monsterSubElement.listOfWeaknesses.Contains(attackElement)
+                || !targetedMonster.monsterElement.listOfWeaknesses.Contains(attackElement) && targetedMonster.monsterSubElement.listOfWeaknesses.Contains(attackElement))
+            {
+                //Debug.Log("One weakness!");
+                return 1.5f;
+            }
+        }
+
+        // Weakness/Resistance cancel out
+        // First check if one is resistant. Either main or sub element is resistant, and the other is weak, they cancel it
+        if (targetedMonster.monsterElement.listOfResistances.Contains(attackElement) || targetedMonster.monsterSubElement.listOfResistances.Contains(attackElement))
+        {
+            if (targetedMonster.monsterElement.listOfWeaknesses.Contains(attackElement) && targetedMonster.monsterSubElement.listOfResistances.Contains(attackElement)
+                || targetedMonster.monsterElement.listOfResistances.Contains(attackElement) && targetedMonster.monsterSubElement.listOfWeaknesses.Contains(attackElement))
+            {
+                //Debug.Log("Canceled out!");
+                return 1f;
+            }
+        }
+
+        // Both elements resist (check this first)
+        // First check if one is resistant. Either main or sub element is resistant, and the other is not weak or resistant
+        if (targetedMonster.monsterElement.listOfResistances.Contains(attackElement) && targetedMonster.monsterSubElement.listOfResistances.Contains(attackElement))
+        {
+            //Debug.Log("Two Resistances!");
+            return 0.25f;
+        }
+
+        // One element resists
+        // First check if one is resistant. Either main or sub element is resistant, and the other is not weak or resistant
+        if (targetedMonster.monsterElement.listOfResistances.Contains(attackElement) || targetedMonster.monsterSubElement.listOfResistances.Contains(attackElement))
+        {
+            if (!targetedMonster.monsterElement.listOfWeaknesses.Contains(attackElement) && !targetedMonster.monsterSubElement.listOfWeaknesses.Contains(attackElement))
+            {
+                //Debug.Log("One Resistance!");
+                return 0.5f;
+            }
+        }
+
+        // default multiplier
+        Debug.Log("Neutral!");
+        return 1f;
     }
 
     // This function clears cached damage bonuses etc. to prevent unwanted buffs

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Windwoof
   baseSprite: {fileID: 21300000, guid: ba3d41af14ff2ff498f55ce5d95e1b8a, type: 3}
-  monsterElement: 3
-  monsterSubElement: 6
+  monsterElement: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
   aiLevel: 0
   level: 5
@@ -31,6 +31,7 @@ MonoBehaviour:
   evasion: 0
   critChance: 0
   critDamage: 1.5
+  bonusAccuracy: 0
   healthScaler: 1.02
   physicalAttackScaler: 1.01
   magicAttackScaler: 1.13

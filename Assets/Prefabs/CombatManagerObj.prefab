@@ -249,7 +249,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.0016288757, y: 228.84656}
+  m_AnchoredPosition: {x: -0.00048446655, y: 228.84723}
   m_SizeDelta: {x: -0.0024719238, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6169910255325181092
@@ -2333,8 +2333,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6169910256588331851}
   m_HandleRect: {fileID: 6169910256588331848}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.99999386
+  m_Value: 0
+  m_Size: 0.9999952
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2936,6 +2936,8 @@ MonoBehaviour:
   CritSound: {fileID: 8300000, guid: 68049c95379dcb84fb188fdedd8c569a, type: 3}
   HitSound: {fileID: 8300000, guid: 762b582ee4ca74a458d76f52b4a557ef, type: 3}
   MissSound: {fileID: 8300000, guid: 0f2966a1a653a844796724ba7d95e1e8, type: 3}
+  LevelUpSound: {fileID: 8300000, guid: e7237d086cb65044e8f78c01f93a957f, type: 3}
+  ResistSound: {fileID: 8300000, guid: c10e6f39e9ea85040a938ffd89cc0992, type: 3}
 --- !u!114 &6169910256888872258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2981,6 +2983,7 @@ MonoBehaviour:
   monsterTurnIndicator: {fileID: 0}
   HUDanimationManager: {fileID: 0}
   combatManagerScript: {fileID: 0}
+  DetailedMonsterStatsWindow: {fileID: 0}
 --- !u!114 &6169910256888872260
 MonoBehaviour:
   m_ObjectHideFlags: 0

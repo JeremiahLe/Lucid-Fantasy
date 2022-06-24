@@ -2066,7 +2066,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: aa870661d7d028f4f800ed129db05300, type: 2}
+      objectReference: {fileID: 11400000, guid: 43c7cfa2d59d87d42974da26a9731322, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: delayTime
       value: 0.15
@@ -2491,11 +2491,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6169910255325181090, guid: ee95256833b0bc54bab8ec04a3b1517d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.0015220642
+      value: -0.0021095276
       objectReference: {fileID: 0}
     - target: {fileID: 6169910255325181090, guid: ee95256833b0bc54bab8ec04a3b1517d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 228.8476
+      value: 228.84583
       objectReference: {fileID: 0}
     - target: {fileID: 6169910256103596365, guid: ee95256833b0bc54bab8ec04a3b1517d, type: 3}
       propertyPath: m_AnchorMax.y

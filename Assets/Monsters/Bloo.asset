@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Bloo
   baseSprite: {fileID: 21300000, guid: 1874c472cccf8f04882aa49b260a1c36, type: 3}
-  monsterElement: 4
-  monsterSubElement: 12
+  monsterElement: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: ec9ecd56522a5744486571ef5548086b, type: 2}
   aiType: 0
   aiLevel: 0
   level: 5
@@ -31,6 +31,7 @@ MonoBehaviour:
   evasion: 5
   critChance: 0
   critDamage: 1.5
+  bonusAccuracy: 0
   healthScaler: 1.05
   physicalAttackScaler: 1.05
   magicAttackScaler: 1.05

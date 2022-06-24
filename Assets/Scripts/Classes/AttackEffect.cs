@@ -209,8 +209,8 @@ public class AttackEffect : ScriptableObject
                     }
                     else
                     {
-                        targetMonster = monsterAttackManager.combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
-                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentMonsterTurn;
+                        targetMonster = monsterAttackManager.currentMonsterTurn; // monsterattackmanager instead of combatmanager reference to fix a fueguy self daze bug after killing all enemies
+                        targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject; // monsterattackmanager instead of combatmanager reference to fix a fueguy self daze bug after killing all enemies
                         InflictBurning(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                     }
                 }
@@ -227,8 +227,8 @@ public class AttackEffect : ScriptableObject
                     }
                     else
                     {
-                        targetMonster = monsterAttackManager.combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
-                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentMonsterTurn;
+                        targetMonster = monsterAttackManager.currentMonsterTurn; // monsterattackmanager instead of combatmanager reference to fix a fueguy self daze bug after killing all enemies
+                        targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject; // monsterattackmanager instead of combatmanager reference to fix a fueguy self daze bug after killing all enemies
                         InflictPoisoned(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                     }
                 }
@@ -245,8 +245,8 @@ public class AttackEffect : ScriptableObject
                     }
                     else
                     {
-                        targetMonster = monsterAttackManager.combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
-                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentMonsterTurn;
+                        targetMonster = monsterAttackManager.currentMonsterTurn; // monsterattackmanager instead of combatmanager reference to fix a fueguy self daze bug after killing all enemies
+                        targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject; // monsterattackmanager instead of combatmanager reference to fix a fueguy self daze bug after killing all enemies
                         InflictDazed(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                     }
                 }
@@ -1339,7 +1339,7 @@ public class AttackEffect : ScriptableObject
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} gained immunity to status effects and debuffs!");
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Gained Debuff and Status Immunity!");
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Debuff and Status Immunity!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
