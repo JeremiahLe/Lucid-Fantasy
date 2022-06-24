@@ -113,6 +113,19 @@ Imported Various Assets/Packages
 - Add monsterpedia
 - Add modifier viewer and new modifier viewers
 
+[6/23/22]
+- Add new teamviewer and cap
+- Add particle vfx (level up)
+- Add queue to popups
+- Add weaknesses/resistances
+- Add abilities
+- Add shop
+- Add items
+- Add multiple status effect icons
+- Add return to attack screen from current attack
+- Add monsterpedia
+- Add modifier viewer and new modifier viewers
+
 
 Long-Term
  - Finish Room Creation and Setup
