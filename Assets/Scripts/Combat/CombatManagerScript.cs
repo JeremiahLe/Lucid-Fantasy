@@ -1014,6 +1014,8 @@ public class CombatManagerScript : MonoBehaviour
                 monster.speed = monster.cachedSpeed;
                 monster.evasion = monster.cachedEvasion;
                 monster.critChance = monster.cachedCritChance;
+
+                monster.bonusAccuracy = monster.cachedBonusAccuracy;
             }
 
             adventureManager.ListOfAllyBattleMonsters.Clear();

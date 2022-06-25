@@ -93,6 +93,7 @@ public class Monster : ScriptableObject
     [Range(1, 100)] public float cachedSpeed;
     [Range(0, 99)] public float cachedEvasion;
     [Range(0, 100)] public float cachedCritChance;
+    [Range(0f, 100f)] public float cachedBonusAccuracy;
 
     public int cachedLevel;
 

@@ -47,6 +47,8 @@ public class MonsterAttackManager : MonoBehaviour
     public float cachedBonusDamagePercent = 0;
     public bool recievedDamagePercentBonus = false;
 
+    public float elementCheckDamageBonus = 0;
+
     public bool dontDealDamage = false;
 
     [Title("Combat Audio Elements")]
@@ -124,7 +126,7 @@ public class MonsterAttackManager : MonoBehaviour
                 currentMonsterAttackDescription.gameObject.SetActive(true);
                 currentMonsterAttackDescription.text = ($"{currentMonsterAttack.monsterAttackName}" +
                     $"\n{currentMonsterAttack.monsterAttackDescription}" +
-                    $"\nBase Power: {currentMonsterAttack.monsterAttackDamage} ({currentMonsterAttack.monsterAttackDamageType.ToString()}) " +
+                    $"\nBase Power: {currentMonsterAttack.monsterAttackDamage} (x{CheckElementWeakness(currentMonsterAttack.monsterAttackElement, combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference)}) ({currentMonsterAttack.monsterAttackDamageType.ToString()}) " +
                     $"| Accuracy: {currentMonsterAttack.monsterAttackAccuracy}% " +
                     $"({currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy - combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.evasion}%)" +
                     $"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
@@ -788,7 +790,7 @@ public class MonsterAttackManager : MonoBehaviour
         }
 
         // Check elemental weaknesses and resistances and apply bonus damage
-        float elementCheckDamageBonus = CheckElementWeakness(currentMonsterAttack.monsterAttackElement, currentTargetedMonster);
+        elementCheckDamageBonus = CheckElementWeakness(currentMonsterAttack.monsterAttackElement, currentTargetedMonster);
         calculatedDamage = Mathf.RoundToInt(calculatedDamage * elementCheckDamageBonus);
 
         // Now check for critical hit
@@ -802,7 +804,6 @@ public class MonsterAttackManager : MonoBehaviour
             if (elementCheckDamageBonus > 1f)
             {
                 CombatLog.SendMessageToCombatLog($"It was super effective!");
-                soundEffectManager.AddSoundEffectToQueue(CritSound);
                 currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Super Effective!");
             }
             else if (elementCheckDamageBonus < 1f)
@@ -812,6 +813,9 @@ public class MonsterAttackManager : MonoBehaviour
                 currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Resist!");
             }
 
+            elementCheckDamageBonus = 1f;
+
+            soundEffectManager.AddSoundEffectToQueue(CritSound);
             monsterCritText.SetActive(true);
             monsterCritText.transform.position = cachedTransform;
 
@@ -839,6 +843,7 @@ public class MonsterAttackManager : MonoBehaviour
             soundEffectManager.AddSoundEffectToQueue(ResistSound);
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Resist!");
         }
+        elementCheckDamageBonus = 1f;
 
         cachedDamage = calculatedDamage;
         return calculatedDamage;

@@ -19,7 +19,7 @@ public class MonsterStatScreenScript : MonoBehaviour
         monsterInfo.text = 
             ($"{monster.name} Lvl.{monster.level}" +
             $" | Exp: {monster.monsterCurrentExp}/{monster.monsterExpToNextLevel}" +
-            $"\nElements: {monster.monsterElement}/{monster.monsterSubElement}" +
+            $"\nElements: {monster.monsterElement.element.ToString()}/{monster.monsterSubElement.element.ToString()}" +
             $"\nWeak To: None" +
             $"\nResists: None" +
             $"\n\nAbility: AbilityName" +

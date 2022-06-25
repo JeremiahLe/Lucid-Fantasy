@@ -131,6 +131,7 @@ public class CreateMonster : MonoBehaviour
             monster.cachedEvasion = monsterReference.evasion;
             monster.cachedCritChance = monsterReference.critChance;
 
+            monster.cachedBonusAccuracy = monsterReference.bonusAccuracy;
             //monster.maxHealth = monster.health; not needed?
         }
 
@@ -894,7 +895,7 @@ public class CreateMonster : MonoBehaviour
         {
             StatScreenWindowGameObject.SetActive(true);
             StatScreenWindowText.text =
-                ($"Elements: {monster.monsterElement}/{monster.monsterSubElement}" +
+                ($"Elements: {monster.monsterElement.element}/{monster.monsterSubElement.element}" +
                 $"\nPhysical Attack: {monsterReference.physicalAttack} ({ReturnSign(monsterReference.physicalAttack, monsterReference.cachedPhysicalAttack)}{monsterReference.physicalAttack - monsterReference.cachedPhysicalAttack})" +
                 $"\nMagic Attack: {monsterReference.magicAttack} ({ReturnSign(monsterReference.magicAttack, monsterReference.cachedMagicAttack)}{monsterReference.magicAttack - monsterReference.cachedMagicAttack})" +
                 $"\nPhysical Defense: {monsterReference.physicalDefense} ({ReturnSign(monsterReference.physicalDefense, monsterReference.cachedPhysicalDefense)}{monsterReference.physicalDefense - monsterReference.cachedPhysicalDefense})" +

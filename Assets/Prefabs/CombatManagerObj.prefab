@@ -2983,7 +2983,7 @@ MonoBehaviour:
   monsterTurnIndicator: {fileID: 0}
   HUDanimationManager: {fileID: 0}
   combatManagerScript: {fileID: 0}
-  DetailedMonsterStatsWindow: {fileID: 0}
+  DetailedMonsterStatsWindow: {fileID: 6822968146871159578, guid: d38874fd175da444abe0f330adc08b23, type: 3}
 --- !u!114 &6169910256888872260
 MonoBehaviour:
   m_ObjectHideFlags: 0

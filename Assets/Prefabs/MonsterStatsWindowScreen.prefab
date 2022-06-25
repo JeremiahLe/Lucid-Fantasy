@@ -215,20 +215,19 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Windwoof Lvl.5
+  m_text: 'Voogoat Lvl.6 | Exp: 0/125
 
-    Elements: Wind/None
+    Elements: Shadow (ElementClass)/None (ElementClass)
 
-    Weakness: None
+    Weak
+    To: None
 
-    Resistance:
-    None
+    Resists: None
 
 
-    Ability: Rising Winds
+    Ability: AbilityName
 
-    Deal bonus damage based on how much faster
-    you are compared to your target.'
+    AbilityDescription'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -364,23 +363,23 @@ MonoBehaviour:
       m_Calls: []
   m_text: '- Stats -
 
-    Hp: 72/72
+    Hp: 100/100
 
-    Physical Attack: 10
+    Physical Attack: 3
 
-    Magic Attack: 20
+    Magic Attack:
+    6
 
-    Physical
-    Defense: 10
+    Physical Defense: 5
 
-    Magic Defense: 10
+    Magic Defense: 1
 
-    Speed: 14
+    Speed: 1
 
-    Evasion: 0
+    Evasion:
+    9
 
-    CritChance:
-    0'
+    CritChance: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -516,9 +515,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Equipment:
 
-    Casra''s Wings (+5 Speed)
-
-'
+    None'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -829,7 +826,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ba3d41af14ff2ff498f55ce5d95e1b8a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d8bb3cb4522dcab438476fa380de63da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1036,47 +1033,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '- Attacks -
-
-    Howling Gale
-
-    Power: 30 | Accuracy: 100%
-
-    Type:
-    Magic | Element: Wind
-
-    Deal damage.
-
-
-    Howling Gale
-
-    Power: 30 | Accuracy:
-    100%
-
-    Type: Magic | Element: Wind
-
-    Deal damage.
-
-
-    Howling Gale
-
-    Power:
-    30 | Accuracy: 100%
-
-    Type: Magic | Element: Wind
-
-    Deal damage.
-
-
-    Howling
-    Gale
-
-    Power: 30 | Accuracy: 100%
-
-    Type: Magic | Element: Wind
-
-    Deal
-    damage.'
+  m_text: "- Attacks -\nDark Chant\nPower: 15 | Accuracy: 90\nType: Magical | Element:
+    Shadow\nInitiate a dark chant, dealing damage and raising magical attack by 25%.\n\nWild
+    Claws\nPower: 25 | Accuracy: 85\nType: Physical | Element: Neutral\nRavage the
+    opponent with sharp claws. Base 50% chance to critically strike.\n\nCrippling
+    Fear\nPower: 15 | Accuracy: 100\nType: Magical | Element: Shadow\nAfflict your
+    target and other enemies with crippling fear, dealing minor damage. If the user
+    \nis the slowest in the match, slow all enemies by 20%. Otherwise, lower self
+    attack stats by 20%.\n\nVeil of Shadows\nPower: 0 | Accuracy: 100\nType: Magical
+    | Element: Shadow\nCast a veil of protective shadows over a target, giving them
+    immunity to \ndebuffs and status effects for 3 rounds.\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
