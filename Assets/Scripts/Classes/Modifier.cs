@@ -29,7 +29,7 @@ public class Modifier : ScriptableObject
 
     [Header("Adventure Variables")]
     public string modifierName;
-    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots, RagingFire }
+    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots, RagingFire, TenaciousGuard }
     public ModifierAdventureReference modifierAdventureReference;
     public string modifierDescription;
 
@@ -110,6 +110,7 @@ public class Modifier : ScriptableObject
 
             case (AttackEffect.StatEnumToChange.Debuffs):
                 monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs = false;
+                monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to status effects and debuffs!", monsterReference.aiType);
                 break;
 
             case (AttackEffect.StatEnumToChange.StatChanges):

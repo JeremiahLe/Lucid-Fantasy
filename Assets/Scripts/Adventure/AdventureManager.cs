@@ -463,7 +463,7 @@ public class AdventureManager : MonoBehaviour
         #endregion
     }
 
-    // This function is called at Game Start, before Round 1, to apply any adventure modifiers
+    // This function is called at Game Start, before Round 1, to apply any adventure modifiers to a single-target
     public void ApplyGameStartAdventureModifiers(Monster.AIType aIType)
     {
         List<Modifier> whatListShouldIUse;
@@ -498,7 +498,7 @@ public class AdventureManager : MonoBehaviour
                         Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
                         monster.speed += modifier.modifierAmount;
                         monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName}!");
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
                         break;
 
                     default:
@@ -625,7 +625,7 @@ public class AdventureManager : MonoBehaviour
     }
 
     // This function is called at Game Start by CombatManagerScript as it registers every Monster in Combat, before Round 1
-    public void ApplyAdventureModifiers(Monster monster, Monster.AIType aIType)
+    public void ApplyAdventureModifiers(Monster monster, GameObject monsterObj, Monster.AIType aIType)
     {
         List<Modifier> whatListShouldIUse; 
         // Apply ally or enemy modifiers?
@@ -645,19 +645,29 @@ public class AdventureManager : MonoBehaviour
             {
                 case Modifier.ModifierAdventureReference.WildFervor:
                     monster.critChance += modifier.modifierAmount;
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} critical chance was increased by {modifier.modifierName}.");
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} critical chance was increased by {modifier.modifierName} (+{modifier.modifierAmount}).");
                     break;
 
                 case Modifier.ModifierAdventureReference.TemperedOffense:
-                    monster.physicalAttack += Mathf.RoundToInt(monster.physicalAttack * (modifier.modifierAmount / 100f) + 1f);
-                    monster.magicAttack += Mathf.RoundToInt(monster.magicAttack * (modifier.modifierAmount / 100f) + 1f);
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} physical and magic attack was increased by {modifier.modifierName}.");
+                    int physicalAttackIncrease = Mathf.RoundToInt(monster.cachedPhysicalAttack * (modifier.modifierAmount / 100f) + 1f);
+                    monster.physicalAttack += physicalAttackIncrease;
+                    int magicAttackIncrease = Mathf.RoundToInt(monster.cachedMagicAttack * (modifier.modifierAmount / 100f) + 1f);
+                    monster.magicAttack += magicAttackIncrease;
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} physical and magic attack was increased by {modifier.modifierName} (+{physicalAttackIncrease}|+{magicAttackIncrease}).");
                     break;
 
                 case Modifier.ModifierAdventureReference.TemperedDefense:
-                    monster.physicalDefense += Mathf.RoundToInt(monster.physicalAttack * (modifier.modifierAmount / 100f) + 1f);
-                    monster.magicDefense += Mathf.RoundToInt(monster.magicAttack * (modifier.modifierAmount / 100f) + 1f);
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} physical and magic defense was increased by {modifier.modifierName}.");
+                    int physicalDefenseIncrease = Mathf.RoundToInt(monster.cachedPhysicalDefense * (modifier.modifierAmount / 100f) + 1f);
+                    monster.physicalDefense += physicalDefenseIncrease;
+                    int magicDefenseIncrease = Mathf.RoundToInt(monster.cachedMagicDefense * (modifier.modifierAmount / 100f) + 1f);
+                    monster.magicDefense += magicDefenseIncrease;
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} physical and magic defense was increased by {modifier.modifierName} (+{physicalDefenseIncrease}|+{magicDefenseIncrease}).");
+                    break;
+
+                case Modifier.ModifierAdventureReference.TenaciousGuard:
+                    AttackEffect temp = AttackEffect.CreateInstance<AttackEffect>();
+                    temp.CreateAndAddModifiers(0, false, monster, monsterObj, modifier.modifierDuration, monsterObj, modifier.statModified);
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} gained immunity to statuses and debuffs for 3 rounds!");
                     break;
 
                 default:
@@ -802,6 +812,11 @@ public class AdventureManager : MonoBehaviour
         if (adventureNGNumber >= 3)
         {
             ListOfEnemyModifiers.Add(subscreenManager.GetRandomModifier());
+
+            if (adventureNGNumber >= 5)
+            {
+                ListOfEnemyModifiers.Add(subscreenManager.GetRandomModifier());
+            }
         }
 
         // Clear lists

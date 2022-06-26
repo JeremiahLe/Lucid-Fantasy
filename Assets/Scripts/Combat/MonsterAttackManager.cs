@@ -98,6 +98,7 @@ public class MonsterAttackManager : MonoBehaviour
 
         buttonManagerScript.HideAllButtons("AttacksHUDButtons");
         buttonManagerScript.ShowButton("ConfirmButton");
+        buttonManagerScript.ShowButton("ReturnToAttacksButton");
 
         SetMonsterAttackDescriptionText(currentMonsterAttack.monsterAttackType);
     }
@@ -114,9 +115,9 @@ public class MonsterAttackManager : MonoBehaviour
                 currentMonsterAttackDescription.gameObject.SetActive(true);
                 currentMonsterAttackDescription.text = ($"{currentMonsterAttack.monsterAttackName}" +
                     $"\n{currentMonsterAttack.monsterAttackDescription}" +
-                    $"\nBuff Type: ({currentMonsterAttack.monsterAttackType.ToString()}) " +
+                    $"\nBuff/Debuff Type: {currentMonsterAttack.monsterAttackTargetType.ToString()} " +
                     $"| Accuracy: {currentMonsterAttack.monsterAttackAccuracy}% " +
-                    $"({currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy - combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.evasion}%)" +
+                    $"({ReturnProperAccuracyBasedOnTarget()}%)" +
                     $"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
                 TextBackImage.enabled = true;
                 TextBackImageBorder.enabled = true;
@@ -128,12 +129,28 @@ public class MonsterAttackManager : MonoBehaviour
                     $"\n{currentMonsterAttack.monsterAttackDescription}" +
                     $"\nBase Power: {currentMonsterAttack.monsterAttackDamage} (x{CheckElementWeakness(currentMonsterAttack.monsterAttackElement, combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference)}) ({currentMonsterAttack.monsterAttackDamageType.ToString()}) " +
                     $"| Accuracy: {currentMonsterAttack.monsterAttackAccuracy}% " +
-                    $"({currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy - combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.evasion}%)" +
+                    $"({ReturnProperAccuracyBasedOnTarget()}%)" +
                     $"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
                 TextBackImage.enabled = true;
                 TextBackImageBorder.enabled = true;
                 break;
         }
+    }
+
+    // This function returns the proper accuracy number if targeting ally or enemy
+    public float ReturnProperAccuracyBasedOnTarget()
+    {
+        float targetingEnemyAccuracy = currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy - combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.evasion;
+        float targetingAllyAccuracy = currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy;
+
+        // Are you targeting an ally? Do not show their evasion in accuracy calculation
+        if (combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Ally)
+        {
+            return targetingAllyAccuracy;
+        }
+
+        // Else, targeting enemy, show evasion in accuracy calculation
+        return targetingEnemyAccuracy;
     }
 
     // This function updates the targeted enemy text on screen
@@ -475,43 +492,44 @@ public class MonsterAttackManager : MonoBehaviour
             cachedTransform.y += 1;
         }
 
-        // Check miss?
+        // If the attack doesn't miss
         if (CheckAttackHit(false))
         {
+            // Calculate damage dealth and deal damage to targeted monster
             float calculatedDamage = CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
             currentTargetedMonster.health -= calculatedDamage;
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterDamageTakenThisRound += calculatedDamage;
 
+            // Play targeted monster hit animation
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().ShowDamageOrStatusEffectPopup(calculatedDamage);
             currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
 
+            // Play damage sound
             soundEffectManager.AddSoundEffectToQueue(HitSound);
             soundEffectManager.BeginSoundEffectQueue();
 
+            // Cache monster who used attack information
             Monster monsterWhoUsedAttack = currentMonsterTurn;
             GameObject monsterWhoUsedAttackGameObject = currentMonsterTurnGameObject;
 
+            // Cache monster who used attack health and track damage dealt
             monsterWhoUsedAttack.health = currentMonsterTurn.health;
             monsterWhoUsedAttack.cachedDamageDone += calculatedDamage;
 
+            // Trigger any post attack effects
             TriggerPostAttackEffects(monsterWhoUsedAttack);
 
             //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);
 
-            // Add to killcount if applicable
-            if (combatManagerScript.adventureMode && monsterWhoUsedAttack.aiType == Monster.AIType.Ally && monsterWhoUsedAttack != currentTargetedMonster)
-            {
-                if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.health <= 0)
-                {
-                    monsterWhoUsedAttack.monsterKills += 1;
-                    monsterWhoUsedAttackGameObject.GetComponent<CreateMonster>().GrantExp(15 * currentTargetedMonster.level);
-                }
-            }
-
+            // Check if damage killed target
+            CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject);
+            
+            // Remove targeter from above targeted monster's position
             combatManagerScript.monsterTargeter.SetActive(false);
             combatManagerScript.targeting = false;
 
+            // Call the next monster turn
             combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
         }
         else
@@ -582,15 +600,8 @@ public class MonsterAttackManager : MonoBehaviour
                 // End of turn stuff
                 currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);
 
-                // Add to killcount if applicable
-                if (combatManagerScript.adventureMode)
-                {
-                    if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.health <= 0)
-                    {
-                        monsterWhoUsedAttack.monsterKills += 1;
-                        monsterWhoUsedAttackGameObject.GetComponent<CreateMonster>().GrantExp(15 * currentTargetedMonster.level);
-                    }
-                }
+                // Check if damage dealt killed current targeted monster
+                CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject);
 
                 combatManagerScript.monsterTargeter.SetActive(false);
                 combatManagerScript.targeting = false;
@@ -609,6 +620,20 @@ public class MonsterAttackManager : MonoBehaviour
         // Out of loop, next turn
         ClearCachedModifiers();
         combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+    }
+
+    // This function checks if the damage dealt killed the monster
+    public void CheckIfDamagedKilledMonster(Monster monsterWhoUsedAttack, GameObject monsterWhoUsedAttackGameObject)
+    {
+        // Add to killcount if applicable
+        if (combatManagerScript.adventureMode && monsterWhoUsedAttack.aiType == Monster.AIType.Ally && monsterWhoUsedAttack != currentTargetedMonster)
+        {
+            if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.health <= 0)
+            {
+                monsterWhoUsedAttack.monsterKills += 1;
+                monsterWhoUsedAttackGameObject.GetComponent<CreateMonster>().GrantExp(12 * currentTargetedMonster.level);
+            }
+        }
     }
 
     // This function is called when an attack misses
@@ -916,6 +941,7 @@ public class MonsterAttackManager : MonoBehaviour
         combatManagerScript.monsterTargeter.SetActive(false);
     }
 
+    #region Old Code
     // This function uses the current move to deal damage to the other targets (should be called initial hit)
     /*public void DealDamageOthers(GameObject otherSpecificTarget)
     {
@@ -993,4 +1019,5 @@ public class MonsterAttackManager : MonoBehaviour
             monsterAttackMissText.transform.position = cachedTransform;
         }
     }*/
+    #endregion
 }

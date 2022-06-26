@@ -11,6 +11,7 @@ public class ButtonManagerScript : MonoBehaviour
     public GameObject AttacksButton;
     public GameObject AutoBattleButton;
     public GameObject PassButton;
+    public GameObject ReturnToAttacksButton;
 
     public GameObject Attack1Button;
     public GameObject Attack2Button;
@@ -74,6 +75,7 @@ public class ButtonManagerScript : MonoBehaviour
     public void ManualHideButtons()
     {
         //HideButton(ConfirmButton);
+        HideButton(ReturnToAttacksButton);
     }
 
     // This function manually hides a button in start
@@ -92,6 +94,9 @@ public class ButtonManagerScript : MonoBehaviour
                 break;
             case "BackButton":
                 BackButton.SetActive(true);
+                break;
+            case "ReturnToAttacksButton":
+                ReturnToAttacksButton.SetActive(true);
                 break;
             default:
                 Debug.Log("Incorrect or missing button name or reference", this);
@@ -241,5 +246,17 @@ public class ButtonManagerScript : MonoBehaviour
                 }
             }
         }
+    }
+
+    // This function returns to the attack moves
+    public void ReturnToAttackMoves()
+    {
+        // Hide attack description container
+        monsterAttackManager.ResetHUD();
+
+        // Redisplay attack moves and hide the back button
+        HideAllButtons("AttacksHUDButtons");
+        DisplayAttackMoves();
+        HideButton(ReturnToAttacksButton);
     }
 }

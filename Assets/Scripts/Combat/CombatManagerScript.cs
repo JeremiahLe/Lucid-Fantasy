@@ -240,7 +240,7 @@ public class CombatManagerScript : MonoBehaviour
             {
                 Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
 
-                adventureManager.ApplyAdventureModifiers(monster, Monster.AIType.Ally);
+                adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Ally);
                 monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
                 monsterObj.GetComponent<CreateMonster>().CheckAdventureEquipment();
             }
@@ -251,7 +251,7 @@ public class CombatManagerScript : MonoBehaviour
             foreach (GameObject monsterObj in ListOfEnemies)
             {
                 Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
-                adventureManager.ApplyAdventureModifiers(monster, Monster.AIType.Enemy);
+                adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Enemy);
                 monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
                 monsterObj.GetComponent<CreateMonster>().CheckAdventureEquipment();
             }
@@ -953,7 +953,7 @@ public class CombatManagerScript : MonoBehaviour
                 {
                     if (monsterObj != null)
                     {
-                        monsterObj.GetComponent<CreateMonster>().GrantExp(Mathf.RoundToInt(.25f * monsterObj.GetComponent<CreateMonster>().monsterReference.monsterExpToNextLevel));
+                        monsterObj.GetComponent<CreateMonster>().GrantExp(Mathf.RoundToInt(.10f * monsterObj.GetComponent<CreateMonster>().monsterReference.monsterExpToNextLevel));
                     }
                 }
 

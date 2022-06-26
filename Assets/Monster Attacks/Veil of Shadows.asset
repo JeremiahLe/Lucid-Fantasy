@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterAttackName: Veil of Shadows
   monsterAttackDescription: "Cast a veil of protective shadows over a target, giving
-    them immunity to \ndebuffs and status effects for 3 rounds."
+    them immunity to \ndebuffs and status effects."
   monsterAttackElement: 4
   monsterAttackType: 1
   monsterAttackDamageType: 1

@@ -712,6 +712,13 @@ public class AttackEffect : ScriptableObject
                 if (modifierCalledOnce == false)
                 {
                     modifierCalledOnce = true;
+
+                    // Check if immune to skip modifiers
+                    if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+                    {
+                        return;
+                    }
+
                     LowerOffensiveStats(monsterReference, monsterAttackManager, monsterReferenceGameObject);
                 }
             }
@@ -1339,7 +1346,7 @@ public class AttackEffect : ScriptableObject
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} gained immunity to status effects and debuffs!");
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Debuff and Status Immunity!");
+        //monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Debuff and Status Immunity!");
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
@@ -1362,7 +1369,7 @@ public class AttackEffect : ScriptableObject
                 // Send immune message to combat log
                 combatManagerScript = monsterAttackManager.combatManagerScript;
                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to status effects and debuffs!");
-                monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune");
+                monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
                 return true;
             }
             else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges && statChangeType != StatChangeType.None)
@@ -1370,7 +1377,7 @@ public class AttackEffect : ScriptableObject
                 // Send immune message to combat log
                 combatManagerScript = monsterAttackManager.combatManagerScript;
                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to stat changes! Its {statEnumToChange} cannot be effected!");
-                monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune");
+                monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
                 return true;
             }
         }
@@ -1464,6 +1471,36 @@ public class AttackEffect : ScriptableObject
 
     // Create and Add modifiers
     public void CreateAndAddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj, int duration, GameObject monsterOwnerGameObject)
+    {
+        // First check if not buff
+        if (statDecrease)
+        {
+            toValue *= -1;
+        }
+
+        // Create and Apply modifier
+        Modifier mod = CreateInstance<Modifier>();
+        mod.modifierSource = name;
+        mod.statModified = statEnumToChange;
+        mod.modifierAmount = toValue;
+        mod.modifierDuration = duration;
+        mod.modifierCurrentDuration = duration;
+        mod.modifierOwnerGameObject = monsterOwnerGameObject;
+        mod.modifierOwner = monsterOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
+        if (duration > 0)
+        {
+            mod.modifierDurationType = Modifier.ModifierDurationType.Temporary;
+        }
+        else
+        {
+            mod.modifierDurationType = Modifier.ModifierDurationType.Permanent;
+        }
+        monster.ListOfModifiers.Add(mod);
+        monsterObj.GetComponent<CreateMonster>().ModifyStats(statEnumToChange, mod);
+    }
+
+    // Create and Add modifiers - New Stat
+    public void CreateAndAddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj, int duration, GameObject monsterOwnerGameObject, StatEnumToChange statEnumToChange)
     {
         // First check if not buff
         if (statDecrease)

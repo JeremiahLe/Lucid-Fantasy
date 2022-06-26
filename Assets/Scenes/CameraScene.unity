@@ -549,6 +549,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &289805554 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6169910257255532271, guid: ee95256833b0bc54bab8ec04a3b1517d, type: 3}
+  m_PrefabInstance: {fileID: 6169910255400159881}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &377841557 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5462754220034899461, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
@@ -2787,11 +2792,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6169910255325181090, guid: ee95256833b0bc54bab8ec04a3b1517d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.0012702942
+      value: -0.0010261536
       objectReference: {fileID: 0}
     - target: {fileID: 6169910255325181090, guid: ee95256833b0bc54bab8ec04a3b1517d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 228.84625
+      value: 228.84772
       objectReference: {fileID: 0}
     - target: {fileID: 6169910256103596365, guid: ee95256833b0bc54bab8ec04a3b1517d, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2865,6 +2870,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6169910256888872257, guid: ee95256833b0bc54bab8ec04a3b1517d, type: 3}
+      propertyPath: ReturnToAttacksButton
+      value: 
+      objectReference: {fileID: 289805554}
     - target: {fileID: 6169910256888872258, guid: ee95256833b0bc54bab8ec04a3b1517d, type: 3}
       propertyPath: monsterTargeter
       value: 

@@ -13,16 +13,19 @@ MonoBehaviour:
   m_Name: Witch Hems
   m_EditorClassIdentifier: 
   modifierSource: 
+  modifierOwnerGameObject: {fileID: 0}
+  modifierOwner: {fileID: 0}
   modifierDurationType: 1
   statModified: 3
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 12
+  modifierAmount: 7
+  modifierAmountFlatBuff: 0
   statusEffect: 0
   statusEffectType: 0
   modifierName: Witch Hems
   modifierAdventureReference: 0
-  modifierDescription: +12% Magic Attack
+  modifierDescription: +7% Magic Attack
   adventureModifier: 0
   adventureEquipment: 1
   modifierAdventureCallTime: 0

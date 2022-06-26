@@ -17,6 +17,7 @@ public class SubscreenManager : MonoBehaviour
     public GameObject FightButton;
     public GameObject EnterNewGameButton;
     public GameObject RestartGameButton;
+    public GameObject SkipButton;
 
     public AdventureManager.RewardType thisRewardType;
 
@@ -52,6 +53,7 @@ public class SubscreenManager : MonoBehaviour
     {
         rerollsLeftText.text = ($"Rerolls left: {adventureManager.rerollAmount}");
         RerollButton.SetActive(true);
+        SkipButton.SetActive(true);
 
         switch (rewardType)
         {
@@ -122,6 +124,7 @@ public class SubscreenManager : MonoBehaviour
     {
         rerollsLeftText.text = ("");
         RerollButton.SetActive(false);
+        SkipButton.SetActive(false);
 
         foreach (GameObject rewardSlot in listOfRewardSlots)
         {
@@ -160,7 +163,7 @@ public class SubscreenManager : MonoBehaviour
         {
             if (adventureManager.currentSelectedNode.GetComponent<CreateNode>().nodeType == CreateNode.NodeType.Boss && !bossAdded)
             {
-                adventureManager.ListOfEnemyBattleMonsters.Add(GetBossMonster(adventureManager.adventureBoss, 5 + (2 * adventureManager.adventureNGNumber))); // difficulty scaled
+                adventureManager.ListOfEnemyBattleMonsters.Add(GetBossMonster(adventureManager.adventureBoss, 5 + (5 * adventureManager.adventureNGNumber))); // difficulty scaled
                 BattleImage.GetComponent<Image>().sprite = adventureManager.adventureBoss.baseSprite;
                 BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle: Boss + Random" +
                 $"\nEnemies present: {randomBattleMonsterCount}" +
@@ -282,7 +285,13 @@ public class SubscreenManager : MonoBehaviour
             return 1;
         }
 
-        return Random.Range(2, 4);
+        // Always two enemies for the boss fight
+        if (adventureManager.adventureNGNumber == 1)
+        {
+            return 2;
+        }
+
+        return Random.Range(2, 5);
     }
 
     // This function determines hpw many monsters the player can bring into battle
@@ -291,11 +300,6 @@ public class SubscreenManager : MonoBehaviour
         if (adventureManager.ListOfCurrentMonsters.Count == 1)
         {
             return 1;
-        }
-
-        if (adventureManager.ListOfCurrentMonsters.Count == 3)
-        {
-            return 3;
         }
 
         return Random.Range(2, 5);
@@ -350,7 +354,7 @@ public class SubscreenManager : MonoBehaviour
 
         // random stats 
         randMonster.level = GetMonsterRandomLevelRange() + scaledLevel;
-        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) * (randMonster.healthScaler + 0.1f * adventureManager.adventureNGNumber));
+        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) * (randMonster.healthScaler + 0.25f * adventureManager.adventureNGNumber));
         randMonster.maxHealth = randMonster.health;
 
         randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) * randMonster.physicalAttackScaler);
@@ -381,7 +385,7 @@ public class SubscreenManager : MonoBehaviour
 
         // bonus stats
         newMonster.level = level;
-        newMonster.health += Mathf.RoundToInt((newMonster.health + newMonster.level) * 1.05f);
+        newMonster.health += Mathf.RoundToInt((newMonster.health + newMonster.level) * 1.85f);
         newMonster.maxHealth = newMonster.health;
 
         newMonster.physicalAttack = Mathf.RoundToInt((newMonster.physicalAttack + newMonster.level - 5) * newMonster.physicalAttackScaler);
@@ -548,5 +552,18 @@ public class SubscreenManager : MonoBehaviour
 
             LoadRewardSlots(thisRewardType);
         } 
+    }
+
+    // This function skips the reward screen
+    public void SkipRewards()
+    {
+        if (adventureManager.ListOfAllMonsters.Count == 0)
+        {
+            titleText.text = ("Please select a starting monster!");
+            return;
+        }
+
+        adventureManager.SubscreenMenu.SetActive(false);
+        adventureManager.ActivateNextNode();
     }
 }

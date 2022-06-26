@@ -589,6 +589,8 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatEnumToChange.Debuffs):
                 monsterImmuneToDebuffs = true;
+                // Create popup
+                CreateStatusEffectPopup("Debuff and Status Immunity!");
                 break;
 
             case (AttackEffect.StatEnumToChange.StatChanges):
@@ -692,7 +694,7 @@ public class CreateMonster : MonoBehaviour
         }
 
         // Send log message
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statToModify} was increased by {modifier.modifierName}!", monsterReference.aiType);
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statToModify} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!", monsterReference.aiType);
     }
 
     // This function inflicts statuses
@@ -745,14 +747,14 @@ public class CreateMonster : MonoBehaviour
             monsterIsBurning = false;
 
             // Check for status or ability kills
-            if (killedExternally && combatManagerScript.adventureMode)
+            if (killedExternally && combatManagerScript.adventureMode && aiType != Monster.AIType.Ally)
             {
                 if (externalKillerGameObject == null)
                 {
-                    externalKillerGameObject = combatManagerScript.GetRandomTarget(combatManagerScript.ListOfAllys);
+                    externalKillerGameObject = combatManagerScript.ListOfAllyPositions[0]; // Monster in first position
                 }
                 externalKillerGameObject.GetComponent<CreateMonster>().monsterReference.monsterKills += 1;
-                externalKillerGameObject.GetComponent<CreateMonster>().GrantExp(15 * monsterReference.level);
+                externalKillerGameObject.GetComponent<CreateMonster>().GrantExp(12 * monsterReference.level);
             }
 
             combatManagerScript.RemoveMonsterFromList(gameObject, monsterReference.aiType);
