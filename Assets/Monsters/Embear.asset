@@ -52,6 +52,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  - {fileID: 11400000, guid: 8ad79bc568b7a0745a1c25260fd26dc0, type: 2}
   cachedPhysicalAttack: 5
   cachedMagicAttack: 6
   cachedPhysicalDefense: 3
@@ -59,6 +60,7 @@ MonoBehaviour:
   cachedSpeed: 3
   cachedEvasion: 0
   cachedCritChance: 0
+  cachedBonusAccuracy: 0
   cachedLevel: 0
   cachedDamageDone: 0
   monsterKills: 0

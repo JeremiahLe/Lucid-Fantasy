@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
+  m_Name: Rockcrash
+  m_EditorClassIdentifier: 
+  monsterAttackName: Rockcrash
+  monsterAttackDescription: "Crumble a target under ferocious rocks. Deals additional
+    damage based on 135% of the user's Physical Defense. \nDeals 15% max health recoil
+    damage to the user."
+  monsterAttackElement: 11
+  monsterAttackType: 0
+  monsterAttackDamageType: 0
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 0
+  monsterAttackSoundEffect: {fileID: 8300000, guid: b3b4c9672f9eb1f46b762db436abbfe3, type: 3}
+  monsterAttackDamage: 55
+  monsterAttackFlatDamageBonus: 0
+  monsterAttackAccuracy: 80
+  monsterAttackCritChance: 10
+  monsterAttackNeverMiss: 0
+  attackHasCooldown: 0
+  attackOnCooldown: 0
+  attackBaseCooldown: 0
+  attackCurrentCooldown: 0
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: e4f89ed873279bc4b8a1e607b84132a8, type: 2}
+  - {fileID: 11400000, guid: 4fb325ee5f4c8af4293d2fed6d5a6027, type: 2}

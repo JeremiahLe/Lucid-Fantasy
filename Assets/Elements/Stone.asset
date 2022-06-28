@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Stone
   m_EditorClassIdentifier: 
   element: 11
-  listOfWeaknesses: 0100000002000000030000000c000000080000000b000000
-  listOfResistances: 000000000a00000007000000
+  listOfWeaknesses: 01000000020000000c00000008000000
+  listOfResistances: 000000000a000000070000000b000000

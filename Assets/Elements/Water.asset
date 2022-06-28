@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Water
   m_EditorClassIdentifier: 
   element: 1
-  listOfWeaknesses: 0000000002000000090000000a000000
-  listOfResistances: 010000000c000000
+  listOfWeaknesses: 02000000090000000a000000
+  listOfResistances: 010000000c00000000000000

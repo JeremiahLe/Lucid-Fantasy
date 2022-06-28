@@ -32,11 +32,10 @@ public class MonsterStatScreenScript : MonoBehaviour
             if (!monster.monsterElement.listOfResistances.Contains(element) && !monster.monsterSubElement.listOfResistances.Contains(element))
             {
                 monsterInfo.text += ($"{element.ToString()}");
-            }
-       
-            if (monster.monsterElement.listOfWeaknesses.IndexOf(element) != monster.monsterElement.listOfWeaknesses.Count - 1)
-            {
-                monsterInfo.text += ($", ");
+                if (monster.monsterElement.listOfWeaknesses.IndexOf(element) != monster.monsterElement.listOfWeaknesses.Count - 1)
+                {
+                    monsterInfo.text += ($", ");
+                }
             }
         }
 
@@ -47,11 +46,10 @@ public class MonsterStatScreenScript : MonoBehaviour
             if (!monster.monsterElement.listOfWeaknesses.Contains(element) && !monster.monsterSubElement.listOfWeaknesses.Contains(element))
             {
                 monsterInfo.text += ($"{element.ToString()}");
-            }
-
-            if (monster.monsterElement.listOfResistances.IndexOf(element) != monster.monsterElement.listOfResistances.Count - 1)
-            {
-                monsterInfo.text += ($", ");
+                if (monster.monsterElement.listOfResistances.IndexOf(element) != monster.monsterElement.listOfResistances.Count - 1)
+                {
+                    monsterInfo.text += ($", ");
+                }
             }
         }
 

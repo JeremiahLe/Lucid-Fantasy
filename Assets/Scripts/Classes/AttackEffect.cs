@@ -987,6 +987,13 @@ public class AttackEffect : ScriptableObject
         monsterReference = monsterAttackManager.currentTargetedMonster;
         monsterReferenceGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
 
+        // If the effect applies to user
+        if (inflictSelf)
+        {
+            monsterReference = monsterAttackManager.currentMonsterTurn;
+            monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+        }
+
         // Calculate buff
         float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);
         float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
@@ -998,6 +1005,12 @@ public class AttackEffect : ScriptableObject
         if (flatBuff)
         {
             toValue = amountToChange;
+        }
+
+        // Check if health debuff to x (toValue) percentage of max health
+        if (statEnumToChange == StatEnumToChange.MaxHealth)
+        {
+            statEnumToChange = StatEnumToChange.Health;
         }
 
         // Check if immune to skip modifiers
@@ -1025,6 +1038,16 @@ public class AttackEffect : ScriptableObject
             return;
         }
 
+        // Check if certain stat change reaches upper cap
+        if (statEnumToChange == StatEnumToChange.Health && monsterReference.health == monsterReference.maxHealth)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
+            return;
+        }
+
         // Add modifiers
         CreateAndAddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration, monsterAttackManager.currentMonsterTurnGameObject);
 
@@ -1034,7 +1057,16 @@ public class AttackEffect : ScriptableObject
         monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(statEnumToChange, true);
 
         // Update monster's stats
-        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+        // Update monster's stats
+        if (statEnumToChange == StatEnumToChange.Health)
+        {
+            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false); // if health changed, check health
+        }
+        else
+        {
+            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+        }
+
         monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
         // Update combat order if speed was adjusted
@@ -1050,6 +1082,13 @@ public class AttackEffect : ScriptableObject
         // Grab new refs?
         monsterReference = monsterAttackManager.currentTargetedMonster;
         monsterReferenceGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
+
+        // If the effect applies to user
+        if (inflictSelf)
+        {
+            monsterReference = monsterAttackManager.currentMonsterTurn;
+            monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+        }
 
         // Calculate debuff
         float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);

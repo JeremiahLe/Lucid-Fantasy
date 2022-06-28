@@ -408,6 +408,11 @@ public class CreateMonster : MonoBehaviour
     // This function checks stat caps
     public void CheckStatsCap()
     {
+        if (monsterReference.health > monsterReference.maxHealth)
+        {
+            monsterReference.health = monsterReference.maxHealth;
+        }
+
         if (monsterReference.speed < 1)
         {
             monsterReference.speed = 1;
