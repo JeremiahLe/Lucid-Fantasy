@@ -14,17 +14,48 @@ public class MonsterStatScreenScript : MonoBehaviour
 
     public void DisplayMonsterStatScreenStats(Monster monster)
     {
+        // Display monster image
         monsterImage.sprite = monster.baseSprite;
 
-        monsterInfo.text = 
+        // Display monster level, exp, and ability
+        monsterInfo.text =
             ($"{monster.name} Lvl.{monster.level}" +
             $" | Exp: {monster.monsterCurrentExp}/{monster.monsterExpToNextLevel}" +
             $"\nElements: {monster.monsterElement.element.ToString()}/{monster.monsterSubElement.element.ToString()}" +
-            $"\nWeak To: None" +
-            $"\nResists: None" +
             $"\n\nAbility: AbilityName" +
             $"\nAbilityDescription");
 
+        // Display monster elemental weaknesses- make sure it doesn't override resistances
+        monsterInfo.text += ("\n\nWeaknesses: ");
+        foreach(var element in monster.monsterElement.listOfWeaknesses)
+        {
+            if (!monster.monsterElement.listOfResistances.Contains(element) && !monster.monsterSubElement.listOfResistances.Contains(element))
+            {
+                monsterInfo.text += ($"{element.ToString()}");
+            }
+       
+            if (monster.monsterElement.listOfWeaknesses.IndexOf(element) != monster.monsterElement.listOfWeaknesses.Count - 1)
+            {
+                monsterInfo.text += ($", ");
+            }
+        }
+
+        // Display monster elemental resistances - make sure it doesn't override weaknesess
+        monsterInfo.text += ("\n\nResistances: ");
+        foreach (var element in monster.monsterElement.listOfResistances)
+        {
+            if (!monster.monsterElement.listOfWeaknesses.Contains(element) && !monster.monsterSubElement.listOfWeaknesses.Contains(element))
+            {
+                monsterInfo.text += ($"{element.ToString()}");
+            }
+
+            if (monster.monsterElement.listOfResistances.IndexOf(element) != monster.monsterElement.listOfResistances.Count - 1)
+            {
+                monsterInfo.text += ($", ");
+            }
+        }
+
+        // Display monster combat stats
         monsterStats.text =
             ($"- Stats -" +
             $"\nHp: {monster.health}/{monster.maxHealth}" +
@@ -36,8 +67,8 @@ public class MonsterStatScreenScript : MonoBehaviour
             $"\nEvasion: {monster.evasion}" +
             $"\nCritChance: {monster.critChance}");
 
+        // Display monster attacks
         monsterAttacks.text = ("- Attacks -");
-
         foreach(MonsterAttack attack in monster.ListOfMonsterAttacks)
         {
             monsterAttacks.text += 
@@ -47,8 +78,8 @@ public class MonsterStatScreenScript : MonoBehaviour
                 $"\n{attack.monsterAttackDescription}\n");
         }
 
+        // Display monster equipment
         monsterEquipment.text = ("Equipment:");
-
         foreach (Modifier equipment in monster.ListOfModifiers)
         {
             if (equipment.adventureEquipment)
