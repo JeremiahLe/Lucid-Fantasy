@@ -798,7 +798,7 @@ public class AttackEffect : ScriptableObject
                 return monsterRef.maxHealth;
 
             case (StatEnumToChange.Health):
-                return monsterRef.health;
+                return monsterRef.maxHealth;
 
             default:
                 Debug.Log("Missing stat or monster reference?", this);
@@ -1007,12 +1007,6 @@ public class AttackEffect : ScriptableObject
             toValue = amountToChange;
         }
 
-        // Check if health debuff to x (toValue) percentage of max health
-        if (statEnumToChange == StatEnumToChange.MaxHealth)
-        {
-            statEnumToChange = StatEnumToChange.Health;
-        }
-
         // Check if immune to skip modifiers
         if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
         {
@@ -1056,7 +1050,6 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
         monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(statEnumToChange, true);
 
-        // Update monster's stats
         // Update monster's stats
         if (statEnumToChange == StatEnumToChange.Health)
         {
