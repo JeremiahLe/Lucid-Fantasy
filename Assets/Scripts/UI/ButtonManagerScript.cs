@@ -139,7 +139,8 @@ public class ButtonManagerScript : MonoBehaviour
             HideButton(ConfirmQuitButton);
             HideButton(ContinueButton);
             QuitButton.SetActive(false);
-        }
+            ReturnToAttacksButton.SetActive(false);
+}
     }
 
     // This function resets the HUD to a default state for use with in-game buttons

@@ -275,6 +275,8 @@ public class SubscreenManager : MonoBehaviour
 
             i++;
         }
+
+        ConfirmEquipmentButton.SetActive(false);
     }
 
     // This function determines how many enemy monsters will populate a battle
@@ -314,7 +316,7 @@ public class SubscreenManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             MonsterAttack randomAttack = randMonster.ListOfMonsterAttacksAvailable[Random.Range(0, randMonster.ListOfMonsterAttacksAvailable.Count)];
-            randMonster.ListOfMonsterAttacks[i] = randomAttack;
+            randMonster.ListOfMonsterAttacks[i] = Instantiate(randomAttack);
             randMonster.ListOfMonsterAttacksAvailable.Remove(randomAttack);
         }
 
@@ -348,7 +350,7 @@ public class SubscreenManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             MonsterAttack randomAttack = randMonster.ListOfMonsterAttacksAvailable[Random.Range(0, randMonster.ListOfMonsterAttacksAvailable.Count)];
-            randMonster.ListOfMonsterAttacks[i] = randomAttack;
+            randMonster.ListOfMonsterAttacks[i] = Instantiate(randomAttack);
             randMonster.ListOfMonsterAttacksAvailable.Remove(randomAttack);
         }
 
@@ -379,7 +381,7 @@ public class SubscreenManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             MonsterAttack randomAttack = newMonster.ListOfMonsterAttacksAvailable[Random.Range(0, newMonster.ListOfMonsterAttacksAvailable.Count)];
-            newMonster.ListOfMonsterAttacks[i] = randomAttack;
+            newMonster.ListOfMonsterAttacks[i] = Instantiate(randomAttack);
             newMonster.ListOfMonsterAttacksAvailable.Remove(randomAttack);
         }
 
@@ -562,6 +564,9 @@ public class SubscreenManager : MonoBehaviour
             titleText.text = ("Please select a starting monster!");
             return;
         }
+
+        HideRewardSlots();
+        ShowAlliedMonstersAvailableEquipment(false);
 
         adventureManager.SubscreenMenu.SetActive(false);
         adventureManager.ActivateNextNode();

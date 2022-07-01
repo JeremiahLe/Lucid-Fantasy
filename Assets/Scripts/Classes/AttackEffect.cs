@@ -256,8 +256,8 @@ public class AttackEffect : ScriptableObject
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
                     monsterAttackManager.currentTargetedMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster; // fix fan the flames bug?
-                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
-                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                    targetMonster = monsterAttackManager.currentMonsterTurn; // fixed fan the flames bug incorrect monster getting bonus
+                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
                     BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                 }
                 break;

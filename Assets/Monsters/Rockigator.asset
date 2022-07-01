@@ -19,20 +19,20 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   level: 5
-  health: 120
-  maxHealth: 120
+  health: 105
+  maxHealth: 105
   cachedHealth: 0
   cachedMaxHealth: 0
-  physicalAttack: 10
+  physicalAttack: 6
   magicAttack: 1
-  physicalDefense: 8
+  physicalDefense: 9
   magicDefense: 1
   speed: 1
   evasion: 0
   critChance: 0
   critDamage: 1.5
   bonusAccuracy: 0
-  healthScaler: 1.05
+  healthScaler: 1.04
   physicalAttackScaler: 1.04
   magicAttackScaler: 1.01
   physicalDefenseScaler: 1.05
@@ -52,6 +52,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
   - {fileID: 11400000, guid: afdf11b26157c964c8ecd906ac035879, type: 2}
   - {fileID: 11400000, guid: cc536f67b15c3c2439e97a1afe2ac480, type: 2}
+  - {fileID: 11400000, guid: a254d83bf6aa59b47aea09d61304b2e6, type: 2}
   cachedPhysicalAttack: 10
   cachedMagicAttack: 1
   cachedPhysicalDefense: 8

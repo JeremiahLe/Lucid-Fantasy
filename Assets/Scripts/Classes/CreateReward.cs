@@ -41,6 +41,12 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         {
             if (rewardType == AdventureManager.RewardType.Monster)
             {
+                if (adventureManager.ListOfCurrentMonsters.Count == 4)
+                {
+                    adventureManager.subScreenMenuText.text = ($"Monster limit reached!");
+                    return;
+                }
+
                 adventureManager.ListOfCurrentMonsters.Add(monsterReward);
                 adventureManager.ListOfAllMonsters.Add(monsterReward);
                 monsterReward = null;

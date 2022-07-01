@@ -9,6 +9,14 @@ using System.Linq;
 
 public class AdventureManager : MonoBehaviour
 {
+    [Title("Helper Functions")]
+    [Button(50)]
+    public void AddRerolls()
+    {
+        rerollAmount += 100;
+        subscreenManager.rerollsLeftText.text = ($"Rerolls left: {rerollAmount}");
+    }
+
     [Title("Bools")]
     public bool adventureBegin = false;
     public bool AdventureMode = false;

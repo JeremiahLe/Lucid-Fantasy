@@ -19,13 +19,13 @@ MonoBehaviour:
   statModified: 7
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 7
+  modifierAmount: 5
   modifierAmountFlatBuff: 1
   statusEffect: 0
   statusEffectType: 0
   modifierName: Shadow Mask
   modifierAdventureReference: 0
-  modifierDescription: +7 Evasion
+  modifierDescription: +5 Evasion
   adventureModifier: 0
   adventureEquipment: 1
   modifierAdventureCallTime: 0

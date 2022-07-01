@@ -8,9 +8,14 @@ public class MonstersSubScreenManager : MonoBehaviour
 {
     public List<GameObject> listOfMonsterSlots;
     public AdventureManager adventureManager;
+    public TextMeshProUGUI monsterAmountText;
 
     public void ShowAvailableMonsters()
     {
+        monsterAmountText.text =
+            ($"Monsters: ({adventureManager.ListOfCurrentMonsters.Count}/4)" +
+            $"\n[Right-click for more info.]");
+
         // Show allied monsters
         int i = 0;
         foreach (GameObject monsterSlot in listOfMonsterSlots)
@@ -33,6 +38,24 @@ public class MonstersSubScreenManager : MonoBehaviour
             }
 
             i++;
+        }
+    }
+
+    public void ShowAvailableModifiers()
+    {
+        // Hide monster slots
+        foreach (GameObject monsterSlot in listOfMonsterSlots)
+        {
+            monsterSlot.SetActive(false);
+        }
+
+        monsterAmountText.text =
+            ($"Current Modifiers:");
+
+        foreach (Modifier modifier in adventureManager.ListOfCurrentModifiers)
+        {
+            monsterAmountText.text +=
+               ($"\n{modifier.modifierName} - {modifier.modifierDescription}");
         }
     }
 }

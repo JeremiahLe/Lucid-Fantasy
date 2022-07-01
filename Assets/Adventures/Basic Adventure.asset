@@ -15,6 +15,6 @@ MonoBehaviour:
   adventureName: Basic Adventure
   adventureDifficulty: 1
   adventureDescription: "Basic adventure. Varying difficulty. Everything is random.
-    \nAverage Clear Time: ~ 3 minutes\nBoss: Windwoof"
+    \nAverage Clear Time: ~ 3 minutes per Run\nBoss: Windwoof"
   adventureIcon: {fileID: 21300000, guid: ff89f168bae13b14f9e2c759a24bbd2a, type: 3}
   adventureBoss: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}

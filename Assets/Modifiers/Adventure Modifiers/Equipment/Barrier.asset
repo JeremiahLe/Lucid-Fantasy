@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
-  m_Name: Soldier's Sword
+  m_Name: Barrier
   m_EditorClassIdentifier: 
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
   modifierDurationType: 1
-  statModified: 2
+  statModified: 5
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 7
-  modifierAmountFlatBuff: 0
+  modifierAmount: 5
+  modifierAmountFlatBuff: 1
   statusEffect: 0
   statusEffectType: 0
-  modifierName: Soldier's Sword
+  modifierName: Barrier
   modifierAdventureReference: 0
-  modifierDescription: +7% Physical Attack
+  modifierDescription: +5 Magic Defense
   adventureModifier: 0
   adventureEquipment: 1
   modifierAdventureCallTime: 0
   modifierRarity: 1
-  baseSprite: {fileID: 21300000, guid: 0429cbe801487ec42abc604843297955, type: 3}
+  baseSprite: {fileID: 21300000, guid: 3b1cc9d238eb91042aff8e1b3ac1241d, type: 3}

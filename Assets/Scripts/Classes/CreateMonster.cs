@@ -83,6 +83,7 @@ public class CreateMonster : MonoBehaviour
     public Animator monsterAnimator;
     public CombatManagerScript combatManagerScript;
     public MonsterAttackManager monsterAttackManager;
+    public ParticleSystem LevelUp_VFX;
 
     // Start
     private void Start()
@@ -190,6 +191,19 @@ public class CreateMonster : MonoBehaviour
             {
                 MonsterAttack attackInstance = Instantiate(attack);
                 monsterReference.ListOfMonsterAttacks.Add(attackInstance);
+                
+            }
+        }
+        else
+        {
+            // Reset cooldowns at battle start in adventure mode
+            foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
+            {
+                if (attack.attackHasCooldown)
+                {
+                    attack.attackOnCooldown = false;
+                    attack.attackCurrentCooldown = attack.attackBaseCooldown;
+                }
             }
         }
     }
@@ -351,6 +365,7 @@ public class CreateMonster : MonoBehaviour
         // Show level up animation
         if (levelUpOnce)
         {
+            LevelUp_VFX.Play();
             CreateStatusEffectPopup("Level Up!!!");
             monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.LevelUpSound);
         }

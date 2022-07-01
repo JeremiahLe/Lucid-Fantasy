@@ -10,26 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
-  m_Name: Naptime
+  m_Name: Rockjaw
   m_EditorClassIdentifier: 
-  monsterAttackName: Naptime
-  monsterAttackDescription: Take a quick catnap, healing the user by 45% of their
-    max health but slowing them by 40% for 2 rounds.
-  monsterAttackElement: 5
-  monsterAttackType: 1
-  monsterAttackDamageType: 1
+  monsterAttackName: Rockjaw
+  monsterAttackDescription: "Crunch a target in rocky jaws, dealing damage. Has a
+    35% to lower the \ntarget's Physical Defense by 35%."
+  monsterAttackElement: 11
+  monsterAttackType: 0
+  monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
-  monsterAttackTargetType: 2
-  monsterAttackSoundEffect: {fileID: 8300000, guid: e726029f8957257438be8f291abeea14, type: 3}
-  monsterAttackDamage: 0
+  monsterAttackTargetType: 3
+  monsterAttackSoundEffect: {fileID: 8300000, guid: b3b4c9672f9eb1f46b762db436abbfe3, type: 3}
+  monsterAttackDamage: 35
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 0
+  monsterAttackCritChance: 10
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0
   attackBaseCooldown: 0
   attackCurrentCooldown: 0
   ListOfAttackEffects:
-  - {fileID: 11400000, guid: 253bf1a4c597ca1488f16d156ccf3da3, type: 2}
-  - {fileID: 11400000, guid: 87b675f38e89f04488c5c691137cddde, type: 2}
+  - {fileID: 11400000, guid: 7374d1215d97872428e2da6dfbcaf619, type: 2}
