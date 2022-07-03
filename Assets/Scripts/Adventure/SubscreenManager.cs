@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class SubscreenManager : MonoBehaviour
 {
@@ -322,18 +323,18 @@ public class SubscreenManager : MonoBehaviour
 
         // random stats 
         randMonster.level = GetMonsterRandomLevelRange();
-        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) * randMonster.healthScaler);
+        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) + randMonster.healthScaler);
         randMonster.maxHealth = randMonster.health;
 
-        randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) * randMonster.physicalAttackScaler);
+        randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) + randMonster.physicalAttackScaler);
 
-        randMonster.magicAttack = Mathf.RoundToInt((randMonster.magicAttack + randMonster.level - 5) * randMonster.magicAttackScaler);
+        randMonster.magicAttack = Mathf.RoundToInt((randMonster.magicAttack + randMonster.level - 5) + randMonster.magicAttackScaler);
 
-        randMonster.physicalDefense = Mathf.RoundToInt((randMonster.physicalDefense + randMonster.level - 5) * randMonster.physicalDefenseScaler);
+        randMonster.physicalDefense = Mathf.RoundToInt((randMonster.physicalDefense + randMonster.level - 5) + randMonster.physicalDefenseScaler);
 
-        randMonster.magicDefense = Mathf.RoundToInt((randMonster.magicDefense + randMonster.level - 5) * randMonster.magicDefenseScaler);
+        randMonster.magicDefense = Mathf.RoundToInt((randMonster.magicDefense + randMonster.level - 5) + randMonster.magicDefenseScaler);
 
-        randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) * randMonster.speedScaler);
+        randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) + randMonster.speedScaler);
 
         return randMonster;
     }
@@ -356,18 +357,18 @@ public class SubscreenManager : MonoBehaviour
 
         // random stats 
         randMonster.level = GetMonsterRandomLevelRange() + scaledLevel;
-        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) * (randMonster.healthScaler + 0.25f * adventureManager.adventureNGNumber));
+        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) + (randMonster.healthScaler + 0.25f * adventureManager.adventureNGNumber));
         randMonster.maxHealth = randMonster.health;
 
-        randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) * randMonster.physicalAttackScaler);
+        randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) + randMonster.physicalAttackScaler);
 
-        randMonster.magicAttack = Mathf.RoundToInt((randMonster.magicAttack + randMonster.level - 5) * randMonster.magicAttackScaler);
+        randMonster.magicAttack = Mathf.RoundToInt((randMonster.magicAttack + randMonster.level - 5) + randMonster.magicAttackScaler);
 
-        randMonster.physicalDefense = Mathf.RoundToInt((randMonster.physicalDefense + randMonster.level - 5) * randMonster.physicalDefenseScaler);
+        randMonster.physicalDefense = Mathf.RoundToInt((randMonster.physicalDefense + randMonster.level - 5) + randMonster.physicalDefenseScaler);
 
-        randMonster.magicDefense = Mathf.RoundToInt((randMonster.magicDefense + randMonster.level - 5) * randMonster.magicDefenseScaler);
+        randMonster.magicDefense = Mathf.RoundToInt((randMonster.magicDefense + randMonster.level - 5) + randMonster.magicDefenseScaler);
 
-        randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) * randMonster.speedScaler);
+        randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) + randMonster.speedScaler);
 
         return randMonster;
     }
@@ -390,15 +391,15 @@ public class SubscreenManager : MonoBehaviour
         newMonster.health += Mathf.RoundToInt((newMonster.health + newMonster.level) * 1.85f);
         newMonster.maxHealth = newMonster.health;
 
-        newMonster.physicalAttack = Mathf.RoundToInt((newMonster.physicalAttack + newMonster.level - 5) * newMonster.physicalAttackScaler);
+        newMonster.physicalAttack = Mathf.RoundToInt((newMonster.physicalAttack + newMonster.level - 5) + newMonster.physicalAttackScaler);
 
-        newMonster.magicAttack = Mathf.RoundToInt((newMonster.magicAttack + newMonster.level - 5) * newMonster.magicAttackScaler);
+        newMonster.magicAttack = Mathf.RoundToInt((newMonster.magicAttack + newMonster.level - 5) + newMonster.magicAttackScaler);
 
-        newMonster.physicalDefense = Mathf.RoundToInt((newMonster.physicalDefense + newMonster.level - 5) * newMonster.physicalDefenseScaler);
+        newMonster.physicalDefense = Mathf.RoundToInt((newMonster.physicalDefense + newMonster.level - 5) + newMonster.physicalDefenseScaler);
 
-        newMonster.magicDefense = Mathf.RoundToInt((newMonster.magicDefense + newMonster.level - 5) * newMonster.magicDefenseScaler);
+        newMonster.magicDefense = Mathf.RoundToInt((newMonster.magicDefense + newMonster.level - 5) + newMonster.magicDefenseScaler);
 
-        newMonster.speed = Mathf.RoundToInt((newMonster.speed + newMonster.level - 5) * newMonster.speedScaler);
+        newMonster.speed = Mathf.RoundToInt((newMonster.speed + newMonster.level - 5) + newMonster.speedScaler);
         newMonster.name += ($" <Boss>")
 ;
         return newMonster;
@@ -412,11 +413,50 @@ public class SubscreenManager : MonoBehaviour
             return null; 
         }
 
+        /*
+        int randomNumber = Random.Range(0, 101);
+        Modifier randModifier = null;
+
+        foreach (Modifier modifier in adventureManager.ListOfAvailableRewardModifiers)
+        {
+            if (randomNumber <= ReturnModifierWeightedProbability(modifier.modifierRarity))
+            {
+                randModifier = modifier;
+                break;
+            }
+
+            randomNumber = randomNumber - ReturnModifierWeightedProbability(modifier.modifierRarity);
+        }
+        */
+
+        //List<Modifier> curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modRarity )
         Modifier randModifier = adventureManager.ListOfAvailableRewardModifiers[Random.Range(0, adventureManager.ListOfAvailableRewardModifiers.Count)];
         adventureManager.ListOfAvailableRewardModifiers.Remove(randModifier);
         Modifier randModifierSO = Instantiate(randModifier);
 
         return randModifierSO;
+    }
+
+    // This function returns the weighted probablity of a modifier based on it's rarity
+    public int ReturnModifierWeightedProbability(Modifier.ModifierRarity modifierRarity)
+    {
+        switch (modifierRarity)
+        {
+            case (Modifier.ModifierRarity.Common):
+                return 15;
+
+            case (Modifier.ModifierRarity.Uncommon):
+                return 25;
+
+            case (Modifier.ModifierRarity.Rare):
+                return 30;
+
+            case (Modifier.ModifierRarity.Legendary):
+                return 30;
+
+            default:
+                return 45;
+        }
     }
 
     // This function returns a random equipment

@@ -17,7 +17,7 @@ public class Monster : ScriptableObject
     public enum MonsterElement
     { Fire, Water, Earth, Wind,
         Shadow, Neutral, None, Light, Time,
-        Elixir, Electric, Stone, Sound  };
+        Elixir, Electric, Stone, Sound };
 
     public ElementClass monsterElement;
     public ElementClass monsterSubElement;
@@ -54,18 +54,18 @@ public class Monster : ScriptableObject
 
     [Title("Monster Scaling Stats")]
     [PropertySpace(SpaceBefore = 15)]
-    [Range(1.01f, 2f)] public float healthScaler;
+    [Range(1, 25)] public int healthScaler;
 
     [PropertySpace(SpaceBefore = 15)]
-    [Range(1.01f, 10f)] public float physicalAttackScaler;
-    [Range(1.01f, 10f)] public float magicAttackScaler;
+    [Range(1, 5)] public int physicalAttackScaler;
+    [Range(1, 5)] public int magicAttackScaler;
 
     [PropertySpace(SpaceBefore = 15)]
-    [Range(1.01f, 10f)] public float physicalDefenseScaler;
-    [Range(1.01f, 10f)] public float magicDefenseScaler;
+    [Range(1, 5)] public int physicalDefenseScaler;
+    [Range(1, 5)] public int magicDefenseScaler;
 
     [PropertySpace(SpaceBefore = 15)]
-    [Range(1.01f, 1.25f)] public float speedScaler;
+    [Range(1, 5)] public int speedScaler;
 
     //[PropertySpace(SpaceBefore = 15)]
     //public float mana;

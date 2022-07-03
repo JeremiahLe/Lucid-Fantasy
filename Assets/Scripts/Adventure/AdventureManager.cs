@@ -66,6 +66,9 @@ public class AdventureManager : MonoBehaviour
     public GameObject RewardSlotTwo;
     public GameObject RewardSlotThree;
 
+    [Title("Adventure - Modifier Passive Effects")]
+    public float bonusExp = 1;
+
     [Title("Adventure - Player Components")]
     public int rerollAmount = 0;
     public int timesRerolled = 0;
@@ -471,10 +474,34 @@ public class AdventureManager : MonoBehaviour
         #endregion
     }
 
+    // This function is called whenever an out of combat passive modifier is obtained
+    public void ApplyPassiveModifiers()
+    {
+        foreach (Modifier mod in ListOfCurrentModifiers)
+        {
+            if (mod.modifierAdventureCallTime == Modifier.ModifierAdventureCallTime.OOCPassive)
+            {
+                switch (mod.modifierAdventureReference)
+                {
+                    case (Modifier.ModifierAdventureReference.RisingPotential):
+                        bonusExp += (mod.modifierAmount / 100f);
+                        break;
+
+                    default:
+                        Debug.Log("Missing OOC Passive reference?", this);
+                        break;
+                }
+            }
+        }
+    }
+
     // This function is called at Game Start, before Round 1, to apply any adventure modifiers to a single-target
     public void ApplyGameStartAdventureModifiers(Monster.AIType aIType)
     {
         List<Modifier> whatListShouldIUse;
+        GameObject monsterObj;
+        Monster monster;
+
         // Apply ally or enemy modifiers?
         if (aIType == Monster.AIType.Ally)
         {
@@ -493,8 +520,8 @@ public class AdventureManager : MonoBehaviour
                 // Get specific Modifier
                 switch (modifier.modifierAdventureReference)
                 {
+                    #region WindsweptBoots
                     case (Modifier.ModifierAdventureReference.WindsweptBoots):
-                        GameObject monsterObj;
                         if (aIType == Monster.AIType.Ally)
                         {
                             monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
@@ -503,11 +530,38 @@ public class AdventureManager : MonoBehaviour
                         {
                             monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfEnemies);
                         }
-                        Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
+                        monster = monsterObj.GetComponent<CreateMonster>().monster;
                         monster.speed += modifier.modifierAmount;
                         monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
                         break;
+                    #endregion
+
+                    #region Chosen One
+                    case (Modifier.ModifierAdventureReference.ChosenOne):
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
+                        }
+                        else
+                        {
+                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfEnemies);
+                        }
+                        monster = monsterObj.GetComponent<CreateMonster>().monster;
+
+                        // Increase stats
+                        float modAmount = modifier.modifierAmount / 100f;
+                        monster.physicalAttack = Mathf.RoundToInt(monster.physicalAttack * modAmount);
+                        monster.magicAttack = Mathf.RoundToInt(monster.magicAttack * modAmount);
+                        monster.physicalDefense = Mathf.RoundToInt(monster.physicalDefense * modAmount);
+                        monster.magicDefense = Mathf.RoundToInt(monster.magicDefense * modAmount);
+                        monster.evasion = Mathf.RoundToInt(monster.evasion * modAmount);
+                        monster.critChance = Mathf.RoundToInt(monster.critChance * modAmount);
+                        monster.speed = Mathf.RoundToInt(monster.speed * modAmount);
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s stats was increased by {modifier.modifierName} (x{modAmount})!");
+                        break;
+                    #endregion
 
                     default:
                         break;
@@ -1010,7 +1064,7 @@ public class AdventureManager : MonoBehaviour
 
             case CreateNode.NodeType.ModifierReward:
                 currentRewardType = RewardType.Modifier;
-                subScreenMenuText.text = ($"Select Augment...");
+                subScreenMenuText.text = ($"Select Modifier...");
                 subscreenManager.LoadRewardSlots(RewardType.Modifier);
                 break;
 

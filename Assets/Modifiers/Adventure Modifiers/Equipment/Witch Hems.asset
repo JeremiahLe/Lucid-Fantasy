@@ -19,13 +19,13 @@ MonoBehaviour:
   statModified: 3
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 7
+  modifierAmount: 9
   modifierAmountFlatBuff: 0
   statusEffect: 0
   statusEffectType: 0
   modifierName: Witch Hems
   modifierAdventureReference: 0
-  modifierDescription: +7% Magic Attack
+  modifierDescription: +9% Magic Attack
   adventureModifier: 0
   adventureEquipment: 1
   modifierAdventureCallTime: 0

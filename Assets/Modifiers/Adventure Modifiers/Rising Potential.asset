@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
-  m_Name: Shadow Mask
+  m_Name: Rising Potential
   m_EditorClassIdentifier: 
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
   modifierDurationType: 1
-  statModified: 7
+  statModified: 16
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 7
-  modifierAmountFlatBuff: 1
+  modifierAmount: 25
+  modifierAmountFlatBuff: 0
   statusEffect: 0
   statusEffectType: 0
-  modifierName: Shadow Mask
-  modifierAdventureReference: 0
-  modifierDescription: +7 Evasion
-  adventureModifier: 0
-  adventureEquipment: 1
-  modifierAdventureCallTime: 0
-  modifierRarity: 2
-  baseSprite: {fileID: 21300000, guid: b165ff5e72e25ce4c94a71ce6546383a, type: 3}
+  modifierName: Rising Potential
+  modifierAdventureReference: 8
+  modifierDescription: 'Passive: All allied monsters gain 25% more Exp.'
+  adventureModifier: 1
+  adventureEquipment: 0
+  modifierAdventureCallTime: 2
+  modifierRarity: 0
+  baseSprite: {fileID: 21300000, guid: c71e80215e9da0a49b488b1db19bc870, type: 3}

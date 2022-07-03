@@ -19,13 +19,13 @@ MonoBehaviour:
   statModified: 0
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 25
+  modifierAmount: 20
   modifierAmountFlatBuff: 0
   statusEffect: 0
   statusEffectType: 0
   modifierName: Tempered Defense
   modifierAdventureReference: 3
-  modifierDescription: 'Game Start: All allied monsters gain +25% physical and magic
+  modifierDescription: 'Game Start: All allied monsters gain +20% physical and magic
     defense.'
   adventureModifier: 1
   adventureEquipment: 0

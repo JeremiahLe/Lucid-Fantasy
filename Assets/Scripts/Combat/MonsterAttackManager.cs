@@ -228,7 +228,7 @@ public class MonsterAttackManager : MonoBehaviour
             // Not selecting another move, continue
             if (selectAnotherMove < .5f)
             {
-                uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+                uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
                 yield return new WaitForSeconds(1.3f);
                 Invoke("ConfirmMonsterAttack", 0.1f);
                 yield break;

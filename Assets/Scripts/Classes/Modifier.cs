@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [Serializable]
 [CreateAssetMenu(fileName = "New Modifier", menuName = "Modifiers")]
@@ -17,30 +18,39 @@ public class Modifier : ScriptableObject
 
     public AttackEffect.StatEnumToChange statModified;
 
+    [DisableIf("modifierDurationType", ModifierDurationType.Permanent)]
     public int modifierDuration;
+    [DisableIf("modifierDurationType", ModifierDurationType.Permanent)]
     public int modifierCurrentDuration;
 
     public float modifierAmount;
     public bool modifierAmountFlatBuff;
 
     public bool statusEffect = false;
+    [EnableIf("statusEffect")]
     public enum StatusEffectType { None, Poisoned, Stunned, Dazed, Crippled, Weakened, Burning }
     public StatusEffectType statusEffectType;
 
     [Header("Adventure Variables")]
     public string modifierName;
-    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots, RagingFire, TenaciousGuard }
+    [DisableIf("adventureEquipment")]
+    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots, RagingFire, TenaciousGuard, ChosenOne, RisingPotential }
     public ModifierAdventureReference modifierAdventureReference;
     public string modifierDescription;
 
+    [DisableIf("adventureEquipment")]
     public bool adventureModifier = false;
+    [DisableIf("adventureModifier")]
     public bool adventureEquipment = false;
-    public enum ModifierAdventureCallTime { GameStart, RoundStart }
+
+    public enum ModifierAdventureCallTime { GameStart, RoundStart, OOCPassive }
     public ModifierAdventureCallTime modifierAdventureCallTime;
 
     public enum ModifierRarity { Common, Uncommon, Rare, Legendary }
     public ModifierRarity modifierRarity;
 
+    [AssetSelector(Paths = "Assets/Sprites/UI")]
+    [PreviewField(150)]
     public Sprite baseSprite;
 
     // This function resets the modified stat that was created 

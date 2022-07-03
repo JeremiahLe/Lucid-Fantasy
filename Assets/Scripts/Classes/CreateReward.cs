@@ -56,6 +56,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
             else if (rewardType == AdventureManager.RewardType.Modifier)
             {
                 adventureManager.ListOfCurrentModifiers.Add(modifierReward);
+                adventureManager.ApplyPassiveModifiers();
                 modifierReward = null;
                 adventureManager.ResetModifierList();
                 adventureManager.SubscreenMenu.SetActive(false);
@@ -93,7 +94,8 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         switch (modifierReward.modifierRarity)
         {
             case Modifier.ModifierRarity.Common:
-                rewardName.text = ($"<b>{modifierReward.modifierName}</b>" +
+                //<#24d152>
+                rewardName.text = ($"<b><#24d152>{modifierReward.modifierName}</color></b>" +
                     $"\n- {modifierReward.modifierDescription}");
                 break;
 

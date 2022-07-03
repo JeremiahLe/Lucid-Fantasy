@@ -32,12 +32,12 @@ MonoBehaviour:
   critChance: 0
   critDamage: 1.5
   bonusAccuracy: 0
-  healthScaler: 1.02
-  physicalAttackScaler: 1.15
-  magicAttackScaler: 1.15
-  physicalDefenseScaler: 1.01
-  magicDefenseScaler: 1.01
-  speedScaler: 1.02
+  healthScaler: 1
+  physicalAttackScaler: 4
+  magicAttackScaler: 4
+  physicalDefenseScaler: 1
+  magicDefenseScaler: 1
+  speedScaler: 3
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
@@ -59,6 +59,7 @@ MonoBehaviour:
   cachedSpeed: 1
   cachedEvasion: 0
   cachedCritChance: 0
+  cachedBonusAccuracy: 0
   cachedLevel: 0
   cachedDamageDone: 0
   monsterKills: 0

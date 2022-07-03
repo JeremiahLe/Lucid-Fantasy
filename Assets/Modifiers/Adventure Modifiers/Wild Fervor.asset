@@ -20,7 +20,7 @@ MonoBehaviour:
   modifierDuration: 0
   modifierCurrentDuration: 0
   modifierAmount: 25
-  modifierAmountFlatBuff: 0
+  modifierAmountFlatBuff: 1
   statusEffect: 0
   statusEffectType: 0
   modifierName: Wild Fervor

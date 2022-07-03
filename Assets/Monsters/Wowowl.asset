@@ -32,12 +32,12 @@ MonoBehaviour:
   critChance: 10
   critDamage: 1.5
   bonusAccuracy: 0
-  healthScaler: 1.02
-  physicalAttackScaler: 1.02
-  magicAttackScaler: 1.02
-  physicalDefenseScaler: 1.02
-  magicDefenseScaler: 1.15
-  speedScaler: 1.01
+  healthScaler: 1
+  physicalAttackScaler: 2
+  magicAttackScaler: 2
+  physicalDefenseScaler: 2
+  magicDefenseScaler: 5
+  speedScaler: 2
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: 931569915445bf84a9e5cd6ddfa021ea, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
