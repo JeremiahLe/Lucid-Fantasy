@@ -68,6 +68,10 @@ public class AdventureManager : MonoBehaviour
 
     [Title("Adventure - Modifier Passive Effects")]
     public float bonusExp = 1;
+    public float legendaryChanceRate = 1f;
+    public float rareChanceRate = 1f;
+    public float uncommonChanceRate = 1f;
+    public float commonChanceRate = 100f;
 
     [Title("Adventure - Player Components")]
     public int rerollAmount = 0;
@@ -501,6 +505,7 @@ public class AdventureManager : MonoBehaviour
         List<Modifier> whatListShouldIUse;
         GameObject monsterObj;
         Monster monster;
+        Modifier newModifier;
 
         // Apply ally or enemy modifiers?
         if (aIType == Monster.AIType.Ally)
@@ -531,8 +536,10 @@ public class AdventureManager : MonoBehaviour
                             monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfEnemies);
                         }
                         monster = monsterObj.GetComponent<CreateMonster>().monster;
-                        monster.speed += modifier.modifierAmount;
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+
+                        newModifier = Instantiate(modifier);
+                        monster.ListOfModifiers.Add(newModifier);
+                        monsterObj.GetComponent<CreateMonster>().ModifyStats(modifier.statModified, modifier);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
                         break;
                     #endregion
@@ -563,6 +570,27 @@ public class AdventureManager : MonoBehaviour
                         break;
                     #endregion
 
+                    #region Guardian Angel
+                    case (Modifier.ModifierAdventureReference.GuardianAngel):
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            monsterObj = combatManagerScript.ListOfAllys[0];
+                        }
+                        else
+                        {
+                            monsterObj = combatManagerScript.ListOfEnemies[0];
+                        }
+                        monster = monsterObj.GetComponent<CreateMonster>().monster;
+
+                        // Increase stats
+                        newModifier = Instantiate(modifier);
+                        monster.ListOfModifiers.Add(newModifier);
+                        monsterObj.GetComponent<CreateMonster>().monsterImmuneToDamage = true;   
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was granted damage immunity by {modifier.modifierName} for {modifier.modifierDuration - 1} rounds!");
+                        break;
+                    #endregion
+
                     default:
                         break;
                 }
@@ -575,6 +603,9 @@ public class AdventureManager : MonoBehaviour
     {
         List<Modifier> whatListShouldIUse;
         List<GameObject> listOfUnstatusedEnemies;
+        GameObject monsterObj;
+        Monster monsterRef;
+        Modifier newModifier;
 
         // Apply ally or enemy modifiers?
         if (aIType == Monster.AIType.Ally)
@@ -626,7 +657,7 @@ public class AdventureManager : MonoBehaviour
                                 modifier.modifierOwner = modifier.modifierOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
                             }
 
-                            Modifier newModifier = Instantiate(modifier);
+                            newModifier = Instantiate(modifier);
                             monster.ListOfModifiers.Add(newModifier);
                             randomEnemyToPoison.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Poisoned);
                         }
@@ -669,7 +700,7 @@ public class AdventureManager : MonoBehaviour
                                 modifier.modifierOwner = modifier.modifierOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
                             }
 
-                            Modifier newModifier = Instantiate(modifier);
+                            newModifier = Instantiate(modifier);
                             monster.ListOfModifiers.Add(newModifier);
                             randomEnemyToBurn.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Burning);
                         }
@@ -678,6 +709,67 @@ public class AdventureManager : MonoBehaviour
                         listOfUnstatusedEnemies.Clear();
                         break;
                     #endregion Raging Fire
+
+                    #region Chaos Waves
+                    case Modifier.ModifierAdventureReference.ChaosWaves:
+
+                        // Get random enemy from list of unstatused enemies
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isDazed => isDazed.GetComponent<CreateMonster>().monsterIsDazed == false).ToList();
+                        }
+                        else
+                        {
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isDazed => isDazed.GetComponent<CreateMonster>().monsterIsDazed == false).ToList();
+                        }
+
+                        // If no monsters are unpoisoned, break out
+                        if (listOfUnstatusedEnemies.Count == 0)
+                        {
+                            continue;
+                        }
+
+                        // Otherwise, poison randomly selected monster
+                        if (listOfUnstatusedEnemies.Count != 0)
+                        {
+                            GameObject randomEnemyToDaze = combatManagerScript.GetRandomTarget(listOfUnstatusedEnemies);
+                            Monster monster = randomEnemyToDaze.GetComponent<CreateMonster>().monsterReference;
+                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was dazed by {modifier.modifierName}.");
+                            randomEnemyToDaze.GetComponent<CreateMonster>().monsterIsDazed = true;
+
+                            if (aIType == Monster.AIType.Ally)
+                            {
+                                modifier.modifierOwnerGameObject = combatManagerScript.ListOfAllys[0];
+                                modifier.modifierOwner = modifier.modifierOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
+                            }
+
+                            newModifier = Instantiate(modifier);
+                            monster.ListOfModifiers.Add(newModifier);
+                            randomEnemyToDaze.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Dazed);
+                        }
+
+                        // Clear list
+                        listOfUnstatusedEnemies.Clear();
+                        break;
+                    #endregion
+
+                    #region Elusive Spirit
+                    case Modifier.ModifierAdventureReference.ElusiveSpirit:
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
+                        }
+                        else
+                        {
+                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfEnemies);
+                        }
+                        monsterRef = monsterObj.GetComponent<CreateMonster>().monster;
+                        newModifier = Instantiate(modifier);
+                        monsterRef.ListOfModifiers.Add(newModifier);
+                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier);
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
+                        break;
+                    #endregion
 
                     default:
                         break;

@@ -34,7 +34,7 @@ public class Modifier : ScriptableObject
     [Header("Adventure Variables")]
     public string modifierName;
     [DisableIf("adventureEquipment")]
-    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots, RagingFire, TenaciousGuard, ChosenOne, RisingPotential }
+    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots, RagingFire, TenaciousGuard, ChosenOne, RisingPotential, ChaosWaves, GuardianAngel, ElusiveSpirit }
     public ModifierAdventureReference modifierAdventureReference;
     public string modifierDescription;
 
@@ -129,6 +129,7 @@ public class Modifier : ScriptableObject
 
             case (AttackEffect.StatEnumToChange.Damage):
                 monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage = false;
+                monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to damage!", monsterReference.aiType);
                 break;
 
             case (AttackEffect.StatEnumToChange.Accuracy):

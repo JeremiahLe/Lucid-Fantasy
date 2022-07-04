@@ -19,13 +19,13 @@ MonoBehaviour:
   statModified: 2
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 9
+  modifierAmount: 12
   modifierAmountFlatBuff: 0
   statusEffect: 0
   statusEffectType: 0
   modifierName: Soldier's Sword
   modifierAdventureReference: 0
-  modifierDescription: +9% Physical Attack
+  modifierDescription: +12% Physical Attack
   adventureModifier: 0
   adventureEquipment: 1
   modifierAdventureCallTime: 0

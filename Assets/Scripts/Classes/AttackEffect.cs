@@ -1394,7 +1394,7 @@ public class AttackEffect : ScriptableObject
     // Check Immunities
     public bool CheckImmunities(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
-        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs || monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges)
+        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs || monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges || monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage)
         {
             if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs && statChangeType == StatChangeType.Debuff)
             {
@@ -1409,6 +1409,14 @@ public class AttackEffect : ScriptableObject
                 // Send immune message to combat log
                 combatManagerScript = monsterAttackManager.combatManagerScript;
                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to stat changes! Its {statEnumToChange} cannot be effected!");
+                monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                return true;
+            }
+            else if (statChangeType == StatChangeType.Debuff && statEnumToChange == StatEnumToChange.Health)
+            {
+                // Send immune message to combat log
+                combatManagerScript = monsterAttackManager.combatManagerScript;
+                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
                 monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
                 return true;
             }

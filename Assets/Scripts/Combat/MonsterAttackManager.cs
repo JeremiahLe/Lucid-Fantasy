@@ -734,6 +734,14 @@ public class MonsterAttackManager : MonoBehaviour
     // This function returns a damage number based on attack, defense + other calcs
     public float CalculatedDamage(Monster currentMonster, MonsterAttack monsterAttack)
     {
+        // First check if monster immune to damage
+        if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage)
+        {
+            CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune!");
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+            return 0;
+        }
+
         calculatedDamage = 0;
         bonusDamagePercent = 0;
         MonsterAttack.MonsterAttackDamageType highestStatType;

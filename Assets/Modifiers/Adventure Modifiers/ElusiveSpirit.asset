@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
-  m_Name: RagingFire
+  m_Name: ElusiveSpirit
   m_EditorClassIdentifier: 
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
   modifierDurationType: 0
-  statModified: 0
-  modifierDuration: 3
-  modifierCurrentDuration: 3
-  modifierAmount: 0.2
-  modifierAmountFlatBuff: 0
-  statusEffect: 1
-  statusEffectType: 6
-  modifierName: Raging Fire
-  modifierAdventureReference: 5
-  modifierDescription: 'Round Start: Apply enhanced Burning to a random, non-Burning
-    enemy for 2 rounds.'
+  statModified: 7
+  modifierDuration: 2
+  modifierCurrentDuration: 2
+  modifierAmount: 30
+  modifierAmountFlatBuff: 1
+  statusEffect: 0
+  statusEffectType: 0
+  modifierName: Elusive Spirit
+  modifierAdventureReference: 11
+  modifierDescription: 'Round Start: A random allied monster gains +30 Evasion this
+    round.'
   adventureModifier: 1
   adventureEquipment: 0
   modifierAdventureCallTime: 1
-  modifierRarity: 1
-  baseSprite: {fileID: 21300000, guid: 8f8cce640c352614bb83d9fa6b92c6a5, type: 3}
+  modifierRarity: 2
+  baseSprite: {fileID: 21300000, guid: 9ac72d99001c70b4d9efc5fb2cb21798, type: 3}

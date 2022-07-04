@@ -148,17 +148,7 @@ public class SubscreenManager : MonoBehaviour
 
         BattleImage.SetActive(true);
         BattleImage.GetComponent<Image>().sprite = mysteryIcon;
-        BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle: Random" +
-            $"\nEnemies present: {randomBattleMonsterCount}" +
-            $"\nAllies allowed: {randomBattleMonsterLimit}" +
-                $"\nEnemy Modifiers: ");
-
-                foreach (Modifier modifier in adventureManager.ListOfEnemyModifiers)
-                {
-                    BattleImage.GetComponentInChildren<TextMeshProUGUI>().text +=
-                        ($"{modifier.modifierName}\n");
-                }
-
+      
         // populate enemy list && check if boss battle
         for (int j = 0; j < randomBattleMonsterCount; j++)
         {
@@ -182,6 +172,24 @@ public class SubscreenManager : MonoBehaviour
             }
 
             adventureManager.ListOfEnemyBattleMonsters.Add(GetRandomMonster(adventureManager.adventureNGNumber));
+        }
+
+        BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle:\n");
+
+        foreach (Monster monster in adventureManager.ListOfEnemyBattleMonsters)
+        {
+            BattleImage.GetComponentInChildren<TextMeshProUGUI>().text += ($"{monster.name} Lvl.{monster.level}\n");
+        }
+
+        BattleImage.GetComponentInChildren<TextMeshProUGUI>().text +=
+        ($"\nEnemies present: {randomBattleMonsterCount}" +
+            $"\nAllies allowed: {randomBattleMonsterLimit}" +
+                $"\nEnemy Modifiers:\n");
+
+        foreach (Modifier modifier in adventureManager.ListOfEnemyModifiers)
+        {
+            BattleImage.GetComponentInChildren<TextMeshProUGUI>().text +=
+                ($"{modifier.modifierName}\n");
         }
 
         // Show allied monsters to choose from
@@ -360,15 +368,15 @@ public class SubscreenManager : MonoBehaviour
         randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) + (randMonster.healthScaler + 0.25f * adventureManager.adventureNGNumber));
         randMonster.maxHealth = randMonster.health;
 
-        randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) + randMonster.physicalAttackScaler);
+        randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) + randMonster.physicalAttackScaler * adventureManager.adventureNGNumber);
 
-        randMonster.magicAttack = Mathf.RoundToInt((randMonster.magicAttack + randMonster.level - 5) + randMonster.magicAttackScaler);
+        randMonster.magicAttack = Mathf.RoundToInt((randMonster.magicAttack + randMonster.level - 5) + randMonster.magicAttackScaler * adventureManager.adventureNGNumber);
 
-        randMonster.physicalDefense = Mathf.RoundToInt((randMonster.physicalDefense + randMonster.level - 5) + randMonster.physicalDefenseScaler);
+        randMonster.physicalDefense = Mathf.RoundToInt((randMonster.physicalDefense + randMonster.level - 5) + randMonster.physicalDefenseScaler * adventureManager.adventureNGNumber);
 
-        randMonster.magicDefense = Mathf.RoundToInt((randMonster.magicDefense + randMonster.level - 5) + randMonster.magicDefenseScaler);
+        randMonster.magicDefense = Mathf.RoundToInt((randMonster.magicDefense + randMonster.level - 5) + randMonster.magicDefenseScaler * adventureManager.adventureNGNumber);
 
-        randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) + randMonster.speedScaler);
+        randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) + randMonster.speedScaler * adventureManager.adventureNGNumber);
 
         return randMonster;
     }
@@ -428,9 +436,45 @@ public class SubscreenManager : MonoBehaviour
             randomNumber = randomNumber - ReturnModifierWeightedProbability(modifier.modifierRarity);
         }
         */
+        //List<Modifier> curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modRarity)
 
-        //List<Modifier> curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modRarity )
-        Modifier randModifier = adventureManager.ListOfAvailableRewardModifiers[Random.Range(0, adventureManager.ListOfAvailableRewardModifiers.Count)];
+        Modifier randModifier = null;
+        List<Modifier> curatedList;
+
+        // First, check common
+        float randValue = Random.value;
+        Debug.Log($"Generated random value: {randValue}");
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f)
+        {
+            curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Common).ToList();
+            randModifier = curatedList[Random.Range(0, curatedList.Count)];
+            Debug.Log($"Hit common! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f}");
+        }
+
+        // Check uncommon
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Uncommon) / 100f)
+        {
+            curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Uncommon).ToList();
+            randModifier = curatedList[Random.Range(0, curatedList.Count)];
+            Debug.Log($"Hit uncommon! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Uncommon) / 100f}");
+        }
+
+        // Check rare
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Rare) / 100f)
+        {
+            curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Rare).ToList();
+            randModifier = curatedList[Random.Range(0, curatedList.Count)];
+            Debug.Log($"Hit rare! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Rare) / 100f}");
+        }
+
+        // Lastly, check legendary
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Legendary) / 100f)
+        {
+            curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Legendary).ToList();
+            randModifier = curatedList[Random.Range(0, curatedList.Count)];
+            Debug.Log($"Hit legendary! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Legendary) / 100f}");
+        }
+
         adventureManager.ListOfAvailableRewardModifiers.Remove(randModifier);
         Modifier randModifierSO = Instantiate(randModifier);
 
@@ -438,21 +482,21 @@ public class SubscreenManager : MonoBehaviour
     }
 
     // This function returns the weighted probablity of a modifier based on it's rarity
-    public int ReturnModifierWeightedProbability(Modifier.ModifierRarity modifierRarity)
+    public float ReturnModifierWeightedProbability(Modifier.ModifierRarity modifierRarity)
     {
         switch (modifierRarity)
         {
             case (Modifier.ModifierRarity.Common):
-                return 15;
+                return adventureManager.commonChanceRate;
 
             case (Modifier.ModifierRarity.Uncommon):
-                return 25;
+                return adventureManager.uncommonChanceRate;
 
             case (Modifier.ModifierRarity.Rare):
-                return 30;
+                return adventureManager.rareChanceRate;
 
             case (Modifier.ModifierRarity.Legendary):
-                return 30;
+                return adventureManager.legendaryChanceRate;
 
             default:
                 return 45;
