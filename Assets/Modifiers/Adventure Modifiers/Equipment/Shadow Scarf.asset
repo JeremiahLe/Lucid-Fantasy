@@ -30,4 +30,4 @@ MonoBehaviour:
   adventureEquipment: 1
   modifierAdventureCallTime: 0
   modifierRarity: 1
-  baseSprite: {fileID: 21300000, guid: b165ff5e72e25ce4c94a71ce6546383a, type: 3}
+  baseSprite: {fileID: 21300000, guid: d784596945f57cc44b981ba0390c4f97, type: 3}

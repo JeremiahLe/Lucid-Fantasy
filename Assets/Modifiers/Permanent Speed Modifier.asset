@@ -13,8 +13,24 @@ MonoBehaviour:
   m_Name: Permanent Speed Modifier
   m_EditorClassIdentifier: 
   modifierSource: Windstep Speed Buff
+  modifierOwnerGameObject: {fileID: 0}
+  modifierOwner: {fileID: 0}
   modifierDurationType: 1
   statModified: 6
+  statChangeType: 1
   modifierDuration: 0
   modifierCurrentDuration: 0
   modifierAmount: 1
+  modifierAmountFlatBuff: 0
+  statusEffect: 0
+  statusEffectType: 0
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
+  modifierName: 
+  modifierAdventureReference: 0
+  modifierDescription: 
+  adventureModifier: 0
+  adventureEquipment: 0
+  modifierAdventureCallTime: 0
+  modifierRarity: 0
+  baseSprite: {fileID: 0}

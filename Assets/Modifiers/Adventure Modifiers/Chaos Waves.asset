@@ -17,12 +17,15 @@ MonoBehaviour:
   modifierOwner: {fileID: 0}
   modifierDurationType: 0
   statModified: 0
+  statChangeType: 1
   modifierDuration: 4
   modifierCurrentDuration: 4
   modifierAmount: 0
   modifierAmountFlatBuff: 0
   statusEffect: 1
   statusEffectType: 3
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
   modifierName: Chaos Waves
   modifierAdventureReference: 9
   modifierDescription: 'Round Start: Apply Dazed to a random, non-Dazed enemy for

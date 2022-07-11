@@ -737,7 +737,7 @@ public class MonsterAttackManager : MonoBehaviour
         // First check if monster immune to damage
         if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage)
         {
-            CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune!");
+            CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune to damage!");
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
             return 0;
         }

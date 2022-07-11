@@ -900,6 +900,7 @@ public class AttackEffect : ScriptableObject
         Modifier mod = CreateInstance<Modifier>();
         mod.modifierSource = name;
         mod.modifierAmount = toValue;
+        mod.statChangeType = StatChangeType.Debuff;
         mod.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod.statModified = StatEnumToChange.PhysicalAttack;
         monsterReference.ListOfModifiers.Add(mod);
@@ -918,6 +919,7 @@ public class AttackEffect : ScriptableObject
         Modifier mod2 = CreateInstance<Modifier>();
         mod2.modifierSource = name;
         mod2.modifierAmount = toValue;
+        mod.statChangeType = StatChangeType.Debuff;
         mod2.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod2.statModified = StatEnumToChange.MagicAttack;
         monsterReference.ListOfModifiers.Add(mod2);
@@ -1370,10 +1372,11 @@ public class AttackEffect : ScriptableObject
         }
 
         // Create Modifier
-        CreateModifier(monsterReference, monsterAttackManager, monsterReferenceGameObject, 0, modifierDuration, false);
+        //CreateModifier(monsterReference, monsterAttackManager, monsterReferenceGameObject, 0, modifierDuration, false);
 
         // Add modifiers
-        AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+        //AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+        CreateAndAddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration, monsterAttackManager.currentMonsterTurnGameObject, statEnumToChange);
 
         // Send message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
@@ -1512,14 +1515,21 @@ public class AttackEffect : ScriptableObject
     // Create and Add modifiers
     public void CreateAndAddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj, int duration, GameObject monsterOwnerGameObject)
     {
+        // Create and Apply modifier
+        Modifier mod = CreateInstance<Modifier>();
+
         // First check if not buff
         if (statDecrease)
         {
             toValue *= -1;
+            mod.statChangeType = StatChangeType.Debuff;
+        }
+        else
+        {
+            mod.statChangeType = StatChangeType.Buff;
         }
 
         // Create and Apply modifier
-        Modifier mod = CreateInstance<Modifier>();
         mod.modifierSource = name;
         mod.statModified = statEnumToChange;
         mod.modifierAmount = toValue;
@@ -1537,19 +1547,26 @@ public class AttackEffect : ScriptableObject
         }
         monster.ListOfModifiers.Add(mod);
         monsterObj.GetComponent<CreateMonster>().ModifyStats(statEnumToChange, mod);
+        //monsterObj.GetComponent<CreateMonster>().AddStatusIcon(mod, statEnumToChange, duration);
     }
 
     // Create and Add modifiers - New Stat
     public void CreateAndAddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj, int duration, GameObject monsterOwnerGameObject, StatEnumToChange statEnumToChange)
     {
+        // Create and Apply modifier
+        Modifier mod = CreateInstance<Modifier>();
+
         // First check if not buff
         if (statDecrease)
         {
             toValue *= -1;
+            mod.statChangeType = StatChangeType.Debuff;
         }
-
-        // Create and Apply modifier
-        Modifier mod = CreateInstance<Modifier>();
+        else
+        {
+            mod.statChangeType = StatChangeType.Buff;
+        }
+ 
         mod.modifierSource = name;
         mod.statModified = statEnumToChange;
         mod.modifierAmount = toValue;
@@ -1557,6 +1574,7 @@ public class AttackEffect : ScriptableObject
         mod.modifierCurrentDuration = duration;
         mod.modifierOwnerGameObject = monsterOwnerGameObject;
         mod.modifierOwner = monsterOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
+
         if (duration > 0)
         {
             mod.modifierDurationType = Modifier.ModifierDurationType.Temporary;
@@ -1567,6 +1585,7 @@ public class AttackEffect : ScriptableObject
         }
         monster.ListOfModifiers.Add(mod);
         monsterObj.GetComponent<CreateMonster>().ModifyStats(statEnumToChange, mod);
+        //monsterObj.GetComponent<CreateMonster>().AddStatusIcon(mod, statEnumToChange, duration);
     }
 
     // Create and Add modifiers - Status Effect
@@ -1602,5 +1621,6 @@ public class AttackEffect : ScriptableObject
         }
         monster.ListOfModifiers.Add(mod);
         monsterObj.GetComponent<CreateMonster>().ModifyStats(statEnumToChange, mod);
+        //monsterObj.GetComponent<CreateMonster>().AddStatusIcon(mod, statEnumToChange, duration);
     }
 }

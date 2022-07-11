@@ -539,7 +539,7 @@ public class AdventureManager : MonoBehaviour
 
                         newModifier = Instantiate(modifier);
                         monster.ListOfModifiers.Add(newModifier);
-                        monsterObj.GetComponent<CreateMonster>().ModifyStats(modifier.statModified, modifier);
+                        monsterObj.GetComponent<CreateMonster>().ModifyStats(modifier.statModified, modifier, true);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
                         break;
                     #endregion
@@ -566,6 +566,7 @@ public class AdventureManager : MonoBehaviour
                         monster.critChance = Mathf.RoundToInt(monster.critChance * modAmount);
                         monster.speed = Mathf.RoundToInt(monster.speed * modAmount);
                         monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                        monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(modifier);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s stats was increased by {modifier.modifierName} (x{modAmount})!");
                         break;
                     #endregion
@@ -585,9 +586,9 @@ public class AdventureManager : MonoBehaviour
                         // Increase stats
                         newModifier = Instantiate(modifier);
                         monster.ListOfModifiers.Add(newModifier);
-                        monsterObj.GetComponent<CreateMonster>().monsterImmuneToDamage = true;   
+                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
                         monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was granted damage immunity by {modifier.modifierName} for {modifier.modifierDuration - 1} rounds!");
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was granted damage immunity by {newModifier.modifierName} for {newModifier.modifierDuration - 1} rounds!");
                         break;
                     #endregion
 
@@ -648,6 +649,16 @@ public class AdventureManager : MonoBehaviour
                         if (listOfUnstatusedEnemies.Count != 0) {
                             GameObject randomEnemyToPoison = combatManagerScript.GetRandomTarget(listOfUnstatusedEnemies);
                             Monster monster = randomEnemyToPoison.GetComponent<CreateMonster>().monsterReference;
+
+                            // First check if monster is immune to debuffs, if so, break out.
+                            if (randomEnemyToPoison.GetComponent<CreateMonster>().monsterImmuneToDebuffs)
+                            {
+                                // Send immune message to combat log
+                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
+                                randomEnemyToPoison.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                                continue;
+                            }
+
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was poisoned by {modifier.modifierName}.");
                             randomEnemyToPoison.GetComponent<CreateMonster>().monsterIsPoisoned = true;
 
@@ -660,6 +671,7 @@ public class AdventureManager : MonoBehaviour
                             newModifier = Instantiate(modifier);
                             monster.ListOfModifiers.Add(newModifier);
                             randomEnemyToPoison.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Poisoned);
+                            randomEnemyToPoison.GetComponent<CreateMonster>().AddStatusIcon(newModifier, newModifier.statModified, newModifier.modifierCurrentDuration);
                         }
 
                         // Clear list
@@ -691,6 +703,16 @@ public class AdventureManager : MonoBehaviour
                         {
                             GameObject randomEnemyToBurn = combatManagerScript.GetRandomTarget(listOfUnstatusedEnemies);
                             Monster monster = randomEnemyToBurn.GetComponent<CreateMonster>().monsterReference;
+
+                            // First check if monster is immune to debuffs, if so, break out.
+                            if (randomEnemyToBurn.GetComponent<CreateMonster>().monsterImmuneToDebuffs)
+                            {
+                                // Send immune message to combat log
+                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
+                                randomEnemyToBurn.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                                continue;
+                            }
+
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was burned by {modifier.modifierName}.");
                             randomEnemyToBurn.GetComponent<CreateMonster>().monsterIsBurning = true;
 
@@ -703,6 +725,7 @@ public class AdventureManager : MonoBehaviour
                             newModifier = Instantiate(modifier);
                             monster.ListOfModifiers.Add(newModifier);
                             randomEnemyToBurn.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Burning);
+                            randomEnemyToBurn.GetComponent<CreateMonster>().AddStatusIcon(newModifier, newModifier.statModified, newModifier.modifierCurrentDuration);
                         }
 
                         // Clear list
@@ -734,6 +757,16 @@ public class AdventureManager : MonoBehaviour
                         {
                             GameObject randomEnemyToDaze = combatManagerScript.GetRandomTarget(listOfUnstatusedEnemies);
                             Monster monster = randomEnemyToDaze.GetComponent<CreateMonster>().monsterReference;
+
+                            // First check if monster is immune to debuffs, if so, break out.
+                            if (randomEnemyToDaze.GetComponent<CreateMonster>().monsterImmuneToDebuffs)
+                            {
+                                // Send immune message to combat log
+                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
+                                randomEnemyToDaze.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                                continue;
+                            }
+
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was dazed by {modifier.modifierName}.");
                             randomEnemyToDaze.GetComponent<CreateMonster>().monsterIsDazed = true;
 
@@ -746,6 +779,7 @@ public class AdventureManager : MonoBehaviour
                             newModifier = Instantiate(modifier);
                             monster.ListOfModifiers.Add(newModifier);
                             randomEnemyToDaze.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Dazed);
+                            randomEnemyToDaze.GetComponent<CreateMonster>().AddStatusIcon(newModifier, newModifier.statModified, newModifier.modifierCurrentDuration);
                         }
 
                         // Clear list
@@ -766,7 +800,7 @@ public class AdventureManager : MonoBehaviour
                         monsterRef = monsterObj.GetComponent<CreateMonster>().monster;
                         newModifier = Instantiate(modifier);
                         monsterRef.ListOfModifiers.Add(newModifier);
-                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier);
+                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
                         break;
                     #endregion
@@ -781,7 +815,9 @@ public class AdventureManager : MonoBehaviour
     // This function is called at Game Start by CombatManagerScript as it registers every Monster in Combat, before Round 1
     public void ApplyAdventureModifiers(Monster monster, GameObject monsterObj, Monster.AIType aIType)
     {
+        Modifier newModifier = null;
         List<Modifier> whatListShouldIUse; 
+
         // Apply ally or enemy modifiers?
         if (aIType == Monster.AIType.Ally)
         {
@@ -799,6 +835,10 @@ public class AdventureManager : MonoBehaviour
             {
                 case Modifier.ModifierAdventureReference.WildFervor:
                     monster.critChance += modifier.modifierAmount;
+                    // Increase stats
+                    newModifier = Instantiate(modifier);
+                    monster.ListOfModifiers.Add(newModifier);
+                    monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(newModifier);
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} critical chance was increased by {modifier.modifierName} (+{modifier.modifierAmount}).");
                     break;
 
@@ -807,6 +847,10 @@ public class AdventureManager : MonoBehaviour
                     monster.physicalAttack += physicalAttackIncrease;
                     int magicAttackIncrease = Mathf.RoundToInt(monster.cachedMagicAttack * (modifier.modifierAmount / 100f) + 1f);
                     monster.magicAttack += magicAttackIncrease;
+                    // Increase stats
+                    newModifier = Instantiate(modifier);
+                    monster.ListOfModifiers.Add(newModifier);
+                    monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(newModifier);
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} physical and magic attack was increased by {modifier.modifierName} (+{physicalAttackIncrease}|+{magicAttackIncrease}).");
                     break;
 
@@ -815,12 +859,22 @@ public class AdventureManager : MonoBehaviour
                     monster.physicalDefense += physicalDefenseIncrease;
                     int magicDefenseIncrease = Mathf.RoundToInt(monster.cachedMagicDefense * (modifier.modifierAmount / 100f) + 1f);
                     monster.magicDefense += magicDefenseIncrease;
+                    // Increase stats
+                    newModifier = Instantiate(modifier);
+                    monster.ListOfModifiers.Add(newModifier);
+                    monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(newModifier);
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} physical and magic defense was increased by {modifier.modifierName} (+{physicalDefenseIncrease}|+{magicDefenseIncrease}).");
                     break;
 
                 case Modifier.ModifierAdventureReference.TenaciousGuard:
-                    AttackEffect temp = AttackEffect.CreateInstance<AttackEffect>();
-                    temp.CreateAndAddModifiers(0, false, monster, monsterObj, modifier.modifierDuration, monsterObj, modifier.statModified);
+
+                    //AttackEffect temp = AttackEffect.CreateInstance<AttackEffect>();
+                    // Increase stats
+                    newModifier = Instantiate(modifier);
+                    monster.ListOfModifiers.Add(newModifier);
+                    monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
+                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                    //temp.CreateAndAddModifiers(0, false, monster, monsterObj, modifier.modifierDuration, monsterObj, modifier.statModified);
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} gained immunity to statuses and debuffs for 3 rounds!");
                     break;
 

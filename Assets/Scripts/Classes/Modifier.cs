@@ -17,6 +17,7 @@ public class Modifier : ScriptableObject
     public ModifierDurationType modifierDurationType;
 
     public AttackEffect.StatEnumToChange statModified;
+    public AttackEffect.StatChangeType statChangeType;
 
     [DisableIf("modifierDurationType", ModifierDurationType.Permanent)]
     public int modifierDuration;
@@ -30,6 +31,9 @@ public class Modifier : ScriptableObject
     [EnableIf("statusEffect")]
     public enum StatusEffectType { None, Poisoned, Stunned, Dazed, Crippled, Weakened, Burning }
     public StatusEffectType statusEffectType;
+
+    public GameObject statusEffectIconGameObject;
+    public StatusEffectIcon statusEffectIcon;
 
     [Header("Adventure Variables")]
     public string modifierName;
@@ -56,6 +60,9 @@ public class Modifier : ScriptableObject
     // This function resets the modified stat that was created 
     public void ResetModifiedStat(Monster monsterReference, GameObject monsterReferenceGameObject)
     {
+        // Remove icon from monster's HUD
+        Destroy(statusEffectIconGameObject);
+
         // reset duration
         modifierCurrentDuration = modifierDuration;
 

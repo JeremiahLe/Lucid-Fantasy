@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Sirenix.OdinInspector;
 
 public class UIManager : MonoBehaviour
 {
@@ -22,8 +23,43 @@ public class UIManager : MonoBehaviour
     public CombatManagerScript combatManagerScript;
 
     public GameObject DetailedMonsterStatsWindow;
+    //public GameObject TooltipWindow;
 
     Monster monsterRef;
+
+    [Header("List of Sprites")]
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite physicalAttackSprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite physicalDefenseSprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite magicAttackSprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite magicDefenseSprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite speedSprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite evasionSprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite critChanceSprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite critDamageSprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite poisonedUISprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite burningUISprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite dazedUISprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite weakenedUISprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite stunnedUISprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite crippledUISprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite damageImmuneUISprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite debuffsImmuneUISprite;
 
     // Start is called before the first frame update
     void Start()
@@ -160,4 +196,14 @@ public class UIManager : MonoBehaviour
 
         RoundCountText.text = ""; // hide round counter text
     }
+
+    //public void DisplayToolTipWindow(Modifier modifier)
+    //{
+    //    TooltipWindow.SetActive(true);
+    //    TooltipWindow.transform.position = modifier.statusEffectIconGameObject.transform.position;
+    //    TooltipWindow.GetComponentInChildren<TextMeshProUGUI>().text = 
+    //        ($"{modifier.modifierSource}" +
+    //        $"Duration: {modifier.modifierCurrentDuration} rounds" +
+    //        $"Type: {modifier.statChangeType}");
+    //}
 }

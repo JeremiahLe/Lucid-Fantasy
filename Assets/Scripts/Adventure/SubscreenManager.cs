@@ -25,6 +25,7 @@ public class SubscreenManager : MonoBehaviour
     public List<GameObject> listOfMonsterSlots;
     public List<GameObject> listOfMonsterSlotsEquipment;
     public List<GameObject> listOfRewardSlots;
+    public List<Modifier> curatedListOfModifiers;
 
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI summaryText;
@@ -365,7 +366,7 @@ public class SubscreenManager : MonoBehaviour
 
         // random stats 
         randMonster.level = GetMonsterRandomLevelRange() + scaledLevel;
-        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level) + (randMonster.healthScaler + 0.25f * adventureManager.adventureNGNumber));
+        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level + randMonster.healthScaler) * (.35f + adventureManager.adventureNGNumber * .25f));
         randMonster.maxHealth = randMonster.health;
 
         randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) + randMonster.physicalAttackScaler * adventureManager.adventureNGNumber);
@@ -396,7 +397,7 @@ public class SubscreenManager : MonoBehaviour
 
         // bonus stats
         newMonster.level = level;
-        newMonster.health += Mathf.RoundToInt((newMonster.health + newMonster.level) * 1.85f);
+        newMonster.health += Mathf.RoundToInt((newMonster.health + newMonster.level + newMonster.healthScaler) * (.35f + adventureManager.adventureNGNumber));
         newMonster.maxHealth = newMonster.health;
 
         newMonster.physicalAttack = Mathf.RoundToInt((newMonster.physicalAttack + newMonster.level - 5) + newMonster.physicalAttackScaler);
@@ -418,7 +419,7 @@ public class SubscreenManager : MonoBehaviour
     {
         if (adventureManager.ListOfAvailableRewardModifiers.Count == 0)
         {
-            return null; 
+            adventureManager.ResetModifierList();
         }
 
         /*
@@ -439,44 +440,44 @@ public class SubscreenManager : MonoBehaviour
         //List<Modifier> curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modRarity)
 
         Modifier randModifier = null;
-        List<Modifier> curatedList;
 
         // First, check common
         float randValue = Random.value;
         Debug.Log($"Generated random value: {randValue}");
         if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f)
         {
-            curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Common).ToList();
-            randModifier = curatedList[Random.Range(0, curatedList.Count)];
+            curatedListOfModifiers = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Common).ToList();
+            randModifier = curatedListOfModifiers[Random.Range(0, curatedListOfModifiers.Count)];
             Debug.Log($"Hit common! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f}");
         }
 
         // Check uncommon
         if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Uncommon) / 100f)
         {
-            curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Uncommon).ToList();
-            randModifier = curatedList[Random.Range(0, curatedList.Count)];
+            curatedListOfModifiers = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Uncommon).ToList();
+            randModifier = curatedListOfModifiers[Random.Range(0, curatedListOfModifiers.Count)];
             Debug.Log($"Hit uncommon! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Uncommon) / 100f}");
         }
 
         // Check rare
         if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Rare) / 100f)
         {
-            curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Rare).ToList();
-            randModifier = curatedList[Random.Range(0, curatedList.Count)];
+            curatedListOfModifiers = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Rare).ToList();
+            randModifier = curatedListOfModifiers[Random.Range(0, curatedListOfModifiers.Count)];
             Debug.Log($"Hit rare! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Rare) / 100f}");
         }
 
         // Lastly, check legendary
         if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Legendary) / 100f)
         {
-            curatedList = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Legendary).ToList();
-            randModifier = curatedList[Random.Range(0, curatedList.Count)];
+            curatedListOfModifiers = adventureManager.ListOfAvailableRewardModifiers.Where(modifier => modifier.modifierRarity == Modifier.ModifierRarity.Legendary).ToList();
+            randModifier = curatedListOfModifiers[Random.Range(0, curatedListOfModifiers.Count)];
             Debug.Log($"Hit legendary! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Legendary) / 100f}");
         }
 
         adventureManager.ListOfAvailableRewardModifiers.Remove(randModifier);
         Modifier randModifierSO = Instantiate(randModifier);
+        curatedListOfModifiers.Clear();
 
         return randModifierSO;
     }
@@ -649,6 +650,7 @@ public class SubscreenManager : MonoBehaviour
             return;
         }
 
+        adventureManager.ResetModifierList();
         HideRewardSlots();
         ShowAlliedMonstersAvailableEquipment(false);
 
