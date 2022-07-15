@@ -27,7 +27,7 @@ MonoBehaviour:
   magicAttack: 1
   physicalDefense: 9
   magicDefense: 1
-  speed: 1
+  speed: 2
   evasion: 0
   critChance: 0
   critDamage: 1.5

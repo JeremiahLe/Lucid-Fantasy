@@ -20,7 +20,9 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private SpriteRenderer sr;
 
     [Title("Status Effect Scrollbar")]
-    [SerializeField] public GameObject statusEffectHolder, statusEffectIcon;
+    [SerializeField] public GameObject statusEffectHolder;
+    [SerializeField] public GameObject statusEffectIcon;
+    [SerializeField] public GameObject modifierWindow;
     [SerializeField] public Image statusEffectUISprite;
 
     [Title("Stat Screen")]
@@ -594,6 +596,13 @@ public class CreateMonster : MonoBehaviour
             if (modifier.modifierDurationType == Modifier.ModifierDurationType.Temporary)
             {
                 modifier.modifierCurrentDuration -= 1;
+                if (modifier.modifierCurrentDuration == 0)
+                {
+                    modifier.ResetModifiedStat(monsterReference, gameObject);
+                    UpdateStats(false, null, false);
+                    monsterReference.ListOfModifiers.Remove(modifier);
+                }
+
                 if (modifier.statusEffectIconGameObject.TryGetComponent(out StatusEffectIcon statusEffectIcon) != false)
                 {
                     modifier.statusEffectIconGameObject.GetComponent<StatusEffectIcon>().modifierDurationText.text = ($"{modifier.modifierCurrentDuration}");
@@ -601,13 +610,6 @@ public class CreateMonster : MonoBehaviour
                 else
                 {
                     continue;
-                }
-
-                if (modifier.modifierCurrentDuration == 0)
-                {
-                    modifier.ResetModifiedStat(monsterReference, gameObject);
-                    UpdateStats(false, null, false);
-                    monsterReference.ListOfModifiers.Remove(modifier);
                 }
             }
         }
@@ -846,7 +848,7 @@ public class CreateMonster : MonoBehaviour
 
         //if (modList.Count == 1)
         //{
-        if (statEnumToChange != AttackEffect.StatEnumToChange.Health)
+        if (!modifier.adventureEquipment && statEnumToChange != AttackEffect.StatEnumToChange.Health)
         {
             GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
             modifier.statusEffectIconGameObject = statusIcon;
@@ -876,11 +878,32 @@ public class CreateMonster : MonoBehaviour
     // This function adds the modifer's icon to the monster's HUD
     public void AddSpecialStatusIcon(Modifier modifier)
     {
-        GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
-        modifier.statusEffectIconGameObject = statusIcon;
-        StatusEffectIcon newStatusEffectIcon = statusIcon.AddComponent<StatusEffectIcon>();
-        newStatusEffectIcon.modifier = modifier;
-        newStatusEffectIcon.InitiateSpecialEffectIcon(this);
+        List<Modifier> modList = monsterReference.ListOfModifiers.Where(mod => mod.modifierName == modifier.modifierName).ToList();
+
+        if (modList.Count <= 1)
+        {
+            GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
+            modifier.statusEffectIconGameObject = statusIcon;
+            StatusEffectIcon newStatusEffectIcon = statusIcon.AddComponent<StatusEffectIcon>();
+            newStatusEffectIcon.modifier = modifier;
+            newStatusEffectIcon.InitiateSpecialEffectIcon(this);
+        }
+        else
+        {
+            if (modifier.statusEffectIconGameObject == null)
+            {
+                GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
+                modifier.statusEffectIconGameObject = statusIcon;
+                StatusEffectIcon newStatusEffectIcon = statusIcon.AddComponent<StatusEffectIcon>();
+                newStatusEffectIcon.modifier = modifier;
+                newStatusEffectIcon.InitiateSpecialEffectIcon(this);
+            }
+            StatusEffectIcon statusEffectIconScript = modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>();
+            statusEffectIconScript.currentModifierStack += 1;
+            statusEffectIconScript.modifierDurationText.text = ($"x{statusEffectIconScript.currentModifierStack}");
+        }
+
+        modList.Clear();
     }
 
     // This function returns a sprite icon based on what stat is changed
@@ -945,6 +968,9 @@ public class CreateMonster : MonoBehaviour
             case (AttackEffect.StatEnumToChange.Debuffs):
                 return combatManagerScript.uiManager.debuffsImmuneUISprite;
 
+            case (AttackEffect.StatEnumToChange.Accuracy):
+                return combatManagerScript.uiManager.accuracySprite;
+
             default:
                 return combatManagerScript.monsterAttackManager.poisonedUISprite;
         }
@@ -1004,7 +1030,7 @@ public class CreateMonster : MonoBehaviour
             {
                 if (externalKillerGameObject == null)
                 {
-                    externalKillerGameObject = combatManagerScript.ListOfAllyPositions[0]; // Monster in first position
+                    externalKillerGameObject = combatManagerScript.GetRandomTarget(combatManagerScript.ListOfAllys); // random ally
                 }
                 externalKillerGameObject.GetComponent<CreateMonster>().monsterReference.monsterKills += 1;
                 externalKillerGameObject.GetComponent<CreateMonster>().GrantExp(12 * monsterReference.level);
@@ -1178,6 +1204,35 @@ public class CreateMonster : MonoBehaviour
 
         // regular buff
         return "+";
+    }
+
+    // This function returns a negative or positive sign for text applications
+    public string ReturnStatusEffectDescription(Modifier.StatusEffectType statusEffectType)
+    {
+        switch (statusEffectType)
+        {
+            case (Modifier.StatusEffectType.Burning):
+                return ($"current health damage per round.");
+
+            case (Modifier.StatusEffectType.Crippled):
+                return ($"50% reduced Speed and -10 Accuracy.");
+
+            case (Modifier.StatusEffectType.Dazed):
+                return ($"50% chance to select a different move and target.");
+
+            case (Modifier.StatusEffectType.Poisoned):
+                return ($"max health damage per round.");
+
+            case (Modifier.StatusEffectType.Stunned):
+                return ($"Cannot attack or act.");
+
+            case (Modifier.StatusEffectType.Weakened):
+                return ($"50% reduced Physical and Magic Attack.");
+
+            default:
+                return "";
+        }
+        
     }
 
     // This function returns a bonus damage source based on the enum StatEnumToChange

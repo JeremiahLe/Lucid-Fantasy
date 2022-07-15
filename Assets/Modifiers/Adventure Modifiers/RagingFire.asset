@@ -28,8 +28,8 @@ MonoBehaviour:
   statusEffectIcon: {fileID: 0}
   modifierName: Raging Fire
   modifierAdventureReference: 5
-  modifierDescription: 'Round Start: Apply enhanced Burning to a random, non-Burning
-    enemy for 2 rounds.'
+  modifierDescription: 'Round Start: Apply enhanced Burning (20% current health per
+    round) to a random, non-Burning enemy for 2 rounds.'
   adventureModifier: 1
   adventureEquipment: 0
   modifierAdventureCallTime: 1

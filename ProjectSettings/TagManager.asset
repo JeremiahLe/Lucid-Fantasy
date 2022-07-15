@@ -12,6 +12,7 @@ TagManager:
   - SubscreenMenu
   - Node
   - Targeter
+  - modifierWindow
   layers:
   - Default
   - TransparentFX

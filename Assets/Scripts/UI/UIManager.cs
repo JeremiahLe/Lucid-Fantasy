@@ -41,6 +41,8 @@ public class UIManager : MonoBehaviour
     [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
     public Sprite evasionSprite;
     [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite accuracySprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
     public Sprite critChanceSprite;
     [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
     public Sprite critDamageSprite;

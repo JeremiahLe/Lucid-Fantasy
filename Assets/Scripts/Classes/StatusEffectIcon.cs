@@ -4,9 +4,10 @@ using UnityEngine;
 using System;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
-public class StatusEffectIcon : MonoBehaviour
+public class StatusEffectIcon : MonoBehaviour, IPointerClickHandler
 {
     public Modifier modifier;
     public string statusEffectName;
@@ -21,6 +22,8 @@ public class StatusEffectIcon : MonoBehaviour
     public Modifier.StatusEffectType statusEffectType;
 
     public CreateMonster monsterRef;
+    public GameObject modifierStatScreenWindow;
+    public TextMeshProUGUI modifierWindowText;
 
     public StatusEffectIcon(Modifier _modifier)
     {   
@@ -56,6 +59,10 @@ public class StatusEffectIcon : MonoBehaviour
             currentModifierStack = 1;
             monsterRef = _monsterRef;
             GetComponent<Image>().sprite = monsterRef.ReturnStatusEffectSprite(modifier);
+
+            modifierStatScreenWindow = monsterRef.modifierWindow;
+            modifierWindowText = modifierStatScreenWindow.GetComponentInChildren<TextMeshProUGUI>();
+
             if (!modifier.statusEffect)
             {
                 if (modifier.statChangeType == AttackEffect.StatChangeType.Debuff)
@@ -90,19 +97,54 @@ public class StatusEffectIcon : MonoBehaviour
             currentModifierStack = 1;
             monsterRef = _monsterRef;
             GetComponent<Image>().sprite = modifier.baseSprite;
-            /*
-            if (!modifier.statusEffect)
+
+            modifierStatScreenWindow = monsterRef.modifierWindow;
+            modifierWindowText = modifierStatScreenWindow.GetComponentInChildren<TextMeshProUGUI>();
+        }
+    }
+
+    // This function displays monster stats on right-click
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            if (!modifierStatScreenWindow.activeSelf)
             {
-                if (modifier.statChangeType == AttackEffect.StatChangeType.Debuff)
+                modifierStatScreenWindow.SetActive(true);
+                if (modifier.adventureModifier)
                 {
-                    GetComponent<Image>().color = Color.red;
+                    modifierWindowText.text =
+                    ($"{modifier.modifierName}\n" +
+                    $"{modifier.modifierDescription}");
+                    return;
                 }
-                else
+                if (modifier.statusEffect)
                 {
-                    GetComponent<Image>().color = Color.green;
+                    modifierWindowText.text =
+                    ($"{modifier.modifierSource} ({modifier.statusEffectType.ToString()})\n" +
+                    $"{modifier.modifierAmount * 100f}% {monsterRef.ReturnStatusEffectDescription(modifier.statusEffectType)}");
+                    return;
                 }
+                modifierWindowText.text =
+                    ($"{modifier.modifierSource}\n" +
+                    $"{ReturnSign(modifier.statChangeType)}{modifier.modifierAmount} {modifier.statModified.ToString()}");
             }
-            */
+            else
+            {
+                modifierStatScreenWindow.SetActive(false);
+            }
+        }
+    }
+
+    public string ReturnSign(AttackEffect.StatChangeType statChangeType)
+    {
+        if (statChangeType == AttackEffect.StatChangeType.Buff)
+        {
+            return "+";
+        }
+        else
+        {
+            return "";
         }
     }
 }
