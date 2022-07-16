@@ -38,7 +38,7 @@ public class Modifier : ScriptableObject
     [Header("Adventure Variables")]
     public string modifierName;
     [DisableIf("adventureEquipment")]
-    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots, RagingFire, TenaciousGuard, ChosenOne, RisingPotential, ChaosWaves, GuardianAngel, ElusiveSpirit }
+    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots, RagingFire, TenaciousGuard, ChosenOne, RisingPotential, ChaosWaves, GuardianAngel, ElusiveSpirit, OpeningGambit, CombatTraining }
     public ModifierAdventureReference modifierAdventureReference;
     public string modifierDescription;
 

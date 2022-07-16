@@ -96,25 +96,25 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
             case Modifier.ModifierRarity.Common:
                 //<#24d152>
                 rewardName.text = ($"<b><#24d152>{modifierReward.modifierName}</color></b>" +
-                    $"\n- {modifierReward.modifierDescription}");
+                    $"\n{modifierReward.modifierDescription}");
                 break;
 
             case Modifier.ModifierRarity.Uncommon:
                 //#5255b3<#c55fde>
                 rewardName.text = ($"<b><#2596be>{modifierReward.modifierName}</color></b>" +
-                    $"\n- {modifierReward.modifierDescription}");
+                    $"\n{modifierReward.modifierDescription}");
                 break;
 
             case Modifier.ModifierRarity.Rare:
                 //#<c55fde><#2596be>
                 rewardName.text = ($"<b><#9925be>{modifierReward.modifierName}</color></b>" +
-                    $"\n- {modifierReward.modifierDescription}");
+                    $"\n{modifierReward.modifierDescription}");
                 break;
 
             case Modifier.ModifierRarity.Legendary:
                 //#<f0a346>
                 rewardName.text = ($"<b><#f0a346>{modifierReward.modifierName}</color></b>" +
-                    $"\n- {modifierReward.modifierDescription}");
+                    $"\n{modifierReward.modifierDescription}");
                 break;
 
             default:

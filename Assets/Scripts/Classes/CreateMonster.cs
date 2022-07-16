@@ -843,7 +843,6 @@ public class CreateMonster : MonoBehaviour
     // This function adds the modifer's icon to the monster's HUD
     public void AddStatusIcon(Modifier modifier, AttackEffect.StatEnumToChange statEnumToChange, int effectDuration)
     {
-
         //List<Modifier> modList = monsterReference.ListOfModifiers.Where(mod => mod.statModified == modifier.statModified && mod.modifierSource == modifier.modifierSource).ToList();
 
         //if (modList.Count == 1)
@@ -1236,7 +1235,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function returns a bonus damage source based on the enum StatEnumToChange
-    float GetStatToChange(AttackEffect.StatEnumToChange statEnumToChange, Monster monsterRef)
+    public float GetStatToChange(AttackEffect.StatEnumToChange statEnumToChange, Monster monsterRef)
     {
         switch (statEnumToChange)
         {

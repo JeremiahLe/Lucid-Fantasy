@@ -55,7 +55,7 @@ public class MonstersSubScreenManager : MonoBehaviour
         foreach (Modifier modifier in adventureManager.ListOfCurrentModifiers)
         {
             monsterAmountText.text +=
-               ($"\n{modifier.modifierName} - {modifier.modifierDescription}");
+               ($"\n<b>{modifier.modifierName}</b> - {modifier.modifierDescription}");
         }
     }
 }

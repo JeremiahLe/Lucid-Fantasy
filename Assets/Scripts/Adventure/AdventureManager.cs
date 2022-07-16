@@ -592,6 +592,46 @@ public class AdventureManager : MonoBehaviour
                         break;
                     #endregion
 
+                    #region Opening Gambit
+                    case (Modifier.ModifierAdventureReference.OpeningGambit):
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
+                        }
+                        else
+                        {
+                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfEnemies);
+                        }
+                        monster = monsterObj.GetComponent<CreateMonster>().monster;
+
+                        // Physical Attack
+                        newModifier = Instantiate(modifier);
+                        newModifier.statModified = AttackEffect.StatEnumToChange.PhysicalAttack;
+                        float oldStat = monsterObj.GetComponent<CreateMonster>().GetStatToChange(newModifier.statModified, monster);
+                        newModifier.modifierAmount = Mathf.RoundToInt(oldStat * (newModifier.modifierAmount / 100f) - oldStat);
+                        monster.ListOfModifiers.Add(newModifier);
+                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
+
+                        // Magic Attack
+                        Modifier newModifier2 = Instantiate(modifier);
+                        newModifier2.statModified = AttackEffect.StatEnumToChange.MagicAttack;
+                        oldStat = monsterObj.GetComponent<CreateMonster>().GetStatToChange(newModifier2.statModified, monster);
+                        newModifier2.modifierAmount = Mathf.RoundToInt(oldStat * (newModifier2.modifierAmount / 100f) - oldStat);
+                        monster.ListOfModifiers.Add(newModifier2);
+                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier2.statModified, newModifier2, true);
+
+                        // CritChance
+                        Modifier newModifier3 = Instantiate(modifier);
+                        newModifier3.modifierAmount = 100f;
+                        newModifier3.statModified = AttackEffect.StatEnumToChange.CritChance;
+                        monster.ListOfModifiers.Add(newModifier3);
+                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier3.statModified, newModifier3, true);
+
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was gained 1.5x physical and magic attack and 100% CritChance by {newModifier.modifierName} for {newModifier.modifierDuration - 1} rounds!");
+                        break;
+                    #endregion
+
                     default:
                         break;
                 }
@@ -802,6 +842,35 @@ public class AdventureManager : MonoBehaviour
                         monsterRef.ListOfModifiers.Add(newModifier);
                         monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
+                        break;
+                    #endregion
+
+                    #region Combat Training
+                    case (Modifier.ModifierAdventureReference.CombatTraining):
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            monsterObj = combatManagerScript.ListOfAllys[0];
+                        }
+                        else
+                        {
+                            monsterObj = combatManagerScript.ListOfEnemies[0];
+                        }
+                        monsterRef = monsterObj.GetComponent<CreateMonster>().monster;
+
+                        // Increase stats
+                        float modAmount = modifier.modifierAmount / 100f;
+                        monsterRef.physicalAttack += Mathf.RoundToInt(monsterRef.physicalAttack * modAmount) + 1;
+                        monsterRef.magicAttack += Mathf.RoundToInt(monsterRef.magicAttack * modAmount) + 1;
+                        monsterRef.physicalDefense += Mathf.RoundToInt(monsterRef.physicalDefense * modAmount) + 1;
+                        monsterRef.magicDefense += Mathf.RoundToInt(monsterRef.magicDefense * modAmount) + 1;
+                        monsterRef.evasion += Mathf.RoundToInt(monsterRef.evasion * modAmount) + 1;
+                        monsterRef.critChance += Mathf.RoundToInt(monsterRef.critChance * modAmount) + 1;
+                        monsterRef.speed += Mathf.RoundToInt(monsterRef.speed * modAmount) + 1;
+                        newModifier = Instantiate(modifier);
+                        monsterRef.ListOfModifiers.Add(newModifier);
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s stats was increased by {modifier.modifierName} ({modifier.modifierAmount}%)!");
                         break;
                     #endregion
 

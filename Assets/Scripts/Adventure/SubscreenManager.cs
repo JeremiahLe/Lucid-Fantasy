@@ -380,6 +380,12 @@ public class SubscreenManager : MonoBehaviour
 
         randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) + randMonster.speedScaler * adventureManager.adventureNGNumber);
 
+        // add equipment
+        if (adventureManager.adventureNGNumber >= 2)
+        {
+            randMonster.ListOfModifiers.Add(GetRandomEquipmentForEnemy());
+        }
+
         return randMonster;
     }
 
@@ -536,6 +542,25 @@ public class SubscreenManager : MonoBehaviour
         Modifier randModifier = adventureManager.ListOfAvailableRewardEquipment[Random.Range(0, adventureManager.ListOfAvailableRewardEquipment.Count)];
         adventureManager.ListOfAvailableRewardEquipment.Remove(randModifier);
 
+        Modifier randModifierSO = Instantiate(randModifier);
+
+        // Fix weird reroll bugged amounts?
+        randModifierSO.adventureEquipment = true;
+        randModifierSO.modifierAmountFlatBuff = randModifier.modifierAmountFlatBuff;
+        randModifierSO.modifierAmount = randModifier.modifierAmount;
+
+        return randModifierSO;
+    }
+
+    // This function returns a random equipment
+    public Modifier GetRandomEquipmentForEnemy()
+    {
+        if (adventureManager.ListOfAvailableRewardEquipment.Count == 0)
+        {
+            return null;
+        }
+
+        Modifier randModifier = adventureManager.ListOfAvailableRewardEquipment[Random.Range(0, adventureManager.ListOfAvailableRewardEquipment.Count)];
         Modifier randModifierSO = Instantiate(randModifier);
 
         // Fix weird reroll bugged amounts?
