@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
-  m_Name: Chosen One
+  m_Name: Deadeye
   m_EditorClassIdentifier: 
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
   modifierDurationType: 1
-  statModified: 16
+  statModified: 15
   statChangeType: 0
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 150
-  modifierAmountFlatBuff: 0
+  modifierAmount: 200
+  modifierAmountFlatBuff: 1
   statusEffect: 0
   statusEffectType: 0
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
-  modifierName: Chosen One
-  modifierAdventureReference: 7
-  modifierDescription: 'Game Start: A random allied monster gains 1.5x basic stats.'
+  modifierName: Deadeye
+  modifierAdventureReference: 14
+  modifierDescription: 'Game Start: Your first monster''s moves gain +200 accuracy.'
   adventureModifier: 1
   adventureEquipment: 0
   modifierAdventureCallTime: 0
-  modifierRarity: 3
-  baseSprite: {fileID: 21300000, guid: 4c5c814e8a826c346948a152533cf9b9, type: 3}
+  modifierRarity: 2
+  baseSprite: {fileID: 21300000, guid: 738d291fd08012743aa8982be5b00dfa, type: 3}

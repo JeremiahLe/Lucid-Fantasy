@@ -16,21 +16,22 @@ MonoBehaviour:
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
   modifierDurationType: 0
-  statModified: 0
+  statModified: 16
   statChangeType: 0
-  modifierDuration: 0
-  modifierCurrentDuration: 0
-  modifierAmount: 0
+  modifierDuration: 2
+  modifierCurrentDuration: 2
+  modifierAmount: 125
   modifierAmountFlatBuff: 0
   statusEffect: 0
   statusEffectType: 0
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
-  modifierName: 
-  modifierAdventureReference: 0
-  modifierDescription: 
-  adventureModifier: 0
+  modifierName: Opening Gambit
+  modifierAdventureReference: 12
+  modifierDescription: 'Game Start: Your first monster gains 1.25x physical and magic
+    attack, and 100% crit chance for 1 round.'
+  adventureModifier: 1
   adventureEquipment: 0
   modifierAdventureCallTime: 0
-  modifierRarity: 0
-  baseSprite: {fileID: 0}
+  modifierRarity: 1
+  baseSprite: {fileID: 21300000, guid: 8116593c8ed670d47b2da5f916b62163, type: 3}

@@ -38,8 +38,7 @@ public class Modifier : ScriptableObject
     [Header("Adventure Variables")]
     public string modifierName;
     [DisableIf("adventureEquipment")]
-    public enum ModifierAdventureReference { WildFervor, TemperedOffense, VirulentVenom, TemperedDefense, WindsweptBoots, RagingFire, TenaciousGuard, ChosenOne, RisingPotential, ChaosWaves, GuardianAngel, ElusiveSpirit, OpeningGambit, CombatTraining }
-    public ModifierAdventureReference modifierAdventureReference;
+    public AdventureModifiers.AdventureModifierReferenceList modifierAdventureReference;
     public string modifierDescription;
 
     [DisableIf("adventureEquipment")]
@@ -47,7 +46,7 @@ public class Modifier : ScriptableObject
     [DisableIf("adventureModifier")]
     public bool adventureEquipment = false;
 
-    public enum ModifierAdventureCallTime { GameStart, RoundStart, OOCPassive }
+    public enum ModifierAdventureCallTime { GameStart, RoundStart, OOCPassive, RoundEnd }
     public ModifierAdventureCallTime modifierAdventureCallTime;
 
     public enum ModifierRarity { Common, Uncommon, Rare, Legendary }
@@ -83,6 +82,18 @@ public class Modifier : ScriptableObject
 
                 case StatusEffectType.Dazed:
                     monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsDazed = false;
+                    break;
+
+                case StatusEffectType.Stunned:
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsStunned = false;
+                    break;
+
+                case StatusEffectType.Crippled:
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsCrippled = false;
+                    break;
+
+                case StatusEffectType.Weakened:
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsWeakened = false;
                     break;
 
                 default:

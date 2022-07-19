@@ -718,7 +718,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.0014533997, y: 228.84778}
+  m_AnchoredPosition: {x: -0.0017814636, y: 228.84766}
   m_SizeDelta: {x: -0.0024719238, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &93912620
@@ -6203,8 +6203,8 @@ MonoBehaviour:
   burningUISprite: {fileID: 21300000, guid: 3c0af93a925af18468620cd1c05dd164, type: 3}
   dazedUISprite: {fileID: 21300000, guid: 44ac3f8a95f5748838bd5a634f098c2f, type: 3}
   weakenedUISprite: {fileID: 21300000, guid: 44ac3f8a95f5748838bd5a634f098c2f, type: 3}
-  stunnedUISprite: {fileID: 0}
-  crippledUISprite: {fileID: 0}
+  stunnedUISprite: {fileID: 21300000, guid: 16d9b94212af646d3a32f742a7b80829, type: 3}
+  crippledUISprite: {fileID: 21300000, guid: 75173ecc1697546fa960b35ab63c7537, type: 3}
   damageImmuneUISprite: {fileID: 21300000, guid: 522a5d8f7ef71ab4ea50c6e8f40e572f, type: 3}
   debuffsImmuneUISprite: {fileID: 21300000, guid: 8cdcb80a3bb614f40aa722a71b30a641, type: 3}
 --- !u!114 &1758263245

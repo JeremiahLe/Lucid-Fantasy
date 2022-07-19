@@ -15,12 +15,12 @@ public class AttackEffect : ScriptableObject
         DoublePowerIfStatBoost, OnCriticalStrikeBuff, DamageAllEnemies, CripplingFearEffect, NonDamagingMove,
         SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity,
         InflictBurning, InflictPoisoned, InflictDazed,
-        DamageBonusIfTargetStatusEffect
+        DamageBonusIfTargetStatusEffect, InflictStunned
     }
 
     public TypeOfEffect typeOfEffect;
 
-    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various }
+    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various, AddOffensiveAttackEffect }
     public StatEnumToChange statEnumToChange;
 
     public enum StatChangeType { Buff, Debuff, None }
@@ -30,6 +30,9 @@ public class AttackEffect : ScriptableObject
     public EffectTime effectTime;
 
     public Modifier.StatusEffectType attackEffectStatus;
+
+    public enum AttackEffectDuration { Permanent, Temporary }
+    public AttackEffectDuration attackEffectDuration;
 
     [Title("Modifier Adjustments")]
     public bool inflictSelf = false;
@@ -48,6 +51,24 @@ public class AttackEffect : ScriptableObject
     [DisplayWithoutEdit] public CombatManagerScript combatManagerScript;
 
     public List<Modifier> ListOfModifiers;
+
+    // Constructor
+    public AttackEffect(StatEnumToChange statEnumToChange, StatChangeType statChangeType, EffectTime effectTime, 
+        Modifier.StatusEffectType attackEffectStatus, bool inflictSelf, bool modifierCalledOnce, bool flatBuff, int modifierDuration, float amountToChange, 
+        float effectTriggerChance, CombatManagerScript combatManagerScript)
+    {
+        this.statEnumToChange = statEnumToChange;
+        this.statChangeType = statChangeType;
+        this.effectTime = effectTime;
+        this.attackEffectStatus = attackEffectStatus;
+        this.inflictSelf = inflictSelf;
+        this.modifierCalledOnce = modifierCalledOnce;
+        this.flatBuff = flatBuff;
+        this.modifierDuration = modifierDuration;
+        this.amountToChange = amountToChange;
+        this.effectTriggerChance = effectTriggerChance;
+        this.combatManagerScript = combatManagerScript;
+    }
 
     // Initial function that is called by monsterAttackManager that enacts attack after effects
     public void TriggerEffects(MonsterAttackManager monsterAttackManager, string effectTrigger)
@@ -248,6 +269,24 @@ public class AttackEffect : ScriptableObject
                         targetMonster = monsterAttackManager.currentMonsterTurn; // monsterattackmanager instead of combatmanager reference to fix a fueguy self daze bug after killing all enemies
                         targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject; // monsterattackmanager instead of combatmanager reference to fix a fueguy self daze bug after killing all enemies
                         InflictDazed(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                    }
+                }
+                break;
+
+            case TypeOfEffect.InflictStunned:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    if (!inflictSelf)
+                    {
+                        targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                        InflictStunned(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                    }
+                    else
+                    {
+                        targetMonster = monsterAttackManager.currentMonsterTurn; // monsterattackmanager instead of combatmanager reference to fix a fueguy self daze bug after killing all enemies
+                        targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject; // monsterattackmanager instead of combatmanager reference to fix a fueguy self daze bug after killing all enemies
+                        InflictStunned(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                     }
                 }
                 break;
@@ -1315,6 +1354,66 @@ public class AttackEffect : ScriptableObject
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
         monsterReferenceGameObject.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Dazed);
+
+        // Update combat order if speed was adjusted
+        if (statEnumToChange == StatEnumToChange.Speed)
+        {
+            combatManagerScript.SortMonsterBattleSequence();
+        }
+    }
+
+    // Delegate Debuff Function Test
+    public void InflictStunned(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
+    {
+        // Grab new refs?
+        if (inflictSelf)
+        {
+            monsterReference = monsterAttackManager.currentMonsterTurn;
+            monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+        }
+        else
+        {
+            monsterReference = monsterAttackManager.currentTargetedMonster;
+            monsterReferenceGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
+        }
+
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
+
+        // Check if already dazed
+        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsStunned == true)
+        {
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already Stunned!", monsterReference.aiType);
+            return;
+        }
+
+        // see if effect hits
+        float hitChance = (effectTriggerChance / 100);
+        float randValue = UnityEngine.Random.value;
+
+        if (randValue > hitChance)
+        {
+            return;
+        }
+
+        // Get damage amount
+        float toValue = (amountToChange / 100);
+
+        // Add modifiers
+        //AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration);
+        CreateAndAddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration, Modifier.StatusEffectType.Stunned, monsterAttackManager.currentMonsterTurnGameObject);
+
+        // Send message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} was Stunned by {effectTriggerName}!");
+
+        // Update monster's stats
+        monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+        monsterReferenceGameObject.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Stunned);
 
         // Update combat order if speed was adjusted
         if (statEnumToChange == StatEnumToChange.Speed)

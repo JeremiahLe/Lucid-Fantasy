@@ -83,6 +83,7 @@ public class CreateMonster : MonoBehaviour
     public bool monsterIsDazed = false;
     public bool monsterIsCrippled = false;
     public bool monsterIsWeakened = false;
+    public bool monsterIsStunned = false;
 
     [DisplayWithoutEdit] public List<Modifier> ListOfModifiers;
 
@@ -679,6 +680,10 @@ public class CreateMonster : MonoBehaviour
                 monsterReference.health += (int)modifier.modifierAmount;
                 break;
 
+            case (AttackEffect.StatEnumToChange.Accuracy):
+                monsterReference.bonusAccuracy += (int)modifier.modifierAmount;
+                break;
+
             default:
                 Debug.Log("Missing stat to modify to modifier?", this);
                 break;
@@ -749,6 +754,10 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatEnumToChange.Health):
                 monsterReference.health += (int)modifier.modifierAmount;
+                break;
+
+            case (AttackEffect.StatEnumToChange.Accuracy):
+                monsterReference.bonusAccuracy += (int)modifier.modifierAmount;
                 break;
 
             default:
@@ -992,6 +1001,11 @@ public class CreateMonster : MonoBehaviour
 
             case (Modifier.StatusEffectType.Dazed):
                 monsterIsDazed = true;
+                statusEffectUISprite.sprite = monsterAttackManager.dazedUISprite;
+                break;
+
+            case (Modifier.StatusEffectType.Stunned):
+                monsterIsStunned = true;
                 statusEffectUISprite.sprite = monsterAttackManager.dazedUISprite;
                 break;
 

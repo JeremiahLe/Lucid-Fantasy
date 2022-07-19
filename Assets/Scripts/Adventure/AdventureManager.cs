@@ -487,7 +487,7 @@ public class AdventureManager : MonoBehaviour
             {
                 switch (mod.modifierAdventureReference)
                 {
-                    case (Modifier.ModifierAdventureReference.RisingPotential):
+                    case (AdventureModifiers.AdventureModifierReferenceList.RisingPotential):
                         bonusExp += (mod.modifierAmount / 100f);
                         break;
 
@@ -526,7 +526,7 @@ public class AdventureManager : MonoBehaviour
                 switch (modifier.modifierAdventureReference)
                 {
                     #region WindsweptBoots
-                    case (Modifier.ModifierAdventureReference.WindsweptBoots):
+                    case (AdventureModifiers.AdventureModifierReferenceList.WindsweptBoots):
                         if (aIType == Monster.AIType.Ally)
                         {
                             monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
@@ -545,7 +545,7 @@ public class AdventureManager : MonoBehaviour
                     #endregion
 
                     #region Chosen One
-                    case (Modifier.ModifierAdventureReference.ChosenOne):
+                    case (AdventureModifiers.AdventureModifierReferenceList.ChosenOne):
                         if (aIType == Monster.AIType.Ally)
                         {
                             monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
@@ -572,7 +572,7 @@ public class AdventureManager : MonoBehaviour
                     #endregion
 
                     #region Guardian Angel
-                    case (Modifier.ModifierAdventureReference.GuardianAngel):
+                    case (AdventureModifiers.AdventureModifierReferenceList.GuardianAngel):
                         if (aIType == Monster.AIType.Ally)
                         {
                             monsterObj = combatManagerScript.ListOfAllys[0];
@@ -593,7 +593,7 @@ public class AdventureManager : MonoBehaviour
                     #endregion
 
                     #region Opening Gambit
-                    case (Modifier.ModifierAdventureReference.OpeningGambit):
+                    case (AdventureModifiers.AdventureModifierReferenceList.OpeningGambit):
                         if (aIType == Monster.AIType.Ally)
                         {
                             monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
@@ -632,6 +632,25 @@ public class AdventureManager : MonoBehaviour
                         break;
                     #endregion
 
+                    #region Deadeye
+                    case (AdventureModifiers.AdventureModifierReferenceList.Deadeye):
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            monsterObj = combatManagerScript.ListOfAllys[0];
+                        }
+                        else
+                        {
+                            monsterObj = combatManagerScript.ListOfEnemies[0];
+                        }
+                        monster = monsterObj.GetComponent<CreateMonster>().monster;
+
+                        newModifier = Instantiate(modifier);
+                        monster.ListOfModifiers.Add(newModifier);
+                        monsterObj.GetComponent<CreateMonster>().ModifyStats(modifier.statModified, modifier, true);
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
+                        break;
+                    #endregion
+
                     default:
                         break;
                 }
@@ -667,7 +686,7 @@ public class AdventureManager : MonoBehaviour
                 switch (modifier.modifierAdventureReference)
                 {               
                     #region Virulent Venom
-                    case Modifier.ModifierAdventureReference.VirulentVenom:
+                    case AdventureModifiers.AdventureModifierReferenceList.VirulentVenom:
 
                         // Get random enemy from list of unpoisoned enemies
                         if (aIType == Monster.AIType.Ally)
@@ -720,7 +739,7 @@ public class AdventureManager : MonoBehaviour
                     #endregion
 
                     #region Raging Fire
-                    case Modifier.ModifierAdventureReference.RagingFire:
+                    case AdventureModifiers.AdventureModifierReferenceList.RagingFire:
 
                         // Get random enemy from list of unpoisoned enemies
                         if (aIType == Monster.AIType.Ally)
@@ -774,7 +793,7 @@ public class AdventureManager : MonoBehaviour
                     #endregion Raging Fire
 
                     #region Chaos Waves
-                    case Modifier.ModifierAdventureReference.ChaosWaves:
+                    case AdventureModifiers.AdventureModifierReferenceList.ChaosWaves:
 
                         // Get random enemy from list of unstatused enemies
                         if (aIType == Monster.AIType.Ally)
@@ -828,7 +847,7 @@ public class AdventureManager : MonoBehaviour
                     #endregion
 
                     #region Elusive Spirit
-                    case Modifier.ModifierAdventureReference.ElusiveSpirit:
+                    case AdventureModifiers.AdventureModifierReferenceList.ElusiveSpirit:
                         if (aIType == Monster.AIType.Ally)
                         {
                             monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
@@ -846,7 +865,7 @@ public class AdventureManager : MonoBehaviour
                     #endregion
 
                     #region Combat Training
-                    case (Modifier.ModifierAdventureReference.CombatTraining):
+                    case (AdventureModifiers.AdventureModifierReferenceList.CombatTraining):
                         if (aIType == Monster.AIType.Ally)
                         {
                             monsterObj = combatManagerScript.ListOfAllys[0];
@@ -866,10 +885,26 @@ public class AdventureManager : MonoBehaviour
                         monsterRef.evasion += Mathf.RoundToInt(monsterRef.evasion * modAmount) + 1;
                         monsterRef.critChance += Mathf.RoundToInt(monsterRef.critChance * modAmount) + 1;
                         monsterRef.speed += Mathf.RoundToInt(monsterRef.speed * modAmount) + 1;
+
                         newModifier = Instantiate(modifier);
+                        newModifier.modifierName = modifier.modifierName;
                         monsterRef.ListOfModifiers.Add(newModifier);
+
+                        List<Modifier> modList = monsterRef.ListOfModifiers.Where(mod => mod.modifierName == newModifier.modifierName).ToList();
+
+                        if (modList.Count > 1)
+                        {
+                            StatusEffectIcon statusEffectIconScript = modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>();
+                            modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>().currentModifierStack += 1;
+                            modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>().modifierDurationText.text = ($"x{statusEffectIconScript.currentModifierStack}");
+                            monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s stats was increased by {modifier.modifierName} ({modifier.modifierAmount}%)!");
+                            continue;
+                        }
+
                         monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
                         monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
+
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s stats was increased by {modifier.modifierName} ({modifier.modifierAmount}%)!");
                         break;
                     #endregion
@@ -902,16 +937,16 @@ public class AdventureManager : MonoBehaviour
             // Get specific Modifier
             switch (modifier.modifierAdventureReference)
             {
-                case Modifier.ModifierAdventureReference.WildFervor:
+                case AdventureModifiers.AdventureModifierReferenceList.WildFervor:
                     monster.critChance += modifier.modifierAmount;
                     // Increase stats
                     newModifier = Instantiate(modifier);
                     monster.ListOfModifiers.Add(newModifier);
                     monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(newModifier);
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} critical chance was increased by {modifier.modifierName} (+{modifier.modifierAmount}).");
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s critical chance was increased by {modifier.modifierName} (+{modifier.modifierAmount}).");
                     break;
 
-                case Modifier.ModifierAdventureReference.TemperedOffense:
+                case AdventureModifiers.AdventureModifierReferenceList.TemperedOffense:
                     int physicalAttackIncrease = Mathf.RoundToInt(monster.cachedPhysicalAttack * (modifier.modifierAmount / 100f) + 1f);
                     monster.physicalAttack += physicalAttackIncrease;
                     int magicAttackIncrease = Mathf.RoundToInt(monster.cachedMagicAttack * (modifier.modifierAmount / 100f) + 1f);
@@ -920,10 +955,10 @@ public class AdventureManager : MonoBehaviour
                     newModifier = Instantiate(modifier);
                     monster.ListOfModifiers.Add(newModifier);
                     monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(newModifier);
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} physical and magic attack was increased by {modifier.modifierName} (+{physicalAttackIncrease}|+{magicAttackIncrease}).");
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s physical and magic attack was increased by {modifier.modifierName} (+{physicalAttackIncrease}|+{magicAttackIncrease}).");
                     break;
 
-                case Modifier.ModifierAdventureReference.TemperedDefense:
+                case AdventureModifiers.AdventureModifierReferenceList.TemperedDefense:
                     int physicalDefenseIncrease = Mathf.RoundToInt(monster.cachedPhysicalDefense * (modifier.modifierAmount / 100f) + 1f);
                     monster.physicalDefense += physicalDefenseIncrease;
                     int magicDefenseIncrease = Mathf.RoundToInt(monster.cachedMagicDefense * (modifier.modifierAmount / 100f) + 1f);
@@ -932,10 +967,10 @@ public class AdventureManager : MonoBehaviour
                     newModifier = Instantiate(modifier);
                     monster.ListOfModifiers.Add(newModifier);
                     monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(newModifier);
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} physical and magic defense was increased by {modifier.modifierName} (+{physicalDefenseIncrease}|+{magicDefenseIncrease}).");
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s physical and magic defense was increased by {modifier.modifierName} (+{physicalDefenseIncrease}|+{magicDefenseIncrease}).");
                     break;
 
-                case Modifier.ModifierAdventureReference.TenaciousGuard:
+                case AdventureModifiers.AdventureModifierReferenceList.TenaciousGuard:
 
                     //AttackEffect temp = AttackEffect.CreateInstance<AttackEffect>();
                     // Increase stats
@@ -945,6 +980,34 @@ public class AdventureManager : MonoBehaviour
                     monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
                     //temp.CreateAndAddModifiers(0, false, monster, monsterObj, modifier.modifierDuration, monsterObj, modifier.statModified);
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} gained immunity to statuses and debuffs for 3 rounds!");
+                    break;
+
+                case AdventureModifiers.AdventureModifierReferenceList.CrushingBlows:
+                    // Increase stats
+                    newModifier = Instantiate(modifier);
+                    monster.ListOfModifiers.Add(newModifier);
+                    monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
+                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+
+                    // Create attack effect
+                    AttackEffect effect = new AttackEffect(newModifier.statModified, newModifier.statChangeType, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, false, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
+                    effect.typeOfEffect = AttackEffect.TypeOfEffect.InflictStunned;
+                    effect.attackEffectDuration = AttackEffect.AttackEffectDuration.Temporary;
+
+                    // Add stun attack effect to each attack if offensive move
+                    foreach(MonsterAttack attack in monster.ListOfMonsterAttacks)
+                    {
+                        if (attack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
+                        {
+                            attack.ListOfAttackEffects.Add(effect);
+                            if (attack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
+                            {
+                                effect.effectTime = AttackEffect.EffectTime.DuringAttack;
+                            }
+                        }
+                    }
+
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} gained 25% chance to stun on hit from {newModifier.modifierName}!");
                     break;
 
                 default:

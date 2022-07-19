@@ -494,6 +494,17 @@ public class CombatManagerScript : MonoBehaviour
                 targeting = false;
                 monsterTurn = MonsterTurn.EnemyTurn;
                 buttonManagerScript.HideAllButtons("All");
+
+                // First check if the monster is stunned or doesn't have an action available
+                if (CurrentMonsterTurn.GetComponent<CreateMonster>().monsterIsStunned)
+                {
+                    CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
+                    HUDanimationManager.MonsterCurrentTurnText.text = ($"Enemy {monster.name} is Stunned!");
+                    CombatLog.SendMessageToCombatLog($"Enemy {monster.name} is Stunned!");
+                    Invoke("NextMonsterTurn", 1f);
+                    return;
+                }
+
                 HUDanimationManager.MonsterCurrentTurnText.text = ($"Enemy {monster.name} turn...");
 
                 // Call enemy AI script after a delay
@@ -1000,7 +1011,7 @@ public class CombatManagerScript : MonoBehaviour
         if (wonBattle)
         {   
             // Clear out stat changes
-            foreach(Monster monster in adventureManager.ListOfAllyBattleMonsters)
+            foreach(Monster monster in adventureManager.ListOfAllyBattleMonsters.ToList()) // might have to remove this ToList()
             {
                 // Only remove non equipment modifiers
                 monster.ListOfModifiers = monster.ListOfModifiers.Where(mod => mod.adventureEquipment == true).ToList();
@@ -1016,6 +1027,18 @@ public class CombatManagerScript : MonoBehaviour
                 monster.critChance = monster.cachedCritChance;
 
                 monster.bonusAccuracy = monster.cachedBonusAccuracy;
+
+                // Clear temporary monster attack effects
+                foreach (MonsterAttack attack in monster.ListOfMonsterAttacks.ToList()) // might have to remove this ToList()
+                {
+                    foreach(AttackEffect effect in attack.ListOfAttackEffects.ToList()) // might have to remove this ToList()
+                    {
+                        if (effect.attackEffectDuration == AttackEffect.AttackEffectDuration.Temporary)
+                        {
+                            attack.ListOfAttackEffects.Remove(effect);
+                        }
+                    }
+                }
             }
 
             adventureManager.ListOfAllyBattleMonsters.Clear();
