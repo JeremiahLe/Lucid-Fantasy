@@ -596,11 +596,11 @@ public class AdventureManager : MonoBehaviour
                     case (AdventureModifiers.AdventureModifierReferenceList.OpeningGambit):
                         if (aIType == Monster.AIType.Ally)
                         {
-                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
+                            monsterObj = combatManagerScript.ListOfAllys.OrderByDescending(FastestMonster => FastestMonster.GetComponent<CreateMonster>().monsterReference.speed).ToList().First();
                         }
                         else
                         {
-                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfEnemies);
+                            monsterObj = combatManagerScript.ListOfEnemies.OrderByDescending(FastestMonster => FastestMonster.GetComponent<CreateMonster>().monsterReference.speed).ToList().First();
                         }
                         monster = monsterObj.GetComponent<CreateMonster>().monster;
 
@@ -916,6 +916,63 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
+    // This function is called at Round End to apply Round End Modifiers
+    public void ApplyRoundEndAdventureModifiers(Monster.AIType aIType)
+    {
+        List<Modifier> whatListShouldIUse;
+        List<GameObject> listOfUnstatusedEnemies;
+        GameObject monsterObj;
+        Monster monsterRef;
+        Modifier newModifier;
+
+        // Apply ally or enemy modifiers?
+        if (aIType == Monster.AIType.Ally)
+        {
+            whatListShouldIUse = ListOfCurrentModifiers;
+        }
+        else
+        {
+            whatListShouldIUse = ListOfEnemyModifiers;
+        }
+
+        foreach (Modifier modifier in whatListShouldIUse)
+        {
+            // Only apply Round End modifiers
+            if (modifier.modifierAdventureCallTime == Modifier.ModifierAdventureCallTime.RoundEnd)
+            {
+                // Get specific Modifier
+                switch (modifier.modifierAdventureReference)
+                {
+                    case (AdventureModifiers.AdventureModifierReferenceList.BlessingOfEarth):
+
+                        if (aIType == Monster.AIType.Ally)
+                        {
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys;
+                        }
+                        else
+                        {
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies;
+                        }
+
+                        // Get monster with lowest health
+                        monsterObj = listOfUnstatusedEnemies.OrderByDescending(monsterWithLowestHealth => monsterWithLowestHealth.GetComponent<CreateMonster>().monsterReference.health).ToList().Last();
+                        monsterRef = monsterObj.GetComponent<CreateMonster>().monsterReference;
+
+                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{modifier.modifierName} was activated!");
+
+                        AttackEffect effect = new AttackEffect(modifier.statModified, modifier.statChangeType, AttackEffect.EffectTime.PostAttack, Modifier.StatusEffectType.None, true, true, false, 0, modifier.modifierAmount, 100f, combatManagerScript);
+                        effect.BuffTargetStat(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier.modifierName, true);
+
+                        break;
+
+
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    
     // This function is called at Game Start by CombatManagerScript as it registers every Monster in Combat, before Round 1
     public void ApplyAdventureModifiers(Monster monster, GameObject monsterObj, Monster.AIType aIType)
     {

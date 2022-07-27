@@ -28,6 +28,8 @@ public class Monster : ScriptableObject
     public enum AILevel { Smart, Random, Bad, Player };
     public AILevel aiLevel;
 
+    public Ability monsterAbility;
+
     [Title("Monster Combat Stats")]
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 50)] public int level;

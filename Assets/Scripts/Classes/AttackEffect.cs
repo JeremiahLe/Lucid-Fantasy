@@ -958,7 +958,7 @@ public class AttackEffect : ScriptableObject
         Modifier mod2 = CreateInstance<Modifier>();
         mod2.modifierSource = name;
         mod2.modifierAmount = toValue;
-        mod.statChangeType = StatChangeType.Debuff;
+        mod2.statChangeType = StatChangeType.Debuff;
         mod2.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod2.statModified = StatEnumToChange.MagicAttack;
         monsterReference.ListOfModifiers.Add(mod2);
@@ -1034,6 +1034,95 @@ public class AttackEffect : ScriptableObject
             monsterReference = monsterAttackManager.currentMonsterTurn;
             monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
         }
+
+        // Calculate buff
+        float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);
+        float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+        if (toValue <= 1)
+        {
+            toValue = 1; // prevent buffs of 0
+        }
+
+        if (flatBuff)
+        {
+            toValue = amountToChange;
+        }
+
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
+
+        // see if effect hits
+        float hitChance = (effectTriggerChance / 100);
+        float randValue = UnityEngine.Random.value;
+
+        if (randValue > hitChance)
+        {
+            return;
+        }
+
+        // Check if certain stat change reaches upper cap
+        if (statEnumToChange == StatEnumToChange.CritDamage && fromValue >= 2.5)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
+            return;
+        }
+
+        // Check if certain stat change reaches upper cap
+        if (statEnumToChange == StatEnumToChange.Health && monsterReference.health == monsterReference.maxHealth)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
+            return;
+        }
+
+        // Add modifiers
+        CreateAndAddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration, monsterAttackManager.currentMonsterTurnGameObject);
+
+        // Send speed buff message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(statEnumToChange, true);
+
+        // Update monster's stats
+        if (statEnumToChange == StatEnumToChange.Health)
+        {
+            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false); // if health changed, check health
+        }
+        else
+        {
+            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+        }
+
+        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+
+        // Update combat order if speed was adjusted
+        if (statEnumToChange == StatEnumToChange.Speed)
+        {
+            combatManagerScript.SortMonsterBattleSequence();
+        }
+    }
+
+    // Delegate Buff Function Test
+    public void BuffTargetStat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName, bool calledExternally)
+    {
+        // Grab new refs?
+        //monsterReference = monsterAttackManager.currentTargetedMonster;
+        //monsterReferenceGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
+
+        // If the effect applies to user
+        //if (inflictSelf)
+        //{
+        //    monsterReference = monsterAttackManager.currentMonsterTurn;
+        //    monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+        //}
 
         // Calculate buff
         float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);

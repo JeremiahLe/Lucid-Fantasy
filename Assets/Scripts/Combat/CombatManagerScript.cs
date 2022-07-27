@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using Sirenix.OdinInspector;
+using System.Threading.Tasks;
 
 public class CombatManagerScript : MonoBehaviour
 {
@@ -380,7 +381,7 @@ public class CombatManagerScript : MonoBehaviour
     }
 
     // This function sets the monster turn by speed and priority
-    public void SetCurrentMonsterTurn()
+    public async void SetCurrentMonsterTurn()
     {
         #region Old Code
         /*
@@ -409,6 +410,9 @@ public class CombatManagerScript : MonoBehaviour
 
         if (CurrentMonsterTurn == null)
         {
+            // Call Round End Abilities or Modifiers
+            await CallRoundEndFunctions();
+
             StartCoroutine(IncrementNewRoundIE());
         }
         else
@@ -478,6 +482,41 @@ public class CombatManagerScript : MonoBehaviour
         }
         */
         #endregion
+    }
+
+    // This function is called at round end to apply any round end abilities or adventure modifiers
+    async Task<int> CallRoundEndFunctions()
+    {
+        //// Call ally round end abilities
+        //foreach(GameObject monsterObj in ListOfAllys)
+        //{
+        //    Monster monster = monsterObj.GetComponent<CreateMonster>().monsterReference;
+        //    if (monster.monsterAbility.abilityTriggerTime == Ability.AbilityTriggerTime.RoundEnd)
+        //    {
+        //       monster.monsterAbility.TriggerAbility();
+        //    }
+        //}
+
+        //// Call enemy round end abilities
+        //foreach (GameObject monsterObj in ListOfEnemies)
+        //{
+        //    Monster monster = monsterObj.GetComponent<CreateMonster>().monsterReference;
+        //    if (monster.monsterAbility.abilityTriggerTime == Ability.AbilityTriggerTime.RoundEnd)
+        //    {
+        //        monster.monsterAbility.TriggerAbility();
+        //    }
+        //}
+
+        // Call Round End adventure modifiers
+        if (adventureMode)
+        {
+            adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Ally);
+            adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Enemy);
+        }
+
+        // Once all Round End effects have been called, End Round
+        await Task.Delay(1000);
+        return 1;
     }
 
     // This function initiates combat and serves to clean up the SetCurrentMonsterTurn function

@@ -21,6 +21,7 @@ public class AdventureModifiers : MonoBehaviour
         OpeningGambit,
         CombatTraining,
         Deadeye,
-        CrushingBlows
+        CrushingBlows,
+        BlessingOfEarth
     }
 }

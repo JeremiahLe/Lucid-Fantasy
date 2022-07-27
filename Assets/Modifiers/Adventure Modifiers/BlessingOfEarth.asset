@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
-  m_Name: Opening Gambit
+  m_Name: BlessingOfEarth
   m_EditorClassIdentifier: 
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
-  modifierDurationType: 0
-  statModified: 16
+  modifierDurationType: 1
+  statModified: 0
   statChangeType: 0
-  modifierDuration: 2
-  modifierCurrentDuration: 2
-  modifierAmount: 125
+  modifierDuration: 0
+  modifierCurrentDuration: 0
+  modifierAmount: 25
   modifierAmountFlatBuff: 0
   statusEffect: 0
   statusEffectType: 0
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
-  modifierName: Opening Gambit
-  modifierAdventureReference: 12
-  modifierDescription: 'Game Start: Your fastest monster gains 1.25x physical and
-    magic attack, and 100% crit chance for 1 round.'
+  modifierName: Blessing of Earth
+  modifierAdventureReference: 16
+  modifierDescription: 'Round End: Your lowest health monster heals for 25% of their
+    missing health.'
   adventureModifier: 1
   adventureEquipment: 0
-  modifierAdventureCallTime: 0
-  modifierRarity: 1
-  baseSprite: {fileID: 21300000, guid: 8116593c8ed670d47b2da5f916b62163, type: 3}
+  modifierAdventureCallTime: 3
+  modifierRarity: 0
+  baseSprite: {fileID: 21300000, guid: e4cf4a7c1ea905d4b910609f47721e97, type: 3}
