@@ -18,9 +18,10 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
   aiLevel: 0
+  monsterAbility: {fileID: 0}
   level: 7
-  health: 100
-  maxHealth: 100
+  health: 120
+  maxHealth: 120
   cachedHealth: 0
   cachedMaxHealth: 0
   physicalAttack: 5

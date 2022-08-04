@@ -69,6 +69,9 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public float monsterEvasion;
 
     [Title("Combat Functions & Status")]
+    public enum MonsterRowPosition { BackRow, FrontRow };
+    [DisplayWithoutEdit] public MonsterRowPosition monsterRowPosition;
+
     [DisplayWithoutEdit] public float monsterDamageTakenThisRound;
     [DisplayWithoutEdit] public bool monsterActionAvailable = true;
     [DisplayWithoutEdit] public bool monsterRecievedStatBoostThisRound = false;
@@ -318,6 +321,62 @@ public class CreateMonster : MonoBehaviour
     {
         HealthbarSliderDamaged.value = monsterReference.health;
         HealthbarSliderFillDamagedFade.CrossFadeAlpha(1, .1f, false);
+    }
+
+    // This function is called to update the monster's current row position (back row or front row) to adjust it stat bonuses
+    public void UpdateMonsterRowPosition(bool startOfBattle, MonsterRowPosition newRowPosition)
+    {
+        monsterRowPosition = newRowPosition;
+
+        if (startOfBattle)
+        {
+            if (monsterRowPosition == MonsterRowPosition.FrontRow)
+            {
+                // Apply front row bonus stats
+                monsterReference.bonusAccuracy += 5;
+                monsterReference.physicalAttack = Mathf.RoundToInt(monsterReference.physicalAttack * 1.1f);
+                monsterReference.magicAttack = Mathf.RoundToInt(monsterReference.magicAttack * 1.1f);
+
+                monsterReference.physicalDefense = Mathf.RoundToInt(monsterReference.physicalDefense * 0.9f);
+                monsterReference.magicDefense = Mathf.RoundToInt(monsterReference.magicDefense * 0.9f);
+            }
+            else
+            {
+                // Apply back row bonus stats
+                monsterReference.bonusAccuracy -= 5;
+                monsterReference.physicalAttack = Mathf.RoundToInt(monsterReference.physicalAttack * 0.9f);
+                monsterReference.magicAttack = Mathf.RoundToInt(monsterReference.magicAttack * 0.9f);
+
+                monsterReference.physicalDefense = Mathf.RoundToInt(monsterReference.physicalDefense * 1.1f);
+                monsterReference.magicDefense = Mathf.RoundToInt(monsterReference.magicDefense * 1.1f);
+            }
+        }
+        else // Not start of battle, called through Change Position Command Function()
+        {
+            // Back Row to Front Row
+            if (monsterRowPosition == MonsterRowPosition.FrontRow)
+            {
+                // Apply front row bonus stats // Rough math but it works for now - TODO - Apply standalone bonuses
+                monsterReference.bonusAccuracy += 5;
+                monsterReference.physicalAttack = Mathf.RoundToInt(monsterReference.physicalAttack * 1.1f * 1.1f);
+                monsterReference.magicAttack = Mathf.RoundToInt(monsterReference.magicAttack * 1.1f * 1.1f);
+
+                monsterReference.physicalDefense = Mathf.RoundToInt(monsterReference.physicalDefense * 0.9f * 0.9f);
+                monsterReference.magicDefense = Mathf.RoundToInt(monsterReference.magicDefense * 0.9f * 0.9f);
+            }
+            else // Front Row to Back Row
+            {
+                // Apply back row bonus stats
+                monsterReference.bonusAccuracy -= 5;
+                monsterReference.physicalAttack = Mathf.RoundToInt(monsterReference.physicalAttack * 0.9f * 0.9f);
+                monsterReference.magicAttack = Mathf.RoundToInt(monsterReference.magicAttack * 0.9f * 0.9f);
+
+                monsterReference.physicalDefense = Mathf.RoundToInt(monsterReference.physicalDefense * 1.1f * 1.1f);
+                monsterReference.magicDefense = Mathf.RoundToInt(monsterReference.magicDefense * 1.1f * 1.1f);
+            }
+        }
+
+        // Update visual position in battle
     }
 
     // This function should be called when stats get updated
