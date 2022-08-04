@@ -229,6 +229,16 @@ Imported Various Assets/Packages
 - Add monsterpedia
 - Add new modifier viewers
 
+[8/4/22]
+- Add new teamviewer
+- Add queue to popups
+- Add abilities
+- Add shop
+- Add items
+- Add monsterpedia
+- Add new modifier viewers
+- Finish implementing Front Row / Back Row combat bonuses
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
