@@ -145,6 +145,8 @@ public class CreateMonster : MonoBehaviour
             monster.cachedCritChance = monsterReference.critChance;
 
             monster.cachedBonusAccuracy = monsterReference.bonusAccuracy;
+            monsterRowPosition = monster.cachedMonsterRowPosition;
+
             //monster.maxHealth = monster.health; not needed?
         }
 
@@ -169,6 +171,8 @@ public class CreateMonster : MonoBehaviour
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
         healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}"); //\nSpeed: {monsterReference.speed.ToString()}
         sr.sprite = monster.baseSprite;
+
+        UpdateMonsterRowPosition(true, monsterRowPosition);
 
         InitiateHealthBars();
     }

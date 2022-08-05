@@ -98,6 +98,7 @@ public class Monster : ScriptableObject
     [Range(0f, 100f)] public float cachedBonusAccuracy;
 
     public int cachedLevel;
+    public CreateMonster.MonsterRowPosition cachedMonsterRowPosition;
 
     [Title("Adventure - Monster Other Stats")]
     public float cachedDamageDone;
