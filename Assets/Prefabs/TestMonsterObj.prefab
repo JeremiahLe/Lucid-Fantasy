@@ -399,6 +399,7 @@ MonoBehaviour:
   monsterMagicDefense: 0
   monsterCritChance: 0
   monsterEvasion: 0
+  monsterRowPosition: 0
   monsterDamageTakenThisRound: 0
   monsterActionAvailable: 1
   monsterRecievedStatBoostThisRound: 0
@@ -411,6 +412,7 @@ MonoBehaviour:
   monsterIsDazed: 0
   monsterIsCrippled: 0
   monsterIsWeakened: 0
+  monsterIsStunned: 0
   ListOfModifiers: []
   combatManagerObject: {fileID: 0}
   monsterAnimator: {fileID: 0}

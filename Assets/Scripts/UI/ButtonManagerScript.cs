@@ -12,6 +12,7 @@ public class ButtonManagerScript : MonoBehaviour
     public GameObject AutoBattleButton;
     public GameObject PassButton;
     public GameObject ReturnToAttacksButton;
+    public GameObject ChangeButton;
 
     public GameObject Attack1Button;
     public GameObject Attack2Button;
@@ -58,6 +59,7 @@ public class ButtonManagerScript : MonoBehaviour
         InitialHUDButtons.Add(AttacksButton);
         InitialHUDButtons.Add(AutoBattleButton);
         InitialHUDButtons.Add(PassButton);
+        InitialHUDButtons.Add(ChangeButton);
 
         AttacksHUDButtons.Add(Attack1Button);
         AttacksHUDButtons.Add(Attack2Button);
@@ -204,6 +206,15 @@ public class ButtonManagerScript : MonoBehaviour
         combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
 
         Invoke("CallNextMonsterTurn", 1.0f);
+    }
+
+    // This function brings up the change row buttons menu
+    public void ChangeButtonClicked()
+    {
+        HideAllButtons("All");
+        Monster monster = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+        CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
+        uiManager.EditCombatMessage($"Change {monster.aiType} {monster.name} to what row? Current Row: {monsterComponent.monsterRowPosition.ToString()}");
     }
 
     // This helper function calls the combatManagerScript's nextMonsterTurn function

@@ -515,7 +515,7 @@ public class CombatManagerScript : MonoBehaviour
         }
 
         // Once all Round End effects have been called, End Round
-        await Task.Delay(1000);
+        await Task.Delay(500);
         return 1;
     }
 

@@ -139,6 +139,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8212376626954700704}
     m_Modifications:
+    - target: {fileID: 1504656005580055482, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 127
+      objectReference: {fileID: 0}
     - target: {fileID: 3411111405366572464, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
       propertyPath: m_fontSize
       value: 0.25

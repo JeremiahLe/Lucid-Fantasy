@@ -69,7 +69,7 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public float monsterEvasion;
 
     [Title("Combat Functions & Status")]
-    public enum MonsterRowPosition { BackRow, FrontRow };
+    public enum MonsterRowPosition { CenterRow, BackRow, FrontRow };
     [DisplayWithoutEdit] public MonsterRowPosition monsterRowPosition;
 
     [DisplayWithoutEdit] public float monsterDamageTakenThisRound;
@@ -344,7 +344,7 @@ public class CreateMonster : MonoBehaviour
                 monsterReference.physicalDefense = Mathf.RoundToInt(monsterReference.physicalDefense * 0.9f);
                 monsterReference.magicDefense = Mathf.RoundToInt(monsterReference.magicDefense * 0.9f);
             }
-            else
+            else if (monsterRowPosition == MonsterRowPosition.BackRow)
             {
                 // Apply back row bonus stats
                 monsterReference.bonusAccuracy -= 5;
@@ -368,7 +368,7 @@ public class CreateMonster : MonoBehaviour
                 monsterReference.physicalDefense = Mathf.RoundToInt(monsterReference.physicalDefense * 0.9f * 0.9f);
                 monsterReference.magicDefense = Mathf.RoundToInt(monsterReference.magicDefense * 0.9f * 0.9f);
             }
-            else // Front Row to Back Row
+            else if (monsterRowPosition == MonsterRowPosition.BackRow) // Front Row to Back Row
             {
                 // Apply back row bonus stats
                 monsterReference.bonusAccuracy -= 5;
@@ -381,6 +381,7 @@ public class CreateMonster : MonoBehaviour
         }
 
         // Update visual position in battle
+        SetPositionAndOrientation(startingPosition, combatOrientation, monsterRowPosition);
     }
 
     // This function should be called when stats get updated
@@ -1118,9 +1119,22 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function sets monster sprite orientation at battle start
-    private void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation)
+    private void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation, MonsterRowPosition monsterRowPosition)
     {
-        transform.position = startingPosition.transform.position;
+        switch (monsterRowPosition)
+        {
+            case (MonsterRowPosition.BackRow):
+                transform.position = new Vector3(startingPosition.transform.position.x - 1, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                break;
+
+            case (MonsterRowPosition.FrontRow):
+                transform.position = new Vector3(startingPosition.transform.position.x + 1, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                break;
+
+            default:
+                transform.position = startingPosition.transform.position;
+                break;
+        }
 
         if (monsterReference.aiType == Monster.AIType.Ally)
         {
@@ -1150,14 +1164,14 @@ public class CreateMonster : MonoBehaviour
         {
             nameText.color = Color.red;
             combatOrientation = CombatOrientation.Right;
-            SetPositionAndOrientation(startingPosition, combatOrientation);
+            SetPositionAndOrientation(startingPosition, combatOrientation, monsterRowPosition);
             monsterReference.aiLevel = aiLevel;
         }
         else if (monsterReference.aiType == Monster.AIType.Ally)
         {
             nameText.color = Color.white;
             combatOrientation = CombatOrientation.Left;
-            SetPositionAndOrientation(startingPosition, combatOrientation);
+            SetPositionAndOrientation(startingPosition, combatOrientation, monsterRowPosition);
             monsterReference.aiLevel = Monster.AILevel.Player;
         }
     }

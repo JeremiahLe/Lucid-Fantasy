@@ -1199,7 +1199,7 @@ public class AdventureManager : MonoBehaviour
     public void InitiateNewGame()
     {
         adventureNGNumber += 1;
-        rerollAmount += 3;
+        rerollAmount += 1;
 
         BossBattle = false;
         BossDefeated = false;
