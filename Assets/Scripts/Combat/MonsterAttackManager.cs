@@ -48,6 +48,8 @@ public class MonsterAttackManager : MonoBehaviour
     public bool recievedDamagePercentBonus = false;
 
     public float elementCheckDamageBonus = 0;
+    private float backRowDamagePercentBonus = 0.8f;
+    private float frontRowDamagePercentBonus = 1.2f;
 
     public bool dontDealDamage = false;
 
@@ -57,6 +59,7 @@ public class MonsterAttackManager : MonoBehaviour
     public AudioClip MissSound;
     public AudioClip LevelUpSound;
     public AudioClip ResistSound;
+
 
     // Start is called before the first frame update
     void Start()
@@ -192,6 +195,7 @@ public class MonsterAttackManager : MonoBehaviour
     public void ClearCurrentButtonAttack()
     {
         currentMonsterAttack = null;
+        combatManagerScript.targeting = false;
     }
 
     // This function serves as a reset to visual elements on screen (monster attack description)
@@ -811,20 +815,50 @@ public class MonsterAttackManager : MonoBehaviour
         // Check monster main element bonus/ /  fix ToStrings?
         if (monsterAttack.monsterAttackElement == currentMonster.monsterElement.element)
         {
-            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .25f);
+            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .20f);
             Debug.Log("Main element bonus!");
         }
 
         // Check sub element bonus //  fix ToStrings?
         if (monsterAttack.monsterAttackElement == currentMonster.monsterSubElement.element)
         {
-            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .15f);
+            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .10f);
             Debug.Log("Sub element bonus!");
         }
 
         // Check elemental weaknesses and resistances and apply bonus damage
         elementCheckDamageBonus = CheckElementWeakness(currentMonsterAttack.monsterAttackElement, currentTargetedMonster);
         calculatedDamage = Mathf.RoundToInt(calculatedDamage * elementCheckDamageBonus);
+
+        // Check Current Monster current row position
+        if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.BackRow)
+        {
+            Debug.Log($"Damage before Current Monster Row Bonus: {calculatedDamage}");
+            calculatedDamage = Mathf.RoundToInt(calculatedDamage * backRowDamagePercentBonus);
+            Debug.Log($"Damage after Current Monster Row Bonus: {calculatedDamage}");
+        }
+        else 
+        if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.FrontRow)
+        {
+            Debug.Log($"Damage before Current Monster Row Bonus: {calculatedDamage}");
+            calculatedDamage = Mathf.RoundToInt(calculatedDamage * frontRowDamagePercentBonus);
+            Debug.Log($"Damage after Current Monster Row Bonus: {calculatedDamage}");
+        }
+
+        // Check Target Monster current row position
+        if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.BackRow)
+        {
+            Debug.Log($"Damage before Target Monster Row Bonus: {calculatedDamage}");
+            calculatedDamage = Mathf.RoundToInt(calculatedDamage * backRowDamagePercentBonus);
+            Debug.Log($"Damage after Target Monster Row Bonus: {calculatedDamage}");
+        }
+        else
+        if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.FrontRow)
+        {
+            Debug.Log($"Damage before Target Monster Row Bonus: {calculatedDamage}");
+            calculatedDamage = Mathf.RoundToInt(calculatedDamage * frontRowDamagePercentBonus);
+            Debug.Log($"Damage after Target Monster Row Bonus: {calculatedDamage}");
+        }
 
         // Now check for critical hit
         if (CheckAttackCrit())

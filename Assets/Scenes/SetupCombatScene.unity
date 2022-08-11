@@ -228,7 +228,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 957a97f5ee59f0241b1bd7d1933ca8be, type: 3}
     - target: {fileID: 896763780719976203, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 896763780792935883, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_sharedMaterial
@@ -286,6 +286,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
+    - target: {fileID: 3146887275233152206, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4763196295132600541, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -1424,7 +1428,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 6b265e53011d7d34a8bea4bf4f4d14df, type: 2}
+      objectReference: {fileID: 11400000, guid: 53682ef80a39d0d408cebe19a557e246, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterLevel
       value: 4
@@ -1499,7 +1503,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: ba3d41af14ff2ff498f55ce5d95e1b8a, type: 3}
     - target: {fileID: 896763780719976203, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 896763780792935883, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_sharedMaterial
@@ -1557,6 +1561,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
+    - target: {fileID: 3146887275233152206, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4763196295132600541, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -1679,6 +1687,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterRowPosition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: combatManagerObject
       value: 
       objectReference: {fileID: 1758263235}
@@ -1736,11 +1748,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 957a97f5ee59f0241b1bd7d1933ca8be, type: 3}
     - target: {fileID: 896763779794199983, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 896763780719976203, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 896763780792935883, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_sharedMaterial
@@ -1798,6 +1810,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
+    - target: {fileID: 3146887275233152206, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4763196295132600541, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -2766,7 +2782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -955.53, y: -549.8199}
+  m_AnchoredPosition: {x: -955.53, y: -549.9945}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &779854746
@@ -3014,7 +3030,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -962.12, y: -549.8199}
+  m_AnchoredPosition: {x: -962.12, y: -549.9945}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &827154675
@@ -3660,7 +3676,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 1526e02488ea3094b8eab99e70a805d2, type: 2}
+      objectReference: {fileID: 11400000, guid: 2b978e158b386b4458dc9860976bdc49, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterLevel
       value: 6
@@ -3676,6 +3692,10 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: combatOrientation
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterRowPosition
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: combatManagerObject
@@ -3739,7 +3759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 896763780719976203, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 896763780792935883, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_sharedMaterial
@@ -3797,6 +3817,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
+    - target: {fileID: 3146887275233152206, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4763196295132600541, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -4412,7 +4436,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 6b265e53011d7d34a8bea4bf4f4d14df, type: 2}
+      objectReference: {fileID: 11400000, guid: 1ebc49514d1f7ab4195517aaad8dd6c4, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterLevel
       value: 4
@@ -4487,11 +4511,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: ba3d41af14ff2ff498f55ce5d95e1b8a, type: 3}
     - target: {fileID: 896763779794199983, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 896763780719976203, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 896763780792935883, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_sharedMaterial
@@ -4549,6 +4573,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
+    - target: {fileID: 3146887275233152206, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4763196295132600541, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -5076,7 +5104,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 6b265e53011d7d34a8bea4bf4f4d14df, type: 2}
+      objectReference: {fileID: 11400000, guid: 992be654725a3e64895704cfb30bfedd, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterLevel
       value: 4
@@ -5092,6 +5120,10 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: combatOrientation
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterRowPosition
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: combatManagerObject
@@ -5151,7 +5183,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: ba3d41af14ff2ff498f55ce5d95e1b8a, type: 3}
     - target: {fileID: 896763780719976203, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 896763780792935883, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_sharedMaterial
@@ -5209,6 +5241,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
+    - target: {fileID: 3146887275233152206, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4763196295132600541, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -6094,7 +6130,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -962.17993, y: -548.62006}
+  m_AnchoredPosition: {x: -962.17993, y: -548.7947}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1703565202
@@ -7142,7 +7178,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -955.5299, y: -548.62006}
+  m_AnchoredPosition: {x: -955.5299, y: -548.7947}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1845808155
@@ -8038,7 +8074,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 6
   m_TargetDisplay: 0
 --- !u!224 &1996058421
 RectTransform:
@@ -8908,7 +8944,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 957a97f5ee59f0241b1bd7d1933ca8be, type: 3}
     - target: {fileID: 896763780719976203, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 896763780792935883, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_sharedMaterial
@@ -8966,6 +9002,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
+    - target: {fileID: 3146887275233152206, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4763196295132600541, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -9064,7 +9104,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116949257}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -957.8314, y: -534.8254, z: 0.351223}
+  m_LocalPosition: {x: -957.8314, y: -535, z: 0.351223}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 960095069}
@@ -9204,7 +9244,7 @@ PrefabInstance:
       objectReference: {fileID: 963194227}
     - target: {fileID: 896763780719976203, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 896763780792935883, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_sharedMaterial
@@ -9266,6 +9306,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
+    - target: {fileID: 3146887275233152206, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4763196295132600541, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -9538,7 +9582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9081610192043222377, guid: dd5c453fac9110549bef3d6857c20245, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -546.64
+      value: -547.1
       objectReference: {fileID: 0}
     - target: {fileID: 9081610192043222377, guid: dd5c453fac9110549bef3d6857c20245, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

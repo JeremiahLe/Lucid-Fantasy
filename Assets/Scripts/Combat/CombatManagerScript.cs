@@ -599,7 +599,7 @@ public class CombatManagerScript : MonoBehaviour
 
         Monster targetedMonster = CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
 
-        monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
+        monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
         monsterTargeter.SetActive(true);
 
         //uiManager.EditCombatMessage($"Ally {monster.name} will use {monsterAttackManager.currentMonsterAttack.monsterAttackName} on {targetedMonster.aiType} {targetedMonster.name}!");
@@ -731,7 +731,7 @@ public class CombatManagerScript : MonoBehaviour
                 monsterTargeter.SetActive(true);
                 targeting = true;
                 AttackTypeTargeting(); // for autoBattle fixme properly
-                monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
+                monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
                 break;
 
             default:
@@ -746,7 +746,7 @@ public class CombatManagerScript : MonoBehaviour
         if (targeting)
         {
             CurrentTargetedMonster = newTarget;
-            monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
+            monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
             monsterAttackManager.UpdateCurrentTargetText();
         }
 

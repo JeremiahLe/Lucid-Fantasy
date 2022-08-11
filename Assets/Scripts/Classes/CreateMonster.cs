@@ -19,6 +19,9 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private SpriteRenderer sr;
 
+    [SerializeField] private Image monsterRowFrontIcon;
+    [SerializeField] private Image monsterRowBackIcon;
+
     [Title("Status Effect Scrollbar")]
     [SerializeField] public GameObject statusEffectHolder;
     [SerializeField] public GameObject statusEffectIcon;
@@ -70,7 +73,7 @@ public class CreateMonster : MonoBehaviour
 
     [Title("Combat Functions & Status")]
     public enum MonsterRowPosition { CenterRow, BackRow, FrontRow };
-    [DisplayWithoutEdit] public MonsterRowPosition monsterRowPosition;
+    public MonsterRowPosition monsterRowPosition;
 
     [DisplayWithoutEdit] public float monsterDamageTakenThisRound;
     [DisplayWithoutEdit] public bool monsterActionAvailable = true;
@@ -331,54 +334,6 @@ public class CreateMonster : MonoBehaviour
     public void UpdateMonsterRowPosition(bool startOfBattle, MonsterRowPosition newRowPosition)
     {
         monsterRowPosition = newRowPosition;
-
-        if (startOfBattle)
-        {
-            if (monsterRowPosition == MonsterRowPosition.FrontRow)
-            {
-                // Apply front row bonus stats
-                monsterReference.bonusAccuracy += 5;
-                monsterReference.physicalAttack = Mathf.RoundToInt(monsterReference.physicalAttack * 1.1f);
-                monsterReference.magicAttack = Mathf.RoundToInt(monsterReference.magicAttack * 1.1f);
-
-                monsterReference.physicalDefense = Mathf.RoundToInt(monsterReference.physicalDefense * 0.9f);
-                monsterReference.magicDefense = Mathf.RoundToInt(monsterReference.magicDefense * 0.9f);
-            }
-            else if (monsterRowPosition == MonsterRowPosition.BackRow)
-            {
-                // Apply back row bonus stats
-                monsterReference.bonusAccuracy -= 5;
-                monsterReference.physicalAttack = Mathf.RoundToInt(monsterReference.physicalAttack * 0.9f);
-                monsterReference.magicAttack = Mathf.RoundToInt(monsterReference.magicAttack * 0.9f);
-
-                monsterReference.physicalDefense = Mathf.RoundToInt(monsterReference.physicalDefense * 1.1f);
-                monsterReference.magicDefense = Mathf.RoundToInt(monsterReference.magicDefense * 1.1f);
-            }
-        }
-        else // Not start of battle, called through Change Position Command Function()
-        {
-            // Back Row to Front Row
-            if (monsterRowPosition == MonsterRowPosition.FrontRow)
-            {
-                // Apply front row bonus stats // Rough math but it works for now - TODO - Apply standalone bonuses
-                monsterReference.bonusAccuracy += 5;
-                monsterReference.physicalAttack = Mathf.RoundToInt(monsterReference.physicalAttack * 1.1f * 1.1f);
-                monsterReference.magicAttack = Mathf.RoundToInt(monsterReference.magicAttack * 1.1f * 1.1f);
-
-                monsterReference.physicalDefense = Mathf.RoundToInt(monsterReference.physicalDefense * 0.9f * 0.9f);
-                monsterReference.magicDefense = Mathf.RoundToInt(monsterReference.magicDefense * 0.9f * 0.9f);
-            }
-            else if (monsterRowPosition == MonsterRowPosition.BackRow) // Front Row to Back Row
-            {
-                // Apply back row bonus stats
-                monsterReference.bonusAccuracy -= 5;
-                monsterReference.physicalAttack = Mathf.RoundToInt(monsterReference.physicalAttack * 0.9f * 0.9f);
-                monsterReference.magicAttack = Mathf.RoundToInt(monsterReference.magicAttack * 0.9f * 0.9f);
-
-                monsterReference.physicalDefense = Mathf.RoundToInt(monsterReference.physicalDefense * 1.1f * 1.1f);
-                monsterReference.magicDefense = Mathf.RoundToInt(monsterReference.magicDefense * 1.1f * 1.1f);
-            }
-        }
 
         // Update visual position in battle
         SetPositionAndOrientation(startingPosition, combatOrientation, monsterRowPosition);
@@ -1124,14 +1079,38 @@ public class CreateMonster : MonoBehaviour
         switch (monsterRowPosition)
         {
             case (MonsterRowPosition.BackRow):
-                transform.position = new Vector3(startingPosition.transform.position.x - 1, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                if (aiType == Monster.AIType.Ally)
+                {
+                    transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    monsterRowFrontIcon.enabled = false;
+                    monsterRowBackIcon.enabled = true;
+                }
+                else
+                {
+                    transform.position = new Vector3(startingPosition.transform.position.x + 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    monsterRowFrontIcon.enabled = true;
+                    monsterRowBackIcon.enabled = false;
+                }
                 break;
 
             case (MonsterRowPosition.FrontRow):
-                transform.position = new Vector3(startingPosition.transform.position.x + 1, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                if (aiType == Monster.AIType.Ally)
+                {
+                    transform.position = new Vector3(startingPosition.transform.position.x + 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    monsterRowFrontIcon.enabled = true;
+                    monsterRowBackIcon.enabled = false;
+                }
+                else
+                {
+                    transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    monsterRowFrontIcon.enabled = false;
+                    monsterRowBackIcon.enabled = true;
+                }
                 break;
 
             default:
+                monsterRowFrontIcon.enabled = false;
+                monsterRowBackIcon.enabled = false;
                 transform.position = startingPosition.transform.position;
                 break;
         }
