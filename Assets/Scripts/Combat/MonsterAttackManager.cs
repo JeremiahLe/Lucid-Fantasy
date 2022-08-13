@@ -48,8 +48,8 @@ public class MonsterAttackManager : MonoBehaviour
     public bool recievedDamagePercentBonus = false;
 
     public float elementCheckDamageBonus = 0;
-    private float backRowDamagePercentBonus = 0.8f;
-    private float frontRowDamagePercentBonus = 1.2f;
+    private float backRowDamagePercentBonus = 0.75f;
+    private float frontRowDamagePercentBonus = 1.25f;
 
     public bool dontDealDamage = false;
 

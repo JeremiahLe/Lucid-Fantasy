@@ -56,8 +56,9 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private Monster.AILevel aiLevel;
 
     [SerializeField] public Transform startingPosition;
-    private enum CombatOrientation { Left, Right };
-    private CombatOrientation combatOrientation;
+    public Vector3 startingPos;
+    public enum CombatOrientation { Left, Right };
+    public CombatOrientation combatOrientation;
 
     [Title("Combat Stats To Display")]
     [DisplayWithoutEdit] private int monsterLevel;
@@ -105,6 +106,8 @@ public class CreateMonster : MonoBehaviour
     {
         InitiateStats();
         InitializeComponents();
+        InitiateCreateMonsterObjectStats();
+        InitiateHealthBars();
         SetAIType();
     }
 
@@ -152,10 +155,6 @@ public class CreateMonster : MonoBehaviour
 
             //monster.maxHealth = monster.health; not needed?
         }
-
-        InitiateCreateMonsterObjectStats();
-
-        InitiateHealthBars();
     }
 
     // This function initiates the monster Object's CreateMonster() stats
@@ -169,15 +168,11 @@ public class CreateMonster : MonoBehaviour
 
         monsterCritChance = monsterReference.critChance;
         monsterEvasion = monsterReference.evasion;
-        monsterSpeed = (int)monsterReference.speed; /*Random.Range(1, 10);*/
+        monsterSpeed = (int)monsterReference.speed;
 
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
-        healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}"); //\nSpeed: {monsterReference.speed.ToString()}
+        healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}");
         sr.sprite = monster.baseSprite;
-
-        UpdateMonsterRowPosition(true, monsterRowPosition);
-
-        InitiateHealthBars();
     }
 
     // This function initiates the monster's healthbars
@@ -210,7 +205,6 @@ public class CreateMonster : MonoBehaviour
             {
                 MonsterAttack attackInstance = Instantiate(attack);
                 monsterReference.ListOfMonsterAttacks.Add(attackInstance);
-                
             }
         }
         else
@@ -331,12 +325,12 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function is called to update the monster's current row position (back row or front row) to adjust it stat bonuses
-    public void UpdateMonsterRowPosition(bool startOfBattle, MonsterRowPosition newRowPosition)
+    public void UpdateMonsterRowPosition(MonsterRowPosition newRowPosition)
     {
         monsterRowPosition = newRowPosition;
 
         // Update visual position in battle
-        SetPositionAndOrientation(startingPosition, combatOrientation, monsterRowPosition);
+        SetPositionAndOrientation(startingPosition, combatOrientation, newRowPosition);
     }
 
     // This function should be called when stats get updated
@@ -1074,9 +1068,11 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function sets monster sprite orientation at battle start
-    private void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation, MonsterRowPosition monsterRowPosition)
+    public void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation, MonsterRowPosition _monsterRowPosition)
     {
-        switch (monsterRowPosition)
+        monsterRowPosition = _monsterRowPosition;
+
+        switch (_monsterRowPosition)
         {
             case (MonsterRowPosition.BackRow):
                 if (aiType == Monster.AIType.Ally)
@@ -1108,10 +1104,10 @@ public class CreateMonster : MonoBehaviour
                 }
                 break;
 
-            default:
+            case (MonsterRowPosition.CenterRow):
+
                 monsterRowFrontIcon.enabled = false;
                 monsterRowBackIcon.enabled = false;
-                transform.position = startingPosition.transform.position;
                 break;
         }
 
@@ -1124,6 +1120,66 @@ public class CreateMonster : MonoBehaviour
             sr.flipX = true;
         }
 
+    }
+
+    // This function sets monster sprite orientation
+    public void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation, MonsterRowPosition _monsterRowPosition, MonsterRowPosition previousRowPosition)
+    {
+        monsterRowPosition = _monsterRowPosition;
+
+        switch (_monsterRowPosition)
+        {
+            case (MonsterRowPosition.BackRow):
+                if (previousRowPosition == MonsterRowPosition.CenterRow)
+                {
+                    transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                }
+                else
+                if (previousRowPosition == MonsterRowPosition.FrontRow)
+                {
+                    transform.position = new Vector3(startingPosition.transform.position.x - 3.50f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                }
+                monsterRowFrontIcon.enabled = false;
+                monsterRowBackIcon.enabled = true;
+                break;
+
+            case (MonsterRowPosition.FrontRow):
+                if (previousRowPosition == MonsterRowPosition.BackRow)
+                {
+                    transform.position = new Vector3(startingPosition.transform.position.x + 3.50f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                }
+                else
+                if (previousRowPosition == MonsterRowPosition.CenterRow)
+                {
+                    transform.position = new Vector3(startingPosition.transform.position.x + 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                }
+                monsterRowFrontIcon.enabled = true;
+                monsterRowBackIcon.enabled = false;
+                break;
+
+            case (MonsterRowPosition.CenterRow):
+                if (previousRowPosition == MonsterRowPosition.BackRow)
+                {
+                    transform.position = new Vector3(startingPosition.transform.position.x + 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                }
+                else
+                if (previousRowPosition == MonsterRowPosition.FrontRow)
+                {
+                    transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                }
+                monsterRowFrontIcon.enabled = false;
+                monsterRowBackIcon.enabled = false;
+                break;
+        }
+
+        if (monsterReference.aiType == Monster.AIType.Ally)
+        {
+            sr.flipX = false;
+        }
+        else if (monsterReference.aiType == Monster.AIType.Enemy)
+        {
+            sr.flipX = true;
+        }
     }
 
     // This function is a temporary rotation fix to monster UI elements facing the camera

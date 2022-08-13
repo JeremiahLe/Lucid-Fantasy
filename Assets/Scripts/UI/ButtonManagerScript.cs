@@ -11,8 +11,14 @@ public class ButtonManagerScript : MonoBehaviour
     public GameObject AttacksButton;
     public GameObject AutoBattleButton;
     public GameObject PassButton;
-    public GameObject ReturnToAttacksButton;
     public GameObject ChangeButton;
+
+    public GameObject FrontRowButton;
+    public GameObject CenterRowButton;
+    public GameObject BackRowButton;
+
+    public GameObject RowButtonsParent;
+    public GameObject ReturnToAttacksButton;
 
     public GameObject Attack1Button;
     public GameObject Attack2Button;
@@ -20,8 +26,6 @@ public class ButtonManagerScript : MonoBehaviour
     public GameObject Attack4Button;
 
     public GameObject BackButton;
-
-    //public GameObject ConfirmButton;
     public GameObject ConfirmQuitButton;
     public GameObject ContinueButton;
     public GameObject QuitButton;
@@ -137,12 +141,12 @@ public class ButtonManagerScript : MonoBehaviour
             }
 
             BackButton.SetActive(false);
-            //ConfirmButton.SetActive(false);
             HideButton(ConfirmQuitButton);
             HideButton(ContinueButton);
             QuitButton.SetActive(false);
             ReturnToAttacksButton.SetActive(false);
-}
+            HideButton(RowButtonsParent);
+        }
     }
 
     // This function resets the HUD to a default state for use with in-game buttons
@@ -166,6 +170,7 @@ public class ButtonManagerScript : MonoBehaviour
         HideButton(ContinueButton);
         QuitButton.SetActive(true); // GitHub comment
         BackButton.SetActive(false);
+        HideButton(RowButtonsParent);
 
         combatManagerScript.CurrentMonsterAttack = null;
         combatManagerScript.targeting = false;
@@ -212,9 +217,90 @@ public class ButtonManagerScript : MonoBehaviour
     public void ChangeButtonClicked()
     {
         HideAllButtons("All");
+
         Monster monster = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
         CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
         uiManager.EditCombatMessage($"Change {monster.aiType} {monster.name} to what row? Current Row: {monsterComponent.monsterRowPosition.ToString()}");
+
+        RowButtonsParent.SetActive(true);
+
+        // Reset row button colors
+        FrontRowButton.GetComponent<Button>().colors = startColors;
+        CenterRowButton.GetComponent<Button>().colors = startColors;
+        BackRowButton.GetComponent<Button>().colors = startColors;
+
+        var colors = FrontRowButton.GetComponent<Button>().colors;
+
+        // Show available rows
+        switch (monsterComponent.monsterRowPosition)
+        {
+            case (CreateMonster.MonsterRowPosition.FrontRow):
+                colors = FrontRowButton.GetComponent<Button>().colors;
+                colors.normalColor = Color.gray;
+                FrontRowButton.GetComponent<Button>().colors = colors;
+
+                // Disable and Enable buttons
+                FrontRowButton.GetComponent<Button>().interactable = false;
+                CenterRowButton.GetComponent<Button>().interactable = true;
+                BackRowButton.GetComponent<Button>().interactable = true;
+                break;
+
+            case (CreateMonster.MonsterRowPosition.CenterRow):
+                colors = CenterRowButton.GetComponent<Button>().colors;
+                colors.normalColor = Color.gray;          
+                CenterRowButton.GetComponent<Button>().colors = colors;
+
+                // Disable and Enable buttons
+                FrontRowButton.GetComponent<Button>().interactable = true;
+                CenterRowButton.GetComponent<Button>().interactable = false;
+                BackRowButton.GetComponent<Button>().interactable = true;
+                break;
+
+            case (CreateMonster.MonsterRowPosition.BackRow):
+                colors = BackRowButton.GetComponent<Button>().colors;
+                colors.normalColor = Color.gray;
+                BackRowButton.GetComponent<Button>().colors = colors;
+
+                // Disable and Enable buttons
+                FrontRowButton.GetComponent<Button>().interactable = true;
+                CenterRowButton.GetComponent<Button>().interactable = true;
+                BackRowButton.GetComponent<Button>().interactable = false;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    // This function is called by row
+    public void RowButtonClicked(string newRow)
+    {
+        // Show new message, confirm row?
+        Monster monster = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+        CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
+
+        // Preview new monster row
+        switch (newRow)
+        {
+            case ("FrontRow"):
+                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterRowPosition.FrontRow, monsterComponent.monsterRowPosition);
+                break;
+
+            case ("CenterRow"):
+                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterRowPosition.CenterRow, monsterComponent.monsterRowPosition);
+                break;
+
+            case ("BackRow"):
+                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterRowPosition.BackRow, monsterComponent.monsterRowPosition);
+                break;
+
+            default:
+                break;
+        }
+
+        // Reset HUD after
+        uiManager.InitiateMonsterTurnIndicator(combatManagerScript.CurrentMonsterTurn);
+        ResetHUD();
     }
 
     // This helper function calls the combatManagerScript's nextMonsterTurn function
