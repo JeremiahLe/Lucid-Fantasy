@@ -166,13 +166,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
+    m_Left: 1
+    m_Right: 1
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
-  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
@@ -394,6 +394,8 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   startingPosition: {fileID: 0}
+  startingPos: {x: 0, y: 0, z: 0}
+  combatOrientation: 0
   monsterSpeed: 7
   monsterPhysicalAttack: 0
   monsterMagicAttack: 0

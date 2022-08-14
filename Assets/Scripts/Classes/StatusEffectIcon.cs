@@ -25,6 +25,9 @@ public class StatusEffectIcon : MonoBehaviour, IPointerClickHandler
     public GameObject modifierStatScreenWindow;
     public TextMeshProUGUI modifierWindowText;
 
+    public Color32 buffColor;
+    public Color32 debuffColor;
+
     public StatusEffectIcon(Modifier _modifier)
     {   
         modifier = _modifier;
@@ -67,11 +70,13 @@ public class StatusEffectIcon : MonoBehaviour, IPointerClickHandler
             {
                 if (modifier.statChangeType == AttackEffect.StatChangeType.Debuff)
                 {
-                    GetComponent<Image>().color = Color.red;
+                    debuffColor = new Color32(193, 81, 81, 255);
+                    GetComponent<Image>().color = debuffColor;
                 }
                 else
                 {
-                    GetComponent<Image>().color = Color.green;
+                    buffColor = new Color32(106, 150, 215, 255);
+                    GetComponent<Image>().color = buffColor;
                 }
             }
         }

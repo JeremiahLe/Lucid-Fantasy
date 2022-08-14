@@ -175,9 +175,13 @@ public class MonsterAttackManager : MonoBehaviour
             HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} " +
                 $"will use {ReturnCurrentButtonAttack().monsterAttackName} on self?");
         }
-        else
+        else if (combatManagerScript.CurrentMonsterTurn != combatManagerScript.CurrentTargetedMonster && ReturnCurrentButtonAttack().monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.SelfTarget)
         {
             //Debug.Log("I got called!");
+            HUDanimationManager.MonsterCurrentTurnText.text = ($"Invalid Target!");
+        }
+        else
+        {
             HUDanimationManager.MonsterCurrentTurnText.text = ($"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name} " +
                 $"will use {ReturnCurrentButtonAttack().monsterAttackName} " +
                 $"on {combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType} " +
@@ -761,12 +765,12 @@ public class MonsterAttackManager : MonoBehaviour
         {
             case (MonsterAttack.MonsterAttackDamageType.Magical):
                 //calculatedDamage = Mathf.RoundToInt(currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.magicDefense + 1)));
-                calculatedDamage = Mathf.RoundToInt((100 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (135 + currentTargetedMonster.magicDefense));
+                calculatedDamage = Mathf.RoundToInt((100 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (125 + currentTargetedMonster.magicDefense));
                 break;
 
             case (MonsterAttack.MonsterAttackDamageType.Physical):
                 //calculatedDamage = Mathf.RoundToInt(currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.physicalDefense + 1)));
-                calculatedDamage = Mathf.RoundToInt((100 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (135 + currentTargetedMonster.physicalDefense));
+                calculatedDamage = Mathf.RoundToInt((100 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (125 + currentTargetedMonster.physicalDefense));
                 break;
 
             case (MonsterAttack.MonsterAttackDamageType.True):
@@ -785,11 +789,11 @@ public class MonsterAttackManager : MonoBehaviour
                 highestStatType = ReturnMonsterHighestAttackStat(currentMonster);
                 if (highestStatType == MonsterAttack.MonsterAttackDamageType.Magical)
                 {
-                    calculatedDamage = Mathf.RoundToInt((100 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (135 + currentTargetedMonster.magicDefense));
+                    calculatedDamage = Mathf.RoundToInt((100 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (125 + currentTargetedMonster.magicDefense));
                 }
                 else
                 {
-                    calculatedDamage = Mathf.RoundToInt((100 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (135 + currentTargetedMonster.physicalDefense));
+                    calculatedDamage = Mathf.RoundToInt((100 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (125 + currentTargetedMonster.physicalDefense));
                 }
                 break;
 

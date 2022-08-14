@@ -184,6 +184,7 @@ public class ButtonManagerScript : MonoBehaviour
             AttacksButton.SetActive(false);
             AutoBattleButton.SetActive(false);
             PassButton.SetActive(false);
+            ChangeButton.SetActive(false);
 
             ConfirmQuitButton.SetActive(true);
             ContinueButton.SetActive(true);
@@ -278,6 +279,7 @@ public class ButtonManagerScript : MonoBehaviour
         // Show new message, confirm row?
         Monster monster = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
         CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
+        RowButtonsParent.SetActive(false);
 
         // Preview new monster row
         switch (newRow)
@@ -297,10 +299,6 @@ public class ButtonManagerScript : MonoBehaviour
             default:
                 break;
         }
-
-        // Reset HUD after
-        uiManager.InitiateMonsterTurnIndicator(combatManagerScript.CurrentMonsterTurn);
-        ResetHUD();
     }
 
     // This helper function calls the combatManagerScript's nextMonsterTurn function

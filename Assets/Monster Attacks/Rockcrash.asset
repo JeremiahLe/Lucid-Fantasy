@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterAttackName: Rockcrash
   monsterAttackDescription: "Crumble a target under ferocious rocks. Deals additional
-    damage based on 135% of the user's Physical Defense. \nDeals 15% max health recoil
+    damage based on 135% of the user's Physical Defense. \nDeals 33% max health recoil
     damage to the user."
   monsterAttackElement: 11
   monsterAttackType: 0

@@ -1132,12 +1132,12 @@ public class CreateMonster : MonoBehaviour
             case (MonsterRowPosition.BackRow):
                 if (previousRowPosition == MonsterRowPosition.CenterRow)
                 {
-                    transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    StartCoroutine(MoveTowardPoint(-1.75f, 1.75f));
                 }
                 else
                 if (previousRowPosition == MonsterRowPosition.FrontRow)
                 {
-                    transform.position = new Vector3(startingPosition.transform.position.x - 3.50f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    StartCoroutine(MoveTowardPoint(-3.5f, 3f));
                 }
                 monsterRowFrontIcon.enabled = false;
                 monsterRowBackIcon.enabled = true;
@@ -1146,12 +1146,12 @@ public class CreateMonster : MonoBehaviour
             case (MonsterRowPosition.FrontRow):
                 if (previousRowPosition == MonsterRowPosition.BackRow)
                 {
-                    transform.position = new Vector3(startingPosition.transform.position.x + 3.50f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    StartCoroutine(MoveTowardPoint(3.5f, 3f));
                 }
                 else
                 if (previousRowPosition == MonsterRowPosition.CenterRow)
                 {
-                    transform.position = new Vector3(startingPosition.transform.position.x + 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    StartCoroutine(MoveTowardPoint(1.75f, 1.75f));
                 }
                 monsterRowFrontIcon.enabled = true;
                 monsterRowBackIcon.enabled = false;
@@ -1160,12 +1160,12 @@ public class CreateMonster : MonoBehaviour
             case (MonsterRowPosition.CenterRow):
                 if (previousRowPosition == MonsterRowPosition.BackRow)
                 {
-                    transform.position = new Vector3(startingPosition.transform.position.x + 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    StartCoroutine(MoveTowardPoint(1.75f, 1.75f));
                 }
                 else
                 if (previousRowPosition == MonsterRowPosition.FrontRow)
                 {
-                    transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    StartCoroutine(MoveTowardPoint(-1.75f, 1.75f));
                 }
                 monsterRowFrontIcon.enabled = false;
                 monsterRowBackIcon.enabled = false;
@@ -1180,6 +1180,30 @@ public class CreateMonster : MonoBehaviour
         {
             sr.flipX = true;
         }
+    }
+
+    // This function replaces the old row change function
+    //public void MoveTowardPoint(float distance, float speed)
+    //{
+    //    Vector3 newPosition;
+    //    newPosition = new Vector3(startingPosition.transform.position.x + distance, startingPosition.transform.position.y, startingPosition.transform.position.z);
+    //    transform.position = Vector2.Lerp(transform.position, newPosition, 5f);
+    //}
+
+    IEnumerator MoveTowardPoint(float distance, float speed)
+    {
+        Vector3 newPosition;
+        newPosition = new Vector3(startingPosition.transform.position.x + distance, startingPosition.transform.position.y, startingPosition.transform.position.z);
+
+        while (transform.position != newPosition)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, speed * Time.deltaTime);
+            yield return null;
+        }
+
+        // Reset HUD after
+        combatManagerScript.uiManager.InitiateMonsterTurnIndicator(combatManagerScript.CurrentMonsterTurn);
+        combatManagerScript.buttonManagerScript.ResetHUD();
     }
 
     // This function is a temporary rotation fix to monster UI elements facing the camera
