@@ -18,7 +18,6 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private SpriteRenderer sr;
-
     [SerializeField] private Image monsterRowFrontIcon;
     [SerializeField] private Image monsterRowBackIcon;
 
@@ -40,21 +39,17 @@ public class CreateMonster : MonoBehaviour
     [Title("Healthbar")]
     [SerializeField] public Slider HealthbarSlider;
     [SerializeField] public Slider HealthbarSliderDamaged;
-
     Color HealthbarSliderOriginalColor;
     Color HealthbarSliderTargetColor;
     Color damagedColor;
-
     [SerializeField] public Image HealthbarSliderFill;
     [SerializeField] public Image HealthbarSliderFillDamagedFade;
-
     [SerializeField] public GameObject monsterStatusTextObject;
     [SerializeField] public TextMeshProUGUI monsterStatusText;
 
     [Title("Monster AI and Scene Setup")]
     [SerializeField] private Monster.AIType aiType;
     [SerializeField] private Monster.AILevel aiLevel;
-
     [SerializeField] public Transform startingPosition;
     public Vector3 startingPos;
     public enum CombatOrientation { Left, Right };
@@ -81,16 +76,23 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public bool monsterRecievedStatBoostThisRound = false;
     [DisplayWithoutEdit] public bool monsterCriticallyStrikedThisRound = false;
 
-    public bool monsterImmuneToDebuffs = false;
-    public bool monsterImmuneToStatChanges = false;
-    public bool monsterImmuneToDamage = false;
-
     public bool monsterIsPoisoned = false;
     public bool monsterIsBurning = false;
     public bool monsterIsDazed = false;
     public bool monsterIsCrippled = false;
     public bool monsterIsWeakened = false;
     public bool monsterIsStunned = false;
+
+    [Title("Monster Immunities")]
+    public bool monsterImmuneToDebuffs = false;
+    public bool monsterImmuneToStatChanges = false;
+    public bool monsterImmuneToDamage = false;
+
+    // Basic Stat Immunities
+    public List<AttackEffect.StatEnumToChange> listOfStatImmunities;
+
+    // Specific Status Immunities
+    public List<AttackEffect.StatEnumToChange> listOfStatusImmunities;
 
     [DisplayWithoutEdit] public List<Modifier> ListOfModifiers;
 
@@ -269,7 +271,6 @@ public class CreateMonster : MonoBehaviour
     }
     */
 
-    // This function checks for adventure modifiers and applies them either per round or at game start
     /*
     public void CheckAdventureModifiers()
     {
@@ -1182,14 +1183,7 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function replaces the old row change function
-    //public void MoveTowardPoint(float distance, float speed)
-    //{
-    //    Vector3 newPosition;
-    //    newPosition = new Vector3(startingPosition.transform.position.x + distance, startingPosition.transform.position.y, startingPosition.transform.position.z);
-    //    transform.position = Vector2.Lerp(transform.position, newPosition, 5f);
-    //}
-
+    // This function is called when the monster changes rows
     IEnumerator MoveTowardPoint(float distance, float speed)
     {
         Vector3 newPosition;

@@ -143,8 +143,20 @@ public class MonsterAttackManager : MonoBehaviour
     // This function returns the proper accuracy number if targeting ally or enemy
     public float ReturnProperAccuracyBasedOnTarget()
     {
-        float targetingEnemyAccuracy = currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy - combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.evasion;
-        float targetingAllyAccuracy = currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy;
+        float rowAccuracyBonus = 0f;
+
+        // Check row accuracy bonus
+        if (combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.BackRow)
+        {
+            rowAccuracyBonus = 5f;
+        }
+        else if (combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.FrontRow)
+        {
+            rowAccuracyBonus = -5f;
+        }
+
+        float targetingEnemyAccuracy = currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy + rowAccuracyBonus - combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.evasion;
+        float targetingAllyAccuracy = currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy + rowAccuracyBonus;
 
         // Are you targeting an ally? Do not show their evasion in accuracy calculation
         if (combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Ally)
@@ -689,16 +701,27 @@ public class MonsterAttackManager : MonoBehaviour
         }
 
         float hitChance = 0f;
+        float rowAccuracyBonus = 0f;
+
+        // Check row accuracy bonus
+        if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.BackRow)
+        {
+            rowAccuracyBonus = 5f;
+        }
+        else if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.FrontRow)
+        {
+            rowAccuracyBonus = -5f;
+        }
 
         // don't use evasion as a stat when self-targeting or ally targeting
         if (!selfTargeting || currentMonsterTurn.aiType != currentTargetedMonster.aiType)
         {
-            hitChance = (currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy - currentTargetedMonster.evasion) / 100;
+            hitChance = (currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy + rowAccuracyBonus - currentTargetedMonster.evasion) / 100;
             //Debug.Log($"Attack: {currentMonsterAttack.monsterAttackName}, Hit chance: {hitChance}% & not targeting self or ally!");
         }
         else
         {
-            hitChance = (currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy / 100);
+            hitChance = (currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy + rowAccuracyBonus / 100);
             //Debug.Log($"Attack: {currentMonsterAttack.monsterAttackName}, Hit chance: {hitChance}%");
         }
 
@@ -974,7 +997,7 @@ public class MonsterAttackManager : MonoBehaviour
         }
 
         // default multiplier
-        Debug.Log("Neutral!");
+        //Debug.Log("Neutral!");
         return 1f;
     }
 

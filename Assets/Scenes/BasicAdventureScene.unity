@@ -559,6 +559,82 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 542218555148707469, guid: 559b147e0f313fe47966854526fc0476, type: 3}
   m_PrefabInstance: {fileID: 1983990262018114847}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &146009420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 146009421}
+  - component: {fileID: 146009423}
+  - component: {fileID: 146009422}
+  m_Layer: 3
+  m_Name: MonsterSlotBG1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &146009421
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146009420}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4.091614, y: 3.4212708, z: 3.4212708}
+  m_Children:
+  - {fileID: 1029410525}
+  m_Father: {fileID: 357945208}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 653.9998, y: 201}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &146009422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146009420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: b01240610c3ae48eabbf419977065f1d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &146009423
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146009420}
+  m_CullTransparentMesh: 1
 --- !u!1 &209488686
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,6 +1012,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -945,6 +1022,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 1
 --- !u!114 &218318981
 MonoBehaviour:
@@ -1174,16 +1252,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 325090251}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.64985704, y: 0.64985704, z: 0.64985704}
   m_Children: []
   m_Father: {fileID: 485862750}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 183, y: 38}
+  m_AnchoredPosition: {x: -4.043688, y: -85.393326}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &325090253
@@ -1212,14 +1290,7 @@ MonoBehaviour:
 
     Elements
 
-    - Attack 1
-
-    -
-    Attack 2
-
-    - Attack 3
-
-    - Attack 4'
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -1323,17 +1394,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345901457}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.31959248, y: 0.38221142, z: 0.38221142}
   m_Children:
   - {fileID: 524256787}
-  m_Father: {fileID: 357945208}
-  m_RootOrder: 7
+  m_Father: {fileID: 2101669289}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -29.000061, y: 222}
+  m_AnchoredPosition: {x: 1.5000029, y: 7.800017}
   m_SizeDelta: {x: 149.7548, y: 149.7577}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &345901459
@@ -1408,6 +1479,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 2101669288}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -1416,7 +1488,8 @@ MonoBehaviour:
   rewardName: {fileID: 0}
   rewardDescription: {fileID: 0}
   selected: 0
-  selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  selectedSprite: {fileID: 21300000, guid: 82038052453941647be87c74adfd5130, type: 3}
+  baseSprite: {fileID: 21300000, guid: b01240610c3ae48eabbf419977065f1d, type: 3}
   selectable: 1
 --- !u!114 &345901461
 MonoBehaviour:
@@ -1494,10 +1567,10 @@ RectTransform:
   - {fileID: 1217609774}
   - {fileID: 826009360}
   - {fileID: 677413766}
-  - {fileID: 345901458}
-  - {fileID: 1029410525}
-  - {fileID: 485862750}
-  - {fileID: 1955077348}
+  - {fileID: 2101669289}
+  - {fileID: 146009421}
+  - {fileID: 2137415273}
+  - {fileID: 494580652}
   - {fileID: 1337368317}
   - {fileID: 2072335378}
   - {fileID: 1523197016}
@@ -1594,6 +1667,11 @@ MonoBehaviour:
   - {fileID: 1217609773}
   - {fileID: 826009359}
   curatedListOfModifiers: []
+  listOfMonsterSlotBGs:
+  - {fileID: 2101669288}
+  - {fileID: 146009420}
+  - {fileID: 2137415272}
+  - {fileID: 494580651}
   titleText: {fileID: 441946754}
   summaryText: {fileID: 943800422}
   monsterListText: {fileID: 1320633962}
@@ -1776,6 +1854,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -1785,6 +1864,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 0}
+  baseSprite: {fileID: 0}
   selectable: 1
 --- !u!1 &441946751
 GameObject:
@@ -2587,17 +2667,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485862749}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.31959248, y: 0.38221142, z: 0.38221142}
   m_Children:
   - {fileID: 325090252}
-  m_Father: {fileID: 357945208}
-  m_RootOrder: 9
+  m_Father: {fileID: 2137415273}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: -158}
+  m_AnchoredPosition: {x: 1.5, y: 7.8}
   m_SizeDelta: {x: 149.7548, y: 149.7577}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &485862751
@@ -2672,6 +2752,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 2137415272}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -2680,7 +2761,8 @@ MonoBehaviour:
   rewardName: {fileID: 0}
   rewardDescription: {fileID: 0}
   selected: 0
-  selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  selectedSprite: {fileID: 21300000, guid: 82038052453941647be87c74adfd5130, type: 3}
+  baseSprite: {fileID: 21300000, guid: b01240610c3ae48eabbf419977065f1d, type: 3}
   selectable: 1
 --- !u!114 &485862753
 MonoBehaviour:
@@ -2854,6 +2936,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 487725188}
   m_CullTransparentMesh: 1
+--- !u!1 &494580651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 494580652}
+  - component: {fileID: 494580654}
+  - component: {fileID: 494580653}
+  m_Layer: 3
+  m_Name: MonsterSlot3BG
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &494580652
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494580651}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4.091614, y: 3.4212708, z: 3.4212708}
+  m_Children:
+  - {fileID: 1955077348}
+  m_Father: {fileID: 357945208}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 656.9997, y: -182}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &494580653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494580651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: b01240610c3ae48eabbf419977065f1d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &494580654
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494580651}
+  m_CullTransparentMesh: 1
 --- !u!1 &516328240
 GameObject:
   m_ObjectHideFlags: 0
@@ -3013,16 +3171,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516626319}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.64985704, y: 0.64985704, z: 0.64985704}
   m_Children: []
   m_Father: {fileID: 1955077348}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 183, y: 38}
+  m_AnchoredPosition: {x: -4.0437365, y: -85.393326}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &516626321
@@ -3051,14 +3209,7 @@ MonoBehaviour:
 
     Elements
 
-    - Attack 1
-
-    -
-    Attack 2
-
-    - Attack 3
-
-    - Attack 4'
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -3294,16 +3445,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524256786}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.64985704, y: 0.64985704, z: 0.64985704}
   m_Children: []
   m_Father: {fileID: 345901458}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 183, y: 38}
+  m_AnchoredPosition: {x: -4.0435777, y: -85.39331}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &524256788
@@ -3332,14 +3483,7 @@ MonoBehaviour:
 
     Elements
 
-    - Attack 1
-
-    -
-    Attack 2
-
-    - Attack 3
-
-    - Attack 4'
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -3662,6 +3806,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -3671,6 +3816,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 1
 --- !u!114 &615694994
 MonoBehaviour:
@@ -3767,7 +3913,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 280c8ca0805d54a008a0146cfaf2698e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7b97cdcfee9515742964957e2432e4b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3942,6 +4088,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -3951,6 +4098,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 0}
+  baseSprite: {fileID: 0}
   selectable: 1
 --- !u!1 &697921390
 GameObject:
@@ -4052,6 +4200,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -4061,6 +4210,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 0
 --- !u!114 &697921394
 MonoBehaviour:
@@ -4157,7 +4307,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 280c8ca0805d54a008a0146cfaf2698e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7b97cdcfee9515742964957e2432e4b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4618,6 +4768,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -4627,6 +4778,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 1
 --- !u!114 &826009364
 MonoBehaviour:
@@ -5063,6 +5215,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -5072,6 +5225,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 0
 --- !u!114 &940124259
 MonoBehaviour:
@@ -5551,17 +5705,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1029410524}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.31959248, y: 0.38221142, z: 0.38221142}
   m_Children:
   - {fileID: 1385715470}
-  m_Father: {fileID: 357945208}
-  m_RootOrder: 8
+  m_Father: {fileID: 146009421}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 421.99994, y: 222}
+  m_AnchoredPosition: {x: 1.5000372, y: 7.800017}
   m_SizeDelta: {x: 149.7548, y: 149.7577}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1029410526
@@ -5636,6 +5790,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 146009420}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -5644,7 +5799,8 @@ MonoBehaviour:
   rewardName: {fileID: 0}
   rewardDescription: {fileID: 0}
   selected: 0
-  selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  selectedSprite: {fileID: 21300000, guid: 82038052453941647be87c74adfd5130, type: 3}
+  baseSprite: {fileID: 21300000, guid: b01240610c3ae48eabbf419977065f1d, type: 3}
   selectable: 1
 --- !u!114 &1029410528
 MonoBehaviour:
@@ -6748,6 +6904,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -6757,6 +6914,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 1
 --- !u!114 &1217609778
 MonoBehaviour:
@@ -6952,6 +7110,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -6961,6 +7120,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 1
 --- !u!114 &1245958704
 MonoBehaviour:
@@ -7443,16 +7603,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1385715469}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.64985704, y: 0.64985704, z: 0.64985704}
   m_Children: []
   m_Father: {fileID: 1029410525}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 183, y: 38}
+  m_AnchoredPosition: {x: -4.043642, y: -85.39331}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1385715471
@@ -7481,14 +7641,7 @@ MonoBehaviour:
 
     Elements
 
-    - Attack 1
-
-    -
-    Attack 2
-
-    - Attack 3
-
-    - Attack 4'
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -7622,7 +7775,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 280c8ca0805d54a008a0146cfaf2698e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7b97cdcfee9515742964957e2432e4b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7985,6 +8138,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -7994,6 +8148,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 0
 --- !u!114 &1467835494
 MonoBehaviour:
@@ -8618,7 +8773,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 280c8ca0805d54a008a0146cfaf2698e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7b97cdcfee9515742964957e2432e4b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9059,7 +9214,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 280c8ca0805d54a008a0146cfaf2698e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7b97cdcfee9515742964957e2432e4b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9673,6 +9828,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -9682,6 +9838,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 0
 --- !u!114 &1852693927
 MonoBehaviour:
@@ -9833,6 +9990,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -9842,6 +10000,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 1
 --- !u!114 &1857293374
 MonoBehaviour:
@@ -10087,17 +10246,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955077347}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.31959248, y: 0.38221142, z: 0.38221142}
   m_Children:
   - {fileID: 516626320}
-  m_Father: {fileID: 357945208}
-  m_RootOrder: 10
+  m_Father: {fileID: 494580652}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 424.99994, y: -161}
+  m_AnchoredPosition: {x: 1.5000372, y: 7.8000016}
   m_SizeDelta: {x: 149.7548, y: 149.7577}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1955077349
@@ -10172,6 +10331,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 494580651}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -10180,7 +10340,8 @@ MonoBehaviour:
   rewardName: {fileID: 0}
   rewardDescription: {fileID: 0}
   selected: 0
-  selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  selectedSprite: {fileID: 21300000, guid: 82038052453941647be87c74adfd5130, type: 3}
+  baseSprite: {fileID: 21300000, guid: b01240610c3ae48eabbf419977065f1d, type: 3}
   selectable: 1
 --- !u!114 &1955077351
 MonoBehaviour:
@@ -10411,7 +10572,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 280c8ca0805d54a008a0146cfaf2698e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7b97cdcfee9515742964957e2432e4b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11076,6 +11237,7 @@ MonoBehaviour:
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
+  container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
   rewardType: 0
   subscreenManager: {fileID: 0}
@@ -11085,6 +11247,7 @@ MonoBehaviour:
   rewardDescription: {fileID: 0}
   selected: 0
   selectedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  baseSprite: {fileID: 0}
   selectable: 1
 --- !u!114 &2055188390
 MonoBehaviour:
@@ -11517,11 +11680,163 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2101669288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2101669289}
+  - component: {fileID: 2101669291}
+  - component: {fileID: 2101669290}
+  m_Layer: 3
+  m_Name: MonsterSlotBG
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2101669289
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101669288}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4.091614, y: 3.4212708, z: 3.4212708}
+  m_Children:
+  - {fileID: 345901458}
+  m_Father: {fileID: 357945208}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 181.99982, y: 201}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2101669290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101669288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: b01240610c3ae48eabbf419977065f1d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2101669291
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101669288}
+  m_CullTransparentMesh: 1
 --- !u!1 &2112218734 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5014688831787035239, guid: 0fe63a4212af7224d9506325efa88ebc, type: 3}
   m_PrefabInstance: {fileID: 435402165236388431}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2137415272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2137415273}
+  - component: {fileID: 2137415275}
+  - component: {fileID: 2137415274}
+  m_Layer: 3
+  m_Name: MonsterSlotBG2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2137415273
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137415272}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4.091614, y: 3.4212708, z: 3.4212708}
+  m_Children:
+  - {fileID: 485862750}
+  m_Father: {fileID: 357945208}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 181, y: -179}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2137415274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137415272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: b01240610c3ae48eabbf419977065f1d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2137415275
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137415272}
+  m_CullTransparentMesh: 1
 --- !u!1001 &435402165236388431
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11705,7 +12020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6822968146871159579, guid: d38874fd175da444abe0f330adc08b23, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 941.79
+      value: 986.43
       objectReference: {fileID: 0}
     - target: {fileID: 6822968146871159579, guid: d38874fd175da444abe0f330adc08b23, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11741,7 +12056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6822968146871159579, guid: d38874fd175da444abe0f330adc08b23, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20.895
+      value: 1.4254
       objectReference: {fileID: 0}
     - target: {fileID: 6822968146871159579, guid: d38874fd175da444abe0f330adc08b23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

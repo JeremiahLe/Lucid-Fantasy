@@ -26,6 +26,7 @@ public class SubscreenManager : MonoBehaviour
     public List<GameObject> listOfMonsterSlotsEquipment;
     public List<GameObject> listOfRewardSlots;
     public List<Modifier> curatedListOfModifiers;
+    public List<GameObject> listOfMonsterSlotBGs;
 
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI summaryText;
@@ -72,6 +73,7 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().rewardType = AdventureManager.RewardType.Monster;
                     rewardSlot.GetComponent<CreateReward>().monsterReward = monster;
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = monster.baseSprite;
+                    rewardSlot.GetComponent<CreateReward>().rewardImage.preserveAspect = true;
                     rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"<b>{monster.name} Lvl.{monster.level}</b>" +
                         $"\n{monster.monsterElement.element.ToString()}/{monster.monsterSubElement.element.ToString()}" +
                         $"\n- {monster.ListOfMonsterAttacks[0].monsterAttackName}" +
@@ -149,15 +151,13 @@ public class SubscreenManager : MonoBehaviour
         adventureManager.randomBattleMonsterLimit = randomBattleMonsterLimit;
 
         BattleImage.SetActive(true);
-        BattleImage.GetComponent<Image>().sprite = mysteryIcon;
-      
+
         // populate enemy list && check if boss battle
         for (int j = 0; j < randomBattleMonsterCount; j++)
         {
             if (adventureManager.currentSelectedNode.GetComponent<CreateNode>().nodeType == CreateNode.NodeType.Boss && !bossAdded)
             {
                 adventureManager.ListOfEnemyBattleMonsters.Add(GetBossMonster(adventureManager.adventureBoss, 5 + (5 * adventureManager.adventureNGNumber))); // difficulty scaled
-                BattleImage.GetComponent<Image>().sprite = adventureManager.adventureBoss.baseSprite;
                 BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle: Boss + Random" +
                 $"\nEnemies present: {randomBattleMonsterCount}" +
                 $"\nAllies allowed: {randomBattleMonsterLimit}" +
@@ -176,13 +176,23 @@ public class SubscreenManager : MonoBehaviour
             adventureManager.ListOfEnemyBattleMonsters.Add(GetRandomMonster(adventureManager.adventureNGNumber));
         }
 
-        BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle:\n");
+        // Set the battle image and enemy monsters in battle
+        if (adventureManager.currentSelectedNode.GetComponent<CreateNode>().nodeType == CreateNode.NodeType.Boss)
+        {
+            BattleImage.GetComponent<Image>().sprite = adventureManager.adventureBoss.baseSprite;
+        }
+        else
+        {
+            BattleImage.GetComponent<Image>().sprite = adventureManager.ListOfEnemyBattleMonsters[0].baseSprite;
+        }
 
+        BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle:\n");
         foreach (Monster monster in adventureManager.ListOfEnemyBattleMonsters)
         {
             BattleImage.GetComponentInChildren<TextMeshProUGUI>().text += ($"{monster.name} Lvl.{monster.level}\n");
         }
 
+        // Show Ally and Enemy count and Enemy Modifiers
         BattleImage.GetComponentInChildren<TextMeshProUGUI>().text +=
         ($"\nEnemies present: {randomBattleMonsterCount}" +
             $"\nAllies allowed: {randomBattleMonsterLimit}" +
@@ -200,7 +210,12 @@ public class SubscreenManager : MonoBehaviour
 
     // This function shows the player's currently available monsters for battle
     public void ShowAlliedMonstersAvailable()
-    {
+    {   
+        foreach(GameObject slotBG in listOfMonsterSlotBGs)
+        {
+            slotBG.SetActive(true);
+        }
+
         // Show allied monsters
         int i = 0;
         foreach (GameObject monsterSlot in listOfMonsterSlots)
@@ -215,11 +230,11 @@ public class SubscreenManager : MonoBehaviour
                 monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
                 monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"{monsterSlot.GetComponent<CreateReward>().monsterReward.name} Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
                     $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}" +
-                    $"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[0].monsterAttackName}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[1].monsterAttackName}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[2].monsterAttackName}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[3].monsterAttackName}");
+                    $"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}");
+                        //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[0].monsterAttackName}" +
+                        //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[1].monsterAttackName}" +
+                        //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[2].monsterAttackName}" +
+                        //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[3].monsterAttackName}");
             }
 
             i++;

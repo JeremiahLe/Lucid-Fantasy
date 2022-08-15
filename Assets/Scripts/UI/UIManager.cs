@@ -95,7 +95,7 @@ public class UIManager : MonoBehaviour
         monsterTurnIndicator.SetActive(true);
         if (currentMonsterTurn != null)
         {
-            monsterTurnIndicator.transform.position = new Vector3(currentMonsterTurn.transform.position.x, currentMonsterTurn.transform.position.y + 2.5f, currentMonsterTurn.transform.position.z);
+            monsterTurnIndicator.transform.position = new Vector3(currentMonsterTurn.transform.position.x, currentMonsterTurn.transform.position.y + 2.0f, currentMonsterTurn.transform.position.z);
         }
         else
         {

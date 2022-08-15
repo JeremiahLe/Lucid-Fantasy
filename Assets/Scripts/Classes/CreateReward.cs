@@ -13,6 +13,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
     public Modifier modifierReward;
 
     public GameObject StatScreenWindowGameObject;
+    public GameObject container;
     public TextMeshProUGUI StatScreenWindowText;
 
     public AdventureManager.RewardType rewardType;
@@ -25,6 +26,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
 
     public bool selected;
     public Sprite selectedSprite;
+    public Sprite baseSprite;
     public bool selectable = true;
 
     public void Awake()
@@ -130,16 +132,18 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
             if (!selected)
             {
                 selected = true;
-                rewardImage = GetComponent<Image>();
+                rewardImage = container.GetComponent<Image>();
                 rewardImage.sprite = selectedSprite;
+                rewardImage.color = Color.yellow;
                 adventureManager.ListOfAllyBattleMonsters.Add(monsterReward);
                 adventureManager.subScreenMenuText.text = ($"Current monsters: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
             }
             else
             {
                 selected = false;
-                rewardImage = GetComponent<Image>();
-                rewardImage.sprite = monsterReward.baseSprite;
+                rewardImage = container.GetComponent<Image>();
+                rewardImage.sprite = baseSprite;
+                rewardImage.color = Color.white;
                 adventureManager.ListOfAllyBattleMonsters.Remove(monsterReward);
                 adventureManager.subScreenMenuText.text = ($"Current monsters: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
             }

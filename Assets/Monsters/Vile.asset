@@ -20,8 +20,8 @@ MonoBehaviour:
   aiLevel: 0
   monsterAbility: {fileID: 0}
   level: 5
-  health: 81
-  maxHealth: 81
+  health: 66
+  maxHealth: 66
   cachedHealth: 0
   cachedMaxHealth: 0
   physicalAttack: 7
@@ -34,8 +34,8 @@ MonoBehaviour:
   critDamage: 1.5
   bonusAccuracy: 0
   healthScaler: 1
-  physicalAttackScaler: 4
-  magicAttackScaler: 4
+  physicalAttackScaler: 3
+  magicAttackScaler: 3
   physicalDefenseScaler: 1
   magicDefenseScaler: 1
   speedScaler: 3
