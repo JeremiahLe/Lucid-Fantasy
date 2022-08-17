@@ -25,8 +25,10 @@ MonoBehaviour:
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
   monsterAttackCritChance: 10
+  monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0
   attackBaseCooldown: 0
   attackCurrentCooldown: 0
+  AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
   ListOfAttackEffects: []

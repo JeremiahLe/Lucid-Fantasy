@@ -30,5 +30,6 @@ MonoBehaviour:
   attackOnCooldown: 1
   attackBaseCooldown: 2
   attackCurrentCooldown: 1
+  AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
   ListOfAttackEffects:
   - {fileID: 11400000, guid: daf13efacc9acb04db3715cfe4fc0c69, type: 2}

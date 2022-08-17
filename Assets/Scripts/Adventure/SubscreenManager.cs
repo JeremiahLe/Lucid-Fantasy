@@ -616,10 +616,9 @@ public class SubscreenManager : MonoBehaviour
         int seconds = Mathf.FloorToInt(adventureManager.adventureTimer - minutes * 60);
         string niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
 
-        ReturnToMainMenuButton.SetActive(true);
+        // Show MVP Monster
         BattleImage.SetActive(true);
         BattleImage.GetComponent<Button>().enabled = false;
-
         Monster monster = adventureManager.GetMVPMonster();
         BattleImage.GetComponent<Image>().sprite = monster.baseSprite;
         BattleImage.GetComponentInChildren<TextMeshProUGUI>().text =
@@ -627,20 +626,17 @@ public class SubscreenManager : MonoBehaviour
             $"\nDamage Done: {monster.cachedDamageDone}" +
             $"\nKills: {monster.monsterKills}");
 
+        // Show Adventure Summary
         summaryText.text = ($"Adventure Summary: " +
             $"\nTime: {niceTime}" +
             $"\nRun: {adventureManager.adventureNGNumber}" +
             $"\nGold Spent: {adventureManager.playerGoldSpent}" +
             $"\nRerolls: {adventureManager.timesRerolled}" +
             $"\nAlly Monsters Defeated: {adventureManager.playerMonstersLost}" +
-            $"\nEnemy Monsters Defeated: {adventureManager.playerMonstersKilled}" +
-            $"\nModifiers: ");
+            $"\nEnemy Monsters Defeated: {adventureManager.playerMonstersKilled}");
 
-        foreach(Modifier modifier in adventureManager.ListOfCurrentModifiers)
-        {
-            summaryText.text += ($"{modifier.modifierName}\n");
-        }
-
+        // Win or Lose?
+        ReturnToMainMenuButton.SetActive(true);
         if (Win)
         {
             adventureManager.PlayNewBGM(adventureManager.winBGM, .20f);
@@ -656,8 +652,6 @@ public class SubscreenManager : MonoBehaviour
                 RestartGameButton.SetActive(true);
             }
         }
-
-        // Reset bools
     }
 
     // This functions returns to the main menu screen

@@ -366,6 +366,17 @@ public class MonsterAttackManager : MonoBehaviour
         UpdateHUDElements();
     }
 
+    // This function spawns a monster attack effect at the target's position
+    public void SpawnAttackEffect()
+    {
+        // Spawn Effect on Target
+        if (currentMonsterAttack.AttackVFX != null)
+        {
+           GameObject attackEffect = Instantiate(currentMonsterAttack.AttackVFX, currentTargetedMonsterGameObject.transform.position + (transform.forward * -2f), transform.rotation);
+            attackEffect.GetComponent<Renderer>().sortingOrder = 20;
+        }
+    }
+
     // This function is called when the monster attack does not deal damage
     public void UseMonsterBuff()
     {
@@ -523,6 +534,7 @@ public class MonsterAttackManager : MonoBehaviour
             // Play targeted monster hit animation
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().ShowDamageOrStatusEffectPopup(calculatedDamage);
             currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
+            SpawnAttackEffect();
 
             // Play damage sound
             soundEffectManager.AddSoundEffectToQueue(HitSound);
@@ -608,6 +620,7 @@ public class MonsterAttackManager : MonoBehaviour
                 currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
                 soundEffectManager.AddSoundEffectToQueue(HitSound);
                 soundEffectManager.BeginSoundEffectQueue();
+                SpawnAttackEffect();
 
                 GameObject monsterWhoUsedAttackGameObject = currentMonsterTurnGameObject;
                 monsterWhoUsedAttack = currentMonsterTurn;

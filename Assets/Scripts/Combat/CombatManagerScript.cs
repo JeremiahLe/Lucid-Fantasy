@@ -508,7 +508,7 @@ public class CombatManagerScript : MonoBehaviour
         //}
 
         // Call Round End adventure modifiers
-        if (adventureMode)
+        if (adventureMode && ListOfAllys.Count > 0)
         {
             adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Ally);
             adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Enemy);

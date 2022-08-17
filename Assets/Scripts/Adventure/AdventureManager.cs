@@ -943,6 +943,7 @@ public class AdventureManager : MonoBehaviour
                 // Get specific Modifier
                 switch (modifier.modifierAdventureReference)
                 {
+                    #region Blessing 0f Earth
                     case (AdventureModifiers.AdventureModifierReferenceList.BlessingOfEarth):
 
                         if (aIType == Monster.AIType.Ally)
@@ -964,7 +965,7 @@ public class AdventureManager : MonoBehaviour
                         effect.BuffTargetStat(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier.modifierName, true);
 
                         break;
-
+                    #endregion
 
                     default:
                         break;

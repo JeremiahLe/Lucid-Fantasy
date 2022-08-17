@@ -29,6 +29,9 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
     public Sprite baseSprite;
     public bool selectable = true;
 
+    public CreateMonster.MonsterRowPosition currentSelectedMonsterRowPosition;
+    public TMP_Dropdown monsterRowSelect;
+
     public void Awake()
     {
         rewardImage = GetComponent<Image>();
@@ -232,6 +235,30 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 subscreenManager.monsterStatsWindow.SetActive(true);
                 monsterStatScreenScript.DisplayMonsterStatScreenStats(monsterReward);
             }
+        }
+    }
+
+    // This function assigns the current monster slot a row position before the battle begins
+    public void AssignMonsterRowPosition()
+    {
+        string monsterRowPosition = monsterRowSelect.captionText.text;
+
+        switch (monsterRowPosition)
+        {
+            case ("Back Row"):
+                monsterReward.cachedMonsterRowPosition = CreateMonster.MonsterRowPosition.BackRow;
+                break;
+
+            case ("Center Row"):
+                monsterReward.cachedMonsterRowPosition = CreateMonster.MonsterRowPosition.CenterRow;
+                break;
+
+            case ("Front Row"):
+                monsterReward.cachedMonsterRowPosition = CreateMonster.MonsterRowPosition.FrontRow;
+                break;
+
+            default:
+                break;
         }
     }
 }

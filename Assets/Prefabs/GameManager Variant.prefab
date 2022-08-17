@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: eb7ae0a03637bfe4db9da0c8530e26b8, type: 3}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: rerollAmount
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: rareChanceRate

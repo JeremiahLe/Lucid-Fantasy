@@ -48,6 +48,7 @@ public class MonsterAttack : ScriptableObject
     [DisplayWithoutEdit] public bool attackOnCooldown;
     public int attackBaseCooldown;
     [DisplayWithoutEdit] public int attackCurrentCooldown;
+    public GameObject AttackVFX;
 
     [Header("Monster Attack Effect List")]
     public List<AttackEffect> ListOfAttackEffects;

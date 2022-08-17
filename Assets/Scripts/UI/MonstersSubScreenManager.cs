@@ -10,11 +10,18 @@ public class MonstersSubScreenManager : MonoBehaviour
     public AdventureManager adventureManager;
     public TextMeshProUGUI monsterAmountText;
 
+    public List<GameObject> monsterSlotImages;
+
     public void ShowAvailableMonsters()
     {
         monsterAmountText.text =
             ($"Monsters: ({adventureManager.ListOfCurrentMonsters.Count}/4)" +
             $"\n[Right-click for more info.]");
+
+        foreach(GameObject slot in monsterSlotImages)
+        {
+            slot.SetActive(true);
+        }
 
         // Show allied monsters
         int i = 0;
@@ -30,11 +37,7 @@ public class MonstersSubScreenManager : MonoBehaviour
                 monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
                 monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"{monsterSlot.GetComponent<CreateReward>().monsterReward.name} Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
                     $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}" +
-                    $"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[0].monsterAttackName}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[1].monsterAttackName}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[2].monsterAttackName}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[3].monsterAttackName}");
+                    $"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}");
             }
 
             i++;
@@ -47,6 +50,11 @@ public class MonstersSubScreenManager : MonoBehaviour
         foreach (GameObject monsterSlot in listOfMonsterSlots)
         {
             monsterSlot.SetActive(false);
+        }
+
+        foreach (GameObject slot in monsterSlotImages)
+        {
+            slot.SetActive(true);
         }
 
         monsterAmountText.text =
