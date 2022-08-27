@@ -276,10 +276,17 @@ Imported Various Assets/Packages
 - Allow enemy monsters to have a random starting row and chance to swap rows per turn
 - Begin work on the harder, longer adventure mode (15+ stages, with Shop, Encounters, and Narrative)
 
-[8/16/22
+[8/16/22]
 - Allow the player to select starting row before battle
 - Allow enemy monsters to have a random starting row and chance to swap rows per turn
 - Begin work on the harder, longer adventure mode (15+ stages, with Shop, Encounters, and Narrative)
+
+[8/26/22]
+- Allow enemy monsters to have a random starting row and chance to swap rows per turn
+- Begin work on the harder, longer adventure mode (15+ stages, with Shop, Encounters, and Narrative)
+- Implement Abilities
+- Implement Evolution
+- Implement Shop
 
 Long-Term
  - Finish Room Creation and Setup
