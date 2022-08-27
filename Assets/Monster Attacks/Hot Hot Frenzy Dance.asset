@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: Raise user's evasion, magic attack, and speed by 20%
     at the cost of 10% max health.
   monsterAttackElement: 0
+  monsterElementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterAttackType: 1
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 0
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

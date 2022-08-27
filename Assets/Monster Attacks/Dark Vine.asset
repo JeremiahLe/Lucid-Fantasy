@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: Hit the target with a vine of dark energy and drain HP
     equal to 40% of damage dealt.
   monsterAttackElement: 2
+  monsterElementClass: {fileID: 11400000, guid: 27405038644d4d648afcefa75e264c2f, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 25
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 90
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

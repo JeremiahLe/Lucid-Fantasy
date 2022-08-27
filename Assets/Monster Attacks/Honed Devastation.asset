@@ -15,6 +15,7 @@ MonoBehaviour:
   monsterAttackName: Honed Devastation
   monsterAttackDescription: Raise user's critical strike damage to 2.5 for 2 rounds.
   monsterAttackElement: 5
+  monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   monsterAttackType: 1
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
@@ -23,7 +24,7 @@ MonoBehaviour:
   monsterAttackDamage: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 0
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

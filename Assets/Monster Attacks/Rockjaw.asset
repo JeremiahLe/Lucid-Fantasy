@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: "Crunch a target in rocky jaws, dealing damage. Has a
     35% to lower the \ntarget's Physical Defense by 35%."
   monsterAttackElement: 11
+  monsterElementClass: {fileID: 11400000, guid: d8116a12bc962344d879184f9ba6ecad, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 35
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

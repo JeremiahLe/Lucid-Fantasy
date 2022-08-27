@@ -786,6 +786,14 @@ public class MonsterAttackManager : MonoBehaviour
             return 0;
         }
 
+        // Second, check specific monster element immunities
+        if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().listOfElementImmunities.Contains(currentMonsterAttack.monsterElementClass))
+        {
+            CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune to {currentMonsterAttack.monsterElementClass.element.ToString()} damage!");
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+            return 0;
+        }
+
         calculatedDamage = 0;
         bonusDamagePercent = 0;
         MonsterAttack.MonsterAttackDamageType highestStatType;
@@ -855,14 +863,14 @@ public class MonsterAttackManager : MonoBehaviour
         // Check monster main element bonus/ /  fix ToStrings?
         if (monsterAttack.monsterAttackElement == currentMonster.monsterElement.element)
         {
-            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .20f);
+            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .15f);
             Debug.Log("Main element bonus!");
         }
 
         // Check sub element bonus //  fix ToStrings?
         if (monsterAttack.monsterAttackElement == currentMonster.monsterSubElement.element)
         {
-            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .10f);
+            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .5f);
             Debug.Log("Sub element bonus!");
         }
 

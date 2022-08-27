@@ -18,7 +18,8 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
   aiLevel: 0
-  monsterAbility: {fileID: 0}
+  monsterFlavourText: Kindlil love to dance and commit arson.
+  monsterAbility: {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
   level: 6
   health: 64
   maxHealth: 64

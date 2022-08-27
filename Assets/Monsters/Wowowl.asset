@@ -18,7 +18,9 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   aiType: 0
   aiLevel: 0
-  monsterAbility: {fileID: 0}
+  monsterFlavourText: Wowowl never sleep, and as such, their eyes have evolved to
+    see extremely well.
+  monsterAbility: {fileID: 11400000, guid: 1ba8afec127180e41ac731c453513da5, type: 2}
   level: 5
   health: 63
   maxHealth: 63

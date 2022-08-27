@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: Fan the flames of the fire, dealing 50% bonus damage
     if the target is burned.
   monsterAttackElement: 0
+  monsterElementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 15
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 80
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

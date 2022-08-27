@@ -91,6 +91,9 @@ public class CreateMonster : MonoBehaviour
     // Basic Stat Immunities
     public List<AttackEffect.StatEnumToChange> listOfStatImmunities;
 
+    // Basic Element Immunities
+    public List<ElementClass> listOfElementImmunities;
+
     // Specific Status Immunities
     public List<AttackEffect.StatEnumToChange> listOfStatusImmunities;
 

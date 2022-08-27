@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: Blast the target with incredibly fast splitting winds.
     Deals 125% of User's Speed as bonus flat damage.
   monsterAttackElement: 3
+  monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 17
   monsterAttackFlatDamageBonus: 19
   monsterAttackAccuracy: 85
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

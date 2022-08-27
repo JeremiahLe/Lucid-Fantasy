@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: "Raise user's crit chance by 50% and crit damage multiplier
     to 2.5 for 3 rounds. \n[1 Round Cooldown]"
   monsterAttackElement: 3
+  monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 1
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 1
   attackOnCooldown: 0

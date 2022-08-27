@@ -18,7 +18,9 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   aiType: 1
   aiLevel: 0
-  monsterAbility: {fileID: 0}
+  monsterFlavourText: Vile are the result of vicious lab experimentation. Dangerous
+    toxins flow through its veins.
+  monsterAbility: {fileID: 11400000, guid: 451ee0c393b4781488b125919853ef30, type: 2}
   level: 5
   health: 66
   maxHealth: 66

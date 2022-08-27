@@ -16,12 +16,13 @@ MonoBehaviour:
   monsterAttackDescription: Slash a target with icy claws. Slightly above average
     critical strike rate.
   monsterAttackElement: 1
+  monsterElementClass: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
   monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}
-  monsterAttackDamage: 60
+  monsterAttackDamage: 50
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 90
   monsterAttackCritChance: 35

@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: "Cast a veil of protective shadows over a target, giving
     them immunity to \ndebuffs and status effects."
   monsterAttackElement: 4
+  monsterElementClass: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
   monsterAttackType: 1
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 0
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

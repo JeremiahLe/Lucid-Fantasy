@@ -54,7 +54,7 @@ public class MonstersSubScreenManager : MonoBehaviour
 
         foreach (GameObject slot in monsterSlotImages)
         {
-            slot.SetActive(true);
+            slot.SetActive(false);
         }
 
         monsterAmountText.text =

@@ -168,7 +168,7 @@ public class ButtonManagerScript : MonoBehaviour
         //HideButton(ConfirmButton);
         HideButton(ConfirmQuitButton);
         HideButton(ContinueButton);
-        QuitButton.SetActive(true); // GitHub comment
+        QuitButton.SetActive(true);
         BackButton.SetActive(false);
         HideButton(RowButtonsParent);
 
@@ -348,7 +348,10 @@ public class ButtonManagerScript : MonoBehaviour
     public void ReturnToAttackMoves()
     {
         // Hide attack description container
+        uiManager.ResetCombatMessage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name);
         monsterAttackManager.ResetHUD();
+        combatManagerScript.CurrentMonsterAttack = null;
+        combatManagerScript.targeting = false;
 
         // Redisplay attack moves and hide the back button
         HideAllButtons("AttacksHUDButtons");

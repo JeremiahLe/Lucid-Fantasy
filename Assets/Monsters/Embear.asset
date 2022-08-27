@@ -18,14 +18,16 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
   aiLevel: 0
-  monsterAbility: {fileID: 0}
+  monsterFlavourText: Embear are eternally sleepy. The fire on their hindend represent
+    their overall health.
+  monsterAbility: {fileID: 11400000, guid: c01f1acd497c8564181703f6de555cce, type: 2}
   level: 7
   health: 120
   maxHealth: 120
   cachedHealth: 0
   cachedMaxHealth: 0
-  physicalAttack: 5
-  magicAttack: 6
+  physicalAttack: 3
+  magicAttack: 4
   physicalDefense: 3
   magicDefense: 2
   speed: 3
@@ -38,7 +40,7 @@ MonoBehaviour:
   magicAttackScaler: 2
   physicalDefenseScaler: 3
   magicDefenseScaler: 2
-  speedScaler: 2
+  speedScaler: 1
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: 7ab31fe3800ad4c4b9ed05b763aee7cd, type: 2}
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
@@ -54,8 +56,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
   - {fileID: 11400000, guid: 8ad79bc568b7a0745a1c25260fd26dc0, type: 2}
-  cachedPhysicalAttack: 5
-  cachedMagicAttack: 6
+  cachedPhysicalAttack: 3
+  cachedMagicAttack: 4
   cachedPhysicalDefense: 3
   cachedMagicDefense: 2
   cachedSpeed: 3

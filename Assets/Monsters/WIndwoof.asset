@@ -18,7 +18,9 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
   aiLevel: 0
-  monsterAbility: {fileID: 0}
+  monsterFlavourText: Windwoof often roam and hunt in packs across the open plains.
+    They are generally docile and loving.
+  monsterAbility: {fileID: 11400000, guid: cb4db506102fe30479e4bf2a2096f8bf, type: 2}
   level: 5
   health: 72
   maxHealth: 72

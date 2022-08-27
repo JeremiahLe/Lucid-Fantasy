@@ -19,6 +19,7 @@ MonoBehaviour:
     attack by 10%. 25% chance to also inflict
     Dazed.'
   monsterAttackElement: 12
+  monsterElementClass: {fileID: 11400000, guid: ec9ecd56522a5744486571ef5548086b, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
@@ -27,7 +28,7 @@ MonoBehaviour:
   monsterAttackDamage: 35
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

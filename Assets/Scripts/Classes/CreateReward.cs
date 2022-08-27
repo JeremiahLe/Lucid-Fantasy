@@ -29,7 +29,6 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
     public Sprite baseSprite;
     public bool selectable = true;
 
-    public CreateMonster.MonsterRowPosition currentSelectedMonsterRowPosition;
     public TMP_Dropdown monsterRowSelect;
 
     public void Awake()
@@ -137,7 +136,6 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 selected = true;
                 rewardImage = container.GetComponent<Image>();
                 rewardImage.sprite = selectedSprite;
-                rewardImage.color = Color.yellow;
                 adventureManager.ListOfAllyBattleMonsters.Add(monsterReward);
                 adventureManager.subScreenMenuText.text = ($"Current monsters: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
             }
@@ -146,7 +144,6 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 selected = false;
                 rewardImage = container.GetComponent<Image>();
                 rewardImage.sprite = baseSprite;
-                rewardImage.color = Color.white;
                 adventureManager.ListOfAllyBattleMonsters.Remove(monsterReward);
                 adventureManager.subScreenMenuText.text = ($"Current monsters: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
             }

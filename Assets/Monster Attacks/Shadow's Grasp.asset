@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: Crush the target with a shadowy hand. Attack stat type
     varies based on user's highest offensive stat.
   monsterAttackElement: 4
+  monsterElementClass: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 3
   monsterAttackTargetCount: 0
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 50
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

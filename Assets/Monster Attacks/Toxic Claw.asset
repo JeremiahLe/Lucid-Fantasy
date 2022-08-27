@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: Ravage the target with chemically soaked claws. Has a
     33% chance to inflict poison.
   monsterAttackElement: 9
+  monsterElementClass: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 40
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

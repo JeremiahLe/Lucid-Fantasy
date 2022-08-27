@@ -18,7 +18,8 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   aiType: 0
   aiLevel: 0
-  monsterAbility: {fileID: 0}
+  monsterFlavourText: Frejeow often take naps in their own snow dens.
+  monsterAbility: {fileID: 11400000, guid: c01f1acd497c8564181703f6de555cce, type: 2}
   level: 5
   health: 77
   maxHealth: 77
@@ -40,10 +41,10 @@ MonoBehaviour:
   magicDefenseScaler: 2
   speedScaler: 2
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
-  - {fileID: 11400000, guid: 534c8c91b17f6584e8c68ba789a54465, type: 2}
   - {fileID: 11400000, guid: 908c4c32a1cab834bae68ad91a2a617c, type: 2}
   - {fileID: 11400000, guid: 8ad79bc568b7a0745a1c25260fd26dc0, type: 2}
+  - {fileID: 11400000, guid: 534c8c91b17f6584e8c68ba789a54465, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}

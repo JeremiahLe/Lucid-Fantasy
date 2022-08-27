@@ -15,6 +15,7 @@ MonoBehaviour:
   monsterAttackName: Scorch
   monsterAttackDescription: Scorch the opponent with a searing flame.
   monsterAttackElement: 0
+  monsterElementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
@@ -23,7 +24,7 @@ MonoBehaviour:
   monsterAttackDamage: 30
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

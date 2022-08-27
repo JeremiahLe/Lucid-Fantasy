@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: "Return 125% of damage taken this turn with a towering
     storm. \n[1 round cooldown]"
   monsterAttackElement: 3
+  monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 25
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 110
-  monsterAttackCritChance: 0
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 1
   attackOnCooldown: 0

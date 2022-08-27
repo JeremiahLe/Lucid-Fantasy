@@ -16,6 +16,7 @@ MonoBehaviour:
   monsterAttackDescription: Whip up dancing flames, damaging all enemies. 33% chance
     to inflict Dazed on the user and hit targets.
   monsterAttackElement: 0
+  monsterElementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 2
@@ -24,7 +25,7 @@ MonoBehaviour:
   monsterAttackDamage: 40
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 95
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 1
   attackHasCooldown: 0
   attackOnCooldown: 0

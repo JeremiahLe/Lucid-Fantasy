@@ -17,15 +17,18 @@ MonoBehaviour:
   modifierOwner: {fileID: 0}
   modifierDurationType: 1
   statModified: 4
+  statChangeType: 0
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 5
+  modifierAmount: 4
   modifierAmountFlatBuff: 1
   statusEffect: 0
   statusEffectType: 0
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
   modifierName: Armor
   modifierAdventureReference: 0
-  modifierDescription: +5 Physical Defense
+  modifierDescription: +4 Physical Defense
   adventureModifier: 0
   adventureEquipment: 1
   modifierAdventureCallTime: 0

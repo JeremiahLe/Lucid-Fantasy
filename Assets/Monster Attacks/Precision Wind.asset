@@ -15,6 +15,7 @@ MonoBehaviour:
   monsterAttackName: Precision Wind
   monsterAttackDescription: Attack with precise winds, never missing.
   monsterAttackElement: 3
+  monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
@@ -23,11 +24,11 @@ MonoBehaviour:
   monsterAttackDamage: 45
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 1
   attackHasCooldown: 0
   attackOnCooldown: 0
   attackBaseCooldown: 0
   attackCurrentCooldown: 0
-  AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
+  AttackVFX: {fileID: 3923125925641639501, guid: 8698fd2d0e204764fbe9b0db31cd32df, type: 3}
   ListOfAttackEffects: []

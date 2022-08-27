@@ -17,6 +17,7 @@ MonoBehaviour:
     fear, dealing minor damage. If the user \nis the slowest in the match, slow all
     enemies by 20%. Otherwise, lower self attack stats by 20%."
   monsterAttackElement: 4
+  monsterElementClass: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 2
@@ -25,7 +26,7 @@ MonoBehaviour:
   monsterAttackDamage: 15
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 10
+  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0

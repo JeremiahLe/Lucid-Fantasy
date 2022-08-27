@@ -8,11 +8,13 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "New Monster", menuName = "Monster")]
 public class Monster : ScriptableObject
 {
+    // The monster's name and sprite
     [Title("Monster Identifier")]
     public new string name;
     [AssetSelector(Paths = "Assets/Sprites/Renders")]
     public Sprite baseSprite;
 
+    // The monster's elements
     [Title("Setup")]
     public enum MonsterElement
     { Fire, Water, Earth, Wind,
@@ -22,12 +24,17 @@ public class Monster : ScriptableObject
     public ElementClass monsterElement;
     public ElementClass monsterSubElement;
 
+    // The monster's AI Type and Level
     public enum AIType { Ally, Enemy };
     public AIType aiType;
 
     public enum AILevel { Smart, Random, Bad, Player };
     public AILevel aiLevel;
 
+    // The monster's flavour text and ability
+    [TextArea]
+    public string monsterFlavourText;
+    
     public Ability monsterAbility;
 
     [Title("Monster Combat Stats")]
@@ -68,10 +75,6 @@ public class Monster : ScriptableObject
 
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 5)] public int speedScaler;
-
-    //[PropertySpace(SpaceBefore = 15)]
-    //public float mana;
-    //public float maxMana;
 
     [Header("Monster Attack List")]
     public List<MonsterAttack> ListOfMonsterAttacks;
