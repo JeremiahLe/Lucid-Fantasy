@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Blaze of Glory
   m_EditorClassIdentifier: 
   abilityName: Blaze of Glory
-  abilityDescription: Inflict Burning on All chimerics. If already Burning, deal
+  abilityDescription: Inflict Burning on All Chimerics. If already Burning, deal
     damage equal to 200% of Magic Attack.
   abilityTriggerTime: 7
   onWhatStatChange: 0
+  gainsImmunity: 0
+  immunityGained: 0

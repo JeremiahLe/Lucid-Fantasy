@@ -512,11 +512,14 @@ public class MonsterAttackManager : MonoBehaviour
             return;
         }
 
+        // Check any pre-attack effects before attacking
         PreAttackEffectCheck();
 
+        // Update the current targeted monster and gameObject if necessary
         currentTargetedMonster = combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
         currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
 
+        // Make sure the targeter is at the right position
         if (currentTargetedMonsterGameObject != null)
         {
             cachedTransform = currentTargetedMonsterGameObject.transform.position;
@@ -548,8 +551,11 @@ public class MonsterAttackManager : MonoBehaviour
             monsterWhoUsedAttack.health = currentMonsterTurn.health;
             monsterWhoUsedAttack.cachedDamageDone += calculatedDamage;
 
-            // Trigger any post attack effects
-            TriggerPostAttackEffects(monsterWhoUsedAttack);
+            // Trigger any post attack effects only if calculated damage is not 0 (immune)
+            if (calculatedDamage > 0)
+            {
+                TriggerPostAttackEffects(monsterWhoUsedAttack);
+            }
 
             //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);
@@ -627,8 +633,11 @@ public class MonsterAttackManager : MonoBehaviour
                 monsterWhoUsedAttack.health = currentMonsterTurn.health;
                 monsterWhoUsedAttack.cachedDamageDone += calculatedDamage;
 
-                // Trigger DURING attack effects
-                TriggerDuringAttackEffects(monsterWhoUsedAttack);
+                // Trigger DURING attack effects only if damage dealt was not 0 (Immune)
+                if (calculatedDamage > 0)
+                {
+                    TriggerDuringAttackEffects(monsterWhoUsedAttack);
+                }
 
                 // End of turn stuff
                 currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);

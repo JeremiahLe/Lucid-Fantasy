@@ -1290,6 +1290,7 @@ public class CreateMonster : MonoBehaviour
         {
             combatManagerScript.uiManager.DetailedMonsterStatsWindow.SetActive(true);
             combatManagerScript.uiManager.DetailedMonsterStatsWindow.GetComponent<MonsterStatScreenScript>().DisplayMonsterStatScreenStats(monsterReference);
+            combatManagerScript.uiManager.DetailedMonsterStatsWindow.GetComponent<InventoryManager>().currentMonsterEquipment = monster;
         }
 
         if (currentTime >= delayTime)

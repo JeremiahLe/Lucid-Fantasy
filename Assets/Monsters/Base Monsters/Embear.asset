@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
+  m_Name: Embear
+  m_EditorClassIdentifier: 
+  name: Embear
+  baseSprite: {fileID: 21300000, guid: e80d7720031c1f14e90f6146e270fd7c, type: 3}
+  monsterElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
+  aiType: 0
+  aiLevel: 0
+  monsterFlavourText: Embear are eternally sleepy. The fire on their hindend represent
+    their overall health.
+  monsterAbility: {fileID: 11400000, guid: c01f1acd497c8564181703f6de555cce, type: 2}
+  level: 7
+  health: 120
+  maxHealth: 120
+  cachedHealth: 0
+  cachedMaxHealth: 0
+  physicalAttack: 3
+  magicAttack: 4
+  physicalDefense: 3
+  magicDefense: 2
+  speed: 3
+  evasion: 0
+  critChance: 0
+  critDamage: 1.5
+  bonusAccuracy: 0
+  healthScaler: 25
+  physicalAttackScaler: 2
+  magicAttackScaler: 2
+  physicalDefenseScaler: 3
+  magicDefenseScaler: 2
+  speedScaler: 1
+  ListOfMonsterAttacks:
+  - {fileID: 11400000, guid: 7ab31fe3800ad4c4b9ed05b763aee7cd, type: 2}
+  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  - {fileID: 11400000, guid: 48d9334f640a4fc448bcae0417a1c0c3, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
+  ListOfModifiers: []
+  ListOfMonsterAttacksAvailable:
+  - {fileID: 11400000, guid: 7ab31fe3800ad4c4b9ed05b763aee7cd, type: 2}
+  - {fileID: 11400000, guid: 48d9334f640a4fc448bcae0417a1c0c3, type: 2}
+  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
+  - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  - {fileID: 11400000, guid: 8ad79bc568b7a0745a1c25260fd26dc0, type: 2}
+  cachedPhysicalAttack: 3
+  cachedMagicAttack: 4
+  cachedPhysicalDefense: 3
+  cachedMagicDefense: 2
+  cachedSpeed: 3
+  cachedEvasion: 0
+  cachedCritChance: 0
+  cachedBonusAccuracy: 0
+  cachedLevel: 0
+  cachedMonsterRowPosition: 0
+  cachedDamageDone: 0
+  monsterKills: 0
+  monsterCurrentExp: 0
+  monsterExpToNextLevel: 125
+  ascensionType: 0
+  firstEvolutionPath: {fileID: 0}
+  firstEvolutionLevelReq: 20
+  ascensionOneMaterial: {fileID: 11400000, guid: 4c889ff0c7a86e94792a06c7d32e99d0, type: 2}
+  ascensionOneMaterialAmount: 1
+  secondEvolutionPath: {fileID: 0}
+  secondEvolutionLevelReq: 20
+  ascensionTwoMaterial: {fileID: 11400000, guid: 44d68414f0b854d45ae7cf20b5e630c4, type: 2}
+  ascensionTwoMaterialAmount: 1

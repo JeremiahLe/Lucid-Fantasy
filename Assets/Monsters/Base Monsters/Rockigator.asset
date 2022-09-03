@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
+  m_Name: Rockigator
+  m_EditorClassIdentifier: 
+  name: Rockigator
+  baseSprite: {fileID: 21300000, guid: 5de6bc7452dd74d4aac7ec64ddbedc96, type: 3}
+  monsterElement: {fileID: 11400000, guid: d8116a12bc962344d879184f9ba6ecad, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
+  aiType: 0
+  aiLevel: 0
+  monsterFlavourText: Rockigator often crunch rocks for food, strengthening their
+    own solid body.
+  monsterAbility: {fileID: 11400000, guid: 7cdb0a6f0dbb33645b6be7825e0c8e8b, type: 2}
+  level: 5
+  health: 95
+  maxHealth: 95
+  cachedHealth: 0
+  cachedMaxHealth: 0
+  physicalAttack: 6
+  magicAttack: 1
+  physicalDefense: 4
+  magicDefense: 1
+  speed: 2
+  evasion: 0
+  critChance: 0
+  critDamage: 1.5
+  bonusAccuracy: 0
+  healthScaler: 10
+  physicalAttackScaler: 2
+  magicAttackScaler: 1
+  physicalDefenseScaler: 5
+  magicDefenseScaler: 1
+  speedScaler: 1
+  ListOfMonsterAttacks:
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
+  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
+  - {fileID: 11400000, guid: afdf11b26157c964c8ecd906ac035879, type: 2}
+  - {fileID: 11400000, guid: cc536f67b15c3c2439e97a1afe2ac480, type: 2}
+  ListOfModifiers: []
+  ListOfMonsterAttacksAvailable:
+  - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
+  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
+  - {fileID: 11400000, guid: afdf11b26157c964c8ecd906ac035879, type: 2}
+  - {fileID: 11400000, guid: cc536f67b15c3c2439e97a1afe2ac480, type: 2}
+  - {fileID: 11400000, guid: a254d83bf6aa59b47aea09d61304b2e6, type: 2}
+  cachedPhysicalAttack: 10
+  cachedMagicAttack: 1
+  cachedPhysicalDefense: 8
+  cachedMagicDefense: 1
+  cachedSpeed: 1
+  cachedEvasion: 0
+  cachedCritChance: 0
+  cachedBonusAccuracy: 0
+  cachedLevel: 0
+  cachedMonsterRowPosition: 0
+  cachedDamageDone: 0
+  monsterKills: 0
+  monsterCurrentExp: 0
+  monsterExpToNextLevel: 125
+  ascensionType: 0
+  firstEvolutionPath: {fileID: 0}
+  firstEvolutionLevelReq: 20
+  ascensionOneMaterial: {fileID: 11400000, guid: 540c518caf65a024ea7b14cffb726003, type: 2}
+  ascensionOneMaterialAmount: 1
+  secondEvolutionPath: {fileID: 0}
+  secondEvolutionLevelReq: 20
+  ascensionTwoMaterial: {fileID: 11400000, guid: e64ab1f513974d549853a335e4986b3f, type: 2}
+  ascensionTwoMaterialAmount: 1

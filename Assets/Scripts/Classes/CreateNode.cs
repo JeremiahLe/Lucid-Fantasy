@@ -172,7 +172,7 @@ public class CreateNode : MonoBehaviour
                 break;
 
             case (NodeType.MonsterReward):
-                nodeName.text = ($"Monster");
+                nodeName.text = ($"Chimeric");
                 break;
 
             case (NodeType.Shop):

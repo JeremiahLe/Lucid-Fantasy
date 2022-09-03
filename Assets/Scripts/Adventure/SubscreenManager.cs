@@ -101,8 +101,8 @@ public class SubscreenManager : MonoBehaviour
                 break;
 
             case AdventureManager.RewardType.Equipment:
-                ShowAlliedMonstersAvailableEquipment();
-                ConfirmEquipmentButton.SetActive(true);
+                //ShowAlliedMonstersAvailableEquipment();
+                //ConfirmEquipmentButton.SetActive(true);
                 foreach (GameObject rewardSlot in listOfRewardSlots)
                 {
                     rewardSlot.SetActive(true);
@@ -158,7 +158,7 @@ public class SubscreenManager : MonoBehaviour
             if (adventureManager.currentSelectedNode.GetComponent<CreateNode>().nodeType == CreateNode.NodeType.Boss && !bossAdded)
             {
                 adventureManager.ListOfEnemyBattleMonsters.Add(GetBossMonster(adventureManager.adventureBoss, 5 + (5 * adventureManager.adventureNGNumber))); // difficulty scaled
-                BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle: Boss + Random" +
+                BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Chimerics in Battle: Boss + Random" +
                 $"\nEnemies present: {randomBattleMonsterCount}" +
                 $"\nAllies allowed: {randomBattleMonsterLimit}" +
                 $"\nEnemy Modifiers: ");
@@ -186,7 +186,7 @@ public class SubscreenManager : MonoBehaviour
             BattleImage.GetComponent<Image>().sprite = adventureManager.ListOfEnemyBattleMonsters[0].baseSprite;
         }
 
-        BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Monsters in Battle:\n");
+        BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Chimerics in Battle:\n");
         foreach (Monster monster in adventureManager.ListOfEnemyBattleMonsters)
         {
             BattleImage.GetComponentInChildren<TextMeshProUGUI>().text += ($"{monster.name} Lvl.{monster.level}\n");
@@ -632,8 +632,8 @@ public class SubscreenManager : MonoBehaviour
             $"\nRun: {adventureManager.adventureNGNumber}" +
             $"\nGold Spent: {adventureManager.playerGoldSpent}" +
             $"\nRerolls: {adventureManager.timesRerolled}" +
-            $"\nAlly Monsters Defeated: {adventureManager.playerMonstersLost}" +
-            $"\nEnemy Monsters Defeated: {adventureManager.playerMonstersKilled}");
+            $"\nAlly Chimerics Defeated: {adventureManager.playerMonstersLost}" +
+            $"\nEnemy Chimerics Defeated: {adventureManager.playerMonstersKilled}");
 
         // Win or Lose?
         ReturnToMainMenuButton.SetActive(true);

@@ -10276,7 +10276,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 992be654725a3e64895704cfb30bfedd, type: 2}
+      objectReference: {fileID: 11400000, guid: a2e1f37c1bcdd6342a5d9b3841bc35d5, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterSpeed
       value: 6
@@ -10360,7 +10360,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199983, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: e80d7720031c1f14e90f6146e270fd7c, type: 3}
+      objectReference: {fileID: 21300000, guid: 4e1ad94f47a1cc14d9e2a5391920141a, type: 3}
     - target: {fileID: 896763779794199983, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_Color.b
       value: 1

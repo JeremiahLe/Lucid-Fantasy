@@ -15,7 +15,7 @@ public class MonstersSubScreenManager : MonoBehaviour
     public void ShowAvailableMonsters()
     {
         monsterAmountText.text =
-            ($"Monsters: ({adventureManager.ListOfCurrentMonsters.Count}/4)" +
+            ($"Chimerics: ({adventureManager.ListOfCurrentMonsters.Count}/4)" +
             $"\n[Right-click for more info.]");
 
         foreach(GameObject slot in monsterSlotImages)

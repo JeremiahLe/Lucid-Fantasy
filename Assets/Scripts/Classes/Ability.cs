@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 public class Ability : ScriptableObject
 {
     public string abilityName;
+    [TextArea]
     public string abilityDescription;
 
     public enum AbilityTriggerTime { GameStart, RoundStart, RoundEnd, PreAttack, PostAttack, OnStatChange, OnDamageTaken, OnDeath, Passive };

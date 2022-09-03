@@ -11,16 +11,24 @@ public class MonsterStatScreenScript : MonoBehaviour
     public TextMeshProUGUI monsterBaseStats;
     public TextMeshProUGUI monsterAdvancedStats;
 
+    public TextMeshProUGUI monsterElements;
     public TextMeshProUGUI monsterAbilityDescription;
     public TextMeshProUGUI monsterFlavourText;
 
     public TextMeshProUGUI monsterAttacks;
     public TextMeshProUGUI monsterEquipment;
 
-    public Slider monsterExpBar;
+    public GameObject StatsWindow;
+    public GameObject EquipmentWindow;
+    public GameObject AscensionWindow;
 
     public void DisplayMonsterStatScreenStats(Monster monster)
     {
+        // Reset to Stats Window
+        StatsWindow.SetActive(true);
+        EquipmentWindow.SetActive(false);
+        AscensionWindow.SetActive(false);
+
         // Display monster image
         monsterImage.sprite = monster.baseSprite;
 
@@ -29,20 +37,18 @@ public class MonsterStatScreenScript : MonoBehaviour
             ($"{monster.name} Lvl.{monster.level}" +
             $"\nExp: {monster.monsterCurrentExp}/{monster.monsterExpToNextLevel}");
 
+        // Display monster elements
+        monsterElements.text =
+            ($"Elements" +
+            $"\n{monster.monsterElement.element.ToString()} / {monster.monsterSubElement.element.ToString()}");
+
         // Display monster ability and description
         monsterAbilityDescription.text =
-            ($"Ability: {monster.monsterAbility.abilityName}" +
-            $"\n{monster.monsterAbility.abilityTriggerTime}: {monster.monsterAbility.abilityDescription}");
+            ($"<b>Ability: {monster.monsterAbility.abilityName}</b>" +
+            $"\n<b>{monster.monsterAbility.abilityTriggerTime}:</b> {monster.monsterAbility.abilityDescription}");
 
         // Display monster flavour text
         monsterFlavourText.text = ($"{monster.monsterFlavourText}");
-
-        // Display monster Exp Bar fill
-        monsterExpBar.value = monster.monsterCurrentExp;
-        monsterExpBar.maxValue = monster.monsterExpToNextLevel;
-
-        monsterExpBar.value = monster.monsterCurrentExp;
-        monsterExpBar.maxValue = monster.monsterExpToNextLevel;
 
         //// Display monster elemental weaknesses- make sure it doesn't override resistances
         //monsterInfo.text += ("\n\nWeaknesses: ");
@@ -97,5 +103,19 @@ public class MonsterStatScreenScript : MonoBehaviour
         //        $"\nType: {attack.monsterAttackDamageType} | Element: {attack.monsterAttackElement}" +
         //        $"\n{attack.monsterAttackDescription}\n");
         //}
+
+        // Don't show enemy buttons
+        if (monster.aiType == Monster.AIType.Enemy && GetComponent<InventoryManager>().adventureManager.lockEquipmentInCombat == true)
+        {
+            InventoryManager inventoryManager = GetComponent<InventoryManager>();
+            inventoryManager.equipmentButton.interactable = false;
+            inventoryManager.ascensionButton.interactable = false;
+        }
+        else
+        {
+            InventoryManager inventoryManager = GetComponent<InventoryManager>();
+            inventoryManager.equipmentButton.interactable = true;
+            inventoryManager.ascensionButton.interactable = true;
+        }
     }
 }

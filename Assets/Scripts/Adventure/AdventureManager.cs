@@ -23,6 +23,7 @@ public class AdventureManager : MonoBehaviour
     public bool adventureFailed = false;
     public bool BossDefeated = false;
     public bool BossBattle = false;
+    public bool lockEquipmentInCombat = false;
 
     [Title("Pre-Adventure Components")]
     public static GameObject thisManager;
@@ -86,9 +87,12 @@ public class AdventureManager : MonoBehaviour
     public int adventureNGNumber = 1;
 
     public List<Monster> ListOfCurrentMonsters;
+
     public List<Modifier> ListOfCurrentModifiers;
 
     public List<Monster> ListOfAllMonsters;
+
+    public List<Modifier> ListOfCurrentEquipment;
 
     [Title("Other Adventure Modules")]
     public enum RewardType { Monster, Modifier, Equipment }
@@ -324,6 +328,8 @@ public class AdventureManager : MonoBehaviour
 
             // Fix missing saved nodes bug on NG+
             ListOfSavedNodes = ListOfAllNodes;
+
+            lockEquipmentInCombat = true;
         }
 
         // Fix missing saved nodes bug on NG+
@@ -347,6 +353,8 @@ public class AdventureManager : MonoBehaviour
     // This function goes to selected adventure scene
     public void GoToAdventureScene()
     {
+        lockEquipmentInCombat = false;
+
         switch (currentSelectedAdventure.adventureName)
         {
             case "Basic Adventure":
@@ -1390,7 +1398,7 @@ public class AdventureManager : MonoBehaviour
         switch (NodeComponent.nodeType)
         {
             case CreateNode.NodeType.Start:
-                subScreenMenuText.text = ($"Select starting monster...\n(Right-click for monster info)");
+                subScreenMenuText.text = ($"Select starting Chimeric...\n(Right-click for more info)");
                 subscreenManager.LoadRewardSlots(RewardType.Monster);
                 break;
 
@@ -1408,24 +1416,24 @@ public class AdventureManager : MonoBehaviour
 
             case CreateNode.NodeType.EquipmentReward:
                 currentRewardType = RewardType.Equipment;
-                subScreenMenuText.text = ($"Select 1 {currentRewardType.ToString()} and Monster...");
+                subScreenMenuText.text = ($"Select {currentRewardType.ToString()}...");
                 subscreenManager.LoadRewardSlots(RewardType.Equipment);
                 break;
 
             case CreateNode.NodeType.MonsterReward:
                 currentRewardType = RewardType.Monster;
-                subScreenMenuText.text = ($"Select {currentRewardType.ToString()}...\n(Right-click for monster info)");
+                subScreenMenuText.text = ($"Select Chimeric...\n(Right-click for more info)");
                 subscreenManager.LoadRewardSlots(RewardType.Monster);
                 break;
 
             case CreateNode.NodeType.RandomCombat:
-                subScreenMenuText.text = ($"Select monsters and begin battle...");
+                subScreenMenuText.text = ($"Select Chimerics and begin battle...");
                 subscreenManager.HideRewardSlots();
                 subscreenManager.LoadRandomBattle();
                 break;
 
             case CreateNode.NodeType.Boss:
-                subScreenMenuText.text = ($"Select monsters and begin final battle...");
+                subScreenMenuText.text = ($"Select Chimerics and begin final battle...");
                 subscreenManager.HideRewardSlots();
                 subscreenManager.LoadRandomBattle();
                 break;

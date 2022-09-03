@@ -108,11 +108,19 @@ public class Monster : ScriptableObject
     public int monsterKills;
 
     public int monsterCurrentExp;
-    public int monsterExpToNextLevel = 125;
+    public int monsterExpToNextLevel = 105;
+
+    [Title("Ascension Stats")]
+    public enum AscensionType { Gale, Storm, Spirit, Nightmare, Tundra, Hydro, Harmony, Dissonance, Magma, Inferno, Steel, Mineral, Plasma, Machine, Decay, Purity, Soil, Verdant, Chaos, Order, Justice, Divine };
+    public AscensionType ascensionType;
 
     public Monster firstEvolutionPath;
-    public Monster secondEvolutionPath;
-
     public int firstEvolutionLevelReq = 20;
+    public Item ascensionOneMaterial;
+    public int ascensionOneMaterialAmount = 1;
+
+    public Monster secondEvolutionPath;
     public int secondEvolutionLevelReq = 20;
+    public Item ascensionTwoMaterial;
+    public int ascensionTwoMaterialAmount = 1;
 }

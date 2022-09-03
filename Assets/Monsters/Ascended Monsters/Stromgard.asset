@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
+  m_Name: Stromgard
+  m_EditorClassIdentifier: 
+  name: Stromgard
+  baseSprite: {fileID: 21300000, guid: 19473c3289a779a4ca2d8d3e24b7b7e9, type: 3}
+  monsterElement: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
+  aiType: 0
+  aiLevel: 0
+  monsterFlavourText: 
+  monsterAbility: {fileID: 0}
+  level: 50
+  health: 4750
+  maxHealth: 4750
+  cachedHealth: 0
+  cachedMaxHealth: 0
+  physicalAttack: 225
+  magicAttack: 225
+  physicalDefense: 475
+  magicDefense: 450
+  speed: 6
+  evasion: 0
+  critChance: 0
+  critDamage: 1.5
+  bonusAccuracy: 0
+  healthScaler: 1
+  physicalAttackScaler: 1
+  magicAttackScaler: 1
+  physicalDefenseScaler: 1
+  magicDefenseScaler: 1
+  speedScaler: 1
+  ListOfMonsterAttacks:
+  - {fileID: 11400000, guid: 4c1a33fa6254d194385548d0069f95ec, type: 2}
+  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
+  - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  ListOfModifiers: []
+  ListOfMonsterAttacksAvailable:
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
+  - {fileID: 11400000, guid: a1865f6b4da98b242b4dcee12fdd2377, type: 2}
+  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
+  - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
+  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
+  - {fileID: 11400000, guid: 4c1a33fa6254d194385548d0069f95ec, type: 2}
+  - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  cachedPhysicalAttack: 1
+  cachedMagicAttack: 1
+  cachedPhysicalDefense: 1
+  cachedMagicDefense: 1
+  cachedSpeed: 1
+  cachedEvasion: 0
+  cachedCritChance: 0
+  cachedBonusAccuracy: 0
+  cachedLevel: 0
+  cachedMonsterRowPosition: 0
+  cachedDamageDone: 0
+  monsterKills: 0
+  monsterCurrentExp: 0
+  monsterExpToNextLevel: 125
+  ascensionType: 1
+  firstEvolutionPath: {fileID: 0}
+  firstEvolutionLevelReq: 20
+  ascensionOneMaterial: {fileID: 0}
+  ascensionOneMaterialAmount: 1
+  secondEvolutionPath: {fileID: 0}
+  secondEvolutionLevelReq: 20
+  ascensionTwoMaterial: {fileID: 0}
+  ascensionTwoMaterialAmount: 1

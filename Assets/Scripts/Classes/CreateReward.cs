@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class CreateReward : MonoBehaviour, IPointerClickHandler
 {
@@ -20,6 +21,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
     public SubscreenManager subscreenManager;
     public AdventureManager adventureManager;
     public MonsterStatScreenScript monsterStatScreenScript;
+    public InventoryManager inventoryManager;
 
     public TextMeshProUGUI rewardName;
     public TextMeshProUGUI rewardDescription;
@@ -47,7 +49,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
             {
                 if (adventureManager.ListOfCurrentMonsters.Count == 4)
                 {
-                    adventureManager.subScreenMenuText.text = ($"Monster limit reached!");
+                    adventureManager.subScreenMenuText.text = ($"Chimeric limit reached!");
                     return;
                 }
 
@@ -68,26 +70,33 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
             }
             else if (rewardType == AdventureManager.RewardType.Equipment)
             {
-                if (!selected)
-                {
-                    foreach (GameObject monsterEquipmentSelection in subscreenManager.listOfRewardSlots)
-                    {
-                        monsterEquipmentSelection.GetComponent<CreateReward>().rewardImage.sprite = monsterEquipmentSelection.GetComponent<CreateReward>().modifierReward.baseSprite;
-                        monsterEquipmentSelection.GetComponent<CreateReward>().selected = false;
-                    }
+                // Reset screen and return to adventure screen
+                adventureManager.ListOfCurrentEquipment.Add(modifierReward);
+                modifierReward = null;
+                adventureManager.ResetEquipmentList();
+                adventureManager.SubscreenMenu.SetActive(false);
+                adventureManager.ActivateNextNode();
 
-                    selected = true;
-                    rewardImage = GetComponent<Image>();
-                    rewardImage.sprite = selectedSprite;
-                    adventureManager.currentSelectedEquipment = modifierReward;
-                }
-                else
-                {
-                    selected = false;
-                    rewardImage = GetComponent<Image>();
-                    rewardImage.sprite = modifierReward.baseSprite;
-                    adventureManager.currentSelectedEquipment = null;
-                }
+                //if (!selected)
+                //{
+                //    foreach (GameObject monsterEquipmentSelection in subscreenManager.listOfRewardSlots)
+                //    {
+                //        monsterEquipmentSelection.GetComponent<CreateReward>().rewardImage.sprite = monsterEquipmentSelection.GetComponent<CreateReward>().modifierReward.baseSprite;
+                //        monsterEquipmentSelection.GetComponent<CreateReward>().selected = false;
+                //    }
+
+                //    selected = true;
+                //    rewardImage = GetComponent<Image>();
+                //    rewardImage.sprite = selectedSprite;
+                //    adventureManager.currentSelectedEquipment = modifierReward;
+                //}
+                //else
+                //{
+                //    selected = false;
+                //    rewardImage = GetComponent<Image>();
+                //    rewardImage.sprite = modifierReward.baseSprite;
+                //    adventureManager.currentSelectedEquipment = null;
+                //}
             }
         }
     }
@@ -137,7 +146,8 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 rewardImage = container.GetComponent<Image>();
                 rewardImage.sprite = selectedSprite;
                 adventureManager.ListOfAllyBattleMonsters.Add(monsterReward);
-                adventureManager.subScreenMenuText.text = ($"Current monsters: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
+                AssignMonsterRowPosition();
+                adventureManager.subScreenMenuText.text = ($"Current Chimerics: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
             }
             else
             {
@@ -145,7 +155,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 rewardImage = container.GetComponent<Image>();
                 rewardImage.sprite = baseSprite;
                 adventureManager.ListOfAllyBattleMonsters.Remove(monsterReward);
-                adventureManager.subScreenMenuText.text = ($"Current monsters: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
+                adventureManager.subScreenMenuText.text = ($"Current Chimerics: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
             }
         }
     }
@@ -184,20 +194,33 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
     // This function confirms the player's equipment and monster selection
     public void ConfirmEquipment()
     {
+        // Make sure the the player has selected an equipment and mpnster before confirming equipment selection
         if (adventureManager.currentSelectedEquipment != null && adventureManager.currentSelectedMonsterForEquipment != null)
         {
-            adventureManager.currentSelectedMonsterForEquipment.ListOfModifiers.Add(adventureManager.currentSelectedEquipment);
-            subscreenManager.ShowAlliedMonstersAvailableEquipment(false);
-            subscreenManager.ConfirmEquipmentButton.SetActive(false);
+            // Only add the equipment if the monster has less than 4.
+            if (adventureManager.currentSelectedMonsterForEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList().Count < 4)
+            {
+                // Add the selected equipment to the selected monster
+                adventureManager.currentSelectedMonsterForEquipment.ListOfModifiers.Add(adventureManager.currentSelectedEquipment);
 
-            modifierReward = null;
-            adventureManager.ResetEquipmentList();
-            adventureManager.SubscreenMenu.SetActive(false);
-            adventureManager.ActivateNextNode();
+                // Disable buttons
+                subscreenManager.ShowAlliedMonstersAvailableEquipment(false);
+                subscreenManager.ConfirmEquipmentButton.SetActive(false);
+
+                // Reset screen and return to adventure screen
+                modifierReward = null;
+                adventureManager.ResetEquipmentList();
+                adventureManager.SubscreenMenu.SetActive(false);
+                adventureManager.ActivateNextNode();
+            }
+            else
+            {
+                adventureManager.subScreenMenuText.text = ($"Chimeric already has 4 equipment!");
+            }
         }
         else
         {
-            adventureManager.subScreenMenuText.text = ($"Please select 1 equipment and monster.");
+            adventureManager.subScreenMenuText.text = ($"Please select 1 equipment and chimeric.");
         }
     }
 
@@ -231,6 +254,8 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
             {
                 subscreenManager.monsterStatsWindow.SetActive(true);
                 monsterStatScreenScript.DisplayMonsterStatScreenStats(monsterReward);
+                inventoryManager = monsterStatScreenScript.gameObject.GetComponent<InventoryManager>();
+                inventoryManager.currentMonsterEquipment = monsterReward;
             }
         }
     }
