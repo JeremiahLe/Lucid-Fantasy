@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Decay Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Decay Stone
+  itemName: Essence of Decay
   itemDescription: An ascension material for Decay Ascension.

@@ -418,6 +418,7 @@ MonoBehaviour:
   monsterImmuneToStatChanges: 0
   monsterImmuneToDamage: 0
   listOfStatImmunities: 
+  listOfElementImmunities: []
   listOfStatusImmunities: 
   ListOfModifiers: []
   combatManagerObject: {fileID: 0}
@@ -7836,6 +7837,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2078116893617473361}
     m_Modifications:
+    - target: {fileID: 3411111405366572464, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
+      propertyPath: m_fontSize
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411111405366572464, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 4699445232555192096, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

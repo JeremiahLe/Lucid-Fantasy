@@ -29,6 +29,11 @@ public class InventoryManager : MonoBehaviour
     public TextMeshProUGUI monsterBaseText;
     public TextMeshProUGUI monsterElementsText;
 
+    public Button ascendOneButton;
+    public Button ascendTwoButton;
+
+    public Sprite NoAscensionSprite;
+
     private void Awake()
     {
         adventureManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AdventureManager>();
@@ -38,7 +43,16 @@ public class InventoryManager : MonoBehaviour
     {
         // Initialize the inventory slots
         int i = 0;
-        foreach(GameObject slot in inventorySlots)
+
+        // Clear the slot visuals first
+        foreach (GameObject slot in inventorySlots)
+        {
+            ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+            itemSlot.itemSlotEquipment = null;
+            itemSlot.itemSlotImage.sprite = slot.GetComponentInChildren<DragAndDropItem>().emptySprite;
+        }
+
+        foreach (GameObject slot in inventorySlots)
         {
             if (adventureManager.ListOfCurrentEquipment.Count > i)
             {
@@ -56,6 +70,16 @@ public class InventoryManager : MonoBehaviour
         i = 0;
         List<Modifier> tempList = currentMonsterEquipment.ListOfModifiers.Where(modifier => modifier.adventureEquipment == true).ToList();
 
+        // Clear the slot visuals first
+        foreach (GameObject slot in monsterEquipmentSlots)
+        {
+            ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+            itemSlot.itemSlotEquipment = null;
+            itemSlot.itemSlotImage.sprite = slot.GetComponentInChildren<DragAndDropItem>().emptySprite;
+            itemSlot.RemoveEquipmentText();
+        }
+
+        // Assign the equipment
         foreach(GameObject slot in monsterEquipmentSlots)
         {
             if (tempList.Count > i)
@@ -85,26 +109,33 @@ public class InventoryManager : MonoBehaviour
             ($"Elements" +
             $"\n{currentMonsterEquipment.monsterElement.element} / {currentMonsterEquipment.monsterSubElement.element}");
 
+        // Disable ascension buttons before checking 
+        ascendOneButton.interactable = false;
+        ascendTwoButton.interactable = false;
+
         // Initialize monster ascension one info
         if (currentMonsterEquipment.firstEvolutionPath != null)
         {
             monsterAscensionOneImage.sprite = currentMonsterEquipment.firstEvolutionPath.baseSprite;
             monsterAscensionOneText.text =
                 ($"{currentMonsterEquipment.firstEvolutionPath.ascensionType.ToString()} Ascension");
+            ascendOneButton.interactable = true;
 
             // If level req is met, reveal monster sprite and name
             if (currentMonsterEquipment.level == currentMonsterEquipment.firstEvolutionLevelReq)
             {
-                monsterAscensionOneText.text += ($"{currentMonsterEquipment.firstEvolutionPath.name}" +
-                    $"\nRequirements:" +
-                    $"\nLv. {currentMonsterEquipment.firstEvolutionLevelReq}, x{currentMonsterEquipment.ascensionOneMaterialAmount} {currentMonsterEquipment.ascensionOneMaterial.itemName}");
+                monsterAscensionOneText.text += ($"\n{currentMonsterEquipment.firstEvolutionPath.name}");
             }
             else
             {
-                monsterAscensionOneText.text += ($"\n???" +
-                    $"\nRequirements:" +
-                    $"\nLv. {currentMonsterEquipment.firstEvolutionLevelReq}, x{currentMonsterEquipment.ascensionOneMaterialAmount} {currentMonsterEquipment.ascensionOneMaterial.itemName}");
+                monsterAscensionOneText.text += ($"\n???");
             }
+        }
+        else
+        {
+            monsterAscensionOneImage.sprite = NoAscensionSprite;
+            monsterAscensionOneText.text =
+                ("No Ascension Available...");
         }
 
         // Initialize monster ascension two info
@@ -113,20 +144,23 @@ public class InventoryManager : MonoBehaviour
             monsterAscensionTwoImage.sprite = currentMonsterEquipment.secondEvolutionPath.baseSprite;
             monsterAscensionTwoText.text =
                 ($"{currentMonsterEquipment.secondEvolutionPath.ascensionType.ToString()} Ascension");
+            ascendTwoButton.interactable = true;
 
             // If level req is met, reveal monster sprite and name
             if (currentMonsterEquipment.level == currentMonsterEquipment.secondEvolutionLevelReq)
             {
-                monsterAscensionTwoText.text += ($"{currentMonsterEquipment.secondEvolutionPath.name}" +
-                    $"\nRequirements:" +
-                    $"\nLv. {currentMonsterEquipment.secondEvolutionLevelReq}, x{currentMonsterEquipment.ascensionTwoMaterialAmount} {currentMonsterEquipment.ascensionTwoMaterial.itemName}");
+                monsterAscensionTwoText.text += ($"\n{currentMonsterEquipment.secondEvolutionPath.name}");
             }
             else
             {
-                monsterAscensionTwoText.text += ($"\n???" +
-                    $"\nRequirements:" +
-                    $"\nLv. {currentMonsterEquipment.secondEvolutionLevelReq}, x{currentMonsterEquipment.ascensionTwoMaterialAmount} {currentMonsterEquipment.ascensionTwoMaterial.itemName}");
+                monsterAscensionTwoText.text += ($"\n???");
             }
+        }
+        else
+        {
+            monsterAscensionTwoImage.sprite = NoAscensionSprite;
+            monsterAscensionTwoText.text =
+                ("No Ascension Available...");
         }
 
     }

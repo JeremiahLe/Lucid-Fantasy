@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Keen Eyes
   m_EditorClassIdentifier: 
   abilityName: Keen Eyes
-  abilityDescription: Target's Evasion -200.
+  abilityDescription: Target's Evasion -200 during the attack.
   abilityTriggerTime: 3
   onWhatStatChange: 0
+  gainsImmunity: 0
+  immunityGained: 0

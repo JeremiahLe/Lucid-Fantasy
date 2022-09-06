@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Purity Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Purity Stone
+  itemName: Essence of Purity
   itemDescription: An ascension material for Purity Ascension.

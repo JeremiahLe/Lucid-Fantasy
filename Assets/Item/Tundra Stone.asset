@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Tundra Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Tundra Stone
+  itemName: Essence of Tundra
   itemDescription: An ascension material for Tundra Ascension.

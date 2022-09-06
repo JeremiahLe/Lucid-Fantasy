@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Dissonance Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Dissonance Stone
+  itemName: Essence of Dissonance
   itemDescription: An ascension material for Dissonance Ascension.

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Plasma Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Plasma Stone
+  itemName: Essence of Plasma
   itemDescription: An ascension material for Plasma Ascension.

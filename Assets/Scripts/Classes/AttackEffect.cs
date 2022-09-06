@@ -195,7 +195,7 @@ public class AttackEffect : ScriptableObject
             case TypeOfEffect.BuffTarget:
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
-                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonster = monsterAttackManager.currentTargetedMonster;
                     targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                     BuffTargetStat(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                 }
@@ -204,7 +204,7 @@ public class AttackEffect : ScriptableObject
             case TypeOfEffect.DebuffTarget:
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
-                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonster = monsterAttackManager.currentTargetedMonster;
                     targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                     DebuffTargetStat(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                 }
@@ -213,7 +213,7 @@ public class AttackEffect : ScriptableObject
             case TypeOfEffect.GrantImmunity:
                 if (monsterAttackManager.currentMonsterTurn != null)
                 {
-                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                    targetMonster = monsterAttackManager.currentTargetedMonster;
                     targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                     GrantTargetImmunity(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                 }
@@ -224,7 +224,7 @@ public class AttackEffect : ScriptableObject
                 {
                     if (!inflictSelf)
                     {
-                        targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                        targetMonster = monsterAttackManager.currentTargetedMonster;
                         targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                         InflictBurning(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                     }
@@ -242,7 +242,7 @@ public class AttackEffect : ScriptableObject
                 {
                     if (!inflictSelf)
                     {
-                        targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                        targetMonster = monsterAttackManager.currentTargetedMonster;
                         targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                         InflictPoisoned(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                     }
@@ -260,7 +260,7 @@ public class AttackEffect : ScriptableObject
                 {
                     if (!inflictSelf)
                     {
-                        targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                        targetMonster = monsterAttackManager.currentTargetedMonster;
                         targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                         InflictDazed(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                     }
@@ -278,7 +278,7 @@ public class AttackEffect : ScriptableObject
                 {
                     if (!inflictSelf)
                     {
-                        targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+                        targetMonster = monsterAttackManager.currentTargetedMonster;
                         targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
                         InflictStunned(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                     }
@@ -1070,6 +1070,7 @@ public class AttackEffect : ScriptableObject
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
                 $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
             return;
         }
 
@@ -1080,6 +1081,7 @@ public class AttackEffect : ScriptableObject
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
                 $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
             return;
         }
 
@@ -1169,6 +1171,7 @@ public class AttackEffect : ScriptableObject
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
                 $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
             return;
         }
 
@@ -1257,6 +1260,7 @@ public class AttackEffect : ScriptableObject
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
                 $"{statEnumToChange.ToString()} couldn't go any lower!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
             return;
         }
 

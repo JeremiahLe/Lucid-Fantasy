@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Nightmare Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Nightmare Stone
+  itemName: Essence of Nightmare
   itemDescription: An ascension material for Nightmare Ascension.

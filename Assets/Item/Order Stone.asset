@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Order Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Order Stone
+  itemName: Essence of Order
   itemDescription: An ascension material for Order Ascension.

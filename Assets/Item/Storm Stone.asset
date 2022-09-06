@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Storm Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Storm Stone
+  itemName: Essence of Storm
   itemDescription: An ascension material for Storm Ascension.

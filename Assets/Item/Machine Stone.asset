@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Machine Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Machine Stone
+  itemName: Essence of Machine
   itemDescription: An ascension material for Machine Ascension.

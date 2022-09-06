@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Gale Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Gale Stone
+  itemName: Essence of Gale
   itemDescription: An ascension material for Gale Ascension.

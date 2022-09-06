@@ -410,8 +410,9 @@ public class CombatManagerScript : MonoBehaviour
 
         if (CurrentMonsterTurn == null)
         {
-            // Call Round End Abilities or Modifiers
-            await CallRoundEndFunctions();
+            // Call Round End Abilities or Modifiers only if the battle is NOT over
+            if (!CheckIfBattleOver())
+                await CallRoundEndFunctions();
 
             StartCoroutine(IncrementNewRoundIE());
         }
@@ -487,6 +488,8 @@ public class CombatManagerScript : MonoBehaviour
     // This function is called at round end to apply any round end abilities or adventure modifiers
     async Task<int> CallRoundEndFunctions()
     {
+        await Task.Delay(300);
+
         //// Call ally round end abilities
         //foreach(GameObject monsterObj in ListOfAllys)
         //{
@@ -839,7 +842,7 @@ public class CombatManagerScript : MonoBehaviour
     }
 
     // This function handles all new round calls (status effects, speed adjustments etc.)
-    public void IncrementNewRound()
+    public IEnumerator IncrementNewRound()
     {
         if (!battleOver)
         {
@@ -862,14 +865,15 @@ public class CombatManagerScript : MonoBehaviour
             // call round start Adventure Modifiers
             if (adventureMode)
             {
-                adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Ally);
-                adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Enemy);
+                StartCoroutine(adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Ally));
+                StartCoroutine(adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Enemy));
             }
 
             // check if any cooldowns need to be updated // toArray fixes on round start poison death
             foreach (GameObject monster in BattleSequence.ToArray())
             {
                 monster.GetComponent<CreateMonster>().OnRoundStart();
+                yield return new WaitForSeconds(0.25f);
             }
 
             // Sort after monster on round starts are called
@@ -884,13 +888,13 @@ public class CombatManagerScript : MonoBehaviour
     IEnumerator IncrementNewRoundIE()
     {
         yield return new WaitForSeconds(.15f);
-        IncrementNewRound();
+        StartCoroutine(IncrementNewRound());
     }
 
     // Coroutine to initialize HUD elements at start of match
     IEnumerator InitializeMatch()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         GetAllMonstersInBattle();
     }
 
@@ -1025,6 +1029,16 @@ public class CombatManagerScript : MonoBehaviour
             uiManager.EditCombatMessage("You win!");
             BattleOver();
         }
+    }
+
+    public bool CheckIfBattleOver()
+    {
+        if (ListOfAllys.Count == 0 || ListOfEnemies.Count == 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     // Tjis function should call all battle over functions

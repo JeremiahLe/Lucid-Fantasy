@@ -417,12 +417,12 @@ public class MonsterAttackManager : MonoBehaviour
             Monster monsterWhoUsedAttack = currentMonsterTurn;
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
 
-            TriggerPostAttackEffects(monsterWhoUsedAttack);
+            StartCoroutine(TriggerPostAttackEffects(monsterWhoUsedAttack));
 
             combatManagerScript.monsterTargeter.SetActive(false);
             combatManagerScript.targeting = false;
 
-            combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+            //combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
         }
         else // Miss!
         {
@@ -458,32 +458,36 @@ public class MonsterAttackManager : MonoBehaviour
     }
 
     // trigger post attack effects
-    public void TriggerPostAttackEffects(Monster monsterWhoUsedAttack)
+    public IEnumerator TriggerPostAttackEffects(Monster monsterWhoUsedAttack)
     {
         // Trigger all attack after effects (buffs, debuffs etc.) - TODO - Implement other buffs/debuffs and durations
-        if (currentMonsterTurnGameObject != null && monsterWhoUsedAttack.health > 0)
+        if (currentMonsterTurnGameObject != null && monsterWhoUsedAttack.health > 0 && currentTargetedMonster.health > 0)
         {
             foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
             {
                 if (effect.effectTime == AttackEffect.EffectTime.PostAttack)
                 {
                     effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
+                    yield return new WaitForSeconds(.35f);
                 }
             }
         }
+
+        combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
     }
 
     // trigger during attack effects
-    public void TriggerDuringAttackEffects(Monster monsterWhoUsedAttack)
+    public IEnumerator TriggerDuringAttackEffects(Monster monsterWhoUsedAttack)
     {
         // Trigger all attack after effects (buffs, debuffs etc.) - TODO - Implement other buffs/debuffs and durations
-        if (currentMonsterTurnGameObject != null && monsterWhoUsedAttack.health > 0)
+        if (currentMonsterTurnGameObject != null && monsterWhoUsedAttack.health > 0 && currentTargetedMonster.health > 0)
         {
             foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
             {
                 if (effect.effectTime == AttackEffect.EffectTime.DuringAttack)
                 {
                     effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
+                    yield return new WaitForSeconds(.35f);
                 }
             }
         }
@@ -508,7 +512,7 @@ public class MonsterAttackManager : MonoBehaviour
         // First check if the attack should deal damage to more than one target
         if (currentMonsterAttack.monsterAttackTargetCount != MonsterAttack.MonsterAttackTargetCount.SingleTarget)
         {
-            DealDamageAll();
+            StartCoroutine(DealDamageAll());
             return;
         }
 
@@ -554,7 +558,7 @@ public class MonsterAttackManager : MonoBehaviour
             // Trigger any post attack effects only if calculated damage is not 0 (immune)
             if (calculatedDamage > 0)
             {
-                TriggerPostAttackEffects(monsterWhoUsedAttack);
+                StartCoroutine(TriggerPostAttackEffects(monsterWhoUsedAttack));
             }
 
             //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
@@ -568,7 +572,13 @@ public class MonsterAttackManager : MonoBehaviour
             combatManagerScript.targeting = false;
 
             // Call the next monster turn
-            combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+            //combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+
+            // Call the next monster turn if the attack was immune (did not trigger attack effects)
+            if (calculatedDamage <= 0)
+            {
+                combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+            }
         }
         else
         {
@@ -594,7 +604,7 @@ public class MonsterAttackManager : MonoBehaviour
     }
 
     // This function is called if the current move should deal damage to all targets
-    public void DealDamageAll()
+    public IEnumerator DealDamageAll()
     {
         // Check pre attack effects, buffs etc.
         PreAttackEffectCheck();
@@ -636,7 +646,7 @@ public class MonsterAttackManager : MonoBehaviour
                 // Trigger DURING attack effects only if damage dealt was not 0 (Immune)
                 if (calculatedDamage > 0)
                 {
-                    TriggerDuringAttackEffects(monsterWhoUsedAttack);
+                    StartCoroutine(TriggerDuringAttackEffects(monsterWhoUsedAttack));
                 }
 
                 // End of turn stuff
@@ -653,15 +663,17 @@ public class MonsterAttackManager : MonoBehaviour
                 // Don't advance turn
                 AttackMissed(true);
             }
+
+            yield return new WaitForSeconds(1f);
         }
 
         // Trigger post attack effects
         monsterWhoUsedAttack = currentMonsterTurn;
-        TriggerPostAttackEffects(monsterWhoUsedAttack);
+        StartCoroutine(TriggerPostAttackEffects(monsterWhoUsedAttack));
 
         // Out of loop, next turn
         ClearCachedModifiers();
-        combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+        //combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
     }
 
     // This function checks if the damage dealt killed the monster

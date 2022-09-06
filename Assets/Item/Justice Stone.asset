@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Justice Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Justice Stone
+  itemName: Essence of Justice
   itemDescription: An ascension material for Justice Ascension.

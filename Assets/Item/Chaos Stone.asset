@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Chaos Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Chaos Stone
+  itemName: Essence of Chaos
   itemDescription: An ascension material for Chaos Ascension.

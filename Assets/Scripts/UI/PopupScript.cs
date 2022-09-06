@@ -6,10 +6,11 @@ public class PopupScript : MonoBehaviour
 {
     public bool instantiated = false;
     public GameObject parentObj = null;
+    public float deathTime;
 
     public void OnEnable()
     {
-        float deathTime = Random.Range(0.75f, 1.5f);
+        deathTime = Random.Range(0.75f, 1.25f);
         Invoke("OnAnimationEnd", deathTime);
     }
 

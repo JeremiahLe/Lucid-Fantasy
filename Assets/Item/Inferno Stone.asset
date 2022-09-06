@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Inferno Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Inferno Stone
+  itemName: Essence of Inferno
   itemDescription: An ascension material for Inferno Ascension.

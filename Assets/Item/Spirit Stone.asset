@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Spirit Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Spirit Stone
+  itemName: Essence of Spirit
   itemDescription: An ascension material for Spirit Ascension.

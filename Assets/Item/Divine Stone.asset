@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Divine Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Divine Stone
+  itemName: Essence of Divine
   itemDescription: An ascension material for Divine Ascension.

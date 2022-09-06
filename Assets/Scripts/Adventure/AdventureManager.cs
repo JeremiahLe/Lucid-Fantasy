@@ -667,7 +667,7 @@ public class AdventureManager : MonoBehaviour
     }
 
     // This function is called every Round Start by CombatManagerScript, to apply any adventure modifiers
-    public void ApplyRoundStartAdventureModifiers(Monster.AIType aIType)
+    public IEnumerator ApplyRoundStartAdventureModifiers(Monster.AIType aIType)
     {
         List<Modifier> whatListShouldIUse;
         List<GameObject> listOfUnstatusedEnemies;
@@ -920,6 +920,7 @@ public class AdventureManager : MonoBehaviour
                     default:
                         break;
                 }
+                yield return new WaitForSeconds(0.5f);
             }
         }
     }

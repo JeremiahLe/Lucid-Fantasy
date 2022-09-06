@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Mineral Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Mineral Stone
+  itemName: Essence of Mineral
   itemDescription: An ascension material for Mineral Ascension.

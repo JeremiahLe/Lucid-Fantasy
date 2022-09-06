@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Soil Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Soil Stone
+  itemName: Essence of Soil
   itemDescription: An ascension material for Soil Ascension.

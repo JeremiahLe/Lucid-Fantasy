@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Steel Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Steel Stone
+  itemName: Essence of Steel
   itemDescription: An ascension material for Steel Ascension.

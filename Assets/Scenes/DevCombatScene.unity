@@ -260,11 +260,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1814965424145561688, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 5.4613333
+      value: 7.111111
       objectReference: {fileID: 0}
     - target: {fileID: 1814965424145561688, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 5.4613333
+      value: 7.111111
       objectReference: {fileID: 0}
     - target: {fileID: 2760750747338569348, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1969,7 +1969,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199976, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: aIType
@@ -1986,7 +1986,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: 53682ef80a39d0d408cebe19a557e246, type: 2}
+      objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterLevel
       value: 4
@@ -2004,6 +2004,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterIsPoisoned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: combatManagerObject
       value: 
       objectReference: {fileID: 1758263235}
@@ -2011,6 +2015,14 @@ PrefabInstance:
       propertyPath: statusEffectUISprite
       value: 
       objectReference: {fileID: 429189209}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: ListOfModifiers.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: ListOfModifiers.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 31007e97733cce44f8874d212e4037da, type: 2}
     - target: {fileID: 896763779794199982, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -2073,23 +2085,23 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
     - target: {fileID: 896763781175474199, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763781175474199, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763781175474199, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 2.38
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763781175474199, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2.19
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763781175474199, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.32115
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1814965424145561688, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -2101,15 +2113,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2760750747338569348, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760750747338569348, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760750747338569348, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3009462644611246781, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_Type
@@ -2125,35 +2137,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4763196295132600541, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -124.4886
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7484986387405580994, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7484986387405580994, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8391725140512100944, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8391725140512100944, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9047228726841056045, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9047228726841056045, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9165502314979517723, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 4.38
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
@@ -4519,6 +4531,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterIsPoisoned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterRowPosition
       value: 0
       objectReference: {fileID: 0}
@@ -4530,6 +4546,14 @@ PrefabInstance:
       propertyPath: statusEffectUISprite
       value: 
       objectReference: {fileID: 1045439486}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: ListOfModifiers.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: ListOfModifiers.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 31007e97733cce44f8874d212e4037da, type: 2}
     - target: {fileID: 896763779794199982, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -4616,11 +4640,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1814965424145561688, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 5.9666667
+      value: 4.8
       objectReference: {fileID: 0}
     - target: {fileID: 1814965424145561688, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 5.536667
+      value: 4.8
       objectReference: {fileID: 0}
     - target: {fileID: 2760750747338569348, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.x
@@ -10276,7 +10300,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: a2e1f37c1bcdd6342a5d9b3841bc35d5, type: 2}
+      objectReference: {fileID: 11400000, guid: 622d592c26c65d24e9df7d9906fc1807, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterSpeed
       value: 6
@@ -10419,11 +10443,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1814965424145561688, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 7.8019047
+      value: 5.7269564
       objectReference: {fileID: 0}
     - target: {fileID: 1814965424145561688, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 7.8019047
+      value: 5.5396004
       objectReference: {fileID: 0}
     - target: {fileID: 2760750747338569348, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_AnchorMax.x

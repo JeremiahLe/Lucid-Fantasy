@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Hydro Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Hydro Stone
+  itemName: Essence of Hydro
   itemDescription: An ascension material for Hydro Ascension.

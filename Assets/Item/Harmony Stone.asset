@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Harmony Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Harmony Stone
+  itemName: Essence of Harmony
   itemDescription: An ascension material for Harmony Ascension.

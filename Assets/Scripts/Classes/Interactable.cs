@@ -60,5 +60,6 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void ResetInteractable()
     {
         modifier = null;
+        interactableText.text = ("");
     }
 }

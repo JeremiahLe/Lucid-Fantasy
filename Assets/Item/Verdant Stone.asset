@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Verdant Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Verdant Stone
+  itemName: Essence of Verdant
   itemDescription: An ascension material for Verdant Ascension.

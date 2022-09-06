@@ -403,34 +403,34 @@ public class CreateMonster : MonoBehaviour
 
         monsterReference.monsterExpToNextLevel = Mathf.RoundToInt(monsterReference.monsterExpToNextLevel * 1.25f);
 
-        monsterReference.maxHealth = monsterReference.maxHealth + monsterReference.level + monsterReference.healthScaler;
+        monsterReference.maxHealth = monsterReference.maxHealth + monsterReference.healthScaler;
         monsterReference.health = monsterReference.maxHealth;
 
         // Basic int to add new stats to cached monster data
         int newStatToCache = 0;
 
         // Physical Attack
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalAttack + 1) + monsterReference.physicalAttackScaler);
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalAttack) + monsterReference.physicalAttackScaler);
         monsterReference.physicalAttack += newStatToCache - monsterReference.cachedPhysicalAttack;
         monster.cachedPhysicalAttack = newStatToCache;
 
         // Magic Attack
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicAttack + 1) + monsterReference.magicAttackScaler);
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicAttack) + monsterReference.magicAttackScaler);
         monsterReference.magicAttack += newStatToCache - monsterReference.cachedMagicAttack;
         monster.cachedMagicAttack = newStatToCache;
 
         // Physical Defense
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalDefense + 2) + monsterReference.physicalDefenseScaler);
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalDefense) + monsterReference.physicalDefenseScaler);
         monsterReference.physicalDefense += newStatToCache - monsterReference.cachedPhysicalDefense;
         monster.cachedPhysicalDefense = newStatToCache;
 
         // Magic Defense
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicDefense + 2) + monsterReference.magicDefenseScaler);
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicDefense) + monsterReference.magicDefenseScaler);
         monsterReference.magicDefense += newStatToCache - monsterReference.cachedMagicDefense;
         monster.cachedMagicDefense = newStatToCache;
 
         // Speed
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedSpeed + 1) + monsterReference.speedScaler);
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedSpeed) + monsterReference.speedScaler);
         monsterReference.speed += newStatToCache - monsterReference.cachedSpeed;
         monster.cachedSpeed = newStatToCache;
 
@@ -441,7 +441,7 @@ public class CreateMonster : MonoBehaviour
         InitiateHealthBars();
 
         // Check if exp is still overcapped
-        while (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
+        if (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
         {
             LevelUp(false);
         }
@@ -1446,7 +1446,7 @@ public class CreateMonster : MonoBehaviour
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
         effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
         effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
-        effectPopup.GetComponentInChildren<Animator>().speed = Random.Range(0.25f, 1.5f);
+        effectPopup.GetComponentInChildren<Animator>().speed = 1.25f;
 
         if (!isBuff)
         {
@@ -1464,7 +1464,7 @@ public class CreateMonster : MonoBehaviour
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
         effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
         effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
-        effectPopup.GetComponentInChildren<Animator>().speed = Random.Range(0.25f, 1.5f);
+        effectPopup.GetComponentInChildren<Animator>().speed = 1.25f;
 
         effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{condition}!");
 
