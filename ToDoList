@@ -288,6 +288,19 @@ Imported Various Assets/Packages
 - Implement Evolution
 - Implement Shop
 
+[9/2/22]
+- Allow enemy monsters to have a random starting row and chance to swap rows per turn
+- Implement targeting aggro to front row and targeting deaggro to back row
+- Fix proper equipment display per monster
+- Implement Confirm Ascension Window
+- Implement Item Inventory and Check Ascension Requirements
+- Implement Command Order Adjustment and New Command Learning Upon Ascension
+
+- Begin work on the harder, longer adventure mode (15+ stages, with Shop, Encounters, and Narrative)
+- Implement Abilities
+- Implement Evolution
+- Implement Shop
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
