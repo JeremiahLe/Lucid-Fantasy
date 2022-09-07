@@ -50,6 +50,7 @@ public class InventoryManager : MonoBehaviour
             ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
             itemSlot.itemSlotEquipment = null;
             itemSlot.itemSlotImage.sprite = slot.GetComponentInChildren<DragAndDropItem>().emptySprite;
+            itemSlot.GetComponent<Interactable>().ResetInteractable();
         }
 
         foreach (GameObject slot in inventorySlots)
@@ -163,6 +164,12 @@ public class InventoryManager : MonoBehaviour
                 ("No Ascension Available...");
         }
 
+        // If in battle, disable Check Ascension buttons
+        if (adventureManager.lockEquipmentInCombat)
+        {
+            ascendOneButton.interactable = false;
+            ascendTwoButton.interactable = false;
+        }
     }
 
     public void InitializeConfirmAscensionWindow()

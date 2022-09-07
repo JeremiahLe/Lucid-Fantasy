@@ -17,6 +17,16 @@ public class AdventureManager : MonoBehaviour
         subscreenManager.rerollsLeftText.text = ($"Rerolls left: {rerollAmount}");
     }
 
+    [Button(50)]
+    public void AddRandomEquipment()
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            ListOfCurrentEquipment.Add(subscreenManager.GetRandomEquipment());
+            ResetEquipmentList();
+        }
+    }
+
     [Title("Bools")]
     public bool adventureBegin = false;
     public bool AdventureMode = false;
@@ -328,8 +338,6 @@ public class AdventureManager : MonoBehaviour
 
             // Fix missing saved nodes bug on NG+
             ListOfSavedNodes = ListOfAllNodes;
-
-            lockEquipmentInCombat = true;
         }
 
         // Fix missing saved nodes bug on NG+
@@ -347,14 +355,14 @@ public class AdventureManager : MonoBehaviour
             BossBattle = true;
         }
 
+        lockEquipmentInCombat = true;
+
         SceneManager.LoadScene("SetupCombatScene");
     }
 
     // This function goes to selected adventure scene
     public void GoToAdventureScene()
     {
-        lockEquipmentInCombat = false;
-
         switch (currentSelectedAdventure.adventureName)
         {
             case "Basic Adventure":
@@ -406,12 +414,12 @@ public class AdventureManager : MonoBehaviour
                 // Boss Music
                 if (BossBattle)
                 {
-                    PlayNewBGM(bossBGM, .065f);
+                    PlayNewBGM(bossBGM, .040f);
                     return;
                 }
 
                 // Combat Music
-                PlayNewBGM(combatBGM, .055f);
+                PlayNewBGM(combatBGM, .040f);
                 break;
 
             default:
@@ -1092,6 +1100,7 @@ public class AdventureManager : MonoBehaviour
         AdventureMenu = GameObject.FindGameObjectWithTag("AdventureMenu");
         routeText = AdventureMenu.GetComponentInChildren<TextMeshProUGUI>();
         SubscreenMenu = GameObject.FindGameObjectWithTag("SubscreenMenu");
+        lockEquipmentInCombat = false;
 
         // Find subscreen if still not found
         if (SubscreenMenu == null)
@@ -1216,6 +1225,7 @@ public class AdventureManager : MonoBehaviour
         adventureFailed = false;
         adventureBegin = false;
         NodeToReturnTo = null;
+        lockEquipmentInCombat = false;
 
         // start giving enemies modifiers
         if (adventureNGNumber >= 3)
@@ -1253,6 +1263,7 @@ public class AdventureManager : MonoBehaviour
         adventureFailed = false;
         adventureBegin = false;
         NodeToReturnTo = null;
+        lockEquipmentInCombat = false;
 
         // Clear lists
         foreach (GameObject node in ListOfAllNodes)

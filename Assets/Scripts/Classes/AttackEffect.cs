@@ -459,6 +459,7 @@ public class AttackEffect : ScriptableObject
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
                 $"health couldn't go any lower!");
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
 
             return;
         }
@@ -1035,6 +1036,8 @@ public class AttackEffect : ScriptableObject
             monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
         }
 
+        CreateMonster monsterComponent = monsterReferenceGameObject.GetComponent<CreateMonster>();
+
         // Calculate buff
         float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);
         float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
@@ -1070,7 +1073,7 @@ public class AttackEffect : ScriptableObject
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
                 $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
-            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
+            monsterComponent.CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
             return;
         }
 
@@ -1081,7 +1084,7 @@ public class AttackEffect : ScriptableObject
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
                 $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
-            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
+            monsterComponent.CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
             return;
         }
 
@@ -1091,25 +1094,29 @@ public class AttackEffect : ScriptableObject
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(statEnumToChange, true);
+        monsterComponent.CreateStatusEffectPopup(statEnumToChange, true);
 
         // Update monster's stats
         if (statEnumToChange == StatEnumToChange.Health)
         {
-            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false); // if health changed, check health
+            monsterComponent.UpdateStats(true, null, false); // if health changed, check health
         }
         else
         {
-            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+            monsterComponent.UpdateStats(false, null, false);
         }
 
-        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+        monsterComponent.monsterRecievedStatBoostThisRound = true;
 
         // Update combat order if speed was adjusted
         if (statEnumToChange == StatEnumToChange.Speed)
         {
             combatManagerScript.SortMonsterBattleSequence();
         }
+
+        // Trigger buff animation
+        monsterComponent.GetComponent<Animator>().SetBool("buffAnimationPlaying", true);
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
     }
 
     // Delegate Buff Function Test
@@ -1126,6 +1133,8 @@ public class AttackEffect : ScriptableObject
         //    monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
         //}
 
+        CreateMonster monsterComponent = monsterReferenceGameObject.GetComponent<CreateMonster>();
+
         // Calculate buff
         float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);
         float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
@@ -1171,7 +1180,7 @@ public class AttackEffect : ScriptableObject
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
                 $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
-            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
+            monsterComponent.CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
             return;
         }
 
@@ -1181,25 +1190,29 @@ public class AttackEffect : ScriptableObject
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(statEnumToChange, true);
+        monsterComponent.CreateStatusEffectPopup(statEnumToChange, true);
 
         // Update monster's stats
         if (statEnumToChange == StatEnumToChange.Health)
         {
-            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false); // if health changed, check health
+            monsterComponent.UpdateStats(true, null, false); // if health changed, check health
         }
         else
         {
-            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+            monsterComponent.UpdateStats(false, null, false);
         }
 
-        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+        monsterComponent.monsterRecievedStatBoostThisRound = true;
 
         // Update combat order if speed was adjusted
         if (statEnumToChange == StatEnumToChange.Speed)
         {
             combatManagerScript.SortMonsterBattleSequence();
         }
+
+        // Trigger buff animation
+        monsterComponent.GetComponent<Animator>().SetBool("buffAnimationPlaying", true);
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.debuffSound);
     }
 
     // Delegate Debuff Function Test
@@ -1215,6 +1228,8 @@ public class AttackEffect : ScriptableObject
             monsterReference = monsterAttackManager.currentMonsterTurn;
             monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
         }
+
+        CreateMonster monsterComponent = monsterReferenceGameObject.GetComponent<CreateMonster>();
 
         // Calculate debuff
         float fromValue = GetBonusDamageSource(statEnumToChange, monsterReference);
@@ -1260,7 +1275,7 @@ public class AttackEffect : ScriptableObject
             combatManagerScript = monsterAttackManager.combatManagerScript;
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
                 $"{statEnumToChange.ToString()} couldn't go any lower!", monsterReference.aiType);
-            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
+            monsterComponent.CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
             return;
         }
 
@@ -1270,25 +1285,29 @@ public class AttackEffect : ScriptableObject
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was decreased by {effectTriggerName}!", monsterReference.aiType);
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(statEnumToChange, false);
+        monsterComponent.CreateStatusEffectPopup(statEnumToChange, false);
 
         // Update monster's stats
         if (statEnumToChange == StatEnumToChange.Health)
         {
-            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false); // if health changed, check health
+            monsterComponent.UpdateStats(true, null, false); // if health changed, check health
         }
         else
         {
-            monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+            monsterComponent.UpdateStats(false, null, false);
         }
 
-        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
+        monsterComponent.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
 
         // Update combat order if speed was adjusted
         if (statEnumToChange == StatEnumToChange.Speed)
         {
             combatManagerScript.SortMonsterBattleSequence();
         }
+
+        // Trigger debuff animation
+        monsterComponent.GetComponent<Animator>().SetBool("debuffAnimationPlaying", true);
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.debuffSound);
     }
 
     // Delegate Debuff Function Test

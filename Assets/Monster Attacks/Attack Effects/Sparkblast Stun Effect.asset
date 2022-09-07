@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Sparkblast Stun Effect
   m_EditorClassIdentifier: 
   typeOfEffect: 23
-  statEnumToChange: 9
-  statChangeType: 0
+  statEnumToChange: 0
+  statChangeType: 1
   effectTime: 2
   attackEffectStatus: 2
   attackEffectDuration: 1

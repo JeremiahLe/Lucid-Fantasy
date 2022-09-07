@@ -45,7 +45,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
   - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
   - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
-  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
+  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
   - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
@@ -55,8 +55,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
   - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
-  cachedPhysicalAttack: 3
-  cachedMagicAttack: 6
+  cachedPhysicalAttack: 2
+  cachedMagicAttack: 4
   cachedPhysicalDefense: 5
   cachedMagicDefense: 1
   cachedSpeed: 1

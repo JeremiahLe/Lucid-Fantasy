@@ -16,7 +16,7 @@ MonoBehaviour:
   baseSprite: {fileID: 21300000, guid: 3e26b457512cf8340b97f1fbcf5d2720, type: 3}
   monsterElement: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
-  aiType: 1
+  aiType: 0
   aiLevel: 0
   monsterFlavourText: Vile are the result of vicious lab experimentation. Dangerous
     toxins flow through its veins.
@@ -55,8 +55,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 16a75152e030c7845970bbe112763381, type: 2}
   - {fileID: 11400000, guid: b3a70bf2336b0274492a6af14387179c, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
-  cachedPhysicalAttack: 7
-  cachedMagicAttack: 7
+  cachedPhysicalAttack: 5
+  cachedMagicAttack: 5
   cachedPhysicalDefense: 1
   cachedMagicDefense: 1
   cachedSpeed: 8

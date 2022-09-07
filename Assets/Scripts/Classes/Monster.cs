@@ -99,6 +99,7 @@ public class Monster : ScriptableObject
     [Range(0, 99)] public float cachedEvasion;
     [Range(0, 100)] public float cachedCritChance;
     [Range(0f, 100f)] public float cachedBonusAccuracy;
+    [Range(0f, 100f)] public float cachedCritDamage;
 
     public int cachedLevel;
     public CreateMonster.MonsterRowPosition cachedMonsterRowPosition;

@@ -62,4 +62,11 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         modifier = null;
         interactableText.text = ("");
     }
+
+    public void ShowInteractable(string message)
+    {
+        interactableDescriptionWindow.SetActive(true);
+        interactableText.text =
+            ($"{message}");
+    }
 }

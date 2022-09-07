@@ -16,12 +16,12 @@ MonoBehaviour:
   monsterAttackDescription: Ignite a target, inflicting Burning for 5 rounds.
   monsterAttackElement: 0
   monsterElementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
-  monsterAttackType: 1
+  monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
   monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: bddba377ce4bb4d43beb831c3f9d5b01, type: 3}
-  monsterAttackDamage: 0
+  monsterAttackDamage: 10
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 95
   monsterAttackCritChance: 5

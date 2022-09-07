@@ -154,6 +154,7 @@ public class CreateMonster : MonoBehaviour
             monster.cachedSpeed = monsterReference.speed;
             monster.cachedEvasion = monsterReference.evasion;
             monster.cachedCritChance = monsterReference.critChance;
+            monster.cachedCritDamage = monsterReference.critDamage;
 
             monster.cachedBonusAccuracy = monsterReference.bonusAccuracy;
             monsterRowPosition = monster.cachedMonsterRowPosition;
@@ -522,11 +523,11 @@ public class CreateMonster : MonoBehaviour
     {
         CheckCooldowns(); // Check for attack cooldowns
         ResetRoundCombatVariables(); // Refresh per-round combat variables
-        CheckModifiers();
+        StartCoroutine(CheckModifiers());
     }
 
     // This function checks modifiers, permanent or tempoerary
-    public void CheckModifiers()
+    public IEnumerator CheckModifiers()
     {
         foreach (Modifier modifier in monsterReference.ListOfModifiers.ToArray())
         {
@@ -630,6 +631,8 @@ public class CreateMonster : MonoBehaviour
                     continue;
                 }
             }
+
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -1134,6 +1137,8 @@ public class CreateMonster : MonoBehaviour
         switch (_monsterRowPosition)
         {
             case (MonsterRowPosition.BackRow):
+                monsterRowFrontIcon.enabled = false;
+                monsterRowBackIcon.enabled = true;
                 if (previousRowPosition == MonsterRowPosition.CenterRow)
                 {
                     StartCoroutine(MoveTowardPoint(-1.75f, 1.75f));
@@ -1143,11 +1148,11 @@ public class CreateMonster : MonoBehaviour
                 {
                     StartCoroutine(MoveTowardPoint(-3.5f, 3f));
                 }
-                monsterRowFrontIcon.enabled = false;
-                monsterRowBackIcon.enabled = true;
                 break;
 
             case (MonsterRowPosition.FrontRow):
+                monsterRowFrontIcon.enabled = true;
+                monsterRowBackIcon.enabled = false;
                 if (previousRowPosition == MonsterRowPosition.BackRow)
                 {
                     StartCoroutine(MoveTowardPoint(3.5f, 3f));
@@ -1157,11 +1162,11 @@ public class CreateMonster : MonoBehaviour
                 {
                     StartCoroutine(MoveTowardPoint(1.75f, 1.75f));
                 }
-                monsterRowFrontIcon.enabled = true;
-                monsterRowBackIcon.enabled = false;
                 break;
 
             case (MonsterRowPosition.CenterRow):
+                monsterRowFrontIcon.enabled = false;
+                monsterRowBackIcon.enabled = false;
                 if (previousRowPosition == MonsterRowPosition.BackRow)
                 {
                     StartCoroutine(MoveTowardPoint(1.75f, 1.75f));
@@ -1171,8 +1176,6 @@ public class CreateMonster : MonoBehaviour
                 {
                     StartCoroutine(MoveTowardPoint(-1.75f, 1.75f));
                 }
-                monsterRowFrontIcon.enabled = false;
-                monsterRowBackIcon.enabled = false;
                 break;
         }
 
@@ -1189,6 +1192,24 @@ public class CreateMonster : MonoBehaviour
     // This function is called when the monster changes rows
     IEnumerator MoveTowardPoint(float distance, float speed)
     {
+        // Fix enemy orientation
+        if (monsterReference.aiType == Monster.AIType.Enemy)
+        {
+            distance *= -1;
+
+            if (monsterRowPosition == MonsterRowPosition.BackRow)
+            {
+                monsterRowFrontIcon.enabled = true;
+                monsterRowBackIcon.enabled = false;
+            }
+            else if (monsterRowPosition == MonsterRowPosition.FrontRow)
+            {
+                monsterRowFrontIcon.enabled = false;
+                monsterRowBackIcon.enabled = true;
+            }
+
+        }
+
         Vector3 newPosition;
         newPosition = new Vector3(startingPosition.transform.position.x + distance, startingPosition.transform.position.y, startingPosition.transform.position.z);
 
@@ -1198,9 +1219,13 @@ public class CreateMonster : MonoBehaviour
             yield return null;
         }
 
-        // Reset HUD after
         combatManagerScript.uiManager.InitiateMonsterTurnIndicator(combatManagerScript.CurrentMonsterTurn);
-        combatManagerScript.buttonManagerScript.ResetHUD();
+
+        // Reset HUD after
+        if (combatManagerScript.monsterTurn == CombatManagerScript.MonsterTurn.AllyTurn)
+        {
+            combatManagerScript.buttonManagerScript.ResetHUD();
+        }
     }
 
     // This function is a temporary rotation fix to monster UI elements facing the camera
@@ -1249,6 +1274,12 @@ public class CreateMonster : MonoBehaviour
     public void BuffAnimationEnd()
     {
         monsterAnimator.SetBool("buffAnimationPlaying", false);
+    }
+
+    // This function ends the buff animation
+    public void DebuffAnimationEnd()
+    {
+        monsterAnimator.SetBool("debuffAnimationPlaying", false);
     }
 
     // This function ends the buff animation

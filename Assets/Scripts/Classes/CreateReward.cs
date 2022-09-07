@@ -231,13 +231,13 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         {
             if (adventureManager.ListOfAllyBattleMonsters.Count == 0)
             {
-                adventureManager.subScreenMenuText.text = ($"Please select atleast one monster.");
+                adventureManager.subScreenMenuText.text = ($"Please select atleast one Chimeric.");
                 return;
             }
             else
             if (adventureManager.ListOfAllyBattleMonsters.Count > adventureManager.randomBattleMonsterLimit)
             {
-                adventureManager.subScreenMenuText.text = ($"Too many monsters selected!");
+                adventureManager.subScreenMenuText.text = ($"Too many Chimerics selected!");
                 return;
             }
 

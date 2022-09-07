@@ -16,6 +16,9 @@ MonoBehaviour:
   statEnumToChange: 2
   statChangeType: 0
   effectTime: 2
+  attackEffectStatus: 0
+  attackEffectDuration: 0
+  inflictSelf: 1
   modifierCalledOnce: 0
   flatBuff: 0
   modifierDuration: 0

@@ -7593,7 +7593,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 762b582ee4ca74a458d76f52b4a557ef, type: 3}
   MissSound: {fileID: 8300000, guid: 0f2966a1a653a844796724ba7d95e1e8, type: 3}
   LevelUpSound: {fileID: 8300000, guid: e7237d086cb65044e8f78c01f93a957f, type: 3}
-  ResistSound: {fileID: 0}
+  ResistSound: {fileID: 8300000, guid: 8be0690036fa97d448d8f5d96c9a3f5b, type: 3}
+  debuffSound: {fileID: 8300000, guid: f2117cb3babea9744bad5b91e43140be, type: 3}
+  buffSound: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}
 --- !u!114 &1758263243
 MonoBehaviour:
   m_ObjectHideFlags: 0

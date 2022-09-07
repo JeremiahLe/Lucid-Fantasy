@@ -1078,6 +1078,7 @@ public class CombatManagerScript : MonoBehaviour
                 monster.speed = monster.cachedSpeed;
                 monster.evasion = monster.cachedEvasion;
                 monster.critChance = monster.cachedCritChance;
+                monster.critDamage = monster.cachedCritDamage;
 
                 monster.bonusAccuracy = monster.cachedBonusAccuracy;
 

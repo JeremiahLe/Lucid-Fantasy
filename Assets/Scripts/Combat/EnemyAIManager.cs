@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class EnemyAIManager : MonoBehaviour
 {
@@ -113,7 +114,17 @@ public class EnemyAIManager : MonoBehaviour
                 combatManagerScript.CurrentTargetedMonster = currentEnemyTargetGameObject;
                 monsterAttackManager.currentMonsterAttack = currentEnemyMonsterAttack;
 
-                monsterAttackManager.Invoke("UseMonsterAttack", 0.1f);
+                // Random chance to change row position
+                CreateMonster.MonsterRowPosition randRowPos = RandomRowPosition();
+                //Debug.Log($"{randRowPos}");
+                CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
+
+                if (randRowPos != monsterComponent.monsterRowPosition)
+                {
+                    monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, randRowPos, monsterComponent.monsterRowPosition);
+                }
+
+                monsterAttackManager.Invoke("UseMonsterAttack", 0.2f);
                 break;
             default:
                 Debug.Log("Missing AI Level or monster reference?", this);
@@ -125,7 +136,7 @@ public class EnemyAIManager : MonoBehaviour
     public MonsterAttack GetRandomMove()
     {
         MonsterAttack randMove = enemyListOfMonsterAttacks[Random.Range(0, enemyListOfMonsterAttacks.Count)];
-        Debug.Log($"Random move selected: {randMove.monsterAttackName}");
+        //Debug.Log($"Random move selected: {randMove.monsterAttackName}");
         while (randMove.attackOnCooldown)
         {
             randMove = enemyListOfMonsterAttacks[Random.Range(0, enemyListOfMonsterAttacks.Count)];
@@ -137,7 +148,49 @@ public class EnemyAIManager : MonoBehaviour
     public GameObject GetRandomTarget(List<GameObject> whoAmITargeting)
     {
         GameObject randTarget = whoAmITargeting[Random.Range(0, whoAmITargeting.Count)];
-        Debug.Log($"Random target selected: {randTarget.GetComponent<CreateMonster>().monsterReference.name}");
+        float randValue = 1;
+        List<GameObject> tempList;
+
+        // If initial target is backrow, chance to target another monster. If initial target is centerrow, chance to target front row monster
+        if (whoAmITargeting.Count > 1 && randTarget.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.BackRow)
+        {
+            randValue = Random.value;
+            //Debug.Log($"Generated random value: {randValue}");
+            if (randValue < .66f)
+            {
+                tempList = whoAmITargeting.Where(monster => monster != randTarget).ToList();
+                randTarget = tempList[Random.Range(0, tempList.Count)];
+                //Debug.Log($"Targeting another unit!");
+
+                randValue = Random.value;
+                tempList = whoAmITargeting.Where(monster => monster != randTarget && monster.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.FrontRow).ToList();
+                if (tempList.Count != 0)
+                {
+                    if (randValue < .66f)
+                    {
+                        //Debug.Log($"Targeting FRONT ROW!");
+                        randTarget = tempList[Random.Range(0, tempList.Count)];
+                    }
+                }
+
+            }
+        }
+        else 
+        if (whoAmITargeting.Count > 1 && randTarget.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.CenterRow)
+        {
+            randValue = Random.value;
+            tempList = whoAmITargeting.Where(monster => monster != randTarget && monster.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.FrontRow).ToList();
+            if (tempList.Count != 0)
+            {
+                if (randValue < .66f)
+                {
+                    //Debug.Log($"Targeting FRONT ROW!");
+                    randTarget = tempList[Random.Range(0, tempList.Count)];
+                }
+            }
+        }
+
+        //Debug.Log($"Random target selected: {randTarget.GetComponent<CreateMonster>().monsterReference.name}");
         return randTarget;
     }
 
@@ -145,7 +198,27 @@ public class EnemyAIManager : MonoBehaviour
     public List<GameObject> GetRandomList()
     {
         List<GameObject> randList = allListsOfMonsters[Random.Range(0, allListsOfMonsters.Count)];
-        Debug.Log($"Random list selected: {randList}");
+        //Debug.Log($"Random list selected: {randList}");
         return randList;
+    }
+
+    public CreateMonster.MonsterRowPosition RandomRowPosition()
+    {
+        int rand = Random.Range(0, 3);
+
+        switch (rand)
+        {
+            case (0):
+                return CreateMonster.MonsterRowPosition.BackRow;
+
+            case (1):
+                return CreateMonster.MonsterRowPosition.CenterRow;
+
+            case (2):
+                return CreateMonster.MonsterRowPosition.FrontRow;
+
+            default:
+                return CreateMonster.MonsterRowPosition.CenterRow;
+        }
     }
 }
