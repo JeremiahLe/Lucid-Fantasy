@@ -10,27 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
-  m_Name: Unleash Power
+  m_Name: Healing Solvent
   m_EditorClassIdentifier: 
-  monsterAttackName: Unleash Power
-  monsterAttackDescription: "Unleash all stored energy. Power doubles if the user
-    received \na stat change this round. [1 Round Cooldown]"
-  monsterAttackElement: 4
-  monsterElementClass: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
-  monsterAttackType: 0
+  monsterAttackName: Healing Solvent
+  monsterAttackDescription: Heal an ally by 45% max health and remove their status
+    effects and debuffs. Additional 33% chance to increase their Physical and Magic
+    Attack by 25%. [1 Round Cooldown]
+  monsterAttackElement: 9
+  monsterElementClass: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
+  monsterAttackType: 1
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
   monsterAttackTargetType: 3
-  monsterAttackSoundEffect: {fileID: 8300000, guid: 43054a8877abc2643b900fd8176fa3c1, type: 3}
-  monsterAttackDamage: 40
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 3c2948abf854c904fa95d79bdb0e7e1e, type: 3}
+  monsterAttackDamage: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 5
+  monsterAttackCritChance: 0
   monsterAttackNeverMiss: 0
   attackHasCooldown: 1
   attackOnCooldown: 0
   attackBaseCooldown: 2
   attackCurrentCooldown: 0
-  AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
+  AttackVFX: {fileID: 0}
   ListOfAttackEffects:
-  - {fileID: 11400000, guid: a5c7cb9ce03a92c42b057ba8a58bcdcf, type: 2}
+  - {fileID: 11400000, guid: 34429eaa5d78f8f47b0fa73c37593312, type: 2}

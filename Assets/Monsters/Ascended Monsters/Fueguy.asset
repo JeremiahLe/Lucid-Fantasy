@@ -19,7 +19,7 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   monsterFlavourText: 
-  monsterAbility: {fileID: 0}
+  monsterAbility: {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
   level: 50
   health: 1800
   maxHealth: 1800
@@ -62,12 +62,14 @@ MonoBehaviour:
   cachedEvasion: 15
   cachedCritChance: 0
   cachedBonusAccuracy: 0
+  cachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  monsterAscensionAttack: {fileID: 11400000, guid: e99082d6380a9e444aa569ffb028e0bc, type: 2}
   ascensionType: 9
   firstEvolutionPath: {fileID: 0}
   firstEvolutionLevelReq: 20

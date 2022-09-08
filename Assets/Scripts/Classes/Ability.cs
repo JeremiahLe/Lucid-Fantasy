@@ -13,7 +13,7 @@ public class Ability : ScriptableObject
     [TextArea]
     public string abilityDescription;
 
-    public enum AbilityTriggerTime { GameStart, RoundStart, RoundEnd, PreAttack, PostAttack, OnStatChange, OnDamageTaken, OnDeath, Passive };
+    public enum AbilityTriggerTime { GameStart, RoundStart, RoundEnd, PreAttack, PostAttack, OnStatChange, OnDamageTaken, OnDeath, Passive, PreOtherAttack, OnKill };
     public AbilityTriggerTime abilityTriggerTime;
 
     [EnableIf("abilityTriggerTime", AbilityTriggerTime.OnStatChange)]

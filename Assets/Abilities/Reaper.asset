@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e05902c21d7104e94a2e6c1c181ef8, type: 3}
+  m_Name: Reaper
+  m_EditorClassIdentifier: 
+  abilityName: Reaper
+  abilityDescription: Raise my basic stats by 30% and heal 33% max health.
+  abilityTriggerTime: 10
+  onWhatStatChange: 0
+  gainsImmunity: 0
+  immunityGained: 0

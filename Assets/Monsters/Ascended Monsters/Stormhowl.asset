@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
-  m_Name: Stromgard
+  m_Name: Stormhowl
   m_EditorClassIdentifier: 
-  name: Stromgard
+  name: Stormhowl
   baseSprite: {fileID: 21300000, guid: 19473c3289a779a4ca2d8d3e24b7b7e9, type: 3}
   monsterElement: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterSubElement: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
   aiType: 0
   aiLevel: 0
   monsterFlavourText: 
-  monsterAbility: {fileID: 0}
+  monsterAbility: {fileID: 11400000, guid: 587c1df7c95850d42a61fefe2f135482, type: 2}
   level: 50
   health: 4750
   maxHealth: 4750
@@ -64,12 +64,14 @@ MonoBehaviour:
   cachedEvasion: 0
   cachedCritChance: 0
   cachedBonusAccuracy: 0
+  cachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  monsterAscensionAttack: {fileID: 11400000, guid: 4c1a33fa6254d194385548d0069f95ec, type: 2}
   ascensionType: 1
   firstEvolutionPath: {fileID: 0}
   firstEvolutionLevelReq: 20

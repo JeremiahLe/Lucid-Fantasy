@@ -34,6 +34,19 @@ public class InventoryManager : MonoBehaviour
 
     public Sprite NoAscensionSprite;
 
+    [Header("Check Ascension Window")]
+    public Image monsterNewAbility;
+    public Image monsterNewCommand;
+
+    public TextMeshProUGUI ascensionTraits;
+    public Monster currentAscensionPath;
+
+    public Image monsterBaseImageCheckAscension;
+    public Image monsterAscensionCheckAscension;
+
+    public TextMeshProUGUI monsterBaseCheckAscensionText;
+    public TextMeshProUGUI monsterAscensionCheckAscensionText;
+
     private void Awake()
     {
         adventureManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AdventureManager>();
@@ -99,6 +112,7 @@ public class InventoryManager : MonoBehaviour
 
     public void InitializeAscensionWindow()
     {
+
         // Initialize base monster info
         monsterBaseImage.sprite = currentMonsterEquipment.baseSprite;
         monsterBaseText.text =
@@ -172,8 +186,40 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void InitializeConfirmAscensionWindow()
+    public void InitializeConfirmAscensionWindow(int ascensionNumber)
     {
+        // Assign the monster ascension path
+        if (ascensionNumber == 1)
+        {
+            currentAscensionPath = currentMonsterEquipment.firstEvolutionPath;
+        }
+        else if (ascensionNumber == 2)
+        {
+            currentAscensionPath = currentMonsterEquipment.secondEvolutionPath;
+        }
 
+        // Display Ascension Traits
+        ascensionTraits.text =
+            ($"Ascension Traits" +
+            $"\nNew Ability: {currentAscensionPath.monsterAbility.abilityName}" +
+            $"\nNew Command: {currentAscensionPath.monsterAscensionAttack.monsterAttackName}");
+
+        // Monster Ability Text
+        monsterNewAbility.GetComponent<Interactable>().interactableName = currentAscensionPath.monsterAbility.abilityName;
+        monsterNewAbility.GetComponent<Interactable>().interactableDescription = ($"{currentAscensionPath.monsterAbility.abilityTriggerTime.ToString()}: {currentAscensionPath.monsterAbility.abilityDescription}");
+
+        // Monster Command Text
+        monsterNewCommand.GetComponent<Interactable>().interactableName = ($"{currentAscensionPath.monsterAscensionAttack.monsterAttackName} ({currentAscensionPath.monsterAscensionAttack.monsterElementClass.element}, {currentAscensionPath.monsterAscensionAttack.monsterAttackDamageType})");
+        monsterNewCommand.GetComponent<Interactable>().interactableDescription = ($"Base Power: {currentAscensionPath.monsterAscensionAttack.monsterAttackDamage} | Accuracy: {currentAscensionPath.monsterAscensionAttack.monsterAttackAccuracy}" +
+            $"\n{currentAscensionPath.monsterAscensionAttack.monsterAttackDescription}");
+
+        // Assign base and ascension sprites and names
+        monsterBaseImageCheckAscension.sprite = currentMonsterEquipment.baseSprite;
+        monsterBaseCheckAscensionText.text = ($"{currentMonsterEquipment.name}" +
+            $"\n{currentMonsterEquipment.monsterElement.element} / {currentMonsterEquipment.monsterSubElement.element}");
+
+        monsterAscensionCheckAscension.sprite = currentAscensionPath.baseSprite;
+        monsterAscensionCheckAscensionText.text = ($"{currentAscensionPath.name}" +
+            $"\n{currentAscensionPath.monsterElement.element} / {currentAscensionPath.monsterSubElement.element}");
     }
 }

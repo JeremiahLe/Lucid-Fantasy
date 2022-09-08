@@ -10,21 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
-  m_Name: Toxic Claw
+  m_Name: Chemical Rush
   m_EditorClassIdentifier: 
-  monsterAttackName: Toxic Claw
-  monsterAttackDescription: Ravage the target with chemically soaked claws. Has a
-    40% chance to inflict poison.
+  monsterAttackName: Chemical Rush
+  monsterAttackDescription: Rush an enemy with chemicals, dealing damage. Deals 50%
+    bonus damage if the target is Poisoned. Additional 33% chance to raise Speed
+    by 30% and 33% chance to apply an enhanced Poisoned (25% max health damage per
+    Round).
   monsterAttackElement: 9
   monsterElementClass: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
-  monsterAttackTargetType: 0
-  monsterAttackSoundEffect: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}
-  monsterAttackDamage: 40
+  monsterAttackTargetType: 3
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 89f5721be4fad1649b74071704904251, type: 3}
+  monsterAttackDamage: 35
   monsterAttackFlatDamageBonus: 0
-  monsterAttackAccuracy: 95
+  monsterAttackAccuracy: 100
   monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
@@ -33,4 +35,6 @@ MonoBehaviour:
   attackCurrentCooldown: 0
   AttackVFX: {fileID: 3979343233989466021, guid: 86083ba7748da634f897fd894b103c97, type: 3}
   ListOfAttackEffects:
-  - {fileID: 11400000, guid: 3fd155f6d508c3744b1c9aeeaeab9c3f, type: 2}
+  - {fileID: 11400000, guid: 45c24a19d9d53404487ff9fda1cb4084, type: 2}
+  - {fileID: 11400000, guid: 321fccb10a71d364ab9873c6b7a1c996, type: 2}
+  - {fileID: 11400000, guid: 5a4a5e9794f75e9468958cfdc0a77723, type: 2}

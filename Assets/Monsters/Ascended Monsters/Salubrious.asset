@@ -19,7 +19,7 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   monsterFlavourText: 
-  monsterAbility: {fileID: 0}
+  monsterAbility: {fileID: 11400000, guid: f1e478e58f09eb142a2919d66d11bfbd, type: 2}
   level: 50
   health: 3000
   maxHealth: 3000
@@ -41,17 +41,16 @@ MonoBehaviour:
   magicDefenseScaler: 1
   speedScaler: 1
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
+  - {fileID: 11400000, guid: fae4b939feef59f45a5663571dad0fd6, type: 2}
+  - {fileID: 11400000, guid: b3a70bf2336b0274492a6af14387179c, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
   - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
-  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
-  - {fileID: 11400000, guid: a1865f6b4da98b242b4dcee12fdd2377, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
-  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
-  - {fileID: 11400000, guid: a1865f6b4da98b242b4dcee12fdd2377, type: 2}
+  - {fileID: 11400000, guid: fae4b939feef59f45a5663571dad0fd6, type: 2}
+  - {fileID: 11400000, guid: b3a70bf2336b0274492a6af14387179c, type: 2}
   - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
-  - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
-  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
   cachedPhysicalAttack: 50
   cachedMagicAttack: 125
   cachedPhysicalDefense: 50
@@ -60,12 +59,14 @@ MonoBehaviour:
   cachedEvasion: 10
   cachedCritChance: 0
   cachedBonusAccuracy: 0
+  cachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  monsterAscensionAttack: {fileID: 11400000, guid: fae4b939feef59f45a5663571dad0fd6, type: 2}
   ascensionType: 15
   firstEvolutionPath: {fileID: 0}
   firstEvolutionLevelReq: 20

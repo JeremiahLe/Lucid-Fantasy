@@ -549,6 +549,20 @@ public class AttackEffect : ScriptableObject
                 }
                 break;
 
+            case (Modifier.StatusEffectType.Poisoned):
+                if (monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterIsPoisoned)
+                {
+                    // apply bonus damage
+                    monsterAttackManager.recievedDamagePercentBonus = true;
+                    float bonusDamagePercent = (amountToChange / 100f) * 10f;
+                    monsterAttackManager.cachedBonusDamagePercent = bonusDamagePercent;
+
+                    // Send buff message to combat log
+                    combatManagerScript = monsterAttackManager.combatManagerScript;
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained bonus damage!");
+                }
+                break;
+
             default:
                 break;
         }
