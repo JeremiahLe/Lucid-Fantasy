@@ -326,6 +326,12 @@ Imported Various Assets/Packages
 - Implement Item Inventory and Check Ascension Requirements
 - Finish Healing Solvent attack effects
 
+[9/8/22]
+- Implement Item Inventory and Check Ascension Requirements
+- Add Inventory Button and Menu. Add Equipment, Consumables, Ascension Materials Sub-Menu Buttons. Add Gold UI icon
+- Add Electricity VFX
+- Finish Healing Solvent attack effects
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
