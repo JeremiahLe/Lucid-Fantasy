@@ -10,11 +10,12 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     public GameObject interactableDescriptionWindow;
 
-    public enum TypeOfInteractable { Modifier, Stat, UI }
+    public enum TypeOfInteractable { Modifier, Stat, UI, Node }
     public TypeOfInteractable typeOfInteractable;
 
     public Modifier modifier;
     public AttackEffect.StatEnumToChange stat;
+    public CreateNode node;
 
     public string interactableName;
     [TextArea]
@@ -38,6 +39,12 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         else if (typeOfInteractable == TypeOfInteractable.Stat)
         {
             interactableName = ($"{stat.ToString()}");
+        }
+        else if (typeOfInteractable == TypeOfInteractable.Node)
+        {
+            node = GetComponent<CreateNode>();
+            interactableName = ($"{node.nodeName}");
+            interactableDescription = ($"{node.nodeDescription}");
         }
     }
 

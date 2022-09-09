@@ -22,8 +22,8 @@ MonoBehaviour:
     their overall health.
   monsterAbility: {fileID: 11400000, guid: c01f1acd497c8564181703f6de555cce, type: 2}
   level: 7
-  health: 120
-  maxHealth: 120
+  health: 142
+  maxHealth: 142
   cachedHealth: 0
   cachedMaxHealth: 0
   physicalAttack: 3
@@ -64,12 +64,14 @@ MonoBehaviour:
   cachedEvasion: 0
   cachedCritChance: 0
   cachedBonusAccuracy: 0
+  cachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  monsterAscensionAttack: {fileID: 0}
   ascensionType: 0
   firstEvolutionPath: {fileID: 0}
   firstEvolutionLevelReq: 20

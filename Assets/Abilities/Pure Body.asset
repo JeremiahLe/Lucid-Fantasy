@@ -13,8 +13,5 @@ MonoBehaviour:
   m_Name: Pure Body
   m_EditorClassIdentifier: 
   abilityName: Pure Body
-  abilityDescription: ' Immune to Debuffs and Status Effects.'
-  abilityTriggerTime: 8
-  onWhatStatChange: 0
-  gainsImmunity: 1
-  immunityGained: 9
+  abilityDescription: 'Passive: Immune to Debuffs and Status Effects.'
+  listOfAbilityEffects: []

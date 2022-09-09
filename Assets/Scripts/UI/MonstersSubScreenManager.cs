@@ -7,17 +7,27 @@ using UnityEngine.UI;
 public class MonstersSubScreenManager : MonoBehaviour
 {
     public List<GameObject> listOfMonsterSlots;
+
     public AdventureManager adventureManager;
     public TextMeshProUGUI monsterAmountText;
 
     public List<GameObject> monsterSlotImages;
 
+    public string niceTime;
+
+    public bool updateTimerVisual;
+
     public void ShowAvailableMonsters()
     {
+        // Don't update timer
+        updateTimerVisual = false;
+
+        // Update text
         monsterAmountText.text =
             ($"Chimerics: ({adventureManager.ListOfCurrentMonsters.Count}/4)" +
             $"\n[Right-click for more info.]");
 
+        // Show allied monster images
         foreach(GameObject slot in monsterSlotImages)
         {
             slot.SetActive(true);
@@ -46,24 +56,69 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void ShowAvailableModifiers()
     {
-        // Hide monster slots
-        foreach (GameObject monsterSlot in listOfMonsterSlots)
-        {
-            monsterSlot.SetActive(false);
-        }
+        // Don't update timer
+        updateTimerVisual = false;
 
+        // Hide allied monster images
         foreach (GameObject slot in monsterSlotImages)
         {
             slot.SetActive(false);
         }
 
+        // Hide allied monster slots
+        foreach (GameObject slot in listOfMonsterSlots)
+        {
+            slot.SetActive(false);
+        }
+
+        // Update text
         monsterAmountText.text =
             ($"Current Modifiers:");
 
+        // Display modifier info
         foreach (Modifier modifier in adventureManager.ListOfCurrentModifiers)
         {
             monsterAmountText.text +=
                ($"\n<b>{modifier.modifierName}</b> - {modifier.modifierDescription}");
+        }
+    }
+
+    public void ShowStatus()
+    {
+        // Hide allied monster slots
+        foreach (GameObject slot in listOfMonsterSlots)
+        {
+            slot.SetActive(false);
+        }
+
+        // Hide allied monster images
+        foreach (GameObject slot in monsterSlotImages)
+        {
+            slot.SetActive(false);
+        }
+
+        // Get adventure time
+        updateTimerVisual = true;
+    }
+
+    public void Update()
+    {
+        if (updateTimerVisual)
+        {
+            // Get adventure time
+            int minutes = Mathf.FloorToInt(adventureManager.adventureTimer / 60F);
+            int seconds = Mathf.FloorToInt(adventureManager.adventureTimer - minutes * 60);
+            niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
+
+            // Update text
+            monsterAmountText.text =
+                ($"Adventure Status:" +
+                $"\n\n\nTime: {niceTime}" +
+                $"\nRun: {adventureManager.adventureNGNumber}" +
+                $"\nGold Spent: {adventureManager.playerGoldSpent}" +
+                $"\nRerolls: {adventureManager.timesRerolled}" +
+                $"\nAlly Chimerics Defeated: {adventureManager.playerMonstersLost}" +
+                $"\nEnemy Chimerics Defeated: {adventureManager.playerMonstersKilled}");
         }
     }
 }

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Naptime
   m_EditorClassIdentifier: 
   monsterAttackName: Naptime
-  monsterAttackDescription: Take a quick catnap, healing the user by 35% of their
-    max health but slowing them by 40% for 2 rounds.
+  monsterAttackDescription: Take a quick nap, healing the user by 35% of their max
+    health but slowing them by 40% for 2 rounds.
   monsterAttackElement: 5
   monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   monsterAttackType: 1
-  monsterAttackDamageType: 1
+  monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
   monsterAttackTargetType: 2
   monsterAttackSoundEffect: {fileID: 8300000, guid: e726029f8957257438be8f291abeea14, type: 3}

@@ -1188,8 +1188,6 @@ public class AdventureManager : MonoBehaviour
     // This function sets the adventure data
     public void InitiateAdventureData()
     {
-        subscreenManager.currentRunText.text = ($"Current Run: {adventureNGNumber}");
-
         // Set adventure boss
         if (adventureBoss == null)
         {

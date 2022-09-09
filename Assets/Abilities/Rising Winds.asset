@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Rising Winds
   m_EditorClassIdentifier: 
   abilityName: Rising Winds
-  abilityDescription: Gain increased damage on hit based on the Speed difference
-    between you and your target.
-  abilityTriggerTime: 3
-  onWhatStatChange: 0
+  abilityDescription: 'Pre-Attack: Gain increased damage on hit based on the Speed
+    difference between you and your target.'
+  listOfAbilityEffects: []

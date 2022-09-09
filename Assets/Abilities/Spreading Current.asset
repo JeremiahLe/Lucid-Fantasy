@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Spreading Current
   m_EditorClassIdentifier: 
   abilityName: Spreading Current
-  abilityDescription: All Ally Electric element Chimerics gain 20% Physical and Magic
-    Attack if an Enemy Time or Water element Chimeric is present in the battle.
-  abilityTriggerTime: 0
-  onWhatStatChange: 0
-  gainsImmunity: 0
-  immunityGained: 0
+  abilityDescription: 'Passive: All Ally Electric element Chimerics gain 20% Physical
+    and Magic Attack if an Enemy Time or Water element Chimeric is present in the
+    battle.'
+  listOfAbilityEffects: []

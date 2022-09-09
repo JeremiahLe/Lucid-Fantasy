@@ -13,8 +13,5 @@ MonoBehaviour:
   m_Name: Unstable Essence
   m_EditorClassIdentifier: 
   abilityName: Unstable Essence
-  abilityDescription: Incoming stat changes are doubled.
-  abilityTriggerTime: 5
-  onWhatStatChange: 0
-  gainsImmunity: 0
-  immunityGained: 0
+  abilityDescription: 'On Stat Change (Any): Incoming stat changes are doubled.'
+  listOfAbilityEffects: []

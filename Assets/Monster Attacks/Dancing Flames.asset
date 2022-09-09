@@ -26,7 +26,7 @@ MonoBehaviour:
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 95
   monsterAttackCritChance: 5
-  monsterAttackNeverMiss: 1
+  monsterAttackNeverMiss: 0
   attackHasCooldown: 0
   attackOnCooldown: 0
   attackBaseCooldown: 0

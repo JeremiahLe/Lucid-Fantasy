@@ -21,8 +21,8 @@ MonoBehaviour:
   monsterFlavourText: Frejeow often take naps in their own snow dens.
   monsterAbility: {fileID: 11400000, guid: c01f1acd497c8564181703f6de555cce, type: 2}
   level: 5
-  health: 77
-  maxHealth: 77
+  health: 97
+  maxHealth: 97
   cachedHealth: 0
   cachedMaxHealth: 0
   physicalAttack: 4
@@ -63,12 +63,14 @@ MonoBehaviour:
   cachedEvasion: 0
   cachedCritChance: 0
   cachedBonusAccuracy: 0
+  cachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  monsterAscensionAttack: {fileID: 0}
   ascensionType: 0
   firstEvolutionPath: {fileID: 0}
   firstEvolutionLevelReq: 20

@@ -22,8 +22,8 @@ MonoBehaviour:
     They are generally docile and loving.
   monsterAbility: {fileID: 11400000, guid: cb4db506102fe30479e4bf2a2096f8bf, type: 2}
   level: 5
-  health: 85
-  maxHealth: 85
+  health: 100
+  maxHealth: 100
   cachedHealth: 0
   cachedMaxHealth: 0
   physicalAttack: 3
@@ -64,12 +64,14 @@ MonoBehaviour:
   cachedEvasion: 0
   cachedCritChance: 0
   cachedBonusAccuracy: 0
+  cachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  monsterAscensionAttack: {fileID: 0}
   ascensionType: 0
   firstEvolutionPath: {fileID: 11400000, guid: 1526e02488ea3094b8eab99e70a805d2, type: 2}
   firstEvolutionLevelReq: 20

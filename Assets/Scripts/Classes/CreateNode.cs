@@ -23,7 +23,7 @@ public class CreateNode : MonoBehaviour
     public Image nodeImage;
     public Sprite unlockedSprite;
     public Sprite lockedSprite;
-    public TextMeshProUGUI nodeName;
+    //public TextMeshProUGUI nodeName;
 
     [Title("Game Manager Data")]
     public GameObject GameManager;
@@ -38,6 +38,10 @@ public class CreateNode : MonoBehaviour
 
     public bool nodeInDefaultState = true;
     public bool nodeLocked;
+
+    public string nodeName;
+    [TextArea]
+    public string nodeDescription;
 
     public List<GameObject> nodesToUnlock;
     public List<GameObject> nodesToLock;
@@ -106,7 +110,7 @@ public class CreateNode : MonoBehaviour
     {
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
         adventureManager = GameManager.GetComponent<AdventureManager>();
-
+        
         nodeSelectionTargeter = adventureManager.nodeSelectionTargeter;
         routeText = adventureManager.routeText;
 
@@ -146,37 +150,51 @@ public class CreateNode : MonoBehaviour
     // This function handles node naming
     public void SetNodeName()
     {
-        //nodeName.text = ($"{nodeType.ToString()}");
+        GetComponent<Interactable>().interactableDescriptionWindow = adventureManager.subscreenManager.ToolTipWindow;
+        GetComponent<Interactable>().interactableText = adventureManager.subscreenManager.ToolTipWindowTextComponent;
 
-        
         switch (nodeType)
         {
             case (NodeType.Start):
-                nodeName.text = ($"Start");
+                //nodeName.text = ($"Start");
+                nodeName = ("Start");
+                nodeDescription = ("The beginning of an adventure!");
                 break;
 
             case (NodeType.Boss):
-                nodeName.text = ($"Boss");
+                //nodeName.text = ($"Boss");
+                nodeName = ("Boss");
+                nodeDescription = ("The final battle!");
                 break;
 
             case (NodeType.RandomCombat):
-                nodeName.text = ($"Combat");
+                //nodeName.text = ($"Combat");
+                nodeName = ("Combat");
+                nodeDescription = ("Defeat your adversaries!");
                 break;
 
             case (NodeType.EquipmentReward):
-                nodeName.text = ($"Equipment");
+                //nodeName.text = ($"Equipment");
+                nodeName = ("Equipment Reward");
+                nodeDescription = ("Obtain new equipment!");
                 break;
 
             case (NodeType.ModifierReward):
-                nodeName.text = ($"Modifier");
+                //nodeName.text = ($"Modifier");
+                nodeName = ("Modifier Reward");
+                nodeDescription = ("Harness new powers!");
                 break;
 
             case (NodeType.MonsterReward):
-                nodeName.text = ($"Chimeric");
+                //nodeName.text = ($"Chimeric");
+                nodeName = ("Chimeric Reward");
+                nodeDescription = ("Add a new Chimeric to your ranks!");
                 break;
 
             case (NodeType.Shop):
-                nodeName.text = ($"Shop");
+                //nodeName.text = ($"Shop");
+                nodeName = ("Shop");
+                nodeDescription = ("Spend your hard-earned gold!");
                 break;
 
             default:

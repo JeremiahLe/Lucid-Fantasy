@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Hibernate
   m_EditorClassIdentifier: 
   abilityName: Hibernate
-  abilityDescription: Incoming healing is doubled.
-  abilityTriggerTime: 5
-  onWhatStatChange: 0
+  abilityDescription: 'On Stat Change (Health): Incoming healing is doubled.'
+  listOfAbilityEffects: []

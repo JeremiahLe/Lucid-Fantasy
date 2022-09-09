@@ -10,18 +10,20 @@ using Sirenix.OdinInspector;
 public class Ability : ScriptableObject
 {
     public string abilityName;
-    [TextArea]
+    [TextArea(5, 10)]
     public string abilityDescription;
 
-    public enum AbilityTriggerTime { GameStart, RoundStart, RoundEnd, PreAttack, PostAttack, OnStatChange, OnDamageTaken, OnDeath, Passive, PreOtherAttack, OnKill };
-    public AbilityTriggerTime abilityTriggerTime;
+    public List<AbilityEffect> listOfAbilityEffects;
 
-    [EnableIf("abilityTriggerTime", AbilityTriggerTime.OnStatChange)]
-    public AttackEffect.StatEnumToChange onWhatStatChange;
+    //public enum AbilityTriggerTime { GameStart, RoundStart, RoundEnd, PreAttack, PostAttack, OnStatChange, OnDamageTaken, OnDeath, Passive, PreOtherAttack, OnKill };
+    //public AbilityTriggerTime abilityTriggerTime;
 
-    public bool gainsImmunity;
-    [EnableIf("gainsImmunity")]
-    public AttackEffect.StatEnumToChange immunityGained;
+    //[EnableIf("abilityTriggerTime", AbilityTriggerTime.OnStatChange)]
+    //public AttackEffect.StatEnumToChange onWhatStatChange;
+
+    //public bool gainsImmunity;
+    //[EnableIf("gainsImmunity")]
+    //public AttackEffect.StatEnumToChange immunityGained;
 
     public void TriggerAbility()
     {

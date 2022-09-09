@@ -45,7 +45,7 @@ public class MonsterStatScreenScript : MonoBehaviour
         // Display monster ability and description
         monsterAbilityDescription.text =
             ($"<b>Ability: {monster.monsterAbility.abilityName}</b>" +
-            $"\n<b>{monster.monsterAbility.abilityTriggerTime}:</b> {monster.monsterAbility.abilityDescription}");
+            $"\n{monster.monsterAbility.abilityDescription}");
 
         // Display monster flavour text
         monsterFlavourText.text = ($"{monster.monsterFlavourText}");

@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Cursed Body
   m_EditorClassIdentifier: 
   abilityName: Cursed Body
-  abilityDescription: Reduce me and my attacker's Speed by 25%.
-  abilityTriggerTime: 6
-  onWhatStatChange: 0
+  abilityDescription: 'On Damage Taken: Reduce me and my attacker''s Speed by 25%.'
+  listOfAbilityEffects: []

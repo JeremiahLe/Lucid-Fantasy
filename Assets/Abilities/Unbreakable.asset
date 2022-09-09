@@ -13,8 +13,5 @@ MonoBehaviour:
   m_Name: Unbreakable
   m_EditorClassIdentifier: 
   abilityName: Unbreakable
-  abilityDescription: Immune to Physical Defense Debuffs.
-  abilityTriggerTime: 8
-  onWhatStatChange: 0
-  gainsImmunity: 1
-  immunityGained: 4
+  abilityDescription: 'Passive: Immune to Physical Defense debuffs.'
+  listOfAbilityEffects: []

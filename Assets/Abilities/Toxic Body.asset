@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Toxic Body
   m_EditorClassIdentifier: 
   abilityName: Toxic Body
-  abilityDescription: Immune to Poisoned Status and Elixir element attacks.
-  abilityTriggerTime: 8
-  onWhatStatChange: 0
-  gainsImmunity: 1
-  immunityGained: 0
+  abilityDescription: 'Passive: Immune to Poisoned status and Elixir element attacks.
+
+    Post-Attack
+    and On Damage Taken: 25% chance to inflict Poisoned status.'
+  listOfAbilityEffects: []

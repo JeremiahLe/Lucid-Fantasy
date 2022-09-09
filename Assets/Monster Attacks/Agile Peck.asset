@@ -19,7 +19,7 @@ MonoBehaviour:
   monsterAttackType: 0
   monsterAttackDamageType: 2
   monsterAttackTargetCount: 0
-  monsterAttackTargetType: 0
+  monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}
   monsterAttackDamage: 30
   monsterAttackFlatDamageBonus: 0

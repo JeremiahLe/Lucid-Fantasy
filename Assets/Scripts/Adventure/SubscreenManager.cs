@@ -12,6 +12,7 @@ public class SubscreenManager : MonoBehaviour
     public GameObject RewardSlotTwo;
     public GameObject RewardSlotThree;
 
+    [Header("Buttons")]
     public GameObject ReturnToMainMenuButton;
     public GameObject RerollButton;
     public GameObject ConfirmEquipmentButton;
@@ -19,6 +20,10 @@ public class SubscreenManager : MonoBehaviour
     public GameObject EnterNewGameButton;
     public GameObject RestartGameButton;
     public GameObject SkipButton;
+
+    [Header("Other")]
+    public GameObject ToolTipWindow;
+    public TextMeshProUGUI ToolTipWindowTextComponent;
 
     public AdventureManager.RewardType thisRewardType;
 
@@ -382,7 +387,7 @@ public class SubscreenManager : MonoBehaviour
 
         // random stats 
         randMonster.level = GetMonsterRandomLevelRange() + scaledLevel;
-        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level + randMonster.healthScaler + 10) * (.35f + adventureManager.adventureNGNumber * .25f));
+        randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level + randMonster.healthScaler + 10) * (.37f + adventureManager.adventureNGNumber * .27f));
         randMonster.maxHealth = randMonster.health;
 
         randMonster.physicalAttack = Mathf.RoundToInt((randMonster.physicalAttack + randMonster.level - 5) + randMonster.physicalAttackScaler * adventureManager.adventureNGNumber);

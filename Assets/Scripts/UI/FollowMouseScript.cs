@@ -11,9 +11,15 @@ public class FollowMouseScript : MonoBehaviour
     void Update()
     {
         Vector2 anchoredPosition = Input.mousePosition / canvasRectTransform.localScale.x;
+
         if (anchoredPosition.x + 350 > canvasRectTransform.rect.width)
         {
             anchoredPosition.x = canvasRectTransform.rect.width - 350;
+        }
+
+        if (anchoredPosition.y + 100 > canvasRectTransform.rect.height)
+        {
+            anchoredPosition.y = canvasRectTransform.rect.height - 100;
         }
 
         transform.position = anchoredPosition;

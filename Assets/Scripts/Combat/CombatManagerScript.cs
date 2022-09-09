@@ -273,6 +273,9 @@ public class CombatManagerScript : MonoBehaviour
     // This override function sorts the monster battle sequence by speed after round increment
     public void SortMonsterBattleSequence()
     {
+        // When no monster are remaining, return
+        if (BattleSequence.Count <= 0) return;
+
         uiManager.CombatOrderTextList.text = ($"");
         BattleSequence = BattleSequence.OrderByDescending(Monster => Monster.GetComponent<CreateMonster>().monsterReference.speed).ToList(); // fixed non-refreshing list speeds
 

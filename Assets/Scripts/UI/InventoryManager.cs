@@ -119,7 +119,7 @@ public class InventoryManager : MonoBehaviour
             ($"{currentMonsterEquipment.name} Lv. {currentMonsterEquipment.level}" +
             $"\nExp: {currentMonsterEquipment.monsterCurrentExp}/{currentMonsterEquipment.monsterExpToNextLevel}" +
             $"\n\n<b>Ability: {currentMonsterEquipment.monsterAbility.abilityName}</b>" +
-            $"\n<b>{currentMonsterEquipment.monsterAbility.abilityTriggerTime}:</b> {currentMonsterEquipment.monsterAbility.abilityDescription}");
+            $"\n{currentMonsterEquipment.monsterAbility.abilityDescription}");
         monsterElementsText.text = 
             ($"Elements" +
             $"\n{currentMonsterEquipment.monsterElement.element} / {currentMonsterEquipment.monsterSubElement.element}");
@@ -206,7 +206,7 @@ public class InventoryManager : MonoBehaviour
 
         // Monster Ability Text
         monsterNewAbility.GetComponent<Interactable>().interactableName = currentAscensionPath.monsterAbility.abilityName;
-        monsterNewAbility.GetComponent<Interactable>().interactableDescription = ($"{currentAscensionPath.monsterAbility.abilityTriggerTime.ToString()}: {currentAscensionPath.monsterAbility.abilityDescription}");
+        monsterNewAbility.GetComponent<Interactable>().interactableDescription = ($"{currentAscensionPath.monsterAbility.abilityDescription}");
 
         // Monster Command Text
         monsterNewCommand.GetComponent<Interactable>().interactableName = ($"{currentAscensionPath.monsterAscensionAttack.monsterAttackName} ({currentAscensionPath.monsterAscensionAttack.monsterElementClass.element}, {currentAscensionPath.monsterAscensionAttack.monsterAttackDamageType})");

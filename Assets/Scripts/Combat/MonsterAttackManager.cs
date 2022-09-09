@@ -570,14 +570,14 @@ public class MonsterAttackManager : MonoBehaviour
             monsterWhoUsedAttack.health = currentMonsterTurn.health;
             monsterWhoUsedAttack.cachedDamageDone += calculatedDamage;
 
+            //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);
+
             // Trigger any post attack effects only if calculated damage is not 0 (immune)
             if (calculatedDamage > 0)
             {
                 StartCoroutine(TriggerPostAttackEffects(monsterWhoUsedAttack));
             }
-
-            //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
-            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);
 
             // Check if damage killed target
             CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject);

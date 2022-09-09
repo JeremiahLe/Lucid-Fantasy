@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Stormcowl
   m_EditorClassIdentifier: 
   abilityName: Stormcowl
-  abilityDescription: 'and Passive: Immune to Electricity element attacks. Redirect
-    them toward me and gain 15% physical and magic defense when hit by one.'
-  abilityTriggerTime: 9
-  onWhatStatChange: 0
-  gainsImmunity: 0
-  immunityGained: 0
+  abilityDescription: "Passive: Immune to Electricity element attacks. \nOn Other
+    Attack: Provoke Electricity element attacks toward me and gain 15% physical and
+    magic defense when hit by one."
+  listOfAbilityEffects: []
