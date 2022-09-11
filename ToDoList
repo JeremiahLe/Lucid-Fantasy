@@ -332,6 +332,12 @@ Imported Various Assets/Packages
 - Add Electricity VFX
 - Finish Healing Solvent attack effects
 
+[9/10/22]
+- Implement Item Inventory and Check Ascension Requirements
+- Add Inventory Button and Menu. Add Equipment, Consumables, Ascension Materials Sub-Menu Buttons. Add Gold UI icon
+- Add Electricity VFX
+- Finish Healing Solvent attack effects
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
