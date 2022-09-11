@@ -431,6 +431,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Your Chimeric's health. When it reaches 0, it will no
     longer be able to fight.
@@ -801,6 +802,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -1122,6 +1124,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -1251,6 +1254,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Your Chimeric's health. When it reaches 0, it will no
     longer be able to fight.
@@ -1409,6 +1413,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -1597,8 +1602,9 @@ MonoBehaviour:
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: Equipment
-  interactableDescription: Display the Chimeric's current equipment.
+  interactableDescription: View the Chimeric's current equipment.
   interactableText: {fileID: 4819983240336436281}
 --- !u!1 &1235803403692865565
 GameObject:
@@ -1785,6 +1791,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -2002,6 +2009,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -2098,6 +2106,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 6
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Determines when the Chimeric gets their action in the
     Combat Order.
@@ -2493,6 +2502,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 8
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the chance that an attack will critically strike,
     dealing bonus damage.
@@ -2634,6 +2644,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 5
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Magic Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -2913,6 +2924,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 15
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Additionally affects the chance that attacks will hit.
   interactableText: {fileID: 4819983240336436281}
@@ -3070,6 +3082,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -3244,6 +3257,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 5
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Magic Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -3551,6 +3565,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -3728,6 +3743,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 8
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the chance that an attack will critically strike,
     dealing bonus damage.
@@ -3869,6 +3885,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 3
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Magic Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -4026,6 +4043,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -4544,6 +4562,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 4
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Physical Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -4956,6 +4975,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 6
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Determines when the Chimeric gets their action in the
     Combat Order.
@@ -5172,6 +5192,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 15
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Additionally affects the chance that attacks will hit.
   interactableText: {fileID: 4819983240336436281}
@@ -5312,6 +5333,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 4
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Physical Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -5546,6 +5568,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -5659,6 +5682,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -5847,6 +5871,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -5961,6 +5986,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -6074,6 +6100,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -6274,6 +6301,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 3
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Magic Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -6618,6 +6646,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -7217,6 +7246,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -8286,6 +8316,7 @@ MonoBehaviour:
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -8382,6 +8413,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 7
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the chance that an incoming attack will miss.
   interactableText: {fileID: 4819983240336436281}
@@ -8599,6 +8631,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 7
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the chance that an incoming attack will miss.
   interactableText: {fileID: 4819983240336436281}
@@ -8756,6 +8789,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -9090,6 +9124,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 2
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Physical
     Attacks.
@@ -9230,6 +9265,7 @@ MonoBehaviour:
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -9534,6 +9570,7 @@ MonoBehaviour:
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 2
+  node: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Physical
     Attacks.
@@ -9692,6 +9729,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -10205,8 +10243,9 @@ MonoBehaviour:
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: Ascension
-  interactableDescription: Display the Chimeric's Ascension paths.
+  interactableDescription: View the Chimeric's Ascension paths.
   interactableText: {fileID: 4819983240336436281}
 --- !u!1 &6789733855762100993
 GameObject:
@@ -10381,8 +10420,9 @@ MonoBehaviour:
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: Stats
-  interactableDescription: View your Chimeric's stats and commands.
+  interactableDescription: View the Chimeric's stats and commands.
   interactableText: {fileID: 4819983240336436281}
 --- !u!1 &6895412533943376746
 GameObject:
@@ -10533,6 +10573,7 @@ MonoBehaviour:
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: Exit
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -11659,6 +11700,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -12705,6 +12747,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -14542,6 +14585,7 @@ MonoBehaviour:
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
+  node: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}

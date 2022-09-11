@@ -632,7 +632,13 @@ public class CreateMonster : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(0.5f);
+            // adjust time
+            float timeToDelay = 0.5f;
+
+            if (!modifier.statusEffect)
+                timeToDelay = 0.01f;
+
+            yield return new WaitForSeconds(timeToDelay);
         }
     }
 

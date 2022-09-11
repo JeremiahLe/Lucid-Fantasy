@@ -3,24 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class MonstersSubScreenManager : MonoBehaviour
 {
     public List<GameObject> listOfMonsterSlots;
+    public List<GameObject> monsterSlotImages;
 
     public AdventureManager adventureManager;
     public TextMeshProUGUI monsterAmountText;
 
-    public List<GameObject> monsterSlotImages;
-
     public string niceTime;
-
     public bool updateTimerVisual;
+
+    [Header("Inventory Menu")]
+    public GameObject InventoryMenu;
+    public TextMeshProUGUI inventoryHeaderText;
+
+    public Image currentItemImage;
+    public Image currentItemDescriptionBackgroundImage;
+
+    public TextMeshProUGUI currentItemNameText;
+    public TextMeshProUGUI currentItemDescriptionText;
+
+    public Button UseItemButton;
+    public Button TrashItemButton;
+    public Button UpgradeEquipmentButton;
+
+    public Sprite emptyVisualSprite;
+
+    public void OnEnable()
+    {
+        InventoryMenu.SetActive(false);
+    }
 
     public void ShowAvailableMonsters()
     {
-        // Don't update timer
-        updateTimerVisual = false;
+        // Hide other menus
+        ResetMenus();
 
         // Update text
         monsterAmountText.text =
@@ -56,20 +76,8 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void ShowAvailableModifiers()
     {
-        // Don't update timer
-        updateTimerVisual = false;
-
-        // Hide allied monster images
-        foreach (GameObject slot in monsterSlotImages)
-        {
-            slot.SetActive(false);
-        }
-
-        // Hide allied monster slots
-        foreach (GameObject slot in listOfMonsterSlots)
-        {
-            slot.SetActive(false);
-        }
+        // Hide other menus
+        ResetMenus();
 
         // Update text
         monsterAmountText.text =
@@ -85,6 +93,55 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void ShowStatus()
     {
+        // Hide other menus
+        ResetMenus();
+
+        // Shows adventure status
+        updateTimerVisual = true;
+    }
+
+    public void ShowInventory()
+    {
+        // Hide other menus
+        ResetMenus();
+
+        // Show inventory menu
+        InventoryMenu.SetActive(true);
+
+        // Update text
+        monsterAmountText.text =
+            ($"Inventory:");
+
+        inventoryHeaderText.text =
+            ($"Consumables");
+
+        currentItemNameText.text = "";
+        currentItemDescriptionText.text = "";
+
+        // Hide item buttons and images
+        UseItemButton.enabled = false;
+        TrashItemButton.enabled = false;
+        UpgradeEquipmentButton.enabled = false;
+
+        currentItemImage.sprite = emptyVisualSprite;
+        currentItemDescriptionBackgroundImage.sprite = emptyVisualSprite;
+
+        InitializeConsumables();
+    }
+
+    private void InitializeConsumables()
+    {
+        //throw new NotImplementedException();
+    }
+
+    public void ResetMenus()
+    {
+        // Hide adventure status
+        updateTimerVisual = false;
+
+        // Hide inventory menuy
+        InventoryMenu.SetActive(false);
+
         // Hide allied monster slots
         foreach (GameObject slot in listOfMonsterSlots)
         {
@@ -96,9 +153,6 @@ public class MonstersSubScreenManager : MonoBehaviour
         {
             slot.SetActive(false);
         }
-
-        // Get adventure time
-        updateTimerVisual = true;
     }
 
     public void Update()
