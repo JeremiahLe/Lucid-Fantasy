@@ -338,6 +338,13 @@ Imported Various Assets/Packages
 - Add Electricity VFX
 - Finish Healing Solvent attack effects
 
+[9/11/22]
+- Implement Confirm Ascension, Ascension animation, and Ascension results screen (learn new command, show new stat growth)
+- Implement command readjustment window
+- Add Gold UI icon
+- Add Electricity VFX
+- Finish Healing Solvent attack effects
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
