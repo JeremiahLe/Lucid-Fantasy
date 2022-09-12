@@ -10,12 +10,13 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     public GameObject interactableDescriptionWindow;
 
-    public enum TypeOfInteractable { Modifier, Stat, UI, Node }
+    public enum TypeOfInteractable { Modifier, Stat, UI, Node, Item }
     public TypeOfInteractable typeOfInteractable;
 
     public Modifier modifier;
     public AttackEffect.StatEnumToChange stat;
     public CreateNode node;
+    public Item item;
 
     public string interactableName;
     [TextArea]
@@ -46,11 +47,27 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             interactableName = ($"{node.nodeName}");
             interactableDescription = ($"{node.nodeDescription}");
         }
+        else if (item != null && typeOfInteractable == TypeOfInteractable.Item)
+        {
+            interactableName = item.itemName;
+            interactableDescription = item.itemDescription;
+        }
+    }
+
+    public void InitiateInteractable(Item _item)
+    {
+        item = _item;
+        typeOfInteractable = TypeOfInteractable.Item;
+        interactableName = item.itemName;
+        interactableDescription = item.itemDescription;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (modifier == null && typeOfInteractable == TypeOfInteractable.Modifier)
+            return;
+
+        if (item == null && typeOfInteractable == TypeOfInteractable.Item)
             return;
 
         interactableDescriptionWindow.SetActive(true);
@@ -67,7 +84,9 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void ResetInteractable()
     {
         modifier = null;
+        item = null;
         interactableText.text = ("");
+        interactableDescriptionWindow.SetActive(false);
     }
 
     public void ShowInteractable(string message)

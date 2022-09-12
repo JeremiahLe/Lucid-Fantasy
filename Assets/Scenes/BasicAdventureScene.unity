@@ -611,6 +611,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Menu
   interactableDescription: Show Menu options (View Chimerics, Equipment, etc.)
   interactableText: {fileID: 1131136301}
@@ -858,6 +859,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Start
   interactableDescription: The beginning of an adventure!
   interactableText: {fileID: 1131136301}
@@ -883,6 +885,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Start
   interactableDescription: The beginning of an adventure!
   interactableText: {fileID: 1131136301}
@@ -1008,8 +1011,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 653.9998, y: 201}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 554.7497, y: 201}
+  m_SizeDelta: {x: 85.3523, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &146009422
 MonoBehaviour:
@@ -1530,6 +1533,7 @@ GameObject:
   - component: {fileID: 242802141}
   - component: {fileID: 242802140}
   - component: {fileID: 242802139}
+  - component: {fileID: 242802142}
   m_Layer: 3
   m_Name: Dropdown
   m_TagString: Untagged
@@ -1669,6 +1673,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 242802137}
   m_CullTransparentMesh: 1
+--- !u!114 &242802142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242802137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableDescriptionWindow: {fileID: 1131136302}
+  typeOfInteractable: 2
+  modifier: {fileID: 0}
+  stat: 0
+  node: {fileID: 0}
+  item: {fileID: 0}
+  interactableName: Row Position
+  interactableDescription: 'Adjust the Chimeric''s starting position in battle.
+
+    Back
+    Row - Gain +5 Accuracy, take 12% less damage and 12% less damage. High chance
+    to avoid aggro.
+
+    Center Row - Neutral, no bonuses.
+
+    Front Row - Gain
+    -5 Accuracy, take 12% more damage and deal 12% more damage. High chance to draw
+    aggro.'
+  interactableText: {fileID: 1131136301}
 --- !u!1 &254468951 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3056247857320139223, guid: 7d6900827a9f7c74685c94c3dad44d2a, type: 3}
@@ -1984,7 +2019,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.043688, y: -85.393326}
+  m_AnchoredPosition: {x: 3, y: -101}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &325090253
@@ -2001,7 +2036,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2009,11 +2044,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Monster Name / Level
 
-    HP / MaxHP
-
-    Elements
-
-'
+    HP / MaxHP'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -2218,8 +2249,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.5000029, y: 7.800017}
-  m_SizeDelta: {x: 149.7548, y: 149.7577}
+  m_AnchoredPosition: {x: -0.18987036, y: 10.370194}
+  m_SizeDelta: {x: 155.9405, y: 153.8973}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &345901459
 MonoBehaviour:
@@ -2488,6 +2519,7 @@ MonoBehaviour:
   - {fileID: 1217609773}
   - {fileID: 826009359}
   curatedListOfModifiers: []
+  curatedListOfItems: []
   listOfMonsterSlotBGs:
   - {fileID: 2101669288}
   - {fileID: 146009420}
@@ -3849,8 +3881,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.5, y: 7.8}
-  m_SizeDelta: {x: 149.7548, y: 149.7577}
+  m_AnchoredPosition: {x: -0.2, y: 7.3}
+  m_SizeDelta: {x: 155.9405, y: 153.8973}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &485862751
 MonoBehaviour:
@@ -4145,8 +4177,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 656.9997, y: -182}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 557.31024, y: -182}
+  m_SizeDelta: {x: 85.3523, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494580653
 MonoBehaviour:
@@ -4429,7 +4461,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.0437365, y: -85.393326}
+  m_AnchoredPosition: {x: 3.0000622, y: -100.99998}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &516626321
@@ -4446,7 +4478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4454,11 +4486,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Monster Name / Level
 
-    HP / MaxHP
-
-    Elements
-
-'
+    HP / MaxHP'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -4703,7 +4731,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.0435777, y: -85.39331}
+  m_AnchoredPosition: {x: 3.000221, y: -100.99996}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &524256788
@@ -4720,7 +4748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4728,11 +4756,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Monster Name / Level
 
-    HP / MaxHP
-
-    Elements
-
-'
+    HP / MaxHP'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -6475,6 +6499,7 @@ GameObject:
   - component: {fileID: 802961750}
   - component: {fileID: 802961749}
   - component: {fileID: 802961748}
+  - component: {fileID: 802961751}
   m_Layer: 3
   m_Name: Dropdown
   m_TagString: Untagged
@@ -6614,6 +6639,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802961746}
   m_CullTransparentMesh: 1
+--- !u!114 &802961751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802961746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableDescriptionWindow: {fileID: 1131136302}
+  typeOfInteractable: 2
+  modifier: {fileID: 0}
+  stat: 0
+  node: {fileID: 0}
+  item: {fileID: 0}
+  interactableName: Row Position
+  interactableDescription: 'Adjust the Chimeric''s starting position in battle.
+
+    Back
+    Row - Gain +5 Accuracy, take 12% less damage and 12% less damage. High chance
+    to avoid aggro.
+
+    Center Row - Neutral, no bonuses.
+
+    Front Row - Gain
+    -5 Accuracy, take 12% more damage and deal 12% more damage. High chance to draw
+    aggro.'
+  interactableText: {fileID: 1131136301}
 --- !u!1 &826009359
 GameObject:
   m_ObjectHideFlags: 0
@@ -7063,6 +7119,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Start
   interactableDescription: The beginning of an adventure!
   interactableText: {fileID: 1131136301}
@@ -7783,8 +7840,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.5000372, y: 7.800017}
-  m_SizeDelta: {x: 149.7548, y: 149.7577}
+  m_AnchoredPosition: {x: -0.32495522, y: 10.370194}
+  m_SizeDelta: {x: 155.9405, y: 153.8973}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1029410526
 MonoBehaviour:
@@ -8040,6 +8097,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Start
   interactableDescription: The beginning of an adventure!
   interactableText: {fileID: 1131136301}
@@ -8206,6 +8264,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Start
   interactableDescription: The beginning of an adventure!
   interactableText: {fileID: 1131136301}
@@ -8825,6 +8884,7 @@ GameObject:
   - component: {fileID: 1188333678}
   - component: {fileID: 1188333677}
   - component: {fileID: 1188333676}
+  - component: {fileID: 1188333679}
   m_Layer: 3
   m_Name: Dropdown
   m_TagString: Untagged
@@ -8964,6 +9024,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188333674}
   m_CullTransparentMesh: 1
+--- !u!114 &1188333679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188333674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableDescriptionWindow: {fileID: 1131136302}
+  typeOfInteractable: 2
+  modifier: {fileID: 0}
+  stat: 0
+  node: {fileID: 0}
+  item: {fileID: 0}
+  interactableName: Row Position
+  interactableDescription: 'Adjust the Chimeric''s starting position in battle.
+
+    Back
+    Row - Gain +5 Accuracy, take 12% less damage and 12% less damage. High chance
+    to avoid aggro.
+
+    Center Row - Neutral, no bonuses.
+
+    Front Row - Gain
+    -5 Accuracy, take 12% more damage and deal 12% more damage. High chance to draw
+    aggro.'
+  interactableText: {fileID: 1131136301}
 --- !u!1 &1189217357
 GameObject:
   m_ObjectHideFlags: 0
@@ -9810,6 +9901,7 @@ GameObject:
   - component: {fileID: 1321937484}
   - component: {fileID: 1321937483}
   - component: {fileID: 1321937482}
+  - component: {fileID: 1321937485}
   m_Layer: 3
   m_Name: Dropdown
   m_TagString: Untagged
@@ -9949,6 +10041,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1321937480}
   m_CullTransparentMesh: 1
+--- !u!114 &1321937485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321937480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableDescriptionWindow: {fileID: 1131136302}
+  typeOfInteractable: 2
+  modifier: {fileID: 0}
+  stat: 0
+  node: {fileID: 0}
+  item: {fileID: 0}
+  interactableName: Row Position
+  interactableDescription: 'Adjust the Chimeric''s starting position in battle.
+
+    Back
+    Row - Gain +5 Accuracy, take 12% less damage and 12% less damage. High chance
+    to avoid aggro.
+
+    Center Row - Neutral, no bonuses.
+
+    Front Row - Gain
+    -5 Accuracy, take 12% more damage and deal 12% more damage. High chance to draw
+    aggro.'
+  interactableText: {fileID: 1131136301}
 --- !u!1 &1337368316
 GameObject:
   m_ObjectHideFlags: 0
@@ -10152,7 +10275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.043642, y: -85.39331}
+  m_AnchoredPosition: {x: 3.0001566, y: -100.99996}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1385715471
@@ -10169,7 +10292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10177,11 +10300,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Monster Name / Level
 
-    HP / MaxHP
-
-    Elements
-
-'
+    HP / MaxHP'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -11148,6 +11267,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Start
   interactableDescription: The beginning of an adventure!
   interactableText: {fileID: 1131136301}
@@ -11626,6 +11746,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Start
   interactableDescription: The beginning of an adventure!
   interactableText: {fileID: 1131136301}
@@ -12952,8 +13073,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.5000372, y: 7.8000016}
-  m_SizeDelta: {x: 149.7548, y: 149.7577}
+  m_AnchoredPosition: {x: -0.2946732, y: 7.2757673}
+  m_SizeDelta: {x: 155.9405, y: 153.8973}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1955077349
 MonoBehaviour:
@@ -14520,8 +14641,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 181.99982, y: 201}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 151.8869, y: 201}
+  m_SizeDelta: {x: 85.3523, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2101669290
 MonoBehaviour:
@@ -14601,8 +14722,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 181, y: -179}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 151.03357, y: -179}
+  m_SizeDelta: {x: 85.3523, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2137415274
 MonoBehaviour:
@@ -14797,7 +14918,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3056247857320139223, guid: 7d6900827a9f7c74685c94c3dad44d2a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3056247857320139224, guid: 7d6900827a9f7c74685c94c3dad44d2a, type: 3}
       propertyPath: m_Pivot.x

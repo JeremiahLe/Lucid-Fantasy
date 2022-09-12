@@ -34,12 +34,12 @@ public class MonsterStatScreenScript : MonoBehaviour
 
         // Display monster name, level and current exp
         monsterNameAndExp.text =
-            ($"{monster.name} Lvl.{monster.level}" +
-            $"\nExp: {monster.monsterCurrentExp}/{monster.monsterExpToNextLevel}");
+            ($"<b>{monster.name}</b>" +
+            $"\nLvl.{monster.level} | Exp: {monster.monsterCurrentExp}/{monster.monsterExpToNextLevel}");
 
         // Display monster elements
         monsterElements.text =
-            ($"Elements" +
+            ($"<b>Elements</b>" +
             $"\n{monster.monsterElement.element.ToString()} / {monster.monsterSubElement.element.ToString()}");
 
         // Display monster ability and description

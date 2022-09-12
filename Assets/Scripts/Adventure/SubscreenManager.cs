@@ -31,6 +31,7 @@ public class SubscreenManager : MonoBehaviour
     public List<GameObject> listOfMonsterSlotsEquipment;
     public List<GameObject> listOfRewardSlots;
     public List<Modifier> curatedListOfModifiers;
+    public List<Item> curatedListOfItems;
     public List<GameObject> listOfMonsterSlotBGs;
 
     public TextMeshProUGUI titleText;
@@ -80,7 +81,7 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = monster.baseSprite;
                     rewardSlot.GetComponent<CreateReward>().rewardImage.preserveAspect = true;
                     rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"<b>{monster.name} Lvl.{monster.level}</b>" +
-                        $"\n{monster.monsterElement.element.ToString()}/{monster.monsterSubElement.element.ToString()}" +
+                        $"\n{monster.monsterElement.element.ToString()} / {monster.monsterSubElement.element.ToString()}" +
                         $"\n- {monster.ListOfMonsterAttacks[0].monsterAttackName}" +
                         $"\n- {monster.ListOfMonsterAttacks[1].monsterAttackName}" +
                         $"\n- {monster.ListOfMonsterAttacks[2].monsterAttackName}" +
@@ -194,7 +195,7 @@ public class SubscreenManager : MonoBehaviour
         BattleImage.GetComponentInChildren<TextMeshProUGUI>().text = ($"Chimerics in Battle:\n");
         foreach (Monster monster in adventureManager.ListOfEnemyBattleMonsters)
         {
-            BattleImage.GetComponentInChildren<TextMeshProUGUI>().text += ($"{monster.name} Lvl.{monster.level}\n");
+            BattleImage.GetComponentInChildren<TextMeshProUGUI>().text += ($"<b>{monster.name}</b> Lvl.{monster.level}\n");
         }
 
         // Show Ally and Enemy count and Enemy Modifiers
@@ -233,9 +234,9 @@ public class SubscreenManager : MonoBehaviour
                 monsterSlot.GetComponent<CreateReward>().monsterStatScreenScript = monsterStatScreenScript;
                 monsterSlot.GetComponent<CreateReward>().monsterReward = adventureManager.ListOfCurrentMonsters[i];
                 monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
-                monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"{monsterSlot.GetComponent<CreateReward>().monsterReward.name} Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
-                    $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}" +
-                    $"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}");
+                monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"<b>{monsterSlot.GetComponent<CreateReward>().monsterReward.name}</b> Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
+                    $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}");
+                    //$"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}");
                         //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[0].monsterAttackName}" +
                         //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[1].monsterAttackName}" +
                         //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[2].monsterAttackName}" +
@@ -527,6 +528,92 @@ public class SubscreenManager : MonoBehaviour
         curatedListOfModifiers.Clear();
 
         return randModifierSO;
+    }
+
+    // This function returns a random item
+    public Item GetRandomItem()
+    {
+        if (adventureManager.ListOfAvailableItems.Count == 0)
+        {
+            return null;
+        }
+
+        Item randItem = adventureManager.ListOfAvailableItems[Random.Range(0, adventureManager.ListOfAvailableItems.Count)];
+        adventureManager.ListOfAvailableItems.Remove(randItem);
+
+        Item randItemSO = Instantiate(randItem);
+        return randItemSO;
+    }
+
+    // This function returns a random item by rarity
+    public Item GetRandomItemByRarity()
+    {
+        if (adventureManager.ListOfAvailableItems.Count == 0)
+        {
+            adventureManager.ResetItemList();
+        }
+
+        Item randItem = null;
+
+        // First, check common
+        float randValue = Random.value;
+        Debug.Log($"Generated random value: {randValue}");
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f)
+        {
+            curatedListOfItems = adventureManager.ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Common).ToList();
+            if (curatedListOfItems.Count == 0)
+            {
+                adventureManager.ResetItemList();
+                curatedListOfItems = adventureManager.ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Common).ToList();
+            }
+            randItem = curatedListOfItems[Random.Range(0, curatedListOfItems.Count)];
+            //Debug.Log($"Hit common! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f}");
+        }
+
+        // Check uncommon
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Uncommon) / 100f)
+        {
+            curatedListOfItems = adventureManager.ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Uncommon).ToList();
+            if (curatedListOfItems.Count == 0)
+            {
+                adventureManager.ResetItemList();
+                curatedListOfItems = adventureManager.ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Uncommon).ToList();
+            }
+            randItem = curatedListOfItems[Random.Range(0, curatedListOfItems.Count)];
+            //Debug.Log($"Hit common! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f}");
+        }
+
+        // Check rare
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Rare) / 100f)
+        {
+            curatedListOfItems = adventureManager.ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Rare).ToList();
+            if (curatedListOfItems.Count == 0)
+            {
+                adventureManager.ResetItemList();
+                curatedListOfItems = adventureManager.ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Rare).ToList();
+            }
+            randItem = curatedListOfItems[Random.Range(0, curatedListOfItems.Count)];
+            //Debug.Log($"Hit common! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f}");
+        }
+
+        // Lastly, check legendary
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Legendary) / 100f)
+        {
+            curatedListOfItems = adventureManager.ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Legendary).ToList();
+            if (curatedListOfItems.Count == 0)
+            {
+                adventureManager.ResetItemList();
+                curatedListOfItems = adventureManager.ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Legendary).ToList();
+            }
+            randItem = curatedListOfItems[Random.Range(0, curatedListOfItems.Count)];
+            //Debug.Log($"Hit common! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Legendary) / 100f}");
+        }
+
+        adventureManager.ListOfAvailableItems.Remove(randItem);
+        Item randItemSO = Instantiate(randItem);
+        curatedListOfItems.Clear();
+
+        return randItemSO;
     }
 
     // This function returns the weighted probablity of a modifier based on it's rarity

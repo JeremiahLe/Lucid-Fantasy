@@ -47,6 +47,8 @@ public class InventoryManager : MonoBehaviour
     public TextMeshProUGUI monsterBaseCheckAscensionText;
     public TextMeshProUGUI monsterAscensionCheckAscensionText;
 
+    public TextMeshProUGUI ascensionRequirements;
+
     private void Awake()
     {
         adventureManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AdventureManager>();
@@ -112,16 +114,15 @@ public class InventoryManager : MonoBehaviour
 
     public void InitializeAscensionWindow()
     {
-
         // Initialize base monster info
         monsterBaseImage.sprite = currentMonsterEquipment.baseSprite;
         monsterBaseText.text =
-            ($"{currentMonsterEquipment.name} Lv. {currentMonsterEquipment.level}" +
-            $"\nExp: {currentMonsterEquipment.monsterCurrentExp}/{currentMonsterEquipment.monsterExpToNextLevel}" +
+            ($"<b>{currentMonsterEquipment.name}</b>" +
+            $"\nLv.{currentMonsterEquipment.level} | Exp: {currentMonsterEquipment.monsterCurrentExp}/{currentMonsterEquipment.monsterExpToNextLevel}" +
             $"\n\n<b>Ability: {currentMonsterEquipment.monsterAbility.abilityName}</b>" +
             $"\n{currentMonsterEquipment.monsterAbility.abilityDescription}");
         monsterElementsText.text = 
-            ($"Elements" +
+            ($"<b>Elements</b>" +
             $"\n{currentMonsterEquipment.monsterElement.element} / {currentMonsterEquipment.monsterSubElement.element}");
 
         // Disable ascension buttons before checking 
@@ -188,19 +189,29 @@ public class InventoryManager : MonoBehaviour
 
     public void InitializeConfirmAscensionWindow(int ascensionNumber)
     {
+        int levelReq = 0;
+        Item ascensionMaterial = null;
+        int goldReq = 0;
+
         // Assign the monster ascension path
         if (ascensionNumber == 1)
         {
             currentAscensionPath = currentMonsterEquipment.firstEvolutionPath;
+            levelReq = currentMonsterEquipment.firstEvolutionLevelReq;
+            ascensionMaterial = currentMonsterEquipment.ascensionOneMaterial;
+            goldReq = currentAscensionPath.ascensionGoldRequirement;
         }
         else if (ascensionNumber == 2)
         {
             currentAscensionPath = currentMonsterEquipment.secondEvolutionPath;
+            levelReq = currentMonsterEquipment.secondEvolutionLevelReq;
+            ascensionMaterial = currentMonsterEquipment.ascensionTwoMaterial;
+            goldReq = currentAscensionPath.ascensionGoldRequirement;
         }
 
         // Display Ascension Traits
         ascensionTraits.text =
-            ($"Ascension Traits" +
+            ($"<b>Ascension Traits</b>" +
             $"\nNew Ability: {currentAscensionPath.monsterAbility.abilityName}" +
             $"\nNew Command: {currentAscensionPath.monsterAscensionAttack.monsterAttackName}");
 
@@ -218,8 +229,22 @@ public class InventoryManager : MonoBehaviour
         monsterBaseCheckAscensionText.text = ($"{currentMonsterEquipment.name}" +
             $"\n{currentMonsterEquipment.monsterElement.element} / {currentMonsterEquipment.monsterSubElement.element}");
 
+        // Show name only if level req is met
         monsterAscensionCheckAscension.sprite = currentAscensionPath.baseSprite;
-        monsterAscensionCheckAscensionText.text = ($"{currentAscensionPath.name}" +
-            $"\n{currentAscensionPath.monsterElement.element} / {currentAscensionPath.monsterSubElement.element}");
+        if (currentMonsterEquipment.level == levelReq)
+        {
+            monsterAscensionCheckAscensionText.text = ($"{currentAscensionPath.name}");
+        }
+        else
+        {
+            monsterAscensionCheckAscensionText.text = ($"???");
+        }
+
+        monsterAscensionCheckAscensionText.text += ($"\n{currentAscensionPath.monsterElement.element} / {currentAscensionPath.monsterSubElement.element}");
+
+        // Show Requirements
+        ascensionRequirements.text = ($"<b>Requirements</b>" +
+            $"\n{ascensionMaterial.itemName} x 1 ({adventureManager.ListOfInventoryItems.Where(item => item.itemName == ascensionMaterial.itemName).ToList().Count})" +
+            $"\n{goldReq} Gold ({adventureManager.playerGold})");
     }
 }

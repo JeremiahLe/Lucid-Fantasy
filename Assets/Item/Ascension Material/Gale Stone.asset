@@ -15,3 +15,7 @@ MonoBehaviour:
   itemType: 1
   itemName: Essence of Gale
   itemDescription: An ascension material for Gale Ascension.
+  baseSprite: {fileID: 21300000, guid: e3f68f3902aae4ee4980023ed3086fe5, type: 3}
+  consumableStatToChange: 0
+  consumableAmount: 0
+  itemRarity: 3

@@ -27,6 +27,41 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
+    [Button(50)]
+    public void AddRandomItems()
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            ListOfInventoryItems.Add(subscreenManager.GetRandomItem());
+            ResetItemList();
+        }
+    }
+
+    [Button(50)]
+    public void LevelUpMonsters()
+    {
+        foreach (Monster monster in ListOfCurrentMonsters)
+        {
+            CreateMonster createMonster = new CreateMonster();
+            createMonster.monsterReference = monster;
+            createMonster.monster = monster;
+
+            while (monster.level < 20)
+            {
+                createMonster.LevelUpOutsideOfCombat();
+            }
+        }
+    }
+
+    [Button(50)]
+    public void AddRandomMonsters()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            ListOfCurrentMonsters.Add(subscreenManager.GetRandomMonster());
+        }
+    }
+
     [Title("Bools")]
     public bool adventureBegin = false;
     public bool AdventureMode = false;
@@ -103,6 +138,7 @@ public class AdventureManager : MonoBehaviour
     public List<Monster> ListOfAllMonsters;
 
     public List<Modifier> ListOfCurrentEquipment;
+    public List<Item> ListOfInventoryItems;
 
     [Title("Other Adventure Modules")]
     public enum RewardType { Monster, Modifier, Equipment }
@@ -128,9 +164,11 @@ public class AdventureManager : MonoBehaviour
     public List<Monster> ListOfAvailableRewardMonsters;
     public List<Modifier> ListOfAvailableRewardModifiers;
     public List<Modifier> ListOfAvailableRewardEquipment;
+    public List<Item> ListOfAvailableItems;
 
     public List<Modifier> DefaultListOfAvailableRewardModifiers;
     public List<Modifier> DefaultListOfAvailableRewardEquipment;
+    public List<Item> DefaultListOfAvailableItems;
 
     [Title("Pre-Battle Setup")]
     public int randomBattleMonsterCount;
@@ -165,6 +203,7 @@ public class AdventureManager : MonoBehaviour
         adventureBegin = false;
         CopyDefaultModifierList();
         CopyDefaultEquipmentList();
+        CopyDefaultItemList();
 
         //
         GameObject[] managers = GameObject.FindGameObjectsWithTag("GameManager");
@@ -235,6 +274,23 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
+    // This function copies the item list to modify it
+    public void CopyDefaultItemList()
+    {
+        // Copy list
+        foreach (var item in ListOfAvailableItems)
+        {
+            DefaultListOfAvailableItems.Add(new Item
+            {
+                itemName = item.itemName,
+                itemDescription = item.itemDescription,
+                baseSprite = item.baseSprite,
+                itemRarity = item.itemRarity,
+                itemType = item.itemType
+            });
+        }
+    }
+
     // This function resets the currently displayed modifier list upon reroll to prevent duplicates
     public void ResetModifierList()
     {
@@ -289,6 +345,25 @@ public class AdventureManager : MonoBehaviour
                 adventureEquipment = item.adventureEquipment,
                 statModified = item.statModified,
                 baseSprite = item.baseSprite
+            });
+        }
+    }
+
+    // This function resets the currently displayed item list upon reroll to prevent duplicates
+    public void ResetItemList()
+    {
+        ListOfAvailableItems.Clear();
+
+        // Copy list
+        foreach (var item in DefaultListOfAvailableItems)
+        {
+            ListOfAvailableItems.Add(new Item
+            {
+                itemName = item.itemName,
+                itemDescription = item.itemDescription,
+                baseSprite = item.baseSprite,
+                itemRarity = item.itemRarity,
+                itemType = item.itemType
             });
         }
     }

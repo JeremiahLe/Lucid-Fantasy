@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class MonstersSubScreenManager : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public Sprite emptyVisualSprite;
 
+    public List<GameObject> inventorySlots;
+
     public void OnEnable()
     {
         InventoryMenu.SetActive(false);
@@ -44,7 +47,7 @@ public class MonstersSubScreenManager : MonoBehaviour
 
         // Update text
         monsterAmountText.text =
-            ($"Chimerics: ({adventureManager.ListOfCurrentMonsters.Count}/4)" +
+            ($"<b>Chimerics: ({adventureManager.ListOfCurrentMonsters.Count}/4)</b>" +
             $"\n[Right-click for more info.]");
 
         // Show allied monster images
@@ -65,9 +68,9 @@ public class MonstersSubScreenManager : MonoBehaviour
                 monsterSlot.GetComponent<CreateReward>().monsterStatScreenScript = adventureManager.subscreenManager.monsterStatScreenScript;
                 monsterSlot.GetComponent<CreateReward>().monsterReward = adventureManager.ListOfCurrentMonsters[i];
                 monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
-                monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"{monsterSlot.GetComponent<CreateReward>().monsterReward.name} Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
-                    $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}" +
-                    $"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}");
+                monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"<b>{monsterSlot.GetComponent<CreateReward>().monsterReward.name}</b> Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
+                    $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}");
+                    //$"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}");
             }
 
             i++;
@@ -81,7 +84,7 @@ public class MonstersSubScreenManager : MonoBehaviour
 
         // Update text
         monsterAmountText.text =
-            ($"Current Modifiers:");
+            ($"<b>Current Modifiers:</b>");
 
         // Display modifier info
         foreach (Modifier modifier in adventureManager.ListOfCurrentModifiers)
@@ -110,7 +113,7 @@ public class MonstersSubScreenManager : MonoBehaviour
 
         // Update text
         monsterAmountText.text =
-            ($"Inventory:");
+            ($"");
 
         inventoryHeaderText.text =
             ($"Consumables");
@@ -129,9 +132,104 @@ public class MonstersSubScreenManager : MonoBehaviour
         InitializeConsumables();
     }
 
-    private void InitializeConsumables()
+    public void InitializeConsumables()
     {
-        //throw new NotImplementedException();
+        // Update text
+        inventoryHeaderText.text =
+            ($"Consumables");
+
+        // clean the inventory slots first
+        foreach (GameObject slot in inventorySlots)
+        {
+            ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+            itemSlot.itemSlotEquipment = null;
+            itemSlot.itemSlotItem = null;
+            itemSlot.itemSlotImage.sprite = emptyVisualSprite;
+            slot.GetComponent<Interactable>().ResetInteractable();
+            slot.GetComponent<Interactable>().typeOfInteractable = Interactable.TypeOfInteractable.Item;
+        }
+
+        // Initialize consumables
+        int i = 0;
+        foreach (GameObject slot in inventorySlots)
+        {
+            if (adventureManager.ListOfInventoryItems.Where(item => item.itemType == Item.ItemType.Consumable).ToList().Count > i)
+            {
+                ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+                itemSlot.itemSlotItem = adventureManager.ListOfInventoryItems.Where(item => item.itemType == Item.ItemType.Consumable).ToList()[i];
+                itemSlot.itemSlotImage.sprite = itemSlot.itemSlotItem.baseSprite;
+                slot.GetComponent<Interactable>().InitiateInteractable(itemSlot.itemSlotItem);
+            }
+
+            i++;
+        }
+    }
+
+    public void InitializeEquipment()
+    {
+        // Update text
+        inventoryHeaderText.text =
+            ($"Equipment");
+
+        // clean the inventory slots first
+        foreach (GameObject slot in inventorySlots)
+        {
+            ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+            itemSlot.itemSlotEquipment = null;
+            itemSlot.itemSlotItem = null;
+            itemSlot.itemSlotImage.sprite = slot.GetComponentInChildren<DragAndDropItem>().emptySprite;
+            itemSlot.GetComponent<Interactable>().ResetInteractable();
+            slot.GetComponent<Interactable>().typeOfInteractable = Interactable.TypeOfInteractable.Modifier;
+        }
+
+        // Initialize the equipment
+        int i = 0;
+        foreach (GameObject slot in inventorySlots)
+        {
+            if (adventureManager.ListOfCurrentEquipment.Count > i)
+            {
+                ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+                itemSlot.inventoryManager = GetComponent<InventoryManager>();
+                itemSlot.itemSlotEquipment = adventureManager.ListOfCurrentEquipment[i];
+                itemSlot.itemSlotImage.sprite = itemSlot.itemSlotEquipment.baseSprite;
+                slot.GetComponent<Interactable>().InitiateInteractable(itemSlot.itemSlotEquipment);
+            }
+
+            i++;
+        }
+    }
+
+    public void InitializeAcensionMaterials()
+    {
+        // Update text
+        inventoryHeaderText.text =
+            ($"Ascension Materials");
+
+        // clean the inventory slots first
+        foreach (GameObject slot in inventorySlots)
+        {
+            ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+            itemSlot.itemSlotEquipment = null;
+            itemSlot.itemSlotItem = null;
+            itemSlot.itemSlotImage.sprite = emptyVisualSprite;
+            slot.GetComponent<Interactable>().ResetInteractable();
+            slot.GetComponent<Interactable>().typeOfInteractable = Interactable.TypeOfInteractable.Item;
+        }
+
+        // Initialize ascension materials
+        int i = 0;
+        foreach (GameObject slot in inventorySlots)
+        {
+            if (adventureManager.ListOfInventoryItems.Where(item => item.itemType == Item.ItemType.AscensionMaterial).ToList().Count > i)
+            {
+                ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+                itemSlot.itemSlotItem = adventureManager.ListOfInventoryItems.Where(item => item.itemType == Item.ItemType.AscensionMaterial).ToList()[i];
+                itemSlot.itemSlotImage.sprite = itemSlot.itemSlotItem.baseSprite;
+                slot.GetComponent<Interactable>().InitiateInteractable(itemSlot.itemSlotItem);
+            }
+
+            i++;
+        }
     }
 
     public void ResetMenus()
@@ -166,7 +264,7 @@ public class MonstersSubScreenManager : MonoBehaviour
 
             // Update text
             monsterAmountText.text =
-                ($"Adventure Status:" +
+                ($"<b>Adventure Status:</b>" +
                 $"\n\n\nTime: {niceTime}" +
                 $"\nRun: {adventureManager.adventureNGNumber}" +
                 $"\nGold Spent: {adventureManager.playerGoldSpent}" +

@@ -10,8 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae19da87b02c3e14ea96a84ea38d0b97, type: 3}
-  m_Name: Tundra Stone
+  m_Name: Soil Stone
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Essence of Tundra
-  itemDescription: An ascension material for Tundra Ascension.
+  itemName: Essence of Soil
+  itemDescription: An ascension material for Soil Ascension.
+  baseSprite: {fileID: 21300000, guid: e3f68f3902aae4ee4980023ed3086fe5, type: 3}
+  consumableStatToChange: 0
+  consumableAmount: 0
+  itemRarity: 3

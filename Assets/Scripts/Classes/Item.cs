@@ -12,6 +12,17 @@ public class Item : ScriptableObject
     public ItemType itemType;
 
     public string itemName;
+
     [TextArea]
     public string itemDescription;
+
+    public Sprite baseSprite;
+
+    [EnableIf("itemType", ItemType.Consumable)]
+    public AttackEffect.StatEnumToChange consumableStatToChange;
+
+    [EnableIf("itemType", ItemType.Consumable)]
+    public float consumableAmount;
+
+    public Modifier.ModifierRarity itemRarity;
 }

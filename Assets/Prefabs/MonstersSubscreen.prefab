@@ -383,7 +383,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3056247857320139225}
         m_TargetAssemblyTypeName: MonstersSubScreenManager, Assembly-CSharp
-        m_MethodName: ShowStatus
+        m_MethodName: InitializeAcensionMaterials
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -410,6 +410,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Ascension Materials
   interactableDescription: View your ascension materials.
   interactableText: {fileID: 8314362964101278511}
@@ -507,6 +508,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &3060448694245902704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,6 +526,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -558,11 +561,11 @@ RectTransform:
   m_Children:
   - {fileID: 7660101561607294122}
   m_Father: {fileID: 4087030619583682959}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -535, y: -676}
+  m_AnchoredPosition: {x: -535, y: -694}
   m_SizeDelta: {x: 103.15, y: 103.0938}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3352953142654340930
@@ -877,6 +880,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &9174965362332562724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -894,6 +898,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -1095,6 +1100,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &2345921250074320756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1112,6 +1118,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -1239,7 +1246,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3056247857320139225}
         m_TargetAssemblyTypeName: MonstersSubScreenManager, Assembly-CSharp
-        m_MethodName: ShowStatus
+        m_MethodName: InitializeConsumables
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1266,6 +1273,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Consumables
   interactableDescription: View your consumables.
   interactableText: {fileID: 8314362964101278511}
@@ -1363,6 +1371,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &442339438114923295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1380,6 +1389,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -1414,11 +1424,11 @@ RectTransform:
   m_Children:
   - {fileID: 1437440787606348176}
   m_Father: {fileID: 4087030619583682959}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -349, y: -676}
+  m_AnchoredPosition: {x: -349, y: -694}
   m_SizeDelta: {x: 103.15, y: 103.0938}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &930009702966419675
@@ -1553,6 +1563,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &1392282567755312024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1570,6 +1581,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -1667,6 +1679,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &2213430376796364302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1684,6 +1697,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -1721,7 +1735,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.0000305, y: -108.999985}
+  m_AnchoredPosition: {x: -4.0000305, y: -118}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3056247856127317332
@@ -1755,8 +1769,6 @@ MonoBehaviour:
   m_text: 'Monster Name / Level
 
     HP / MaxHP
-
-    Elements
 
 '
   m_isRightToLeft: 0
@@ -1861,7 +1873,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4, y: -106}
+  m_AnchoredPosition: {x: -4, y: -121.000015}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3056247856182655374
@@ -1895,8 +1907,6 @@ MonoBehaviour:
   m_text: 'Monster Name / Level
 
     HP / MaxHP
-
-    Elements
 
 '
   m_isRightToLeft: 0
@@ -2001,7 +2011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.9999893, y: -113}
+  m_AnchoredPosition: {x: 3.9999893, y: -122.000015}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3056247856225934584
@@ -2035,8 +2045,6 @@ MonoBehaviour:
   m_text: 'Monster Name / Level
 
     HP / MaxHP
-
-    Elements
 
 '
   m_isRightToLeft: 0
@@ -2408,6 +2416,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Modifiers
   interactableDescription: View your current Modifiers.
   interactableText: {fileID: 8314362964101278511}
@@ -2448,7 +2457,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -229, y: -205}
+  m_AnchoredPosition: {x: -229, y: -216.86957}
   m_SizeDelta: {x: 187.6562, y: 187.6599}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3056247856383532775
@@ -2864,6 +2873,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Quit Adventure
   interactableDescription: Quit adventure and return to main menu?
   interactableText: {fileID: 8314362964101278511}
@@ -3093,6 +3103,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Exit Menu
   interactableDescription: Exit menu and return to adventure.
   interactableText: {fileID: 8314362964101278511}
@@ -3208,7 +3219,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -222.35974, y: 188.3634}
+  m_AnchoredPosition: {x: -222.35974, y: 176.49384}
   m_SizeDelta: {x: 187.6562, y: 187.6599}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3056247856770492200
@@ -3358,7 +3369,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3, y: 21}
+  m_AnchoredPosition: {x: -3, y: 7}
   m_SizeDelta: {x: 1149.8441, y: 981.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3056247856922682276
@@ -3383,7 +3394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3467,7 +3478,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3056247856922682273}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8fee974dbfb9fbb40b4a77a0b761e0fd, type: 3}
   m_Name: 
@@ -3571,7 +3582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3056247857320139224
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3701,6 +3712,23 @@ MonoBehaviour:
   TrashItemButton: {fileID: 7886844299005886610}
   UpgradeEquipmentButton: {fileID: 8548842193280931376}
   emptyVisualSprite: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
+  inventorySlots:
+  - {fileID: 5939123836739023781}
+  - {fileID: 2698495609993821626}
+  - {fileID: 1581554075386851569}
+  - {fileID: 3379493508121755714}
+  - {fileID: 933324893470948410}
+  - {fileID: 5519082915675002256}
+  - {fileID: 7677834390311850101}
+  - {fileID: 2048280034024693855}
+  - {fileID: 8724508971530193714}
+  - {fileID: 3104379063733603186}
+  - {fileID: 4492377392765236322}
+  - {fileID: 9024034049644567554}
+  - {fileID: 986369746751454481}
+  - {fileID: 7969645602081862847}
+  - {fileID: 2225813392755823738}
+  - {fileID: 8983527895207415905}
 --- !u!1 &3056247857339953582
 GameObject:
   m_ObjectHideFlags: 0
@@ -3735,7 +3763,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4, y: -107}
+  m_AnchoredPosition: {x: 4, y: -122.000015}
   m_SizeDelta: {x: 404.2187, y: 54.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3056247857339953585
@@ -3769,8 +3797,6 @@ MonoBehaviour:
   m_text: 'Monster Name / Level
 
     HP / MaxHP
-
-    Elements
 
 '
   m_isRightToLeft: 0
@@ -3954,7 +3980,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 216, y: 190.86957}
+  m_AnchoredPosition: {x: 216, y: 179}
   m_SizeDelta: {x: 187.6562, y: 187.6599}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3056247857967142387
@@ -4295,6 +4321,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Status
   interactableDescription: View your current run status.
   interactableText: {fileID: 8314362964101278511}
@@ -4335,7 +4362,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 211.8656, y: -203.74689}
+  m_AnchoredPosition: {x: 211.8656, y: -215.61646}
   m_SizeDelta: {x: 187.6562, y: 187.6599}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3056247858211476196
@@ -4601,6 +4628,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Chimerics
   interactableDescription: View your Chimerics.
   interactableText: {fileID: 8314362964101278511}
@@ -4698,6 +4726,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &5216840505259396658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4715,6 +4744,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -4853,7 +4883,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4087030619583682959}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4921,7 +4951,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 50
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -5067,6 +5097,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &5974273884834475308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5084,6 +5115,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -5215,9 +5247,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4158842614568235382}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.312683, y: 255, z: -2429.1824}
+  m_LocalPosition: {x: 22.312683, y: 301, z: -2429.1824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2377623469572575599}
   - {fileID: 4777340893702844898}
   - {fileID: 6512897132058949520}
   - {fileID: 6477206129353602187}
@@ -5327,6 +5360,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &5725575588788425933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5344,6 +5378,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -5377,7 +5412,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4087030619583682959}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5724,6 +5759,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &5301759579756499322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5741,6 +5777,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -5838,6 +5875,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &7138191436334273926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5855,6 +5893,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -6086,7 +6125,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3056247857320139225}
         m_TargetAssemblyTypeName: MonstersSubScreenManager, Assembly-CSharp
-        m_MethodName: ShowStatus
+        m_MethodName: InitializeEquipment
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6113,6 +6152,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Equipment
   interactableDescription: View your current equipment.
   interactableText: {fileID: 8314362964101278511}
@@ -6251,11 +6291,11 @@ RectTransform:
   m_Children:
   - {fileID: 691508251994334725}
   m_Father: {fileID: 4087030619583682959}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -168, y: -676}
+  m_AnchoredPosition: {x: -168, y: -694}
   m_SizeDelta: {x: 103.15, y: 103.0938}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8482387327247213091
@@ -6340,7 +6380,7 @@ Transform:
   - {fileID: 8332441724126743203}
   - {fileID: 1577232482507933066}
   m_Father: {fileID: 4087030619583682959}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6634677325291909507
 GameObject:
@@ -6446,6 +6486,81 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &6771291972553889385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2377623469572575599}
+  - component: {fileID: 6293243252846770168}
+  - component: {fileID: 7148976191481806040}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2377623469572575599
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771291972553889385}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2429.1824}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4087030619583682959}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -17.25111, y: -297.50717}
+  m_SizeDelta: {x: 1425.7626, y: 954.0904}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6293243252846770168
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771291972553889385}
+  m_CullTransparentMesh: 1
+--- !u!114 &7148976191481806040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771291972553889385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.6037736, g: 0.5268779, b: 0.5268779, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: aa96b0fe49f9b414ba505f8e7fd8babb, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6785307029238214303
 GameObject:
   m_ObjectHideFlags: 0
@@ -6852,6 +6967,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &2849947042628773166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6869,6 +6985,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -7022,6 +7139,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Inventory
   interactableDescription: View your equipment, consumables, and ascension materials.
   interactableText: {fileID: 8314362964101278511}
@@ -7119,6 +7237,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &8424678124029808355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7136,6 +7255,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -7170,7 +7290,7 @@ RectTransform:
   m_Children:
   - {fileID: 1177156876478472304}
   m_Father: {fileID: 4087030619583682959}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7349,12 +7469,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4087030619583682959}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -17.22461, y: -282.4741}
-  m_SizeDelta: {x: 1457.3768, y: 960.2341}
+  m_AnchoredPosition: {x: -17.22461, y: -297.5054}
+  m_SizeDelta: {x: 1457.3768, y: 990.2967}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1315706221743700189
 CanvasRenderer:
@@ -7425,7 +7545,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4087030619583682959}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7493,7 +7613,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 50
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -7536,7 +7656,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8584878356178129135}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8fee974dbfb9fbb40b4a77a0b761e0fd, type: 3}
   m_Name: 
@@ -7639,6 +7759,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &1522017318827888517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7656,6 +7777,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -7961,6 +8083,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &9029168616670583145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7978,6 +8101,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -8075,6 +8199,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &2827653637067142343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8092,6 +8217,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 8314362964101278511}
@@ -8222,7 +8348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -8551,7 +8677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -8631,6 +8757,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
+--- !u!224 &8548842193280931383 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
+  m_PrefabInstance: {fileID: 1748641877599663661}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8548842193280931376 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7991631129517137949, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
@@ -8642,11 +8773,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &8548842193280931383 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
-  m_PrefabInstance: {fileID: 1748641877599663661}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3056247856169016569
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9062,7 +9188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -9142,6 +9268,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
+--- !u!224 &1556700710078052657 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
+  m_PrefabInstance: {fileID: 8898401651310614827}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1556700710078052662 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7991631129517137949, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
@@ -9153,8 +9284,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &1556700710078052657 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
-  m_PrefabInstance: {fileID: 8898401651310614827}
-  m_PrefabAsset: {fileID: 0}

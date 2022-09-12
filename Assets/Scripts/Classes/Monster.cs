@@ -113,6 +113,7 @@ public class Monster : ScriptableObject
 
     [Title("Ascension Stats")]
     public MonsterAttack monsterAscensionAttack;
+    public int ascensionGoldRequirement = 10;
 
     public enum AscensionType { Gale, Storm, Spirit, Nightmare, Tundra, Hydro, Harmony, Dissonance, Magma, Inferno, Steel, Mineral, Plasma, Machine, Decay, Purity, Soil, Verdant, Chaos, Order, Justice, Divine };
     public AscensionType ascensionType;

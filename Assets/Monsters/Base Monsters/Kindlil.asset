@@ -34,11 +34,11 @@ MonoBehaviour:
   critChance: 0
   critDamage: 1.5
   bonusAccuracy: 0
-  healthScaler: 1
+  healthScaler: 5
   physicalAttackScaler: 1
   magicAttackScaler: 5
-  physicalDefenseScaler: 2
-  magicDefenseScaler: 1
+  physicalDefenseScaler: 3
+  magicDefenseScaler: 2
   speedScaler: 1
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: 7ab31fe3800ad4c4b9ed05b763aee7cd, type: 2}
@@ -67,8 +67,9 @@ MonoBehaviour:
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0
-  monsterExpToNextLevel: 125
+  monsterExpToNextLevel: 100
   monsterAscensionAttack: {fileID: 0}
+  ascensionGoldRequirement: 10
   ascensionType: 0
   firstEvolutionPath: {fileID: 11400000, guid: 43c7cfa2d59d87d42974da26a9731322, type: 2}
   firstEvolutionLevelReq: 20

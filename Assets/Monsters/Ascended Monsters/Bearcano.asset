@@ -75,7 +75,8 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 105
-  monsterAscensionAttack: {fileID: 0}
+  monsterAscensionAttack: {fileID: 11400000, guid: 9210e8036d79b7d4d8e82849686868b0, type: 2}
+  ascensionGoldRequirement: 10
   ascensionType: 8
   firstEvolutionPath: {fileID: 0}
   firstEvolutionLevelReq: 20

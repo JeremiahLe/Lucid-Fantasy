@@ -11,6 +11,7 @@ public class ItemSlot : MonoBehaviour
     public Modifier itemSlotEquipment;
     public InventoryManager inventoryManager;
     public TextMeshProUGUI itemSlotEquipmentText;
+    public Item itemSlotItem;
 
     public void DisplayEquipmentText()
     {

@@ -432,6 +432,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Your Chimeric's health. When it reaches 0, it will no
     longer be able to fight.
@@ -589,7 +590,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -584.7167, y: -414}
+  m_AnchoredPosition: {x: -584.7167, y: -372}
   m_SizeDelta: {x: 850.72, y: 179.631}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8803099930503605092
@@ -786,6 +787,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &697516396745552448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,6 +805,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -1108,6 +1111,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &7094434394380540144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1125,6 +1129,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -1255,6 +1260,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Your Chimeric's health. When it reaches 0, it will no
     longer be able to fight.
@@ -1397,6 +1403,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &9095622573669541526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1414,6 +1421,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -1603,6 +1611,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Equipment
   interactableDescription: View the Chimeric's current equipment.
   interactableText: {fileID: 4819983240336436281}
@@ -1775,6 +1784,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &814323094255499473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1792,6 +1802,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -1993,6 +2004,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &2387741929280634291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2010,6 +2022,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -2107,6 +2120,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 6
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Determines when the Chimeric gets their action in the
     Combat Order.
@@ -2503,6 +2517,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 8
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the chance that an attack will critically strike,
     dealing bonus damage.
@@ -2645,6 +2660,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 5
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Magic Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -2925,6 +2941,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 15
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Additionally affects the chance that attacks will hit.
   interactableText: {fileID: 4819983240336436281}
@@ -3066,6 +3083,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &2299764304649723192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3083,6 +3101,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -3258,6 +3277,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 5
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Magic Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -3549,6 +3569,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &3116696103299931674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3566,6 +3587,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -3744,6 +3766,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 8
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the chance that an attack will critically strike,
     dealing bonus damage.
@@ -3886,6 +3909,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 3
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Magic Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -4027,6 +4051,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &3946964078098458394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4044,6 +4069,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -4148,7 +4174,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -4563,6 +4589,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 4
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Physical Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -4782,8 +4809,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -534, y: 419}
-  m_SizeDelta: {x: 323.0515, y: 91.7532}
+  m_AnchoredPosition: {x: -510, y: 406}
+  m_SizeDelta: {x: 409.8406, y: 91.7532}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8707820932915117525
 CanvasRenderer:
@@ -4846,7 +4873,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -4976,6 +5003,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 6
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Determines when the Chimeric gets their action in the
     Combat Order.
@@ -5193,6 +5221,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 15
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Additionally affects the chance that attacks will hit.
   interactableText: {fileID: 4819983240336436281}
@@ -5334,6 +5363,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 4
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Physical Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -5552,6 +5582,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 4203339511698764524}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &6245305388842093830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5569,6 +5600,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -5666,6 +5698,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &6616496016094373215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5683,6 +5716,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -5855,6 +5889,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &3109190893366775318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5872,6 +5907,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -5970,6 +6006,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 5790890154323380829}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &7992563196692995244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5987,6 +6024,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -6084,6 +6122,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &43811759716074530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6101,6 +6140,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -6302,6 +6342,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 3
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Magic Attacks.
   interactableText: {fileID: 4819983240336436281}
@@ -6514,7 +6555,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4108448094475552688}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 164, y: -96, z: 4273.5156}
+  m_LocalPosition: {x: 164, y: -77, z: 4273.5156}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1788134344122403696}
@@ -6630,6 +6671,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &3139952080499872788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6647,6 +6689,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -7230,6 +7273,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &4925160682153169440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7247,6 +7291,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -7759,7 +7804,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -8317,6 +8362,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -8414,6 +8460,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 7
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the chance that an incoming attack will miss.
   interactableText: {fileID: 4819983240336436281}
@@ -8632,6 +8679,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 7
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the chance that an incoming attack will miss.
   interactableText: {fileID: 4819983240336436281}
@@ -8773,6 +8821,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &1139215177420299578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8790,6 +8839,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -9125,6 +9175,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 2
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Physical
     Attacks.
@@ -9266,6 +9317,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -9571,6 +9623,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 2
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Physical
     Attacks.
@@ -9713,6 +9766,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &8378109272247344539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9730,6 +9784,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -9956,7 +10011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -393.35797, y: -194.1669}
+  m_AnchoredPosition: {x: -387, y: -194.1669}
   m_SizeDelta: {x: 450.3435, y: 114.7609}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2178213548367161708
@@ -10244,6 +10299,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Ascension
   interactableDescription: View the Chimeric's Ascension paths.
   interactableText: {fileID: 4819983240336436281}
@@ -10421,6 +10477,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Stats
   interactableDescription: View the Chimeric's stats and commands.
   interactableText: {fileID: 4819983240336436281}
@@ -10574,6 +10631,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: Exit
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -10816,6 +10874,7 @@ MonoBehaviour:
   monsterAscensionCheckAscension: {fileID: 6698805057519147957}
   monsterBaseCheckAscensionText: {fileID: 6913749449934225970}
   monsterAscensionCheckAscensionText: {fileID: 4936608558589169161}
+  ascensionRequirements: {fileID: 3290507979453107016}
 --- !u!1 &6895412534132774312
 GameObject:
   m_ObjectHideFlags: 0
@@ -10925,7 +10984,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 293, y: 326.26526}
+  m_AnchoredPosition: {x: 285, y: 326.26526}
   m_SizeDelta: {x: 705.1152, y: 44.8604}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6895412534823485691
@@ -10989,7 +11048,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -11684,6 +11743,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 0}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &3090677931775175164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11701,6 +11761,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -12731,6 +12792,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 4960272660808125820}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &2058608933350825445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12748,6 +12810,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
@@ -12785,8 +12848,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 368, y: 390}
-  m_SizeDelta: {x: 344.1549, y: 68.2291}
+  m_AnchoredPosition: {x: 366, y: 390}
+  m_SizeDelta: {x: 391.8943, y: 68.2291}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5319167041804155943
 CanvasRenderer:
@@ -12849,7 +12912,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -13443,13 +13506,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 27
+  m_fontSizeBase: 27
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 50
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -13774,7 +13837,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 349, y: -437}
+  m_AnchoredPosition: {x: 349, y: -420}
   m_SizeDelta: {x: 337.7327, y: 68.2291}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &374000482769185568
@@ -14569,6 +14632,7 @@ MonoBehaviour:
   itemSlotEquipment: {fileID: 0}
   inventoryManager: {fileID: 5926338460304940300}
   itemSlotEquipmentText: {fileID: 553663440823991042}
+  itemSlotItem: {fileID: 0}
 --- !u!114 &1272159593057288675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14586,6 +14650,7 @@ MonoBehaviour:
   modifier: {fileID: 0}
   stat: 0
   node: {fileID: 0}
+  item: {fileID: 0}
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 4819983240336436281}
