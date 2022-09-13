@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fortify
   m_EditorClassIdentifier: 
   monsterAttackName: Fortify
-  monsterAttackDescription: Assume a stone stance, increasing user's physical defense
+  monsterAttackDescription: Assume a stone stance, raising user's Physical Defense
     by 35%.
   monsterAttackElement: 11
   monsterElementClass: {fileID: 11400000, guid: d8116a12bc962344d879184f9ba6ecad, type: 2}

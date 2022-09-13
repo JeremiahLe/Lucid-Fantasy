@@ -118,24 +118,24 @@ public class MonsterAttackManager : MonoBehaviour
 
             case (MonsterAttack.MonsterAttackType.Buff):
                 currentMonsterAttackDescription.gameObject.SetActive(true);
-                currentMonsterAttackDescription.text = ($"{currentMonsterAttack.monsterAttackName}" +
+                currentMonsterAttackDescription.text = ($"{currentMonsterAttack.monsterAttackName} | {currentMonsterAttack.monsterAttackElement.ToString()}" +
                     $"\n{currentMonsterAttack.monsterAttackDescription}" +
                     $"\nBuff/Debuff Type: {currentMonsterAttack.monsterAttackTargetType.ToString()} " +
                     $"| Accuracy: {currentMonsterAttack.monsterAttackAccuracy}% " +
-                    $"({ReturnProperAccuracyBasedOnTarget()}%)" +
-                    $"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
+                    $"({ReturnProperAccuracyBasedOnTarget()}%)");
+                    //$"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
                 TextBackImage.enabled = true;
                 TextBackImageBorder.enabled = true;
                 break;
 
             default:
                 currentMonsterAttackDescription.gameObject.SetActive(true);
-                currentMonsterAttackDescription.text = ($"{currentMonsterAttack.monsterAttackName}" +
+                currentMonsterAttackDescription.text = ($"{currentMonsterAttack.monsterAttackName} | {currentMonsterAttack.monsterAttackElement.ToString()}" +
                     $"\n{currentMonsterAttack.monsterAttackDescription}" +
                     $"\nBase Power: {currentMonsterAttack.monsterAttackDamage} (x{CheckElementWeakness(currentMonsterAttack.monsterAttackElement, combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference)}) ({currentMonsterAttack.monsterAttackDamageType.ToString()}) " +
                     $"| Accuracy: {currentMonsterAttack.monsterAttackAccuracy}% " +
-                    $"({ReturnProperAccuracyBasedOnTarget()}%)" +
-                    $"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
+                    $"({ReturnProperAccuracyBasedOnTarget()}%)");
+                    //$"\nElement: {currentMonsterAttack.monsterAttackElement.ToString()}");
                 TextBackImage.enabled = true;
                 TextBackImageBorder.enabled = true;
                 break;

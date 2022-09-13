@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Sparkblast
   m_EditorClassIdentifier: 
   monsterAttackName: Sparkblast
-  monsterAttackDescription: Blast the target with electric sparks, dealing damage.
-    25% chance to Stun for 1 round.
+  monsterAttackDescription: Blast the target with electric sparks, dealing Magical
+    damage. 25% chance to Stun for 1 round.
   monsterAttackElement: 10
   monsterElementClass: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
   monsterAttackType: 0

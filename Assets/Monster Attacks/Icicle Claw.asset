@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Icicle Claw
   m_EditorClassIdentifier: 
   monsterAttackName: Icicle Claw
-  monsterAttackDescription: Slash a target with icy claws. Slightly above average
-    critical strike rate.
+  monsterAttackDescription: Slash a target with icy claws, dealing Physical damage.
+    This attack has 35% bonus CritChance.
   monsterAttackElement: 1
   monsterElementClass: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
   monsterAttackType: 0

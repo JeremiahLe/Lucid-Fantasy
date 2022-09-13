@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Burning Bite
   m_EditorClassIdentifier: 
   monsterAttackName: Burning Bite
-  monsterAttackDescription: Bite the target with a burning bite. Has a 50% chance
-    to inflict Burning status.
+  monsterAttackDescription: Bite the target with a burning bite, dealing Physical
+    damage. 50% chance to inflict Burning.
   monsterAttackElement: 0
   monsterElementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterAttackType: 0

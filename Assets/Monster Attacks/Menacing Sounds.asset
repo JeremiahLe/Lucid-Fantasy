@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Menacing Sounds
   m_EditorClassIdentifier: 
   monsterAttackName: Menacing Sounds
-  monsterAttackDescription: Scare a target, lowering their speed by 35% for 3 rounds.
+  monsterAttackDescription: Scare a target, lowering their Speed by 35% for 3 rounds.
   monsterAttackElement: 12
   monsterElementClass: {fileID: 11400000, guid: ec9ecd56522a5744486571ef5548086b, type: 2}
   monsterAttackType: 1

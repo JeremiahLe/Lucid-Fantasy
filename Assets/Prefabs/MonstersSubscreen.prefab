@@ -405,7 +405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -413,7 +413,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Ascension Materials
   interactableDescription: View your ascension materials.
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &933324893470948410
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -529,7 +529,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &960130030754560029
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,7 +893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -901,7 +901,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &1154952219901414886
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,7 +1113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -1121,7 +1121,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &1899529812100737882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,7 +1268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -1276,7 +1276,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Consumables
   interactableDescription: View your consumables.
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &2048280034024693855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,7 +1384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -1392,7 +1392,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &2102274995313913836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1576,7 +1576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -1584,7 +1584,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &2698495609993821626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,7 +1692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -1700,7 +1700,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &3056247856127317329
 GameObject:
   m_ObjectHideFlags: 0
@@ -2411,7 +2411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -2419,7 +2419,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Modifiers
   interactableDescription: View your current Modifiers.
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &3056247856383532770
 GameObject:
   m_ObjectHideFlags: 0
@@ -2868,7 +2868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -2876,7 +2876,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Quit Adventure
   interactableDescription: Quit adventure and return to main menu?
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &3056247856660407010
 GameObject:
   m_ObjectHideFlags: 0
@@ -3098,7 +3098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 0}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -3106,7 +3106,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Exit Menu
   interactableDescription: Exit menu and return to adventure.
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 0}
 --- !u!1 &3056247856730817145
 GameObject:
   m_ObjectHideFlags: 0
@@ -3610,7 +3610,7 @@ RectTransform:
   - {fileID: 3056247856265946799}
   - {fileID: 397648687662418814}
   - {fileID: 3056247857909268874}
-  - {fileID: 5205660288700693690}
+  - {fileID: 3522226222181920526}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4316,7 +4316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -4324,7 +4324,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Status
   interactableDescription: View your current run status.
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &3056247858211476191
 GameObject:
   m_ObjectHideFlags: 0
@@ -4623,7 +4623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -4631,7 +4631,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Chimerics
   interactableDescription: View your Chimerics.
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &3104379063733603186
 GameObject:
   m_ObjectHideFlags: 0
@@ -4739,7 +4739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -4747,7 +4747,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &3234249034605192542
 GameObject:
   m_ObjectHideFlags: 0
@@ -5110,7 +5110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -5118,7 +5118,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &4128989034883182695
 GameObject:
   m_ObjectHideFlags: 0
@@ -5373,7 +5373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -5381,7 +5381,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &4525170321368846640
 GameObject:
   m_ObjectHideFlags: 0
@@ -5772,7 +5772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -5780,7 +5780,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &5939123836739023781
 GameObject:
   m_ObjectHideFlags: 0
@@ -5888,7 +5888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -5896,7 +5896,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &5980129645429251066
 GameObject:
   m_ObjectHideFlags: 0
@@ -6147,7 +6147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -6155,7 +6155,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Equipment
   interactableDescription: View your current equipment.
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &6130629545206082667
 GameObject:
   m_ObjectHideFlags: 0
@@ -6980,7 +6980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -6988,7 +6988,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &7945219485159713476
 GameObject:
   m_ObjectHideFlags: 0
@@ -7134,7 +7134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -7142,7 +7142,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Inventory
   interactableDescription: View your equipment, consumables, and ascension materials.
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &7969645602081862847
 GameObject:
   m_ObjectHideFlags: 0
@@ -7250,7 +7250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -7258,7 +7258,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &8174968722049667107
 GameObject:
   m_ObjectHideFlags: 0
@@ -7549,7 +7549,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -344, y: 117.677124}
+  m_AnchoredPosition: {x: -338, y: 117.677124}
   m_SizeDelta: {x: 711.1313, y: 73.9657}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6321272210358296869
@@ -7772,7 +7772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -7780,7 +7780,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &8753342254749713770
 GameObject:
   m_ObjectHideFlags: 0
@@ -8096,7 +8096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -8104,7 +8104,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1 &9024034049644567554
 GameObject:
   m_ObjectHideFlags: 0
@@ -8212,7 +8212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 8921641434982349854}
+  interactableDescriptionWindow: {fileID: 220474037500112810}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -8220,7 +8220,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 8314362964101278511}
+  interactableText: {fileID: 379625448768862257}
 --- !u!1001 &208539034415314374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8879,188 +8879,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4374268843612621246, guid: c38c2abe34755dd419bce241a8df52b7, type: 3}
   m_PrefabInstance: {fileID: 3056247856169016569}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3056247856804538631
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 3056247857320139224}
-    m_Modifications:
-    - target: {fileID: 2202876592222399973, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2202876592222399973, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2202876592222399973, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2202876592222399973, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2202876592222399973, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2202876592222399973, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2870457980261108046, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2870457980261108046, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5847952280785591621, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: canvasRectTransform
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5889002585329063193, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_Name
-      value: TooltipContainer
-      objectReference: {fileID: 0}
-    - target: {fileID: 5889002585329063193, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_RootOrder
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -369.7666
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 407
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8885948104875251874, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8885948104875251874, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8885948104875251874, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8885948104875251874, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8885948104875251874, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8885948104875251874, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
---- !u!1 &8921641434982349854 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5889002585329063193, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-  m_PrefabInstance: {fileID: 3056247856804538631}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &5205660288700693690 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-  m_PrefabInstance: {fileID: 3056247856804538631}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8314362964101278511 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6416349822865474088, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-  m_PrefabInstance: {fileID: 3056247856804538631}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &5427781399908349844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9167,6 +8985,124 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4374268843612621246, guid: c38c2abe34755dd419bce241a8df52b7, type: 3}
   m_PrefabInstance: {fileID: 5427781399908349844}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7994917271238404287
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3056247857320139224}
+    m_Modifications:
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_RootOrder
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 469.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -184.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 318.10202
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7925456964164716309, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_Name
+      value: ResizingToolTip Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+--- !u!1 &220474037500112810 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7925456964164716309, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+  m_PrefabInstance: {fileID: 7994917271238404287}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &3522226222181920526 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+  m_PrefabInstance: {fileID: 7994917271238404287}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &379625448768862257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7761696344248160398, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+  m_PrefabInstance: {fileID: 7994917271238404287}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8898401651310614827
 PrefabInstance:
   m_ObjectHideFlags: 0

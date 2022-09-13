@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Howling Gale
   m_EditorClassIdentifier: 
   monsterAttackName: Howling Gale
-  monsterAttackDescription: Shoot a gust of wind at the opponent.
+  monsterAttackDescription: Shoot a gust of wind at the target, dealing Magical damage.
   monsterAttackElement: 3
   monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 0

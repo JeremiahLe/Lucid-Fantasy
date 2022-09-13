@@ -43,9 +43,9 @@ MonoBehaviour:
   speedScaler: 4
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
-  - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
-  - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
-  - {fileID: 11400000, guid: c69b13041c0aeae4f8a0878079cd96b3, type: 2}
+  - {fileID: 11400000, guid: 84a27dd999107f24294da98d933eb4f5, type: 2}
+  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
+  - {fileID: 11400000, guid: 7e6aee6e5f939ba44ad7a06725f35295, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
   - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}

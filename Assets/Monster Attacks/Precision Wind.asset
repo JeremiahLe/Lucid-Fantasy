@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Precision Wind
   m_EditorClassIdentifier: 
   monsterAttackName: Precision Wind
-  monsterAttackDescription: Attack with precise winds, never missing.
+  monsterAttackDescription: Attack with precise winds dealing Magical damage. This
+    attack cannot miss.
   monsterAttackElement: 3
   monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 0

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Ignite
   m_EditorClassIdentifier: 
   monsterAttackName: Ignite
-  monsterAttackDescription: Ignite a target, inflicting Burning for 5 rounds.
+  monsterAttackDescription: Ignite a target, dealing Magical damage and inflicting
+    Burning for 5 rounds.
   monsterAttackElement: 0
   monsterElementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterAttackType: 0

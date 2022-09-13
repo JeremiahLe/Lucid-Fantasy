@@ -12,16 +12,21 @@ public class FollowMouseScript : MonoBehaviour
     {
         Vector2 anchoredPosition = Input.mousePosition / canvasRectTransform.localScale.x;
 
-        if (anchoredPosition.x + 350 > canvasRectTransform.rect.width)
+        if (anchoredPosition.x + 460 > canvasRectTransform.rect.width)
         {
-            anchoredPosition.x = canvasRectTransform.rect.width - 350;
+            anchoredPosition.x = canvasRectTransform.rect.width - 460;
         }
 
-        if (anchoredPosition.y + 100 > canvasRectTransform.rect.height)
+        if (anchoredPosition.y + 120 > canvasRectTransform.rect.height)
         {
-            anchoredPosition.y = canvasRectTransform.rect.height - 100;
+            anchoredPosition.y = canvasRectTransform.rect.height - 120;
         }
 
         transform.position = anchoredPosition;
+
+        if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

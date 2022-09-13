@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Scorch
   m_EditorClassIdentifier: 
   monsterAttackName: Scorch
-  monsterAttackDescription: Scorch the opponent with a searing flame.
+  monsterAttackDescription: Scorch the target with a searing flame, dealing Magical
+    damage.
   monsterAttackElement: 0
   monsterElementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterAttackType: 0

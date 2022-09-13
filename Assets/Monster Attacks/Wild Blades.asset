@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Wild Blades
   m_EditorClassIdentifier: 
   monsterAttackName: Wild Blades
-  monsterAttackDescription: "Slash the opponent with sharp blades of tooth, fang,
-    or steel. Slightly above average \ncritical strike rate. Raises Physical Attack
-    by 40% on successful critical strike."
+  monsterAttackDescription: Slash the opponent with sharp blades of tooth, fang,
+    or steel, dealing Physical damage. Raises user's Physical Attack by 40% on Crit.
+    This attack has 30% bonus CritChance.
   monsterAttackElement: 5
   monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   monsterAttackType: 0

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Chainsaw's Heart
   m_EditorClassIdentifier: 
   monsterAttackName: Chainsaw's Heart
-  monsterAttackDescription: "Eviscerate with a controlling chainsaw. Executes if
-    the target is left at 50% or less health. \n[1 round cooldown]"
+  monsterAttackDescription: "Eviscerate the target with a controlling chainsaw, dealing
+    Physical damage. Executes if the target is left at 50% or less health. \n[1 round
+    cooldown]"
   monsterAttackElement: 4
   monsterElementClass: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
   monsterAttackType: 0

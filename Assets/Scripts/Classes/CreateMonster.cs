@@ -176,7 +176,7 @@ public class CreateMonster : MonoBehaviour
         monsterEvasion = monsterReference.evasion;
         monsterSpeed = (int)monsterReference.speed;
 
-        nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
+        nameText.text = ($"{monster.name} Lvl: {monsterReference.level}");
         healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}");
         sr.sprite = monster.baseSprite;
     }

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Magma Storm
   m_EditorClassIdentifier: 
   monsterAttackName: Magma Storm
-  monsterAttackDescription: Erupts magma on all enemies, dealing damage. 25% chance
-    to inflict Burning. 45% chance to increase physical attack by 30%.
+  monsterAttackDescription: Erupts magma on all enemies, dealing Physical damage.
+    25% chance to inflict Burning. 45% chance to increase user's Physical Attack
+    by 30%.
   monsterAttackElement: 0
   monsterElementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterAttackType: 0

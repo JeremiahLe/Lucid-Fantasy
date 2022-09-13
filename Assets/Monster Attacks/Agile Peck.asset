@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Agile Peck
   m_EditorClassIdentifier: 
   monsterAttackName: Agile Peck
-  monsterAttackDescription: Quickly peck the target with a beak, dealing true damage.
+  monsterAttackDescription: Quickly peck the target with a beak, dealing True damage.
   monsterAttackElement: 3
   monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 0

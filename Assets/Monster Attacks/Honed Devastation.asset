@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Honed Devastation
   m_EditorClassIdentifier: 
   monsterAttackName: Honed Devastation
-  monsterAttackDescription: Raise user's critical strike damage to 2.5 for 2 rounds.
+  monsterAttackDescription: Raise user's CritDamage to 2.5 for 2 rounds.
   monsterAttackElement: 5
   monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   monsterAttackType: 1

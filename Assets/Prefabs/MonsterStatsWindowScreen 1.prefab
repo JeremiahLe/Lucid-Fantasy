@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 0
@@ -436,7 +436,7 @@ MonoBehaviour:
   interactableName: name
   interactableDescription: Your Chimeric's health. When it reaches 0, it will no
     longer be able to fight.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &8864166531745196164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,7 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -808,7 +808,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &713965889999132944
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,7 +1124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -1132,7 +1132,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &1008367272625485904
 GameObject:
   m_ObjectHideFlags: 0
@@ -1255,7 +1255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 0
@@ -1264,7 +1264,7 @@ MonoBehaviour:
   interactableName: name
   interactableDescription: Your Chimeric's health. When it reaches 0, it will no
     longer be able to fight.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &6586848125588333473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1416,7 +1416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -1424,7 +1424,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &1230743313386040705
 GameObject:
   m_ObjectHideFlags: 0
@@ -1606,7 +1606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -1614,7 +1614,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Equipment
   interactableDescription: View the Chimeric's current equipment.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &1235803403692865565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,7 +1797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -1805,7 +1805,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &1337238399690677251
 GameObject:
   m_ObjectHideFlags: 0
@@ -2017,7 +2017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -2025,7 +2025,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &1426525942917098006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2115,7 +2115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 6
@@ -2124,7 +2124,7 @@ MonoBehaviour:
   interactableName: name
   interactableDescription: Determines when the Chimeric gets their action in the
     Combat Order.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &706228049315762078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2512,7 +2512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 8
@@ -2521,7 +2521,7 @@ MonoBehaviour:
   interactableName: name
   interactableDescription: Increases the chance that an attack will critically strike,
     dealing bonus damage.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &8622755537214313954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2655,7 +2655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 5
@@ -2663,7 +2663,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Magic Attacks.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &4132264881834828128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2936,7 +2936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 15
@@ -2944,7 +2944,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: name
   interactableDescription: Additionally affects the chance that attacks will hit.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &8460352316158884499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3096,7 +3096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -3104,7 +3104,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &2088252227670700021
 GameObject:
   m_ObjectHideFlags: 0
@@ -3272,7 +3272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 5
@@ -3280,7 +3280,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Magic Attacks.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &6685134729654899369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3582,7 +3582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -3590,7 +3590,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &2550632325980017672
 GameObject:
   m_ObjectHideFlags: 0
@@ -3761,7 +3761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 8
@@ -3770,7 +3770,7 @@ MonoBehaviour:
   interactableName: name
   interactableDescription: Increases the chance that an attack will critically strike,
     dealing bonus damage.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &7376979591345773116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3904,7 +3904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 3
@@ -3912,7 +3912,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Magic Attacks.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &8006710780346433753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4064,7 +4064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -4072,7 +4072,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &3022136798057263238
 GameObject:
   m_ObjectHideFlags: 0
@@ -4584,7 +4584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 4
@@ -4592,7 +4592,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Physical Attacks.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &6228179215836700147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4998,7 +4998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 6
@@ -5007,7 +5007,7 @@ MonoBehaviour:
   interactableName: name
   interactableDescription: Determines when the Chimeric gets their action in the
     Combat Order.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &6981418437336325483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5216,7 +5216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 15
@@ -5224,7 +5224,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: name
   interactableDescription: Additionally affects the chance that attacks will hit.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &3580995468295442307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5358,7 +5358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 4
@@ -5366,7 +5366,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: name
   interactableDescription: Reduces the amount of damage you take from Physical Attacks.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &3178543952596540017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5595,7 +5595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -5603,7 +5603,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &3567697377264307221
 GameObject:
   m_ObjectHideFlags: 0
@@ -5711,7 +5711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -5719,7 +5719,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &3575182676863361829
 GameObject:
   m_ObjectHideFlags: 0
@@ -5902,7 +5902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -5910,7 +5910,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &3910717638778171298
 GameObject:
   m_ObjectHideFlags: 0
@@ -6019,7 +6019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -6027,7 +6027,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &3951311310576772623
 GameObject:
   m_ObjectHideFlags: 0
@@ -6135,7 +6135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -6143,7 +6143,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &3969274247037735023
 GameObject:
   m_ObjectHideFlags: 0
@@ -6337,7 +6337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 3
@@ -6345,7 +6345,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Magic Attacks.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &3438920309105999728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6684,7 +6684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -6692,7 +6692,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &4273846031434538283
 GameObject:
   m_ObjectHideFlags: 0
@@ -7286,7 +7286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -7294,7 +7294,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &4659784228388542459
 GameObject:
   m_ObjectHideFlags: 0
@@ -8357,7 +8357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -8365,7 +8365,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &5442948537161612559
 GameObject:
   m_ObjectHideFlags: 0
@@ -8455,7 +8455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 7
@@ -8463,7 +8463,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the chance that an incoming attack will miss.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &2190122395399311162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8674,7 +8674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 7
@@ -8682,7 +8682,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: name
   interactableDescription: Increases the chance that an incoming attack will miss.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &7600366897049893082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8834,7 +8834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -8842,7 +8842,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &5844604123392559909
 GameObject:
   m_ObjectHideFlags: 0
@@ -9170,7 +9170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 2
@@ -9179,7 +9179,7 @@ MonoBehaviour:
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Physical
     Attacks.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &7532818091369666029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9312,7 +9312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -9320,7 +9320,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &5930395169736965894
 GameObject:
   m_ObjectHideFlags: 0
@@ -9618,7 +9618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 1
   modifier: {fileID: 0}
   stat: 2
@@ -9627,7 +9627,7 @@ MonoBehaviour:
   interactableName: name
   interactableDescription: Increases the amount of damage you deal with Physical
     Attacks.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!114 &4743220370690150493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9779,7 +9779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -9787,7 +9787,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &6104987550874835976
 GameObject:
   m_ObjectHideFlags: 0
@@ -10294,7 +10294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -10302,7 +10302,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Ascension
   interactableDescription: View the Chimeric's Ascension paths.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &6789733855762100993
 GameObject:
   m_ObjectHideFlags: 0
@@ -10472,7 +10472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -10480,7 +10480,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Stats
   interactableDescription: View the Chimeric's stats and commands.
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &6895412533943376746
 GameObject:
   m_ObjectHideFlags: 0
@@ -10626,7 +10626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 2
   modifier: {fileID: 0}
   stat: 0
@@ -10634,7 +10634,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: Exit
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &6895412534069513272
 GameObject:
   m_ObjectHideFlags: 0
@@ -10746,7 +10746,7 @@ RectTransform:
   - {fileID: 8381243483729274598}
   - {fileID: 3660763138059816403}
   - {fileID: 6050629685481029487}
-  - {fileID: 8770954179563879340}
+  - {fileID: 1976981553528834709}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11756,7 +11756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -11764,7 +11764,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &7211557731741394266
 GameObject:
   m_ObjectHideFlags: 0
@@ -12805,7 +12805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -12813,7 +12813,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1 &7984069763818757980
 GameObject:
   m_ObjectHideFlags: 0
@@ -14645,7 +14645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableDescriptionWindow: {fileID: 5356611423323175688}
+  interactableDescriptionWindow: {fileID: 2918780961465158193}
   typeOfInteractable: 0
   modifier: {fileID: 0}
   stat: 0
@@ -14653,7 +14653,7 @@ MonoBehaviour:
   item: {fileID: 0}
   interactableName: 
   interactableDescription: 
-  interactableText: {fileID: 4819983240336436281}
+  interactableText: {fileID: 3371616657075002794}
 --- !u!1001 &1135952427475185109
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14784,117 +14784,153 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7991631129517137946, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
   m_PrefabInstance: {fileID: 1135952427475185109}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2012951885230599697
+--- !u!1001 &5007288995472919844
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 6895412534109772687}
     m_Modifications:
-    - target: {fileID: 5889002585329063193, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-      propertyPath: m_Name
-      value: TooltipContainer
+    - target: {fileID: 2414634380322256343, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 475
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 2414634380322256343, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 105.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 469.77
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_SizeDelta.y
       value: 100
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -369.76666
+      value: -184.88
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 407
+      value: 318.10202
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+    - target: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7761696344248160399, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761696344248160399, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761696344248160399, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 465
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761696344248160399, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 95.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761696344248160399, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 237.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761696344248160399, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 7925456964164716309, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_Name
+      value: ResizingToolTip Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7925456964164716309, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
---- !u!1 &5356611423323175688 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+--- !u!1 &2918780961465158193 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5889002585329063193, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-  m_PrefabInstance: {fileID: 2012951885230599697}
+  m_CorrespondingSourceObject: {fileID: 7925456964164716309, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+  m_PrefabInstance: {fileID: 5007288995472919844}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &8770954179563879340 stripped
+--- !u!224 &1976981553528834709 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7086345053727004093, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-  m_PrefabInstance: {fileID: 2012951885230599697}
+  m_CorrespondingSourceObject: {fileID: 6778710119958235057, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+  m_PrefabInstance: {fileID: 5007288995472919844}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4819983240336436281 stripped
+--- !u!114 &3371616657075002794 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6416349822865474088, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
-  m_PrefabInstance: {fileID: 2012951885230599697}
+  m_CorrespondingSourceObject: {fileID: 7761696344248160398, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+  m_PrefabInstance: {fileID: 5007288995472919844}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1

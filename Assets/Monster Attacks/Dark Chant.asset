@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Dark Chant
   m_EditorClassIdentifier: 
   monsterAttackName: Dark Chant
-  monsterAttackDescription: Initiate a dark chant, dealing damage and raising magical
-    attack by 25%.
+  monsterAttackDescription: Initiate a dark chant, dealing Magical damage and raising
+    user's Magic Attack by 25%.
   monsterAttackElement: 4
   monsterElementClass: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
   monsterAttackType: 0

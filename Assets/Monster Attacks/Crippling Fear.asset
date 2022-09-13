@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Crippling Fear
   m_EditorClassIdentifier: 
   monsterAttackName: Crippling Fear
-  monsterAttackDescription: "Afflict your target and other enemies with crippling
-    fear, dealing minor damage. If the user \nis the slowest in the match, slow all
-    enemies by 20%. Otherwise, lower self attack stats by 20%."
+  monsterAttackDescription: Afflict all enemies with crippling fear, dealing Magical
+    damage. If the user is the slowest in the match, lower the Speed of all enemies
+    by 20%. Otherwise, lower user's Physical and Magic Attack by 20%.
   monsterAttackElement: 4
   monsterElementClass: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
   monsterAttackType: 0

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Winds of Fury
   m_EditorClassIdentifier: 
   monsterAttackName: Winds of Fury
-  monsterAttackDescription: "Reduce the target's health to 25% of their max health.
-    \nIncrease their speed by 200% and offensive stats by 100%."
+  monsterAttackDescription: Reduce the target's health to 25% of their Max Health.
+    Rasie their Speed by 200% and Physical and Magic Attack by 100%.
   monsterAttackElement: 3
   monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 1

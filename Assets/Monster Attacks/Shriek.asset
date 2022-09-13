@@ -13,11 +13,8 @@ MonoBehaviour:
   m_Name: Shriek
   m_EditorClassIdentifier: 
   monsterAttackName: Shriek
-  monsterAttackDescription: 'Shriek at the opponent, dealing damage and lowering
-    the target''s physical and magic
-
-    attack by 10%. 33% chance to also inflict
-    Dazed.'
+  monsterAttackDescription: Shriek at the opponent, dealing Magical damage and lowering
+    the target's Physical and Magic Attack by 10%. 33% chance to inflict Dazed.
   monsterAttackElement: 12
   monsterElementClass: {fileID: 11400000, guid: ec9ecd56522a5744486571ef5548086b, type: 2}
   monsterAttackType: 0

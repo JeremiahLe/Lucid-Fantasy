@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Shadow's Grasp
   m_EditorClassIdentifier: 
   monsterAttackName: Shadow's Grasp
-  monsterAttackDescription: Crush the target with a shadowy hand. Attack stat type
-    varies based on user's highest offensive stat.
+  monsterAttackDescription: Crush the target with a shadowy hand. This attack's damage
+    type varies based on user's highest attack stat.
   monsterAttackElement: 4
   monsterElementClass: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
   monsterAttackType: 0

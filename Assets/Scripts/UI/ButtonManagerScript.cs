@@ -12,6 +12,7 @@ public class ButtonManagerScript : MonoBehaviour
     public GameObject AutoBattleButton;
     public GameObject PassButton;
     public GameObject ChangeButton;
+    public GameObject ItemsButton;
 
     public GameObject FrontRowButton;
     public GameObject CenterRowButton;
@@ -64,6 +65,7 @@ public class ButtonManagerScript : MonoBehaviour
         InitialHUDButtons.Add(AutoBattleButton);
         InitialHUDButtons.Add(PassButton);
         InitialHUDButtons.Add(ChangeButton);
+        InitialHUDButtons.Add(ItemsButton);
 
         AttacksHUDButtons.Add(Attack1Button);
         AttacksHUDButtons.Add(Attack2Button);
@@ -185,6 +187,7 @@ public class ButtonManagerScript : MonoBehaviour
             AutoBattleButton.SetActive(false);
             PassButton.SetActive(false);
             ChangeButton.SetActive(false);
+            ItemsButton.SetActive(false);
 
             ConfirmQuitButton.SetActive(true);
             ContinueButton.SetActive(true);

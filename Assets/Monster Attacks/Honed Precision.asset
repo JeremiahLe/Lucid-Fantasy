@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Honed Precision
   m_EditorClassIdentifier: 
   monsterAttackName: Honed Precision
-  monsterAttackDescription: Raise user's critical strike chance by 100% for 2 rounds.
+  monsterAttackDescription: Raise user's CritChance by 100% for 2 rounds.
   monsterAttackElement: 5
   monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   monsterAttackType: 1

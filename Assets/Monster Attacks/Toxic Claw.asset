@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Toxic Claw
   m_EditorClassIdentifier: 
   monsterAttackName: Toxic Claw
-  monsterAttackDescription: Ravage the target with chemically soaked claws. Has a
-    40% chance to inflict poison.
+  monsterAttackDescription: Ravage the target with chemically soaked claws. 40% chance
+    to inflict Poisoned.
   monsterAttackElement: 9
   monsterElementClass: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
   monsterAttackType: 0

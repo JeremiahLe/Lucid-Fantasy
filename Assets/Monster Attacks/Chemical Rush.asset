@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Chemical Rush
   m_EditorClassIdentifier: 
   monsterAttackName: Chemical Rush
-  monsterAttackDescription: Rush an enemy with chemicals, dealing damage. Deals 50%
-    bonus damage if the target is Poisoned. Additional 33% chance to raise Speed
-    by 30% and 33% chance to apply an enhanced Poisoned (25% max health damage per
-    Round).
+  monsterAttackDescription: Rush the target with chemicals, dealing Physical damage.
+    Deals 50% bonus damage if the target is Poisoned. 33% chance to raise user's
+    Speed by 30% and 33% chance to apply an enhanced Poisoned to target (25% max
+    health damage per Round).
   monsterAttackElement: 9
   monsterElementClass: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
   monsterAttackType: 0
