@@ -354,6 +354,17 @@ Imported Various Assets/Packages
 - Allow enemy chimerics to have a random starting row
 - Add Chimeric Archive
 
+[9/13/22]
+- Implement Confirm Ascension, Ascension animation, and Ascension results screen (learn new command, show new stat growth)
+- Implement command readjustment window
+- Add Gold UI icon
+- Add Electricity VFX
+- Finish Healing Solvent attack effects
+- Allow enemy chimerics to have a random starting row
+- Add Chimeric Archive
+- Nerf CritDamage multiplier
+- Nerf Rising Potential?
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
