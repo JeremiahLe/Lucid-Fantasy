@@ -793,7 +793,7 @@ public class SubscreenManager : MonoBehaviour
     {
         if (adventureManager.ListOfAllMonsters.Count == 0)
         {
-            titleText.text = ("Please select a starting monster!");
+            titleText.text = ("Please select a starting Chimeric!");
             return;
         }
 

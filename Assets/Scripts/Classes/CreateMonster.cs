@@ -581,74 +581,98 @@ public class CreateMonster : MonoBehaviour
                     // Send immune message to combat log
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to status effects and debuffs!");
                     CreateStatusEffectPopup("Immune!");
-                    continue;
+
+                    // Reduce the duration of temporary modifiers
+                    if (modifier.modifierDurationType == Modifier.ModifierDurationType.Temporary)
+                    {
+                        modifier.modifierCurrentDuration -= 1;
+                        if (modifier.modifierCurrentDuration == 0)
+                        {
+                            modifier.ResetModifiedStat(monsterReference, gameObject);
+                            UpdateStats(false, null, false);
+                            monsterReference.ListOfModifiers.Remove(modifier);
+                        }
+
+                        if (modifier.statusEffectIconGameObject.TryGetComponent(out StatusEffectIcon statusEffectIcon) != false)
+                        {
+                            modifier.statusEffectIconGameObject.GetComponent<StatusEffectIcon>().modifierDurationText.text = ($"{modifier.modifierCurrentDuration}");
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        continue;
+                    }
                 }
-
-                switch (modifier.statusEffectType)
+                else
                 {
-                    case (Modifier.StatusEffectType.Poisoned):
-                        monsterIsPoisoned = true;
-                        statusEffectUISprite.sprite = monsterAttackManager.poisonedUISprite;
+                    switch (modifier.statusEffectType)
+                    {
+                        case (Modifier.StatusEffectType.Poisoned):
+                            monsterIsPoisoned = true;
+                            statusEffectUISprite.sprite = monsterAttackManager.poisonedUISprite;
 
-                        // Check if immune to damage
-                        if (monsterImmuneToDamage)
-                        {
-                            // Send immune message to combat log
-                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
-                            CreateStatusEffectPopup("Immune!");
-                            continue;
-                        }
+                            // Check if immune to damage
+                            if (monsterImmuneToDamage)
+                            {
+                                // Send immune message to combat log
+                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
+                                CreateStatusEffectPopup("Immune!");
+                                continue;
+                            }
 
-                        int poisonDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.maxHealth);
+                            int poisonDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.maxHealth);
 
-                        monsterAnimator.SetBool("hitAnimationPlaying", true);
-                        monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
-                        monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
+                            monsterAnimator.SetBool("hitAnimationPlaying", true);
+                            monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
+                            monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
 
-                        monsterReference.health -= poisonDamage;
-                        ShowDamageOrStatusEffectPopup(poisonDamage);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Poisoned and takes {poisonDamage} damage!", monsterReference.aiType);
-                        UpdateStats(true, modifier.modifierOwnerGameObject, true);
+                            monsterReference.health -= poisonDamage;
+                            ShowDamageOrStatusEffectPopup(poisonDamage);
+                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Poisoned and takes {poisonDamage} damage!", monsterReference.aiType);
+                            UpdateStats(true, modifier.modifierOwnerGameObject, true);
 
-                        if (modifier.modifierOwnerGameObject != null)
-                        {
-                            modifier.modifierOwner.cachedDamageDone += poisonDamage;
-                        }
-                        break;
+                            if (modifier.modifierOwnerGameObject != null)
+                            {
+                                modifier.modifierOwner.cachedDamageDone += poisonDamage;
+                            }
+                            break;
 
-                    case (Modifier.StatusEffectType.Burning):
-                        monsterIsBurning = true;
-                        statusEffectUISprite.sprite = monsterAttackManager.burningUISprite;
+                        case (Modifier.StatusEffectType.Burning):
+                            monsterIsBurning = true;
+                            statusEffectUISprite.sprite = monsterAttackManager.burningUISprite;
 
-                        // Check if immune to damage
-                        if (monsterImmuneToDamage)
-                        {
-                            // Send immune message to combat log
-                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
-                            CreateStatusEffectPopup("Immune!");
-                            continue;
-                        }
+                            // Check if immune to damage
+                            if (monsterImmuneToDamage)
+                            {
+                                // Send immune message to combat log
+                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
+                                CreateStatusEffectPopup("Immune!");
+                                continue;
+                            }
 
-                        int burningDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.health);
-                        if (burningDamage < 1)
-                        {
-                            burningDamage = 1; // Fix zero damage burn
-                        }
+                            int burningDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.health);
+                            if (burningDamage < 1)
+                            {
+                                burningDamage = 1; // Fix zero damage burn
+                            }
 
-                        monsterAnimator.SetBool("hitAnimationPlaying", true);
-                        monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
-                        monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
+                            monsterAnimator.SetBool("hitAnimationPlaying", true);
+                            monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
+                            monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
 
-                        monsterReference.health -= burningDamage;
-                        ShowDamageOrStatusEffectPopup(burningDamage);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Burning and takes {burningDamage} damage!", monsterReference.aiType);
-                        UpdateStats(true, modifier.modifierOwnerGameObject, true);
+                            monsterReference.health -= burningDamage;
+                            ShowDamageOrStatusEffectPopup(burningDamage);
+                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Burning and takes {burningDamage} damage!", monsterReference.aiType);
+                            UpdateStats(true, modifier.modifierOwnerGameObject, true);
 
-                        if (modifier.modifierOwnerGameObject != null)
-                        {
-                            modifier.modifierOwner.cachedDamageDone += burningDamage;
-                        }
-                        break;
+                            if (modifier.modifierOwnerGameObject != null)
+                            {
+                                modifier.modifierOwner.cachedDamageDone += burningDamage;
+                            }
+                            break;
+                    }
                 }
             }
 
@@ -955,6 +979,8 @@ public class CreateMonster : MonoBehaviour
     {
         List<Modifier> modList = monsterReference.ListOfModifiers.Where(mod => mod.modifierName == modifier.modifierName).ToList();
 
+        //Debug.Log($"Modlist count: {modList.Count}");
+
         if (modList.Count <= 1)
         {
             GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
@@ -973,9 +999,9 @@ public class CreateMonster : MonoBehaviour
                 newStatusEffectIcon.modifier = modifier;
                 newStatusEffectIcon.InitiateSpecialEffectIcon(this);
             }
-            StatusEffectIcon statusEffectIconScript = modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>();
-            statusEffectIconScript.currentModifierStack += 1;
-            statusEffectIconScript.modifierDurationText.text = ($"x{statusEffectIconScript.currentModifierStack}");
+            //StatusEffectIcon statusEffectIconScript = modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>();
+            //statusEffectIconScript.currentModifierStack += 1;
+            //statusEffectIconScript.modifierDurationText.text = ($"x{statusEffectIconScript.currentModifierStack}");
         }
 
         modList.Clear();

@@ -10,7 +10,7 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     public GameObject interactableDescriptionWindow;
 
-    public enum TypeOfInteractable { Modifier, Stat, UI, Node, Item }
+    public enum TypeOfInteractable { Modifier, Stat, UI, Node, Item, Elements }
     public TypeOfInteractable typeOfInteractable;
 
     public Modifier modifier;
@@ -27,6 +27,12 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void Start()
     {
         InitiateInteractable(modifier);
+    }
+
+    public void SetUIInteractable(string _interactableName, string _interactableDescription)
+    {
+        interactableName = _interactableName;
+        interactableDescription = _interactableDescription;
     }
 
     public void InitiateInteractable(Modifier mod)
@@ -69,6 +75,14 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         if (item == null && typeOfInteractable == TypeOfInteractable.Item)
             return;
+
+        if (typeOfInteractable == TypeOfInteractable.Elements)
+        {
+            interactableDescriptionWindow.SetActive(true);
+            interactableText.text =
+                ($"{interactableDescription}");
+            return;
+        }
 
         interactableDescriptionWindow.SetActive(true);
         interactableText.text = 

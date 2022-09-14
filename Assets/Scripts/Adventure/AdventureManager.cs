@@ -243,6 +243,7 @@ public class AdventureManager : MonoBehaviour
                 baseSprite = item.baseSprite,
                 statusEffect = item.statusEffect,
                 statusEffectType = item.statusEffectType,
+                statChangeType = item.statChangeType
             });
         }
     }
@@ -316,6 +317,7 @@ public class AdventureManager : MonoBehaviour
                 baseSprite = item.baseSprite,
                 statusEffect = item.statusEffect,
                 statusEffectType = item.statusEffectType,
+                statChangeType = item.statChangeType
             });
         }
     }
@@ -757,6 +759,7 @@ public class AdventureManager : MonoBehaviour
         GameObject monsterObj;
         Monster monsterRef;
         Modifier newModifier;
+        List<Modifier> modList;
 
         // Apply ally or enemy modifiers?
         if (aIType == Monster.AIType.Ally)
@@ -981,7 +984,7 @@ public class AdventureManager : MonoBehaviour
                         newModifier.modifierName = modifier.modifierName;
                         monsterRef.ListOfModifiers.Add(newModifier);
 
-                        List<Modifier> modList = monsterRef.ListOfModifiers.Where(mod => mod.modifierName == newModifier.modifierName).ToList();
+                        modList = monsterRef.ListOfModifiers.Where(mod => mod.modifierName == newModifier.modifierName).ToList();
 
                         if (modList.Count > 1)
                         {
@@ -1140,24 +1143,34 @@ public class AdventureManager : MonoBehaviour
                     monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
 
                     // Create attack effect
-                    AttackEffect effect = new AttackEffect(newModifier.statModified, newModifier.statChangeType, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, false, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
-                    effect.typeOfEffect = AttackEffect.TypeOfEffect.InflictStunned;
-                    effect.attackEffectDuration = AttackEffect.AttackEffectDuration.Temporary;
+                    //AttackEffect effect = new AttackEffect(newModifier.statModified, AttackEffect.StatChangeType.Debuff, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, false, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
+                    //effect.typeOfEffect = AttackEffect.TypeOfEffect.InflictStunned;
+                    //effect.attackEffectDuration = AttackEffect.AttackEffectDuration.Temporary;
 
                     // Add stun attack effect to each attack if offensive move
                     foreach(MonsterAttack attack in monster.ListOfMonsterAttacks)
                     {
+                        // Create attack effect
+                        AttackEffect effect = new AttackEffect(newModifier.statModified, newModifier.statChangeType, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, false, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
+                        effect.typeOfEffect = AttackEffect.TypeOfEffect.InflictStunned;
+                        effect.attackEffectDuration = AttackEffect.AttackEffectDuration.Temporary;
+
                         if (attack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
                         {
-                            attack.ListOfAttackEffects.Add(effect);
                             if (attack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
                             {
                                 effect.effectTime = AttackEffect.EffectTime.DuringAttack;
                             }
+                            else if (attack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.SingleTarget)
+                            {
+                                effect.effectTime = AttackEffect.EffectTime.PostAttack;
+                            }
+
+                            attack.ListOfAttackEffects.Add(effect);
                         }
                     }
 
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} gained 25% chance to stun on hit from {newModifier.modifierName}!");
+                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} gained {newModifier.modifierAmount}% chance to stun on hit from {newModifier.modifierName}!");
                     break;
 
                 default:

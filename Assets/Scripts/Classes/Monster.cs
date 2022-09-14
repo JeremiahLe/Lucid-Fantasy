@@ -105,6 +105,7 @@ public class Monster : ScriptableObject
     public CreateMonster.MonsterRowPosition cachedMonsterRowPosition;
 
     [Title("Adventure - Monster Other Stats")]
+    public bool monsterIsOwned = false;
     public float cachedDamageDone;
     public int monsterKills;
 

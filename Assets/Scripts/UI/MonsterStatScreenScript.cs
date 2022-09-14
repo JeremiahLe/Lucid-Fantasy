@@ -22,6 +22,11 @@ public class MonsterStatScreenScript : MonoBehaviour
     public GameObject EquipmentWindow;
     public GameObject AscensionWindow;
 
+    public List<GameObject> monsterAttackHolders;
+
+    public Monster currentMonster;
+    public Interactable currentMonsterElementMatchups;
+
     public void DisplayMonsterStatScreenStats(Monster monster)
     {
         // Reset to Stats Window
@@ -30,6 +35,7 @@ public class MonsterStatScreenScript : MonoBehaviour
         AscensionWindow.SetActive(false);
 
         // Display monster image
+        currentMonster = monster;
         monsterImage.sprite = monster.baseSprite;
 
         // Display monster name, level and current exp
@@ -38,9 +44,18 @@ public class MonsterStatScreenScript : MonoBehaviour
             $"\nLvl.{monster.level} | Exp: {monster.monsterCurrentExp}/{monster.monsterExpToNextLevel}");
 
         // Display monster elements
-        monsterElements.text =
-            ($"<b>Elements</b>" +
-            $"\n{monster.monsterElement.element.ToString()} / {monster.monsterSubElement.element.ToString()}");
+        if (monster.monsterSubElement.element != ElementClass.MonsterElement.None)
+        {
+            monsterElements.text =
+                ($"<b>Elements</b>" +
+                $"\n{monster.monsterElement.element.ToString()} / {monster.monsterSubElement.element.ToString()}");
+        }
+        else
+        {
+            monsterElements.text =
+                ($"<b>Element</b>" +
+                $"\n{monster.monsterElement.element.ToString()}");
+        }
 
         // Display monster ability and description
         monsterAbilityDescription.text =
@@ -51,32 +66,32 @@ public class MonsterStatScreenScript : MonoBehaviour
         monsterFlavourText.text = ($"{monster.monsterFlavourText}");
 
         //// Display monster elemental weaknesses- make sure it doesn't override resistances
-        //monsterInfo.text += ("\n\nWeaknesses: ");
-        //foreach(var element in monster.monsterElement.listOfWeaknesses)
-        //{
-        //    if (!monster.monsterElement.listOfResistances.Contains(element) && !monster.monsterSubElement.listOfResistances.Contains(element))
-        //    {
-        //        monsterInfo.text += ($"{element.ToString()}");
-        //        if (monster.monsterElement.listOfWeaknesses.IndexOf(element) != monster.monsterElement.listOfWeaknesses.Count - 1)
-        //        {
-        //            monsterInfo.text += ($", ");
-        //        }
-        //    }
-        //}
+        currentMonsterElementMatchups.interactableDescription = ("<b>Weak Against:</b>\n");
+        foreach(var element in monster.monsterElement.listOfWeaknesses)
+        {
+            if (!monster.monsterElement.listOfResistances.Contains(element) && !monster.monsterSubElement.listOfResistances.Contains(element))
+            {
+                currentMonsterElementMatchups.interactableDescription += ($"{element.ToString()}");
+                if (monster.monsterElement.listOfWeaknesses.IndexOf(element) != monster.monsterElement.listOfWeaknesses.Count - 1)
+                {
+                    currentMonsterElementMatchups.interactableDescription += ($", ");
+                }
+            }
+        }
 
         //// Display monster elemental resistances - make sure it doesn't override weaknesess
-        //monsterInfo.text += ("\n\nResistances: ");
-        //foreach (var element in monster.monsterElement.listOfResistances)
-        //{
-        //    if (!monster.monsterElement.listOfWeaknesses.Contains(element) && !monster.monsterSubElement.listOfWeaknesses.Contains(element))
-        //    {
-        //        monsterInfo.text += ($"{element.ToString()}");
-        //        if (monster.monsterElement.listOfResistances.IndexOf(element) != monster.monsterElement.listOfResistances.Count - 1)
-        //        {
-        //            monsterInfo.text += ($", ");
-        //        }
-        //    }
-        //}
+        currentMonsterElementMatchups.interactableDescription += ("\n\n<b>Resists:</b>\n");
+        foreach (var element in monster.monsterElement.listOfResistances)
+        {
+            if (!monster.monsterElement.listOfWeaknesses.Contains(element) && !monster.monsterSubElement.listOfWeaknesses.Contains(element))
+            {
+                currentMonsterElementMatchups.interactableDescription += ($"{element.ToString()}");
+                if (monster.monsterElement.listOfResistances.IndexOf(element) != monster.monsterElement.listOfResistances.Count - 1)
+                {
+                    currentMonsterElementMatchups.interactableDescription += ($", ");
+                }
+            }
+        }
 
         // Display monster basic stats
         monsterBaseStats.text =
@@ -103,6 +118,33 @@ public class MonsterStatScreenScript : MonoBehaviour
         //        $"\nType: {attack.monsterAttackDamageType} | Element: {attack.monsterAttackElement}" +
         //        $"\n{attack.monsterAttackDescription}\n");
         //}
+
+        // Display monster attacks
+        int i = 0;
+        foreach(GameObject monsterAttackHolder in monsterAttackHolders)
+        {
+            DragCommandController dragController = monsterAttackHolder.GetComponent<DragCommandController>();
+            dragController.monsterAttackReference = currentMonster.ListOfMonsterAttacks[i];
+
+            dragController.GetComponent<Interactable>().interactableName = dragController.monsterAttackReference.monsterAttackName;
+            dragController.GetComponent<Interactable>().interactableDescription = dragController.monsterAttackReference.monsterAttackDescription;
+
+            dragController.GetComponentInChildren<TextMeshProUGUI>().text =
+                ($"{dragController.monsterAttackReference.monsterAttackName}" +
+                $"\nElement: {dragController.monsterAttackReference.monsterElementClass.element.ToString()} | Type: {dragController.monsterAttackReference.monsterAttackDamageType}");
+
+            if (dragController.monsterAttackReference.monsterAttackType == MonsterAttack.MonsterAttackType.Attack) {
+                dragController.GetComponentInChildren<TextMeshProUGUI>().text +=
+                    ($"\nBase Power: {dragController.monsterAttackReference.monsterAttackDamage} | Accuracy: {dragController.monsterAttackReference.monsterAttackAccuracy}%");
+            }
+            else
+            {
+                dragController.GetComponentInChildren<TextMeshProUGUI>().text +=
+                    ($"\nBuff/Debuff Type: {dragController.monsterAttackReference.monsterAttackTargetType} | Accuracy: {dragController.monsterAttackReference.monsterAttackAccuracy}%");
+            }
+
+            i++;
+        }
 
         // Don't show enemy buttons
         if (monster.aiType == Monster.AIType.Enemy && GetComponent<InventoryManager>().adventureManager.lockEquipmentInCombat == true)

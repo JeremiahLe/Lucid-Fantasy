@@ -38,7 +38,7 @@ MonoBehaviour:
   healthScaler: 17
   physicalAttackScaler: 2
   magicAttackScaler: 1
-  physicalDefenseScaler: 5
+  physicalDefenseScaler: 3
   magicDefenseScaler: 1
   speedScaler: 1
   ListOfMonsterAttacks:

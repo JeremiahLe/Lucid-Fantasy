@@ -37,6 +37,12 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
             return;
         }
 
+        if (!itemSlot.inventoryManager.currentMonsterEquipment.monsterIsOwned)
+        {
+            itemSlot.GetComponent<Interactable>().ShowInteractable("Cannot adjust equipment of unowned Chimeric!");
+            return;
+        }
+
         // Add to monster's current equipment
         if (eventData.button == PointerEventData.InputButton.Left)
         {

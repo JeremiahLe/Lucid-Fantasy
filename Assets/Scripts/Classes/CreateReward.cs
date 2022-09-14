@@ -53,6 +53,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                     return;
                 }
 
+                monsterReward.monsterIsOwned = true;
                 adventureManager.ListOfCurrentMonsters.Add(monsterReward);
                 adventureManager.ListOfAllMonsters.Add(monsterReward);
                 monsterReward = null;

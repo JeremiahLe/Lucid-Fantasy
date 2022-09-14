@@ -638,8 +638,16 @@ public class MonsterAttackManager : MonoBehaviour
             cachedTransform = currentTargetedMonsterGameObject.transform.position;
             cachedTransform.y += 1;
 
-            // Check attack hit or miss?
-            if (CheckAttackHit(false))
+            // Check if attack missed
+            if (!CheckAttackHit(false))
+            {
+                // Don't advance turn
+                AttackMissed(true);
+
+                yield return new WaitForSeconds(1f);
+                continue;
+            }
+            else
             {
                 // Get damage calc and deal damage
                 float calculatedDamage = CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
@@ -658,28 +666,31 @@ public class MonsterAttackManager : MonoBehaviour
                 monsterWhoUsedAttack.health = currentMonsterTurn.health;
                 monsterWhoUsedAttack.cachedDamageDone += calculatedDamage;
 
-                // Trigger DURING attack effects only if damage dealt was not 0 (Immune)
-                if (calculatedDamage > 0)
-                {
-                    StartCoroutine(TriggerDuringAttackEffects(monsterWhoUsedAttack));
-                }
-
                 // End of turn stuff
                 currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);
+
+                //// Trigger DURING attack effects only if damage dealt was not 0 (Immune)
+                //if (calculatedDamage > 0 && currentTargetedMonster.health > 0)
+                //{
+                //    StartCoroutine(TriggerDuringAttackEffects(monsterWhoUsedAttack));
+                //}
 
                 // Check if damage dealt killed current targeted monster
                 CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject);
 
                 combatManagerScript.monsterTargeter.SetActive(false);
                 combatManagerScript.targeting = false;
-            }
-            else
-            {
-                // Don't advance turn
-                AttackMissed(true);
-            }
 
-            yield return new WaitForSeconds(1f);
+                // Trigger DURING attack effects only if damage dealt was not 0 (Immune)
+                if (calculatedDamage > 0 && currentTargetedMonster.health > 0)
+                {
+                    yield return StartCoroutine(TriggerDuringAttackEffects(monsterWhoUsedAttack));
+                }
+                else
+                {
+                    yield return new WaitForSeconds(1f);
+                }
+            }
         }
 
         // Trigger post attack effects
