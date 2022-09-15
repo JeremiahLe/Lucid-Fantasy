@@ -20,7 +20,7 @@ MonoBehaviour:
   statChangeType: 1
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 100
+  modifierAmount: 35
   modifierAmountFlatBuff: 0
   statusEffect: 1
   statusEffectType: 2

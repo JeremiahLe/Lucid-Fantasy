@@ -20,7 +20,7 @@ MonoBehaviour:
   statChangeType: 0
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 50
+  modifierAmount: 40
   modifierAmountFlatBuff: 0
   statusEffect: 0
   statusEffectType: 0
@@ -28,7 +28,7 @@ MonoBehaviour:
   statusEffectIcon: {fileID: 0}
   modifierName: Rising Potential
   modifierAdventureReference: 8
-  modifierDescription: 'Passive: All allied monsters gain 50% more Exp.'
+  modifierDescription: 'Passive: All allied monsters gain 40% more Exp.'
   adventureModifier: 1
   adventureEquipment: 0
   modifierAdventureCallTime: 2

@@ -17,7 +17,7 @@ MonoBehaviour:
   monsterElement: {fileID: 11400000, guid: d8116a12bc962344d879184f9ba6ecad, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
   aiType: 0
-  aiLevel: 0
+  aiLevel: 1
   monsterFlavourText: Rockigator often crunch rocks for food, strengthening their
     own solid body.
   monsterAbility: {fileID: 11400000, guid: 7cdb0a6f0dbb33645b6be7825e0c8e8b, type: 2}
@@ -33,7 +33,7 @@ MonoBehaviour:
   speed: 2
   evasion: 0
   critChance: 0
-  critDamage: 1.5
+  critDamage: 1.25
   bonusAccuracy: 0
   healthScaler: 17
   physicalAttackScaler: 2
@@ -67,6 +67,7 @@ MonoBehaviour:
   cachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
+  monsterIsOwned: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0

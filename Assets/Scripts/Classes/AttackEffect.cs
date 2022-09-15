@@ -15,13 +15,20 @@ public class AttackEffect : ScriptableObject
         DoublePowerIfStatBoost, OnCriticalStrikeBuff, DamageAllEnemies, CripplingFearEffect, NonDamagingMove,
         SpeedBuffTarget, EvasionBuffTarget, AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity,
         InflictBurning, InflictPoisoned, InflictDazed,
-        DamageBonusIfTargetStatusEffect, InflictStunned
+        DamageBonusIfTargetStatusEffect, InflictStunned, AffectTargetByAnotherStat
     }
 
     public TypeOfEffect typeOfEffect;
 
-    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various, AddOffensiveAttackEffect }
+    public enum StatEnumToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various, AddOffensiveAttackEffect, HighestAttackStat, Buffs }
     public StatEnumToChange statEnumToChange;
+
+    [EnableIf("typeOfEffect", TypeOfEffect.AffectTargetByAnotherStat)]
+    public StatEnumToChange scaleFromWhatStat;
+    public enum ScaleFromWhatTarget { monsterUsingAttack, targetMonster }
+
+    [EnableIf("typeOfEffect", TypeOfEffect.AffectTargetByAnotherStat)]
+    public ScaleFromWhatTarget scaleFromWhatTarget;
 
     public enum StatChangeType { Buff, Debuff, None }
     public StatChangeType statChangeType;
@@ -298,6 +305,15 @@ public class AttackEffect : ScriptableObject
                     targetMonster = monsterAttackManager.currentMonsterTurn; // fixed fan the flames bug incorrect monster getting bonus
                     targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
                     BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                }
+                break;
+
+            case TypeOfEffect.AffectTargetByAnotherStat:
+                if (monsterAttackManager.currentMonsterTurn != null)
+                {
+                    targetMonster = monsterAttackManager.currentTargetedMonster;
+                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
+                    AffectTargetStatByAnotherStat(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                 }
                 break;
 
@@ -854,6 +870,20 @@ public class AttackEffect : ScriptableObject
             case (StatEnumToChange.Health):
                 return monsterRef.maxHealth;
 
+            case (StatEnumToChange.Accuracy):
+                return monsterRef.bonusAccuracy;
+
+            case (StatEnumToChange.HighestAttackStat):
+                if (MonsterAttackManager.ReturnMonsterHighestAttackStat(monsterRef) == MonsterAttack.MonsterAttackDamageType.Magical)
+                {
+                    this.statEnumToChange = StatEnumToChange.MagicAttack;
+                    return monsterRef.magicAttack;
+                }
+                else
+                {
+                    this.statEnumToChange = StatEnumToChange.PhysicalAttack;
+                    return monsterRef.physicalAttack;
+                }
             default:
                 Debug.Log("Missing stat or monster reference?", this);
                 return 0;
@@ -1131,6 +1161,134 @@ public class AttackEffect : ScriptableObject
         // Trigger buff animation
         monsterComponent.GetComponent<Animator>().SetBool("buffAnimationPlaying", true);
         monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
+    }
+
+    // Delegate Buff Function Test
+    public void AffectTargetStatByAnotherStat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
+    {
+        // Initial float
+        float fromValue = 0;
+
+        // Grab new refs?
+        monsterReference = monsterAttackManager.currentTargetedMonster;
+        monsterReferenceGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
+
+        // If the effect applies to user
+        if (inflictSelf)
+        {
+            monsterReference = monsterAttackManager.currentMonsterTurn;
+            monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+        }
+
+        // Create reference to monsterComponent
+        CreateMonster monsterComponent = monsterReferenceGameObject.GetComponent<CreateMonster>();
+
+        // Calculate stat change
+        // What target's stat is being used to calculate change?
+        if (scaleFromWhatTarget == ScaleFromWhatTarget.monsterUsingAttack)
+        {
+            fromValue = GetBonusDamageSource(scaleFromWhatStat, monsterAttackManager.currentMonsterTurn);
+        }
+        else if (scaleFromWhatTarget == ScaleFromWhatTarget.targetMonster)
+        {
+            fromValue = GetBonusDamageSource(scaleFromWhatStat, monsterReference);
+        }
+
+        // Change by how much of what stat? 
+        float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
+
+        if (toValue <= 1)
+        {
+            toValue = 1; // prevent buffs of 0
+        }
+
+        if (flatBuff)
+        {
+            toValue = amountToChange;
+        }
+
+        // Check if immune to skip modifiers
+        if (CheckImmunities(monsterReference, monsterAttackManager, monsterReferenceGameObject))
+        {
+            return;
+        }
+
+        // see if effect hits
+        float hitChance = (effectTriggerChance / 100);
+        float randValue = UnityEngine.Random.value;
+
+        if (randValue > hitChance)
+        {
+            return;
+        }
+
+        // Check if certain stat change reaches upper cap
+        if (statEnumToChange == StatEnumToChange.CritDamage && fromValue >= 2.5)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
+            monsterComponent.CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
+            return;
+        }
+
+        // Check if certain stat change reaches upper cap
+        if (statEnumToChange == StatEnumToChange.Health && monsterReference.health == monsterReference.maxHealth)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{statEnumToChange.ToString()} couldn't go any higher!", monsterReference.aiType);
+            monsterComponent.CreateStatusEffectPopup($"No Effect on {statEnumToChange.ToString()}!");
+            return;
+        }
+
+        // Send message to log
+        if (statChangeType == StatChangeType.Buff)
+        {
+            // Add modifiers
+            CreateAndAddModifiers(toValue, false, monsterReference, monsterReferenceGameObject, modifierDuration, monsterAttackManager.currentMonsterTurnGameObject);
+
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
+            monsterComponent.CreateStatusEffectPopup(statEnumToChange, true);
+
+            // Trigger buff / debuff animation
+            monsterComponent.GetComponent<Animator>().SetBool("buffAnimationPlaying", true);
+            monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
+        }
+        else
+        {
+            // Add modifiers
+            CreateAndAddModifiers(toValue, true, monsterReference, monsterReferenceGameObject, modifierDuration, monsterAttackManager.currentMonsterTurnGameObject);
+
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was decreased by {effectTriggerName}!", monsterReference.aiType);
+            monsterComponent.CreateStatusEffectPopup(statEnumToChange, false);
+
+            // Trigger buff / debuff animation
+            monsterComponent.GetComponent<Animator>().SetBool("debuffAnimationPlaying", true);
+            monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.debuffSound);
+        }
+
+        // Update monster's stats
+        if (statEnumToChange == StatEnumToChange.Health)
+        {
+            monsterComponent.UpdateStats(true, null, false); // if health changed, check health
+        }
+        else
+        {
+            monsterComponent.UpdateStats(false, null, false);
+        }
+
+        monsterComponent.monsterRecievedStatBoostThisRound = true;
+
+        // Update combat order if speed was adjusted
+        if (statEnumToChange == StatEnumToChange.Speed)
+        {
+            combatManagerScript.SortMonsterBattleSequence();
+        }
     }
 
     // Delegate Buff Function Test
@@ -1572,15 +1730,15 @@ public class AttackEffect : ScriptableObject
                 }
                 break;
 
-            case (StatEnumToChange.StatChanges):
-                if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges)
-                {
-                    // Send message to combat log
-                    combatManagerScript = monsterAttackManager.combatManagerScript;
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already immune to stat changes!");
-                    return;
-                }
-                break;
+            //case (StatEnumToChange.Buffs):
+            //    if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToBuffs)
+            //    {
+            //        // Send message to combat log
+            //        combatManagerScript = monsterAttackManager.combatManagerScript;
+            //        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is already immune to buffs!");
+            //        return;
+            //    }
+            //    break;
 
             case (StatEnumToChange.Damage):
                 if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage)
@@ -1622,8 +1780,6 @@ public class AttackEffect : ScriptableObject
     // Check Immunities
     public bool CheckImmunities(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
-        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs || monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges || monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage)
-        {
             if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs && statChangeType == StatChangeType.Debuff)
             {
                 // Send immune message to combat log
@@ -1632,15 +1788,15 @@ public class AttackEffect : ScriptableObject
                 monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
                 return true;
             }
-            else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges && statChangeType != StatChangeType.None)
+            else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsCrippled && statChangeType == StatChangeType.Buff)
             {
                 // Send immune message to combat log
                 combatManagerScript = monsterAttackManager.combatManagerScript;
-                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to stat changes! Its {statEnumToChange} cannot be effected!");
+                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Crippled and immune to buffs!");
                 monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
                 return true;
             }
-            else if (statChangeType == StatChangeType.Debuff && statEnumToChange == StatEnumToChange.Health)
+            else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage && statChangeType == StatChangeType.Debuff && statEnumToChange == StatEnumToChange.Health)
             {
                 // Send immune message to combat log
                 combatManagerScript = monsterAttackManager.combatManagerScript;
@@ -1648,7 +1804,6 @@ public class AttackEffect : ScriptableObject
                 monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
                 return true;
             }
-        }
 
         return false;
     }

@@ -45,6 +45,7 @@ public class CombatManagerScript : MonoBehaviour
 
     public string previousSceneName;
     public bool adventureMode = false;
+    public bool testAdventureMode = false;
     public bool autoBattle = false;
     public bool battleOver = false;
     public bool targeting = false;
@@ -163,6 +164,43 @@ public class CombatManagerScript : MonoBehaviour
                 i++;
             }
         }
+        else if (testAdventureMode)
+        {
+            AdventureManagerGameObject = GameObject.FindGameObjectWithTag("GameManager");
+            adventureManager = AdventureManagerGameObject.GetComponent<AdventureManager>();
+
+            // initiate allies
+            int i = 0;
+            foreach (GameObject monsterPos in ListOfAllyPositions)
+            {
+                if (adventureManager.ListOfAllyBattleMonsters.Count > i)
+                {
+                    monsterPos.SetActive(true);
+                    monsterPos.GetComponent<CreateMonster>().monster = Instantiate(adventureManager.ListOfAllyBattleMonsters[i]);
+                    monsterPos.GetComponent<CreateMonster>().monster.monsterIsOwned = true;
+                    monsterPos.GetComponent<CreateMonster>().monster.aiType = Monster.AIType.Ally;
+                    monsterPos.GetComponent<CreateMonster>().monster.aiLevel = Monster.AILevel.Player;
+                    monsterPos.GetComponent<CreateMonster>().monsterSpeed = (int)adventureManager.ListOfAllyBattleMonsters[i].speed;
+                }
+                i++;
+            }
+
+            // initiate enemies
+            i = 0;
+            foreach (GameObject monsterPos in ListOfEnemyPositions)
+            {
+                if (adventureManager.ListOfEnemyBattleMonsters.Count > i)
+                {
+                    monsterPos.SetActive(true);
+                    monsterPos.GetComponent<CreateMonster>().monster = Instantiate(adventureManager.ListOfEnemyBattleMonsters[i]);
+                    monsterPos.GetComponent<CreateMonster>().monster.monsterIsOwned = true;
+                    monsterPos.GetComponent<CreateMonster>().monster.aiType = Monster.AIType.Enemy;
+                    monsterPos.GetComponent<CreateMonster>().monster.aiLevel = Monster.AILevel.Random;
+                    monsterPos.GetComponent<CreateMonster>().monsterSpeed = (int)adventureManager.ListOfEnemyBattleMonsters[i].speed;
+                }
+                i++;
+            }
+        }
 
         // This hides all HUD elements before round start animation is done
         uiManager.HideEverything();
@@ -235,7 +273,7 @@ public class CombatManagerScript : MonoBehaviour
         }
 
         // if adventure mode, check adventure modifiers
-        if (adventureMode)
+        if (adventureMode || testAdventureMode)
         {
             foreach (GameObject monsterObj in ListOfAllys)
             {
@@ -514,7 +552,7 @@ public class CombatManagerScript : MonoBehaviour
         //}
 
         // Call Round End adventure modifiers
-        if (adventureMode && ListOfAllys.Count > 0)
+        if ((adventureMode || testAdventureMode) && ListOfAllys.Count > 0)
         {
             adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Ally);
             adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Enemy);
@@ -866,7 +904,7 @@ public class CombatManagerScript : MonoBehaviour
             SortMonsterBattleSequence(); // non battle start version
 
             // call round start Adventure Modifiers
-            if (adventureMode)
+            if (adventureMode || testAdventureMode)
             {
                 StartCoroutine(adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Ally));
                 StartCoroutine(adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Enemy));

@@ -11240,7 +11240,7 @@ PrefabInstance:
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 11400000, guid: a98751603bfbb5146bd27620f9a9c41d, type: 2}
+      objectReference: {fileID: 11400000, guid: 5efd682e756fd9e4fa674fb3b5b32b31, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterSpeed
       value: 6

@@ -32,7 +32,7 @@ MonoBehaviour:
   speed: 10
   evasion: 15
   critChance: 0
-  critDamage: 1.5
+  critDamage: 1.25
   bonusAccuracy: 0
   healthScaler: 1
   physicalAttackScaler: 1
@@ -65,11 +65,13 @@ MonoBehaviour:
   cachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
+  monsterIsOwned: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
   monsterAscensionAttack: {fileID: 11400000, guid: e99082d6380a9e444aa569ffb028e0bc, type: 2}
+  ascensionGoldRequirement: 10
   ascensionType: 9
   firstEvolutionPath: {fileID: 0}
   firstEvolutionLevelReq: 20

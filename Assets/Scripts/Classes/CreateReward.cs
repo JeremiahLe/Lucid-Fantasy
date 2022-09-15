@@ -32,6 +32,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
     public bool selectable = true;
 
     public TMP_Dropdown monsterRowSelect;
+    public TextMeshProUGUI monsterSelectionIndex;
 
     public void Awake()
     {
@@ -149,6 +150,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 adventureManager.ListOfAllyBattleMonsters.Add(monsterReward);
                 AssignMonsterRowPosition();
                 adventureManager.subScreenMenuText.text = ($"Current Chimerics: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
+                monsterSelectionIndex.text = ($"{adventureManager.ListOfAllyBattleMonsters.IndexOf(monsterReward) + 1}");
             }
             else
             {
@@ -157,6 +159,18 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 rewardImage.sprite = baseSprite;
                 adventureManager.ListOfAllyBattleMonsters.Remove(monsterReward);
                 adventureManager.subScreenMenuText.text = ($"Current Chimerics: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
+                monsterSelectionIndex.text = ("");
+
+                // Adjust other monsters index
+                foreach (GameObject monsterSlot in subscreenManager.listOfMonsterSlots)
+                {
+                    if (monsterSlot != this.gameObject)
+                    {
+                        CreateReward monsterComponent = monsterSlot.GetComponent<CreateReward>();
+                        if (monsterComponent.selected)
+                            monsterComponent.monsterSelectionIndex.text = ($"{adventureManager.ListOfAllyBattleMonsters.IndexOf(monsterComponent.monsterReward) + 1}");
+                    }
+                }
             }
         }
     }

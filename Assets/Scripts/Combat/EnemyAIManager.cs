@@ -202,7 +202,7 @@ public class EnemyAIManager : MonoBehaviour
         return randList;
     }
 
-    public CreateMonster.MonsterRowPosition RandomRowPosition()
+    public static CreateMonster.MonsterRowPosition RandomRowPosition()
     {
         int rand = Random.Range(0, 3);
 

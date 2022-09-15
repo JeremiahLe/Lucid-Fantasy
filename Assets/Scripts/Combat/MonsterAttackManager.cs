@@ -396,6 +396,15 @@ public class MonsterAttackManager : MonoBehaviour
         // Check if the attack actually hits
         if (CheckAttackHit(true))
         {
+            // Second, check specific monster element immunities
+            if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().listOfElementImmunities.Contains(currentMonsterAttack.monsterElementClass))
+            {
+                CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune to {currentMonsterAttack.monsterElementClass.element.ToString()} damage!");
+                currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+                return;
+            }
+
             dontDealDamage = true;
             QueueAttackSound();
             soundEffectManager.BeginSoundEffectQueue();
@@ -810,7 +819,7 @@ public class MonsterAttackManager : MonoBehaviour
     }
 
     // This function returns the current monster's highest attack stat for split or true damage
-    MonsterAttack.MonsterAttackDamageType ReturnMonsterHighestAttackStat(Monster currentMonster)
+    public static MonsterAttack.MonsterAttackDamageType ReturnMonsterHighestAttackStat(Monster currentMonster)
     {
         if (currentMonster.physicalAttack > currentMonster.magicAttack)
         {
@@ -856,12 +865,12 @@ public class MonsterAttackManager : MonoBehaviour
         {
             case (MonsterAttack.MonsterAttackDamageType.Magical):
                 //calculatedDamage = Mathf.RoundToInt(currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.magicDefense + 1)));
-                calculatedDamage = Mathf.RoundToInt((100 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (135 + currentTargetedMonster.magicDefense));
+                calculatedDamage = Mathf.RoundToInt((95 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (145 + currentTargetedMonster.magicDefense));
                 break;
 
             case (MonsterAttack.MonsterAttackDamageType.Physical):
                 //calculatedDamage = Mathf.RoundToInt(currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.physicalDefense + 1)));
-                calculatedDamage = Mathf.RoundToInt((100 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (135 + currentTargetedMonster.physicalDefense));
+                calculatedDamage = Mathf.RoundToInt((95 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (145 + currentTargetedMonster.physicalDefense));
                 break;
 
             case (MonsterAttack.MonsterAttackDamageType.True):
@@ -880,11 +889,11 @@ public class MonsterAttackManager : MonoBehaviour
                 highestStatType = ReturnMonsterHighestAttackStat(currentMonster);
                 if (highestStatType == MonsterAttack.MonsterAttackDamageType.Magical)
                 {
-                    calculatedDamage = Mathf.RoundToInt((100 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (135 + currentTargetedMonster.magicDefense));
+                    calculatedDamage = Mathf.RoundToInt((95 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (145 + currentTargetedMonster.magicDefense));
                 }
                 else
                 {
-                    calculatedDamage = Mathf.RoundToInt((100 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (135 + currentTargetedMonster.physicalDefense));
+                    calculatedDamage = Mathf.RoundToInt((95 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) / (145 + currentTargetedMonster.physicalDefense));
                 }
                 break;
 

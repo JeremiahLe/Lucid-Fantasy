@@ -29,7 +29,7 @@ public class Modifier : ScriptableObject
 
     public bool statusEffect = false;
     [EnableIf("statusEffect")]
-    public enum StatusEffectType { None, Poisoned, Stunned, Dazed, Crippled, Weakened, Burning }
+    public enum StatusEffectType { None, Poisoned, Stunned, Dazed, Crippled, Weakened, Burning, Silenced, Enraged }
     public StatusEffectType statusEffectType;
 
     public GameObject statusEffectIconGameObject;
@@ -141,9 +141,10 @@ public class Modifier : ScriptableObject
                 monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to status effects and debuffs!", monsterReference.aiType);
                 break;
 
-            case (AttackEffect.StatEnumToChange.StatChanges):
-                monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToStatChanges = false;
-                break;
+            //case (AttackEffect.StatEnumToChange.Buffs):
+            //    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToBuffs = false;
+            //    monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to buffs!", monsterReference.aiType);
+            //    break;
 
             case (AttackEffect.StatEnumToChange.Damage):
                 monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage = false;

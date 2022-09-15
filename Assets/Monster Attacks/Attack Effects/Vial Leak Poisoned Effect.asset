@@ -17,6 +17,7 @@ MonoBehaviour:
   statChangeType: 1
   effectTime: 1
   attackEffectStatus: 0
+  attackEffectDuration: 0
   inflictSelf: 0
   modifierCalledOnce: 0
   flatBuff: 0

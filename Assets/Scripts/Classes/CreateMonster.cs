@@ -83,9 +83,9 @@ public class CreateMonster : MonoBehaviour
     public bool monsterIsWeakened = false;
     public bool monsterIsStunned = false;
 
-    [Title("Monster Immunities")]
+    [Title("Monster Basic Immunities")]
     public bool monsterImmuneToDebuffs = false;
-    public bool monsterImmuneToStatChanges = false;
+    //public bool monsterImmuneToBuffs = false;
     public bool monsterImmuneToDamage = false;
 
     // Basic Stat Immunities
@@ -95,7 +95,7 @@ public class CreateMonster : MonoBehaviour
     public List<ElementClass> listOfElementImmunities;
 
     // Specific Status Immunities
-    public List<AttackEffect.StatEnumToChange> listOfStatusImmunities;
+    public List<Modifier.StatusEffectType> listOfStatusImmunities;
 
     [DisplayWithoutEdit] public List<Modifier> ListOfModifiers;
 
@@ -141,7 +141,7 @@ public class CreateMonster : MonoBehaviour
         }
 
         // if adventure mode, cache stats only for Player
-        if (combatManagerScript.adventureMode)
+        if (combatManagerScript.adventureMode || combatManagerScript.testAdventureMode)
         {
             monsterReference = monster;
             monster.cachedLevel = monsterReference.level;
@@ -206,8 +206,9 @@ public class CreateMonster : MonoBehaviour
         // Create instances of the monster's attacks
         if (!combatManagerScript.adventureMode) // accuracy is alterable now
         {
+            Monster tempMonster = Instantiate(monsterReference);
             monsterReference.ListOfMonsterAttacks.Clear();
-            foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
+            foreach (MonsterAttack attack in tempMonster.ListOfMonsterAttacks)
             {
                 MonsterAttack attackInstance = Instantiate(attack);
                 monsterReference.ListOfMonsterAttacks.Add(attackInstance);
@@ -752,9 +753,11 @@ public class CreateMonster : MonoBehaviour
                 CreateStatusEffectPopup("Debuff and Status Immunity!");
                 break;
 
-            case (AttackEffect.StatEnumToChange.StatChanges):
-                monsterImmuneToStatChanges = true;
-                break;
+            //case (AttackEffect.StatEnumToChange.Buffs):
+            //    monsterImmuneToBuffs = true;
+            //    // Create popup
+            //    CreateStatusEffectPopup("Debuff and Status Immunity!");
+            //    break;
 
             case (AttackEffect.StatEnumToChange.Damage):
                 monsterImmuneToDamage = true;
@@ -773,6 +776,19 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatEnumToChange.Accuracy):
                 monsterReference.bonusAccuracy += (int)modifier.modifierAmount;
+                break;
+
+            case (AttackEffect.StatEnumToChange.HighestAttackStat):
+                if (MonsterAttackManager.ReturnMonsterHighestAttackStat(monsterReference) == MonsterAttack.MonsterAttackDamageType.Magical)
+                {
+                    modifier.statModified = AttackEffect.StatEnumToChange.MagicAttack;
+                    monsterReference.magicAttack += (int)modifier.modifierAmount;
+                }
+                else if (MonsterAttackManager.ReturnMonsterHighestAttackStat(monsterReference) == MonsterAttack.MonsterAttackDamageType.Physical)
+                {
+                    modifier.statModified = AttackEffect.StatEnumToChange.PhysicalAttack;
+                    monsterReference.physicalAttack += (int)modifier.modifierAmount;
+                }
                 break;
 
             default:
@@ -828,9 +844,9 @@ public class CreateMonster : MonoBehaviour
                 CreateStatusEffectPopup("Debuff and Status Immunity!");
                 break;
 
-            case (AttackEffect.StatEnumToChange.StatChanges):
-                monsterImmuneToStatChanges = true;
-                break;
+            //case (AttackEffect.StatEnumToChange.Buffs):
+            //    monsterImmuneToBuffs = true;
+            //    break;
 
             case (AttackEffect.StatEnumToChange.Damage):
                 monsterImmuneToDamage = true;
@@ -913,9 +929,9 @@ public class CreateMonster : MonoBehaviour
                 monsterImmuneToDebuffs = true;
                 break;
 
-            case (AttackEffect.StatEnumToChange.StatChanges):
-                monsterImmuneToStatChanges = true;
-                break;
+            //case (AttackEffect.StatEnumToChange.Buffs):
+            //    monsterImmuneToBuffs = true;
+            //    break;
 
             case (AttackEffect.StatEnumToChange.Damage):
                 monsterImmuneToDamage = true;

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
+  m_Name: Dripped Blade
+  m_EditorClassIdentifier: 
+  monsterAttackName: Dripped Blade
+  monsterAttackDescription: Assassinate a target with a deadly, dipped blade, dealing
+    Physical Damage and inflicting Poisoned. This attack has 30% bonus CritChance.
+  monsterAttackElement: 9
+  monsterElementClass: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
+  monsterAttackType: 0
+  monsterAttackDamageType: 0
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 3
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}
+  monsterAttackDamage: 30
+  monsterAttackFlatDamageBonus: 0
+  monsterAttackAccuracy: 80
+  monsterAttackCritChance: 30
+  monsterAttackNeverMiss: 0
+  attackHasCooldown: 0
+  attackOnCooldown: 0
+  attackBaseCooldown: 0
+  attackCurrentCooldown: 0
+  AttackVFX: {fileID: 3979343233989466021, guid: 86083ba7748da634f897fd894b103c97, type: 3}
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: d25fe1b72899673469c5d9541bc0244c, type: 2}
