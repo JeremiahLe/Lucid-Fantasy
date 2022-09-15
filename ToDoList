@@ -365,6 +365,15 @@ Imported Various Assets/Packages
 - Nerf CritDamage multiplier
 - Nerf Rising Potential?
 
+[9/14/22]
+- Implement Confirm Ascension, Ascension animation, and Ascension results screen (learn new command, show new stat growth)
+- Add Electricity VFX
+- Finish Healing Solvent attack effects
+- Add Chimeric Archive
+- Add Reroll Icon
+- Add Gain +1 Reroll on Skip
+- Add Shop
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
