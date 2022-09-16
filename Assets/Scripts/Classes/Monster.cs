@@ -17,9 +17,11 @@ public class Monster : ScriptableObject
     // The monster's elements
     [Title("Setup")]
     public enum MonsterElement
-    { Fire, Water, Earth, Wind,
+    {
+        Fire, Water, Earth, Wind,
         Shadow, Neutral, None, Light, Time,
-        Elixir, Electric, Stone, Sound };
+        Elixir, Electric, Stone, Sound
+    };
 
     public ElementClass monsterElement;
     public ElementClass monsterSubElement;
@@ -34,7 +36,7 @@ public class Monster : ScriptableObject
     // The monster's flavour text and ability
     [TextArea]
     public string monsterFlavourText;
-    
+
     public Ability monsterAbility;
 
     [Title("Monster Combat Stats")]
@@ -128,4 +130,26 @@ public class Monster : ScriptableObject
     public int secondEvolutionLevelReq = 20;
     public Item ascensionTwoMaterial;
     public int ascensionTwoMaterialAmount = 1;
+
+    [Title("Ascension Stat Growths")]
+    [Title("Monster Scaling Stats")]
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(50, 500)] public int healthGrowth;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(-10, 10)] public int physicalAttackGrowth;
+    [Range(-10, 10)] public int magicAttackGrowth;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(-10, 10)] public int physicalDefenseGrowth;
+    [Range(-10, 10)] public int magicDefenseGrowth;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(-10, 10)] public int speedGrowth;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(-10, 25)] public int evasionGrowth;
+    [Range(-10, 25)] public int critChanceGrowth;
+    [Range(-10, 25)] public int bonusAccuracyGrowth;
+
 }

@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3411111405366572464, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
       propertyPath: m_fontSize
-      value: 0.25
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3411111405366572464, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
       propertyPath: m_fontColor.b
@@ -161,7 +161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3411111405366572464, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
       propertyPath: m_fontSizeBase
-      value: 0.25
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3411111405366572464, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -262,6 +262,10 @@ PrefabInstance:
     - target: {fileID: 4699445232555192096, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6488984107667910046, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 6752945556582352175, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
       propertyPath: m_Name

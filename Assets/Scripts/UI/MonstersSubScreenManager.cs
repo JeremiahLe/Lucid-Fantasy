@@ -17,6 +17,8 @@ public class MonstersSubScreenManager : MonoBehaviour
     public string niceTime;
     public bool updateTimerVisual;
 
+    public TextMeshProUGUI playerGoldAmount;
+
     [Header("Inventory Menu")]
     public GameObject InventoryMenu;
     public TextMeshProUGUI inventoryHeaderText;
@@ -37,6 +39,7 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void OnEnable()
     {
+        playerGoldAmount.text = ($"{adventureManager.playerGold}");
         InventoryMenu.SetActive(false);
     }
 

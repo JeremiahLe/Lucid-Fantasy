@@ -80,9 +80,21 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().monsterReward = monster;
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = monster.baseSprite;
                     rewardSlot.GetComponent<CreateReward>().rewardImage.preserveAspect = true;
-                    rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"<b>{monster.name} Lvl.{monster.level}</b>" +
-                        $"\n{monster.monsterElement.element.ToString()} / {monster.monsterSubElement.element.ToString()}" +
-                        $"\n- {monster.ListOfMonsterAttacks[0].monsterAttackName}" +
+                    rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"<b>{monster.name} Lvl.{monster.level}</b>");
+
+                    // Display monster elements
+                    if (monster.monsterSubElement.element != ElementClass.MonsterElement.None)
+                    {
+                        rewardSlot.GetComponent<CreateReward>().rewardName.text += ($"\n{monster.monsterElement.element.ToString()} / {monster.monsterSubElement.element.ToString()}");
+                    }
+                    else
+                    {
+                        rewardSlot.GetComponent<CreateReward>().rewardName.text += ($"\n{monster.monsterElement.element.ToString()}");
+                    }
+
+                    // Display Attacks
+                    rewardSlot.GetComponent<CreateReward>().rewardName.text +=
+                        ($"\n- {monster.ListOfMonsterAttacks[0].monsterAttackName}" +
                         $"\n- {monster.ListOfMonsterAttacks[1].monsterAttackName}" +
                         $"\n- {monster.ListOfMonsterAttacks[2].monsterAttackName}" +
                         $"\n- {monster.ListOfMonsterAttacks[3].monsterAttackName}");

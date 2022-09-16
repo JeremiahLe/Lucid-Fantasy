@@ -21,6 +21,10 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private Image monsterRowFrontIcon;
     [SerializeField] private Image monsterRowBackIcon;
 
+    public Color32 healColor;
+    public Color32 buffColor;
+    public Color32 debuffColor;
+
     [Title("Status Effect Scrollbar")]
     [SerializeField] public GameObject statusEffectHolder;
     [SerializeField] public GameObject statusEffectIcon;
@@ -1570,10 +1574,32 @@ public class CreateMonster : MonoBehaviour
 
         if (!isBuff)
         {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = debuffColor;
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} down!");
         }
         else
         {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = buffColor;
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} up!");
+        }
+    }
+
+    // This function is called by monster attack manager to create a buff/debuff popup
+    public void CreateStatusEffectPopup(AttackEffect.StatEnumToChange stat, bool isBuff, float amountChanged)
+    {
+        GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
+        effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
+        effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
+        effectPopup.GetComponentInChildren<Animator>().speed = 1.25f;
+
+        if (!isBuff)
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = debuffColor;
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} down!");
+        }
+        else
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = buffColor;
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} up!");
         }
     }
@@ -1587,6 +1613,5 @@ public class CreateMonster : MonoBehaviour
         effectPopup.GetComponentInChildren<Animator>().speed = 1.25f;
 
         effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{condition}!");
-
     }
 }

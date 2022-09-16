@@ -377,6 +377,15 @@ MonoBehaviour:
   sr: {fileID: 896763779794199983}
   monsterRowFrontIcon: {fileID: 269163642547223407}
   monsterRowBackIcon: {fileID: 7354757900654953358}
+  healColor:
+    serializedVersion: 2
+    rgba: 2864233
+  buffColor:
+    serializedVersion: 2
+    rgba: 4294162472
+  debuffColor:
+    serializedVersion: 2
+    rgba: 4281940462
   statusEffectHolder: {fileID: 5944619566617632455}
   statusEffectIcon: {fileID: 4223221832268652329, guid: ce039b890c7ba2a4a9b47ee856595eac, type: 3}
   modifierWindow: {fileID: 6425861274070504919}
@@ -416,7 +425,6 @@ MonoBehaviour:
   monsterIsWeakened: 0
   monsterIsStunned: 0
   monsterImmuneToDebuffs: 0
-  monsterImmuneToStatChanges: 0
   monsterImmuneToDamage: 0
   listOfStatImmunities: 
   listOfElementImmunities: []

@@ -1138,7 +1138,7 @@ public class AttackEffect : ScriptableObject
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
-        monsterComponent.CreateStatusEffectPopup(statEnumToChange, true);
+        monsterComponent.CreateStatusEffectPopup(statEnumToChange, true, toValue);
 
         // Update monster's stats
         if (statEnumToChange == StatEnumToChange.Health)

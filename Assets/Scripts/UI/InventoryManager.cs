@@ -48,6 +48,14 @@ public class InventoryManager : MonoBehaviour
     public TextMeshProUGUI monsterAscensionCheckAscensionText;
 
     public TextMeshProUGUI ascensionRequirements;
+    public TextMeshProUGUI monsterAscensionStatGrowths;
+
+    public Sprite requirementMetSprite;
+    public Sprite requirementUnmetSprite;
+
+    public Image levelReqImage;
+    public Image matReqImage;
+    public Image goldReqImage;
 
     private void Awake()
     {
@@ -121,9 +129,20 @@ public class InventoryManager : MonoBehaviour
             $"\nLv.{currentMonsterEquipment.level} | Exp: {currentMonsterEquipment.monsterCurrentExp}/{currentMonsterEquipment.monsterExpToNextLevel}" +
             $"\n\n<b>Ability: {currentMonsterEquipment.monsterAbility.abilityName}</b>" +
             $"\n{currentMonsterEquipment.monsterAbility.abilityDescription}");
-        monsterElementsText.text = 
-            ($"<b>Elements</b>" +
-            $"\n{currentMonsterEquipment.monsterElement.element} / {currentMonsterEquipment.monsterSubElement.element}");
+
+        // Display monster elements
+        if (currentMonsterEquipment.monsterSubElement.element != ElementClass.MonsterElement.None)
+        {
+            monsterElementsText.text =
+                ($"<b>Elements</b>" +
+                $"\n{currentMonsterEquipment.monsterElement.element.ToString()} / {currentMonsterEquipment.monsterSubElement.element.ToString()}");
+        }
+        else
+        {
+            monsterElementsText.text =
+                ($"<b>Element</b>" +
+                $"\n{currentMonsterEquipment.monsterElement.element.ToString()}");
+        }
 
         // Disable ascension buttons before checking 
         ascendOneButton.interactable = false;
@@ -211,8 +230,7 @@ public class InventoryManager : MonoBehaviour
 
         // Display Ascension Traits
         ascensionTraits.text =
-            ($"<b>Ascension Traits</b>" +
-            $"\nNew Ability: {currentAscensionPath.monsterAbility.abilityName}" +
+            ($"New Ability: {currentAscensionPath.monsterAbility.abilityName}" +
             $"\nNew Command: {currentAscensionPath.monsterAscensionAttack.monsterAttackName}");
 
         // Monster Ability Text
@@ -226,8 +244,17 @@ public class InventoryManager : MonoBehaviour
 
         // Assign base and ascension sprites and names
         monsterBaseImageCheckAscension.sprite = currentMonsterEquipment.baseSprite;
-        monsterBaseCheckAscensionText.text = ($"{currentMonsterEquipment.name}" +
-            $"\n{currentMonsterEquipment.monsterElement.element} / {currentMonsterEquipment.monsterSubElement.element}");
+        monsterBaseCheckAscensionText.text = ($"{currentMonsterEquipment.name}");
+
+        // Display monster elements
+        if (currentMonsterEquipment.monsterSubElement.element != ElementClass.MonsterElement.None)
+        {
+            monsterBaseCheckAscensionText.text += ($"\n{currentMonsterEquipment.monsterElement.element.ToString()} / {currentMonsterEquipment.monsterSubElement.element.ToString()}");
+        }
+        else
+        {
+            monsterBaseCheckAscensionText.text += ($"\n{currentMonsterEquipment.monsterElement.element.ToString()}");
+        }
 
         // Show name only if level req is met
         monsterAscensionCheckAscension.sprite = currentAscensionPath.baseSprite;
@@ -240,11 +267,64 @@ public class InventoryManager : MonoBehaviour
             monsterAscensionCheckAscensionText.text = ($"???");
         }
 
-        monsterAscensionCheckAscensionText.text += ($"\n{currentAscensionPath.monsterElement.element} / {currentAscensionPath.monsterSubElement.element}");
+        // Display ascension monster elements
+        if (currentAscensionPath.monsterSubElement.element != ElementClass.MonsterElement.None)
+        {
+            monsterAscensionCheckAscensionText.text += ($"\n{currentAscensionPath.monsterElement.element.ToString()} / {currentAscensionPath.monsterSubElement.element.ToString()}");
+        }
+        else
+        {
+            monsterAscensionCheckAscensionText.text += ($"\n{currentAscensionPath.monsterElement.element.ToString()}");
+        }
 
         // Show Requirements
-        ascensionRequirements.text = ($"<b>Requirements</b>" +
+        ascensionRequirements.text =
+            ($"Lv.{levelReq} ({currentMonsterEquipment.level})"+
             $"\n{ascensionMaterial.itemName} x 1 ({adventureManager.ListOfInventoryItems.Where(item => item.itemName == ascensionMaterial.itemName).ToList().Count})" +
             $"\n{goldReq} Gold ({adventureManager.playerGold})");
+
+        // Check requirements
+        levelReqImage.sprite = levelReq == currentMonsterEquipment.level ? requirementMetSprite : requirementUnmetSprite;
+        matReqImage.sprite = adventureManager.ListOfInventoryItems.Where(item => item.itemName == ascensionMaterial.itemName).ToList().Count >= 1 ? requirementMetSprite : requirementUnmetSprite;
+        goldReqImage.sprite = goldReq <= adventureManager.playerGold ? requirementMetSprite : requirementUnmetSprite;
+
+        // Show stat growths
+        // HP
+        // PhysAtk
+        // MagAtk
+        // PhysDef
+        // MagDef
+        // Speed
+        // Evasion
+        // CritChance
+        // BonusAccuracy
+
+        monsterAscensionStatGrowths.text =
+            ($"{currentMonsterEquipment.maxHealth} -> {currentMonsterEquipment.maxHealth + currentAscensionPath.healthGrowth} (+{currentAscensionPath.healthGrowth})" +
+
+            $"\n{currentMonsterEquipment.physicalAttack} -> {currentMonsterEquipment.physicalAttack + currentAscensionPath.physicalAttackGrowth} ({ReturnSign(currentAscensionPath.physicalAttackGrowth)}{currentAscensionPath.physicalAttackGrowth})" +
+            $"\n{currentMonsterEquipment.magicAttack} -> {currentMonsterEquipment.magicAttack + currentAscensionPath.magicAttackGrowth} ({ReturnSign(currentAscensionPath.magicAttackGrowth)}{currentAscensionPath.magicAttackGrowth})" +
+
+            $"\n{currentMonsterEquipment.physicalDefense} -> {currentMonsterEquipment.physicalDefense + currentAscensionPath.physicalDefenseGrowth} ({ReturnSign(currentAscensionPath.physicalDefenseGrowth)}{currentAscensionPath.physicalDefenseGrowth})" +
+            $"\n{currentMonsterEquipment.magicDefense} -> {currentMonsterEquipment.magicDefense + currentAscensionPath.magicDefenseGrowth} ({ReturnSign(currentAscensionPath.magicDefenseGrowth)}{currentAscensionPath.magicDefenseGrowth})" +
+
+            $"\n{currentMonsterEquipment.speed} -> {currentMonsterEquipment.speed + currentAscensionPath.speedGrowth} ({ReturnSign(currentAscensionPath.speedGrowth)}{currentAscensionPath.speedGrowth})" +
+
+            $"\n{currentMonsterEquipment.evasion} -> {currentMonsterEquipment.evasion + currentAscensionPath.evasionGrowth} ({ReturnSign(currentAscensionPath.evasionGrowth)}{currentAscensionPath.evasionGrowth})" +
+            $"\n{currentMonsterEquipment.critChance} -> {currentMonsterEquipment.critChance + currentAscensionPath.critChanceGrowth} ({ReturnSign(currentAscensionPath.critChanceGrowth)}{currentAscensionPath.critChanceGrowth})" +
+            $"\n{currentMonsterEquipment.bonusAccuracy} -> {currentMonsterEquipment.bonusAccuracy + currentAscensionPath.bonusAccuracyGrowth} ({ReturnSign(currentAscensionPath.bonusAccuracyGrowth)}{currentAscensionPath.bonusAccuracyGrowth})");
+    }
+
+    // This function returns a negative or positive sign for text applications
+    public string ReturnSign(float stat)
+    {
+        // if currentStat is smaller than baseStat, must be stat debuffed
+        if (stat < 0)
+        {
+            return "";
+        }
+
+        // regular buff
+        return "+";
     }
 }

@@ -84,3 +84,12 @@ MonoBehaviour:
   secondEvolutionLevelReq: 20
   ascensionTwoMaterial: {fileID: 0}
   ascensionTwoMaterialAmount: 1
+  healthGrowth: 200
+  physicalAttackGrowth: 0
+  magicAttackGrowth: 5
+  physicalDefenseGrowth: 2
+  magicDefenseGrowth: 4
+  speedGrowth: 5
+  evasionGrowth: 5
+  critChanceGrowth: 0
+  bonusAccuracyGrowth: 0
