@@ -20,6 +20,9 @@ public class MonstersSubScreenManager : MonoBehaviour
     public TextMeshProUGUI playerGoldAmount;
 
     [Header("Inventory Menu")]
+    public Item currentItem;
+    public Modifier currentEquipment;
+
     public GameObject InventoryMenu;
     public TextMeshProUGUI inventoryHeaderText;
 
@@ -32,6 +35,7 @@ public class MonstersSubScreenManager : MonoBehaviour
     public Button UseItemButton;
     public Button TrashItemButton;
     public Button UpgradeEquipmentButton;
+    public Button EquipEquipmentButton;
 
     public Sprite emptyVisualSprite;
 
@@ -125,12 +129,13 @@ public class MonstersSubScreenManager : MonoBehaviour
         currentItemDescriptionText.text = "";
 
         // Hide item buttons and images
-        UseItemButton.enabled = false;
-        TrashItemButton.enabled = false;
-        UpgradeEquipmentButton.enabled = false;
+        EquipEquipmentButton.gameObject.SetActive(false);
+
+        UseItemButton.interactable = false;
+        TrashItemButton.interactable = false;
+        UpgradeEquipmentButton.interactable = false;
 
         currentItemImage.sprite = emptyVisualSprite;
-        currentItemDescriptionBackgroundImage.sprite = emptyVisualSprite;
 
         InitializeConsumables();
     }
@@ -140,6 +145,15 @@ public class MonstersSubScreenManager : MonoBehaviour
         // Update text
         inventoryHeaderText.text =
             ($"Consumables");
+
+        // Adjust buttons
+        UseItemButton.gameObject.SetActive(true);
+        EquipEquipmentButton.gameObject.SetActive(false);
+
+        UseItemButton.interactable = true;
+        TrashItemButton.interactable = true;
+        UpgradeEquipmentButton.interactable = false;
+        EquipEquipmentButton.interactable = false;
 
         // clean the inventory slots first
         foreach (GameObject slot in inventorySlots)
@@ -159,9 +173,16 @@ public class MonstersSubScreenManager : MonoBehaviour
             if (adventureManager.ListOfInventoryItems.Where(item => item.itemType == Item.ItemType.Consumable).ToList().Count > i)
             {
                 ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+
+                itemSlot.adventureManager = adventureManager;
+                itemSlot.monstersSubScreenManager = this;
+
                 itemSlot.itemSlotItem = adventureManager.ListOfInventoryItems.Where(item => item.itemType == Item.ItemType.Consumable).ToList()[i];
                 itemSlot.itemSlotImage.sprite = itemSlot.itemSlotItem.baseSprite;
+
                 slot.GetComponent<Interactable>().InitiateInteractable(itemSlot.itemSlotItem);
+                slot.GetComponentInChildren<CheckItemScript>().itemSlot = itemSlot;
+                slot.GetComponentInChildren<CheckItemScript>().itemType = CheckItemScript.ItemType.Item;
             }
 
             i++;
@@ -174,13 +195,22 @@ public class MonstersSubScreenManager : MonoBehaviour
         inventoryHeaderText.text =
             ($"Equipment");
 
+        // Adjust buttons
+        UseItemButton.gameObject.SetActive(false);
+        EquipEquipmentButton.gameObject.SetActive(true);
+
+        UseItemButton.interactable = false;
+        TrashItemButton.interactable = true;
+        UpgradeEquipmentButton.interactable = true;
+        EquipEquipmentButton.interactable = true;
+
         // clean the inventory slots first
         foreach (GameObject slot in inventorySlots)
         {
             ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
             itemSlot.itemSlotEquipment = null;
             itemSlot.itemSlotItem = null;
-            itemSlot.itemSlotImage.sprite = slot.GetComponentInChildren<DragAndDropItem>().emptySprite;
+            itemSlot.itemSlotImage.sprite = emptyVisualSprite;
             itemSlot.GetComponent<Interactable>().ResetInteractable();
             slot.GetComponent<Interactable>().typeOfInteractable = Interactable.TypeOfInteractable.Modifier;
         }
@@ -192,10 +222,16 @@ public class MonstersSubScreenManager : MonoBehaviour
             if (adventureManager.ListOfCurrentEquipment.Count > i)
             {
                 ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
-                itemSlot.inventoryManager = GetComponent<InventoryManager>();
+
+                itemSlot.adventureManager = adventureManager;
+                itemSlot.monstersSubScreenManager = this;
+
                 itemSlot.itemSlotEquipment = adventureManager.ListOfCurrentEquipment[i];
                 itemSlot.itemSlotImage.sprite = itemSlot.itemSlotEquipment.baseSprite;
+
                 slot.GetComponent<Interactable>().InitiateInteractable(itemSlot.itemSlotEquipment);
+                slot.GetComponentInChildren<CheckItemScript>().itemSlot = itemSlot;
+                slot.GetComponentInChildren<CheckItemScript>().itemType = CheckItemScript.ItemType.Equipment;
             }
 
             i++;
@@ -207,6 +243,15 @@ public class MonstersSubScreenManager : MonoBehaviour
         // Update text
         inventoryHeaderText.text =
             ($"Ascension Materials");
+
+        // Adjust buttons
+        UseItemButton.gameObject.SetActive(true);
+        EquipEquipmentButton.gameObject.SetActive(false);
+
+        UseItemButton.interactable = true;
+        TrashItemButton.interactable = true;
+        UpgradeEquipmentButton.interactable = false;
+        EquipEquipmentButton.interactable = false;
 
         // clean the inventory slots first
         foreach (GameObject slot in inventorySlots)
@@ -226,9 +271,16 @@ public class MonstersSubScreenManager : MonoBehaviour
             if (adventureManager.ListOfInventoryItems.Where(item => item.itemType == Item.ItemType.AscensionMaterial).ToList().Count > i)
             {
                 ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+
+                itemSlot.adventureManager = adventureManager;
+                itemSlot.monstersSubScreenManager = this;
+
                 itemSlot.itemSlotItem = adventureManager.ListOfInventoryItems.Where(item => item.itemType == Item.ItemType.AscensionMaterial).ToList()[i];
                 itemSlot.itemSlotImage.sprite = itemSlot.itemSlotItem.baseSprite;
+
                 slot.GetComponent<Interactable>().InitiateInteractable(itemSlot.itemSlotItem);
+                slot.GetComponentInChildren<CheckItemScript>().itemSlot = itemSlot;
+                slot.GetComponentInChildren<CheckItemScript>().itemType = CheckItemScript.ItemType.Item;
             }
 
             i++;

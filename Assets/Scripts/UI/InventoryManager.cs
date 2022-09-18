@@ -7,6 +7,7 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
+    [Header("Equipment Window")]
     public Modifier currentDraggedEquipment;
     public Monster currentMonsterEquipment;
 
@@ -14,9 +15,15 @@ public class InventoryManager : MonoBehaviour
     public List<GameObject> monsterEquipmentSlots;
 
     public AdventureManager adventureManager;
+    public MonsterStatScreenScript monsterStatScreenScript;
 
     public Button equipmentButton;
     public Button ascensionButton;
+
+    public Image currentMonsterEquipmentImage;
+    public TextMeshProUGUI currentMonsterEquipmentName;
+    public TextMeshProUGUI currentMonsterEquipmentStats;
+    public TextMeshProUGUI monsterSelectCounter;
 
     [Header("Ascension Window")]
     public Image monsterBaseImage;
@@ -57,9 +64,12 @@ public class InventoryManager : MonoBehaviour
     public Image matReqImage;
     public Image goldReqImage;
 
+    public Button confirmAscensionButton;
+
     private void Awake()
     {
         adventureManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AdventureManager>();
+        monsterStatScreenScript = GetComponent<MonsterStatScreenScript>();
     }
 
     public void InitializeInventorySlots()
@@ -73,7 +83,10 @@ public class InventoryManager : MonoBehaviour
             ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
             itemSlot.itemSlotEquipment = null;
             itemSlot.itemSlotImage.sprite = slot.GetComponentInChildren<DragAndDropItem>().emptySprite;
+            itemSlot.adventureManager = adventureManager;
             itemSlot.GetComponent<Interactable>().ResetInteractable();
+            itemSlot.itemSlotEquipmentStatus = slot.GetComponentInChildren<TextMeshProUGUI>();
+            itemSlot.itemSlotEquipmentStatus.text = ("");
         }
 
         foreach (GameObject slot in inventorySlots)
@@ -85,6 +98,11 @@ public class InventoryManager : MonoBehaviour
                 itemSlot.itemSlotEquipment = adventureManager.ListOfCurrentEquipment[i];
                 itemSlot.itemSlotImage.sprite = itemSlot.itemSlotEquipment.baseSprite;
                 slot.GetComponent<Interactable>().InitiateInteractable(itemSlot.itemSlotEquipment);
+
+                if (itemSlot.itemSlotEquipment.modifierOwner != null)
+                    itemSlot.itemSlotEquipmentStatus.text = ("E");
+                else
+                    itemSlot.itemSlotEquipmentStatus.text = ("");
             }
 
             i++;
@@ -94,12 +112,17 @@ public class InventoryManager : MonoBehaviour
         i = 0;
         List<Modifier> tempList = currentMonsterEquipment.ListOfModifiers.Where(modifier => modifier.adventureEquipment == true).ToList();
 
+        //Debug.Log($"tempList count: {tempList.Count}" +
+        //    $"\ncurrent monster: {currentMonsterEquipment.name}");
+
         // Clear the slot visuals first
         foreach (GameObject slot in monsterEquipmentSlots)
         {
             ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
             itemSlot.itemSlotEquipment = null;
+            slot.GetComponent<Interactable>().ResetInteractable();
             itemSlot.itemSlotImage.sprite = slot.GetComponentInChildren<DragAndDropItem>().emptySprite;
+            itemSlot.adventureManager = adventureManager;
             itemSlot.RemoveEquipmentText();
         }
 
@@ -117,6 +140,146 @@ public class InventoryManager : MonoBehaviour
             }
 
             i++;
+        }
+
+        // Display current monster and name
+        currentMonsterEquipmentImage.sprite = currentMonsterEquipment.baseSprite;
+        currentMonsterEquipmentName.text = ($"{currentMonsterEquipment.name} Lv.{currentMonsterEquipment.level}");
+
+        if (!currentMonsterEquipment.monsterIsOwned)
+        {
+            monsterSelectCounter.text = ($"1 / 1");
+            return;
+        }
+
+        monsterSelectCounter.text = ($"{adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) + 1} / {adventureManager.ListOfCurrentMonsters.Count}");
+    }
+
+    // Override function to play equip animation on recently equipped itemSlot
+    public void InitializeInventorySlots(Modifier newItemSlotEquipment)
+    {
+        // Initialize the inventory slots
+        int i = 0;
+
+        // Clear the slot visuals first
+        foreach (GameObject slot in inventorySlots)
+        {
+            ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+            itemSlot.itemSlotEquipment = null;
+            itemSlot.itemSlotImage.sprite = slot.GetComponentInChildren<DragAndDropItem>().emptySprite;
+            itemSlot.adventureManager = adventureManager;
+            itemSlot.GetComponent<Interactable>().ResetInteractable();
+            itemSlot.itemSlotEquipmentStatus = slot.GetComponentInChildren<TextMeshProUGUI>();
+            itemSlot.itemSlotEquipmentStatus.text = ("");
+        }
+
+        foreach (GameObject slot in inventorySlots)
+        {
+            if (adventureManager.ListOfCurrentEquipment.Count > i)
+            {
+                ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+                itemSlot.inventoryManager = GetComponent<InventoryManager>();
+                itemSlot.itemSlotEquipment = adventureManager.ListOfCurrentEquipment[i];
+                itemSlot.itemSlotImage.sprite = itemSlot.itemSlotEquipment.baseSprite;
+                slot.GetComponent<Interactable>().InitiateInteractable(itemSlot.itemSlotEquipment);
+
+                if (itemSlot.itemSlotEquipment.modifierOwner != null)
+                    itemSlot.itemSlotEquipmentStatus.text = ("E");
+                else
+                    itemSlot.itemSlotEquipmentStatus.text = ("");
+            }
+
+            i++;
+        }
+
+        // Initialize the monster's current equipment
+        i = 0;
+        List<Modifier> tempList = currentMonsterEquipment.ListOfModifiers.Where(modifier => modifier.adventureEquipment == true).ToList();
+
+        //Debug.Log($"tempList count: {tempList.Count}" +
+        //    $"\ncurrent monster: {currentMonsterEquipment.name}");
+
+        // Clear the slot visuals first
+        foreach (GameObject slot in monsterEquipmentSlots)
+        {
+            ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+            itemSlot.itemSlotEquipment = null;
+            slot.GetComponent<Interactable>().ResetInteractable();
+            itemSlot.itemSlotImage.sprite = slot.GetComponentInChildren<DragAndDropItem>().emptySprite;
+            itemSlot.adventureManager = adventureManager;
+            itemSlot.RemoveEquipmentText();
+        }
+
+        // Assign the equipment
+        foreach (GameObject slot in monsterEquipmentSlots)
+        {
+            if (tempList.Count > i)
+            {
+                ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+                itemSlot.inventoryManager = GetComponent<InventoryManager>();
+                itemSlot.itemSlotEquipment = tempList[i];
+                itemSlot.itemSlotImage.sprite = itemSlot.itemSlotEquipment.baseSprite;
+                slot.GetComponent<Interactable>().InitiateInteractable(itemSlot.itemSlotEquipment);
+                itemSlot.DisplayEquipmentText();
+                if (itemSlot.itemSlotEquipment == newItemSlotEquipment)
+                    itemSlot.TriggerEquipAnimation();
+            }
+
+            i++;
+        }
+
+        // Display current monster and name
+        currentMonsterEquipmentImage.sprite = currentMonsterEquipment.baseSprite;
+        currentMonsterEquipmentName.text = ($"{currentMonsterEquipment.name} Lv.{currentMonsterEquipment.level}");
+
+        if (!currentMonsterEquipment.monsterIsOwned)
+        {
+            monsterSelectCounter.text = ($"1 / 1");
+            return;
+        }
+
+        monsterSelectCounter.text = ($"{adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) + 1} / {adventureManager.ListOfCurrentMonsters.Count}");
+    }
+
+    // Increment monster in list
+    public void NextMonsterEquipment()
+    {
+        if (!currentMonsterEquipment.monsterIsOwned)
+            return;
+
+        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) + 1 < adventureManager.ListOfCurrentMonsters.Count)
+        {
+            currentMonsterEquipment = adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) + 1];
+            monsterStatScreenScript.currentMonster = currentMonsterEquipment;
+            InitializeInventorySlots();
+        }
+        else 
+        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) + 1 == adventureManager.ListOfCurrentMonsters.Count)
+        {
+            currentMonsterEquipment = adventureManager.ListOfCurrentMonsters[0];
+            monsterStatScreenScript.currentMonster = currentMonsterEquipment;
+            InitializeInventorySlots();
+        }
+    }
+
+    // Decrement monster in list
+    public void PreviousMonsterEquipment()
+    {
+        if (!currentMonsterEquipment.monsterIsOwned)
+            return;
+
+        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) - 1 > -1)
+        {
+            currentMonsterEquipment = adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) - 1];
+            monsterStatScreenScript.currentMonster = currentMonsterEquipment;
+            InitializeInventorySlots();
+        }
+        else
+        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) - 1 == -1)
+        {
+            currentMonsterEquipment = adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.Count - 1];
+            monsterStatScreenScript.currentMonster = currentMonsterEquipment;
+            InitializeInventorySlots();
         }
     }
 
@@ -211,6 +374,7 @@ public class InventoryManager : MonoBehaviour
         int levelReq = 0;
         Item ascensionMaterial = null;
         int goldReq = 0;
+        int reqsMet = 0;
 
         // Assign the monster ascension path
         if (ascensionNumber == 1)
@@ -287,6 +451,21 @@ public class InventoryManager : MonoBehaviour
         levelReqImage.sprite = levelReq == currentMonsterEquipment.level ? requirementMetSprite : requirementUnmetSprite;
         matReqImage.sprite = adventureManager.ListOfInventoryItems.Where(item => item.itemName == ascensionMaterial.itemName).ToList().Count >= 1 ? requirementMetSprite : requirementUnmetSprite;
         goldReqImage.sprite = goldReq <= adventureManager.playerGold ? requirementMetSprite : requirementUnmetSprite;
+
+        // Enable ascension if reqs met
+        if (levelReq == currentMonsterEquipment.level)
+            reqsMet++;
+
+        if (adventureManager.ListOfInventoryItems.Where(item => item.itemName == ascensionMaterial.itemName).ToList().Count >= 1)
+            reqsMet++;
+
+        if (goldReq <= adventureManager.playerGold)
+            reqsMet++;
+
+        if (reqsMet == 3)
+        {
+            confirmAscensionButton.interactable = true;
+        }
 
         // Show stat growths
         // HP

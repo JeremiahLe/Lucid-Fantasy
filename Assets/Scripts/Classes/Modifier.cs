@@ -52,6 +52,11 @@ public class Modifier : ScriptableObject
     public enum ModifierRarity { Common, Uncommon, Rare, Legendary }
     public ModifierRarity modifierRarity;
 
+    [EnableIf("adventureEquipment", true)]
+    public int equipmentRank = 1;
+    [EnableIf("adventureEquipment", true)]
+    public static int equipmentMaxRank = 3;
+
     [AssetSelector(Paths = "Assets/Sprites/UI")]
     [PreviewField(150)]
     public Sprite baseSprite;

@@ -811,6 +811,7 @@ public class SubscreenManager : MonoBehaviour
             return;
         }
 
+        adventureManager.rerollAmount += 1;
         adventureManager.ResetModifierList();
         HideRewardSlots();
         ShowAlliedMonstersAvailableEquipment(false);

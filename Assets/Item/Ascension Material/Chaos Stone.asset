@@ -15,7 +15,8 @@ MonoBehaviour:
   itemType: 1
   itemName: Essence of Chaos
   itemDescription: An ascension material for Chaos Ascension.
-  baseSprite: {fileID: 21300000, guid: e3f68f3902aae4ee4980023ed3086fe5, type: 3}
+  baseSprite: {fileID: 21300000, guid: 1c8046dcb4d1e4e1fa8630fa3a59c709, type: 3}
   consumableStatToChange: 0
   consumableAmount: 0
+  consumableFlatAmount: 0
   itemRarity: 3

@@ -497,7 +497,7 @@ public class MonsterAttackManager : MonoBehaviour
             }
         }
 
-        combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+       combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
     }
 
     // trigger during attack effects
@@ -582,6 +582,10 @@ public class MonsterAttackManager : MonoBehaviour
             //currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
             currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);
 
+            // Remove targeter from above targeted monster's position
+            combatManagerScript.monsterTargeter.SetActive(false);
+            combatManagerScript.targeting = false;
+
             // Trigger any post attack effects only if calculated damage is not 0 (immune)
             if (calculatedDamage > 0)
             {
@@ -589,14 +593,7 @@ public class MonsterAttackManager : MonoBehaviour
             }
 
             // Check if damage killed target
-            CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject);
-            
-            // Remove targeter from above targeted monster's position
-            combatManagerScript.monsterTargeter.SetActive(false);
-            combatManagerScript.targeting = false;
-
-            // Call the next monster turn
-            //combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+            if (CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject))
 
             // Call the next monster turn if the attack was immune (did not trigger attack effects)
             if (calculatedDamage <= 0)
@@ -712,17 +709,20 @@ public class MonsterAttackManager : MonoBehaviour
     }
 
     // This function checks if the damage dealt killed the monster
-    public void CheckIfDamagedKilledMonster(Monster monsterWhoUsedAttack, GameObject monsterWhoUsedAttackGameObject)
+    public bool CheckIfDamagedKilledMonster(Monster monsterWhoUsedAttack, GameObject monsterWhoUsedAttackGameObject)
     {
         // Add to killcount if applicable
-        if (combatManagerScript.adventureMode && monsterWhoUsedAttack.aiType == Monster.AIType.Ally && monsterWhoUsedAttack != currentTargetedMonster)
+        if (combatManagerScript.adventureMode || combatManagerScript.testAdventureMode && monsterWhoUsedAttack.aiType == Monster.AIType.Ally && monsterWhoUsedAttack != currentTargetedMonster)
         {
             if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.health <= 0)
             {
                 monsterWhoUsedAttack.monsterKills += 1;
-                monsterWhoUsedAttackGameObject.GetComponent<CreateMonster>().GrantExp(12 * currentTargetedMonster.level);
+                monsterWhoUsedAttackGameObject.GetComponent<CreateMonster>().GrantExp(11 * currentTargetedMonster.level);
+                return true;
             }
         }
+
+        return false;
     }
 
     // This function is called when an attack misses

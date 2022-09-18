@@ -9,20 +9,40 @@ public class ItemSlot : MonoBehaviour
 {
     public Image itemSlotImage;
     public Modifier itemSlotEquipment;
+
     public InventoryManager inventoryManager;
+    public AdventureManager adventureManager;
+    public MonstersSubScreenManager monstersSubScreenManager;
+
     public TextMeshProUGUI itemSlotEquipmentText;
     public Item itemSlotItem;
+    public TextMeshProUGUI itemSlotEquipmentStatus;
+
+    public Animator animator;
+
+    public void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    public void TriggerEquipAnimation()
+    {
+        animator.SetTrigger("equipped");
+    }
+
+    public void EndEquipAnimation()
+    {
+        animator.SetTrigger("equipped");
+    }
 
     public void DisplayEquipmentText()
     {
-        itemSlotEquipmentText.text = 
-            ($"{itemSlotEquipment.modifierName}" +
-            $"\n{itemSlotEquipment.modifierDescription}");
+        inventoryManager.currentMonsterEquipmentStats.text +=
+            ($"{itemSlotEquipment.modifierDescription}\n");
     }
 
     public void RemoveEquipmentText()
     {
-        itemSlotEquipmentText.text =
-            ("");
+        inventoryManager.currentMonsterEquipmentStats.text = "";
     }
 }

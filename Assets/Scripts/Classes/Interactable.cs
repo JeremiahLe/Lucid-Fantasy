@@ -42,6 +42,11 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             modifier = mod;
             interactableName = mod.modifierName;
             interactableDescription = mod.modifierDescription;
+
+            if (mod.modifierOwner != null)
+            {
+                interactableDescription += ($"\nEquipped by: {mod.modifierOwner.name}");
+            }
         }
         else if (typeOfInteractable == TypeOfInteractable.Stat)
         {
@@ -99,6 +104,8 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         modifier = null;
         item = null;
+        interactableName = "";
+        interactableDescription = "";
         interactableText.text = ("");
         interactableDescriptionWindow.SetActive(false);
     }

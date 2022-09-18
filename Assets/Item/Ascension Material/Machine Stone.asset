@@ -15,7 +15,8 @@ MonoBehaviour:
   itemType: 1
   itemName: Essence of Machine
   itemDescription: An ascension material for Machine Ascension.
-  baseSprite: {fileID: 21300000, guid: e3f68f3902aae4ee4980023ed3086fe5, type: 3}
+  baseSprite: {fileID: 21300000, guid: d5e65d9f85d094dc4b0acd6c28f83294, type: 3}
   consumableStatToChange: 0
   consumableAmount: 0
+  consumableFlatAmount: 0
   itemRarity: 3

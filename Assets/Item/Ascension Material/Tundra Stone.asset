@@ -15,7 +15,8 @@ MonoBehaviour:
   itemType: 1
   itemName: Essence of Tundra
   itemDescription: An ascension material for Tundra Ascension.
-  baseSprite: {fileID: 21300000, guid: e3f68f3902aae4ee4980023ed3086fe5, type: 3}
+  baseSprite: {fileID: 21300000, guid: 8bf1de9d3f2a64af7b9d85942416d424, type: 3}
   consumableStatToChange: 0
   consumableAmount: 0
+  consumableFlatAmount: 0
   itemRarity: 3

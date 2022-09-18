@@ -27,6 +27,11 @@ public class MonsterStatScreenScript : MonoBehaviour
     public Monster currentMonster;
     public Interactable currentMonsterElementMatchups;
 
+    public void DisplayMonsterStatsScreen()
+    {
+        DisplayMonsterStatScreenStats(currentMonster);
+    }
+
     public void DisplayMonsterStatScreenStats(Monster monster)
     {
         // Reset to Stats Window

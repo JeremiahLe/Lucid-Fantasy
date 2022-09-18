@@ -24,5 +24,8 @@ public class Item : ScriptableObject
     [EnableIf("itemType", ItemType.Consumable)]
     public float consumableAmount;
 
+    [EnableIf("itemType", ItemType.Consumable)]
+    public bool consumableFlatAmount;
+
     public Modifier.ModifierRarity itemRarity;
 }

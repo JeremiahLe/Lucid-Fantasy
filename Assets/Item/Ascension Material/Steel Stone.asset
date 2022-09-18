@@ -15,7 +15,8 @@ MonoBehaviour:
   itemType: 1
   itemName: Essence of Steel
   itemDescription: An ascension material for Steel Ascension.
-  baseSprite: {fileID: 21300000, guid: e3f68f3902aae4ee4980023ed3086fe5, type: 3}
+  baseSprite: {fileID: 21300000, guid: ca9cd23530f204759aa0d727f788eefa, type: 3}
   consumableStatToChange: 0
   consumableAmount: 0
+  consumableFlatAmount: 0
   itemRarity: 3

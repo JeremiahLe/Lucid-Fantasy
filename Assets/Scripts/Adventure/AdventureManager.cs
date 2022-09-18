@@ -59,6 +59,7 @@ public class AdventureManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             ListOfCurrentMonsters.Add(subscreenManager.GetRandomMonster());
+            ListOfCurrentMonsters[i].monsterIsOwned = true;
         }
     }
 

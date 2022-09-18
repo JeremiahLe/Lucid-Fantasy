@@ -462,34 +462,34 @@ public class CreateMonster : MonoBehaviour
 
         monsterReference.monsterExpToNextLevel = Mathf.RoundToInt(monsterReference.monsterExpToNextLevel * 1.15f);
 
-        monsterReference.maxHealth = monsterReference.maxHealth + monsterReference.healthScaler;
+        monsterReference.maxHealth = monsterReference.maxHealth + Random.Range(monsterReference.healthScaler, monsterReference.healthScaler * 2);
         monsterReference.health = monsterReference.maxHealth;
 
         // Basic int to add new stats to cached monster data
         int newStatToCache = 0;
 
         // Physical Attack
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalAttack) + monsterReference.physicalAttackScaler);
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalAttack) + Random.Range(monsterReference.physicalAttackScaler, monsterReference.physicalAttackScaler * 2));
         monsterReference.physicalAttack += newStatToCache - monsterReference.cachedPhysicalAttack;
         monster.cachedPhysicalAttack = newStatToCache;
 
         // Magic Attack
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicAttack) + monsterReference.magicAttackScaler);
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicAttack) + Random.Range(monsterReference.magicAttackScaler, monsterReference.magicAttackScaler * 2));
         monsterReference.magicAttack += newStatToCache - monsterReference.cachedMagicAttack;
         monster.cachedMagicAttack = newStatToCache;
 
         // Physical Defense
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalDefense) + monsterReference.physicalDefenseScaler);
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalDefense) + Random.Range(monsterReference.physicalDefenseScaler, monsterReference.physicalDefenseScaler * 2));
         monsterReference.physicalDefense += newStatToCache - monsterReference.cachedPhysicalDefense;
         monster.cachedPhysicalDefense = newStatToCache;
 
         // Magic Defense
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicDefense) + monsterReference.magicDefenseScaler);
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicDefense) + Random.Range(monsterReference.magicDefenseScaler, monsterReference.magicDefenseScaler * 2));
         monsterReference.magicDefense += newStatToCache - monsterReference.cachedMagicDefense;
         monster.cachedMagicDefense = newStatToCache;
 
         // Speed
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedSpeed) + monsterReference.speedScaler);
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedSpeed) + Random.Range(monsterReference.speedScaler, monsterReference.speedScaler * 2));
         monsterReference.speed += newStatToCache - monsterReference.cachedSpeed;
         monster.cachedSpeed = newStatToCache;
     }

@@ -26,8 +26,8 @@ MonoBehaviour:
   maxHealth: 81
   cachedHealth: 0
   cachedMaxHealth: 0
-  physicalAttack: 5
-  magicAttack: 5
+  physicalAttack: 6
+  magicAttack: 6
   physicalDefense: 1
   magicDefense: 1
   speed: 8
@@ -36,8 +36,8 @@ MonoBehaviour:
   critDamage: 1.25
   bonusAccuracy: 0
   healthScaler: 5
-  physicalAttackScaler: 3
-  magicAttackScaler: 3
+  physicalAttackScaler: 2
+  magicAttackScaler: 2
   physicalDefenseScaler: 1
   magicDefenseScaler: 1
   speedScaler: 3
@@ -82,3 +82,12 @@ MonoBehaviour:
   secondEvolutionLevelReq: 20
   ascensionTwoMaterial: {fileID: 11400000, guid: e62edb5798797254fa1216ae0d077bd4, type: 2}
   ascensionTwoMaterialAmount: 1
+  healthGrowth: 50
+  physicalAttackGrowth: 0
+  magicAttackGrowth: 0
+  physicalDefenseGrowth: 0
+  magicDefenseGrowth: 0
+  speedGrowth: 0
+  evasionGrowth: 0
+  critChanceGrowth: 0
+  bonusAccuracyGrowth: 0

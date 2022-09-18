@@ -5205,6 +5205,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1469846560}
     m_Modifications:
+    - target: {fileID: 1676680903253805216, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2414634380322256343, guid: 922b2fb3a64f8544f9cc079258ee31a9, type: 3}
       propertyPath: m_SizeDelta.x
       value: 300
@@ -7088,7 +7092,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Change
+  m_text: Row
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -7975,6 +7979,7 @@ MonoBehaviour:
   currentRound: 0
   previousSceneName: 
   adventureMode: 0
+  testAdventureMode: 0
   autoBattle: 0
   battleOver: 0
   targeting: 0

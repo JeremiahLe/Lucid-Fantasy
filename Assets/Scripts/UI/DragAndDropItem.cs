@@ -10,7 +10,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public ItemSlot itemSlot;
     public Sprite emptySprite;
 
-    public enum SlotType { Equipped, Unequipped }
+    public enum SlotType { Equipped, Unequipped, InMainInventory }
     public SlotType slotType;
 
     private void Awake()
@@ -31,7 +31,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (itemSlot.inventoryManager.adventureManager.lockEquipmentInCombat)
+        if (itemSlot.adventureManager.lockEquipmentInCombat)
         {
             itemSlot.GetComponent<Interactable>().ShowInteractable("Cannot adjust equipment in battle!");
             return;
@@ -55,17 +55,28 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
                     return;
                 }
 
+                // then check if equipment is already equipped
+                if (itemSlot.itemSlotEquipment.modifierOwner != null)
+                {
+                    itemSlot.GetComponent<Interactable>().ShowInteractable($"Equipment is already equipped! Equipped by: {itemSlot.itemSlotEquipment.modifierOwner.name}");
+
+                    // Display equip anyway message?
+
+                    return;
+                }
+
                 // Add equipment to monster inventory and remove from global inventory
                 itemSlot.inventoryManager.currentMonsterEquipment.ListOfModifiers.Add(itemSlot.itemSlotEquipment);
-                itemSlot.inventoryManager.adventureManager.ListOfCurrentEquipment.Remove(itemSlot.itemSlotEquipment);
+                //itemSlot.inventoryManager.adventureManager.ListOfCurrentEquipment.Remove(itemSlot.itemSlotEquipment);
+                itemSlot.itemSlotEquipment.modifierOwner = itemSlot.inventoryManager.currentMonsterEquipment;
 
                 // Clear the inventory sprite, modifier, and interactable
-                itemSlot.itemSlotEquipment = null;
+                //itemSlot.itemSlotEquipment = null;
                 itemSlot.itemSlotImage.sprite = emptySprite;
                 itemSlot.GetComponent<Interactable>().ResetInteractable();
 
                 // Reset to new inventory
-                itemSlot.inventoryManager.InitializeInventorySlots();
+                itemSlot.inventoryManager.InitializeInventorySlots(itemSlot.itemSlotEquipment);
             }
         }
 
@@ -74,16 +85,17 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             if (slotType == SlotType.Equipped && itemSlot.itemSlotEquipment != null)
             {
-                // first check if inventory is already full
-                if (itemSlot.inventoryManager.adventureManager.ListOfCurrentEquipment.Count >= 16)
-                {
-                    itemSlot.GetComponent<Interactable>().ShowInteractable("Inventory is full!");
-                    return;
-                }
+                //// first check if inventory is already full
+                //if (itemSlot.inventoryManager.adventureManager.ListOfCurrentEquipment.Count >= 16)
+                //{
+                //    itemSlot.GetComponent<Interactable>().ShowInteractable("Inventory is full!");
+                //    return;
+                //}
 
                 // Add equipment to global inventory and remove from monster inventory
-                itemSlot.inventoryManager.adventureManager.ListOfCurrentEquipment.Add(itemSlot.itemSlotEquipment);
+                //itemSlot.inventoryManager.adventureManager.ListOfCurrentEquipment.Add(itemSlot.itemSlotEquipment);
                 itemSlot.inventoryManager.currentMonsterEquipment.ListOfModifiers.Remove(itemSlot.itemSlotEquipment);
+                itemSlot.itemSlotEquipment.modifierOwner = null;
 
                 // Clear the inventory sprite, modifier, and interactable
                 itemSlot.itemSlotEquipment = null;

@@ -15,7 +15,8 @@ MonoBehaviour:
   itemType: 1
   itemName: Essence of Justice
   itemDescription: An ascension material for Justice Ascension.
-  baseSprite: {fileID: 21300000, guid: e3f68f3902aae4ee4980023ed3086fe5, type: 3}
+  baseSprite: {fileID: 21300000, guid: 9196d032e0bc34bfdbd2eb63350d3746, type: 3}
   consumableStatToChange: 0
   consumableAmount: 0
+  consumableFlatAmount: 0
   itemRarity: 3
