@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3603385240357516427}
   - component: {fileID: 3603385240357516426}
   - component: {fileID: 1827473419063040709}
+  - component: {fileID: 4338506689726739583}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -152,9 +153,11 @@ MonoBehaviour:
   MultiplayerMenu: {fileID: 0}
   TeamBuilderMenu: {fileID: 0}
   SingleplayerMenu: {fileID: 0}
+  CreditsMenu: {fileID: 0}
   QuickplayButton: {fileID: 0}
   MultiplayerButton: {fileID: 0}
   BackButton: {fileID: 0}
+  CreditsButton: {fileID: 0}
   CreateMatchButton: {fileID: 0}
   FindMatchButton: {fileID: 0}
   QuitButton: {fileID: 0}
@@ -208,5 +211,175 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4322b95cde9654d83ccf4a6502a8ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  adventureBegin: 0
+  AdventureMode: 0
+  adventureFailed: 0
+  BossDefeated: 0
+  BossBattle: 0
+  lockEquipmentInCombat: 0
+  ConfirmAdventureMenu: {fileID: 0}
+  sceneButtonManager: {fileID: 0}
+  GameManagerAudioSource: {fileID: 3603385240357516425}
+  GameManagerSFXSource: {fileID: 4338506689726739583}
+  monsterAscendedSFX: {fileID: 8300000, guid: 3acb9f5948956ab4b93071d32f94e22f, type: 3}
+  adventureBGM: {fileID: 0}
+  combatBGM: {fileID: 0}
+  bossBGM: {fileID: 0}
+  winBGM: {fileID: 0}
+  defeatBGM: {fileID: 0}
+  adventureTimer: 0
+  timeStarted: 0
+  nodeSelectionTargeter: {fileID: 0}
+  adventureSceneName: 
   currentSelectedAdventure: {fileID: 0}
-  ConfirmAdventureButton: {fileID: 0}
+  currentSelectedNode: {fileID: 0}
+  cachedSelectedNode: {fileID: 0}
+  NodeComponent: {fileID: 0}
+  adventureBoss: {fileID: 0}
+  AdventureMenu: {fileID: 0}
+  SubscreenMenu: {fileID: 0}
+  MonstersSubscreen: {fileID: 0}
+  routeText: {fileID: 0}
+  subScreenMenuText: {fileID: 0}
+  subscreenManager: {fileID: 0}
+  monstersSubScreenManager: {fileID: 0}
+  RewardSlotOne: {fileID: 0}
+  RewardSlotTwo: {fileID: 0}
+  RewardSlotThree: {fileID: 0}
+  bonusExp: 1
+  legendaryChanceRate: 1
+  rareChanceRate: 1
+  uncommonChanceRate: 1
+  commonChanceRate: 100
+  rerollAmount: 0
+  timesRerolled: 0
+  playerGold: 0
+  playerGoldSpent: 0
+  playerMonstersLost: 0
+  playerMonstersKilled: 0
+  adventureNGNumber: 1
+  ListOfCurrentMonsters: []
+  ListOfCurrentModifiers: []
+  ListOfAllMonsters: []
+  ListOfCurrentEquipment: []
+  ListOfInventoryItems: []
+  ListOfAllyDeadMonsters: []
+  currentRewardType: 0
+  currentHoveredRewardMonster: {fileID: 0}
+  currentHoveredRewardModifier: {fileID: 0}
+  currentSelectedEquipment: {fileID: 0}
+  currentSelectedMonsterForEquipment: {fileID: 0}
+  dontDisappear: {fileID: 0}
+  NodeToReturnTo: {fileID: 0}
+  ListOfAllNodes: []
+  ListOfSavedNodes: []
+  ListOfAvailableRewardMonsters: []
+  ListOfAvailableRewardModifiers: []
+  ListOfAvailableRewardEquipment: []
+  ListOfAvailableItems: []
+  DefaultListOfAvailableRewardModifiers: []
+  DefaultListOfAvailableRewardEquipment: []
+  DefaultListOfAvailableItems: []
+  randomBattleMonsterCount: 0
+  randomBattleMonsterLimit: 0
+  CombatManagerObject: {fileID: 0}
+  combatManagerScript: {fileID: 0}
+  ListOfEnemyBattleMonsters: []
+  ListOfAllyBattleMonsters: []
+  ListOfEnemyModifiers: []
+--- !u!82 &4338506689726739583
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3603385240357516431}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

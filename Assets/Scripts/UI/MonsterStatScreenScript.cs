@@ -27,9 +27,17 @@ public class MonsterStatScreenScript : MonoBehaviour
     public Monster currentMonster;
     public Interactable currentMonsterElementMatchups;
 
+    public MonstersSubScreenManager monstersSubScreenManager;
+
     public void DisplayMonsterStatsScreen()
     {
         DisplayMonsterStatScreenStats(currentMonster);
+    }
+
+    public void UpdateMonsterSubScreen()
+    {
+        if (monstersSubScreenManager != null && monstersSubScreenManager.gameObject.activeInHierarchy == true)
+            monstersSubScreenManager.ShowAvailableMonsters();
     }
 
     public void DisplayMonsterStatScreenStats(Monster monster)

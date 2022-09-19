@@ -3777,7 +3777,7 @@ MonoBehaviour:
   stat: 0
   node: {fileID: 0}
   item: {fileID: 0}
-  interactableName: Change
+  interactableName: Row
   interactableDescription: Change the current Chimeric's Row Position.
   interactableText: {fileID: 1047360550}
 --- !u!1 &782642503

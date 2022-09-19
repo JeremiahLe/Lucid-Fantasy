@@ -269,6 +269,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
             {
                 subscreenManager.monsterStatsWindow.SetActive(true);
                 monsterStatScreenScript.DisplayMonsterStatScreenStats(monsterReward);
+                monsterStatScreenScript.monstersSubScreenManager = subscreenManager.monstersSubScreenManager;
                 inventoryManager = monsterStatScreenScript.gameObject.GetComponent<InventoryManager>();
                 inventoryManager.currentMonsterEquipment = monsterReward;
             }

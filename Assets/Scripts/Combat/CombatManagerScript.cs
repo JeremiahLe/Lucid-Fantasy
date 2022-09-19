@@ -601,6 +601,16 @@ public class CombatManagerScript : MonoBehaviour
             {
                 if (!autoBattle) // manual targeting
                 {
+                    // First check if the monster is stunned or doesn't have an action available
+                    if (CurrentMonsterTurn.GetComponent<CreateMonster>().monsterIsStunned)
+                    {
+                        CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
+                        HUDanimationManager.MonsterCurrentTurnText.text = ($"Ally {monster.name} is Stunned!");
+                        CombatLog.SendMessageToCombatLog($"Ally {monster.name} is Stunned!");
+                        Invoke("NextMonsterTurn", 1f);
+                        return;
+                    }
+
                     monsterTurn = MonsterTurn.AllyTurn;
 
                     buttonManagerScript.ListOfMonsterAttacks.Clear();
@@ -842,6 +852,13 @@ public class CombatManagerScript : MonoBehaviour
         #endregion
     }
 
+    // This function updates the targeter position on daze call or otherwise
+    public void UpdateTargeterPosition(GameObject newTarget)
+    {
+        CurrentTargetedMonster = newTarget;
+        monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
+    }
+
     // Helper function for SetNextMonsterTurn()
     public void NextMonsterTurn()
     {
@@ -967,10 +984,16 @@ public class CombatManagerScript : MonoBehaviour
                 Destroy(monsterToRemove);
                 uiManager.UpdateMonsterList(ListOfAllys, Monster.AIType.Ally);
                 //Debug.Log($"Removed {monsterToRemove.GetComponent<CreateMonster>().monsterReference.name}", this);
-                if (adventureMode)
+                if (adventureMode || testAdventureMode)
                 {
+                    // Remove monster references from adventure manager
                     adventureManager.ListOfAllyBattleMonsters.Remove(monster);
                     adventureManager.ListOfCurrentMonsters.Remove(monster);
+
+                    // Add ally to list of dead monsters (for potential revival) and remove equipped equipment
+                    adventureManager.ListOfAllyDeadMonsters.Add(monster);
+                    adventureManager.RemoveMonsterEquipment(monster);
+
                     adventureManager.playerMonstersLost += 1;
                 }
                 break;

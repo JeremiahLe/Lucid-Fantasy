@@ -34,7 +34,7 @@ MonoBehaviour:
   critChance: 0
   critDamage: 1.25
   bonusAccuracy: 0
-  healthScaler: 5
+  healthScaler: 6
   physicalAttackScaler: 2
   magicAttackScaler: 3
   physicalDefenseScaler: 2

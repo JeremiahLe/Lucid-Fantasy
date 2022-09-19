@@ -163,6 +163,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterIsDazed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: startingPosition
       value: 
       objectReference: {fileID: 3197157}
@@ -172,7 +176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterIsCrippled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: combatManagerObject
@@ -182,6 +186,10 @@ PrefabInstance:
       propertyPath: statusEffectUISprite
       value: 
       objectReference: {fileID: 3197158}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterImmuneToDamage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 896763779794199982, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -3797,7 +3805,7 @@ MonoBehaviour:
   stat: 0
   node: {fileID: 0}
   item: {fileID: 0}
-  interactableName: Change
+  interactableName: Row
   interactableDescription: Change the current Chimeric's Row Position.
   interactableText: {fileID: 1047360550}
 --- !u!1 &782642503
@@ -5059,7 +5067,7 @@ PrefabInstance:
       objectReference: {fileID: 1758263237}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfEnemyModifiers.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfCurrentModifiers.Array.size
@@ -5068,7 +5076,15 @@ PrefabInstance:
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfEnemyModifiers.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 31007e97733cce44f8874d212e4037da, type: 2}
+      objectReference: {fileID: 11400000, guid: 05c3b457422d05f4f8ae51e08be18a7b, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfEnemyModifiers.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 05c3b457422d05f4f8ae51e08be18a7b, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfEnemyModifiers.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 05c3b457422d05f4f8ae51e08be18a7b, type: 2}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfAllyBattleMonsters.Array.size
       value: 1
@@ -5088,9 +5104,21 @@ PrefabInstance:
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfAllyBattleMonsters.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 5efd682e756fd9e4fa674fb3b5b32b31, type: 2}
+      objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfEnemyBattleMonsters.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a2e1f37c1bcdd6342a5d9b3841bc35d5, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfEnemyBattleMonsters.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfEnemyBattleMonsters.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfEnemyBattleMonsters.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
     m_RemovedComponents: []
@@ -7221,7 +7249,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Change
+  m_text: Row
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -9848,8 +9876,8 @@ RectTransform:
   - {fileID: 1734071334}
   - {fileID: 1509616969}
   - {fileID: 1075100787}
-  - {fileID: 1454887624}
   - {fileID: 4007045851232689617}
+  - {fileID: 1454887624}
   m_Father: {fileID: 1758263236}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11380,6 +11408,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterIsDazed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: startingPosition
       value: 
       objectReference: {fileID: 896763780072422932}
@@ -11395,6 +11427,10 @@ PrefabInstance:
       propertyPath: statusEffectUISprite
       value: 
       objectReference: {fileID: 896763780072422933}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterImmuneToDamage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterImmuneToDebuffs
       value: 0
@@ -11642,7 +11678,7 @@ RectTransform:
   m_Children:
   - {fileID: 5191439963137519543}
   m_Father: {fileID: 1996058421}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11958,7 +11994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9081610192043222377, guid: dd5c453fac9110549bef3d6857c20245, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 9081610192043222377, guid: dd5c453fac9110549bef3d6857c20245, type: 3}
       propertyPath: m_AnchorMax.x

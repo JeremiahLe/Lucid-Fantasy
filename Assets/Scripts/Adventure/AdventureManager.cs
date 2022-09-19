@@ -78,7 +78,11 @@ public class AdventureManager : MonoBehaviour
 
     [Title("SFX")]
     public AudioSource GameManagerAudioSource;
+    public AudioSource GameManagerSFXSource;
 
+    public AudioClip monsterAscendedSFX;
+
+    [Title("BGM")]
     public AudioClip adventureBGM;
     public AudioClip combatBGM;
     public AudioClip bossBGM;
@@ -141,6 +145,8 @@ public class AdventureManager : MonoBehaviour
     public List<Modifier> ListOfCurrentEquipment;
     public List<Item> ListOfInventoryItems;
 
+    public List<Monster> ListOfAllyDeadMonsters;
+
     [Title("Other Adventure Modules")]
     public enum RewardType { Monster, Modifier, Equipment }
     public RewardType currentRewardType;
@@ -155,8 +161,8 @@ public class AdventureManager : MonoBehaviour
     public GameObject dontDisappear;
     public GameObject NodeToReturnTo;
 
-    public List<GameObject> ListOfUnlockedNodes;
-    public List<GameObject> ListOfLockedNodes;
+    //public List<GameObject> ListOfUnlockedNodes;
+    //public List<GameObject> ListOfLockedNodes;
 
     public GameObject[] ListOfAllNodes;
     public GameObject[] ListOfSavedNodes;
@@ -200,7 +206,7 @@ public class AdventureManager : MonoBehaviour
         thisManager = gameObject;
         
         sceneButtonManager = GetComponent<SceneButtonManager>();
-        GameManagerAudioSource = GetComponent<AudioSource>();
+        //GameManagerAudioSource = GetComponent<AudioSource>();
         adventureBegin = false;
         CopyDefaultModifierList();
         CopyDefaultEquipmentList();
@@ -393,18 +399,18 @@ public class AdventureManager : MonoBehaviour
         // save nodes
         if (ListOfSavedNodes.Count() == 0 || ListOfSavedNodes[0] == null)
         {
-            foreach (GameObject node in ListOfUnlockedNodes)
-            {
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-            }
+            //foreach (GameObject node in ListOfUnlockedNodes)
+            //{
+            //    node.SetActive(false);
+            //    DontDestroyOnLoad(node);
+            //}
 
-            //
-            foreach (GameObject node in ListOfLockedNodes)
-            {
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-            }
+            ////
+            //foreach (GameObject node in ListOfLockedNodes)
+            //{
+            //    node.SetActive(false);
+            //    DontDestroyOnLoad(node);
+            //}
 
             //
             foreach (GameObject node in ListOfAllNodes)
@@ -1323,6 +1329,8 @@ public class AdventureManager : MonoBehaviour
             CreateNode nodeComponent = node.GetComponent<CreateNode>();
             nodeComponent.nodeSelectionTargeter = nodeSelectionTargeter;
             nodeComponent.routeText = routeText;
+            nodeComponent.GetComponent<Interactable>().interactableDescriptionWindow = subscreenManager.ToolTipWindow;
+            nodeComponent.GetComponent<Interactable>().interactableText = subscreenManager.ToolTipWindowTextComponent;
 
             // If not beginning of adventure, all default nodes should be turned off
             if (nodeComponent.nodeInDefaultState == true && adventureBegin)
@@ -1368,6 +1376,8 @@ public class AdventureManager : MonoBehaviour
             node.SetActive(true);
             CreateNode nodeComponent = node.GetComponent<CreateNode>();
             nodeComponent.GetSceneComponents();
+            nodeComponent.GetComponent<Interactable>().interactableDescriptionWindow = subscreenManager.ToolTipWindow;
+            nodeComponent.GetComponent<Interactable>().interactableText = subscreenManager.ToolTipWindowTextComponent;
         }
 
         // Unlock next node from node to return to
@@ -1434,8 +1444,9 @@ public class AdventureManager : MonoBehaviour
         {
             Destroy(node);
         }
-        ListOfUnlockedNodes.Clear();
-        ListOfLockedNodes.Clear();
+
+        //ListOfUnlockedNodes.Clear();
+        //ListOfLockedNodes.Clear();
 
         Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
     }
@@ -1461,9 +1472,15 @@ public class AdventureManager : MonoBehaviour
         {
             Destroy(node);
         }
-        ListOfUnlockedNodes.Clear();
-        ListOfLockedNodes.Clear();
+
+        //ListOfUnlockedNodes.Clear();
+        //ListOfLockedNodes.Clear();
+
+        // Reset Modifiers + Equipment
         ListOfCurrentModifiers.Clear();
+        ListOfInventoryItems.Clear();
+
+        // Reset Allys and Enemies
         ListOfCurrentMonsters.Clear();
         ListOfEnemyBattleMonsters.Clear();
 
@@ -1569,15 +1586,15 @@ public class AdventureManager : MonoBehaviour
                 node.GetComponent<CreateNode>().nodeLocked = false;
                 node.GetComponent<CreateNode>().SetNodeState(CreateNode.NodeState.Unlocked);
                 node.GetComponent<Animator>().SetBool("unlocked", true);
-                ListOfUnlockedNodes.Add(node);
-                nodeSelectionTargeter.transform.position = ListOfUnlockedNodes[0].GetComponent<CreateNode>().selectedPosition.transform.position;
+                //ListOfUnlockedNodes.Add(node);
+                //nodeSelectionTargeter.transform.position = ListOfUnlockedNodes[0].GetComponent<CreateNode>().selectedPosition.transform.position;
             }
             //
             foreach (GameObject node in cachedSelectedNode.GetComponent<CreateNode>().nodesToLock)
             {
                 node.GetComponent<CreateNode>().nodeLocked = true;
                 node.GetComponent<CreateNode>().SetNodeState(CreateNode.NodeState.Locked);
-                ListOfLockedNodes.Add(node);
+                //ListOfLockedNodes.Add(node);
             }
         }
 
@@ -1738,6 +1755,22 @@ public class AdventureManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    // This function removes all monsters Equipped equipment
+    public void RemoveMonsterEquipment(Monster _monster)
+    {
+        List<Modifier> currentEquipment = _monster.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList();
+        foreach (Modifier equipment in currentEquipment)
+        {
+            equipment.modifierOwner = null;
+        }
+    }
+
+    // Play UI SFX
+    public void PlaySFX(AudioClip _sound)
+    {
+        GameManagerSFXSource.PlayOneShot(_sound);
     }
 
     // Unload adventure mode data

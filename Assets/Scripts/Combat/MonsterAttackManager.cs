@@ -258,6 +258,7 @@ public class MonsterAttackManager : MonoBehaviour
 
             // Selecting another move since Dazed
             MonsterAttack dazedAttackChoice = combatManagerScript.GetRandomMove();
+            currentMonsterAttack = dazedAttackChoice;
 
             // Check selected move target type
             if (dazedAttackChoice.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.SelfTarget)
@@ -267,6 +268,7 @@ public class MonsterAttackManager : MonoBehaviour
                 // Update targeting
                 currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
                 currentTargetedMonster = currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
+                combatManagerScript.UpdateTargeterPosition(currentMonsterTurnGameObject);
 
                 uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on itself!");
                 yield return new WaitForSeconds(1.3f);
@@ -280,8 +282,17 @@ public class MonsterAttackManager : MonoBehaviour
                 // Update targeting
                 currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
                 currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
+                combatManagerScript.UpdateTargeterPosition(currentTargetedMonsterGameObject);
 
-                uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+                // Check if targeting self
+                if (currentTargetedMonsterGameObject == currentMonsterTurnGameObject)
+                {
+                    uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on itself!");
+                }
+                else
+                {
+                    uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+                }
                 yield return new WaitForSeconds(1.3f);
                 Invoke("ConfirmMonsterAttack", 0.1f);
                 yield break;
@@ -594,6 +605,9 @@ public class MonsterAttackManager : MonoBehaviour
 
             // Check if damage killed target
             if (CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject))
+            {
+
+            }
 
             // Call the next monster turn if the attack was immune (did not trigger attack effects)
             if (calculatedDamage <= 0)
@@ -712,12 +726,17 @@ public class MonsterAttackManager : MonoBehaviour
     public bool CheckIfDamagedKilledMonster(Monster monsterWhoUsedAttack, GameObject monsterWhoUsedAttackGameObject)
     {
         // Add to killcount if applicable
-        if (combatManagerScript.adventureMode || combatManagerScript.testAdventureMode && monsterWhoUsedAttack.aiType == Monster.AIType.Ally && monsterWhoUsedAttack != currentTargetedMonster)
+        if (monsterWhoUsedAttack.aiType == Monster.AIType.Ally && monsterWhoUsedAttack != currentTargetedMonster && (combatManagerScript.adventureMode || combatManagerScript.testAdventureMode))
         {
             if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.health <= 0)
             {
                 monsterWhoUsedAttack.monsterKills += 1;
-                monsterWhoUsedAttackGameObject.GetComponent<CreateMonster>().GrantExp(11 * currentTargetedMonster.level);
+
+                if (monsterWhoUsedAttack.health >= 1)
+                {
+                    monsterWhoUsedAttackGameObject.GetComponent<CreateMonster>().GrantExp(11 * currentTargetedMonster.level);
+                }
+
                 return true;
             }
         }

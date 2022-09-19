@@ -48,9 +48,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: GameManagerSFXSource
+      value: 
+      objectReference: {fileID: 689135760999768}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ConfirmAdventureButton
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: GameManagerAudioSource
+      value: 
+      objectReference: {fileID: 1024219073573602734}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableItems.Array.size
       value: 23
@@ -439,5 +447,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4338506689726739583, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: m_Volume
+      value: 0.308
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338506689726739583, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+--- !u!82 &1024219073573602734 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3603385240357516425, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+  m_PrefabInstance: {fileID: 4338947877023641895}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &689135760999768 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4338506689726739583, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
+  m_PrefabInstance: {fileID: 4338947877023641895}
+  m_PrefabAsset: {fileID: 0}

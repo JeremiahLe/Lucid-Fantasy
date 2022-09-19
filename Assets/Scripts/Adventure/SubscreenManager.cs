@@ -805,7 +805,7 @@ public class SubscreenManager : MonoBehaviour
     // This function skips the reward screen
     public void SkipRewards()
     {
-        if (adventureManager.ListOfAllMonsters.Count == 0)
+        if (adventureManager.ListOfCurrentMonsters.Count == 0)
         {
             titleText.text = ("Please select a starting Chimeric!");
             return;

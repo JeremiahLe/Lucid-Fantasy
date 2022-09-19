@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stormcowl
   m_EditorClassIdentifier: 
   abilityName: Stormcowl
-  abilityDescription: "Passive: Immune to Electricity element attacks. \nOn Other
-    Attack: Provoke Electricity element attacks toward me and gain 15% physical and
-    magic defense when hit by one."
+  abilityDescription: "Passive: Immune to Electric element attacks. \nOn Other Attack:
+    Provoke Electric element attacks toward me and gain 15% physical and magic defense
+    when hit by one."
   listOfAbilityEffects: []

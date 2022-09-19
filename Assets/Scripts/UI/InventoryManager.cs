@@ -66,6 +66,9 @@ public class InventoryManager : MonoBehaviour
 
     public Button confirmAscensionButton;
 
+    [Header("Ascension Window")]
+    public Image ascendingMonsterSprite;
+
     private void Awake()
     {
         adventureManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AdventureManager>();
@@ -283,6 +286,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // Show initial ascension window
     public void InitializeAscensionWindow()
     {
         // Initialize base monster info
@@ -369,6 +373,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // Show ascension path window
     public void InitializeConfirmAscensionWindow(int ascensionNumber)
     {
         int levelReq = 0;
@@ -466,6 +471,10 @@ public class InventoryManager : MonoBehaviour
         {
             confirmAscensionButton.interactable = true;
         }
+        else
+        {
+            confirmAscensionButton.interactable = false;
+        }
 
         // Show stat growths
         // HP
@@ -479,19 +488,66 @@ public class InventoryManager : MonoBehaviour
         // BonusAccuracy
 
         monsterAscensionStatGrowths.text =
-            ($"{currentMonsterEquipment.maxHealth} -> {currentMonsterEquipment.maxHealth + currentAscensionPath.healthGrowth} (+{currentAscensionPath.healthGrowth})" +
+            ($"{currentMonsterEquipment.maxHealth} -> {currentMonsterEquipment.maxHealth + currentAscensionPath.healthGrowth} (<b>+{currentAscensionPath.healthGrowth}</b>)" +
 
-            $"\n{currentMonsterEquipment.physicalAttack} -> {currentMonsterEquipment.physicalAttack + currentAscensionPath.physicalAttackGrowth} ({ReturnSign(currentAscensionPath.physicalAttackGrowth)}{currentAscensionPath.physicalAttackGrowth})" +
-            $"\n{currentMonsterEquipment.magicAttack} -> {currentMonsterEquipment.magicAttack + currentAscensionPath.magicAttackGrowth} ({ReturnSign(currentAscensionPath.magicAttackGrowth)}{currentAscensionPath.magicAttackGrowth})" +
+            $"\n{currentMonsterEquipment.physicalAttack} -> {currentMonsterEquipment.physicalAttack + currentAscensionPath.physicalAttackGrowth} (<b>{ReturnSign(currentAscensionPath.physicalAttackGrowth)}{currentAscensionPath.physicalAttackGrowth}</b>)" +
+            $"\n{currentMonsterEquipment.magicAttack} -> {currentMonsterEquipment.magicAttack + currentAscensionPath.magicAttackGrowth} (<b>{ReturnSign(currentAscensionPath.magicAttackGrowth)}{currentAscensionPath.magicAttackGrowth}</b>)" +
 
-            $"\n{currentMonsterEquipment.physicalDefense} -> {currentMonsterEquipment.physicalDefense + currentAscensionPath.physicalDefenseGrowth} ({ReturnSign(currentAscensionPath.physicalDefenseGrowth)}{currentAscensionPath.physicalDefenseGrowth})" +
-            $"\n{currentMonsterEquipment.magicDefense} -> {currentMonsterEquipment.magicDefense + currentAscensionPath.magicDefenseGrowth} ({ReturnSign(currentAscensionPath.magicDefenseGrowth)}{currentAscensionPath.magicDefenseGrowth})" +
+            $"\n{currentMonsterEquipment.physicalDefense} -> {currentMonsterEquipment.physicalDefense + currentAscensionPath.physicalDefenseGrowth} (<b>{ReturnSign(currentAscensionPath.physicalDefenseGrowth)}{currentAscensionPath.physicalDefenseGrowth}</b>)" +
+            $"\n{currentMonsterEquipment.magicDefense} -> {currentMonsterEquipment.magicDefense + currentAscensionPath.magicDefenseGrowth} (<b>{ReturnSign(currentAscensionPath.magicDefenseGrowth)}{currentAscensionPath.magicDefenseGrowth}</b>)" +
 
-            $"\n{currentMonsterEquipment.speed} -> {currentMonsterEquipment.speed + currentAscensionPath.speedGrowth} ({ReturnSign(currentAscensionPath.speedGrowth)}{currentAscensionPath.speedGrowth})" +
+            $"\n{currentMonsterEquipment.speed} -> {currentMonsterEquipment.speed + currentAscensionPath.speedGrowth} (<b>{ReturnSign(currentAscensionPath.speedGrowth)}{currentAscensionPath.speedGrowth}</b>)" +
 
-            $"\n{currentMonsterEquipment.evasion} -> {currentMonsterEquipment.evasion + currentAscensionPath.evasionGrowth} ({ReturnSign(currentAscensionPath.evasionGrowth)}{currentAscensionPath.evasionGrowth})" +
-            $"\n{currentMonsterEquipment.critChance} -> {currentMonsterEquipment.critChance + currentAscensionPath.critChanceGrowth} ({ReturnSign(currentAscensionPath.critChanceGrowth)}{currentAscensionPath.critChanceGrowth})" +
-            $"\n{currentMonsterEquipment.bonusAccuracy} -> {currentMonsterEquipment.bonusAccuracy + currentAscensionPath.bonusAccuracyGrowth} ({ReturnSign(currentAscensionPath.bonusAccuracyGrowth)}{currentAscensionPath.bonusAccuracyGrowth})");
+            $"\n{currentMonsterEquipment.evasion} -> {currentMonsterEquipment.evasion + currentAscensionPath.evasionGrowth} (<b>{ReturnSign(currentAscensionPath.evasionGrowth)}{currentAscensionPath.evasionGrowth}</b>)" +
+            $"\n{currentMonsterEquipment.critChance} -> {currentMonsterEquipment.critChance + currentAscensionPath.critChanceGrowth} (<b>{ReturnSign(currentAscensionPath.critChanceGrowth)}{currentAscensionPath.critChanceGrowth}</b>)" +
+            $"\n{currentMonsterEquipment.bonusAccuracy} -> {currentMonsterEquipment.bonusAccuracy + currentAscensionPath.bonusAccuracyGrowth} (<b>{ReturnSign(currentAscensionPath.bonusAccuracyGrowth)}{currentAscensionPath.bonusAccuracyGrowth}</b>)");
+    }
+
+    // Play monster ascension animation
+    public void BeginMonsterAscension()
+    {
+        ascendingMonsterSprite.sprite = currentMonsterEquipment.baseSprite;
+        ascendingMonsterSprite.GetComponent<Animator>().SetBool("Ascend", true);
+    }
+
+    // Change monster ascension sprite
+    public void ChangeMonsterSprite()
+    {
+        ascendingMonsterSprite.sprite = currentAscensionPath.baseSprite;
+    }
+
+    // Ascend monster
+    public void AscendMonster()
+    {
+        // Change monster in list to ascension monster
+        Monster newMonster = Instantiate(currentAscensionPath);
+        newMonster.monsterIsOwned = true;
+
+        // Copy moves of previous monster
+        for (int i = 0; i < 4; i++)
+        {
+            newMonster.ListOfMonsterAttacks[i] = currentMonsterEquipment.ListOfMonsterAttacks[i];
+        }
+
+        // Copy equipment of previous monster
+        int equipmentCount = currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList().Count;
+
+        //Debug.Log($"Current Monster Equipment Count: {equipmentCount}");
+        //Debug.Log($"Current Monster Equipment 1: {currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList()[0]}");
+        //Debug.Log($"New Monster Equipment Count: {newMonster.ListOfModifiers.Count}");
+
+        for (int i = 0; i < equipmentCount; i++)
+        {
+            newMonster.ListOfModifiers.Add(currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList()[i]);
+            currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList()[i].modifierOwner = newMonster;
+        }
+
+        // Update current monster reference
+        adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment)] = newMonster;
+        adventureManager.ListOfAllMonsters[adventureManager.ListOfAllMonsters.IndexOf(currentMonsterEquipment)] = newMonster;
+
+        monsterStatScreenScript.currentMonster = newMonster;
+        currentMonsterEquipment = newMonster;
     }
 
     // This function returns a negative or positive sign for text applications

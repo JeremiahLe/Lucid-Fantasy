@@ -382,10 +382,10 @@ MonoBehaviour:
     rgba: 2864233
   buffColor:
     serializedVersion: 2
-    rgba: 4294162472
+    rgba: 4293371246
   debuffColor:
     serializedVersion: 2
-    rgba: 4281940462
+    rgba: 4282795734
   statusEffectHolder: {fileID: 5944619566617632455}
   statusEffectIcon: {fileID: 4223221832268652329, guid: ce039b890c7ba2a4a9b47ee856595eac, type: 3}
   modifierWindow: {fileID: 6425861274070504919}
