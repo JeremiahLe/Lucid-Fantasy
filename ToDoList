@@ -383,6 +383,24 @@ Imported Various Assets/Packages
 - Add Gain +1 Reroll on Skip
 - Add Shop
 
+[9/17/22]
+- Ascension animation, and Ascension results screen (learn new command, show new stat growth)
+- Add Electricity VFX
+- Finish Healing Solvent attack effects
+- Add Chimeric Archive
+- Add Reroll Icon
+- Add Shop
+- Finish button functionality (Use, Equip, Trash, Upgrade)
+- Rework MonsterAttackManager again to implement Level Up Windows
+- Change color of buff / debuff text
+- Fix the starting skip bug
+- Fix Row Button's interactable Name
+- Implement Post-Battle results (Win & Lose)
+- Fix missing Interactable Window Bug in New Game+
+- Enemy monster leveled up?
+- Fix targeter position when dazed hits self
+- Unequip all equipment when an ally dies
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
