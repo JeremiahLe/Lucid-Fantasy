@@ -401,6 +401,20 @@ Imported Various Assets/Packages
 - Fix targeter position when dazed hits self
 - Unequip all equipment when an ally dies
 
+[10/5/22]
+- Add Electricity VFX
+- Finish Healing Solvent attack effects
+- Add Chimeric Archive
+- Add Reroll Icon
+- Add Shop
+- Finish button functionality (Use, Equip, Trash, Upgrade)
+
+- Implement Post-Battle results (Win & Lose)
+- Missing damage for status on round start for fastest enemy that just took damage
+- Add monster sprite icons to combat order
+- Equipment Window monster tabbing does not work in DevCombatScene
+
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
