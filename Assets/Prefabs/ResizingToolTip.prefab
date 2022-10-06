@@ -140,6 +140,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 1080
       objectReference: {fileID: 0}
+    - target: {fileID: 2870457980261108046, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -256
+      objectReference: {fileID: 0}
+    - target: {fileID: 2870457980261108046, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 489
+      objectReference: {fileID: 0}
     - target: {fileID: 5847952280785591621, guid: 5ade79f55267a0545b0a3e59dd653a7e, type: 3}
       propertyPath: canvasRectTransform
       value: 

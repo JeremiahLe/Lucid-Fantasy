@@ -353,8 +353,7 @@ public class ButtonManagerScript : MonoBehaviour
         // Hide attack description container
         uiManager.ResetCombatMessage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name);
         monsterAttackManager.ResetHUD();
-        combatManagerScript.CurrentMonsterAttack = null;
-        combatManagerScript.targeting = false;
+        monsterAttackManager.ClearCurrentButtonAttack();
 
         // Redisplay attack moves and hide the back button
         HideAllButtons("AttacksHUDButtons");

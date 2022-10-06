@@ -10,7 +10,7 @@ public class PopupScript : MonoBehaviour
 
     public void OnEnable()
     {
-        deathTime = Random.Range(0.75f, 1.25f);
+        deathTime = 1.25f;
         Invoke("OnAnimationEnd", deathTime);
     }
 

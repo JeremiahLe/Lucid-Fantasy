@@ -33,7 +33,7 @@ public class AttackEffect : ScriptableObject
     public enum StatChangeType { Buff, Debuff, None }
     public StatChangeType statChangeType;
 
-    public enum EffectTime { PreAttack, DuringAttack, PostAttack }
+    public enum EffectTime { PreAttack, DuringAttack, PostAttack, OnKill, OnDeath, GameStart, RoundStart, RoundEnd, OnStatChange, OnDamageTaken, PreOtherAttack, OnDamageDealt }
     public EffectTime effectTime;
 
     public Modifier.StatusEffectType attackEffectStatus;
@@ -493,44 +493,6 @@ public class AttackEffect : ScriptableObject
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(true, null, false);
     }
 
-    // Damage All enemies
-    /*public void DamageAllEnemies(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
-    {
-        combatManagerScript = monsterAttackManager.combatManagerScript;
-
-        if (monsterReference.aiType == Monster.AIType.Ally)
-        {
-            // Get all other enemies that weren't the main target
-            foreach (GameObject monster in combatManagerScript.ListOfEnemies.ToArray())
-            {
-                if (monster == combatManagerScript.CurrentTargetedMonster || monster == null)
-                {
-                    continue;
-                }
-
-                // First set the monster targeted then get damage calced
-                //monsterAttackManager.currentTargetedMonster = monster.GetComponent<CreateMonster>().monsterReference;
-                //monsterAttackManager.currentTargetedMonsterGameObject = monster;
-
-                monsterAttackManager.DealDamageOthers(monster);
-            }
-        }
-        else if (monsterReference.aiType == Monster.AIType.Enemy)
-        {
-            // Get all other enemies that weren't the main target
-            foreach (GameObject monster in combatManagerScript.ListOfAllys.ToArray())
-            {
-                if (monster == combatManagerScript.CurrentTargetedMonster || monster == null)
-                {
-                    continue;
-                }
-
-                // First set the monster targeted then get damage calced
-                monsterAttackManager.DealDamageOthers(monster);
-            }
-        }
-    }*/
-
     // Double power of monster attack
     public void DoublePowerIfStatBoost(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
@@ -541,6 +503,7 @@ public class AttackEffect : ScriptableObject
 
             // Send buff message to combat log
             combatManagerScript = monsterAttackManager.combatManagerScript;
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Gained Bonus Damage!");
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} had it's power doubled!");
         }
     }
@@ -561,6 +524,7 @@ public class AttackEffect : ScriptableObject
 
                     // Send buff message to combat log
                     combatManagerScript = monsterAttackManager.combatManagerScript;
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Gained Bonus Damage!");
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained bonus damage!");
                 }
                 break;
@@ -575,6 +539,7 @@ public class AttackEffect : ScriptableObject
 
                     // Send buff message to combat log
                     combatManagerScript = monsterAttackManager.combatManagerScript;
+                    monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Gained Bonus Damage!");
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained bonus damage!");
                 }
                 break;
@@ -817,6 +782,7 @@ public class AttackEffect : ScriptableObject
 
         // Send buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
+        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Gained Bonus Damage!");
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained {monsterAttackManager.currentMonsterAttack.monsterAttackFlatDamageBonus} additional damage!");
     }
 
@@ -971,6 +937,9 @@ public class AttackEffect : ScriptableObject
     // Lower Offensive Stats
     public void LowerOffensiveStats(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
+        // Send message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+
         // Physical Attack nerf (20%)
         float fromValue = monsterReference.physicalAttack;
         float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
@@ -987,8 +956,23 @@ public class AttackEffect : ScriptableObject
         mod.statChangeType = StatChangeType.Debuff;
         mod.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod.statModified = StatEnumToChange.PhysicalAttack;
-        monsterReference.ListOfModifiers.Add(mod);
-        monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod.statModified, mod);
+
+        // Check stat change reaches lower cap
+        if (fromValue <= 1)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{mod.statModified.ToString()} couldn't go any lower!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {mod.statModified.ToString()}!");
+        }
+        else
+        {
+            monsterReference.ListOfModifiers.Add(mod);
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {mod.statModified.ToString()} was decreased by {mod.modifierName}!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(mod.statModified, false);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod.statModified, mod);
+        };
 
         // Magic Attack nerf (20%)
         fromValue = monsterReference.magicAttack;
@@ -1006,14 +990,23 @@ public class AttackEffect : ScriptableObject
         mod2.statChangeType = StatChangeType.Debuff;
         mod2.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod2.statModified = StatEnumToChange.MagicAttack;
-        monsterReference.ListOfModifiers.Add(mod2);
-        monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod2.statModified, mod2);
 
-        // Send speed buff message to combat log
-        combatManagerScript = monsterAttackManager.combatManagerScript;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} lowered its Physical and Magic Attack!");
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.PhysicalAttack, false);
-        monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatEnumToChange.MagicAttack, false);
+        // Check stat change reaches lower cap
+        if (fromValue <= 1)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{mod2.statModified.ToString()} couldn't go any lower!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {mod2.statModified.ToString()}!");
+        }
+        else
+        {
+            monsterReference.ListOfModifiers.Add(mod2);
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {mod2.statModified.ToString()} was decreased by {mod2.modifierName}!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(mod2.statModified, false);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod2.statModified, mod2);
+        }
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
@@ -1023,6 +1016,9 @@ public class AttackEffect : ScriptableObject
     // Increase Offensive Stats
     public void IncreaseOffensiveStats(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
+        // Send message to combat log
+        combatManagerScript = monsterAttackManager.combatManagerScript;
+
         // Physical Attack buff
         float fromValue = monsterReference.physicalAttack;
         float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
@@ -1037,8 +1033,23 @@ public class AttackEffect : ScriptableObject
         mod.modifierAmount = toValue;
         mod.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod.statModified = StatEnumToChange.PhysicalAttack;
-        monsterReference.ListOfModifiers.Add(mod);
-        monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod.statModified, mod);
+
+        // Check stat change reaches lower cap
+        if (fromValue <= 1)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{mod.statModified.ToString()} couldn't go any lower!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {mod.statModified.ToString()}!");
+        }
+        else
+        {
+            monsterReference.ListOfModifiers.Add(mod);
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {mod.statModified.ToString()} was increased by {mod.modifierName}!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(mod.statModified, true);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod.statModified, mod);
+        }
 
         // Magic Attack buff
         fromValue = monsterReference.magicAttack;
@@ -1054,12 +1065,23 @@ public class AttackEffect : ScriptableObject
         mod2.modifierAmount = toValue;
         mod2.modifierDurationType = Modifier.ModifierDurationType.Permanent;
         mod2.statModified = StatEnumToChange.MagicAttack;
-        monsterReference.ListOfModifiers.Add(mod2);
-        monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod2.statModified, mod2);
 
-        // Send speed buff message to combat log
-        combatManagerScript = monsterAttackManager.combatManagerScript;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} increased its Physical and Magic Attack!");
+        // Check stat change reaches lower cap
+        if (fromValue <= 1)
+        {
+            // Send execute message to combat log
+            combatManagerScript = monsterAttackManager.combatManagerScript;
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s " +
+                $"{mod2.statModified.ToString()} couldn't go any lower!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup($"No Effect on {mod2.statModified.ToString()}!");
+        }
+        else
+        {
+            monsterReference.ListOfModifiers.Add(mod2);
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {mod2.statModified.ToString()} was increased by {mod2.modifierName}!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(mod2.statModified, true);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().ModifyStats(mod2.statModified, mod2);
+        }
 
         // Update monster's stats
         monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false);
@@ -1137,17 +1159,21 @@ public class AttackEffect : ScriptableObject
 
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
-        monsterComponent.CreateStatusEffectPopup(statEnumToChange, true, toValue);
+        //combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
+        //monsterComponent.CreateStatusEffectPopup(statEnumToChange, true, toValue);
 
         // Update monster's stats
         if (statEnumToChange == StatEnumToChange.Health)
         {
             monsterComponent.UpdateStats(true, null, false); // if health changed, check health
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName} (+{toValue})!", monsterReference.aiType);
+            monsterComponent.ShowDamageOrStatusEffectPopup(toValue, "Heal");
         }
         else
         {
             monsterComponent.UpdateStats(false, null, false);
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
+            monsterComponent.CreateStatusEffectPopup(statEnumToChange, true);
         }
 
         monsterComponent.monsterRecievedStatBoostThisRound = true;
@@ -1361,17 +1387,22 @@ public class AttackEffect : ScriptableObject
 
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
-        monsterComponent.CreateStatusEffectPopup(statEnumToChange, true);
+        //combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
+        //monsterComponent.CreateStatusEffectPopup(statEnumToChange, true);
 
         // Update monster's stats
         if (statEnumToChange == StatEnumToChange.Health)
         {
             monsterComponent.UpdateStats(true, null, false); // if health changed, check health
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName} (+{toValue})!", monsterReference.aiType);
+            monsterComponent.ShowDamageOrStatusEffectPopup(toValue, "Heal");
         }
         else
         {
+            Debug.Log($"StatENumToChange == {statEnumToChange}", this);
             monsterComponent.UpdateStats(false, null, false);
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was increased by {effectTriggerName}!", monsterReference.aiType);
+            monsterComponent.CreateStatusEffectPopup(statEnumToChange, true);
         }
 
         monsterComponent.monsterRecievedStatBoostThisRound = true;
@@ -1384,7 +1415,7 @@ public class AttackEffect : ScriptableObject
 
         // Trigger buff animation
         monsterComponent.GetComponent<Animator>().SetBool("buffAnimationPlaying", true);
-        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.debuffSound);
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
     }
 
     // Delegate Debuff Function Test
@@ -1456,17 +1487,21 @@ public class AttackEffect : ScriptableObject
 
         // Send speed buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was decreased by {effectTriggerName}!", monsterReference.aiType);
-        monsterComponent.CreateStatusEffectPopup(statEnumToChange, false);
+        //combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was decreased by {effectTriggerName}!", monsterReference.aiType);
+        //monsterComponent.CreateStatusEffectPopup(statEnumToChange, false);
 
         // Update monster's stats
         if (statEnumToChange == StatEnumToChange.Health)
         {
             monsterComponent.UpdateStats(true, null, false); // if health changed, check health
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was decreased by {effectTriggerName} (-{toValue})!", monsterReference.aiType);
+            monsterComponent.ShowDamageOrStatusEffectPopup(toValue, "Damage");
         }
         else
         {
             monsterComponent.UpdateStats(false, null, false);
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statEnumToChange.ToString()} was decreased by {effectTriggerName}!", monsterReference.aiType);
+            monsterComponent.CreateStatusEffectPopup(statEnumToChange, false);
         }
 
         monsterComponent.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;

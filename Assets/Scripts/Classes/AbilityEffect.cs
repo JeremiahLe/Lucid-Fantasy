@@ -2,17 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityEffect : MonoBehaviour
+public class AbilityEffect : AttackEffect
 {
-    // Start is called before the first frame update
-    void Start()
+    public AbilityEffect(StatEnumToChange statEnumToChange, StatChangeType statChangeType, EffectTime effectTime, Modifier.StatusEffectType attackEffectStatus, bool inflictSelf, bool modifierCalledOnce, bool flatBuff, int modifierDuration, float amountToChange, float effectTriggerChance, CombatManagerScript combatManagerScript) : base(statEnumToChange, statChangeType, effectTime, attackEffectStatus, inflictSelf, modifierCalledOnce, flatBuff, modifierDuration, amountToChange, effectTriggerChance, combatManagerScript)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

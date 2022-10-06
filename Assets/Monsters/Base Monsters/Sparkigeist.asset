@@ -18,7 +18,8 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
   aiType: 0
   aiLevel: 0
-  monsterFlavourText: Sparkigeist often haunt outlets and feed off the electricity.
+  monsterFlavourText: Sparkigeist often haunt electrical outlets and feed off the
+    electricity.
   monsterAbility: {fileID: 11400000, guid: 95eb864fe3d4ec74683cac4ec74a8f24, type: 2}
   level: 5
   health: 78

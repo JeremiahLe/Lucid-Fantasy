@@ -4,10 +4,9 @@ using UnityEngine;
 using System;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 [System.Serializable]
-public class StatusEffectIcon : MonoBehaviour, IPointerClickHandler
+public class StatusEffectIcon : MonoBehaviour
 {
     public Modifier modifier;
     public string statusEffectName;
@@ -22,8 +21,7 @@ public class StatusEffectIcon : MonoBehaviour, IPointerClickHandler
     public Modifier.StatusEffectType statusEffectType;
 
     public CreateMonster monsterRef;
-    public GameObject modifierStatScreenWindow;
-    public TextMeshProUGUI modifierWindowText;
+    public Interactable interactable;
 
     public Color32 buffColor;
     public Color32 debuffColor;
@@ -32,6 +30,7 @@ public class StatusEffectIcon : MonoBehaviour, IPointerClickHandler
     {   
         modifier = _modifier;
         modifierDurationText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
+
         if (modifier != null)
         {
             statusEffectName = modifier.modifierSource;
@@ -45,6 +44,8 @@ public class StatusEffectIcon : MonoBehaviour, IPointerClickHandler
     public void InitiateStatusEffectIcon(CreateMonster _monsterRef)
     {
         modifierDurationText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        interactable = GetComponent<Interactable>();
+
         if (modifier != null)
         {
             statusEffectName = modifier.modifierSource;
@@ -63,8 +64,11 @@ public class StatusEffectIcon : MonoBehaviour, IPointerClickHandler
             monsterRef = _monsterRef;
             GetComponent<Image>().sprite = monsterRef.ReturnStatusEffectSprite(modifier);
 
-            modifierStatScreenWindow = monsterRef.modifierWindow;
-            modifierWindowText = modifierStatScreenWindow.GetComponentInChildren<TextMeshProUGUI>();
+            // Initiate the modifier icon's interactable component
+            interactable.interactableDescriptionWindow = monsterRef.InteractableToolTipWindow;
+            interactable.typeOfInteractable = Interactable.TypeOfInteractable.Modifier;
+            interactable.modifier = modifier;
+            interactable.InitiateInteractable(modifier);
 
             if (!modifier.statusEffect)
             {
@@ -85,6 +89,8 @@ public class StatusEffectIcon : MonoBehaviour, IPointerClickHandler
     public void InitiateSpecialEffectIcon(CreateMonster _monsterRef)
     {
         modifierDurationText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        interactable = GetComponent<Interactable>();
+
         if (modifier != null)
         {
             statusEffectName = modifier.modifierSource;
@@ -103,53 +109,56 @@ public class StatusEffectIcon : MonoBehaviour, IPointerClickHandler
             monsterRef = _monsterRef;
             GetComponent<Image>().sprite = modifier.baseSprite;
 
-            modifierStatScreenWindow = monsterRef.modifierWindow;
-            modifierWindowText = modifierStatScreenWindow.GetComponentInChildren<TextMeshProUGUI>();
+            // Initiate the modifier icon's interactable component
+            interactable.interactableDescriptionWindow = monsterRef.InteractableToolTipWindow;
+            interactable.typeOfInteractable = Interactable.TypeOfInteractable.Modifier;
+            interactable.modifier = modifier;
+            interactable.InitiateInteractable(modifier);
         }
     }
 
-    // This function displays monster stats on right-click
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            if (!modifierStatScreenWindow.activeSelf)
-            {
-                modifierStatScreenWindow.SetActive(true);
-                if (modifier.adventureModifier)
-                {
-                    modifierWindowText.text =
-                    ($"{modifier.modifierName}\n" +
-                    $"{modifier.modifierDescription}");
-                    return;
-                }
-                if (modifier.statusEffect)
-                {
-                    modifierWindowText.text =
-                    ($"{modifier.modifierSource} ({modifier.statusEffectType.ToString()})\n" +
-                    $"{modifier.modifierAmount * 100f}% {monsterRef.ReturnStatusEffectDescription(modifier.statusEffectType)}");
-                    return;
-                }
-                modifierWindowText.text =
-                    ($"{modifier.modifierSource}\n" +
-                    $"{ReturnSign(modifier.statChangeType)}{modifier.modifierAmount} {modifier.statModified.ToString()}");
-            }
-            else
-            {
-                modifierStatScreenWindow.SetActive(false);
-            }
-        }
-    }
+    //// This function displays monster stats on right-click
+    //public void OnPointerClick(PointerEventData eventData)
+    //{
+    //    if (eventData.button == PointerEventData.InputButton.Right)
+    //    {
+    //        if (!modifierStatScreenWindow.activeSelf)
+    //        {
+    //            modifierStatScreenWindow.SetActive(true);
+    //            if (modifier.adventureModifier)
+    //            {
+    //                modifierWindowText.text =
+    //                ($"{modifier.modifierName}\n" +
+    //                $"{modifier.modifierDescription}");
+    //                return;
+    //            }
+    //            if (modifier.statusEffect)
+    //            {
+    //                modifierWindowText.text =
+    //                ($"{modifier.modifierSource} ({modifier.statusEffectType.ToString()})\n" +
+    //                $"{modifier.modifierAmount * 100f}% {monsterRef.ReturnStatusEffectDescription(modifier.statusEffectType)}");
+    //                return;
+    //            }
+    //            modifierWindowText.text =
+    //                ($"{modifier.modifierSource}\n" +
+    //                $"{ReturnSign(modifier.statChangeType)}{modifier.modifierAmount} {modifier.statModified.ToString()}");
+    //        }
+    //        else
+    //        {
+    //            modifierStatScreenWindow.SetActive(false);
+    //        }
+    //    }
+    //}
 
-    public string ReturnSign(AttackEffect.StatChangeType statChangeType)
-    {
-        if (statChangeType == AttackEffect.StatChangeType.Buff)
-        {
-            return "+";
-        }
-        else
-        {
-            return "";
-        }
-    }
+    //public string ReturnSign(AttackEffect.StatChangeType statChangeType)
+    //{
+    //    if (statChangeType == AttackEffect.StatChangeType.Buff)
+    //    {
+    //        return "+";
+    //    }
+    //    else
+    //    {
+    //        return "";
+    //    }
+    //}
 }

@@ -68,6 +68,14 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Ascension Window")]
     public Image ascendingMonsterSprite;
+    public GameObject continueToAfterAscensionButton;
+
+    [Header("After Ascension Window")]
+    public Image ascendedMonster;
+    public List<GameObject> monsterAscendedAttackHolders;
+    public TextMeshProUGUI ascendedMonsterText;
+    public Monster preAscensionReference;
+    public GameObject newCommandHolder;
 
     private void Awake()
     {
@@ -532,10 +540,6 @@ public class InventoryManager : MonoBehaviour
         // Copy equipment of previous monster
         int equipmentCount = currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList().Count;
 
-        //Debug.Log($"Current Monster Equipment Count: {equipmentCount}");
-        //Debug.Log($"Current Monster Equipment 1: {currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList()[0]}");
-        //Debug.Log($"New Monster Equipment Count: {newMonster.ListOfModifiers.Count}");
-
         for (int i = 0; i < equipmentCount; i++)
         {
             newMonster.ListOfModifiers.Add(currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList()[i]);
@@ -546,8 +550,82 @@ public class InventoryManager : MonoBehaviour
         adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment)] = newMonster;
         adventureManager.ListOfAllMonsters[adventureManager.ListOfAllMonsters.IndexOf(currentMonsterEquipment)] = newMonster;
 
+        // Store reference
+        preAscensionReference = currentMonsterEquipment;
+
         monsterStatScreenScript.currentMonster = newMonster;
         currentMonsterEquipment = newMonster;
+
+        // Show continue button
+        continueToAfterAscensionButton.SetActive(true);
+    }
+
+    // Show Ascended monster screen
+    public void ShowAscendedMonsterWindow()
+    {
+        // Display image and text
+        ascendedMonster.sprite = currentMonsterEquipment.baseSprite;
+        ascendedMonsterText.text = 
+            ($"{preAscensionReference.name} ascended into {currentMonsterEquipment.name}!" +
+            $"\n\nReplace an existing command with {currentMonsterEquipment.monsterAscensionAttack.monsterAttackName}?");
+
+        // Display new command
+        DragCommandController newAttackHolder = newCommandHolder.GetComponent<DragCommandController>();
+        newAttackHolder.monsterAttackReference = currentMonsterEquipment.monsterAscensionAttack;
+
+        newAttackHolder.GetComponent<Interactable>().interactableName = newAttackHolder.monsterAttackReference.monsterAttackName;
+        newAttackHolder.GetComponent<Interactable>().interactableDescription = newAttackHolder.monsterAttackReference.monsterAttackDescription;
+
+        newAttackHolder.GetComponentInChildren<TextMeshProUGUI>().text =
+            ($"{newAttackHolder.monsterAttackReference.monsterAttackName}" +
+            $"\nElement: {newAttackHolder.monsterAttackReference.monsterElementClass.element.ToString()} | Type: {newAttackHolder.monsterAttackReference.monsterAttackDamageType}");
+
+        if (newAttackHolder.monsterAttackReference.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
+        {
+            newAttackHolder.GetComponentInChildren<TextMeshProUGUI>().text +=
+                ($"\nBase Power: {newAttackHolder.monsterAttackReference.monsterAttackDamage} | Accuracy: {newAttackHolder.monsterAttackReference.monsterAttackAccuracy}%");
+        }
+        else
+        {
+            newAttackHolder.GetComponentInChildren<TextMeshProUGUI>().text +=
+                ($"\nBuff/Debuff Type: {newAttackHolder.monsterAttackReference.monsterAttackTargetType} | Accuracy: {newAttackHolder.monsterAttackReference.monsterAttackAccuracy}%");
+        }
+
+        // Display monster attacks
+        int i = 0;
+        foreach (GameObject monsterAttackHolder in monsterAscendedAttackHolders)
+        {
+            // Don't override the new command
+            if (i == 4)
+                continue;
+
+            // Grab reference to command holder and assign it's monster attack reference
+            DragCommandController dragController = monsterAttackHolder.GetComponent<DragCommandController>();
+            dragController.monsterAttackReference = currentMonsterEquipment.ListOfMonsterAttacks[i];
+
+            // Initialize the command holder's interactable component
+            dragController.GetComponent<Interactable>().interactableName = dragController.monsterAttackReference.monsterAttackName;
+            dragController.GetComponent<Interactable>().interactableDescription = dragController.monsterAttackReference.monsterAttackDescription;
+
+            // Display current command's name, element, and damage type
+            dragController.GetComponentInChildren<TextMeshProUGUI>().text =
+                ($"{dragController.monsterAttackReference.monsterAttackName}" +
+                $"\nElement: {dragController.monsterAttackReference.monsterElementClass.element.ToString()} | Type: {dragController.monsterAttackReference.monsterAttackDamageType}");
+
+            // If current command is an attack display its power, otherwise it must be a buff / debuff
+            if (dragController.monsterAttackReference.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
+            {
+                dragController.GetComponentInChildren<TextMeshProUGUI>().text +=
+                    ($"\nBase Power: {dragController.monsterAttackReference.monsterAttackDamage} | Accuracy: {dragController.monsterAttackReference.monsterAttackAccuracy}%");
+            }
+            else
+            {
+                dragController.GetComponentInChildren<TextMeshProUGUI>().text +=
+                    ($"\nBuff/Debuff Type: {dragController.monsterAttackReference.monsterAttackTargetType} | Accuracy: {dragController.monsterAttackReference.monsterAttackAccuracy}%");
+            }
+
+            i++;
+        }
     }
 
     // This function returns a negative or positive sign for text applications

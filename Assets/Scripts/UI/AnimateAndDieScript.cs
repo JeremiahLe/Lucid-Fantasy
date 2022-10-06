@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AnimateAndDieScript : MonoBehaviour
 {
+    public bool destroyOnAnimationEnd = false;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,6 +28,14 @@ public class AnimateAndDieScript : MonoBehaviour
     // Die - GitHub comment
     void Die()
     {
-        gameObject.SetActive(false);
+        if (destroyOnAnimationEnd)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
+
 }

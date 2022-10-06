@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Honed Precision
   m_EditorClassIdentifier: 
   monsterAttackName: Honed Precision
-  monsterAttackDescription: Raise user's CritChance by 100% for 2 rounds.
+  monsterAttackDescription: Raise user's CritChance by 100% for 3 rounds.
   monsterAttackElement: 5
   monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   monsterAttackType: 1
@@ -30,6 +30,6 @@ MonoBehaviour:
   attackOnCooldown: 0
   attackBaseCooldown: 0
   attackCurrentCooldown: 0
-  AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
+  AttackVFX: {fileID: 4923460609481425163, guid: 6fdd9b5b447da3e43bf0ab49841cc581, type: 3}
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 95ff4ab376359d34995adf8433d84023, type: 2}

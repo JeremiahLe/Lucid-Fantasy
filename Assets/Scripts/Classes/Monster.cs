@@ -103,6 +103,24 @@ public class Monster : ScriptableObject
     [Range(0f, 100f)] public float cachedBonusAccuracy;
     [Range(0f, 100f)] public float cachedCritDamage;
 
+    [Title("Adventure - Monster Combat Stats Previous Level Cached")]
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(0f, 100f)] public float previouslyCachedMaxHealth;
+
+    [Range(1, 300)] public float previouslyCachedPhysicalAttack;
+    [Range(1, 300)] public float previouslyCachedMagicAttack;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1, 1000)] public float previouslyCachedPhysicalDefense;
+    [Range(1, 1000)] public float previouslyCachedMagicDefense;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1, 100)] public float previouslyCachedSpeed;
+    [Range(0, 99)] public float previouslyCachedEvasion;
+    [Range(0, 100)] public float previouslyCachedCritChance;
+    [Range(0f, 100f)] public float previouslyCachedBonusAccuracy;
+    [Range(0f, 100f)] public float previouslyCachedCritDamage;
+
     public int cachedLevel;
     public CreateMonster.MonsterRowPosition cachedMonsterRowPosition;
 

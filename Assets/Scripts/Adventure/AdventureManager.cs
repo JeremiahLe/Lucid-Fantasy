@@ -441,7 +441,7 @@ public class AdventureManager : MonoBehaviour
 
         lockEquipmentInCombat = true;
 
-        SceneManager.LoadScene("SetupCombatScene");
+        SceneManager.LoadScene("SetupCombatSceneUpdated");
     }
 
     // This function goes to selected adventure scene
@@ -487,7 +487,7 @@ public class AdventureManager : MonoBehaviour
                 break;
                 
 
-            case ("SetupCombatScene"):
+            case ("SetupCombatSceneUpdated"):
 
                 // Get combat scene components
                 CombatManagerObject = GameObject.FindGameObjectWithTag("GameController");

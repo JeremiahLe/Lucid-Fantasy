@@ -8175,7 +8175,8 @@ MonoBehaviour:
   currentMonsterTurnGameObject: {fileID: 0}
   currentTargetedMonsterGameObject: {fileID: 0}
   currentTargetedMonster: {fileID: 0}
-  ListOfTargetedMonsters: []
+  ListOfTargetMonsters: []
+  ListOfCurrentlyTargetedMonsters: []
   buttonManagerScript: {fileID: 0}
   combatManagerScript: {fileID: 0}
   HUDanimationManager: {fileID: 0}
@@ -8188,6 +8189,8 @@ MonoBehaviour:
   TextBackImageBorder: {fileID: 976399302}
   monsterAttackMissText: {fileID: 566322321}
   monsterCritText: {fileID: 699824926}
+  monsterCombatPredictionWindow: {fileID: 0}
+  monsterCombatPredictionText: {fileID: 0}
   poisonedUISprite: {fileID: 21300000, guid: 8e8b0e28cfec1b248a4b7abc51592156, type: 3}
   noUISprite: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
   burningUISprite: {fileID: 21300000, guid: 884db12ad07c0e444b5e3f1f064a979a, type: 3}
@@ -8253,6 +8256,7 @@ MonoBehaviour:
   HUDanimationManager: {fileID: 0}
   combatManagerScript: {fileID: 0}
   DetailedMonsterStatsWindow: {fileID: 849415714}
+  InteractableToolTipWindow: {fileID: 1025111212}
   physicalAttackSprite: {fileID: 21300000, guid: abbc95c2d465d0b4d982cf3776d55a41, type: 3}
   physicalDefenseSprite: {fileID: 21300000, guid: 7654e64bafa78874497f0c322b62bf3c, type: 3}
   magicAttackSprite: {fileID: 21300000, guid: ed87bdef944057a42bbaa4d4f2c59f9f, type: 3}
@@ -8284,6 +8288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEffectAudioSource: {fileID: 1758263246}
   soundEffectQueue: []
+  UISelectSFX1: {fileID: 8300000, guid: c8a11eb92cf88f148aab4b9d45c217ab, type: 3}
 --- !u!82 &1758263246
 AudioSource:
   m_ObjectHideFlags: 0

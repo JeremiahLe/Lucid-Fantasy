@@ -18,7 +18,8 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: d8116a12bc962344d879184f9ba6ecad, type: 2}
   aiType: 0
   aiLevel: 0
-  monsterFlavourText: 
+  monsterFlavourText: Bearcano are the embodiment of the raging volcano, consuming
+    raw magma for sustenance.
   monsterAbility: {fileID: 11400000, guid: 110f7c2e9196d704cad8fe1368ff1c15, type: 2}
   level: 20
   health: 3000

@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     public CombatManagerScript combatManagerScript;
 
     public GameObject DetailedMonsterStatsWindow;
-    //public GameObject TooltipWindow;
+    public GameObject InteractableToolTipWindow;
 
     Monster monsterRef;
 
@@ -140,12 +140,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // This function updates on-screen battle sequence - TODO - Implement Me
-    public void UpdateBattleSequenceList(List<GameObject> currentBattleSequence)
-    {
-
-    }
-
     // This function fades text passed in
     public void FadeText(TextMeshProUGUI textToFade)
     {
@@ -198,14 +192,4 @@ public class UIManager : MonoBehaviour
 
         RoundCountText.text = ""; // hide round counter text
     }
-
-    //public void DisplayToolTipWindow(Modifier modifier)
-    //{
-    //    TooltipWindow.SetActive(true);
-    //    TooltipWindow.transform.position = modifier.statusEffectIconGameObject.transform.position;
-    //    TooltipWindow.GetComponentInChildren<TextMeshProUGUI>().text = 
-    //        ($"{modifier.modifierSource}" +
-    //        $"Duration: {modifier.modifierCurrentDuration} rounds" +
-    //        $"Type: {modifier.statChangeType}");
-    //}
 }

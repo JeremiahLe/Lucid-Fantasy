@@ -18,7 +18,8 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: e50298cfd797133489b34af0beff2923, type: 2}
   aiType: 0
   aiLevel: 0
-  monsterFlavourText: 
+  monsterFlavourText: Hurrikanine reside in the heavenly space in the eye of storms,
+    often creating them themselves with simple wing movements.
   monsterAbility: {fileID: 11400000, guid: cb4db506102fe30479e4bf2a2096f8bf, type: 2}
   level: 50
   health: 2100

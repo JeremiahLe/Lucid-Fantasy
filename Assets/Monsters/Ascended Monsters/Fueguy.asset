@@ -18,7 +18,8 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
   aiLevel: 0
-  monsterFlavourText: 
+  monsterFlavourText: Fueguy do nothing but laugh and dance all day long, unfazed
+    by the annoyance of others.
   monsterAbility: {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
   level: 50
   health: 1800

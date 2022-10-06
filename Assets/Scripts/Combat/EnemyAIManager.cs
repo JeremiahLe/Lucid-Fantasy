@@ -82,33 +82,33 @@ public class EnemyAIManager : MonoBehaviour
                 //currentEnemyTargetGameObject = GetRandomTarget();
 
                 currentEnemyTarget = currentEnemyTargetGameObject.GetComponent<CreateMonster>().monsterReference;
-                monsterTargeter.SetActive(true);
-                monsterTargeter.transform.position = new Vector3(currentEnemyTargetGameObject.transform.position.x, currentEnemyTargetGameObject.transform.position.y + 2.5f, currentEnemyTargetGameObject.transform.position.z);
 
-                // Targeting self?
-                if (currentEnemyTarget == currentEnemyTurn)
-                {
-                    // Dazed?
-                    if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
-                    {
-                        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} is Dazed will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
-                    }
-                    else
-                    {
-                        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
-                    }
-                }
-                else {
-                    // Dazed?
-                    if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
-                    {
-                        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} is Dazed and will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
-                    }
-                    else
-                    {
-                        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
-                    }
-                }
+                #region Old Code
+                //// Targeting self?
+                //if (currentEnemyTarget == currentEnemyTurn)
+                //{
+                //    // Dazed?
+                //    if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
+                //    {
+                //        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} is Dazed will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
+                //    }
+                //    else
+                //    {
+                //        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
+                //    }
+                //}
+                //else {
+                //    // Dazed?
+                //    if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
+                //    {
+                //        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} is Dazed and will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
+                //    }
+                //    else
+                //    {
+                //        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
+                //    }
+                //}
+                #endregion
 
                 combatManagerScript.CurrentMonsterTurnAnimator = currentEnemyTurnGameObject.GetComponent<Animator>();
                 combatManagerScript.CurrentTargetedMonster = currentEnemyTargetGameObject;
@@ -116,7 +116,6 @@ public class EnemyAIManager : MonoBehaviour
 
                 // Random chance to change row position
                 CreateMonster.MonsterRowPosition randRowPos = RandomRowPosition();
-                //Debug.Log($"{randRowPos}");
                 CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
 
                 if (randRowPos != monsterComponent.monsterRowPosition)
@@ -124,8 +123,21 @@ public class EnemyAIManager : MonoBehaviour
                     monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, randRowPos, monsterComponent.monsterRowPosition);
                 }
 
+                if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
+                {
+                    if (combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy)
+                    {
+                        combatManagerScript.CurrentTargetedMonster = combatManagerScript.ListOfEnemies[0];
+                    }
+                    else
+                    {
+                        combatManagerScript.CurrentTargetedMonster = combatManagerScript.ListOfAllys[0];
+                    }
+                }
+
                 monsterAttackManager.Invoke("UseMonsterAttack", 0.2f);
                 break;
+
             default:
                 Debug.Log("Missing AI Level or monster reference?", this);
                 break;

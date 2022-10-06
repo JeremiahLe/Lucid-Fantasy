@@ -118,8 +118,8 @@ public class MonsterStatScreenScript : MonoBehaviour
         monsterAdvancedStats.text =
             ($"{monster.speed}" +
             $"\n{monster.evasion}" +
-            $"\n{monster.critChance}" +
-            $"\n{monster.bonusAccuracy}");
+            $"\n{monster.critChance} <size=50%>(x{monster.critDamage})" +
+            $"\n<size=100%>{monster.bonusAccuracy}");
 
         //// Display monster attacks
         //monsterAttacks.text = ("- Attacks -");

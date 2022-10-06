@@ -17,7 +17,6 @@ public class CombatManagerScript : MonoBehaviour
     [Title("Monster Positions")]
     public List<GameObject> ListOfAllyPositions;
     public List<GameObject> ListOfEnemyPositions;
-    public bool wonBattle;
 
     [Title("Auto-set Components")]
     public MessageManager CombatLog;
@@ -27,6 +26,7 @@ public class CombatManagerScript : MonoBehaviour
     public MonsterAttackManager monsterAttackManager;
     public UIManager uiManager;
     public SoundEffectManager soundEffectManager;
+    //public CameraController cameraController;
 
     [Title("Battle Variables")]
     public GameObject firstMonsterTurn;
@@ -41,13 +41,17 @@ public class CombatManagerScript : MonoBehaviour
     public enum MonsterTurn { AllyTurn, EnemyTurn }
     public MonsterTurn monsterTurn;
 
+    public enum BattleState { BeginBattle, InBattle, WonBattle, LostBattle }
+    public BattleState battleState;
+
+    public enum BattleControlType { Manual, Auto }
+    public BattleControlType battleControlType;
+
     public int currentRound = 1;
 
     public string previousSceneName;
     public bool adventureMode = false;
     public bool testAdventureMode = false;
-    public bool autoBattle = false;
-    public bool battleOver = false;
     public bool targeting = false;
 
     public GameObject AdventureManagerGameObject;
@@ -127,6 +131,7 @@ public class CombatManagerScript : MonoBehaviour
         monsterAttackManager = GetComponent<MonsterAttackManager>();
         uiManager = GetComponent<UIManager>();
         CombatLog = GetComponent<MessageManager>();
+        //Camera.main.GetComponent<CameraController>();
 
         // Adventure mode
         if (adventureMode)
@@ -298,6 +303,7 @@ public class CombatManagerScript : MonoBehaviour
             adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Enemy);
         }
 
+        SetBattleState(BattleState.InBattle);
         StartCoroutine(IncrementNewRoundIE()); // Initiate the battle
     }
 
@@ -452,7 +458,7 @@ public class CombatManagerScript : MonoBehaviour
         if (CurrentMonsterTurn == null)
         {
             // Call Round End Abilities or Modifiers only if the battle is NOT over
-            if (!CheckIfBattleOver())
+            if (battleState == BattleState.InBattle)
                 await CallRoundEndFunctions();
 
             StartCoroutine(IncrementNewRoundIE());
@@ -460,10 +466,9 @@ public class CombatManagerScript : MonoBehaviour
         else
         {
             InitiateCombat();
-            //Debug.Log("Combat!");
         }
 
-        #region Old Code BYE BYE JANK INDEX SYSTEM
+        #region Old Code 
         /*
         // First check if they are the last monster in the sequence
         if (currentIndex == BattleSequence.Count) // last monster in list ( 0,1 + 1 = 2?)
@@ -527,7 +532,7 @@ public class CombatManagerScript : MonoBehaviour
     }
 
     // This function is called at round end to apply any round end abilities or adventure modifiers
-    async Task<int> CallRoundEndFunctions()
+    public async Task<int> CallRoundEndFunctions()
     {
         await Task.Delay(300);
 
@@ -563,80 +568,74 @@ public class CombatManagerScript : MonoBehaviour
         return 1;
     }
 
+    //// Helper function to access camera controller coroutine
+    public void FocusCamera(GameObject gameObjectToFocusOn)
+    {
+        Vector3 offset = gameObjectToFocusOn.GetComponent<CreateMonster>().cameraOffset;
+        //StartCoroutine(cameraController.FocusOnTarget(gameObjectToFocusOn.transform, offset));
+    }
+
+    //// Helper function to access camera controller coroutine
+    public void ResetCamera()
+    {
+        //StartCoroutine(cameraController.ResetPosition());
+    }
+
     // This function initiates combat and serves to clean up the SetCurrentMonsterTurn function
     public void InitiateCombat()
     {
+        //ResetCamera();
         uiManager.InitiateMonsterTurnIndicator(CurrentMonsterTurn);
         Monster monster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
 
-        if (!battleOver)
+        if (battleState != BattleState.InBattle)
+            return;
+
+        // First check if the monster is stunned or doesn't have an action available
+        if (CurrentMonsterTurn.GetComponent<CreateMonster>().monsterIsStunned)
         {
-            // If enemy, AI mov
-            if (monster.aiType == Monster.AIType.Enemy)
+            CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
+            HUDanimationManager.MonsterCurrentTurnText.text = ($"{monster.aiType} {monster.name} is Stunned!");
+            CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is Stunned!");
+            Invoke("NextMonsterTurn", 1f);
+            return;
+        }
+
+        // If enemy, AI move
+        if (monster.aiType == Monster.AIType.Enemy)
+        {
+            targeting = false;
+            monsterTurn = MonsterTurn.EnemyTurn;
+            buttonManagerScript.HideAllButtons("All");
+            HUDanimationManager.MonsterCurrentTurnText.text = ($"Enemy {monster.name} turn...");
+
+            // Call enemy AI script after a delay
+            enemyAIManager.currentEnemyTurnGameObject = CurrentMonsterTurn;
+            enemyAIManager.currentEnemyTurn = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+            enemyAIManager.listOfAllies = ListOfAllys;
+            enemyAIManager.Invoke("SelectMove", 1.7f);
+        }
+        // If ally, give player move
+        else if (monster.aiType == Monster.AIType.Ally)
+        {
+            if (battleControlType == BattleControlType.Manual) // manual targeting
             {
-                targeting = false;
-                monsterTurn = MonsterTurn.EnemyTurn;
-                buttonManagerScript.HideAllButtons("All");
+                monsterTurn = MonsterTurn.AllyTurn;
+                buttonManagerScript.ListOfMonsterAttacks.Clear();
+                HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monster.name} do?");
+                buttonManagerScript.AssignAttackMoves(monster);
+                buttonManagerScript.ResetHUD();
 
-                // First check if the monster is stunned or doesn't have an action available
-                if (CurrentMonsterTurn.GetComponent<CreateMonster>().monsterIsStunned)
-                {
-                    CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
-                    HUDanimationManager.MonsterCurrentTurnText.text = ($"Enemy {monster.name} is Stunned!");
-                    CombatLog.SendMessageToCombatLog($"Enemy {monster.name} is Stunned!");
-                    Invoke("NextMonsterTurn", 1f);
-                    return;
-                }
-
-                HUDanimationManager.MonsterCurrentTurnText.text = ($"Enemy {monster.name} turn...");
-
-                // Call enemy AI script after a delay
-                enemyAIManager.currentEnemyTurnGameObject = CurrentMonsterTurn;
-                enemyAIManager.currentEnemyTurn = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
-                enemyAIManager.listOfAllies = ListOfAllys;
-                enemyAIManager.Invoke("SelectMove", 1.7f);
+                CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
             }
-            // If ally, give player move
-            else if (monster.aiType == Monster.AIType.Ally)
+            else // auto battle - TODO - make auto battle less random!!
             {
-                if (!autoBattle) // manual targeting
-                {
-                    // First check if the monster is stunned or doesn't have an action available
-                    if (CurrentMonsterTurn.GetComponent<CreateMonster>().monsterIsStunned)
-                    {
-                        CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
-                        HUDanimationManager.MonsterCurrentTurnText.text = ($"Ally {monster.name} is Stunned!");
-                        CombatLog.SendMessageToCombatLog($"Ally {monster.name} is Stunned!");
-                        Invoke("NextMonsterTurn", 1f);
-                        return;
-                    }
-
-                    monsterTurn = MonsterTurn.AllyTurn;
-
-                    buttonManagerScript.ListOfMonsterAttacks.Clear();
-                    HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monster.name} do?");
-                    buttonManagerScript.AssignAttackMoves(monster);
-                    buttonManagerScript.ResetHUD();
-
-                    CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
-                }
-                else // auto battle - TODO - make auto battle less random!!
-                {
-                    monsterTurn = MonsterTurn.AllyTurn;
-
-                    buttonManagerScript.ListOfMonsterAttacks.Clear();
-                    HUDanimationManager.MonsterCurrentTurnText.text = ($"Ally {monster.name} turn...");
-                    StartCoroutine(ReturnAllyMoveAndTargetCoroutine(monster)); // start delay
-                }
+                monsterTurn = MonsterTurn.AllyTurn;
+                buttonManagerScript.ListOfMonsterAttacks.Clear();
+                HUDanimationManager.MonsterCurrentTurnText.text = ($"Ally {monster.name} turn...");
+                StartCoroutine(ReturnAllyMoveAndTargetCoroutine(monster)); // start delay
             }
         }
-    }
-
-    // This OVVERIDE function sets the monster turn by speed and priority when starting auto battle
-    public void SetCurrentMonsterTurn(bool autoBattle)
-    {
-        // This should work? haha
-        InitiateCombat();
     }
 
     // This coroutine acts as an artificial delay for autobattle similar to the enemy AI
@@ -652,9 +651,6 @@ public class CombatManagerScript : MonoBehaviour
         AttackTypeTargeting();
 
         Monster targetedMonster = CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
-
-        monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
-        monsterTargeter.SetActive(true);
 
         //uiManager.EditCombatMessage($"Ally {monster.name} will use {monsterAttackManager.currentMonsterAttack.monsterAttackName} on {targetedMonster.aiType} {targetedMonster.name}!");
         monsterAttackManager.Invoke("UseMonsterAttack", 0.1f);
@@ -777,15 +773,48 @@ public class CombatManagerScript : MonoBehaviour
     }
 
     // This function gets called when an attack is chosen and the target is required
-    public void TargetingEnemyMonsters(bool _targeting)
+    public void TargetingEnemyMonsters(bool _targeting, MonsterAttack currentMonsterAttack)
     {
         switch (_targeting)
         {
             case true:
-                monsterTargeter.SetActive(true);
+                Debug.Log("Targeting");
                 targeting = true;
                 AttackTypeTargeting(); // for autoBattle fixme properly
-                monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
+                if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
+                {
+                    if (CurrentTargetedMonster.GetComponent<CreateMonster>().monster.aiType == Monster.AIType.Enemy)
+                    {
+                        foreach (GameObject monster in ListOfEnemies)
+                        {
+                            monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
+                            monsterTargeter.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        foreach (GameObject monster in ListOfAllys)
+                        {
+                            monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
+                            monsterTargeter.SetActive(true);
+                        }
+                    }
+                    return;
+                }
+
+                monsterTargeter = CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
+                monsterTargeter.SetActive(true);
+                //monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
+                break;
+
+            case false:
+                Debug.Log("Not Targeting");
+                targeting = false;
+                foreach (GameObject monster in BattleSequence)
+                {
+                    monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
+                    monsterTargeter.SetActive(false);
+                }
                 break;
 
             default:
@@ -797,12 +826,47 @@ public class CombatManagerScript : MonoBehaviour
     // This function cycles through either list of targetable monsters (ally or enemy)
     public void CycleTargets(GameObject newTarget)
     {
-        if (targeting)
+        // Only show the targeter UI object if you are currently targeting monsters
+        if (!targeting || newTarget == CurrentTargetedMonster)
+            return;
+
+        // Set the old targeter UI object off and set the new target
+        CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject.SetActive(false);
+
+        CurrentTargetedMonster = newTarget;
+        CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject.SetActive(true);
+
+        // If the current monster attack targets all targets, adjust the targeters accordingly
+        if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
         {
-            CurrentTargetedMonster = newTarget;
-            monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
-            monsterAttackManager.UpdateCurrentTargetText();
+            // Disable each targeter first
+            foreach (GameObject monster in BattleSequence)
+            {
+                monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
+                monsterTargeter.SetActive(false);
+            }
+
+            // If the current targeted monster is an enemy, show all enemy targeters
+            if (CurrentTargetedMonster.GetComponent<CreateMonster>().monster.aiType == Monster.AIType.Enemy)
+            {
+                foreach (GameObject monster in ListOfEnemies)
+                {
+                    monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
+                    monsterTargeter.SetActive(true);
+                }
+            }
+            else  // Else, show all allied targeters
+            {
+                foreach (GameObject monster in ListOfAllys)
+                {
+                    monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
+                    monsterTargeter.SetActive(true);
+                }
+            }
         }
+
+        // Update the targeted monster combat text
+        monsterAttackManager.UpdateCurrentTargetText();
 
         #region Old Code
         /*
@@ -855,8 +919,16 @@ public class CombatManagerScript : MonoBehaviour
     // This function updates the targeter position on daze call or otherwise
     public void UpdateTargeterPosition(GameObject newTarget)
     {
+        // Disable each targeter first
+        foreach (GameObject monster in BattleSequence)
+        {
+            monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
+            monsterTargeter.SetActive(false);
+        }
+
         CurrentTargetedMonster = newTarget;
-        monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
+        CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject.SetActive(true);
+        //monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
     }
 
     // Helper function for SetNextMonsterTurn()
@@ -895,32 +967,35 @@ public class CombatManagerScript : MonoBehaviour
         */
         #endregion
 
-        CurrentTargetedMonster = null; // may fix a weird non-targeting bug with miss text gameobject
+        Debug.Log("Called Next Monster Turn!", this);
+
+        // Fixes a weird non-targeting bug with miss text gameobject
+        CurrentTargetedMonster = null; 
+
+        // Clear Target List
+        monsterAttackManager.ListOfCurrentlyTargetedMonsters.Clear();
+
+        // Next monster turn
         SetCurrentMonsterTurn();
     }
 
     // This function handles all new round calls (status effects, speed adjustments etc.)
     public IEnumerator IncrementNewRound()
     {
-        if (!battleOver)
+        if (battleState == BattleState.InBattle)
         {
-            autoBattle = false;
+            // Reset the battle control
+            battleControlType = BattleControlType.Manual;
+
+            // Increment the round counter
             currentRound += 1;
             uiManager.IncrementRoundCount(currentRound);
-
-            if (!autoBattle)
-            {
-                //buttonManagerScript.ResetHUD(); // causes a bug
-            }
-
-            //uiManager.RoundStartTextPopup.faceColor = new Color32(255, 255, 255, 0);
-            //uiManager.RoundStartTextPopup.text = ($"Round {currentRound}");
-            //uiManager.FadeText(uiManager.RoundStartTextPopup);
-
             CombatLog.SendMessageToCombatLog($"-- Round {currentRound} -- ");
-            SortMonsterBattleSequence(); // non battle start version
 
-            // call round start Adventure Modifiers
+            // Sort the monster battle sequence
+            SortMonsterBattleSequence(); 
+
+            // Call All Round Staret
             if (adventureMode || testAdventureMode)
             {
                 StartCoroutine(adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Ally));
@@ -1040,155 +1115,125 @@ public class CombatManagerScript : MonoBehaviour
     // This function emits temporary win/lose message conditions based on monster lists
     public void CheckMonstersAlive()
     {
-        // First check if adventure mode
+        if (ListOfAllys.Count() == 0)
+        {
+            SetBattleState(BattleState.LostBattle);
+        }
+        else if (ListOfEnemies.Count() == 0)
+        {
+            SetBattleState(BattleState.WonBattle);
+        }
+    }
+
+    // This function assigns a new battle state
+    public void SetBattleState(BattleState newBattleState)
+    {
+        battleState = newBattleState;
+
+        switch (newBattleState)
+        {
+            case (BattleState.LostBattle):
+                buttonManagerScript.HideAllButtons("All");
+                uiManager.EditCombatMessage("You Lose!");
+                BattleOver();
+                break;
+
+            case (BattleState.WonBattle):
+                buttonManagerScript.HideAllButtons("All");
+                uiManager.EditCombatMessage("You Win!");
+                BattleOver();
+                break;
+
+            case (BattleState.InBattle):
+                break;
+
+            case (BattleState.BeginBattle):
+                break;
+
+            default:
+                Debug.Log("Missing Battle State referenece?", this);
+                break;
+        }
+    }
+
+    // Begin Auto-Battle
+    public void BeginAutoBattle()
+    {
+        battleControlType = BattleControlType.Auto;
+        buttonManagerScript.HideAllButtons("All");
+        InitiateCombat();
+    }
+
+    // This function should call all battle over functions
+    public void BattleOver()
+    {
         if (adventureMode)
         {
-            if (ListOfAllys.Count() == 0)
-            {
-                battleOver = true;
-                CurrentMonsterTurn = null;
-                targeting = false;
-
-                buttonManagerScript.HideAllButtons("All");
-
-                uiManager.EditCombatMessage("You lose!");
-                wonBattle = false;
-                Invoke("AdventureBattleOver", 3.0f);
-            }
-            else if (ListOfEnemies.Count() == 0)
-            {
-                battleOver = true;
-                CurrentMonsterTurn = null;
-                targeting = false;
-
-                buttonManagerScript.HideAllButtons("All");
-
-                uiManager.EditCombatMessage("You win!");
-                wonBattle = true;
-
-                // Grant all alive allies a bit of exp for winning
-                foreach (GameObject monsterObj in ListOfAllys)
-                {
-                    if (monsterObj != null)
-                    {
-                        monsterObj.GetComponent<CreateMonster>().GrantExp(Mathf.RoundToInt(.10f * monsterObj.GetComponent<CreateMonster>().monsterReference.monsterExpToNextLevel));
-                    }
-                }
-
-                Invoke("AdventureBattleOver", 3.0f);
-            }
-
+            Invoke("AdventureBattleOver", 3.0f);
             return;
         }
 
-        // Else, regular battle
-        if (ListOfAllys.Count() == 0)
-        {
-            uiManager.EditCombatMessage("You lose!");
-            BattleOver();
-        }
-        else 
-        if (ListOfEnemies.Count() == 0)
-        {
-            uiManager.EditCombatMessage("You win!");
-            BattleOver();
-        }
-    }
-
-    public bool CheckIfBattleOver()
-    {
-        if (ListOfAllys.Count == 0 || ListOfEnemies.Count == 0)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    // Tjis function should call all battle over functions
-    public void BattleOver()
-    {
-        battleOver = true;
-        CurrentMonsterTurn = null;
-        targeting = false;
-
-        buttonManagerScript.HideAllButtons("All");
         Invoke("RestartBattleScene", 3.0f);
     }
 
-    // Tjis function should call all battle over functions
+    // This function should call all battle over functions
     public void AdventureBattleOver()
     {
-        battleOver = true;
-        CurrentMonsterTurn = null;
-        targeting = false;
-
-        buttonManagerScript.HideAllButtons("All");
-
-        if (wonBattle)
-        {   
-            // Clear out stat changes
-            foreach(Monster monster in adventureManager.ListOfAllyBattleMonsters.ToList()) // might have to remove this ToList()
-            {
-                // Only remove non equipment modifiers
-                monster.ListOfModifiers = monster.ListOfModifiers.Where(mod => mod.adventureEquipment == true).ToList();
-
-                monster.physicalAttack = monster.cachedPhysicalAttack;
-                monster.magicAttack = monster.cachedMagicAttack;
-
-                monster.physicalDefense = monster.cachedPhysicalDefense;
-                monster.magicDefense = monster.cachedMagicDefense;
-
-                monster.speed = monster.cachedSpeed;
-                monster.evasion = monster.cachedEvasion;
-                monster.critChance = monster.cachedCritChance;
-                monster.critDamage = monster.cachedCritDamage;
-
-                monster.bonusAccuracy = monster.cachedBonusAccuracy;
-
-                // Clear temporary monster attack effects
-                foreach (MonsterAttack attack in monster.ListOfMonsterAttacks.ToList()) // might have to remove this ToList()
-                {
-                    foreach(AttackEffect effect in attack.ListOfAttackEffects.ToList()) // might have to remove this ToList()
-                    {
-                        if (effect.attackEffectDuration == AttackEffect.AttackEffectDuration.Temporary)
-                        {
-                            attack.ListOfAttackEffects.Remove(effect);
-                        }
-                    }
-                }
-            }
-
-            adventureManager.ListOfAllyBattleMonsters.Clear();
-            adventureManager.ListOfEnemyBattleMonsters.Clear();
-
-            // If boss fight
-            if (adventureManager.BossBattle)
-            {
-                adventureManager.BossDefeated = true;
-            }
-
-            SceneManager.LoadScene(previousSceneName);
-        }
-        else
+        if (battleState == BattleState.LostBattle)
         {
             adventureManager.adventureFailed = true;
             SceneManager.LoadScene(previousSceneName);
+            return;
         }
+
+        // Clear out stat changes
+        foreach (Monster monster in adventureManager.ListOfAllyBattleMonsters.ToList()) // might have to remove this ToList()
+        {
+            // Only remove non equipment modifiers
+            monster.ListOfModifiers = monster.ListOfModifiers.Where(mod => mod.adventureEquipment == true).ToList();
+
+            monster.physicalAttack = monster.cachedPhysicalAttack;
+            monster.magicAttack = monster.cachedMagicAttack;
+
+            monster.physicalDefense = monster.cachedPhysicalDefense;
+            monster.magicDefense = monster.cachedMagicDefense;
+
+            monster.speed = monster.cachedSpeed;
+            monster.evasion = monster.cachedEvasion;
+            monster.critChance = monster.cachedCritChance;
+            monster.critDamage = monster.cachedCritDamage;
+
+            monster.bonusAccuracy = monster.cachedBonusAccuracy;
+
+            // Clear temporary monster attack effects
+            foreach (MonsterAttack attack in monster.ListOfMonsterAttacks.ToList()) // might have to remove this ToList()
+            {
+                foreach (AttackEffect effect in attack.ListOfAttackEffects.ToList()) // might have to remove this ToList()
+                {
+                    if (effect.attackEffectDuration == AttackEffect.AttackEffectDuration.Temporary)
+                    {
+                        attack.ListOfAttackEffects.Remove(effect);
+                    }
+                }
+            }
+        }
+
+        adventureManager.ListOfAllyBattleMonsters.Clear();
+        adventureManager.ListOfEnemyBattleMonsters.Clear();
+
+        // If boss fight
+        if (adventureManager.BossBattle)
+        {
+            adventureManager.BossDefeated = true;
+        }
+
+        SceneManager.LoadScene(previousSceneName);
     }
 
     // This function resets the battle scene
     public void RestartBattleScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    // This function starts auto battle
-    public void BeginAutoBattle()
-    {
-        autoBattle = true;
-        SetCurrentMonsterTurn(true);
-        buttonManagerScript.HideAllButtons("All");
     }
 }
 

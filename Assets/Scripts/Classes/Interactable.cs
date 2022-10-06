@@ -37,13 +37,15 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void InitiateInteractable(Modifier mod)
     {
+        interactableText = interactableDescriptionWindow.GetComponentInChildren<TextMeshProUGUI>();
+
         if (mod != null && typeOfInteractable == TypeOfInteractable.Modifier)
         {
             modifier = mod;
             interactableName = mod.modifierName;
             interactableDescription = mod.modifierDescription;
 
-            if (mod.modifierOwner != null)
+            if (mod.modifierOwner != null && mod.adventureEquipment)
             {
                 interactableDescription += ($"\nEquipped by: {mod.modifierOwner.name}");
             }

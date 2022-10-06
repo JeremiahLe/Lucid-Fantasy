@@ -18,7 +18,8 @@ MonoBehaviour:
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   aiType: 0
   aiLevel: 0
-  monsterFlavourText: 
+  monsterFlavourText: Bionine run at breakneck speeds thank to chemically-enhanced
+    bodies. Their toxic secretions are incredibly deadly.
   monsterAbility: {fileID: 11400000, guid: 451ee0c393b4781488b125919853ef30, type: 2}
   level: 50
   health: 2500
@@ -41,20 +42,20 @@ MonoBehaviour:
   magicDefenseScaler: 1
   speedScaler: 1
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
   - {fileID: 11400000, guid: b3a70bf2336b0274492a6af14387179c, type: 2}
-  - {fileID: 11400000, guid: 16a75152e030c7845970bbe112763381, type: 2}
   - {fileID: 11400000, guid: b84e32555ecf02b42a6796dcae99106f, type: 2}
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
   - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
   - {fileID: 11400000, guid: b3a70bf2336b0274492a6af14387179c, type: 2}
+  - {fileID: 11400000, guid: b84e32555ecf02b42a6796dcae99106f, type: 2}
   - {fileID: 11400000, guid: 16a75152e030c7845970bbe112763381, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
-  - {fileID: 11400000, guid: b84e32555ecf02b42a6796dcae99106f, type: 2}
   cachedPhysicalAttack: 185
   cachedMagicAttack: 125
   cachedPhysicalDefense: 75
@@ -64,6 +65,16 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  previouslyCachedMaxHealth: 0
+  previouslyCachedPhysicalAttack: 1
+  previouslyCachedMagicAttack: 1
+  previouslyCachedPhysicalDefense: 1
+  previouslyCachedMagicDefense: 1
+  previouslyCachedSpeed: 1
+  previouslyCachedEvasion: 0
+  previouslyCachedCritChance: 0
+  previouslyCachedBonusAccuracy: 0
+  previouslyCachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   monsterIsOwned: 0

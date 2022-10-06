@@ -150,10 +150,10 @@ public class MonstersSubScreenManager : MonoBehaviour
         UseItemButton.gameObject.SetActive(true);
         EquipEquipmentButton.gameObject.SetActive(false);
 
-        UseItemButton.interactable = true;
-        TrashItemButton.interactable = true;
-        UpgradeEquipmentButton.interactable = false;
-        EquipEquipmentButton.interactable = false;
+        //UseItemButton.interactable = true;
+        //TrashItemButton.interactable = true;
+        //UpgradeEquipmentButton.interactable = false;
+        //EquipEquipmentButton.interactable = false;
 
         // clean the inventory slots first
         foreach (GameObject slot in inventorySlots)
@@ -199,10 +199,10 @@ public class MonstersSubScreenManager : MonoBehaviour
         UseItemButton.gameObject.SetActive(false);
         EquipEquipmentButton.gameObject.SetActive(true);
 
-        UseItemButton.interactable = false;
-        TrashItemButton.interactable = true;
-        UpgradeEquipmentButton.interactable = true;
-        EquipEquipmentButton.interactable = true;
+        //UseItemButton.interactable = false;
+        //TrashItemButton.interactable = true;
+        //UpgradeEquipmentButton.interactable = true;
+        //EquipEquipmentButton.interactable = true;
 
         // clean the inventory slots first
         foreach (GameObject slot in inventorySlots)
@@ -248,10 +248,10 @@ public class MonstersSubScreenManager : MonoBehaviour
         UseItemButton.gameObject.SetActive(true);
         EquipEquipmentButton.gameObject.SetActive(false);
 
-        UseItemButton.interactable = true;
-        TrashItemButton.interactable = true;
-        UpgradeEquipmentButton.interactable = false;
-        EquipEquipmentButton.interactable = false;
+        //UseItemButton.interactable = true;
+        //TrashItemButton.interactable = true;
+        //UpgradeEquipmentButton.interactable = false;
+        //EquipEquipmentButton.interactable = false;
 
         // clean the inventory slots first
         foreach (GameObject slot in inventorySlots)

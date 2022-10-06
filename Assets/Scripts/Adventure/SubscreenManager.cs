@@ -52,6 +52,9 @@ public class SubscreenManager : MonoBehaviour
     public int randomBattleMonsterLimit;
     bool bossAdded = false;
 
+    [Header("Particle Systems")]
+    public ParticleSystem ascensionVFX;
+
     public void Awake()
     {
         adventureManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AdventureManager>();

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
+  m_Name: Dummy Attack
+  m_EditorClassIdentifier: 
+  monsterAttackName: Dummy Attack
+  monsterAttackDescription: Sussy baka
+  monsterAttackElement: 5
+  monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
+  monsterAttackType: 0
+  monsterAttackDamageType: 0
+  monsterAttackTargetCount: 0
+  monsterAttackTargetType: 3
+  monsterAttackSoundEffect: {fileID: 0}
+  monsterAttackDamage: 10
+  monsterAttackFlatDamageBonus: 0
+  monsterAttackAccuracy: 100
+  monsterAttackCritChance: 5
+  monsterAttackNeverMiss: 1
+  attackHasCooldown: 0
+  attackOnCooldown: 0
+  attackBaseCooldown: 0
+  attackCurrentCooldown: 0
+  AttackVFX: {fileID: 0}
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: 0f9cc0183b76a36488a84080a7af8186, type: 2}
+  - {fileID: 11400000, guid: b6d42179de8e0344389b6d643a8fadf7, type: 2}
+  - {fileID: 11400000, guid: 5d6d1b5e7359eb848b6c5dd782571f1c, type: 2}

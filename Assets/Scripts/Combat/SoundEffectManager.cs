@@ -7,6 +7,9 @@ public class SoundEffectManager : MonoBehaviour
     public AudioSource soundEffectAudioSource;
     public List<AudioClip> soundEffectQueue;
 
+    [Header("SFX")]
+    public AudioClip UISelectSFX1;
+
     // This function adds the passed in sound effect to a queue of sound effects to play
     public void AddSoundEffectToQueue(AudioClip clip)
     {

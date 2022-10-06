@@ -5,6 +5,7 @@ using TMPro;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
 using System.Linq;
+using System.Threading.Tasks;
 
 public class CreateMonster : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Image monsterRowFrontIcon;
     [SerializeField] private Image monsterRowBackIcon;
+    public Vector3 cameraOffset;
 
     public Color32 healColor;
     public Color32 buffColor;
@@ -28,17 +30,28 @@ public class CreateMonster : MonoBehaviour
     [Title("Status Effect Scrollbar")]
     [SerializeField] public GameObject statusEffectHolder;
     [SerializeField] public GameObject statusEffectIcon;
-    [SerializeField] public GameObject modifierWindow;
+    [SerializeField] public GameObject InteractableToolTipWindow;
     [SerializeField] public Image statusEffectUISprite;
 
-    [Title("Stat Screen")]
-    [SerializeField] public GameObject StatScreenWindowGameObject;
-    [SerializeField] public Image StatScreenWindow;
-    [SerializeField] public TextMeshProUGUI StatScreenWindowText;
+    [Title("MiniStatWindow")]
+    [SerializeField] public GameObject MiniStatWindow;
+    [SerializeField] public TextMeshProUGUI MiniStatWindowBasicStatText;
+    [SerializeField] public TextMeshProUGUI MiniStatWindowAdvancedStatText;
+
+    [SerializeField] public GameObject MonsterCombatPredictionWindow;
+    [SerializeField] public TextMeshProUGUI MonsterCombatPredictionWindowText;
+
+    [Title("Level Up Results Window")]
+    public GameObject LevelUpResultsWindow;
+    public ParticleSystem LevelUp_VFX;
+    public TextMeshProUGUI LevelUpResultsWindowPrimaryStatsText;
+    public TextMeshProUGUI LevelUpResultsWindowSecondaryStatsText;
+    public GameObject LevelUpContinueButton;
 
     [Title("Popups")]
     [SerializeField] public Transform popupPosTransform;
     [SerializeField] private GameObject monsterStatusTextObjectCanvas;
+    [SerializeField] public GameObject monsterTargeterUIGameObject;
 
     [Title("Healthbar")]
     [SerializeField] public Slider HealthbarSlider;
@@ -108,7 +121,6 @@ public class CreateMonster : MonoBehaviour
     public Animator monsterAnimator;
     public CombatManagerScript combatManagerScript;
     public MonsterAttackManager monsterAttackManager;
-    public ParticleSystem LevelUp_VFX;
 
     // Start
     private void Start()
@@ -206,6 +218,7 @@ public class CreateMonster : MonoBehaviour
     {
         monsterAnimator = GetComponent<Animator>();
         monsterAttackManager = combatManagerObject.GetComponent<MonsterAttackManager>();
+        InteractableToolTipWindow = combatManagerScript.uiManager.InteractableToolTipWindow;
 
         // Create instances of the monster's attacks
         if (!combatManagerScript.adventureMode) // accuracy is alterable now
@@ -388,27 +401,27 @@ public class CreateMonster : MonoBehaviour
 
         if (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
         {
-            LevelUp(true);
+            //LevelUp(true);
         }
     }
 
     // This function level ups the monster in combat
-    public void LevelUp(bool levelUpOnce)
+    public void LevelUp()
     {
         // Show level up animation
-        if (levelUpOnce)
-        {
-            LevelUp_VFX.Play();
-            CreateStatusEffectPopup("Level Up!!!");
-            monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.LevelUpSound);
-        }
+        LevelUp_VFX.Play();
+        CreateStatusEffectPopup("Level Up!!!");
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.LevelUpSound);
+
+        List<float> ListOfMonstersLevelUpPrimaryStats = new List<float>();
+        List<float> ListOfMonstersLevelUpSecondaryStats = new List<float>();
 
         // Level up, heal, and update states
         monsterReference.level += 1;
         monsterReference.monsterCurrentExp = Mathf.Abs(monsterReference.monsterExpToNextLevel - monsterReference.monsterCurrentExp);
-
         monsterReference.monsterExpToNextLevel = Mathf.RoundToInt(monsterReference.monsterExpToNextLevel * 1.15f);
 
+        monster.previouslyCachedMaxHealth = monster.maxHealth;
         monsterReference.maxHealth = monsterReference.maxHealth + Random.Range(monsterReference.healthScaler, monsterReference.healthScaler * 2);
         monsterReference.health = monsterReference.maxHealth;
 
@@ -416,26 +429,31 @@ public class CreateMonster : MonoBehaviour
         int newStatToCache = 0;
 
         // Physical Attack
+        monster.previouslyCachedPhysicalAttack = monster.cachedPhysicalAttack;
         newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalAttack) + Random.Range(1, monsterReference.physicalAttackScaler + 1));
         monsterReference.physicalAttack += newStatToCache - monsterReference.cachedPhysicalAttack;
         monster.cachedPhysicalAttack = newStatToCache;
 
         // Magic Attack
+        monster.previouslyCachedMagicAttack = monster.cachedMagicAttack;
         newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicAttack) + Random.Range(1, monsterReference.magicAttackScaler + 1));
         monsterReference.magicAttack += newStatToCache - monsterReference.cachedMagicAttack;
         monster.cachedMagicAttack = newStatToCache;
 
         // Physical Defense
+        monster.previouslyCachedPhysicalDefense = monster.cachedPhysicalDefense;
         newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalDefense) + Random.Range(1, monsterReference.physicalDefenseScaler + 1));
         monsterReference.physicalDefense += newStatToCache - monsterReference.cachedPhysicalDefense;
         monster.cachedPhysicalDefense = newStatToCache;
 
         // Magic Defense
+        monster.previouslyCachedMagicDefense = monster.cachedMagicDefense;
         newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicDefense) + Random.Range(1, monsterReference.magicDefenseScaler + 1));
         monsterReference.magicDefense += newStatToCache - monsterReference.cachedMagicDefense;
         monster.cachedMagicDefense = newStatToCache;
 
         // Speed
+        monster.previouslyCachedSpeed = monster.cachedSpeed;
         newStatToCache = Mathf.RoundToInt((monsterReference.cachedSpeed) + Random.Range(1, monsterReference.speedScaler + 1));
         monsterReference.speed += newStatToCache - monsterReference.cachedSpeed;
         monster.cachedSpeed = newStatToCache;
@@ -446,10 +464,107 @@ public class CreateMonster : MonoBehaviour
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
         InitiateHealthBars();
 
+        // Show Level Up Results Window
+        //Invoke("ShowLevelUpResultsWindow", 0.5f);
+        StartCoroutine("ShowLevelUpResultsWindow");
+    }
+
+    // This function shows the monster's level up results window
+    public IEnumerator ShowLevelUpResultsWindow()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        // Create temp lists of the monster's previously cached stats
+        List<float> ListOfMonstersLevelUpPrimaryStats = new List<float>();
+        List<float> ListOfMonstersLevelUpSecondaryStats = new List<float>();
+
+        // Create temp lists of the monster's new stats
+        List<float> ListOfMonstersLevelUpNewPrimaryStats = new List<float>();
+        List<float> ListOfMonstersLevelUpNewSecondaryStats = new List<float>();
+
+        // Add items to both lists
+        ListOfMonstersLevelUpPrimaryStats.Add(monster.previouslyCachedMaxHealth);
+        ListOfMonstersLevelUpPrimaryStats.Add(monster.previouslyCachedPhysicalAttack);
+        ListOfMonstersLevelUpPrimaryStats.Add(monster.previouslyCachedMagicAttack);
+        ListOfMonstersLevelUpPrimaryStats.Add(monster.previouslyCachedPhysicalDefense);
+        ListOfMonstersLevelUpPrimaryStats.Add(monster.previouslyCachedMagicDefense);
+
+        ListOfMonstersLevelUpNewPrimaryStats.Add(monster.maxHealth);
+        ListOfMonstersLevelUpNewPrimaryStats.Add(monster.cachedPhysicalAttack);
+        ListOfMonstersLevelUpNewPrimaryStats.Add(monster.cachedMagicAttack);
+        ListOfMonstersLevelUpNewPrimaryStats.Add(monster.cachedPhysicalDefense);
+        ListOfMonstersLevelUpNewPrimaryStats.Add(monster.cachedMagicDefense);
+
+        ListOfMonstersLevelUpSecondaryStats.Add(monster.previouslyCachedSpeed);
+        ListOfMonstersLevelUpSecondaryStats.Add(monster.previouslyCachedEvasion);
+        ListOfMonstersLevelUpSecondaryStats.Add(monster.previouslyCachedCritChance);
+        ListOfMonstersLevelUpSecondaryStats.Add(monster.previouslyCachedBonusAccuracy);
+
+        ListOfMonstersLevelUpNewSecondaryStats.Add(monster.cachedSpeed);
+        ListOfMonstersLevelUpNewSecondaryStats.Add(monster.cachedEvasion);
+        ListOfMonstersLevelUpNewSecondaryStats.Add(monster.cachedCritChance);
+        ListOfMonstersLevelUpNewSecondaryStats.Add(monster.cachedBonusAccuracy);
+
+        // Reset text and show level up results window
+        LevelUpResultsWindowPrimaryStatsText.text = ("");
+        LevelUpResultsWindowSecondaryStatsText.text = ("");
+        LevelUpResultsWindow.SetActive(true);
+
+        // Iterate through each stat and show previous and new stats
+        int i = 0;
+        foreach (float stat in ListOfMonstersLevelUpPrimaryStats)
+        {
+            LevelUpResultsWindowPrimaryStatsText.text += ($"{ListOfMonstersLevelUpNewPrimaryStats[i]} (+{ListOfMonstersLevelUpNewPrimaryStats[i] - stat})\n");
+            i++;
+            monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.soundEffectManager.UISelectSFX1);
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        i = 0;
+        foreach (float stat in ListOfMonstersLevelUpSecondaryStats)
+        {
+            if (stat == 0)
+            {
+                LevelUpResultsWindowSecondaryStatsText.text += ($"{ListOfMonstersLevelUpNewSecondaryStats[i]} (+0)\n");
+            }
+            else
+            {
+                LevelUpResultsWindowSecondaryStatsText.text += ($"{ListOfMonstersLevelUpNewSecondaryStats[i]} (+{ListOfMonstersLevelUpNewSecondaryStats[i] - stat})\n");
+            }
+            i++;
+            monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.soundEffectManager.UISelectSFX1);
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        // Finally, show continue button once every stat has been displayed
+        LevelUpContinueButton.SetActive(true);
+    }
+
+    // This function is called after the player accepts the LevelUpResultsWindow
+    public async void HideLevelUpResultsWindow()
+    {
+        LevelUpResultsWindow.SetActive(false);
+
         // Check if exp is still overcapped
         if (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
         {
-            LevelUp(false);
+            LevelUp();
+        }
+        else
+        {
+            if (combatManagerScript.monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.SingleTarget)
+            {
+
+                await combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monster, AttackEffect.EffectTime.PostAttack);
+
+                await combatManagerScript.monsterAttackManager.TriggerPostAttackEffects(monster, gameObject);
+
+                combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+            }
+            else
+            {
+                combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+            }
         }
     }
 
@@ -492,6 +607,27 @@ public class CreateMonster : MonoBehaviour
         newStatToCache = Mathf.RoundToInt((monsterReference.cachedSpeed) + Random.Range(1, monsterReference.speedScaler + 1));
         monsterReference.speed += newStatToCache - monsterReference.cachedSpeed;
         monster.cachedSpeed = newStatToCache;
+    }
+
+    // This function grants exp and if the monster levels up, it returns true and shows the level up results window
+    public bool GrantExpAndCheckLevelup(int expGained)
+    {
+        // Grant exp
+        if (expGained > 0)
+        {
+            monsterReference.monsterCurrentExp += Mathf.RoundToInt(expGained * combatManagerScript.adventureManager.bonusExp);
+            CreateStatusEffectPopup($"+{expGained} Exp");
+        }
+
+        // If the exp was enough to level up, call LevelUp()
+        if (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
+        {
+            Invoke("LevelUp", 1f);
+            return true;
+        }
+
+        // Didn't level up, return false
+        return false;
     }
 
     // This function checks stat caps
@@ -541,6 +677,7 @@ public class CreateMonster : MonoBehaviour
     // This function is called on round start to refresh cooldowns if needed && reset damage taken per round
     public void CheckCooldowns()
     {
+        // If the attack should be off cooldown, reset its CD
         foreach (MonsterAttack attack in monsterReference.ListOfMonsterAttacks)
         {
             if (attack.attackOnCooldown)
@@ -553,7 +690,7 @@ public class CreateMonster : MonoBehaviour
                 }
             }
 
-            // Check for resetting single called modifiers
+            // Reset any attack effects that only trigger once per use per round
             foreach (AttackEffect attackEffect in attack.ListOfAttackEffects)
             {
                 if (attackEffect.modifierCalledOnce)
@@ -634,7 +771,7 @@ public class CreateMonster : MonoBehaviour
                             monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
 
                             monsterReference.health -= poisonDamage;
-                            ShowDamageOrStatusEffectPopup(poisonDamage);
+                            ShowDamageOrStatusEffectPopup(poisonDamage, "Damage");
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Poisoned and takes {poisonDamage} damage!", monsterReference.aiType);
                             UpdateStats(true, modifier.modifierOwnerGameObject, true);
 
@@ -668,7 +805,7 @@ public class CreateMonster : MonoBehaviour
                             monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
 
                             monsterReference.health -= burningDamage;
-                            ShowDamageOrStatusEffectPopup(burningDamage);
+                            ShowDamageOrStatusEffectPopup(burningDamage, "Damage");
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Burning and takes {burningDamage} damage!", monsterReference.aiType);
                             UpdateStats(true, modifier.modifierOwnerGameObject, true);
 
@@ -973,6 +1110,11 @@ public class CreateMonster : MonoBehaviour
             modifier.statusEffectIconGameObject = statusIcon;
             StatusEffectIcon newStatusEffectIcon = statusIcon.AddComponent<StatusEffectIcon>();
             newStatusEffectIcon.modifier = modifier;
+
+            // Initiate Interactable components
+            newStatusEffectIcon.modifier.modifierName = modifier.modifierSource;
+            newStatusEffectIcon.modifier.modifierDescription = ($"{ReturnSign(modifier.statChangeType)}{modifier.modifierAmount} {modifier.statModified.ToString()}");
+
             newStatusEffectIcon.InitiateStatusEffectIcon(this);
         }
         else if (modifier.statusEffect)
@@ -981,6 +1123,11 @@ public class CreateMonster : MonoBehaviour
             modifier.statusEffectIconGameObject = statusIcon;
             StatusEffectIcon newStatusEffectIcon = statusIcon.AddComponent<StatusEffectIcon>();
             newStatusEffectIcon.modifier = modifier;
+
+            // Initiate Interactable components
+            newStatusEffectIcon.modifier.modifierName = modifier.modifierSource;
+            newStatusEffectIcon.modifier.modifierDescription = ($"{modifier.statusEffectType.ToString()}, {modifier.modifierAmount}% {modifier.statModified.ToString()}");
+
             newStatusEffectIcon.InitiateStatusEffectIcon(this);
         }
         //}
@@ -1145,22 +1292,24 @@ public class CreateMonster : MonoBehaviour
         // Called after a delay
         if (monsterReference.health <= 0)
         {
+            // Remove outside components
+            Destroy(monsterTargeterUIGameObject);
             transform.DetachChildren();
 
             // remove statuses to prevent two status death call bug
             monsterIsPoisoned = false;
             monsterIsBurning = false;
 
-            // Check for status or ability kills
-            if (killedExternally && combatManagerScript.adventureMode && aiType != Monster.AIType.Ally)
-            {
-                if (externalKillerGameObject == null)
-                {
-                    externalKillerGameObject = combatManagerScript.GetRandomTarget(combatManagerScript.ListOfAllys); // random ally
-                }
-                externalKillerGameObject.GetComponent<CreateMonster>().monsterReference.monsterKills += 1;
-                externalKillerGameObject.GetComponent<CreateMonster>().GrantExp(11 * monsterReference.level);
-            }
+            //// Check for status or ability kills
+            //if (killedExternally && combatManagerScript.adventureMode && aiType != Monster.AIType.Ally)
+            //{
+            //    if (externalKillerGameObject == null)
+            //    {
+            //        externalKillerGameObject = combatManagerScript.GetRandomTarget(combatManagerScript.ListOfAllys); // random ally
+            //    }
+            //    externalKillerGameObject.GetComponent<CreateMonster>().monsterReference.monsterKills += 1;
+            //    externalKillerGameObject.GetComponent<CreateMonster>().GrantExp(11 * monsterReference.level);
+            //}
 
             combatManagerScript.RemoveMonsterFromList(gameObject, monsterReference.aiType);
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} has been defeated!", monsterReference.aiType);
@@ -1445,22 +1594,23 @@ public class CreateMonster : MonoBehaviour
     {
         if (showWindow)
         {
-            StatScreenWindowGameObject.SetActive(true);
-            StatScreenWindowText.text =
-                ($"Elements: {monster.monsterElement.element}/{monster.monsterSubElement.element}" +
-                $"\nPhysical Attack: {monsterReference.physicalAttack} ({ReturnSign(monsterReference.physicalAttack, monsterReference.cachedPhysicalAttack)}{monsterReference.physicalAttack - monsterReference.cachedPhysicalAttack})" +
-                $"\nMagic Attack: {monsterReference.magicAttack} ({ReturnSign(monsterReference.magicAttack, monsterReference.cachedMagicAttack)}{monsterReference.magicAttack - monsterReference.cachedMagicAttack})" +
-                $"\nPhysical Defense: {monsterReference.physicalDefense} ({ReturnSign(monsterReference.physicalDefense, monsterReference.cachedPhysicalDefense)}{monsterReference.physicalDefense - monsterReference.cachedPhysicalDefense})" +
-                $"\nMagic Defense: {monsterReference.magicDefense} ({ReturnSign(monsterReference.magicDefense, monsterReference.cachedMagicDefense)}{monsterReference.magicDefense - monsterReference.cachedMagicDefense})" +
-                $"\nEvasion: {monsterReference.evasion} ({ReturnSign(monsterReference.evasion, monsterReference.cachedEvasion)}{monsterReference.evasion - monsterReference.cachedEvasion})" +
-                $"\nCrit Chance: {monsterReference.critChance} (+{monsterReference.critChance - monsterReference.cachedCritChance})" +
-                $"\nSpeed: {monsterReference.speed} ({ReturnSign(monsterReference.speed, monsterReference.cachedSpeed)}{monsterReference.speed - monsterReference.cachedSpeed})");
+            MiniStatWindow.SetActive(true);
+            MiniStatWindowBasicStatText.text =
+                ($"{monsterReference.health}/{monsterReference.maxHealth}" +
+                $"\n{monsterReference.physicalAttack} ({ReturnSign(monsterReference.physicalAttack, monsterReference.cachedPhysicalAttack)}{monsterReference.physicalAttack - monsterReference.cachedPhysicalAttack})" +
+                $"\n{monsterReference.magicAttack} ({ReturnSign(monsterReference.magicAttack, monsterReference.cachedMagicAttack)}{monsterReference.magicAttack - monsterReference.cachedMagicAttack})" +
+                $"\n{monsterReference.physicalDefense} ({ReturnSign(monsterReference.physicalDefense, monsterReference.cachedPhysicalDefense)}{monsterReference.physicalDefense - monsterReference.cachedPhysicalDefense})" +
+                $"\n{monsterReference.magicDefense} ({ReturnSign(monsterReference.magicDefense, monsterReference.cachedMagicDefense)}{monsterReference.magicDefense - monsterReference.cachedMagicDefense})");
+            MiniStatWindowAdvancedStatText.text =
+                ($"{monsterReference.speed} ({ReturnSign(monsterReference.speed, monsterReference.cachedSpeed)}{monsterReference.speed - monsterReference.cachedSpeed})" +
+                $"\n{monsterReference.evasion} ({ReturnSign(monsterReference.evasion, monsterReference.cachedEvasion)}{monsterReference.evasion - monsterReference.cachedEvasion})" +
+                $"\n{monsterReference.critChance} (+{monsterReference.critChance - monsterReference.cachedCritChance})" +
+                $"\n{monsterReference.bonusAccuracy} ({ReturnSign(monsterReference.bonusAccuracy, monsterReference.cachedBonusAccuracy)}{monsterReference.bonusAccuracy - monsterReference.cachedBonusAccuracy})");
         }
         else
         if (!showWindow)
         {
-            StatScreenWindowGameObject.SetActive(false);
-            StatScreenWindowText.text = "";
+            MiniStatWindow.SetActive(false);
         }
     }
 
@@ -1475,6 +1625,19 @@ public class CreateMonster : MonoBehaviour
 
         // regular buff
         return "+";
+    }
+
+    // Override function that returns a sign based on a modifier's stat change type
+    public string ReturnSign(AttackEffect.StatChangeType statChangeType)
+    {
+        if (statChangeType == AttackEffect.StatChangeType.Buff)
+        {
+            return "+";
+        }
+        else
+        {
+            return "";
+        }
     }
 
     // This function returns a negative or positive sign for text applications
@@ -1542,11 +1705,21 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function is called by monster attack manager to show damage popup
-    public void ShowDamageOrStatusEffectPopup(float damage)
-    {
-        monsterStatusTextObject.SetActive(true);
-        monsterStatusText.color = Color.red;
-        monsterStatusText.text = ($"-{damage}");
+    public void ShowDamageOrStatusEffectPopup(float damage, string damageOrHeal)
+    {   
+        // if damage is greater than 0, that means it was a heal, show healing color
+        if (damageOrHeal == "Heal")
+        {
+            monsterStatusTextObject.SetActive(true);
+            monsterStatusText.color = Color.green;
+            monsterStatusText.text = ($"+{damage}");
+        }
+        else
+        {
+            monsterStatusTextObject.SetActive(true);
+            monsterStatusText.color = Color.red;
+            monsterStatusText.text = ($"-{damage}");
+        }
     }
 
     // This function is called by monster attack manager to show condition popup
@@ -1608,10 +1781,9 @@ public class CreateMonster : MonoBehaviour
     public void CreateStatusEffectPopup(string condition)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
         effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
         effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
-        effectPopup.GetComponentInChildren<Animator>().speed = 1.25f;
-
         effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{condition}!");
     }
 }

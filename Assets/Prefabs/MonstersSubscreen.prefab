@@ -647,6 +647,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &3060448694245902704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,6 +1022,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &9174965362332562724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1360,6 +1364,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &2345921250074320756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1633,6 +1639,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &442339438114923295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1827,6 +1835,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &1392282567755312024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1945,6 +1955,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &2213430376796364302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5003,6 +5015,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &5216840505259396658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5375,6 +5389,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &5974273884834475308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5641,6 +5657,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &5725575588788425933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6040,6 +6058,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &5301759579756499322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6158,6 +6178,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &7138191436334273926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7321,6 +7343,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &2849947042628773166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7593,6 +7617,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &8424678124029808355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8214,6 +8240,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &1522017318827888517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8538,6 +8566,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &9029168616670583145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8656,6 +8686,8 @@ MonoBehaviour:
   monstersSubScreenManager: {fileID: 0}
   itemSlotEquipmentText: {fileID: 0}
   itemSlotItem: {fileID: 0}
+  itemSlotEquipmentStatus: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &2827653637067142343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8881,6 +8913,10 @@ PrefabInstance:
     - target: {fileID: 7991631129517137947, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
       propertyPath: m_Name
       value: TrashItemButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991631129517137949, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
@@ -9211,6 +9247,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UpgradeEquipmentButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7991631129517137949, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
 --- !u!114 &8548842193280931376 stripped
@@ -9540,6 +9580,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EquipEquipmentButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7991631129517137949, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
 --- !u!224 &3778098656874138314 stripped
@@ -9806,6 +9850,10 @@ PrefabInstance:
     - target: {fileID: 7991631129517137947, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
       propertyPath: m_Name
       value: UseItemButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991631129517137949, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72c8dcc70836a944ea17a716d6165de3, type: 3}

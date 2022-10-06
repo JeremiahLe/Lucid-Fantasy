@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Winds of Fury
   m_EditorClassIdentifier: 
   monsterAttackName: Winds of Fury
-  monsterAttackDescription: Reduce the target's health to 25% of their Max Health.
-    Rasie their Speed by 200% and Physical and Magic Attack by 100%.
+  monsterAttackDescription: Reduce the target's health by 15% of their Max Health.
+    Raise their Speed by 55% and Physical and Magic Attack by 35%.
   monsterAttackElement: 3
   monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 1
@@ -24,7 +24,7 @@ MonoBehaviour:
   monsterAttackSoundEffect: {fileID: 8300000, guid: cfdad33ec73454443952015ae32a27a0, type: 3}
   monsterAttackDamage: 0
   monsterAttackFlatDamageBonus: 0
-  monsterAttackAccuracy: 75
+  monsterAttackAccuracy: 90
   monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
   attackHasCooldown: 0
