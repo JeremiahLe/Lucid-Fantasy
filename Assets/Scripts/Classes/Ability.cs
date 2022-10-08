@@ -13,7 +13,7 @@ public class Ability : ScriptableObject
     [TextArea(5, 10)]
     public string abilityDescription;
 
-    public List<AbilityEffect> listOfAbilityEffects;
+    public List<AttackEffect> listOfAbilityEffects;
 
     //public enum AbilityTriggerTime { GameStart, RoundStart, RoundEnd, PreAttack, PostAttack, OnStatChange, OnDamageTaken, OnDeath, Passive, PreOtherAttack, OnKill };
     //public AbilityTriggerTime abilityTriggerTime;

@@ -555,7 +555,7 @@ public class CreateMonster : MonoBehaviour
             if (combatManagerScript.monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.SingleTarget)
             {
 
-                await combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monster, AttackEffect.EffectTime.PostAttack);
+                await combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monster, AttackEffect.EffectTime.PostAttack, gameObject);
 
                 await combatManagerScript.monsterAttackManager.TriggerPostAttackEffects(monster, gameObject);
 
@@ -1552,10 +1552,32 @@ public class CreateMonster : MonoBehaviour
         // Confirm Target
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (monsterAttackManager.currentMonsterAttack != null && combatManagerScript.monsterTurn == CombatManagerScript.MonsterTurn.AllyTurn && combatManagerScript.targeting)
+            if (combatManagerScript.monsterTurn != CombatManagerScript.MonsterTurn.AllyTurn && !combatManagerScript.targeting)
+                return;
+
+            if (monsterAttackManager.currentMonsterAttack == null)
+                return;
+
+            // Check if the current attack is a multi-target attack and has the correct amount of targets
+            if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
             {
-                monsterAttackManager.UseMonsterAttack();
+                if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count < monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
+                {
+                    monsterAttackManager.ListOfCurrentlyTargetedMonsters.Add(combatManagerScript.CurrentTargetedMonster);
+
+                    if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count != monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
+                        monsterAttackManager.HUDanimationManager.MonsterCurrentTurnText.text =
+                            ($"Select {monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber - monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count} target(s)...");
+
+                    combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject.SetActive(true);
+
+                    if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count != monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
+                        return;
+                }
             }
+
+
+            monsterAttackManager.UseMonsterAttack();
         }
 
         // Show detailed monster info window

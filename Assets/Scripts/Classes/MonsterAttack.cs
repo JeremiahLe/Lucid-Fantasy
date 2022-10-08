@@ -30,6 +30,9 @@ public class MonsterAttack : ScriptableObject
     public enum MonsterAttackTargetCount { SingleTarget, MultiTarget, AllTargets, Everything };
     public MonsterAttackTargetCount monsterAttackTargetCount;
 
+    [EnableIf("monsterAttackTargetCount", MonsterAttackTargetCount.MultiTarget)]
+    public int monsterAttackTargetCountNumber = 1;
+
     // What should the attack be targeting, if any limits?
     public enum MonsterAttackTargetType { EnemyTarget, AllyTarget, SelfTarget, Any }
     public MonsterAttackTargetType monsterAttackTargetType;

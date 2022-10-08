@@ -105,7 +105,7 @@ public class MonsterAttackManager : MonoBehaviour
             return;
         }
 
-        combatManagerScript.TargetingEnemyMonsters(true,currentMonsterAttack);
+        combatManagerScript.TargetingEnemyMonsters(true, currentMonsterAttack);
         UpdateCurrentTargetText();
 
         buttonManagerScript.HideAllButtons("AttacksHUDButtons");
@@ -189,6 +189,14 @@ public class MonsterAttackManager : MonoBehaviour
         // Fixes a weird targeting bug
         if (combatManagerScript.CurrentTargetedMonster == null)
         {
+            return;
+        }
+
+        // Check if the current attack is a multi-target attack
+        if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
+        {
+            HUDanimationManager.MonsterCurrentTurnText.text = 
+                ($"Select {currentMonsterAttack.monsterAttackTargetCountNumber - ListOfCurrentlyTargetedMonsters.Count} target(s)...");
             return;
         }
 
@@ -419,6 +427,30 @@ public class MonsterAttackManager : MonoBehaviour
             else
             {
                 uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+            }
+
+            //
+            if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
+            {
+                uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} will use {currentMonsterAttack.monsterAttackName} on ");
+
+                foreach (GameObject monsterGameObject in ListOfCurrentlyTargetedMonsters)
+                {
+                    CreateMonster monsterComponent = monsterGameObject.GetComponent<CreateMonster>();
+                    Monster monster = monsterComponent.monsterReference;
+
+                    HUDanimationManager.MonsterCurrentTurnText.text += 
+                        ($"{monster.aiType} {monster.name}");
+
+                    if (ListOfCurrentlyTargetedMonsters.IndexOf(monsterGameObject) == ListOfCurrentlyTargetedMonsters.Count - 1)
+                    {
+                        HUDanimationManager.MonsterCurrentTurnText.text += ("!");
+                    }
+                    else
+                    {
+                        HUDanimationManager.MonsterCurrentTurnText.text += (" and ");
+                    }
+                }
             }
 
             // If the current attack is targets everything
@@ -703,7 +735,7 @@ public class MonsterAttackManager : MonoBehaviour
     // This function handles damaging one targeted monster
     public async void DealDamage()
     {
-        if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
+        if (currentMonsterAttack.monsterAttackTargetCount != MonsterAttack.MonsterAttackTargetCount.SingleTarget)
         {
             DealDamageToMultipleTargets();
             return;
@@ -759,10 +791,10 @@ public class MonsterAttackManager : MonoBehaviour
             soundEffectManager.BeginSoundEffectQueue();
 
             // Trigger any on damage ability effects if necesary
-            await TriggerAbilityEffects(currentMonsterTurn, AttackEffect.EffectTime.OnDamageDealt);
+            await TriggerAbilityEffects(currentMonsterTurn, AttackEffect.EffectTime.OnDamageDealt, currentMonsterTurnGameObject);
 
             // Trigger any damage taken effects on target
-            await TriggerAbilityEffects(currentTargetedMonster, AttackEffect.EffectTime.OnDamageTaken);
+            await TriggerAbilityEffects(currentTargetedMonster, AttackEffect.EffectTime.OnDamageTaken, currentTargetedMonsterGameObject);
         }
 
         // Finally, update the stats of the targeted monster, aka CheckHealth()
@@ -793,13 +825,13 @@ public class MonsterAttackManager : MonoBehaviour
             {
                 // Did not level up, continue function calls
                 // Trigger any On-Kill ability effects if necessary
-                await TriggerAbilityEffects(currentMonsterTurn, AttackEffect.EffectTime.OnKill);
+                await TriggerAbilityEffects(currentMonsterTurn, AttackEffect.EffectTime.OnKill, currentMonsterTurnGameObject);
 
                 // Trigger any post attack effects **(should only be self) (Null checks are handled in this function)
                 await TriggerPostAttackEffects(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject);
 
                 // Trigger any post attack ability effects **(should only be self) (Null checks are handled in this function)
-                await TriggerAbilityEffects(monsterWhoUsedAttack, AttackEffect.EffectTime.PostAttack);
+                await TriggerAbilityEffects(monsterWhoUsedAttack, AttackEffect.EffectTime.PostAttack, monsterWhoUsedAttackGameObject);
             }
 
         }
@@ -813,7 +845,7 @@ public class MonsterAttackManager : MonoBehaviour
                 await TriggerPostAttackEffects(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject);
 
                 // Trigger any post attack ability effects **(should only be self) (Null checks are handled in this function)
-                await TriggerAbilityEffects(monsterWhoUsedAttack, AttackEffect.EffectTime.PostAttack);
+                await TriggerAbilityEffects(monsterWhoUsedAttack, AttackEffect.EffectTime.PostAttack, monsterWhoUsedAttackGameObject);
             }
         }
 
@@ -834,6 +866,16 @@ public class MonsterAttackManager : MonoBehaviour
 
         foreach (GameObject targetedMonster in ListOfCurrentlyTargetedMonsters)
         {
+            if (currentMonsterTurnGameObject == null)
+            {
+                break;
+            }
+
+            if (targetedMonster == null)
+            {
+                continue;
+            }
+
             // Update current target reference
             combatManagerScript.CurrentTargetedMonster = targetedMonster;
             currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
@@ -882,10 +924,10 @@ public class MonsterAttackManager : MonoBehaviour
                 soundEffectManager.BeginSoundEffectQueue();
 
                 // Trigger any on damage ability effects if necesary
-                await TriggerAbilityEffects(currentMonsterTurn, AttackEffect.EffectTime.OnDamageDealt);
+                await TriggerAbilityEffects(currentMonsterTurn, AttackEffect.EffectTime.OnDamageDealt, currentMonsterTurnGameObject);
 
                 // Trigger any damage taken effects on self or target
-                await TriggerAbilityEffects(currentTargetedMonster, AttackEffect.EffectTime.OnDamageTaken);
+                await TriggerAbilityEffects(currentTargetedMonster, AttackEffect.EffectTime.OnDamageTaken, currentTargetedMonsterGameObject);
             }
 
             // Finally, update the stats of the targeted monster, aka CheckHealth()
@@ -907,10 +949,19 @@ public class MonsterAttackManager : MonoBehaviour
                 totalExpGained += CalculateExp();
 
                 // Self is not dead, continue function calls
-                await TriggerAbilityEffects(currentMonsterTurn, AttackEffect.EffectTime.OnKill);
+                await TriggerAbilityEffects(currentMonsterTurn, AttackEffect.EffectTime.OnKill, currentMonsterTurnGameObject);
             }
             else
             {
+                // Break out before continuing further in case self died from OnDamageTaken or OnDeath Abilities, or some other external factor
+                if (currentMonsterTurn == null || currentMonsterTurn.health <= 0)
+                {
+                    // Self is dead, continue combat loop
+                    Debug.Log("Self is dead, continue combat loop!", this);
+                    combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+                    return;
+                }
+
                 // Damage did not kill monster, continue function calls
                 // If the damage was not immune and the current attack was not a status move
                 if (calculatedDamage != 0 || currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Buff)
@@ -927,7 +978,7 @@ public class MonsterAttackManager : MonoBehaviour
         await TriggerPostAttackEffects(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject);
 
         // Trigger any post attack ability effects **(should only be self) (Null checks are handled in this function)
-        await TriggerAbilityEffects(monsterWhoUsedAttack, AttackEffect.EffectTime.PostAttack);
+        await TriggerAbilityEffects(monsterWhoUsedAttack, AttackEffect.EffectTime.PostAttack, monsterWhoUsedAttackGameObject);
 
         // Clear Target List
         ListOfCurrentlyTargetedMonsters.Clear();
@@ -947,14 +998,14 @@ public class MonsterAttackManager : MonoBehaviour
     }
 
     // This function triggers any monster's ability effects based on what effect time is passed in
-    public async Task<int> TriggerAbilityEffects(Monster monster, AttackEffect.EffectTime abilityEffectTime)
+    public async Task<int> TriggerAbilityEffects(Monster monster, AttackEffect.EffectTime abilityEffectTime, GameObject monsterGameObject)
     {
-        foreach (AbilityEffect abilityEffect in monster.monsterAbility.listOfAbilityEffects)
+        foreach (AttackEffect abilityEffect in monster.monsterAbility.listOfAbilityEffects)
         {
             if (abilityEffect.effectTime == abilityEffectTime)
             {
                 abilityEffect.TriggerEffects(this, monster.monsterAbility.abilityName);
-                await Task.Delay(150);
+                await Task.Delay(300);
             }
         }
 
