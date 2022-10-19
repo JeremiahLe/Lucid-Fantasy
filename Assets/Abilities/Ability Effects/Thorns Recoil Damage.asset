@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Thorns Recoil Damage
   m_EditorClassIdentifier: 
   typeOfEffect: 24
-  statEnumToChange: 0
+  StatToChange: 0
   monsterTargetType: 0
   currentMonsterTargetGameObject: {fileID: 0}
   currentMonsterTarget: {fileID: 0}

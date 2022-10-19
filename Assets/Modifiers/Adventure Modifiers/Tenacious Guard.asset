@@ -17,18 +17,21 @@ MonoBehaviour:
   modifierOwner: {fileID: 0}
   modifierDurationType: 0
   statModified: 9
+  statChangeType: 0
   modifierDuration: 4
   modifierCurrentDuration: 4
   modifierAmount: 0
   modifierAmountFlatBuff: 0
   statusEffect: 0
   statusEffectType: 0
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
   modifierName: Tenacious Guard
   modifierAdventureReference: 6
   modifierDescription: 'Game Start: All allied monsters gain immunity to debuffs
     and status effects for 3 rounds.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 0
   modifierRarity: 2
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: 8cdcb80a3bb614f40aa722a71b30a641, type: 3}

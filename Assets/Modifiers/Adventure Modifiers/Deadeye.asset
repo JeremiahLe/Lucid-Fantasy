@@ -29,8 +29,8 @@ MonoBehaviour:
   modifierName: Deadeye
   modifierAdventureReference: 14
   modifierDescription: 'Game Start: Your first monster''s moves gain +200 accuracy.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 0
   modifierRarity: 2
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: 738d291fd08012743aa8982be5b00dfa, type: 3}

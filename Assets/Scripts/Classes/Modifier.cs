@@ -10,13 +10,13 @@ public class Modifier : ScriptableObject
 {
     [DisplayWithoutEdit] public string modifierSource;
 
-    [DisplayWithoutEdit] public GameObject modifierOwnerGameObject;
-    [DisplayWithoutEdit] public Monster modifierOwner;
+    public GameObject modifierOwnerGameObject;
+    public Monster modifierOwner;
 
     public enum ModifierDurationType { Temporary, Permanent }
     public ModifierDurationType modifierDurationType;
 
-    public AttackEffect.StatEnumToChange statModified;
+    public AttackEffect.StatToChange statModified;
     public AttackEffect.StatChangeType statChangeType;
 
     [DisableIf("modifierDurationType", ModifierDurationType.Permanent)]
@@ -37,14 +37,18 @@ public class Modifier : ScriptableObject
 
     [Header("Adventure Variables")]
     public string modifierName;
-    [DisableIf("adventureEquipment")]
+
+    [EnableIf("modifierType", ModifierType.adventureModifier)]
     public AdventureModifiers.AdventureModifierReferenceList modifierAdventureReference;
     public string modifierDescription;
 
-    [DisableIf("adventureEquipment")]
-    public bool adventureModifier = false;
-    [DisableIf("adventureModifier")]
-    public bool adventureEquipment = false;
+    //[DisableIf("adventureEquipment")]
+    //public bool adventureModifier = false;
+    //[DisableIf("adventureModifier")]
+    //public bool adventureEquipment = false;
+
+    public enum ModifierType { regularModifier, adventureModifier, equipmentModifier }
+    public ModifierType modifierType;
 
     public enum ModifierAdventureCallTime { GameStart, RoundStart, OOCPassive, RoundEnd }
     public ModifierAdventureCallTime modifierAdventureCallTime;
@@ -52,9 +56,9 @@ public class Modifier : ScriptableObject
     public enum ModifierRarity { Common, Uncommon, Rare, Legendary }
     public ModifierRarity modifierRarity;
 
-    [EnableIf("adventureEquipment", true)]
+    [EnableIf("modifierType", ModifierType.equipmentModifier)]
     public int equipmentRank = 1;
-    [EnableIf("adventureEquipment", true)]
+    [EnableIf("modifierType", ModifierType.equipmentModifier)]
     public static int equipmentMaxRank = 3;
 
     [AssetSelector(Paths = "Assets/Sprites/UI")]
@@ -72,76 +76,76 @@ public class Modifier : ScriptableObject
 
         if (statusEffect)
         {
-            monsterReferenceGameObject.GetComponent<CreateMonster>().statusEffectUISprite.sprite = monsterReferenceGameObject.GetComponent<CreateMonster>().monsterAttackManager.noUISprite;
             monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statusEffectType.ToString()} status was cleared!", monsterReference.aiType);
+            monsterReferenceGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Remove(statusEffectType);
 
-            switch (statusEffectType)
-            {
-                case StatusEffectType.Poisoned:
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsPoisoned = false;
-                    break;
+            //switch (statusEffectType)
+            //{
+            //    case StatusEffectType.Poisoned:
+            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsPoisoned = false;
+            //        break;
 
-                case StatusEffectType.Burning:
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsBurning = false;
-                    break;
+            //    case StatusEffectType.Burning:
+            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsBurning = false;
+            //        break;
 
-                case StatusEffectType.Dazed:
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsDazed = false;
-                    break;
+            //    case StatusEffectType.Dazed:
+            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsDazed = false;
+            //        break;
 
-                case StatusEffectType.Stunned:
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsStunned = false;
-                    break;
+            //    case StatusEffectType.Stunned:
+            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsStunned = false;
+            //        break;
 
-                case StatusEffectType.Crippled:
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsCrippled = false;
-                    break;
+            //    case StatusEffectType.Crippled:
+            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsCrippled = false;
+            //        break;
 
-                case StatusEffectType.Weakened:
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsWeakened = false;
-                    break;
+            //    case StatusEffectType.Weakened:
+            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsWeakened = false;
+            //        break;
 
-                default:
-                    break;
-            }
+            //    default:
+            //        break;
+            //}
 
         }
        
         switch (statModified)
         {
-            case (AttackEffect.StatEnumToChange.Evasion):
+            case (AttackEffect.StatToChange.Evasion):
                 monsterReference.evasion += -1f * (modifierAmount);
                 break;
 
-            case (AttackEffect.StatEnumToChange.Speed):
+            case (AttackEffect.StatToChange.Speed):
                 monsterReference.speed += -1f * (modifierAmount);
                 break;
 
-            case (AttackEffect.StatEnumToChange.CritChance):
+            case (AttackEffect.StatToChange.CritChance):
                 monsterReference.critChance += -1f * (modifierAmount);
                 break;
 
-            case (AttackEffect.StatEnumToChange.CritDamage):
+            case (AttackEffect.StatToChange.CritDamage):
                 monsterReference.critDamage += -1f * (modifierAmount);
                 break;
 
-            case (AttackEffect.StatEnumToChange.PhysicalAttack):
+            case (AttackEffect.StatToChange.PhysicalAttack):
                 monsterReference.physicalAttack += -1f * (modifierAmount);
                 break;
 
-            case (AttackEffect.StatEnumToChange.PhysicalDefense):
+            case (AttackEffect.StatToChange.PhysicalDefense):
                 monsterReference.physicalDefense += -1f * (modifierAmount);
                 break;
 
-            case (AttackEffect.StatEnumToChange.MagicAttack):
+            case (AttackEffect.StatToChange.MagicAttack):
                 monsterReference.magicAttack += -1f * (modifierAmount);
                 break;
 
-            case (AttackEffect.StatEnumToChange.MagicDefense):
+            case (AttackEffect.StatToChange.MagicDefense):
                 monsterReference.magicDefense += -1f * (modifierAmount);
                 break;
 
-            case (AttackEffect.StatEnumToChange.Debuffs):
+            case (AttackEffect.StatToChange.Debuffs):
                 monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs = false;
                 monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to status effects and debuffs!", monsterReference.aiType);
                 break;
@@ -151,12 +155,12 @@ public class Modifier : ScriptableObject
             //    monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to buffs!", monsterReference.aiType);
             //    break;
 
-            case (AttackEffect.StatEnumToChange.Damage):
+            case (AttackEffect.StatToChange.Damage):
                 monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage = false;
                 monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to damage!", monsterReference.aiType);
                 break;
 
-            case (AttackEffect.StatEnumToChange.Accuracy):
+            case (AttackEffect.StatToChange.Accuracy):
                 monsterReference.bonusAccuracy += -1f * (modifierAmount);
                 break;
 

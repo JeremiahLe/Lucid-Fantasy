@@ -17,17 +17,20 @@ MonoBehaviour:
   modifierOwner: {fileID: 0}
   modifierDurationType: 1
   statModified: 6
+  statChangeType: 0
   modifierDuration: 0
   modifierCurrentDuration: 0
   modifierAmount: 5
   modifierAmountFlatBuff: 1
   statusEffect: 0
   statusEffectType: 0
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
   modifierName: Windswept Gale
   modifierAdventureReference: 4
   modifierDescription: 'Game Start: A random allied monster gains +5 speed.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 0
   modifierRarity: 2
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: afad9da6e37715542895ce0a6382508f, type: 3}

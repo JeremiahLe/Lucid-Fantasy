@@ -29,8 +29,8 @@ MonoBehaviour:
   modifierName: Chosen One
   modifierAdventureReference: 7
   modifierDescription: 'Game Start: A random allied monster gains 1.5x basic stats.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 0
   modifierRarity: 3
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: 4c5c814e8a826c346948a152533cf9b9, type: 3}

@@ -30,8 +30,8 @@ MonoBehaviour:
   modifierAdventureReference: 11
   modifierDescription: 'Round Start: A random allied monster gains +30 Evasion this
     round.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 1
   modifierRarity: 2
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: 9ac72d99001c70b4d9efc5fb2cb21798, type: 3}

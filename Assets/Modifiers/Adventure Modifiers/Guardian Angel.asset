@@ -30,8 +30,8 @@ MonoBehaviour:
   modifierAdventureReference: 10
   modifierDescription: 'Game Start: Your First monster gains immunity to Damage for
     2 rounds.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 0
   modifierRarity: 3
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: 522a5d8f7ef71ab4ea50c6e8f40e572f, type: 3}

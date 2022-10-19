@@ -213,7 +213,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         if (adventureManager.currentSelectedEquipment != null && adventureManager.currentSelectedMonsterForEquipment != null)
         {
             // Only add the equipment if the monster has less than 4.
-            if (adventureManager.currentSelectedMonsterForEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList().Count < 4)
+            if (adventureManager.currentSelectedMonsterForEquipment.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList().Count < 4)
             {
                 // Add the selected equipment to the selected monster
                 adventureManager.currentSelectedMonsterForEquipment.ListOfModifiers.Add(adventureManager.currentSelectedEquipment);

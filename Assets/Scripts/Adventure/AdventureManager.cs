@@ -237,7 +237,7 @@ public class AdventureManager : MonoBehaviour
             {
                 modifierName = item.modifierName,
                 modifierAdventureReference = item.modifierAdventureReference,
-                adventureModifier = item.adventureModifier,
+                modifierType = item.modifierType,
                 modifierAdventureCallTime = item.modifierAdventureCallTime,
                 modifierAmount = item.modifierAmount,
                 modifierDescription = item.modifierDescription,
@@ -265,7 +265,7 @@ public class AdventureManager : MonoBehaviour
             {
                 modifierName = item.modifierName,
                 modifierAdventureReference = item.modifierAdventureReference,
-                adventureModifier = item.adventureModifier,
+                modifierType = item.modifierType,
                 modifierAdventureCallTime = item.modifierAdventureCallTime,
                 modifierAmount = item.modifierAmount,
                 modifierDescription = item.modifierDescription,
@@ -277,7 +277,6 @@ public class AdventureManager : MonoBehaviour
                 statModified = item.statModified,
                 baseSprite = item.baseSprite,
                 modifierAmountFlatBuff = item.modifierAmountFlatBuff,
-                adventureEquipment = item.adventureEquipment,
             });
         }
     }
@@ -311,7 +310,7 @@ public class AdventureManager : MonoBehaviour
             {
                 modifierName = item.modifierName,
                 modifierAdventureReference = item.modifierAdventureReference,
-                adventureModifier = item.adventureModifier,
+                modifierType = item.modifierType,
                 modifierAdventureCallTime = item.modifierAdventureCallTime,
                 modifierAmount = item.modifierAmount,
                 modifierDescription = item.modifierDescription,
@@ -341,7 +340,7 @@ public class AdventureManager : MonoBehaviour
             {
                 modifierName = item.modifierName,
                 modifierAdventureReference = item.modifierAdventureReference,
-                adventureModifier = item.adventureModifier,
+                modifierType = item.modifierType,
                 modifierAdventureCallTime = item.modifierAdventureCallTime,
                 modifierAmount = item.modifierAmount,
                 modifierDescription = item.modifierDescription,
@@ -351,7 +350,6 @@ public class AdventureManager : MonoBehaviour
                 modifierRarity = item.modifierRarity,
                 modifierSource = item.modifierSource,
                 modifierAmountFlatBuff = item.modifierAmountFlatBuff,
-                adventureEquipment = item.adventureEquipment,
                 statModified = item.statModified,
                 baseSprite = item.baseSprite
             });
@@ -722,7 +720,7 @@ public class AdventureManager : MonoBehaviour
 
                         // Physical Attack
                         newModifier = Instantiate(modifier);
-                        newModifier.statModified = AttackEffect.StatEnumToChange.PhysicalAttack;
+                        newModifier.statModified = AttackEffect.StatToChange.PhysicalAttack;
                         float oldStat = monsterObj.GetComponent<CreateMonster>().GetStatToChange(newModifier.statModified, monster);
                         newModifier.modifierAmount = Mathf.RoundToInt(oldStat * (newModifier.modifierAmount / 100f) - oldStat);
                         monster.ListOfModifiers.Add(newModifier);
@@ -730,7 +728,7 @@ public class AdventureManager : MonoBehaviour
 
                         // Magic Attack
                         Modifier newModifier2 = Instantiate(modifier);
-                        newModifier2.statModified = AttackEffect.StatEnumToChange.MagicAttack;
+                        newModifier2.statModified = AttackEffect.StatToChange.MagicAttack;
                         oldStat = monsterObj.GetComponent<CreateMonster>().GetStatToChange(newModifier2.statModified, monster);
                         newModifier2.modifierAmount = Mathf.RoundToInt(oldStat * (newModifier2.modifierAmount / 100f) - oldStat);
                         monster.ListOfModifiers.Add(newModifier2);
@@ -739,7 +737,7 @@ public class AdventureManager : MonoBehaviour
                         // CritChance
                         Modifier newModifier3 = Instantiate(modifier);
                         newModifier3.modifierAmount = 100f;
-                        newModifier3.statModified = AttackEffect.StatEnumToChange.CritChance;
+                        newModifier3.statModified = AttackEffect.StatToChange.CritChance;
                         monster.ListOfModifiers.Add(newModifier3);
                         monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier3.statModified, newModifier3, true);
 
@@ -812,11 +810,11 @@ public class AdventureManager : MonoBehaviour
                         // Get random enemy from list of unpoisoned enemies
                         if (aIType == Monster.AIType.Ally)
                         {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().monsterIsPoisoned == false).ToList();
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Poisoned)).ToList();
                         }
                         else
                         {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().monsterIsPoisoned == false).ToList();
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Poisoned)).ToList();
                         }
 
                         // If no monsters are unpoisoned, break out
@@ -849,7 +847,7 @@ public class AdventureManager : MonoBehaviour
                             }
 
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was poisoned by {modifier.modifierName}.");
-                            randomEnemyToPoison.GetComponent<CreateMonster>().monsterIsPoisoned = true;
+                            //randomEnemyToPoison.GetComponent<CreateMonster>().monsterIsPoisoned = true;
 
                             if (aIType == Monster.AIType.Ally)
                             {
@@ -874,11 +872,11 @@ public class AdventureManager : MonoBehaviour
                         // Get random enemy from list of unpoisoned enemies
                         if (aIType == Monster.AIType.Ally)
                         {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isBurning => isBurning.GetComponent<CreateMonster>().monsterIsBurning == false).ToList();
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isBurning => isBurning.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Burning)).ToList();
                         }
                         else
                         {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isBurning => isBurning.GetComponent<CreateMonster>().monsterIsBurning == false).ToList();
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isBurning => isBurning.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Burning)).ToList();
                         }
 
                         // If no monsters are unpoisoned, break out
@@ -912,7 +910,7 @@ public class AdventureManager : MonoBehaviour
                             }
 
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was burned by {modifier.modifierName}.");
-                            randomEnemyToBurn.GetComponent<CreateMonster>().monsterIsBurning = true;
+                            //randomEnemyToBurn.GetComponent<CreateMonster>().monsterIsBurning = true;
 
                             if (aIType == Monster.AIType.Ally)
                             {
@@ -937,11 +935,11 @@ public class AdventureManager : MonoBehaviour
                         // Get random enemy from list of unstatused enemies
                         if (aIType == Monster.AIType.Ally)
                         {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isDazed => isDazed.GetComponent<CreateMonster>().monsterIsDazed == false).ToList();
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isDazed => isDazed.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed)).ToList();
                         }
                         else
                         {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isDazed => isDazed.GetComponent<CreateMonster>().monsterIsDazed == false).ToList();
+                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isDazed => isDazed.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed)).ToList();
                         }
 
                         // If no monsters are unpoisoned, break out
@@ -975,7 +973,7 @@ public class AdventureManager : MonoBehaviour
                             }
 
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was dazed by {modifier.modifierName}.");
-                            randomEnemyToDaze.GetComponent<CreateMonster>().monsterIsDazed = true;
+                            //randomEnemyToDaze.GetComponent<CreateMonster>().monsterIsDazed = true;
 
                             if (aIType == Monster.AIType.Ally)
                             {
@@ -1114,6 +1112,11 @@ public class AdventureManager : MonoBehaviour
                             listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies;
                         }
 
+                        foreach(GameObject monster in listOfUnstatusedEnemies)
+                        {
+                            Debug.Log($"{monster.name}");
+                        }
+
                         // Get monster with lowest health
                         monsterObj = listOfUnstatusedEnemies.OrderByDescending(monsterWithLowestHealth => monsterWithLowestHealth.GetComponent<CreateMonster>().monsterReference.health).ToList().Last();
                         monsterRef = monsterObj.GetComponent<CreateMonster>().monsterReference;
@@ -1124,8 +1127,8 @@ public class AdventureManager : MonoBehaviour
                         if (CheckImmunities(monsterRef, monsterObj, modifier))
                             continue;
 
-                        AttackEffect effect = new AttackEffect(modifier.statModified, modifier.statChangeType, AttackEffect.EffectTime.PostAttack, Modifier.StatusEffectType.None, true, true, false, 0, modifier.modifierAmount, 100f, combatManagerScript);
-                        effect.BuffTargetStat(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier.modifierName, true);
+                        AttackEffect effect = new AttackEffect(modifier.statModified, modifier.statChangeType, AttackEffect.EffectTime.PostAttack, Modifier.StatusEffectType.None, false, true, false, 0, modifier.modifierAmount, 100f, combatManagerScript);
+                        effect.BuffTargetStat(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier.modifierName);
 
                         break;
                     #endregion
@@ -1157,7 +1160,7 @@ public class AdventureManager : MonoBehaviour
         foreach (Modifier modifier in whatListShouldIUse)
         {
             // First check if modifier is buff and current monster is Crippled (immune to buffs)
-            if (monsterComponent.monsterIsCrippled && modifier.statChangeType == AttackEffect.StatChangeType.Buff)
+            if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Crippled) && modifier.statChangeType == AttackEffect.StatChangeType.Buff)
             {
                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is Crippled and immune to buffs!");
                 monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
@@ -1739,14 +1742,14 @@ public class AdventureManager : MonoBehaviour
             monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
             return true;
         }
-        else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsCrippled && _modifier.statChangeType == AttackEffect.StatChangeType.Buff)
+        else if (monsterReferenceGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Crippled) && _modifier.statChangeType == AttackEffect.StatChangeType.Buff)
         {
             // Send immune message to combat log
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Crippled and immune to buffs!");
             monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
             return true;
         }
-        else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage && _modifier.statChangeType == AttackEffect.StatChangeType.Debuff && _modifier.statModified == AttackEffect.StatEnumToChange.Health)
+        else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage && _modifier.statChangeType == AttackEffect.StatChangeType.Debuff && _modifier.statModified == AttackEffect.StatToChange.Health)
         {
             // Send immune message to combat log
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
@@ -1760,7 +1763,7 @@ public class AdventureManager : MonoBehaviour
     // This function removes all monsters Equipped equipment
     public void RemoveMonsterEquipment(Monster _monster)
     {
-        List<Modifier> currentEquipment = _monster.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList();
+        List<Modifier> currentEquipment = _monster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
         foreach (Modifier equipment in currentEquipment)
         {
             equipment.modifierOwner = null;

@@ -280,7 +280,7 @@ public class MonsterAttackManager : MonoBehaviour
         currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
 
         // Check if current monster is dazed
-        if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
+        if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed))
         {
             // 50% chance to select a different move
             float selectAnotherMove = Random.value;

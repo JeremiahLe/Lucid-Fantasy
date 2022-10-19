@@ -14,7 +14,7 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public TypeOfInteractable typeOfInteractable;
 
     public Modifier modifier;
-    public AttackEffect.StatEnumToChange stat;
+    public AttackEffect.StatToChange stat;
     public CreateNode node;
     public Item item;
 
@@ -45,7 +45,7 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             interactableName = mod.modifierName;
             interactableDescription = mod.modifierDescription;
 
-            if (mod.modifierOwner != null && mod.adventureEquipment)
+            if (mod.modifierOwner != null && mod.modifierType == Modifier.ModifierType.equipmentModifier)
             {
                 interactableDescription += ($"\nEquipped by: {mod.modifierOwner.name}");
             }

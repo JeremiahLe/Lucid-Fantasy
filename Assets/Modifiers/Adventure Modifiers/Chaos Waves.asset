@@ -30,8 +30,8 @@ MonoBehaviour:
   modifierAdventureReference: 9
   modifierDescription: 'Round Start: Apply Dazed to a random, non-Dazed enemy for
     3 rounds.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 1
   modifierRarity: 1
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: ed5b84d5db2586640afaf5fbf4646bc6, type: 3}

@@ -30,8 +30,8 @@ MonoBehaviour:
   modifierAdventureReference: 2
   modifierDescription: 'Round Start: Apply Poisoned (10% max health per round) to
     a random, non-poisoned enemy.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 1
   modifierRarity: 1
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: ab486a05cbd82a741bf2e1d070bf94b1, type: 3}

@@ -121,7 +121,7 @@ public class InventoryManager : MonoBehaviour
 
         // Initialize the monster's current equipment
         i = 0;
-        List<Modifier> tempList = currentMonsterEquipment.ListOfModifiers.Where(modifier => modifier.adventureEquipment == true).ToList();
+        List<Modifier> tempList = currentMonsterEquipment.ListOfModifiers.Where(modifier => modifier.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
 
         //Debug.Log($"tempList count: {tempList.Count}" +
         //    $"\ncurrent monster: {currentMonsterEquipment.name}");
@@ -205,7 +205,7 @@ public class InventoryManager : MonoBehaviour
 
         // Initialize the monster's current equipment
         i = 0;
-        List<Modifier> tempList = currentMonsterEquipment.ListOfModifiers.Where(modifier => modifier.adventureEquipment == true).ToList();
+        List<Modifier> tempList = currentMonsterEquipment.ListOfModifiers.Where(modifier => modifier.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
 
         //Debug.Log($"tempList count: {tempList.Count}" +
         //    $"\ncurrent monster: {currentMonsterEquipment.name}");
@@ -538,12 +538,12 @@ public class InventoryManager : MonoBehaviour
         }
 
         // Copy equipment of previous monster
-        int equipmentCount = currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList().Count;
+        int equipmentCount = currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList().Count;
 
         for (int i = 0; i < equipmentCount; i++)
         {
-            newMonster.ListOfModifiers.Add(currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList()[i]);
-            currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.adventureEquipment == true).ToList()[i].modifierOwner = newMonster;
+            newMonster.ListOfModifiers.Add(currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList()[i]);
+            currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList()[i].modifierOwner = newMonster;
         }
 
         // Update current monster reference

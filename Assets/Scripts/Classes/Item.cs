@@ -19,7 +19,7 @@ public class Item : ScriptableObject
     public Sprite baseSprite;
 
     [EnableIf("itemType", ItemType.Consumable)]
-    public AttackEffect.StatEnumToChange consumableStatToChange;
+    public AttackEffect.StatToChange consumableStatToChange;
 
     [EnableIf("itemType", ItemType.Consumable)]
     public float consumableAmount;

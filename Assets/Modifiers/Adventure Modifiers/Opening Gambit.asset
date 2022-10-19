@@ -30,8 +30,8 @@ MonoBehaviour:
   modifierAdventureReference: 12
   modifierDescription: 'Game Start: Your fastest monster gains 1.25x physical and
     magic attack, and 100% crit chance for 1 round.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 0
   modifierRarity: 1
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: 8116593c8ed670d47b2da5f916b62163, type: 3}

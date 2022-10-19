@@ -2489,6 +2489,54 @@ PrefabInstance:
       propertyPath: ConfirmAdventureMenu
       value: 
       objectReference: {fileID: 420426851}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 56dac17aa4fb9144f9b4a0f5e57cf0b3, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2073b73193998f244addabad7d24fa0e, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: c116024eb9800eb4280694fad48d8fea, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f7c093e00482fb4db989616cd4798ca, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: e572260d8ce61b743a7a433d3dc39b78, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: e8b2fd35f2c31254fbd3b827fdb68ea0, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 13a228b924b3e224bb53764a5d17093f, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: d80dbcfa21499df458a1c575d8bb3df0, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: c343d677dc0e0904086317faf92080cb, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 672f8721a1ddd6b48847d0dcb43430c7, type: 2}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: ListOfAvailableRewardEquipment.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dd014e6b9e912942b5cd58bd3de2153, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
 --- !u!1001 &2851473889956940207

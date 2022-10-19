@@ -93,25 +93,24 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public bool monsterRecievedStatBoostThisRound = false;
     [DisplayWithoutEdit] public bool monsterCriticallyStrikedThisRound = false;
 
-    public bool monsterIsPoisoned = false;
-    public bool monsterIsBurning = false;
-    public bool monsterIsDazed = false;
-    public bool monsterIsCrippled = false;
-    public bool monsterIsWeakened = false;
-    public bool monsterIsStunned = false;
+    //public bool monsterIsPoisoned = false;
+    //public bool monsterIsBurning = false;
+    //public bool monsterIsDazed = false;
+    //public bool monsterIsCrippled = false;
+    //public bool monsterIsWeakened = false;
+    //public bool monsterIsStunned = false;
 
     [Title("Monster Basic Immunities")]
     public bool monsterImmuneToDebuffs = false;
     //public bool monsterImmuneToBuffs = false;
     public bool monsterImmuneToDamage = false;
 
-    // Basic Stat Immunities
-    public List<AttackEffect.StatEnumToChange> listOfStatImmunities;
+    public List<Modifier.StatusEffectType> listofCurrentStatusEffects;
 
-    // Basic Element Immunities
+    public List<AttackEffect.StatToChange> listOfStatImmunities;
+
     public List<ElementClass> listOfElementImmunities;
 
-    // Specific Status Immunities
     public List<Modifier.StatusEffectType> listOfStatusImmunities;
 
     [DisplayWithoutEdit] public List<Modifier> ListOfModifiers;
@@ -311,7 +310,7 @@ public class CreateMonster : MonoBehaviour
     {
         foreach (Modifier equipment in monsterReference.ListOfModifiers)
         {
-            if (equipment.adventureEquipment)
+            if (equipment.modifierType == Modifier.ModifierType.equipmentModifier)
             {
                 ModifyStats(equipment.statModified, equipment, "adventure");
                 UpdateStats(false, null, false);
@@ -752,7 +751,7 @@ public class CreateMonster : MonoBehaviour
                     switch (modifier.statusEffectType)
                     {
                         case (Modifier.StatusEffectType.Poisoned):
-                            monsterIsPoisoned = true;
+                            //monsterIsPoisoned = true;
                             statusEffectUISprite.sprite = monsterAttackManager.poisonedUISprite;
 
                             // Check if immune to damage
@@ -782,7 +781,7 @@ public class CreateMonster : MonoBehaviour
                             break;
 
                         case (Modifier.StatusEffectType.Burning):
-                            monsterIsBurning = true;
+                            //monsterIsBurning = true;
                             statusEffectUISprite.sprite = monsterAttackManager.burningUISprite;
 
                             // Check if immune to damage
@@ -850,45 +849,45 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function modifies stats by modifier value
-    public void ModifyStats(AttackEffect.StatEnumToChange statToModify, Modifier modifier)
+    public void ModifyStats(AttackEffect.StatToChange statToModify, Modifier modifier)
     {
         //Debug.Log("Modify Stats got called!");
 
         switch (statToModify)
         {
-            case (AttackEffect.StatEnumToChange.Evasion):
+            case (AttackEffect.StatToChange.Evasion):
                 monsterReference.evasion += modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Speed):
+            case (AttackEffect.StatToChange.Speed):
                 monsterReference.speed += (int)modifier.modifierAmount;
                 UpdateStats(false, null, false);
                 break;
 
-            case (AttackEffect.StatEnumToChange.MagicAttack):
+            case (AttackEffect.StatToChange.MagicAttack):
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
-            case (AttackEffect.StatEnumToChange.MagicDefense):
+            case (AttackEffect.StatToChange.MagicDefense):
                 monsterReference.magicDefense += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.PhysicalAttack):
+            case (AttackEffect.StatToChange.PhysicalAttack):
                 monsterReference.physicalAttack += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.PhysicalDefense):
+            case (AttackEffect.StatToChange.PhysicalDefense):
                 monsterReference.physicalDefense += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.CritChance):
+            case (AttackEffect.StatToChange.CritChance):
                 monsterReference.critChance += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.CritDamage):
+            case (AttackEffect.StatToChange.CritDamage):
                 monsterReference.critDamage += modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Debuffs):
+            case (AttackEffect.StatToChange.Debuffs):
                 monsterImmuneToDebuffs = true;
                 // Create popup
                 CreateStatusEffectPopup("Debuff and Status Immunity!");
@@ -900,34 +899,34 @@ public class CreateMonster : MonoBehaviour
             //    CreateStatusEffectPopup("Debuff and Status Immunity!");
             //    break;
 
-            case (AttackEffect.StatEnumToChange.Damage):
+            case (AttackEffect.StatToChange.Damage):
                 monsterImmuneToDamage = true;
                 // Create popup
                 CreateStatusEffectPopup("Damage Immunity!");
                 break;
 
-            case (AttackEffect.StatEnumToChange.BothOffensiveStats):
+            case (AttackEffect.StatToChange.BothOffensiveStats):
                 monsterReference.physicalAttack += (int)modifier.modifierAmount;
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Health):
+            case (AttackEffect.StatToChange.Health):
                 monsterReference.health += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Accuracy):
+            case (AttackEffect.StatToChange.Accuracy):
                 monsterReference.bonusAccuracy += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.HighestAttackStat):
+            case (AttackEffect.StatToChange.HighestAttackStat):
                 if (MonsterAttackManager.ReturnMonsterHighestAttackStat(monsterReference) == MonsterAttack.MonsterAttackDamageType.Magical)
                 {
-                    modifier.statModified = AttackEffect.StatEnumToChange.MagicAttack;
+                    modifier.statModified = AttackEffect.StatToChange.MagicAttack;
                     monsterReference.magicAttack += (int)modifier.modifierAmount;
                 }
                 else if (MonsterAttackManager.ReturnMonsterHighestAttackStat(monsterReference) == MonsterAttack.MonsterAttackDamageType.Physical)
                 {
-                    modifier.statModified = AttackEffect.StatEnumToChange.PhysicalAttack;
+                    modifier.statModified = AttackEffect.StatToChange.PhysicalAttack;
                     monsterReference.physicalAttack += (int)modifier.modifierAmount;
                 }
                 break;
@@ -941,45 +940,45 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function modifies stats by modifier value
-    public void ModifyStats(AttackEffect.StatEnumToChange statToModify, Modifier modifier, bool specialModifier)
+    public void ModifyStats(AttackEffect.StatToChange statToModify, Modifier modifier, bool specialModifier)
     {
         //Debug.Log("Modify Stats got called!");
 
         switch (statToModify)
         {
-            case (AttackEffect.StatEnumToChange.Evasion):
+            case (AttackEffect.StatToChange.Evasion):
                 monsterReference.evasion += modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Speed):
+            case (AttackEffect.StatToChange.Speed):
                 monsterReference.speed += (int)modifier.modifierAmount;
                 UpdateStats(false, null, false);
                 break;
 
-            case (AttackEffect.StatEnumToChange.MagicAttack):
+            case (AttackEffect.StatToChange.MagicAttack):
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
-            case (AttackEffect.StatEnumToChange.MagicDefense):
+            case (AttackEffect.StatToChange.MagicDefense):
                 monsterReference.magicDefense += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.PhysicalAttack):
+            case (AttackEffect.StatToChange.PhysicalAttack):
                 monsterReference.physicalAttack += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.PhysicalDefense):
+            case (AttackEffect.StatToChange.PhysicalDefense):
                 monsterReference.physicalDefense += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.CritChance):
+            case (AttackEffect.StatToChange.CritChance):
                 monsterReference.critChance += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.CritDamage):
+            case (AttackEffect.StatToChange.CritDamage):
                 monsterReference.critDamage += modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Debuffs):
+            case (AttackEffect.StatToChange.Debuffs):
                 monsterImmuneToDebuffs = true;
                 // Create popup
                 CreateStatusEffectPopup("Debuff and Status Immunity!");
@@ -989,22 +988,22 @@ public class CreateMonster : MonoBehaviour
             //    monsterImmuneToBuffs = true;
             //    break;
 
-            case (AttackEffect.StatEnumToChange.Damage):
+            case (AttackEffect.StatToChange.Damage):
                 monsterImmuneToDamage = true;
                 // Create popup
                 CreateStatusEffectPopup("Damage Immunity!");
                 break;
 
-            case (AttackEffect.StatEnumToChange.BothOffensiveStats):
+            case (AttackEffect.StatToChange.BothOffensiveStats):
                 monsterReference.physicalAttack += (int)modifier.modifierAmount;
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Health):
+            case (AttackEffect.StatToChange.Health):
                 monsterReference.health += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Accuracy):
+            case (AttackEffect.StatToChange.Accuracy):
                 monsterReference.bonusAccuracy += (int)modifier.modifierAmount;
                 break;
 
@@ -1017,7 +1016,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function modifies stats by modifier value from an adventure equipment
-    public void ModifyStats(AttackEffect.StatEnumToChange statToModify, Modifier modifier, string equipmentName)
+    public void ModifyStats(AttackEffect.StatToChange statToModify, Modifier modifier, string equipmentName)
     {
         Debug.Log("Modify Stats with equipment got called!");
 
@@ -1034,39 +1033,39 @@ public class CreateMonster : MonoBehaviour
 
         switch (statToModify)
         {
-            case (AttackEffect.StatEnumToChange.Evasion):
+            case (AttackEffect.StatToChange.Evasion):
                 monsterReference.evasion += modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Speed):
+            case (AttackEffect.StatToChange.Speed):
                 monsterReference.speed += (int)modifier.modifierAmount;
                 UpdateStats(false, null, false);
                 break;
 
-            case (AttackEffect.StatEnumToChange.MagicAttack):
+            case (AttackEffect.StatToChange.MagicAttack):
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
-            case (AttackEffect.StatEnumToChange.MagicDefense):
+            case (AttackEffect.StatToChange.MagicDefense):
                 monsterReference.magicDefense += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.PhysicalAttack):
+            case (AttackEffect.StatToChange.PhysicalAttack):
                 monsterReference.physicalAttack += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.PhysicalDefense):
+            case (AttackEffect.StatToChange.PhysicalDefense):
                 monsterReference.physicalDefense += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.CritChance):
+            case (AttackEffect.StatToChange.CritChance):
                 monsterReference.critChance += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.CritDamage):
+            case (AttackEffect.StatToChange.CritDamage):
                 monsterReference.critDamage += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Debuffs):
+            case (AttackEffect.StatToChange.Debuffs):
                 monsterImmuneToDebuffs = true;
                 break;
 
@@ -1074,16 +1073,16 @@ public class CreateMonster : MonoBehaviour
             //    monsterImmuneToBuffs = true;
             //    break;
 
-            case (AttackEffect.StatEnumToChange.Damage):
+            case (AttackEffect.StatToChange.Damage):
                 monsterImmuneToDamage = true;
                 break;
 
-            case (AttackEffect.StatEnumToChange.BothOffensiveStats):
+            case (AttackEffect.StatToChange.BothOffensiveStats):
                 monsterReference.physicalAttack += (int)modifier.modifierAmount;
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
 
-            case (AttackEffect.StatEnumToChange.Accuracy):
+            case (AttackEffect.StatToChange.Accuracy):
                 monsterReference.bonusAccuracy += (int)modifier.modifierAmount;
                 break;
 
@@ -1098,13 +1097,13 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function adds the modifer's icon to the monster's HUD
-    public void AddStatusIcon(Modifier modifier, AttackEffect.StatEnumToChange statEnumToChange, int effectDuration)
+    public void AddStatusIcon(Modifier modifier, AttackEffect.StatToChange statEnumToChange, int effectDuration)
     {
         //List<Modifier> modList = monsterReference.ListOfModifiers.Where(mod => mod.statModified == modifier.statModified && mod.modifierSource == modifier.modifierSource).ToList();
 
         //if (modList.Count == 1)
         //{
-        if (!modifier.adventureEquipment && statEnumToChange != AttackEffect.StatEnumToChange.Health)
+        if (modifier.modifierType != Modifier.ModifierType.equipmentModifier && statEnumToChange != AttackEffect.StatToChange.Health)
         {
             GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
             modifier.statusEffectIconGameObject = statusIcon;
@@ -1206,37 +1205,37 @@ public class CreateMonster : MonoBehaviour
 
         switch (modifier.statModified)
         {
-            case (AttackEffect.StatEnumToChange.Speed):
+            case (AttackEffect.StatToChange.Speed):
                 return combatManagerScript.uiManager.speedSprite;
 
-            case (AttackEffect.StatEnumToChange.PhysicalAttack):
+            case (AttackEffect.StatToChange.PhysicalAttack):
                 return combatManagerScript.uiManager.physicalAttackSprite;
 
-            case (AttackEffect.StatEnumToChange.PhysicalDefense):
+            case (AttackEffect.StatToChange.PhysicalDefense):
                 return combatManagerScript.uiManager.physicalDefenseSprite;
 
-            case (AttackEffect.StatEnumToChange.MagicAttack):
+            case (AttackEffect.StatToChange.MagicAttack):
                 return combatManagerScript.uiManager.magicAttackSprite;
 
-            case (AttackEffect.StatEnumToChange.MagicDefense):
+            case (AttackEffect.StatToChange.MagicDefense):
                 return combatManagerScript.uiManager.magicDefenseSprite;
 
-            case (AttackEffect.StatEnumToChange.Evasion):
+            case (AttackEffect.StatToChange.Evasion):
                 return combatManagerScript.uiManager.evasionSprite;
 
-            case (AttackEffect.StatEnumToChange.CritChance):
+            case (AttackEffect.StatToChange.CritChance):
                 return combatManagerScript.uiManager.critChanceSprite;
 
-            case (AttackEffect.StatEnumToChange.CritDamage):
+            case (AttackEffect.StatToChange.CritDamage):
                 return combatManagerScript.uiManager.critDamageSprite;
 
-            case (AttackEffect.StatEnumToChange.Damage):
+            case (AttackEffect.StatToChange.Damage):
                 return combatManagerScript.uiManager.damageImmuneUISprite;
 
-            case (AttackEffect.StatEnumToChange.Debuffs):
+            case (AttackEffect.StatToChange.Debuffs):
                 return combatManagerScript.uiManager.debuffsImmuneUISprite;
 
-            case (AttackEffect.StatEnumToChange.Accuracy):
+            case (AttackEffect.StatToChange.Accuracy):
                 return combatManagerScript.uiManager.accuracySprite;
 
             default:
@@ -1247,33 +1246,8 @@ public class CreateMonster : MonoBehaviour
     // This function inflicts statuses
     public void InflictStatus(Modifier.StatusEffectType statusEffect)
     {
-        switch (statusEffect)
-        {
-            case (Modifier.StatusEffectType.Poisoned):
-                monsterIsPoisoned = true;
-                statusEffectUISprite.sprite = monsterAttackManager.poisonedUISprite;
-                break;
+        listofCurrentStatusEffects.Add(statusEffect);
 
-            case (Modifier.StatusEffectType.Burning):
-                monsterIsBurning = true;
-                statusEffectUISprite.sprite = monsterAttackManager.burningUISprite;
-                break;
-
-            case (Modifier.StatusEffectType.Dazed):
-                monsterIsDazed = true;
-                statusEffectUISprite.sprite = monsterAttackManager.dazedUISprite;
-                break;
-
-            case (Modifier.StatusEffectType.Stunned):
-                monsterIsStunned = true;
-                statusEffectUISprite.sprite = monsterAttackManager.dazedUISprite;
-                break;
-
-            default:
-                break;
-        }
-
-        // Create popup
         CreateStatusEffectPopup($"{statusEffect.ToString()}!");
     }
 
@@ -1297,8 +1271,8 @@ public class CreateMonster : MonoBehaviour
             transform.DetachChildren();
 
             // remove statuses to prevent two status death call bug
-            monsterIsPoisoned = false;
-            monsterIsBurning = false;
+            //monsterIsPoisoned = false;
+            //monsterIsBurning = false;
 
             //// Check for status or ability kills
             //if (killedExternally && combatManagerScript.adventureMode && aiType != Monster.AIType.Ally)
@@ -1692,32 +1666,32 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function returns a bonus damage source based on the enum StatEnumToChange
-    public float GetStatToChange(AttackEffect.StatEnumToChange statEnumToChange, Monster monsterRef)
+    public float GetStatToChange(AttackEffect.StatToChange statEnumToChange, Monster monsterRef)
     {
         switch (statEnumToChange)
         {
-            case (AttackEffect.StatEnumToChange.Speed):
+            case (AttackEffect.StatToChange.Speed):
                 return monsterRef.speed;
 
-            case (AttackEffect.StatEnumToChange.PhysicalAttack):
+            case (AttackEffect.StatToChange.PhysicalAttack):
                 return monsterRef.physicalAttack;
 
-            case (AttackEffect.StatEnumToChange.PhysicalDefense):
+            case (AttackEffect.StatToChange.PhysicalDefense):
                 return monsterRef.physicalDefense;
 
-            case (AttackEffect.StatEnumToChange.MagicAttack):
+            case (AttackEffect.StatToChange.MagicAttack):
                 return monsterRef.magicAttack;
 
-            case (AttackEffect.StatEnumToChange.MagicDefense):
+            case (AttackEffect.StatToChange.MagicDefense):
                 return monsterRef.magicDefense;
 
-            case (AttackEffect.StatEnumToChange.Evasion):
+            case (AttackEffect.StatToChange.Evasion):
                 return monsterRef.evasion;
 
-            case (AttackEffect.StatEnumToChange.CritChance):
+            case (AttackEffect.StatToChange.CritChance):
                 return monsterRef.critChance;
 
-            case (AttackEffect.StatEnumToChange.CritDamage):
+            case (AttackEffect.StatToChange.CritDamage):
                 return monsterRef.critDamage;
             default:
                 Debug.Log("Missing stat or monster reference?", this);
@@ -1760,7 +1734,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function is called by monster attack manager to create a buff/debuff popup
-    public void CreateStatusEffectPopup(AttackEffect.StatEnumToChange stat, bool isBuff)
+    public void CreateStatusEffectPopup(AttackEffect.StatToChange stat, bool isBuff)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
         effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
@@ -1780,7 +1754,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function is called by monster attack manager to create a buff/debuff popup
-    public void CreateStatusEffectPopup(AttackEffect.StatEnumToChange stat, bool isBuff, float amountChanged)
+    public void CreateStatusEffectPopup(AttackEffect.StatToChange stat, bool isBuff, float amountChanged)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
         effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;

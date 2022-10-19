@@ -13,10 +13,17 @@ MonoBehaviour:
   m_Name: Hot Hot Frenzy Dance Magic Attack Effect Effect
   m_EditorClassIdentifier: 
   typeOfEffect: 16
-  statEnumToChange: 3
+  StatToChange: 16
+  monsterTargetType: 0
+  currentMonsterTargetGameObject: {fileID: 0}
+  currentMonsterTarget: {fileID: 0}
+  scaleFromWhatStat: 0
+  scaleFromWhatTarget: 0
   statChangeType: 0
   effectTime: 2
   attackEffectStatus: 0
+  attackEffectDuration: 0
+  inflictSelf: 0
   modifierCalledOnce: 0
   flatBuff: 0
   modifierDuration: 0

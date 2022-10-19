@@ -12,11 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
   m_Name: Dancing Flames Dazed Enemies
   m_EditorClassIdentifier: 
-  typeOfEffect: 21
-  statEnumToChange: 0
+  typeOfEffect: 25
+  statToChange: 0
+  monsterTargetType: 0
+  currentMonsterTargetGameObject: {fileID: 0}
+  currentMonsterTarget: {fileID: 0}
+  scaleFromWhatStat: 0
+  scaleFromWhatTarget: 0
   statChangeType: 1
   effectTime: 1
   attackEffectStatus: 3
+  attackEffectDuration: 0
   inflictSelf: 0
   modifierCalledOnce: 0
   flatBuff: 0

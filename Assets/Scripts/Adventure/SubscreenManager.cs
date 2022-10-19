@@ -669,7 +669,7 @@ public class SubscreenManager : MonoBehaviour
         Modifier randModifierSO = Instantiate(randModifier);
 
         // Fix weird reroll bugged amounts?
-        randModifierSO.adventureEquipment = true;
+        randModifierSO.modifierType = Modifier.ModifierType.equipmentModifier;
         randModifierSO.modifierAmountFlatBuff = randModifier.modifierAmountFlatBuff;
         randModifierSO.modifierAmount = randModifier.modifierAmount;
 
@@ -688,7 +688,7 @@ public class SubscreenManager : MonoBehaviour
         Modifier randModifierSO = Instantiate(randModifier);
 
         // Fix weird reroll bugged amounts?
-        randModifierSO.adventureEquipment = true;
+        randModifierSO.modifierType = Modifier.ModifierType.equipmentModifier;
         randModifierSO.modifierAmountFlatBuff = randModifier.modifierAmountFlatBuff;
         randModifierSO.modifierAmount = randModifier.modifierAmount;
 

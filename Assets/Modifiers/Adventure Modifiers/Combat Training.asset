@@ -29,8 +29,8 @@ MonoBehaviour:
   modifierName: Combat Training
   modifierAdventureReference: 13
   modifierDescription: 'Round Start: Your first monster gains 5% all basic stats.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 1
   modifierRarity: 0
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: 8cee2dd67ee5792468cfb770ff8a86c3, type: 3}

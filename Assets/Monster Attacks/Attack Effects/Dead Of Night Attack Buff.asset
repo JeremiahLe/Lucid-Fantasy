@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dead Of Night Attack Buff
   m_EditorClassIdentifier: 
   typeOfEffect: 24
-  statEnumToChange: 18
+  StatToChange: 16
   monsterTargetType: 1
   currentMonsterTargetGameObject: {fileID: 0}
   currentMonsterTarget: {fileID: 0}

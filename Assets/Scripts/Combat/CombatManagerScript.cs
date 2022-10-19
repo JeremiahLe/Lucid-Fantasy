@@ -592,7 +592,7 @@ public class CombatManagerScript : MonoBehaviour
             return;
 
         // First check if the monster is stunned or doesn't have an action available
-        if (CurrentMonsterTurn.GetComponent<CreateMonster>().monsterIsStunned)
+        if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Stunned))
         {
             CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
             HUDanimationManager.MonsterCurrentTurnText.text = ($"{monster.aiType} {monster.name} is Stunned!");
@@ -815,10 +815,6 @@ public class CombatManagerScript : MonoBehaviour
                     monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
                     monsterTargeter.SetActive(false);
                 }
-                break;
-
-            default:
-                Debug.Log("Missing target or attack reference?", this);
                 break;
         }
     }
@@ -1190,7 +1186,7 @@ public class CombatManagerScript : MonoBehaviour
         foreach (Monster monster in adventureManager.ListOfAllyBattleMonsters.ToList()) // might have to remove this ToList()
         {
             // Only remove non equipment modifiers
-            monster.ListOfModifiers = monster.ListOfModifiers.Where(mod => mod.adventureEquipment == true).ToList();
+            monster.ListOfModifiers = monster.ListOfModifiers.Where(mod => mod.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
 
             monster.physicalAttack = monster.cachedPhysicalAttack;
             monster.magicAttack = monster.cachedMagicAttack;

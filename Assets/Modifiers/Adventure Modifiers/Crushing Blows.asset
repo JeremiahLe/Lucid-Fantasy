@@ -30,8 +30,8 @@ MonoBehaviour:
   modifierAdventureReference: 15
   modifierDescription: 'Game Start: All allied monsters gain 35% chance to apply
     Stunned to enemies on hit for 1 round.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 0
   modifierRarity: 1
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: e2c4b7160b20497419b8f76e8c5d9d85, type: 3}

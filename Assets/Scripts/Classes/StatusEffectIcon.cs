@@ -16,7 +16,7 @@ public class StatusEffectIcon : MonoBehaviour
     public TextMeshProUGUI modifierDurationText;
     public int currentModifierStack;
 
-    public AttackEffect.StatEnumToChange statEnumToChange;
+    public AttackEffect.StatToChange statEnumToChange;
     public AttackEffect.StatChangeType statChangeType;
     public Modifier.StatusEffectType statusEffectType;
 

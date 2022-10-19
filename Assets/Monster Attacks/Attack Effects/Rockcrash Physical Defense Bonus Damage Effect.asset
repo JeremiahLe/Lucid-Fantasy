@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: Rockcrash Physical Defense Bonus Damage Effect
   m_EditorClassIdentifier: 
   typeOfEffect: 13
-  statEnumToChange: 4
+  StatToChange: 16
+  monsterTargetType: 0
+  currentMonsterTargetGameObject: {fileID: 0}
+  currentMonsterTarget: {fileID: 0}
+  scaleFromWhatStat: 0
+  scaleFromWhatTarget: 0
   statChangeType: 0
   effectTime: 0
   attackEffectStatus: 0

@@ -30,8 +30,8 @@ MonoBehaviour:
   modifierAdventureReference: 16
   modifierDescription: 'Round End: Your lowest health monster heals for 25% of their
     missing health.'
-  adventureModifier: 1
-  adventureEquipment: 0
+  modifierType: 1
   modifierAdventureCallTime: 3
   modifierRarity: 0
+  equipmentRank: 1
   baseSprite: {fileID: 21300000, guid: e4cf4a7c1ea905d4b910609f47721e97, type: 3}

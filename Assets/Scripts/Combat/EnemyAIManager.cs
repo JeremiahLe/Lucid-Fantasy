@@ -68,7 +68,7 @@ public class EnemyAIManager : MonoBehaviour
                         break;
 
                     default:
-                        if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
+                        if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed))
                         {
                             currentEnemyTargetGameObject = GetRandomTarget(GetRandomList());
                         }
