@@ -420,6 +420,13 @@ Imported Various Assets/Packages
 [10/18/22]
 - See Above
 
+[10/19/22]
+- See Above
+- Finish AffectTargetStat()
+- Fix Old Attack Effects
+- Fix Old TypeOfEffects
+- Fix AdventureModifier calls
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
