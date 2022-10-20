@@ -70,7 +70,7 @@ public class StatusEffectIcon : MonoBehaviour
             interactable.modifier = modifier;
             interactable.InitiateInteractable(modifier);
 
-            if (!modifier.statusEffect)
+            if (!modifier.isStatusEffect)
             {
                 if (modifier.statChangeType == AttackEffect.StatChangeType.Debuff)
                 {

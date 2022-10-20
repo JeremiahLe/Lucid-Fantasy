@@ -714,7 +714,7 @@ public class CreateMonster : MonoBehaviour
         foreach (Modifier modifier in monsterReference.ListOfModifiers.ToArray())
         {
             // Check statuses
-            if (modifier.statusEffect)
+            if (modifier.isStatusEffect)
             {
                 // First check if monster is immune to debuffs, if so, break out.
                 if (monsterImmuneToDebuffs)
@@ -841,7 +841,7 @@ public class CreateMonster : MonoBehaviour
             // adjust time
             float timeToDelay = 0.5f;
 
-            if (!modifier.statusEffect)
+            if (!modifier.isStatusEffect)
                 timeToDelay = 0.01f;
 
             yield return new WaitForSeconds(timeToDelay);
@@ -1116,7 +1116,7 @@ public class CreateMonster : MonoBehaviour
 
             newStatusEffectIcon.InitiateStatusEffectIcon(this);
         }
-        else if (modifier.statusEffect)
+        else if (modifier.isStatusEffect)
         {
             GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
             modifier.statusEffectIconGameObject = statusIcon;
@@ -1176,7 +1176,7 @@ public class CreateMonster : MonoBehaviour
     // This function returns a sprite icon based on what stat is changed
     public Sprite ReturnStatusEffectSprite(Modifier modifier)
     {
-        if (modifier.statusEffect)
+        if (modifier.isStatusEffect)
         {
             switch (modifier.statusEffectType)
             {

@@ -27,8 +27,8 @@ public class Modifier : ScriptableObject
     public float modifierAmount;
     public bool modifierAmountFlatBuff;
 
-    public bool statusEffect = false;
-    [EnableIf("statusEffect")]
+    public bool isStatusEffect = false;
+
     public enum StatusEffectType { None, Poisoned, Stunned, Dazed, Crippled, Weakened, Burning, Silenced, Enraged }
     public StatusEffectType statusEffectType;
 
@@ -74,7 +74,7 @@ public class Modifier : ScriptableObject
         // reset duration
         modifierCurrentDuration = modifierDuration;
 
-        if (statusEffect)
+        if (isStatusEffect)
         {
             monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statusEffectType.ToString()} status was cleared!", monsterReference.aiType);
             monsterReferenceGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Remove(statusEffectType);

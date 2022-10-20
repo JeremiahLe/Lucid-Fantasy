@@ -19,7 +19,7 @@ public class MonsterAttack : ScriptableObject
     public ElementClass monsterElementClass;
 
     // What type of attack is it? (Attack, Buff, other)
-    public enum MonsterAttackType { Attack, Buff, Other };
+    public enum MonsterAttackType { Attack, Status, Other };
     public MonsterAttackType monsterAttackType;
 
     // What type of damage does it deal?

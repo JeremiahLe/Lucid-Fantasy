@@ -13,21 +13,20 @@ MonoBehaviour:
   m_Name: Dripped Blade Poisoned Status
   m_EditorClassIdentifier: 
   typeOfEffect: 25
+  statChangeType: 1
+  attackEffectStatus: 1
   statToChange: 0
+  effectTime: 2
   monsterTargetType: 0
   currentMonsterTargetGameObject: {fileID: 0}
   currentMonsterTarget: {fileID: 0}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
-  statChangeType: 1
-  effectTime: 2
-  attackEffectStatus: 1
   attackEffectDuration: 0
   inflictSelf: 0
   modifierCalledOnce: 0
-  flatBuff: 0
+  flatValueChange: 0
   modifierDuration: 0
   amountToChange: 10
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
-  ListOfModifiers: []

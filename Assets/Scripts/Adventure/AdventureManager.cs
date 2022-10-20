@@ -248,7 +248,7 @@ public class AdventureManager : MonoBehaviour
                 modifierSource = item.modifierSource,
                 statModified = item.statModified,
                 baseSprite = item.baseSprite,
-                statusEffect = item.statusEffect,
+                isStatusEffect = item.isStatusEffect,
                 statusEffectType = item.statusEffectType,
                 statChangeType = item.statChangeType
             });
@@ -321,7 +321,7 @@ public class AdventureManager : MonoBehaviour
                 modifierSource = item.modifierSource,
                 statModified = item.statModified,
                 baseSprite = item.baseSprite,
-                statusEffect = item.statusEffect,
+                isStatusEffect = item.isStatusEffect,
                 statusEffectType = item.statusEffectType,
                 statChangeType = item.statChangeType
             });
@@ -636,7 +636,7 @@ public class AdventureManager : MonoBehaviour
                         monster = monsterObj.GetComponent<CreateMonster>().monster;
 
                         // Check immunities
-                        if (CheckImmunities(monster, monsterObj, modifier))
+                        if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                             continue;
 
                         newModifier = Instantiate(modifier);
@@ -659,7 +659,7 @@ public class AdventureManager : MonoBehaviour
                         monster = monsterObj.GetComponent<CreateMonster>().monster;
 
                         // Check immunities
-                        if (CheckImmunities(monster, monsterObj, modifier))
+                        if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                             continue;
 
                         // Increase stats
@@ -690,7 +690,7 @@ public class AdventureManager : MonoBehaviour
                         monster = monsterObj.GetComponent<CreateMonster>().monster;
 
                         // Check immunities
-                        if (CheckImmunities(monster, monsterObj, modifier))
+                        if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                             continue;
 
                         // Increase stats
@@ -715,7 +715,7 @@ public class AdventureManager : MonoBehaviour
                         monster = monsterObj.GetComponent<CreateMonster>().monster;
 
                         // Check immunities
-                        if (CheckImmunities(monster, monsterObj, modifier))
+                        if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                             continue;
 
                         // Physical Attack
@@ -759,7 +759,7 @@ public class AdventureManager : MonoBehaviour
                         monster = monsterObj.GetComponent<CreateMonster>().monster;
 
                         // Check immunities
-                        if (CheckImmunities(monster, monsterObj, modifier))
+                        if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                             continue;
 
                         newModifier = Instantiate(modifier);
@@ -1005,7 +1005,7 @@ public class AdventureManager : MonoBehaviour
                         monsterRef = monsterObj.GetComponent<CreateMonster>().monster;
 
                         // Check immunities
-                        if (CheckImmunities(monsterRef, monsterObj, modifier))
+                        if (AttackEffect.CheckTargetIsImmune(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                             continue;
 
                         newModifier = Instantiate(modifier);
@@ -1028,7 +1028,7 @@ public class AdventureManager : MonoBehaviour
                         monsterRef = monsterObj.GetComponent<CreateMonster>().monster;
 
                         // Check immunities
-                        if (CheckImmunities(monsterRef, monsterObj, modifier))
+                        if (AttackEffect.CheckTargetIsImmune(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                             continue;
 
                         // Increase stats
@@ -1124,7 +1124,7 @@ public class AdventureManager : MonoBehaviour
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{modifier.modifierName} was activated!");
 
                         // Check immunities
-                        if (CheckImmunities(monsterRef, monsterObj, modifier))
+                        if (AttackEffect.CheckTargetIsImmune(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                             continue;
 
                         AttackEffect effect = new AttackEffect(modifier.statModified, modifier.statChangeType, AttackEffect.EffectTime.PostAttack, Modifier.StatusEffectType.None, false, true, false, 0, modifier.modifierAmount, 100f, combatManagerScript);
@@ -1179,7 +1179,7 @@ public class AdventureManager : MonoBehaviour
                 case AdventureModifiers.AdventureModifierReferenceList.WildFervor:
 
                     // Check immunities
-                    if (CheckImmunities(monster, monsterObj, modifier))
+                    if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                         continue;
 
                     monster.critChance += modifier.modifierAmount;
@@ -1194,7 +1194,7 @@ public class AdventureManager : MonoBehaviour
                 case AdventureModifiers.AdventureModifierReferenceList.TemperedOffense:
 
                     // Check immunities
-                    if (CheckImmunities(monster, monsterObj, modifier))
+                    if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                         continue;
 
                     int physicalAttackIncrease = Mathf.RoundToInt(monster.cachedPhysicalAttack * (modifier.modifierAmount / 100f) + 1f);
@@ -1211,7 +1211,7 @@ public class AdventureManager : MonoBehaviour
                 case AdventureModifiers.AdventureModifierReferenceList.TemperedDefense:
 
                     // Check immunities
-                    if (CheckImmunities(monster, monsterObj, modifier))
+                    if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                         continue;
 
                     int physicalDefenseIncrease = Mathf.RoundToInt(monster.cachedPhysicalDefense * (modifier.modifierAmount / 100f) + 1f);
@@ -1228,7 +1228,7 @@ public class AdventureManager : MonoBehaviour
                 case AdventureModifiers.AdventureModifierReferenceList.TenaciousGuard:
 
                     // Check immunities
-                    if (CheckImmunities(monster, monsterObj, modifier))
+                    if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                         continue;
 
                     //AttackEffect temp = AttackEffect.CreateInstance<AttackEffect>();
@@ -1242,9 +1242,9 @@ public class AdventureManager : MonoBehaviour
                     break;
 
                 case AdventureModifiers.AdventureModifierReferenceList.CrushingBlows:
-                    
+
                     // Check immunities
-                    if (CheckImmunities(monster, monsterObj, modifier))
+                    if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                         continue;
 
                     // Increase stats
@@ -1730,34 +1730,6 @@ public class AdventureManager : MonoBehaviour
         GameManagerAudioSource.clip = newBGM;
         GameManagerAudioSource.volume = scale;
         GameManagerAudioSource.Play();
-    }
-
-    // Check Immunities
-    public bool CheckImmunities(Monster monsterReference, GameObject monsterReferenceGameObject, Modifier _modifier)
-    {
-        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs && _modifier.statChangeType == AttackEffect.StatChangeType.Debuff)
-        {
-            // Send immune message to combat log
-            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to status effects and debuffs!");
-            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
-            return true;
-        }
-        else if (monsterReferenceGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Crippled) && _modifier.statChangeType == AttackEffect.StatChangeType.Buff)
-        {
-            // Send immune message to combat log
-            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Crippled and immune to buffs!");
-            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
-            return true;
-        }
-        else if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage && _modifier.statChangeType == AttackEffect.StatChangeType.Debuff && _modifier.statModified == AttackEffect.StatToChange.Health)
-        {
-            // Send immune message to combat log
-            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
-            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
-            return true;
-        }
-
-        return false;
     }
 
     // This function removes all monsters Equipped equipment

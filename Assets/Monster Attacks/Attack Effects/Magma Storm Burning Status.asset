@@ -13,21 +13,20 @@ MonoBehaviour:
   m_Name: Magma Storm Burning Status
   m_EditorClassIdentifier: 
   typeOfEffect: 25
+  statChangeType: 1
+  attackEffectStatus: 6
   statToChange: 0
+  effectTime: 1
   monsterTargetType: 0
   currentMonsterTargetGameObject: {fileID: 0}
   currentMonsterTarget: {fileID: 0}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
-  statChangeType: 1
-  effectTime: 1
-  attackEffectStatus: 6
   attackEffectDuration: 0
   inflictSelf: 0
   modifierCalledOnce: 0
-  flatBuff: 0
+  flatValueChange: 0
   modifierDuration: 3
   amountToChange: 15
   effectTriggerChance: 25
   combatManagerScript: {fileID: 0}
-  ListOfModifiers: []

@@ -13,21 +13,20 @@ MonoBehaviour:
   m_Name: Dark Chant Magic Attack Buff
   m_EditorClassIdentifier: 
   typeOfEffect: 16
-  StatToChange: 16
+  statChangeType: 0
+  attackEffectStatus: 0
+  statToChange: 0
+  effectTime: 2
   monsterTargetType: 0
   currentMonsterTargetGameObject: {fileID: 0}
   currentMonsterTarget: {fileID: 0}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
-  statChangeType: 0
-  effectTime: 2
-  attackEffectStatus: 0
   attackEffectDuration: 0
   inflictSelf: 1
   modifierCalledOnce: 0
-  flatBuff: 0
+  flatValueChange: 0
   modifierDuration: 0
   amountToChange: 25
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
-  ListOfModifiers: []

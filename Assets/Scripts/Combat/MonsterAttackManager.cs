@@ -123,7 +123,7 @@ public class MonsterAttackManager : MonoBehaviour
             case (MonsterAttack.MonsterAttackType.Other):
             // Fallthrough
 
-            case (MonsterAttack.MonsterAttackType.Buff):
+            case (MonsterAttack.MonsterAttackType.Status):
                 currentMonsterAttackDescription.gameObject.SetActive(true);
                 currentMonsterAttackDescription.text = ($"<b>{currentMonsterAttack.monsterAttackName} | {currentMonsterAttack.monsterAttackElement.ToString()}</b>" +
                     $"\n{currentMonsterAttack.monsterAttackDescription}" +
@@ -673,9 +673,10 @@ public class MonsterAttackManager : MonoBehaviour
         {
             foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
             {
-                if (effect.effectTime == AttackEffect.EffectTime.PostAttack && !effect.inflictSelf)
+                if (effect.effectTime == AttackEffect.EffectTime.PostAttack && effect.monsterTargetType == AttackEffect.MonsterTargetType.Target)
                 {
-                    effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
+                    Debug.Log("Triggering Effect!");
+                    effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName, currentMonsterAttack);
                     await Task.Delay(300);
                 }
             }
@@ -686,9 +687,9 @@ public class MonsterAttackManager : MonoBehaviour
         {
             foreach (AttackEffect effect in currentMonsterAttack.ListOfAttackEffects)
             {
-                if (effect.effectTime == AttackEffect.EffectTime.PostAttack && effect.inflictSelf)
+                if (effect.effectTime == AttackEffect.EffectTime.PostAttack && effect.monsterTargetType == AttackEffect.MonsterTargetType.Self)
                 {
-                    effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
+                    effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName, currentMonsterAttack);
                     await Task.Delay(300);
                 }
             }
@@ -707,7 +708,7 @@ public class MonsterAttackManager : MonoBehaviour
             {
                 if (effect.effectTime == AttackEffect.EffectTime.DuringAttack)
                 {
-                    effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
+                    effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName, currentMonsterAttack);
                     await Task.Delay(300);
                 }
             }
@@ -724,7 +725,7 @@ public class MonsterAttackManager : MonoBehaviour
         {
             if (effect.effectTime == AttackEffect.EffectTime.PreAttack)
             {
-                effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName);
+                effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName, currentMonsterAttack);
                 await Task.Delay(300);
             }
         }
@@ -805,7 +806,7 @@ public class MonsterAttackManager : MonoBehaviour
         {
             // Damage killed monster
             // Break out before continuing further in case self died from OnDamageTaken or OnDeath Abilities, or some other external factor
-            if (currentMonsterTurn == null || currentMonsterTurn.health <= 0)
+            if (currentMonsterTurnGameObject == null || currentMonsterTurn.health <= 0)
             {
                 // Self is dead, continue combat loop
                 Debug.Log("Self is dead, continue combat loop!", this);
@@ -839,7 +840,7 @@ public class MonsterAttackManager : MonoBehaviour
         {
             // Damage did not kill monster, continue function calls
             // If the damage was not immune and the current attack was a status move
-            if (calculatedDamage != 0 || currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Buff)
+            if (calculatedDamage != 0 || currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Status)
             {
                 // Trigger any post attack effects on self or target (Null checks are handled in this function)
                 await TriggerPostAttackEffects(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject);
@@ -963,8 +964,8 @@ public class MonsterAttackManager : MonoBehaviour
                 }
 
                 // Damage did not kill monster, continue function calls
-                // If the damage was not immune and the current attack was not a status move
-                if (calculatedDamage != 0 || currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Buff)
+                // If the damage was not zero or the current attack was a status move
+                if (calculatedDamage != 0 || currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Status)
                 {
                     // Trigger any post attack effects on self or target (Null checks are handled in this function)
                     await TriggerDuringAttackEffects(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject);
@@ -1004,7 +1005,7 @@ public class MonsterAttackManager : MonoBehaviour
         {
             if (abilityEffect.effectTime == abilityEffectTime)
             {
-                abilityEffect.TriggerEffects(this, monster.monsterAbility.abilityName);
+                abilityEffect.TriggerEffects(this, monster.monsterAbility.abilityName, currentMonsterAttack);
                 await Task.Delay(300);
             }
         }
