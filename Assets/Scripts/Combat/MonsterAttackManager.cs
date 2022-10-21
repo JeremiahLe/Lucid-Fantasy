@@ -6,6 +6,8 @@ using Sirenix.OdinInspector;
 using TMPro;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
+using Random = UnityEngine.Random;
 
 public class MonsterAttackManager : MonoBehaviour
 {
@@ -783,13 +785,8 @@ public class MonsterAttackManager : MonoBehaviour
         // If the attack was a damaging attack and the target wasn't immune, show damage done
         if (currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack && calculatedDamage != 0)
         {
-            // Show the damage number and damaged animation of target
-            currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
-            currentTargetedMonsterComponent.ShowDamageOrStatusEffectPopup(calculatedDamage, "Damage");
-
-            // Play damage sound
-            soundEffectManager.AddSoundEffectToQueue(HitSound);
-            soundEffectManager.BeginSoundEffectQueue();
+            // Show the damaged animation of target && Play damage sound
+            HitTarget(currentTargetedMonsterGameObject);
 
             // Trigger any on damage ability effects if necesary
             await TriggerAbilityEffects(currentMonsterTurn, AttackEffect.EffectTime.OnDamageDealt, currentMonsterTurnGameObject);
@@ -799,11 +796,19 @@ public class MonsterAttackManager : MonoBehaviour
         }
 
         // Finally, update the stats of the targeted monster, aka CheckHealth()
-        currentTargetedMonsterComponent.UpdateStats(true, currentMonsterTurnGameObject, false);
+        currentTargetedMonsterComponent.UpdateStats(true, currentMonsterTurnGameObject, false, calculatedDamage);
 
         // Check if the damage killed the targeted monster
         if (CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject))
         {
+            //if (currentTargetedMonster.health <= 0)
+                //await currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, currentTargetedMonsterGameObject, false, calculatedDamage);
+
+            await TriggerAbilityEffects(currentTargetedMonster, AttackEffect.EffectTime.OnDeath, currentTargetedMonsterGameObject);
+
+            //if (currentTargetedMonster.health <= 0)
+            //    await currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, currentTargetedMonsterGameObject, false, calculatedDamage);
+
             // Damage killed monster
             // Break out before continuing further in case self died from OnDamageTaken or OnDeath Abilities, or some other external factor
             if (currentMonsterTurnGameObject == null || currentMonsterTurn.health <= 0)
@@ -855,6 +860,17 @@ public class MonsterAttackManager : MonoBehaviour
 
         // Finally, call next monster turn
         combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
+    }
+
+    private void HitTarget(GameObject currentTargetedMonsterGameObject)
+    {
+        // Show the damage number and damaged animation of target
+        currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
+        currentTargetedMonsterGameObject.GetComponent<CreateMonster>().ShowDamageOrStatusEffectPopup(calculatedDamage, "Damage");
+
+        // Play damage sound
+        soundEffectManager.AddSoundEffectToQueue(HitSound);
+        soundEffectManager.BeginSoundEffectQueue();
     }
 
     // This function handles damaging multiple targeted monsters
@@ -916,13 +932,8 @@ public class MonsterAttackManager : MonoBehaviour
             // If the attack was a damaging attack and the target wasn't immune, show damage done
             if (currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack && calculatedDamage != 0)
             {
-                // Show the damage number and damaged animation of target
-                currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
-                currentTargetedMonsterComponent.ShowDamageOrStatusEffectPopup(calculatedDamage, "Damage");
-
-                // Play damage sound
-                soundEffectManager.AddSoundEffectToQueue(HitSound);
-                soundEffectManager.BeginSoundEffectQueue();
+                // Show the damaged animation of target && Play damage sound
+                HitTarget(currentTargetedMonsterGameObject);
 
                 // Trigger any on damage ability effects if necesary
                 await TriggerAbilityEffects(currentMonsterTurn, AttackEffect.EffectTime.OnDamageDealt, currentMonsterTurnGameObject);
@@ -932,11 +943,16 @@ public class MonsterAttackManager : MonoBehaviour
             }
 
             // Finally, update the stats of the targeted monster, aka CheckHealth()
-            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, currentMonsterTurnGameObject, false);
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, currentMonsterTurnGameObject, false, calculatedDamage);
 
             // Check if the damage killed the targeted monster
             if (CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject))
             {
+                // Finally, update the stats of the targeted monster, aka CheckHealth() // SWAP BACK
+                //currentTargetedMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, currentTargetedMonsterGameObject, false, calculatedDamage);
+
+                await TriggerAbilityEffects(currentTargetedMonster, AttackEffect.EffectTime.OnDeath, currentTargetedMonsterGameObject);
+
                 // Damage killed monster
                 // Break out before continuing further in case self died from OnDamageTaken or OnDeath Abilities, or some other external factor
                 if (currentMonsterTurn == null || currentMonsterTurn.health <= 0)
@@ -1001,13 +1017,18 @@ public class MonsterAttackManager : MonoBehaviour
     // This function triggers any monster's ability effects based on what effect time is passed in
     public async Task<int> TriggerAbilityEffects(Monster monster, AttackEffect.EffectTime abilityEffectTime, GameObject monsterGameObject)
     {
+        //await monster.monsterAbility.ability.TriggerAbility(this);
+        int i = 0;
         foreach (AttackEffect abilityEffect in monster.monsterAbility.listOfAbilityEffects)
         {
             if (abilityEffect.effectTime == abilityEffectTime)
             {
-                abilityEffect.TriggerEffects(this, monster.monsterAbility.abilityName, currentMonsterAttack);
+                await monster.monsterAbility.listOfAbilityTriggers[i].TriggerAbility(this, monster.monsterAbility);
+                //abilityEffect.TriggerEffects(this, monster.monsterAbility.abilityName, currentMonsterAttack);
                 await Task.Delay(300);
             }
+
+            i++;
         }
 
         return 1;

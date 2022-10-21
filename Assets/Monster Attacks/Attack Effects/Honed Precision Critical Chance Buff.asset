@@ -15,17 +15,16 @@ MonoBehaviour:
   typeOfEffect: 16
   statChangeType: 0
   attackEffectStatus: 0
-  statToChange: 0
+  statToChange: 8
   effectTime: 2
-  monsterTargetType: 0
+  monsterTargetType: 1
   currentMonsterTargetGameObject: {fileID: 0}
   currentMonsterTarget: {fileID: 0}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
   attackEffectDuration: 0
-  inflictSelf: 0
   modifierCalledOnce: 0
-  flatValueChange: 0
+  flatValueChange: 1
   modifierDuration: 3
   amountToChange: 100
   effectTriggerChance: 100

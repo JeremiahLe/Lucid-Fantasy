@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e05902c21d7104e94a2e6c1c181ef8, type: 3}
+  m_Name: Magic Mirror
+  m_EditorClassIdentifier: 
+  abilityName: Magic Mirror
+  abilityDescription: 'On Damage Taken: Deal 50% of Magical Attack as Damage to Attacker
+    if hit by a Magical Attack.'
+  listOfAbilityEffects:
+  - {fileID: 11400000, guid: 86bf13930f5a83640be115a26571ac05, type: 2}
+  listOfAbilityTriggers:
+  - {fileID: 11400000, guid: f8d48c320128d5a44bee7e59542bc5df, type: 2}

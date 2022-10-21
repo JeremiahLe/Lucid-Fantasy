@@ -285,7 +285,7 @@ public class CombatManagerScript : MonoBehaviour
                 Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
 
                 adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Ally);
-                monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
                 monsterObj.GetComponent<CreateMonster>().CheckAdventureEquipment();
             }
 
@@ -296,7 +296,7 @@ public class CombatManagerScript : MonoBehaviour
             {
                 Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
                 adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Enemy);
-                monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
                 monsterObj.GetComponent<CreateMonster>().CheckAdventureEquipment();
             }
 
@@ -451,6 +451,15 @@ public class CombatManagerScript : MonoBehaviour
         }
         */
         #endregion
+
+        //foreach (GameObject monsterGameObject in BattleSequence.ToArray())
+        //{
+        //    CreateMonster monsterComponent = monsterGameObject.GetComponent<CreateMonster>();
+        //    monsterComponent.CheckHealth(true, null);
+        //}
+
+        if (!CheckMonstersAlive())
+            return;
 
         CurrentTargetedMonster = null;
         CurrentMonsterTurn = MonsterNextTurn();
@@ -826,6 +835,9 @@ public class CombatManagerScript : MonoBehaviour
         if (!targeting || newTarget == CurrentTargetedMonster)
             return;
 
+        if (newTarget == null)
+            return;
+
         // Set the old targeter UI object off and set the new target
         CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject.SetActive(false);
 
@@ -1087,7 +1099,7 @@ public class CombatManagerScript : MonoBehaviour
 
         BattleSequence.Remove(monsterToRemove);
         SortMonsterBattleSequence();
-        CheckMonstersAlive();
+        //CheckMonstersAlive();
     }
 
     #region Old Code
@@ -1109,16 +1121,20 @@ public class CombatManagerScript : MonoBehaviour
     #endregion
 
     // This function emits temporary win/lose message conditions based on monster lists
-    public void CheckMonstersAlive()
+    public bool CheckMonstersAlive()
     {
         if (ListOfAllys.Count() == 0)
         {
             SetBattleState(BattleState.LostBattle);
+            return false;
         }
         else if (ListOfEnemies.Count() == 0)
         {
             SetBattleState(BattleState.WonBattle);
+            return false;
         }
+
+        return true;
     }
 
     // This function assigns a new battle state

@@ -19,9 +19,9 @@ MonoBehaviour:
   aiType: 1
   aiLevel: 1
   monsterFlavourText: A dummy.
-  monsterAbility: {fileID: 11400000, guid: e30a2edc6c30a8b48b4797c1f5a081f6, type: 2}
+  monsterAbility: {fileID: 11400000, guid: 843a40d4585512e468495d8fbbb90556, type: 2}
   level: 20
-  health: 1734
+  health: 23
   maxHealth: 2454
   cachedHealth: 0
   cachedMaxHealth: 0

@@ -671,7 +671,7 @@ public class AdventureManager : MonoBehaviour
                         monster.evasion = Mathf.RoundToInt(monster.evasion * modAmount);
                         monster.critChance = Mathf.RoundToInt(monster.critChance * modAmount);
                         monster.speed = Mathf.RoundToInt(monster.speed * modAmount);
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
                         monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(modifier);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s stats was increased by {modifier.modifierName} (x{modAmount})!");
                         break;
@@ -697,7 +697,7 @@ public class AdventureManager : MonoBehaviour
                         newModifier = Instantiate(modifier);
                         monster.ListOfModifiers.Add(newModifier);
                         monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was granted damage immunity by {newModifier.modifierName} for {newModifier.modifierDuration - 1} rounds!");
                         break;
                     #endregion
@@ -741,7 +741,7 @@ public class AdventureManager : MonoBehaviour
                         monster.ListOfModifiers.Add(newModifier3);
                         monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier3.statModified, newModifier3, true);
 
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was gained 1.5x physical and magic attack and 100% CritChance by {newModifier.modifierName} for {newModifier.modifierDuration - 1} rounds!");
                         break;
                     #endregion
@@ -1052,12 +1052,12 @@ public class AdventureManager : MonoBehaviour
                             StatusEffectIcon statusEffectIconScript = modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>();
                             modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>().currentModifierStack += 1;
                             modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>().modifierDurationText.text = ($"x{statusEffectIconScript.currentModifierStack}");
-                            monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                            monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s stats was increased by {modifier.modifierName} ({modifier.modifierAmount}%)!");
                             continue;
                         }
 
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
                         monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
 
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s stats was increased by {modifier.modifierName} ({modifier.modifierAmount}%)!");
@@ -1118,7 +1118,7 @@ public class AdventureManager : MonoBehaviour
                         }
 
                         // Get monster with lowest health
-                        monsterObj = listOfUnstatusedEnemies.OrderByDescending(monsterWithLowestHealth => monsterWithLowestHealth.GetComponent<CreateMonster>().monsterReference.health).ToList().Last();
+                        monsterObj = listOfUnstatusedEnemies.OrderByDescending(monsterWithLowestHealth => monsterWithLowestHealth.GetComponent<CreateMonster>().monsterReference.health / monsterWithLowestHealth.GetComponent<CreateMonster>().monsterReference.maxHealth).ToList().Last();
                         monsterRef = monsterObj.GetComponent<CreateMonster>().monsterReference;
 
                         combatManagerScript.CombatLog.SendMessageToCombatLog($"{modifier.modifierName} was activated!");
@@ -1127,8 +1127,8 @@ public class AdventureManager : MonoBehaviour
                         if (AttackEffect.CheckTargetIsImmune(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                             continue;
 
-                        AttackEffect effect = new AttackEffect(modifier.statModified, modifier.statChangeType, AttackEffect.EffectTime.PostAttack, Modifier.StatusEffectType.None, false, true, false, 0, modifier.modifierAmount, 100f, combatManagerScript);
-                        effect.BuffTargetStat(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier.modifierName);
+                        AttackEffect effect = new AttackEffect(AttackEffect.StatToChange.Health, AttackEffect.StatChangeType.Buff, AttackEffect.EffectTime.RoundEnd, Modifier.StatusEffectType.None, true, false, 0, modifier.modifierAmount, 100f, combatManagerScript);
+                        effect.AffectTargetStat(monsterRef, monsterObj, combatManagerScript.monsterAttackManager, modifier.modifierName);
 
                         break;
                     #endregion
@@ -1236,7 +1236,7 @@ public class AdventureManager : MonoBehaviour
                     newModifier = Instantiate(modifier);
                     monster.ListOfModifiers.Add(newModifier);
                     monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
-                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
                     //temp.CreateAndAddModifiers(0, false, monster, monsterObj, modifier.modifierDuration, monsterObj, modifier.statModified);
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} gained immunity to statuses and debuffs for 3 rounds!");
                     break;
@@ -1251,7 +1251,7 @@ public class AdventureManager : MonoBehaviour
                     newModifier = Instantiate(modifier);
                     monster.ListOfModifiers.Add(newModifier);
                     monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
-                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false);
+                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
 
                     // Create attack effect
                     //AttackEffect effect = new AttackEffect(newModifier.statModified, AttackEffect.StatChangeType.Debuff, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, false, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
@@ -1262,8 +1262,9 @@ public class AdventureManager : MonoBehaviour
                     foreach(MonsterAttack attack in monster.ListOfMonsterAttacks)
                     {
                         // Create attack effect
-                        AttackEffect effect = new AttackEffect(newModifier.statModified, newModifier.statChangeType, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, false, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
-                        effect.typeOfEffect = AttackEffect.TypeOfEffect.InflictStunned;
+                        AttackEffect effect = new AttackEffect(newModifier.statModified, newModifier.statChangeType, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
+                        effect.typeOfEffect = AttackEffect.TypeOfEffect.InflictStatusEffect;
+                        effect.attackEffectStatus = Modifier.StatusEffectType.Stunned;
                         effect.attackEffectDuration = AttackEffect.AttackEffectDuration.Temporary;
 
                         if (attack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)

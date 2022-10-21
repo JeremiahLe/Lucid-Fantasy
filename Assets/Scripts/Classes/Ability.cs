@@ -15,19 +15,5 @@ public class Ability : ScriptableObject
 
     public List<AttackEffect> listOfAbilityEffects;
 
-    //public enum AbilityTriggerTime { GameStart, RoundStart, RoundEnd, PreAttack, PostAttack, OnStatChange, OnDamageTaken, OnDeath, Passive, PreOtherAttack, OnKill };
-    //public AbilityTriggerTime abilityTriggerTime;
-
-    //[EnableIf("abilityTriggerTime", AbilityTriggerTime.OnStatChange)]
-    //public AttackEffect.StatEnumToChange onWhatStatChange;
-
-    //public bool gainsImmunity;
-    //[EnableIf("gainsImmunity")]
-    //public AttackEffect.StatEnumToChange immunityGained;
-
-    public void TriggerAbility()
-    {
-        // Trigger ability effects
-        Debug.Log("Abiltiy Triggered!");
-    }
+    public List<IAbilityTrigger> listOfAbilityTriggers;
 }

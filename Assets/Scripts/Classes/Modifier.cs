@@ -42,11 +42,6 @@ public class Modifier : ScriptableObject
     public AdventureModifiers.AdventureModifierReferenceList modifierAdventureReference;
     public string modifierDescription;
 
-    //[DisableIf("adventureEquipment")]
-    //public bool adventureModifier = false;
-    //[DisableIf("adventureModifier")]
-    //public bool adventureEquipment = false;
-
     public enum ModifierType { regularModifier, adventureModifier, equipmentModifier }
     public ModifierType modifierType;
 

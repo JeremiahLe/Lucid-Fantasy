@@ -15,4 +15,7 @@ MonoBehaviour:
   abilityName: Blaze of Glory
   abilityDescription: 'On Death: Inflict Burning on All Chimerics. If already Burning,
     deal damage equal to 200% of Magic Attack.'
-  listOfAbilityEffects: []
+  listOfAbilityEffects:
+  - {fileID: 11400000, guid: 8bf4873107ed9c045aea893c489ea816, type: 2}
+  listOfAbilityTriggers:
+  - {fileID: 11400000, guid: 28bc41bc8ff597844b3f45c74a288b31, type: 2}

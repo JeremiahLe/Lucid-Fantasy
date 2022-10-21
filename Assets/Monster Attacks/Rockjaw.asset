@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterAttackName: Rockjaw
   monsterAttackDescription: "Crunch a target in rocky jaws, dealing Physical damage.
-    35% chance to lower the \ntarget's Physical Defense by 35%."
+    55% chance to lower the \ntarget's Physical Defense by 35%."
   monsterAttackElement: 11
   monsterElementClass: {fileID: 11400000, guid: d8116a12bc962344d879184f9ba6ecad, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
+  monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: b3b4c9672f9eb1f46b762db436abbfe3, type: 3}
   monsterAttackDamage: 40

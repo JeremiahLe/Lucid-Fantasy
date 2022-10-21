@@ -17,13 +17,12 @@ MonoBehaviour:
   attackEffectStatus: 0
   statToChange: 4
   effectTime: 2
-  monsterTargetType: 0
+  monsterTargetType: 1
   currentMonsterTargetGameObject: {fileID: 0}
   currentMonsterTarget: {fileID: 0}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
   attackEffectDuration: 0
-  inflictSelf: 0
   modifierCalledOnce: 0
   flatValueChange: 0
   modifierDuration: 0

@@ -313,7 +313,7 @@ public class CreateMonster : MonoBehaviour
             if (equipment.modifierType == Modifier.ModifierType.equipmentModifier)
             {
                 ModifyStats(equipment.statModified, equipment, "adventure");
-                UpdateStats(false, null, false);
+                UpdateStats(false, null, false, 0);
             }
         }
     }
@@ -356,7 +356,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function should be called when stats get updated
-    public void UpdateStats(bool damageTaken, GameObject damageSourceGameObject, bool externalDamageTaken)
+    public async Task<int> UpdateStats(bool damageTaken, GameObject damageSourceGameObject, bool externalDamageTaken, float calculatedDamage)
     {
         // Initial check of stats are out of bounds
         CheckStatsCap();
@@ -365,10 +365,13 @@ public class CreateMonster : MonoBehaviour
         healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}"); // \nSpeed: { monsterReference.speed.ToString()}
 
         // Only check monster is alive if damage was taken - Fixes dual death call bug
-        if (damageTaken)
+        if (damageTaken && gameObject.GetComponent<BoxCollider2D>().enabled)
         {
             CheckHealth(externalDamageTaken, damageSourceGameObject);
             UpdateHealthBar(damageTaken);
+
+            /*if (calculatedDamage >= 1)
+                ShowDamageOrStatusEffectPopup(calculatedDamage, "Damage");*/
         }
         else
         {
@@ -387,6 +390,8 @@ public class CreateMonster : MonoBehaviour
 
         // Check if stats are out of bounds
         CheckStatsCap();
+
+        return 1;
     }
 
     // This function is called to grant a monster exp upon kill or combat win in adventure mode
@@ -458,7 +463,7 @@ public class CreateMonster : MonoBehaviour
         monster.cachedSpeed = newStatToCache;
 
         // Finally, update in-combat stats
-        UpdateStats(true, null, false);
+        UpdateStats(true, null, false, 0);
         combatManagerScript.SortMonsterBattleSequence();
         nameText.text = monster.name + ($" Lvl: {monsterReference.level}");
         InitiateHealthBars();
@@ -730,7 +735,7 @@ public class CreateMonster : MonoBehaviour
                         if (modifier.modifierCurrentDuration == 0)
                         {
                             modifier.ResetModifiedStat(monsterReference, gameObject);
-                            UpdateStats(false, null, false);
+                            UpdateStats(false, null, false, 0);
                             monsterReference.ListOfModifiers.Remove(modifier);
                         }
 
@@ -772,7 +777,7 @@ public class CreateMonster : MonoBehaviour
                             monsterReference.health -= poisonDamage;
                             ShowDamageOrStatusEffectPopup(poisonDamage, "Damage");
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Poisoned and takes {poisonDamage} damage!", monsterReference.aiType);
-                            UpdateStats(true, modifier.modifierOwnerGameObject, true);
+                            UpdateStats(true, modifier.modifierOwnerGameObject, true, poisonDamage);
 
                             if (modifier.modifierOwnerGameObject != null)
                             {
@@ -806,7 +811,7 @@ public class CreateMonster : MonoBehaviour
                             monsterReference.health -= burningDamage;
                             ShowDamageOrStatusEffectPopup(burningDamage, "Damage");
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Burning and takes {burningDamage} damage!", monsterReference.aiType);
-                            UpdateStats(true, modifier.modifierOwnerGameObject, true);
+                            UpdateStats(true, modifier.modifierOwnerGameObject, true, burningDamage);
 
                             if (modifier.modifierOwnerGameObject != null)
                             {
@@ -824,7 +829,7 @@ public class CreateMonster : MonoBehaviour
                 if (modifier.modifierCurrentDuration == 0)
                 {
                     modifier.ResetModifiedStat(monsterReference, gameObject);
-                    UpdateStats(false, null, false);
+                    UpdateStats(false, null, false, 0);
                     monsterReference.ListOfModifiers.Remove(modifier);
                 }
 
@@ -851,7 +856,8 @@ public class CreateMonster : MonoBehaviour
     // This function modifies stats by modifier value
     public void ModifyStats(AttackEffect.StatToChange statToModify, Modifier modifier)
     {
-        //Debug.Log("Modify Stats got called!");
+        if (modifier.statChangeType == AttackEffect.StatChangeType.Buff)
+            monsterRecievedStatBoostThisRound = true;
 
         switch (statToModify)
         {
@@ -861,7 +867,8 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatToChange.Speed):
                 monsterReference.speed += (int)modifier.modifierAmount;
-                UpdateStats(false, null, false);
+                UpdateStats(false, null, false, 0);
+                combatManagerScript.SortMonsterBattleSequence();
                 break;
 
             case (AttackEffect.StatToChange.MagicAttack):
@@ -952,7 +959,7 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatToChange.Speed):
                 monsterReference.speed += (int)modifier.modifierAmount;
-                UpdateStats(false, null, false);
+                UpdateStats(false, null, false, 0);
                 break;
 
             case (AttackEffect.StatToChange.MagicAttack):
@@ -1039,7 +1046,7 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatToChange.Speed):
                 monsterReference.speed += (int)modifier.modifierAmount;
-                UpdateStats(false, null, false);
+                UpdateStats(false, null, false, 0);
                 break;
 
             case (AttackEffect.StatToChange.MagicAttack):
@@ -1261,7 +1268,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function checks the monster's health
-    public void CheckHealth(bool killedExternally, GameObject externalKillerGameObject)
+    public async void CheckHealth(bool killedExternally, GameObject externalKillerGameObject)
     {
         // Called after a delay
         if (monsterReference.health <= 0)
@@ -1269,10 +1276,7 @@ public class CreateMonster : MonoBehaviour
             // Remove outside components
             Destroy(monsterTargeterUIGameObject);
             transform.DetachChildren();
-
-            // remove statuses to prevent two status death call bug
-            //monsterIsPoisoned = false;
-            //monsterIsBurning = false;
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
 
             //// Check for status or ability kills
             //if (killedExternally && combatManagerScript.adventureMode && aiType != Monster.AIType.Ally)
@@ -1284,6 +1288,8 @@ public class CreateMonster : MonoBehaviour
             //    externalKillerGameObject.GetComponent<CreateMonster>().monsterReference.monsterKills += 1;
             //    externalKillerGameObject.GetComponent<CreateMonster>().GrantExp(11 * monsterReference.level);
             //}
+
+            //await combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monster, AttackEffect.EffectTime.OnDeath, gameObject);
 
             combatManagerScript.RemoveMonsterFromList(gameObject, monsterReference.aiType);
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} has been defeated!", monsterReference.aiType);
@@ -1512,6 +1518,9 @@ public class CreateMonster : MonoBehaviour
     // This function passes in the new target to the combatManager and displays the stat screen window of the currently hovered monster
     private void OnMouseEnter()
     {
+        if (gameObject == null)      
+            return;
+
         combatManagerScript.CycleTargets(gameObject);
         if (currentTime < delayTime)
         {
@@ -1523,6 +1532,9 @@ public class CreateMonster : MonoBehaviour
     // This function selects the hovered monster for combat
     private void OnMouseOver()
     {
+        if (gameObject == null)
+            return;
+
         // Confirm Target
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -1579,6 +1591,9 @@ public class CreateMonster : MonoBehaviour
     // This function hides the stat screen window of the last hovered monster
     private void OnMouseExit()
     {
+        if (gameObject == null)
+            return;
+
         windowShowing = false;
         currentTime = 0.0f;
         combatManagerScript.CycleTargets(gameObject);
@@ -1588,6 +1603,9 @@ public class CreateMonster : MonoBehaviour
     // This function is called when the mouse hovers the monster, bringing up the stat screen window
     public void DisplayStatScreenWindow(bool showWindow)
     {
+        if (gameObject == null)
+            return;
+
         if (showWindow)
         {
             MiniStatWindow.SetActive(true);
@@ -1734,14 +1752,14 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function is called by monster attack manager to create a buff/debuff popup
-    public void CreateStatusEffectPopup(AttackEffect.StatToChange stat, bool isBuff)
+    public void CreateStatusEffectPopup(AttackEffect.StatToChange stat, AttackEffect.StatChangeType statChangeType)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
         effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
         effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
         effectPopup.GetComponentInChildren<Animator>().speed = 1.25f;
 
-        if (!isBuff)
+        if (statChangeType == AttackEffect.StatChangeType.Debuff)
         {
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = debuffColor;
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} down!");
