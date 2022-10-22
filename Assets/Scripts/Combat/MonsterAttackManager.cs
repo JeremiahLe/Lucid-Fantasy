@@ -60,8 +60,6 @@ public class MonsterAttackManager : MonoBehaviour
     private float backRowDamagePercentBonus = 0.85f;
     private float frontRowDamagePercentBonus = 1.15f;
 
-    public bool dontDealDamage = false;
-
     [Title("Combat Audio Elements")]
     public AudioClip CritSound;
     public AudioClip HitSound;
@@ -70,7 +68,6 @@ public class MonsterAttackManager : MonoBehaviour
     public AudioClip ResistSound;
     public AudioClip debuffSound;
     public AudioClip buffSound;
-
 
     // Start is called before the first frame update
     void Start()
@@ -281,111 +278,73 @@ public class MonsterAttackManager : MonoBehaviour
         currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
         currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
 
-        // Check if current monster is dazed
-        if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed))
+        // If the current monster is not dazed, skip dazed logic
+        if (!currentMonsterTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed))
         {
-            // 50% chance to select a different move
-            float selectAnotherMove = Random.value;
-
-            // Not selecting another move, continue
-            if (selectAnotherMove < 0.5f)
-            {
-                //uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
-                yield return new WaitForSeconds(0.1f);
-                UpdateCombatText(true);
-                yield break;
-            }
-
-            // Selecting another move since Dazed
-            MonsterAttack dazedAttackChoice = combatManagerScript.GetRandomMove();
-            currentMonsterAttack = dazedAttackChoice;
-
-            // Check selected move target type
-            if (dazedAttackChoice.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.SelfTarget)
-            {
-                combatManagerScript.CurrentTargetedMonster = combatManagerScript.CurrentMonsterTurn; // Update the combat manager, since this script references it later
-
-                // Update targeting
-                currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
-                currentTargetedMonster = currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
-                combatManagerScript.UpdateTargeterPosition(currentMonsterTurnGameObject);
-
-                //uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on itself!");
-
-                yield return new WaitForSeconds(0.1f);
-                UpdateCombatText(true);
-                yield break;
-            }
-            else // Not targeting self only, grab a random list, allys or enemies
-            {
-                combatManagerScript.CurrentTargetedMonster = enemyAIManager.GetRandomTarget(enemyAIManager.GetRandomList()); // this is quite the line of code
-
-                // Update targeting
-                currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
-                currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
-                combatManagerScript.UpdateTargeterPosition(currentMonsterTurnGameObject);
-
-                //// Check if targeting self
-                //if (currentTargetedMonsterGameObject == currentMonsterTurnGameObject)
-                //{
-                //    uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on itself!");
-                //}
-                //else
-                //{
-                //    uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
-                //}
-
-                yield return new WaitForSeconds(0.1f);
-                UpdateCombatText(true);
-                yield break;
-            }
+            yield return new WaitForSeconds(0.1f);
+            UpdateCombatText(false);
+            yield break;
         }
 
-        //// Not dazed, continue
-        //// Else single target attack
-        //if (currentTargetedMonsterGameObject == currentMonsterTurnGameObject)
-        //{
-        //    uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} will use {currentMonsterAttack.monsterAttackName} on itself!");
-        //}
-        //else
-        //{
-        //    uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
-        //}
+        // 50% chance to select a different move
+        float selectAnotherMove = Random.value;
 
-        //// If the current attack is targets everything
-        //if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
-        //{
-        //    if (currentTargetedMonster.aiType == Monster.AIType.Ally)
-        //    {
-        //        uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} will use {currentMonsterAttack.monsterAttackName} on all Allies!");
-        //    }
-        //    else
-        //    {
-        //        uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} will use {currentMonsterAttack.monsterAttackName} on all Enemies!");
-        //    }
-        //}
+        // Not selecting another move, continue
+        if (selectAnotherMove < 0.5f)
+        {
+            Debug.Log("Dodged the daze proc!");
+            //uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+            yield return new WaitForSeconds(0.1f);
+            UpdateCombatText(true);
+            yield break;
+        }
 
-        //// Add to list of currently targeted monsters
-        //if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.SingleTarget)
-        //{
-        //    ListOfCurrentlyTargetedMonsters.Add(combatManagerScript.CurrentTargetedMonster);
-        //}
-        //else if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
-        //{
-        //    if (combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy)
-        //    {
-        //        foreach (GameObject monster in combatManagerScript.ListOfEnemies.OrderByDescending(monster => monster.GetComponent<CreateMonster>().monsterReference.speed).ToList())
-        //            ListOfCurrentlyTargetedMonsters.Add(monster);
-        //    }
-        //    else
-        //    {
-        //        foreach (GameObject monster in combatManagerScript.ListOfAllys.OrderByDescending(monster => monster.GetComponent<CreateMonster>().monsterReference.speed).ToList())
-        //            ListOfCurrentlyTargetedMonsters.Add(monster);
-        //    }
-        //}
+        // Selecting another move since Dazed
+        MonsterAttack dazedAttackChoice = combatManagerScript.GetRandomMove();
+        currentMonsterAttack = dazedAttackChoice;
+
+        // Check selected move target type
+        if (dazedAttackChoice.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.SelfTarget)
+        {
+            combatManagerScript.CurrentTargetedMonster = combatManagerScript.CurrentMonsterTurn; // Update the combat manager, since this script references it later
+
+            // Update targeting
+            currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+            currentTargetedMonster = currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
+            combatManagerScript.UpdateTargeterPosition(currentMonsterTurnGameObject);
+        }
+        else if (dazedAttackChoice.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget) // Not targeting self only, grab a random list, allys or enemies
+        {
+            // Clear the list first to avoid overwriting already selected targets 
+            ListOfCurrentlyTargetedMonsters.Clear();
+
+            for (int i = 0; i < dazedAttackChoice.monsterAttackTargetCountNumber; i++)
+            {
+                ListOfCurrentlyTargetedMonsters.Add(enemyAIManager.GetRandomTarget(enemyAIManager.GetRandomList())); // this one is even crazier
+                Debug.Log($"Target Added: {ListOfCurrentlyTargetedMonsters[i].GetComponent<CreateMonster>().monsterReference.name}");
+            }
+
+            // Update targeting
+            combatManagerScript.CurrentTargetedMonster = ListOfCurrentlyTargetedMonsters[0];
+
+            currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+            currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
+            combatManagerScript.UpdateTargeterPosition(currentMonsterTurnGameObject);
+        }
+        else
+        {
+            combatManagerScript.CurrentTargetedMonster = enemyAIManager.GetRandomTarget(enemyAIManager.GetRandomList()); // this is quite the line of code
+            Debug.Log($"Old Target! {currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.name}");
+
+            // Update targeting
+            currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
+            currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
+            combatManagerScript.UpdateTargeterPosition(currentMonsterTurnGameObject);
+            Debug.Log($"New Target! {currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.name}");
+        }
 
         yield return new WaitForSeconds(0.1f);
-        UpdateCombatText(false);
+        UpdateCombatText(true);
         yield break;
     }
 
@@ -396,13 +355,56 @@ public class MonsterAttackManager : MonoBehaviour
         {
             // Dazed, continue
             // Else single target attack
-            if (currentTargetedMonsterGameObject == currentMonsterTurnGameObject)
+            if (combatManagerScript.CurrentTargetedMonster == combatManagerScript.CurrentMonsterTurn)
             {
                 uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on itself!");
             }
             else
             {
                 uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!");
+            }
+
+            if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
+            {
+                uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is Dazed and will use {currentMonsterAttack.monsterAttackName} on ");
+
+                for (int i = 0; i < ListOfCurrentlyTargetedMonsters.Count; i++)
+                {
+                    GameObject monsterGameObject = ListOfCurrentlyTargetedMonsters[i];
+                    CreateMonster monsterComponent = monsterGameObject.GetComponent<CreateMonster>();
+                    Monster monster = monsterComponent.monsterReference;
+
+                    if (currentMonsterTurn == monster)
+                    {
+                        HUDanimationManager.MonsterCurrentTurnText.text +=
+                            ("itself");
+                    }
+                    else
+                    {
+                        HUDanimationManager.MonsterCurrentTurnText.text +=
+                            ($"{monster.aiType} {monster.name}");
+                    }
+
+                    //if (ListOfCurrentlyTargetedMonsters.Where(m => m.name == monsterGameObject.name).Count() > 1)
+                    //{
+                    //    HUDanimationManager.MonsterCurrentTurnText.text +=
+                    //    ($"x{ListOfCurrentlyTargetedMonsters.Where(m => m.name == monsterGameObject.name).Count()}");
+                    //}
+                    //else
+                    //{
+                    //    HUDanimationManager.MonsterCurrentTurnText.text +=
+                    //    ($"{monster.aiType} {monster.name}");
+                    //}
+
+                    if (i == ListOfCurrentlyTargetedMonsters.Count - 1)
+                    {
+                        HUDanimationManager.MonsterCurrentTurnText.text += ("!");
+                    }
+                    else
+                    {
+                        HUDanimationManager.MonsterCurrentTurnText.text += (" and ");
+                    }
+                }
             }
 
             // If the current attack is targets everything
@@ -436,15 +438,16 @@ public class MonsterAttackManager : MonoBehaviour
             {
                 uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} will use {currentMonsterAttack.monsterAttackName} on ");
 
-                foreach (GameObject monsterGameObject in ListOfCurrentlyTargetedMonsters)
+                for (int i = 0; i < ListOfCurrentlyTargetedMonsters.Count; i++)
                 {
+                    GameObject monsterGameObject = ListOfCurrentlyTargetedMonsters[i];
                     CreateMonster monsterComponent = monsterGameObject.GetComponent<CreateMonster>();
                     Monster monster = monsterComponent.monsterReference;
 
                     HUDanimationManager.MonsterCurrentTurnText.text += 
                         ($"{monster.aiType} {monster.name}");
 
-                    if (ListOfCurrentlyTargetedMonsters.IndexOf(monsterGameObject) == ListOfCurrentlyTargetedMonsters.Count - 1)
+                    if (i == ListOfCurrentlyTargetedMonsters.Count - 1)
                     {
                         HUDanimationManager.MonsterCurrentTurnText.text += ("!");
                     }
@@ -507,9 +510,6 @@ public class MonsterAttackManager : MonoBehaviour
         // Hide buttons and Attack UI and display targeting text
         combatManagerScript.targeting = false;
         HideButtonsAndAttackUI();
-
-        // Idk what this does
-        dontDealDamage = false;
 
         // Assign this scripts current monster turn obj and monster ref from combat manager
         currentMonsterTurnGameObject = combatManagerScript.CurrentMonsterTurn;
@@ -691,6 +691,7 @@ public class MonsterAttackManager : MonoBehaviour
             {
                 if (effect.effectTime == AttackEffect.EffectTime.PostAttack && effect.monsterTargetType == AttackEffect.MonsterTargetType.Self)
                 {
+                    Debug.Log("Triggering Self Effect!");
                     effect.TriggerEffects(this, currentMonsterAttack.monsterAttackName, currentMonsterAttack);
                     await Task.Delay(300);
                 }

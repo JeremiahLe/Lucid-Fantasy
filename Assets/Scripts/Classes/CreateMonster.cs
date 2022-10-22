@@ -918,7 +918,8 @@ public class CreateMonster : MonoBehaviour
                 break;
 
             case (AttackEffect.StatToChange.Health):
-                monsterReference.health += (int)modifier.modifierAmount;
+                if (modifier.statusEffectType == Modifier.StatusEffectType.None)
+                    monsterReference.health += (int)modifier.modifierAmount;
                 break;
 
             case (AttackEffect.StatToChange.Accuracy):
@@ -1132,7 +1133,54 @@ public class CreateMonster : MonoBehaviour
 
             // Initiate Interactable components
             newStatusEffectIcon.modifier.modifierName = modifier.modifierSource;
-            newStatusEffectIcon.modifier.modifierDescription = ($"{modifier.statusEffectType.ToString()}, {modifier.modifierAmount}% {modifier.statModified.ToString()}");
+            newStatusEffectIcon.modifier.modifierDescription = ($"{modifier.statusEffectType.ToString()}");
+
+            switch (modifier.statusEffectType)
+            {
+                case (Modifier.StatusEffectType.Burning):
+                    newStatusEffectIcon.modifier.modifierDescription +=
+                        ($", {modifier.modifierAmount * 100f}% Current Health damage per round.");
+                    break;
+
+                case (Modifier.StatusEffectType.Poisoned):
+                    newStatusEffectIcon.modifier.modifierDescription +=
+                        ($", {modifier.modifierAmount * 100f}% Max Health damage per round.");
+                    break;
+
+                case (Modifier.StatusEffectType.Stunned):
+                    newStatusEffectIcon.modifier.modifierDescription +=
+                        ($", Cannot act for {modifier.modifierCurrentDuration} rounds.");
+                    break;
+
+                case (Modifier.StatusEffectType.Dazed):
+                    newStatusEffectIcon.modifier.modifierDescription +=
+                        ($", 50% chance to select a random attack and/or target.");
+                    break;
+
+                case (Modifier.StatusEffectType.Enraged):
+                    newStatusEffectIcon.modifier.modifierDescription +=
+                        ($", Can only target whoever Enraged me ({modifier.modifierOwner.name}).");
+                    break;
+
+                case (Modifier.StatusEffectType.Silenced):
+                    newStatusEffectIcon.modifier.modifierDescription +=
+                        ($", Cannot use Status attacks.");
+                    break;
+
+                case (Modifier.StatusEffectType.Weakened):
+                    newStatusEffectIcon.modifier.modifierDescription +=
+                        ($", Take {modifier.modifierAmount * 100f}% more damage during combat.");
+                    break;
+
+                case (Modifier.StatusEffectType.Crippled):
+                    newStatusEffectIcon.modifier.modifierDescription +=
+                        ($", Cannot recieve buffs.");
+                    break;
+
+                default:
+                    break;
+            }
+
 
             newStatusEffectIcon.InitiateStatusEffectIcon(this);
         }
@@ -1544,6 +1592,9 @@ public class CreateMonster : MonoBehaviour
             if (monsterAttackManager.currentMonsterAttack == null)
                 return;
 
+            if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count >= monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
+                return;
+
             // Check if the current attack is a multi-target attack and has the correct amount of targets
             if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
             {
@@ -1561,7 +1612,6 @@ public class CreateMonster : MonoBehaviour
                         return;
                 }
             }
-
 
             monsterAttackManager.UseMonsterAttack();
         }

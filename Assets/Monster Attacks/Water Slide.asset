@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterAttackName: Water Slide
   monsterAttackDescription: Blast two targets with water, dealing Magical damage.
+    If the user is Water element, increase user's speed by 15%.
   monsterAttackElement: 1
   monsterElementClass: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
   monsterAttackType: 0
@@ -32,4 +33,5 @@ MonoBehaviour:
   attackBaseCooldown: 0
   attackCurrentCooldown: 0
   AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
-  ListOfAttackEffects: []
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: 1cfdac54d7ed67c4382f14e9b50cd9f2, type: 2}

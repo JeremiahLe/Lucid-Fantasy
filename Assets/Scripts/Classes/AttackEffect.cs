@@ -14,7 +14,7 @@ public class AttackEffect : ScriptableObject
         HalfHealthExecute, SpeedBuffAllies, Counter,
         DoublePowerIfStatBoost, OnCriticalStrikeBuff, CripplingFearEffect,
         AddBonusDamage, AddBonusDamageFlat, IncreaseOffensiveStats, HealthCut, BuffTarget, DebuffTarget, GrantImmunity,
-        DamageBonusIfTargetStatusEffect, AffectTargetByAnotherStat, InflictStatusEffect, AffectTargetStat
+        DamageBonusIfTargetStatusEffect, AffectTargetByAnotherStat, InflictStatusEffect, AffectTargetStat, UniqueAttackEffectCondition
     }
 
     public TypeOfEffect typeOfEffect;
@@ -22,10 +22,11 @@ public class AttackEffect : ScriptableObject
     public enum StatChangeType { Buff, Debuff, None }
     public StatChangeType statChangeType;
 
+    [EnableIf("typeOfEffect", TypeOfEffect.InflictStatusEffect)]
     public Modifier.StatusEffectType attackEffectStatus;
 
     //[EnableIf("typeOfEffect", TypeOfEffect.AffectTargetStat)]
-    public enum StatToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various, AddOffensiveAttackEffect, HighestAttackStat, Buffs }
+    public enum StatToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various, AddOffensiveAttackEffect, HighestAttackStat, Buffs}
     public StatToChange statToChange;
 
     public enum EffectTime { PreAttack, DuringAttack, PostAttack, OnKill, OnDeath, GameStart, RoundStart, RoundEnd, OnStatChange, OnDamageTaken, PreOtherAttack, OnDamageDealt }
@@ -34,18 +35,23 @@ public class AttackEffect : ScriptableObject
     public enum MonsterTargetType { Target, Self }
     public MonsterTargetType monsterTargetType;
 
-    public GameObject currentMonsterTargetGameObject;
-    public Monster currentMonsterTarget;
+    [EnableIf("typeOfEffect", TypeOfEffect.UniqueAttackEffectCondition)]
+    public IAbilityTrigger uniqueAttackEffectCondition;
 
-    //[EnableIf("typeOfEffect", TypeOfEffect.AffectTargetByAnotherStat)]
+    [EnableIf("typeOfEffect", TypeOfEffect.AffectTargetByAnotherStat)]
     public StatToChange scaleFromWhatStat;
     public enum ScaleFromWhatTarget { monsterUsingAttack, targetMonster }
 
-    //[EnableIf("typeOfEffect", TypeOfEffect.AffectTargetByAnotherStat)]
+    [EnableIf("typeOfEffect", TypeOfEffect.AffectTargetByAnotherStat)]
     public ScaleFromWhatTarget scaleFromWhatTarget;
 
     public enum AttackEffectDuration { Permanent, Temporary }
+    [DisplayWithoutEdit]
+    [Header("For AttackEffect Instantiation Only")]
     public AttackEffectDuration attackEffectDuration;
+
+    public GameObject currentMonsterTargetGameObject;
+    public Monster currentMonsterTarget;
 
     [Title("Modifier Adjustments")]
     public bool modifierCalledOnce = false;
@@ -81,139 +87,66 @@ public class AttackEffect : ScriptableObject
     // Initial function that is called by monsterAttackManager that enacts attack after effects
     public void TriggerEffects(MonsterAttackManager monsterAttackManager, string effectTrigger, MonsterAttack attackTrigger)
     {
-        Monster targetMonster = monsterAttackManager.currentMonsterTurn; // should still be the monster who used the move, NOT the one next in Queue
-        GameObject targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+        Monster targetMonster = monsterAttackManager.currentTargetedMonster;
+        GameObject targetMonsterGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
+
+        if (monsterAttackManager.currentMonsterTurn == null)
+            return;
+
+        if (monsterTargetType == MonsterTargetType.Self)
+        {
+            targetMonster = monsterAttackManager.currentMonsterTurn;
+            targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
+            Debug.Log($"Target changed to self! {targetMonster.name}");
+        }
 
         switch (typeOfEffect)
-        {          
-            case TypeOfEffect.HalfHealthExecute:
-                targetMonster = monsterAttackManager.currentMonsterTurn; // should still be the monster who used the move, NOT the one next in Queue
-                targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-                HalfHealthExecute(targetMonster, monsterAttackManager, targetMonsterGameObject);
-                break;
-
-            case TypeOfEffect.SpeedBuffAllies:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue // WHY THE FUCK IS THERE INSTANTIATION GOING ON
-                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-                    SpeedBuffAllies(targetMonster, monsterAttackManager, targetMonsterGameObject);
-                }
-                break;
-
-            case TypeOfEffect.DoublePowerIfStatBoost:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue // WHY THE FUCK IS THERE INSTANTIATION GOING ON
-                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-                    DoublePowerIfStatBoost(targetMonster, monsterAttackManager, targetMonsterGameObject);
-                }
-                break;
-
-            case TypeOfEffect.Counter:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue // WHY THE FUCK IS THERE INSTANTIATION GOING ON
-                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-                    Counter(targetMonster, monsterAttackManager, targetMonsterGameObject);
-                }
-                break;
-
+        {
             case TypeOfEffect.AddBonusDamage:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue // WHY THE FUCK IS THERE INSTANTIATION GOING ON
-                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-                    AddBonusDamage(targetMonster, monsterAttackManager, targetMonsterGameObject);
-                }
+                AddBonusDamage(targetMonster, monsterAttackManager, targetMonsterGameObject);
                 break;
 
             case TypeOfEffect.AddBonusDamageFlat:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = Instantiate(monsterAttackManager.currentMonsterTurn); // should still be the monster who used the move, NOT the one next in Queue // WHY THE FUCK IS THERE INSTANTIATION GOING ON
-                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-                    AddBonusDamageFlat(targetMonster, monsterAttackManager, targetMonsterGameObject);
-                }
-                break;
-
-            case TypeOfEffect.OnCriticalStrikeBuff:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = monsterAttackManager.currentMonsterTurn; // should still be the monster who used the move, NOT the one next in Queue
-                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-                    OnCriticalStrikeBuff(targetMonster, monsterAttackManager, targetMonsterGameObject);
-                }
-                break;
-
-            case TypeOfEffect.CripplingFearEffect:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = monsterAttackManager.currentMonsterTurn; // should still be the monster who used the move, NOT the one next in Queue
-                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-                    CripplingFearEffect(targetMonster, monsterAttackManager, targetMonsterGameObject);
-                }
-                break;
-
-            case TypeOfEffect.IncreaseOffensiveStats:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
-                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
-                    IncreaseOffensiveStats(targetMonster, monsterAttackManager, targetMonsterGameObject);
-                }
+                AddBonusDamageFlat(targetMonster, monsterAttackManager, targetMonsterGameObject);
                 break;
 
             case TypeOfEffect.GrantImmunity:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = monsterAttackManager.currentTargetedMonster;
-                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
-                    GrantTargetImmunity(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
-                }
+                GrantTargetImmunity(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                 break;
 
             case TypeOfEffect.InflictStatusEffect:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                        targetMonster = monsterAttackManager.currentTargetedMonster;
-                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
-                        InflictStatusEffect(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTrigger);
-                }
+                InflictStatusEffect(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTrigger);
                 break;
 
             case TypeOfEffect.DamageBonusIfTargetStatusEffect:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    monsterAttackManager.currentTargetedMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster; // fix fan the flames bug?
-                    targetMonster = monsterAttackManager.currentMonsterTurn; // fixed fan the flames bug incorrect monster getting bonus
-                    targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-                    BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
-                }
+                BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
                 break;
 
             case TypeOfEffect.AffectTargetStat:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                    targetMonster = monsterAttackManager.currentTargetedMonster;
-                    targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
-                    AffectTargetStat(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTrigger);
-                }
+                AffectTargetStat(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTrigger);
                 break;
 
             case TypeOfEffect.AffectTargetByAnotherStat:
-                if (monsterAttackManager.currentMonsterTurn != null)
-                {
-                        targetMonster = monsterAttackManager.currentTargetedMonster;
-                        targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
-                        AffectTargetStatByAnotherStat(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTrigger);
-                }
+                AffectTargetStatByAnotherStat(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTrigger);
+
+                break;
+
+            case TypeOfEffect.UniqueAttackEffectCondition:
+                UniqueAttackEffectCondition(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTrigger);
                 break;
 
             default:
-                Debug.Log("Missing effect or attack reference?", this);
+                Debug.Log("Missing attack effect or monster attack reference?", this);
                 break;
         }
+    }
+
+    private void UniqueAttackEffectCondition(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, string effectTrigger)
+    {
+        //if (!CheckAttackEffectTargeting(targetMonster, targetMonsterGameObject, monsterAttackManager))
+        //    return;
+
+        uniqueAttackEffectCondition.TriggerAttackEffect(targetMonster, targetMonsterGameObject, monsterAttackManager, this);
     }
 
     public void HalfHealthExecute(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
@@ -950,12 +883,18 @@ public class AttackEffect : ScriptableObject
         if (!CheckAttackEffectTargeting(targetMonster, targetMonsterGameObject, monsterAttackManager))
             return;
 
+        Debug.Log($"Attack effect targeting has passed all checks. Calling Attack Effect! {effectTriggerName}");
+
         CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
 
         float statChangeAmount = CalculateStatChange(targetMonster, this, statToChange);
 
+        Debug.Log($"Stat Change Amount calculated: {statChangeAmount}");
+
         if (CheckIfStatChangeClamps(statChangeAmount, statToChange, targetMonster, targetMonsterGameObject, monsterAttackManager, this))
             return;
+
+        Debug.Log("Stat does not clamp. Creating Modifier!");
 
         CreateAndAddModifiers(statChangeAmount, targetMonster, targetMonsterGameObject, monsterAttackManager.currentMonsterTurnGameObject, this);
 
@@ -1118,7 +1057,7 @@ public class AttackEffect : ScriptableObject
             monsterComponent.GetComponent<Animator>().SetBool("buffAnimationPlaying", true);
             monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
         }
-        else
+        else // if (statChangeType == StatChangeType.Debuff)
         {
             monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s {statToChange.ToString()} was decreased by {effectTriggerName} (-{statChangeAmount})!", targetMonster.aiType);
             if (statToChange == StatToChange.Health)
@@ -1140,10 +1079,10 @@ public class AttackEffect : ScriptableObject
     private bool CheckIfStatChangeClamps(float statChangeAmount, StatToChange statToChange, Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, AttackEffect attackEffect)
     {
         CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
-
+        Debug.Log("Checking if monsterComponent is null!");
         if (monsterComponent == null)
             return false;
-
+        Debug.Log("monsterComponent is not null!");
         if (attackEffect.statChangeType == StatChangeType.Debuff && GetBonusDamageSource(statToChange, targetMonster) <= 1)
         {
             monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s " +
@@ -1187,7 +1126,7 @@ public class AttackEffect : ScriptableObject
                     break;
 
                 default:
-                    break;
+                    return false;
             }
         }
 
@@ -1196,14 +1135,9 @@ public class AttackEffect : ScriptableObject
 
     public bool CheckAttackEffectTargeting(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager)
     {
-        if (monsterTargetType == MonsterTargetType.Self)
-        {
-            targetMonster = monsterAttackManager.currentMonsterTurn;
-            targetMonsterGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-        }
-
         if (targetMonster == null || targetMonsterGameObject == null || targetMonster.health <= 0)
         {
+            Debug.Log("Target is null or dead, returning!");
             return false;
         }
 
@@ -1236,6 +1170,7 @@ public class AttackEffect : ScriptableObject
             toValue = attackEffect.amountToChange;
         }
 
+        Debug.Log($"Stat Change Amount calculated: {toValue}");
         return toValue;
     }
 
@@ -1269,19 +1204,21 @@ public class AttackEffect : ScriptableObject
 
         if (randValue < hitChance)
         {
+            Debug.Log("Attack Effect Hit!");
             return true;
         }
 
+        Debug.Log("Attack Effect Missed!");
         return false;
     }
 
     public static bool CheckTargetIsImmune(Monster targetMonster, MonsterAttackManager monsterAttackManager, GameObject targetMonsterGameObject, AttackEffect attackEffect)
     {
         CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
-
+        Debug.Log("Checking if monsterComponent is null!");
         if (monsterComponent == null)
             return false;
-
+        Debug.Log("MonsterComponent is not null!");
         if (attackEffect.statChangeType == StatChangeType.Buff)
         {
             if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Crippled))
@@ -1372,6 +1309,8 @@ public class AttackEffect : ScriptableObject
 
     float GetBonusDamageSource(StatToChange statEnumToChange, Monster monsterRef)
     {
+        Debug.Log($"Getting stat source...");
+
         switch (statEnumToChange)
         {
             case (StatToChange.Speed):
@@ -1428,46 +1367,6 @@ public class AttackEffect : ScriptableObject
 
     #endregion Helper Functions
 
-    public void CreateAndAddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj, int duration, GameObject monsterOwnerGameObject)
-    {
-        // Create and Apply modifier
-        Modifier mod = CreateInstance<Modifier>();
-
-        // First check if not buff
-        if (statDecrease)
-        {
-            toValue *= -1;
-            mod.statChangeType = StatChangeType.Debuff;
-        }
-        else
-        {
-            mod.statChangeType = StatChangeType.Buff;
-        }
-
-        // Create and Apply modifier
-        mod.modifierSource = name;
-        mod.statModified = statToChange;
-        mod.modifierAmount = toValue;
-        mod.modifierDuration = duration;
-        mod.modifierCurrentDuration = duration;
-        mod.modifierOwnerGameObject = monsterOwnerGameObject;
-
-        if (monsterOwnerGameObject != null)
-            mod.modifierOwner = monsterOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
-
-        if (duration > 0)
-        {
-            mod.modifierDurationType = Modifier.ModifierDurationType.Temporary;
-        }
-        else
-        {
-            mod.modifierDurationType = Modifier.ModifierDurationType.Permanent;
-        }
-        monster.ListOfModifiers.Add(mod);
-        monsterObj.GetComponent<CreateMonster>().ModifyStats(statToChange, mod);
-        //monsterObj.GetComponent<CreateMonster>().AddStatusIcon(mod, statEnumToChange, duration);
-    }
-
     public void CreateAndAddModifiers(float toValue, bool statDecrease, Monster monster, GameObject monsterObj, int duration, GameObject monsterOwnerGameObject, StatToChange statEnumToChange)
     {
         // Create and Apply modifier
@@ -1523,7 +1422,8 @@ public class AttackEffect : ScriptableObject
 
         mod.modifierDurationType = mod.modifierDuration == 0 ? Modifier.ModifierDurationType.Permanent : Modifier.ModifierDurationType.Temporary;
 
-        mod.modifierAmount *= mod.statChangeType == StatChangeType.Buff ? 1 : -1;
+        if (mod.statusEffectType == Modifier.StatusEffectType.None)
+            mod.modifierAmount *= mod.statChangeType == StatChangeType.Buff ? 1 : -1;
 
         if (mod.statusEffectType != Modifier.StatusEffectType.None)
             mod.isStatusEffect = true;

@@ -46,4 +46,5 @@ public class BlazeOfGloryAbilityTrigger1 : IAbilityTrigger
 
         return 1;
     }
+
 }

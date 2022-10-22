@@ -659,7 +659,14 @@ public class CombatManagerScript : MonoBehaviour
 
         AttackTypeTargeting();
 
-        Monster targetedMonster = CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+        // Auto-battle multi-target missing target adjustment
+        if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
+        {
+            for (int i = 0; i < monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber; i++)
+            {
+                monsterAttackManager.ListOfCurrentlyTargetedMonsters.Add(GetRandomTarget(ListOfEnemies));
+            }
+        }
 
         //uiManager.EditCombatMessage($"Ally {monster.name} will use {monsterAttackManager.currentMonsterAttack.monsterAttackName} on {targetedMonster.aiType} {targetedMonster.name}!");
         monsterAttackManager.Invoke("UseMonsterAttack", 0.1f);

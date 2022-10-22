@@ -20,15 +20,15 @@ MonoBehaviour:
   statChangeType: 0
   modifierDuration: 0
   modifierCurrentDuration: 0
-  modifierAmount: 25
+  modifierAmount: 20
   modifierAmountFlatBuff: 0
-  statusEffect: 0
+  isStatusEffect: 0
   statusEffectType: 0
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   modifierName: Blessing of Earth
   modifierAdventureReference: 16
-  modifierDescription: 'Round End: Your lowest health monster heals for 25% of their
+  modifierDescription: 'Round End: Your lowest health monster heals for 20% of their
     missing health.'
   modifierType: 1
   modifierAdventureCallTime: 3
