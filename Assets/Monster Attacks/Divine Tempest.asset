@@ -13,24 +13,25 @@ MonoBehaviour:
   m_Name: Divine Tempest
   m_EditorClassIdentifier: 
   monsterAttackName: Divine Tempest
-  monsterAttackDescription: "Conjure a beautiful storm, dealing Magical damage. Raises
-    Speed of all allies by 20%. \n[1 round cooldown]"
+  monsterAttackDescription: 'Conjure a beautiful storm, dealing Magical damage. Raises
+    Speed of all allies by 20%. '
   monsterAttackElement: 3
   monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
+  monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: 863a4aefa06f6354394638fe929c64fb, type: 3}
-  monsterAttackDamage: 70
+  monsterAttackDamageScalar: 70
+  monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
-  attackHasCooldown: 1
-  attackOnCooldown: 0
-  attackBaseCooldown: 2
-  attackCurrentCooldown: 0
+  monsterAttackCritChance: 5
+  monsterAttackSPCost: 4
   AttackVFX: {fileID: 3923125925641639501, guid: 8698fd2d0e204764fbe9b0db31cd32df, type: 3}
+  monsterAttackSourceGameObject: {fileID: 0}
+  monsterAttackSource: {fileID: 0}
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 1d36bce9eedc849499c3b1ec6e28967d, type: 2}

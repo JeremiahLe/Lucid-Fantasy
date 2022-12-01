@@ -10,16 +10,22 @@ public class ThornsAbilityTrigger1 : IAbilityTrigger
 {
     public AttackEffect currentAttackEffectTriggered;
 
-    public override async Task<int> TriggerAbility(MonsterAttackManager monsterAttackManager, Ability ability)
+    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger)
     {
-        if (monsterAttackManager.currentMonsterAttack.monsterAttackDamageType == MonsterAttack.MonsterAttackDamageType.Physical)
+        if (attackTrigger.monsterAttackDamageType == MonsterAttack.MonsterAttackDamageType.Physical)
         {
             await Task.Delay(abilityTriggerDelay);
 
-            currentAttackEffectTriggered.TriggerEffects(monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
+            Debug.Log($"Triggering {targetMonster}'s Thorns Ability! Dealing Damage to {attackTrigger.monsterAttackSource.name}!");
+
+            MonsterAttack damageSource = new MonsterAttack(currentAttackEffectTriggered.name, currentAttackEffectTriggered.elementClass, currentAttackEffectTriggered.effectDamageType, currentAttackEffectTriggered.amountToChange, 1, targetMonster, targetMonsterGameObject);
+
+            await currentAttackEffectTriggered.AffectTargetStatByAnotherStat(attackTrigger.monsterAttackSource, attackTrigger.monsterAttackSourceGameObject, monsterAttackManager, ability.abilityName, damageSource);
 
             return 1;
         }
+
+        Debug.Log("Did not trigger Ability trigger!");
 
         return 1;
     }

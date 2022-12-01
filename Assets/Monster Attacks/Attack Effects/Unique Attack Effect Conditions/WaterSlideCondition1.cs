@@ -17,6 +17,8 @@ public class WaterSlideCondition1 : IAbilityTrigger
             Debug.Log("Unique Attack Effect Condition Met!");
 
             attackEffect.AffectTargetStat(targetMonster, targetMonsterGameObject, monsterAttackManager, attackEffect.name);
+
+            await Task.Delay(abilityTriggerDelay);
         }
 
         return 1;

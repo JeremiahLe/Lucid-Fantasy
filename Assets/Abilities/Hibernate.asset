@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Hibernate
   abilityDescription: 'On Stat Change (Health): Incoming healing is doubled.'
-  listOfAbilityEffects: []
+  listOfAbilityEffects:
+  - {fileID: 11400000, guid: e1c5a492e24d7c74e8bc564fff5c537d, type: 2}
+  listOfAbilityTriggers:
+  - {fileID: 11400000, guid: 043aefa42c61b754a9865c12302ec20c, type: 2}

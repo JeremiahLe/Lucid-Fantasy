@@ -833,7 +833,7 @@ public class AdventureManager : MonoBehaviour
                             {
                                 // Send immune message to combat log
                                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to Poisoned status!");
-                                randomEnemyToPoison.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                                randomEnemyToPoison.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
                                 continue;
                             }
 
@@ -842,7 +842,7 @@ public class AdventureManager : MonoBehaviour
                             {
                                 // Send immune message to combat log
                                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
-                                randomEnemyToPoison.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                                randomEnemyToPoison.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
                                 continue;
                             }
 
@@ -896,7 +896,7 @@ public class AdventureManager : MonoBehaviour
                             {
                                 // Send immune message to combat log
                                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to Burning status!");
-                                randomEnemyToBurn.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                                randomEnemyToBurn.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
                                 continue;
                             }
 
@@ -905,7 +905,7 @@ public class AdventureManager : MonoBehaviour
                             {
                                 // Send immune message to combat log
                                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
-                                randomEnemyToBurn.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                                randomEnemyToBurn.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
                                 continue;
                             }
 
@@ -959,7 +959,7 @@ public class AdventureManager : MonoBehaviour
                             {
                                 // Send immune message to combat log
                                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to Dazed status!");
-                                randomEnemyToDaze.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                                randomEnemyToDaze.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
                                 continue;
                             }
 
@@ -968,7 +968,7 @@ public class AdventureManager : MonoBehaviour
                             {
                                 // Send immune message to combat log
                                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
-                                randomEnemyToDaze.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                                randomEnemyToDaze.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
                                 continue;
                             }
 
@@ -1163,14 +1163,14 @@ public class AdventureManager : MonoBehaviour
             if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Crippled) && modifier.statChangeType == AttackEffect.StatChangeType.Buff)
             {
                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is Crippled and immune to buffs!");
-                monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Debuff);
             }
 
             // Also check if modifier is debuff and current monster is Immune to Debuffs
             if (monsterComponent.monsterImmuneToDebuffs && modifier.statChangeType == AttackEffect.StatChangeType.Debuff)
             {
                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
-                monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!");
+                monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
             }
 
             // Get specific Modifier

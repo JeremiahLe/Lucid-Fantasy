@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Bionine
   baseSprite: {fileID: 21300000, guid: a6b376644589ef34895ee43b49996650, type: 3}
+  monsterAscensionPhase: 1
   monsterElement: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   aiType: 0
@@ -24,8 +25,9 @@ MonoBehaviour:
   level: 50
   health: 2500
   maxHealth: 2500
-  cachedHealth: 0
-  cachedMaxHealth: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
   physicalAttack: 185
   magicAttack: 125
   physicalDefense: 75
@@ -56,6 +58,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
+  cachedHealth: 0
+  cachedMaxHealth: 0
   cachedPhysicalAttack: 185
   cachedMagicAttack: 125
   cachedPhysicalDefense: 75

@@ -11,8 +11,13 @@ public class Monster : ScriptableObject
     // The monster's name and sprite
     [Title("Monster Identifier")]
     public new string name;
+
     [AssetSelector(Paths = "Assets/Sprites/Renders")]
     public Sprite baseSprite;
+
+    public enum MonsterAscensionPhase { Basic, Ascended }
+    public MonsterAscensionPhase monsterAscensionPhase;
+
 
     // The monster's elements
     [Title("Setup")]
@@ -45,8 +50,11 @@ public class Monster : ScriptableObject
 
     [Range(1, 10000)] public float health;
     [Range(1, 10000)] public float maxHealth;
-    [DisplayWithoutEdit] public float cachedHealth;
-    [DisplayWithoutEdit] public float cachedMaxHealth;
+
+    [SerializeField]
+    [Range(0, 10)] public float initialSP = 3;
+    [Range(0, 10)] public float currentSP = 3;
+    [Range(1, 10)] public float maxSP = 3;
 
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 300)] public float physicalAttack;
@@ -87,7 +95,11 @@ public class Monster : ScriptableObject
     [Header("Monster Available Attack List")]
     public List<MonsterAttack> ListOfMonsterAttacksAvailable;
 
-    [Title("Adventure - Monster Combat Stats Cached")]
+    [Title("Adventure - Monster Cached Stats")]
+    [PropertySpace(SpaceBefore = 15)]
+    [DisplayWithoutEdit] public float cachedHealth;
+    [DisplayWithoutEdit] public float cachedMaxHealth;
+
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 300)] public float cachedPhysicalAttack;
     [Range(1, 300)] public float cachedMagicAttack;
@@ -103,10 +115,11 @@ public class Monster : ScriptableObject
     [Range(0f, 100f)] public float cachedBonusAccuracy;
     [Range(0f, 100f)] public float cachedCritDamage;
 
-    [Title("Adventure - Monster Combat Stats Previous Level Cached")]
+    [Title("Adventure - Monster Cached Stats Before Level Up")]
     [PropertySpace(SpaceBefore = 15)]
     [Range(0f, 100f)] public float previouslyCachedMaxHealth;
 
+    [PropertySpace(SpaceBefore = 15)]
     [Range(1, 300)] public float previouslyCachedPhysicalAttack;
     [Range(1, 300)] public float previouslyCachedMagicAttack;
 
@@ -122,7 +135,7 @@ public class Monster : ScriptableObject
     [Range(0f, 100f)] public float previouslyCachedCritDamage;
 
     public int cachedLevel;
-    public CreateMonster.MonsterRowPosition cachedMonsterRowPosition;
+    public CreateMonster.MonsterStance cachedMonsterRowPosition;
 
     [Title("Adventure - Monster Other Stats")]
     public bool monsterIsOwned = false;
@@ -133,41 +146,63 @@ public class Monster : ScriptableObject
     public int monsterExpToNextLevel = 105;
 
     [Title("Ascension Stats")]
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public MonsterAttack monsterAscensionAttack;
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public int ascensionGoldRequirement = 10;
 
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public enum AscensionType { Gale, Storm, Spirit, Nightmare, Tundra, Hydro, Harmony, Dissonance, Magma, Inferno, Steel, Mineral, Plasma, Machine, Decay, Purity, Soil, Verdant, Chaos, Order, Justice, Divine };
     public AscensionType ascensionType;
 
+    [Title("First Ascension")]
+    [DisableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public Monster firstEvolutionPath;
+    [DisableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public int firstEvolutionLevelReq = 20;
+    [DisableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public Item ascensionOneMaterial;
+    [DisableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public int ascensionOneMaterialAmount = 1;
 
+    [Title("Second Ascension")]
+    [DisableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public Monster secondEvolutionPath;
+    [DisableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public int secondEvolutionLevelReq = 20;
+    [DisableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public Item ascensionTwoMaterial;
+    [DisableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     public int ascensionTwoMaterialAmount = 1;
 
     [Title("Ascension Stat Growths")]
     [Title("Monster Scaling Stats")]
     [PropertySpace(SpaceBefore = 15)]
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     [Range(50, 500)] public int healthGrowth;
 
     [PropertySpace(SpaceBefore = 15)]
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     [Range(-10, 10)] public int physicalAttackGrowth;
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     [Range(-10, 10)] public int magicAttackGrowth;
 
     [PropertySpace(SpaceBefore = 15)]
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     [Range(-10, 10)] public int physicalDefenseGrowth;
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     [Range(-10, 10)] public int magicDefenseGrowth;
 
     [PropertySpace(SpaceBefore = 15)]
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     [Range(-10, 10)] public int speedGrowth;
 
     [PropertySpace(SpaceBefore = 15)]
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     [Range(-10, 25)] public int evasionGrowth;
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     [Range(-10, 25)] public int critChanceGrowth;
+    [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]
     [Range(-10, 25)] public int bonusAccuracyGrowth;
 
 }

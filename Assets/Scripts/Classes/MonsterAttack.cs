@@ -23,7 +23,7 @@ public class MonsterAttack : ScriptableObject
     public MonsterAttackType monsterAttackType;
 
     // What type of damage does it deal?
-    public enum MonsterAttackDamageType { Physical, Magical, True, Split };
+    public enum MonsterAttackDamageType { Physical, Magical, True, Split, None };
     public MonsterAttackDamageType monsterAttackDamageType;
 
     // How many targets does the attack have?
@@ -41,19 +41,42 @@ public class MonsterAttack : ScriptableObject
     public AudioClip monsterAttackSoundEffect;
 
     [Title("Monster Attack Combat Stats")]
-    public float monsterAttackDamage;
+    [DisableIf("monsterAttackType", MonsterAttackType.Status)]
+    public float monsterAttackDamageScalar;
+
+    [DisplayWithoutEdit] public float monsterBaseAttackStat = 1;
+
     [DisplayWithoutEdit] public float monsterAttackFlatDamageBonus;
+
+    [DisableIf("monsterAttackNeverMiss", true)]
     public float monsterAttackAccuracy;
-    public float monsterAttackCritChance = 5f; // default crit chance
+
     public bool monsterAttackNeverMiss = false;
 
+    public float monsterAttackCritChance = 5f; // default crit chance
+
     [Title("Monster Attack Other Data")]
-    public bool attackHasCooldown;
-    [DisplayWithoutEdit] public bool attackOnCooldown;
-    public int attackBaseCooldown;
-    [DisplayWithoutEdit] public int attackCurrentCooldown;
+    public int monsterAttackSPCost = 1;
+
     public GameObject AttackVFX;
+
+    [DisplayWithoutEdit] public GameObject monsterAttackSourceGameObject;
+    [DisplayWithoutEdit] public Monster monsterAttackSource;
 
     [Header("Monster Attack Effect List")]
     public List<AttackEffect> ListOfAttackEffects;
+
+    public MonsterAttack(string _monsterAttackName, ElementClass _elementClass, MonsterAttackDamageType _damageType, float _monsterAttackMultiplier, float _monsterAttackDamageScalar, Monster _monsterAttackSource, GameObject _monsterAttackSourceGameObject)
+    {
+        monsterAttackName = _monsterAttackName;
+
+        monsterElementClass = _elementClass;
+        monsterAttackDamageType = _damageType;
+
+        monsterAttackDamageScalar = _monsterAttackMultiplier;
+        monsterBaseAttackStat = _monsterAttackDamageScalar;
+
+        monsterAttackSource = _monsterAttackSource;
+        monsterAttackSourceGameObject = _monsterAttackSourceGameObject;
+    }
 }

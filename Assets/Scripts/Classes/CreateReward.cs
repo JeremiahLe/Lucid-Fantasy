@@ -284,15 +284,15 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         switch (monsterRowPosition)
         {
             case ("Back Row"):
-                monsterReward.cachedMonsterRowPosition = CreateMonster.MonsterRowPosition.BackRow;
+                monsterReward.cachedMonsterRowPosition = CreateMonster.MonsterStance.Defensive;
                 break;
 
             case ("Center Row"):
-                monsterReward.cachedMonsterRowPosition = CreateMonster.MonsterRowPosition.CenterRow;
+                monsterReward.cachedMonsterRowPosition = CreateMonster.MonsterStance.Neutral;
                 break;
 
             case ("Front Row"):
-                monsterReward.cachedMonsterRowPosition = CreateMonster.MonsterRowPosition.FrontRow;
+                monsterReward.cachedMonsterRowPosition = CreateMonster.MonsterStance.Aggressive;
                 break;
 
             default:

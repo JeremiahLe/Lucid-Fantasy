@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Hurrikanine
   baseSprite: {fileID: 21300000, guid: d4389a02943c8e049a1ed15dbeee46ab, type: 3}
+  monsterAscensionPhase: 1
   monsterElement: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterSubElement: {fileID: 11400000, guid: e50298cfd797133489b34af0beff2923, type: 2}
   aiType: 0
@@ -24,8 +25,9 @@ MonoBehaviour:
   level: 50
   health: 2100
   maxHealth: 2100
-  cachedHealth: 0
-  cachedMaxHealth: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
   physicalAttack: 75
   magicAttack: 300
   physicalDefense: 125
@@ -58,6 +60,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  cachedHealth: 0
+  cachedMaxHealth: 0
   cachedPhysicalAttack: 75
   cachedMagicAttack: 225
   cachedPhysicalDefense: 125
@@ -67,6 +71,16 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  previouslyCachedMaxHealth: 0
+  previouslyCachedPhysicalAttack: 1
+  previouslyCachedMagicAttack: 1
+  previouslyCachedPhysicalDefense: 1
+  previouslyCachedMagicDefense: 1
+  previouslyCachedSpeed: 1
+  previouslyCachedEvasion: 0
+  previouslyCachedCritChance: 0
+  previouslyCachedBonusAccuracy: 0
+  previouslyCachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   monsterIsOwned: 0

@@ -12,16 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
   m_Name: Half Health Execute
   m_EditorClassIdentifier: 
-  typeOfEffect: 0
+  typeOfEffect: 17
   statChangeType: 2
   attackEffectStatus: 0
   statToChange: 0
   effectTime: 2
   monsterTargetType: 0
-  currentMonsterTargetGameObject: {fileID: 0}
-  currentMonsterTarget: {fileID: 0}
+  fixedDamageAmount: 0
+  triggersEffects: 0
+  effectDamageType: 0
+  elementClass: {fileID: 0}
+  uniqueAttackEffectCondition: {fileID: 11400000, guid: e0734dd65239f5f4095391af4c46126a, type: 2}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
+  immunityType: 0
+  elementImmunity: {fileID: 0}
+  statusImmunity: 0
+  statImmunity: 0
   attackEffectDuration: 0
   modifierCalledOnce: 0
   flatValueChange: 0
@@ -29,3 +36,4 @@ MonoBehaviour:
   amountToChange: 0
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
+  monsterAttackTrigger: {fileID: 0}

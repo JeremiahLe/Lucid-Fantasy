@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Fueguy
   baseSprite: {fileID: 21300000, guid: 4bdc5978122ca10408738df0a61dd367, type: 3}
+  monsterAscensionPhase: 1
   monsterElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
@@ -24,8 +25,9 @@ MonoBehaviour:
   level: 50
   health: 1800
   maxHealth: 1800
-  cachedHealth: 0
-  cachedMaxHealth: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
   physicalAttack: 50
   magicAttack: 200
   physicalDefense: 125
@@ -55,6 +57,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ab31fe3800ad4c4b9ed05b763aee7cd, type: 2}
   - {fileID: 11400000, guid: e99082d6380a9e444aa569ffb028e0bc, type: 2}
   - {fileID: 11400000, guid: 088624301c21364408a42b2e6fbeb5b4, type: 2}
+  cachedHealth: 0
+  cachedMaxHealth: 0
   cachedPhysicalAttack: 50
   cachedMagicAttack: 1
   cachedPhysicalDefense: 125
@@ -64,6 +68,16 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  previouslyCachedMaxHealth: 0
+  previouslyCachedPhysicalAttack: 1
+  previouslyCachedMagicAttack: 1
+  previouslyCachedPhysicalDefense: 1
+  previouslyCachedMagicDefense: 1
+  previouslyCachedSpeed: 1
+  previouslyCachedEvasion: 0
+  previouslyCachedCritChance: 0
+  previouslyCachedBonusAccuracy: 0
+  previouslyCachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   monsterIsOwned: 0

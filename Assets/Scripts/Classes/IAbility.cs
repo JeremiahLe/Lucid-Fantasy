@@ -10,7 +10,18 @@ public abstract class IAbilityTrigger : ScriptableObject
 {
     public int abilityTriggerDelay = 300;
 
-    public virtual async Task<int> TriggerAbility(MonsterAttackManager monsterAttackManager, Ability ability)
+    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability)
+    {
+        return 1;
+    }
+
+    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger)
+    {
+        return 1;
+    }
+
+
+    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier)
     {
         return 1;
     }

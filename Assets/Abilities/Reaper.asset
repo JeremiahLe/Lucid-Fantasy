@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Reaper
   abilityDescription: 'On-Kill: Raise my basic stats by 30% and heal 33% max health.'
-  listOfAbilityEffects: []
+  listOfAbilityEffects:
+  - {fileID: 11400000, guid: e365ea10f5a6ff3419414f1843437505, type: 2}
+  listOfAbilityTriggers:
+  - {fileID: 11400000, guid: 68888c926d49d8b4d8cc1b7fa89ae0d4, type: 2}

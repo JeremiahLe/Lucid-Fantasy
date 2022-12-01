@@ -224,7 +224,7 @@ public class ButtonManagerScript : MonoBehaviour
 
         Monster monster = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
         CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
-        uiManager.EditCombatMessage($"Change {monster.aiType} {monster.name} to what row? Current Row: {monsterComponent.monsterRowPosition.ToString()}");
+        uiManager.EditCombatMessage($"Change {monster.aiType} {monster.name} to what stance? Current stance: {monsterComponent.monsterStance.ToString()}");
 
         RowButtonsParent.SetActive(true);
 
@@ -236,9 +236,9 @@ public class ButtonManagerScript : MonoBehaviour
         var colors = FrontRowButton.GetComponent<Button>().colors;
 
         // Show available rows
-        switch (monsterComponent.monsterRowPosition)
+        switch (monsterComponent.monsterStance)
         {
-            case (CreateMonster.MonsterRowPosition.FrontRow):
+            case (CreateMonster.MonsterStance.Aggressive):
                 colors = FrontRowButton.GetComponent<Button>().colors;
                 colors.normalColor = Color.gray;
                 FrontRowButton.GetComponent<Button>().colors = colors;
@@ -249,7 +249,7 @@ public class ButtonManagerScript : MonoBehaviour
                 BackRowButton.GetComponent<Button>().interactable = true;
                 break;
 
-            case (CreateMonster.MonsterRowPosition.CenterRow):
+            case (CreateMonster.MonsterStance.Neutral):
                 colors = CenterRowButton.GetComponent<Button>().colors;
                 colors.normalColor = Color.gray;          
                 CenterRowButton.GetComponent<Button>().colors = colors;
@@ -260,7 +260,7 @@ public class ButtonManagerScript : MonoBehaviour
                 BackRowButton.GetComponent<Button>().interactable = true;
                 break;
 
-            case (CreateMonster.MonsterRowPosition.BackRow):
+            case (CreateMonster.MonsterStance.Defensive):
                 colors = BackRowButton.GetComponent<Button>().colors;
                 colors.normalColor = Color.gray;
                 BackRowButton.GetComponent<Button>().colors = colors;
@@ -288,15 +288,15 @@ public class ButtonManagerScript : MonoBehaviour
         switch (newRow)
         {
             case ("FrontRow"):
-                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterRowPosition.FrontRow, monsterComponent.monsterRowPosition);
+                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterStance.Aggressive, monsterComponent.monsterStance);
                 break;
 
             case ("CenterRow"):
-                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterRowPosition.CenterRow, monsterComponent.monsterRowPosition);
+                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterStance.Neutral, monsterComponent.monsterStance);
                 break;
 
             case ("BackRow"):
-                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterRowPosition.BackRow, monsterComponent.monsterRowPosition);
+                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterStance.Defensive, monsterComponent.monsterStance);
                 break;
 
             default:
@@ -330,14 +330,14 @@ public class ButtonManagerScript : MonoBehaviour
         {
             if (ListOfMonsterAttacks[i] != null)
             {
-                AttacksHUDButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = ListOfMonsterAttacks[i].monsterAttackName;
+                AttacksHUDButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = ($"{ListOfMonsterAttacks[i].monsterAttackName} - {ListOfMonsterAttacks[i].monsterAttackSPCost} SP");
 
-                if (ListOfMonsterAttacks[i].attackOnCooldown)
+                if (ListOfMonsterAttacks[i].monsterAttackSPCost > combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.currentSP)
                 {
                     var colors = AttacksHUDButtons[i].GetComponent<Button>().colors;
                     colors.normalColor = Color.gray;
                     AttacksHUDButtons[i].GetComponent<Button>().colors = colors;
-                    AttacksHUDButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = ($"<s>{ListOfMonsterAttacks[i].monsterAttackName}</s>");
+                    AttacksHUDButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = ($"<s>{ListOfMonsterAttacks[i].monsterAttackName} - {ListOfMonsterAttacks[i].monsterAttackSPCost} SP</s>");
                 }
                 else
                 {

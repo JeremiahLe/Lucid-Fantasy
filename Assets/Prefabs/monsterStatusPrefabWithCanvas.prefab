@@ -198,7 +198,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 255
 --- !u!1 &3929323688568435940
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,6 +348,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14cb99ab158fa7348af13a30dee07f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instantiated: 0
+  parentObj: {fileID: 0}
+  deathTime: 0
 --- !u!95 &4689899835841329231
 Animator:
   serializedVersion: 3
@@ -515,3 +518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14cb99ab158fa7348af13a30dee07f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instantiated: 0
+  parentObj: {fileID: 0}
+  deathTime: 0

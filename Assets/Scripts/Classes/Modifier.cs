@@ -16,6 +16,7 @@ public class Modifier : ScriptableObject
     public enum ModifierDurationType { Temporary, Permanent }
     public ModifierDurationType modifierDurationType;
 
+    public AttackEffect attackEffect;
     public AttackEffect.StatToChange statModified;
     public AttackEffect.StatChangeType statChangeType;
 
@@ -69,43 +70,51 @@ public class Modifier : ScriptableObject
         // reset duration
         modifierCurrentDuration = modifierDuration;
 
+        CreateMonster monsterComponent = monsterReferenceGameObject.GetComponent<CreateMonster>();
+
         if (isStatusEffect)
         {
-            monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statusEffectType.ToString()} status was cleared!", monsterReference.aiType);
-            monsterReferenceGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Remove(statusEffectType);
-
-            //switch (statusEffectType)
-            //{
-            //    case StatusEffectType.Poisoned:
-            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsPoisoned = false;
-            //        break;
-
-            //    case StatusEffectType.Burning:
-            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsBurning = false;
-            //        break;
-
-            //    case StatusEffectType.Dazed:
-            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsDazed = false;
-            //        break;
-
-            //    case StatusEffectType.Stunned:
-            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsStunned = false;
-            //        break;
-
-            //    case StatusEffectType.Crippled:
-            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsCrippled = false;
-            //        break;
-
-            //    case StatusEffectType.Weakened:
-            //        monsterReferenceGameObject.GetComponent<CreateMonster>().monsterIsWeakened = false;
-            //        break;
-
-            //    default:
-            //        break;
-            //}
-
+            monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statusEffectType.ToString()} status was cleared!", monsterReference.aiType);
+            monsterComponent.listofCurrentStatusEffects.Remove(statusEffectType);
+            return;
         }
-       
+
+        if (attackEffect.typeOfEffect == AttackEffect.TypeOfEffect.GrantImmunity)
+        {
+            switch (attackEffect.immunityType)
+            {
+                case AttackEffect.ImmunityType.Element:
+                    monsterComponent.listOfElementImmunities.Remove(attackEffect.elementImmunity);
+                    monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to {attackEffect.elementImmunity.element.ToString()} Element Attacks!", monsterReference.aiType);
+                    break;
+
+                case AttackEffect.ImmunityType.Status:
+                    monsterComponent.listOfStatusImmunities.Remove(attackEffect.statusImmunity);
+                    monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to {attackEffect.statusImmunity} Status!", monsterReference.aiType);
+                    break;
+
+                case AttackEffect.ImmunityType.SpecificStatChange:
+                    monsterComponent.listOfStatImmunities.Remove(attackEffect.statImmunity);
+                    monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to {attackEffect.statImmunity} Debuffs!", monsterReference.aiType);
+                    break;
+
+                case AttackEffect.ImmunityType.Damage:
+                    monsterComponent.monsterImmuneToDamage = false;
+                    monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to Damage!", monsterReference.aiType);
+                    break;
+
+                case AttackEffect.ImmunityType.Death:
+                    //monsterComponent.listOfStatusImmunities.Remove(attackEffect.statusImmunity);
+                    monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to Death!", monsterReference.aiType);
+                    break;
+
+                default:
+                    break;
+            }
+
+            return;
+        }
+
         switch (statModified)
         {
             case (AttackEffect.StatToChange.Evasion):
@@ -144,11 +153,6 @@ public class Modifier : ScriptableObject
                 monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDebuffs = false;
                 monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to status effects and debuffs!", monsterReference.aiType);
                 break;
-
-            //case (AttackEffect.StatEnumToChange.Buffs):
-            //    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToBuffs = false;
-            //    monsterReferenceGameObject.GetComponent<CreateMonster>().combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to buffs!", monsterReference.aiType);
-            //    break;
 
             case (AttackEffect.StatToChange.Damage):
                 monsterReferenceGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage = false;

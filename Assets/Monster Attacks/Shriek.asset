@@ -20,18 +20,19 @@ MonoBehaviour:
   monsterAttackType: 0
   monsterAttackDamageType: 1
   monsterAttackTargetCount: 0
+  monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 0
   monsterAttackSoundEffect: {fileID: 8300000, guid: 608cc8864e214fe469c181c8704401de, type: 3}
-  monsterAttackDamage: 35
+  monsterAttackDamageScalar: 35
+  monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
-  attackHasCooldown: 0
-  attackOnCooldown: 0
-  attackBaseCooldown: 0
-  attackCurrentCooldown: 0
+  monsterAttackCritChance: 5
+  monsterAttackSPCost: 1
   AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
+  monsterAttackSourceGameObject: {fileID: 0}
+  monsterAttackSource: {fileID: 0}
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 3b4eb94f81a6c7f48a057935d12853e2, type: 2}
   - {fileID: 11400000, guid: 9be58f3441e1f2341878f9cb425b0e6b, type: 2}

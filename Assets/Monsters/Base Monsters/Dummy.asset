@@ -14,22 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Dummy
   baseSprite: {fileID: 21300000, guid: ff89f168bae13b14f9e2c759a24bbd2a, type: 3}
+  monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 1
   aiLevel: 1
   monsterFlavourText: A dummy.
-  monsterAbility: {fileID: 11400000, guid: 843a40d4585512e468495d8fbbb90556, type: 2}
+  monsterAbility: {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
   level: 20
-  health: 23
+  health: 342
   maxHealth: 2454
-  cachedHealth: 0
-  cachedMaxHealth: 0
-  physicalAttack: 1
-  magicAttack: 1
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  physicalAttack: 66
+  magicAttack: 158
   physicalDefense: 1
   magicDefense: 1
-  speed: 1
+  speed: 2
   evasion: 0
   critChance: 0
   critDamage: 1.25
@@ -41,16 +43,18 @@ MonoBehaviour:
   magicDefenseScaler: 1
   speedScaler: 1
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
-  - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
-  - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
-  - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
+  - {fileID: 11400000, guid: f3eb76032d0b4d24b840bfa3bd646874, type: 2}
+  - {fileID: 11400000, guid: f3eb76032d0b4d24b840bfa3bd646874, type: 2}
+  - {fileID: 11400000, guid: f3eb76032d0b4d24b840bfa3bd646874, type: 2}
+  - {fileID: 11400000, guid: f3eb76032d0b4d24b840bfa3bd646874, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
   - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
   - {fileID: 11400000, guid: 1f5b150b34cf7cb4bbcc827883477aeb, type: 2}
   - {fileID: 11400000, guid: 48d9334f640a4fc448bcae0417a1c0c3, type: 2}
   - {fileID: 11400000, guid: 2acc426b2e55e9b4bb97d85ff2a15cd5, type: 2}
+  cachedHealth: 0
+  cachedMaxHealth: 0
   cachedPhysicalAttack: 1
   cachedMagicAttack: 1
   cachedPhysicalDefense: 1

@@ -416,7 +416,7 @@ public class InventoryManager : MonoBehaviour
 
         // Monster Command Text
         monsterNewCommand.GetComponent<Interactable>().interactableName = ($"{currentAscensionPath.monsterAscensionAttack.monsterAttackName} ({currentAscensionPath.monsterAscensionAttack.monsterElementClass.element}, {currentAscensionPath.monsterAscensionAttack.monsterAttackDamageType})");
-        monsterNewCommand.GetComponent<Interactable>().interactableDescription = ($"Base Power: {currentAscensionPath.monsterAscensionAttack.monsterAttackDamage} | Accuracy: {currentAscensionPath.monsterAscensionAttack.monsterAttackAccuracy}" +
+        monsterNewCommand.GetComponent<Interactable>().interactableDescription = ($"Base Power: {currentAscensionPath.monsterAscensionAttack.monsterAttackDamageScalar} | Accuracy: {currentAscensionPath.monsterAscensionAttack.monsterAttackAccuracy}" +
             $"\n{currentAscensionPath.monsterAscensionAttack.monsterAttackDescription}");
 
         // Assign base and ascension sprites and names
@@ -583,7 +583,7 @@ public class InventoryManager : MonoBehaviour
         if (newAttackHolder.monsterAttackReference.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
         {
             newAttackHolder.GetComponentInChildren<TextMeshProUGUI>().text +=
-                ($"\nBase Power: {newAttackHolder.monsterAttackReference.monsterAttackDamage} | Accuracy: {newAttackHolder.monsterAttackReference.monsterAttackAccuracy}%");
+                ($"\nBase Power: {newAttackHolder.monsterAttackReference.monsterAttackDamageScalar} | Accuracy: {newAttackHolder.monsterAttackReference.monsterAttackAccuracy}%");
         }
         else
         {
@@ -616,7 +616,7 @@ public class InventoryManager : MonoBehaviour
             if (dragController.monsterAttackReference.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
             {
                 dragController.GetComponentInChildren<TextMeshProUGUI>().text +=
-                    ($"\nBase Power: {dragController.monsterAttackReference.monsterAttackDamage} | Accuracy: {dragController.monsterAttackReference.monsterAttackAccuracy}%");
+                    ($"\nBase Power: {dragController.monsterAttackReference.monsterAttackDamageScalar} | Accuracy: {dragController.monsterAttackReference.monsterAttackAccuracy}%");
             }
             else
             {

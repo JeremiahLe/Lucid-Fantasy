@@ -53,7 +53,10 @@ public class EnemyAIManager : MonoBehaviour
         switch (currentEnemyTurn.aiLevel)
         {
             case Monster.AILevel.Random:
-                currentEnemyMonsterAttack = GetRandomMove();
+                currentEnemyMonsterAttack = GetRandomAttack();
+
+                if (currentEnemyMonsterAttack == null)
+                    combatManagerScript.buttonManagerScript.PassButtonClicked();
 
                 // What type of attack move was selected?
                 switch (currentEnemyMonsterAttack.monsterAttackTargetType)
@@ -79,48 +82,19 @@ public class EnemyAIManager : MonoBehaviour
                         break;
                 }
 
-                //currentEnemyTargetGameObject = GetRandomTarget();
-
                 currentEnemyTarget = currentEnemyTargetGameObject.GetComponent<CreateMonster>().monsterReference;
-
-                #region Old Code
-                //// Targeting self?
-                //if (currentEnemyTarget == currentEnemyTurn)
-                //{
-                //    // Dazed?
-                //    if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
-                //    {
-                //        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} is Dazed will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
-                //    }
-                //    else
-                //    {
-                //        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on itself!");
-                //    }
-                //}
-                //else {
-                //    // Dazed?
-                //    if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterIsDazed)
-                //    {
-                //        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} is Dazed and will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
-                //    }
-                //    else
-                //    {
-                //        uiManager.EditCombatMessage($"Enemy {currentEnemyTurn.name} will use {currentEnemyMonsterAttack.monsterAttackName} on {currentEnemyTarget.aiType} {currentEnemyTarget.name}!");
-                //    }
-                //}
-                #endregion
 
                 combatManagerScript.CurrentMonsterTurnAnimator = currentEnemyTurnGameObject.GetComponent<Animator>();
                 combatManagerScript.CurrentTargetedMonster = currentEnemyTargetGameObject;
                 monsterAttackManager.currentMonsterAttack = currentEnemyMonsterAttack;
 
                 // Random chance to change row position
-                CreateMonster.MonsterRowPosition randRowPos = RandomRowPosition();
+                CreateMonster.MonsterStance newStance = GetRandomStance();
                 CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
 
-                if (randRowPos != monsterComponent.monsterRowPosition)
+                if (newStance != monsterComponent.monsterStance)
                 {
-                    monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, randRowPos, monsterComponent.monsterRowPosition);
+                    monsterComponent.SetMonsterStance(newStance);
                 }
 
                 if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
@@ -145,15 +119,16 @@ public class EnemyAIManager : MonoBehaviour
     }
 
     // This function returns a random move from the monsters list of monster attacks
-    public MonsterAttack GetRandomMove()
+    public MonsterAttack GetRandomAttack()
     {
-        MonsterAttack randMove = enemyListOfMonsterAttacks[Random.Range(0, enemyListOfMonsterAttacks.Count)];
-        //Debug.Log($"Random move selected: {randMove.monsterAttackName}");
-        while (randMove.attackOnCooldown)
-        {
-            randMove = enemyListOfMonsterAttacks[Random.Range(0, enemyListOfMonsterAttacks.Count)];
-        }
-        return randMove;
+        List<MonsterAttack> tempList = enemyListOfMonsterAttacks.Where(Attack => Attack.monsterAttackSPCost <= currentEnemyTurn.currentSP).ToList();
+
+        if (tempList.Count == 0)
+            return null;
+
+        MonsterAttack randomAttack = tempList[Random.Range(0, tempList.Count)];
+
+        return randomAttack;
     }
 
     // This function returns a random target from the list of ally monsters // GitHub edit
@@ -164,7 +139,7 @@ public class EnemyAIManager : MonoBehaviour
         List<GameObject> tempList;
 
         // If initial target is backrow, chance to target another monster. If initial target is centerrow, chance to target front row monster
-        if (whoAmITargeting.Count > 1 && randTarget.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.BackRow)
+        if (whoAmITargeting.Count > 1 && randTarget.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Defensive)
         {
             randValue = Random.value;
             //Debug.Log($"Generated random value: {randValue}");
@@ -175,7 +150,7 @@ public class EnemyAIManager : MonoBehaviour
                 //Debug.Log($"Targeting another unit!");
 
                 randValue = Random.value;
-                tempList = whoAmITargeting.Where(monster => monster != randTarget && monster.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.FrontRow).ToList();
+                tempList = whoAmITargeting.Where(monster => monster != randTarget && monster.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Aggressive).ToList();
                 if (tempList.Count != 0)
                 {
                     if (randValue < .66f)
@@ -188,10 +163,10 @@ public class EnemyAIManager : MonoBehaviour
             }
         }
         else 
-        if (whoAmITargeting.Count > 1 && randTarget.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.CenterRow)
+        if (whoAmITargeting.Count > 1 && randTarget.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Neutral)
         {
             randValue = Random.value;
-            tempList = whoAmITargeting.Where(monster => monster != randTarget && monster.GetComponent<CreateMonster>().monsterRowPosition == CreateMonster.MonsterRowPosition.FrontRow).ToList();
+            tempList = whoAmITargeting.Where(monster => monster != randTarget && monster.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Aggressive).ToList();
             if (tempList.Count != 0)
             {
                 if (randValue < .66f)
@@ -210,27 +185,26 @@ public class EnemyAIManager : MonoBehaviour
     public List<GameObject> GetRandomList()
     {
         List<GameObject> randList = allListsOfMonsters[Random.Range(0, allListsOfMonsters.Count)];
-        //Debug.Log($"Random list selected: {randList}");
         return randList;
     }
 
-    public static CreateMonster.MonsterRowPosition RandomRowPosition()
+    public static CreateMonster.MonsterStance GetRandomStance()
     {
         int rand = Random.Range(0, 3);
 
         switch (rand)
         {
             case (0):
-                return CreateMonster.MonsterRowPosition.BackRow;
+                return CreateMonster.MonsterStance.Defensive;
 
             case (1):
-                return CreateMonster.MonsterRowPosition.CenterRow;
+                return CreateMonster.MonsterStance.Neutral;
 
             case (2):
-                return CreateMonster.MonsterRowPosition.FrontRow;
+                return CreateMonster.MonsterStance.Aggressive;
 
             default:
-                return CreateMonster.MonsterRowPosition.CenterRow;
+                return CreateMonster.MonsterStance.Neutral;
         }
     }
 }

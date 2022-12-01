@@ -18,11 +18,18 @@ MonoBehaviour:
   statToChange: 0
   effectTime: 1
   monsterTargetType: 0
-  currentMonsterTargetGameObject: {fileID: 0}
-  currentMonsterTarget: {fileID: 0}
+  effectDamageType: 0
+  elementClass: {fileID: 0}
+  uniqueAttackEffectCondition: {fileID: 0}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
+  immunityType: 0
+  elementImmunity: {fileID: 0}
+  statusImmunity: 0
+  statImmunity: 0
   attackEffectDuration: 0
+  currentMonsterTargetGameObject: {fileID: 0}
+  currentMonsterTarget: {fileID: 0}
   modifierCalledOnce: 0
   flatValueChange: 0
   modifierDuration: 3

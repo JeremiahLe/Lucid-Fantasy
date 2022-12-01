@@ -144,11 +144,12 @@ public class MonsterStatScreenScript : MonoBehaviour
 
             dragController.GetComponentInChildren<TextMeshProUGUI>().text =
                 ($"{dragController.monsterAttackReference.monsterAttackName}" +
+                $"\nSP: {dragController.monsterAttackReference.monsterAttackSPCost}" +
                 $"\nElement: {dragController.monsterAttackReference.monsterElementClass.element.ToString()} | Type: {dragController.monsterAttackReference.monsterAttackDamageType}");
 
             if (dragController.monsterAttackReference.monsterAttackType == MonsterAttack.MonsterAttackType.Attack) {
                 dragController.GetComponentInChildren<TextMeshProUGUI>().text +=
-                    ($"\nBase Power: {dragController.monsterAttackReference.monsterAttackDamage} | Accuracy: {dragController.monsterAttackReference.monsterAttackAccuracy}%");
+                    ($"\nBase Power: {dragController.monsterAttackReference.monsterAttackDamageScalar} | Accuracy: {dragController.monsterAttackReference.monsterAttackAccuracy}%");
             }
             else
             {

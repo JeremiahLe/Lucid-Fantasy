@@ -27,6 +27,7 @@ MonoBehaviour:
   monsterAttackAccuracy: 100
   monsterAttackCritChance: 5
   monsterAttackNeverMiss: 1
+  monsterAttackSPCost: 1
   attackHasCooldown: 0
   attackOnCooldown: 0
   attackBaseCooldown: 0

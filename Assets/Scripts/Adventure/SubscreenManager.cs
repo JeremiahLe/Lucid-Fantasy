@@ -416,7 +416,7 @@ public class SubscreenManager : MonoBehaviour
 
         randMonster.speed = Mathf.RoundToInt((randMonster.speed + randMonster.level - 5) + randMonster.speedScaler * adventureManager.adventureNGNumber);
 
-        randMonster.cachedMonsterRowPosition = EnemyAIManager.RandomRowPosition();
+        randMonster.cachedMonsterRowPosition = EnemyAIManager.GetRandomStance();
 
         // add equipment
         if (adventureManager.adventureNGNumber >= 2)

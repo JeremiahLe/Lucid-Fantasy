@@ -11,8 +11,11 @@ public class CombatManagerScript : MonoBehaviour
     [Title("Monster Lists")]
     public GameObject[] MonstersInBattle;
     public List<GameObject> BattleSequence;
+
     public List<GameObject> ListOfAllys;
     public List<GameObject> ListOfEnemies;
+
+    public List<GameObject> ListOfMonstersToGrantExp;
 
     [Title("Monster Positions")]
     public List<GameObject> ListOfAllyPositions;
@@ -186,6 +189,8 @@ public class CombatManagerScript : MonoBehaviour
                     monsterPos.GetComponent<CreateMonster>().monster.aiType = Monster.AIType.Ally;
                     monsterPos.GetComponent<CreateMonster>().monster.aiLevel = Monster.AILevel.Player;
                     monsterPos.GetComponent<CreateMonster>().monsterSpeed = (int)adventureManager.ListOfAllyBattleMonsters[i].speed;
+                    monsterPos.GetComponent<CreateMonster>().combatManagerObject = gameObject;
+                    monsterPos.GetComponent<CreateMonster>().combatManagerScript = this;
                 }
                 i++;
             }
@@ -202,6 +207,8 @@ public class CombatManagerScript : MonoBehaviour
                     monsterPos.GetComponent<CreateMonster>().monster.aiType = Monster.AIType.Enemy;
                     monsterPos.GetComponent<CreateMonster>().monster.aiLevel = Monster.AILevel.Random;
                     monsterPos.GetComponent<CreateMonster>().monsterSpeed = (int)adventureManager.ListOfEnemyBattleMonsters[i].speed;
+                    monsterPos.GetComponent<CreateMonster>().combatManagerObject = gameObject;
+                    monsterPos.GetComponent<CreateMonster>().combatManagerScript = this;
                 }
                 i++;
             }
@@ -237,7 +244,7 @@ public class CombatManagerScript : MonoBehaviour
     }
 
     // This function sorts the monster battle sequence by speed after all monsters have been identified and added to list
-    public void SortMonsterBattleSequence(bool monsterJoinedBattle)
+    public async void SortMonsterBattleSequence(bool monsterJoinedBattle)
     {
         BattleSequence = BattleSequence.OrderByDescending(Monster => Monster.GetComponent<CreateMonster>().monsterSpeed).ToList();
 
@@ -282,11 +289,16 @@ public class CombatManagerScript : MonoBehaviour
         {
             foreach (GameObject monsterObj in ListOfAllys)
             {
-                Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
+                CreateMonster monsterComponent = monsterObj.GetComponent<CreateMonster>();
+                Monster monster = monsterComponent.monsterReference;
 
                 adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Ally);
-                monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                monsterObj.GetComponent<CreateMonster>().CheckAdventureEquipment();
+
+                monsterComponent.CheckAdventureEquipment();
+
+                await monsterAttackManager.TriggerAbilityEffects(monster, monsterObj, monster, AttackEffect.EffectTime.GameStart, monsterObj);
+
+                await monsterComponent.UpdateStats(false, null, false, 0);
             }
 
             adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Ally);
@@ -294,10 +306,16 @@ public class CombatManagerScript : MonoBehaviour
             // Enemy modifiers and equipment
             foreach (GameObject monsterObj in ListOfEnemies)
             {
-                Monster monster = monsterObj.GetComponent<CreateMonster>().monster;
+                CreateMonster monsterComponent = monsterObj.GetComponent<CreateMonster>();
+                Monster monster = monsterComponent.monsterReference;
+
                 adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Enemy);
-                monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                monsterObj.GetComponent<CreateMonster>().CheckAdventureEquipment();
+
+                monsterComponent.CheckAdventureEquipment();
+
+                await monsterAttackManager.TriggerAbilityEffects(monster, monsterObj, monster, AttackEffect.EffectTime.GameStart, monsterObj);
+
+                await monsterComponent.UpdateStats(false, null, false, 0);
             }
 
             adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Enemy);
@@ -458,6 +476,8 @@ public class CombatManagerScript : MonoBehaviour
         //    monsterComponent.CheckHealth(true, null);
         //}
 
+        monsterAttackManager.SetMonsterAttackManagerState(MonsterAttackManager.AttackManagerState.PendingAttack);
+
         if (!CheckMonstersAlive())
             return;
 
@@ -474,6 +494,11 @@ public class CombatManagerScript : MonoBehaviour
         }
         else
         {
+            CreateMonster monsterComponent = CurrentMonsterTurn.GetComponent<CreateMonster>();
+
+            if (monsterComponent.monsterReference.currentSP < monsterComponent.monsterReference.maxSP)
+                monsterComponent.ModifySP(1);
+
             InitiateCombat();
         }
 
@@ -747,11 +772,14 @@ public class CombatManagerScript : MonoBehaviour
     // This function returns a random move from the monsters list of monster attacks
     public MonsterAttack GetRandomMove()
     {
-        MonsterAttack randMove = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.ListOfMonsterAttacks[Random.Range(0, CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.ListOfMonsterAttacks.Count)];
-        while (randMove.attackOnCooldown)
+        Monster monster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+        MonsterAttack randMove = monster.ListOfMonsterAttacks[Random.Range(0, monster.ListOfMonsterAttacks.Count)];
+
+        while (randMove.monsterAttackSPCost > monster.currentSP)
         {
-            randMove = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.ListOfMonsterAttacks[Random.Range(0, CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.ListOfMonsterAttacks.Count)];
+            randMove = monster.ListOfMonsterAttacks[Random.Range(0, monster.ListOfMonsterAttacks.Count)];
         }
+
         return randMove;
     }
 
@@ -781,10 +809,10 @@ public class CombatManagerScript : MonoBehaviour
     {
         GameObject randTarget = whoAmITargeting[Random.Range(0, whoAmITargeting.Count)];
       
-        if (randTarget.transform.position != randTarget.GetComponent<CreateMonster>().startingPosition.transform.position)
-        {
-            randTarget.transform.position = randTarget.GetComponent<CreateMonster>().startingPosition.transform.position;
-        }
+        //if (randTarget.transform.position != randTarget.GetComponent<CreateMonster>().startingPosition.transform.position)
+        //{
+        //    randTarget.transform.position = randTarget.GetComponent<CreateMonster>().startingPosition.transform.position;
+        //}
         return randTarget;
     }
 
@@ -944,6 +972,27 @@ public class CombatManagerScript : MonoBehaviour
         CurrentTargetedMonster = newTarget;
         CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject.SetActive(true);
         //monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
+    }
+
+    public void CheckMonsterLevelUps()
+    {
+        bool monsterLeveledUp = false;
+
+        foreach(GameObject monster in ListOfAllys)
+        {
+            CreateMonster monsterComponent = monster.GetComponent<CreateMonster>();
+            Monster monsterReference = monsterComponent.monsterReference;
+
+            if (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
+            {
+                monsterComponent.Invoke("LevelUp", 0.5f);
+                monsterLeveledUp = true;
+                return;
+            }
+        }
+
+        if (!monsterLeveledUp)
+            NextMonsterTurn();
     }
 
     // Helper function for SetNextMonsterTurn()

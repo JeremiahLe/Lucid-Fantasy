@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Dev
   baseSprite: {fileID: 21300000, guid: 16ca542876559c643b6390fbcb006c70, type: 3}
+  monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
@@ -21,15 +22,16 @@ MonoBehaviour:
   monsterFlavourText: CONSOLE MODE
   monsterAbility: {fileID: 11400000, guid: e30a2edc6c30a8b48b4797c1f5a081f6, type: 2}
   level: 1
-  health: 571
-  maxHealth: 571
-  cachedHealth: 0
-  cachedMaxHealth: 0
-  physicalAttack: 141
-  magicAttack: 163
+  health: 342
+  maxHealth: 823
+  initialSP: 10
+  currentSP: 10
+  maxSP: 10
+  physicalAttack: 19
+  magicAttack: 106
   physicalDefense: 1
   magicDefense: 1
-  speed: 100
+  speed: 3
   evasion: 31
   critChance: 0
   critDamage: 1.25
@@ -41,12 +43,14 @@ MonoBehaviour:
   magicDefenseScaler: 1
   speedScaler: 1
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: d85dc26f8c46e1f46a858d27331ec224, type: 2}
-  - {fileID: 11400000, guid: 9210e8036d79b7d4d8e82849686868b0, type: 2}
-  - {fileID: 11400000, guid: 32862a257e8aead44800e9511625e79d, type: 2}
-  - {fileID: 11400000, guid: c25107f645a56b64eaa69da9fedd4f57, type: 2}
+  - {fileID: 11400000, guid: 2acc426b2e55e9b4bb97d85ff2a15cd5, type: 2}
+  - {fileID: 11400000, guid: 8ad79bc568b7a0745a1c25260fd26dc0, type: 2}
+  - {fileID: 11400000, guid: b84e32555ecf02b42a6796dcae99106f, type: 2}
+  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable: []
+  cachedHealth: 0
+  cachedMaxHealth: 0
   cachedPhysicalAttack: 1
   cachedMagicAttack: 1
   cachedPhysicalDefense: 1
@@ -72,7 +76,7 @@ MonoBehaviour:
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0
-  monsterExpToNextLevel: 105
+  monsterExpToNextLevel: 50
   monsterAscensionAttack: {fileID: 0}
   ascensionGoldRequirement: 10
   ascensionType: 0

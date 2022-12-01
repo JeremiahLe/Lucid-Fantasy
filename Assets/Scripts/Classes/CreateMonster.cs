@@ -6,13 +6,14 @@ using Sirenix.OdinInspector;
 using UnityEngine.UI;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
+using Random = UnityEngine.Random;
 
 public class CreateMonster : MonoBehaviour
 {
     [Title("Monster ScriptableObject and Reference Clone")]
     [Required] public Monster monster;
     public Monster monsterReference;
-    List<MonsterAttack> ListOfMonsterAttacksReference;
 
     [Title("UI Elements")]
     [SerializeField] private GameObject monsterCanvas;
@@ -27,6 +28,10 @@ public class CreateMonster : MonoBehaviour
     public Color32 buffColor;
     public Color32 debuffColor;
 
+    public GameObject monsterSPIcon;
+    public RectTransform startingMonsterSPIconTransform;
+    public List<GameObject> ListOfSPIcons;
+
     [Title("Status Effect Scrollbar")]
     [SerializeField] public GameObject statusEffectHolder;
     [SerializeField] public GameObject statusEffectIcon;
@@ -38,8 +43,8 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] public TextMeshProUGUI MiniStatWindowBasicStatText;
     [SerializeField] public TextMeshProUGUI MiniStatWindowAdvancedStatText;
 
-    [SerializeField] public GameObject MonsterCombatPredictionWindow;
-    [SerializeField] public TextMeshProUGUI MonsterCombatPredictionWindowText;
+    //[SerializeField] public GameObject MonsterCombatPredictionWindow;
+    //[SerializeField] public TextMeshProUGUI MonsterCombatPredictionWindowText;
 
     [Title("Level Up Results Window")]
     public GameObject LevelUpResultsWindow;
@@ -50,6 +55,7 @@ public class CreateMonster : MonoBehaviour
 
     [Title("Popups")]
     [SerializeField] public Transform popupPosTransform;
+    [SerializeField] public Transform popupPosTransformHigher;
     [SerializeField] private GameObject monsterStatusTextObjectCanvas;
     [SerializeField] public GameObject monsterTargeterUIGameObject;
 
@@ -68,7 +74,6 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private Monster.AIType aiType;
     [SerializeField] private Monster.AILevel aiLevel;
     [SerializeField] public Transform startingPosition;
-    public Vector3 startingPos;
     public enum CombatOrientation { Left, Right };
     public CombatOrientation combatOrientation;
 
@@ -85,24 +90,16 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public float monsterEvasion;
 
     [Title("Combat Functions & Status")]
-    public enum MonsterRowPosition { CenterRow, BackRow, FrontRow };
-    public MonsterRowPosition monsterRowPosition;
+    public enum MonsterStance { Neutral, Defensive, Aggressive };
+    public MonsterStance monsterStance;
 
     [DisplayWithoutEdit] public float monsterDamageTakenThisRound;
     [DisplayWithoutEdit] public bool monsterActionAvailable = true;
     [DisplayWithoutEdit] public bool monsterRecievedStatBoostThisRound = false;
     [DisplayWithoutEdit] public bool monsterCriticallyStrikedThisRound = false;
 
-    //public bool monsterIsPoisoned = false;
-    //public bool monsterIsBurning = false;
-    //public bool monsterIsDazed = false;
-    //public bool monsterIsCrippled = false;
-    //public bool monsterIsWeakened = false;
-    //public bool monsterIsStunned = false;
-
     [Title("Monster Basic Immunities")]
     public bool monsterImmuneToDebuffs = false;
-    //public bool monsterImmuneToBuffs = false;
     public bool monsterImmuneToDamage = false;
 
     public List<Modifier.StatusEffectType> listofCurrentStatusEffects;
@@ -112,8 +109,6 @@ public class CreateMonster : MonoBehaviour
     public List<ElementClass> listOfElementImmunities;
 
     public List<Modifier.StatusEffectType> listOfStatusImmunities;
-
-    [DisplayWithoutEdit] public List<Modifier> ListOfModifiers;
 
     [Title("Components")]
     [Required] public GameObject combatManagerObject;
@@ -127,7 +122,10 @@ public class CreateMonster : MonoBehaviour
         InitiateStats();
         InitializeComponents();
         InitiateCreateMonsterObjectStats();
+
         InitiateHealthBars();
+        InitializeSPBar();
+
         SetAIType();
     }
 
@@ -172,7 +170,7 @@ public class CreateMonster : MonoBehaviour
             monster.cachedCritDamage = monsterReference.critDamage;
 
             monster.cachedBonusAccuracy = monsterReference.bonusAccuracy;
-            monsterRowPosition = monster.cachedMonsterRowPosition;
+            monsterStance = monster.cachedMonsterRowPosition;
 
             //monster.maxHealth = monster.health; not needed?
         }
@@ -212,6 +210,43 @@ public class CreateMonster : MonoBehaviour
         HealthbarSliderFillDamagedFade.color = damagedColor;
     }
 
+    public void InitializeSPBar()
+    {
+        ListOfSPIcons.Clear();
+
+        for (int i = 0; i < monsterReference.maxSP; i++)
+        {
+            var icon = Instantiate(monsterSPIcon, monsterCanvas.transform);
+            icon.transform.localPosition = new Vector3(icon.transform.localPosition.x + (i * 1.1f), icon.transform.localPosition.y, icon.transform.localPosition.z);
+            ListOfSPIcons.Add(icon);
+        }
+
+        if (monsterReference.maxSP >= 4)
+        {
+            int i = 0;
+            foreach(GameObject icon in ListOfSPIcons)
+            {
+                icon.transform.localPosition += new Vector3(icon.transform.localPosition.x - (i * 1.59f), 0, 0);
+                i++;
+            }
+        }
+
+        UpdateSPBar();
+    }
+
+    public void UpdateSPBar()
+    {
+        for (int i = 0; i < monsterReference.maxSP; i++)
+        {
+            ListOfSPIcons[i].GetComponent<Image>().color = Color.black;
+        }
+
+        for (int i = 0; i < monsterReference.currentSP; i++)
+        {
+            ListOfSPIcons[i].GetComponent<Image>().color = Color.white;
+        }
+    }
+
     // This function initializes a gameObjects components
     public void InitializeComponents()
     {
@@ -230,81 +265,9 @@ public class CreateMonster : MonoBehaviour
                 monsterReference.ListOfMonsterAttacks.Add(attackInstance);
             }
         }
-        else
-        {
-            // Reset cooldowns at battle start in adventure mode
-            foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
-            {
-                if (attack.attackHasCooldown)
-                {
-                    attack.attackOnCooldown = false;
-                    attack.attackCurrentCooldown = attack.attackBaseCooldown;
-                }
-            }
-        }
     }
 
-    /*
-    // This function deep copies the list of a monster's attacks
-    public void MonsterAttackListDeepCopy()
-    {
-        // Create blank temp monster
-        copiedMonsterAttackList = Instantiate(monster);
-        copiedMonsterAttackList.ListOfMonsterAttacks.Clear();
-
-        // clone attack list
-        foreach (MonsterAttack attack in monster.ListOfMonsterAttacks)
-        {
-            MonsterAttack attackInstance = Instantiate(attack);
-            copiedMonsterAttackList.ListOfMonsterAttacks.Add(attackInstance);
-        }
-
-        
-        // Create a copy list
-        CopyList = new List<MonsterAttack>();
-        foreach (var item in copiedMonsterAttackList.ListOfMonsterAttacks)
-        {
-            CopyList.Add(new MonsterAttack
-                {
-                   monsterAttackName = item.monsterAttackName,
-                   monsterAttackDescription = item.monsterAttackDescription,
-                   monsterAttackElement = item.monsterAttackElement,
-                   monsterAttackType = item.monsterAttackType,
-                   monsterAttackDamageType = item.monsterAttackDamageType,
-                   monsterAttackTargetCount = item.monsterAttackTargetCount,
-                   monsterAttackTargetType = item.monsterAttackTargetType,
-                   monsterAttackSoundEffect = item.monsterAttackSoundEffect,
-                   monsterAttackDamage = item.monsterAttackDamage,
-                   monsterAttackFlatDamageBonus = item.monsterAttackFlatDamageBonus,
-                   monsterAttackAccuracy = item.monsterAttackAccuracy,
-                   monsterAttackCritChance = item.monsterAttackCritChance,
-                   monsterAttackNeverMiss = item.monsterAttackNeverMiss,
-                   attackHasCooldown = item.attackHasCooldown,
-                   attackOnCooldown = item.attackOnCooldown,
-                   attackBaseCooldown = item.attackBaseCooldown,
-                   attackCurrentCooldown = item.attackCurrentCooldown,
-                   ListOfAttackEffects = item.ListOfAttackEffects
-                });
-        }
-
-        // Reference copy list
-        //combatManagerScript.CombatLog.SendMessageToCombatLog("Copied list!");
-    }
-    */
-
-    /*
-    public void CheckAdventureModifiers()
-    {
-        // if adventure mode, check adventure modifiers
-        if (combatManagerScript.adventureMode && monster.aiType == Monster.AIType.Ally)
-        {
-            combatManagerScript.adventureManager.ApplyAdventureModifiers(monster);
-            CheckAdventureEquipment();
-            UpdateStats(false, null, false);
-        }
-    }
-    */
-
+    
     // Check any adventure equipment modifiers at game start
     public void CheckAdventureEquipment()
     {
@@ -347,9 +310,9 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function is called to update the monster's current row position (back row or front row) to adjust it stat bonuses
-    public void UpdateMonsterRowPosition(MonsterRowPosition newRowPosition)
+    public void UpdateMonsterRowPosition(MonsterStance newRowPosition)
     {
-        monsterRowPosition = newRowPosition;
+        monsterStance = newRowPosition;
 
         // Update visual position in battle
         SetPositionAndOrientation(startingPosition, combatOrientation, newRowPosition);
@@ -362,16 +325,55 @@ public class CreateMonster : MonoBehaviour
         CheckStatsCap();
 
         // Update healthbar and text
-        healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}"); // \nSpeed: { monsterReference.speed.ToString()}
+        healthText.text = ($"{monsterReference.health}/{monster.maxHealth}"); // \nSpeed: { monsterReference.speed.ToString()}
 
         // Only check monster is alive if damage was taken - Fixes dual death call bug
         if (damageTaken && gameObject.GetComponent<BoxCollider2D>().enabled)
         {
+            if (calculatedDamage > 0)
+                monsterAttackManager.HitTarget(gameObject, calculatedDamage);
+
             CheckHealth(externalDamageTaken, damageSourceGameObject);
             UpdateHealthBar(damageTaken);
+        }
+        else
+        {
+            UpdateHealthBar(false);
+        }
 
-            /*if (calculatedDamage >= 1)
-                ShowDamageOrStatusEffectPopup(calculatedDamage, "Damage");*/
+        // Update all stats
+        monsterPhysicalAttack = monsterReference.physicalAttack;
+        monsterMagicAttack = monsterReference.magicAttack;
+        monsterPhysicalDefense = monsterReference.physicalDefense;
+        monsterMagicDefense = monsterReference.magicDefense;
+
+        monsterCritChance = monsterReference.critChance;
+        monsterEvasion = monsterReference.evasion;
+        monsterSpeed = (int)monsterReference.speed;
+
+        // Check if stats are out of bounds
+        CheckStatsCap();
+
+        return 1;
+    }
+
+    // This function should be called when stats get updated
+    public async Task<int> UpdateStats(bool damageTaken, GameObject damageSourceGameObject, bool externalDamageTaken, float calculatedDamage, bool dontShowDamagePopup)
+    {
+        // Initial check of stats are out of bounds
+        CheckStatsCap();
+
+        // Update healthbar and text
+        healthText.text = ($"{monsterReference.health}/{monster.maxHealth}"); // \nSpeed: { monsterReference.speed.ToString()}
+
+        // Only check monster is alive if damage was taken - Fixes dual death call bug
+        if (damageTaken && gameObject.GetComponent<BoxCollider2D>().enabled)
+        {
+            if (calculatedDamage > 0 && !dontShowDamagePopup)
+                monsterAttackManager.HitTarget(gameObject, calculatedDamage);
+
+            CheckHealth(externalDamageTaken, damageSourceGameObject);
+            UpdateHealthBar(damageTaken);
         }
         else
         {
@@ -397,16 +399,14 @@ public class CreateMonster : MonoBehaviour
     // This function is called to grant a monster exp upon kill or combat win in adventure mode
     public void GrantExp(int expGained)
     {
+        if (expGained <= 0)
+            return;
+
         // Gain exp
         monsterReference.monsterCurrentExp += Mathf.RoundToInt(expGained * combatManagerScript.adventureManager.bonusExp);
 
         // Show level up animation
-        CreateStatusEffectPopup($"+{expGained} Exp");
-
-        if (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
-        {
-            //LevelUp(true);
-        }
+        CreateStatusEffectPopup($"+{expGained} Exp", AttackEffect.StatChangeType.Buff);
     }
 
     // This function level ups the monster in combat
@@ -414,7 +414,7 @@ public class CreateMonster : MonoBehaviour
     {
         // Show level up animation
         LevelUp_VFX.Play();
-        CreateStatusEffectPopup("Level Up!!!");
+        CreateStatusEffectPopup("Level Up!!!", AttackEffect.StatChangeType.Buff);
         monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.LevelUpSound);
 
         List<float> ListOfMonstersLevelUpPrimaryStats = new List<float>();
@@ -427,7 +427,7 @@ public class CreateMonster : MonoBehaviour
 
         monster.previouslyCachedMaxHealth = monster.maxHealth;
         monsterReference.maxHealth = monsterReference.maxHealth + Random.Range(monsterReference.healthScaler, monsterReference.healthScaler * 2);
-        monsterReference.health = monsterReference.maxHealth;
+        //monsterReference.health = monsterReference.maxHealth;
 
         // Basic int to add new stats to cached monster data
         int newStatToCache = 0;
@@ -471,6 +471,12 @@ public class CreateMonster : MonoBehaviour
         // Show Level Up Results Window
         //Invoke("ShowLevelUpResultsWindow", 0.5f);
         StartCoroutine("ShowLevelUpResultsWindow");
+    }
+
+    public void ModifySP(int sp)
+    {
+        monsterReference.currentSP += sp;
+        UpdateSPBar();
     }
 
     // This function shows the monster's level up results window
@@ -556,19 +562,7 @@ public class CreateMonster : MonoBehaviour
         }
         else
         {
-            if (combatManagerScript.monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.SingleTarget)
-            {
-
-                await combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monster, AttackEffect.EffectTime.PostAttack, gameObject);
-
-                await combatManagerScript.monsterAttackManager.TriggerPostAttackEffects(monster, gameObject);
-
-                combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
-            }
-            else
-            {
-                combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
-            }
+            combatManagerScript.Invoke("CheckMonsterLevelUps", 0.25f);
         }
     }
 
@@ -613,27 +607,6 @@ public class CreateMonster : MonoBehaviour
         monster.cachedSpeed = newStatToCache;
     }
 
-    // This function grants exp and if the monster levels up, it returns true and shows the level up results window
-    public bool GrantExpAndCheckLevelup(int expGained)
-    {
-        // Grant exp
-        if (expGained > 0)
-        {
-            monsterReference.monsterCurrentExp += Mathf.RoundToInt(expGained * combatManagerScript.adventureManager.bonusExp);
-            CreateStatusEffectPopup($"+{expGained} Exp");
-        }
-
-        // If the exp was enough to level up, call LevelUp()
-        if (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
-        {
-            Invoke("LevelUp", 1f);
-            return true;
-        }
-
-        // Didn't level up, return false
-        return false;
-    }
-
     // This function checks stat caps
     public void CheckStatsCap()
     {
@@ -645,31 +618,6 @@ public class CreateMonster : MonoBehaviour
         if (monsterReference.speed < 1)
         {
             monsterReference.speed = 1;
-        }
-
-        if (monsterPhysicalAttack < 1)
-        {
-            monsterPhysicalAttack = 1;
-        }
-
-        if (monsterMagicAttack < 1)
-        {
-            monsterMagicAttack = 1;
-        }
-
-        if (monsterPhysicalDefense < 1)
-        {
-            monsterPhysicalDefense = 1;
-        }
-
-        if (monsterMagicDefense < 1)
-        {
-            monsterMagicDefense = 1;
-        }
-
-        if (monsterCritChance < 1)
-        {
-            monsterCritChance = 0;
         }
 
         if (monsterReference.critDamage > 2.5f)
@@ -684,15 +632,15 @@ public class CreateMonster : MonoBehaviour
         // If the attack should be off cooldown, reset its CD
         foreach (MonsterAttack attack in monsterReference.ListOfMonsterAttacks)
         {
-            if (attack.attackOnCooldown)
-            {
-                attack.attackCurrentCooldown -= 1;
-                if (attack.attackCurrentCooldown <= 0)
-                {
-                    attack.attackOnCooldown = false;
-                    attack.attackCurrentCooldown = attack.attackBaseCooldown;
-                }
-            }
+            //if (attack.attackOnCooldown)
+            //{
+            //    attack.attackCurrentCooldown -= 1;
+            //    if (attack.attackCurrentCooldown <= 0)
+            //    {
+            //        attack.attackOnCooldown = false;
+            //        attack.attackCurrentCooldown = attack.attackBaseCooldown;
+            //    }
+            //}
 
             // Reset any attack effects that only trigger once per use per round
             foreach (AttackEffect attackEffect in attack.ListOfAttackEffects)
@@ -726,7 +674,7 @@ public class CreateMonster : MonoBehaviour
                 {
                     // Send immune message to combat log
                     combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to status effects and debuffs!");
-                    CreateStatusEffectPopup("Immune!");
+                    CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
 
                     // Reduce the duration of temporary modifiers
                     if (modifier.modifierDurationType == Modifier.ModifierDurationType.Temporary)
@@ -764,7 +712,7 @@ public class CreateMonster : MonoBehaviour
                             {
                                 // Send immune message to combat log
                                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
-                                CreateStatusEffectPopup("Immune!");
+                                CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
                                 continue;
                             }
 
@@ -775,7 +723,6 @@ public class CreateMonster : MonoBehaviour
                             monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
 
                             monsterReference.health -= poisonDamage;
-                            ShowDamageOrStatusEffectPopup(poisonDamage, "Damage");
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Poisoned and takes {poisonDamage} damage!", monsterReference.aiType);
                             UpdateStats(true, modifier.modifierOwnerGameObject, true, poisonDamage);
 
@@ -794,7 +741,7 @@ public class CreateMonster : MonoBehaviour
                             {
                                 // Send immune message to combat log
                                 combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
-                                CreateStatusEffectPopup("Immune!");
+                                CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
                                 continue;
                             }
 
@@ -809,7 +756,6 @@ public class CreateMonster : MonoBehaviour
                             monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
 
                             monsterReference.health -= burningDamage;
-                            ShowDamageOrStatusEffectPopup(burningDamage, "Damage");
                             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Burning and takes {burningDamage} damage!", monsterReference.aiType);
                             UpdateStats(true, modifier.modifierOwnerGameObject, true, burningDamage);
 
@@ -854,12 +800,11 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function modifies stats by modifier value
-    public void ModifyStats(AttackEffect.StatToChange statToModify, Modifier modifier)
+    public async Task<int> ModifyStats(AttackEffect attackEffect, Modifier modifier)
     {
-        if (modifier.statChangeType == AttackEffect.StatChangeType.Buff)
-            monsterRecievedStatBoostThisRound = true;
+        await monsterAttackManager.TriggerAbilityEffects(monsterReference, AttackEffect.EffectTime.OnStatChange, gameObject, modifier);
 
-        switch (statToModify)
+        switch (attackEffect.statToChange)
         {
             case (AttackEffect.StatToChange.Evasion):
                 monsterReference.evasion += modifier.modifierAmount;
@@ -897,19 +842,13 @@ public class CreateMonster : MonoBehaviour
             case (AttackEffect.StatToChange.Debuffs):
                 monsterImmuneToDebuffs = true;
                 // Create popup
-                CreateStatusEffectPopup("Debuff and Status Immunity!");
+                CreateStatusEffectPopup("Debuff and Status Immunity!", AttackEffect.StatChangeType.Buff);
                 break;
-
-            //case (AttackEffect.StatEnumToChange.Buffs):
-            //    monsterImmuneToBuffs = true;
-            //    // Create popup
-            //    CreateStatusEffectPopup("Debuff and Status Immunity!");
-            //    break;
 
             case (AttackEffect.StatToChange.Damage):
                 monsterImmuneToDamage = true;
                 // Create popup
-                CreateStatusEffectPopup("Damage Immunity!");
+                CreateStatusEffectPopup("Damage Immunity!", AttackEffect.StatChangeType.Buff);
                 break;
 
             case (AttackEffect.StatToChange.BothOffensiveStats):
@@ -918,8 +857,16 @@ public class CreateMonster : MonoBehaviour
                 break;
 
             case (AttackEffect.StatToChange.Health):
-                if (modifier.statusEffectType == Modifier.StatusEffectType.None)
+                if (modifier.statusEffectType == Modifier.StatusEffectType.None && attackEffect.effectDamageType != MonsterAttack.MonsterAttackDamageType.None)
+                {
+                    await monsterAttackManager.Damage(monsterReference, gameObject, attackEffect, modifier.modifierOwner, modifier.modifierOwnerGameObject, modifier);
+                    Debug.Log($"Calling damage on {monsterReference.name} from {attackEffect} by {modifier.modifierOwner.name}!");
+                    return 1;
+                }
+                else
+                {
                     monsterReference.health += (int)modifier.modifierAmount;
+                }
                 break;
 
             case (AttackEffect.StatToChange.Accuracy):
@@ -939,12 +886,24 @@ public class CreateMonster : MonoBehaviour
                 }
                 break;
 
+            case (AttackEffect.StatToChange.Immunity):
+                Debug.Log($"Gained {attackEffect.immunityType}!", this);
+                break;
+
             default:
                 Debug.Log("Missing stat to modify to modifier?", this);
                 break;
         }
 
-        AddStatusIcon(modifier, statToModify, modifier.modifierCurrentDuration);
+        if (modifier.statusEffectType == Modifier.StatusEffectType.None)
+            attackEffect.CallStatAdjustment(monsterReference, this, monsterAttackManager, attackEffect, modifier);
+
+        if (modifier.statChangeType == AttackEffect.StatChangeType.Buff)
+            monsterRecievedStatBoostThisRound = true;
+
+        AddStatusIcon(modifier, attackEffect.statToChange, modifier.modifierCurrentDuration);
+
+        return 1;
     }
 
     // This function modifies stats by modifier value
@@ -989,7 +948,7 @@ public class CreateMonster : MonoBehaviour
             case (AttackEffect.StatToChange.Debuffs):
                 monsterImmuneToDebuffs = true;
                 // Create popup
-                CreateStatusEffectPopup("Debuff and Status Immunity!");
+                CreateStatusEffectPopup("Debuff and Status Immunity!", AttackEffect.StatChangeType.Buff);
                 break;
 
             //case (AttackEffect.StatEnumToChange.Buffs):
@@ -999,7 +958,7 @@ public class CreateMonster : MonoBehaviour
             case (AttackEffect.StatToChange.Damage):
                 monsterImmuneToDamage = true;
                 // Create popup
-                CreateStatusEffectPopup("Damage Immunity!");
+                CreateStatusEffectPopup("Damage Immunity!", AttackEffect.StatChangeType.Buff);
                 break;
 
             case (AttackEffect.StatToChange.BothOffensiveStats):
@@ -1111,8 +1070,52 @@ public class CreateMonster : MonoBehaviour
 
         //if (modList.Count == 1)
         //{
+        if (statEnumToChange == AttackEffect.StatToChange.Immunity)
+        {
+            GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
+            modifier.statusEffectIconGameObject = statusIcon;
+            StatusEffectIcon newStatusEffectIcon = statusIcon.AddComponent<StatusEffectIcon>();
+            newStatusEffectIcon.modifier = modifier;
+
+            // Initiate Interactable components
+            newStatusEffectIcon.modifier.modifierName = modifier.modifierSource;
+
+            switch (modifier.attackEffect.immunityType)
+            {
+                case AttackEffect.ImmunityType.Element:
+                    newStatusEffectIcon.modifier.modifierDescription = ($"{modifier.attackEffect.elementImmunity.element.ToString()} Element Immunity");
+                    break;
+
+                case AttackEffect.ImmunityType.Status:
+                    newStatusEffectIcon.modifier.modifierDescription = ($"{modifier.attackEffect.statusImmunity} Status Immunity");
+                    break;
+
+                case AttackEffect.ImmunityType.SpecificStatChange:
+                    newStatusEffectIcon.modifier.modifierDescription = ($"{modifier.attackEffect.statImmunity} Debuff Immunity");
+                    break;
+
+                case AttackEffect.ImmunityType.Damage:
+                    newStatusEffectIcon.modifier.modifierDescription = ("Damage Immunity");
+                    break;
+
+                case AttackEffect.ImmunityType.Death:
+                    newStatusEffectIcon.modifier.modifierDescription = ("Death Immunity");
+                    break;
+
+                default:
+                    newStatusEffectIcon.modifier.modifierDescription = ("Missing Immunity?");
+                    break;
+            }
+
+            newStatusEffectIcon.InitiateStatusEffectIcon(this);
+            return;
+        }
+
         if (modifier.modifierType != Modifier.ModifierType.equipmentModifier && statEnumToChange != AttackEffect.StatToChange.Health)
         {
+            if (modifier.modifierDuration == 0)
+                return;
+
             GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
             modifier.statusEffectIconGameObject = statusIcon;
             StatusEffectIcon newStatusEffectIcon = statusIcon.AddComponent<StatusEffectIcon>();
@@ -1123,8 +1126,10 @@ public class CreateMonster : MonoBehaviour
             newStatusEffectIcon.modifier.modifierDescription = ($"{ReturnSign(modifier.statChangeType)}{modifier.modifierAmount} {modifier.statModified.ToString()}");
 
             newStatusEffectIcon.InitiateStatusEffectIcon(this);
+            return;
         }
-        else if (modifier.isStatusEffect)
+
+        if (modifier.isStatusEffect)
         {
             GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
             modifier.statusEffectIconGameObject = statusIcon;
@@ -1293,6 +1298,9 @@ public class CreateMonster : MonoBehaviour
             case (AttackEffect.StatToChange.Accuracy):
                 return combatManagerScript.uiManager.accuracySprite;
 
+            case (AttackEffect.StatToChange.Immunity):
+                return combatManagerScript.uiManager.debuffsImmuneUISprite;
+
             default:
                 return combatManagerScript.monsterAttackManager.poisonedUISprite;
         }
@@ -1303,7 +1311,7 @@ public class CreateMonster : MonoBehaviour
     {
         listofCurrentStatusEffects.Add(statusEffect);
 
-        CreateStatusEffectPopup($"{statusEffect.ToString()}!");
+        CreateStatusEffectPopup($"{statusEffect}!", AttackEffect.StatChangeType.Debuff);
     }
 
     // This function refreshs per-round combat variables
@@ -1316,7 +1324,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function checks the monster's health
-    public async void CheckHealth(bool killedExternally, GameObject externalKillerGameObject)
+    public void CheckHealth(bool killedExternally, GameObject externalKillerGameObject)
     {
         // Called after a delay
         if (monsterReference.health <= 0)
@@ -1345,18 +1353,18 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function sets monster sprite orientation at battle start
-    public void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation, MonsterRowPosition _monsterRowPosition)
+    public void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation, MonsterStance _monsterRowPosition)
     {
-        monsterRowPosition = _monsterRowPosition;
+        monsterStance = _monsterRowPosition;
 
         switch (_monsterRowPosition)
         {
-            case (MonsterRowPosition.BackRow):
+            case (MonsterStance.Aggressive):
                 if (aiType == Monster.AIType.Ally)
                 {
-                    transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
-                    monsterRowFrontIcon.enabled = false;
-                    monsterRowBackIcon.enabled = true;
+                    //transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    monsterRowFrontIcon.enabled = true;
+                    monsterRowBackIcon.enabled = false;
                 }
                 else
                 {
@@ -1366,22 +1374,22 @@ public class CreateMonster : MonoBehaviour
                 }
                 break;
 
-            case (MonsterRowPosition.FrontRow):
+            case (MonsterStance.Defensive):
                 if (aiType == Monster.AIType.Ally)
                 {
-                    transform.position = new Vector3(startingPosition.transform.position.x + 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
-                    monsterRowFrontIcon.enabled = true;
-                    monsterRowBackIcon.enabled = false;
+                    //transform.position = new Vector3(startingPosition.transform.position.x + 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    monsterRowFrontIcon.enabled = false;
+                    monsterRowBackIcon.enabled = true;
                 }
                 else
                 {
-                    transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
+                    //transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
                     monsterRowFrontIcon.enabled = false;
                     monsterRowBackIcon.enabled = true;
                 }
                 break;
 
-            case (MonsterRowPosition.CenterRow):
+            case (MonsterStance.Neutral):
 
                 monsterRowFrontIcon.enabled = false;
                 monsterRowBackIcon.enabled = false;
@@ -1400,51 +1408,51 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function sets monster sprite orientation
-    public void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation, MonsterRowPosition _monsterRowPosition, MonsterRowPosition previousRowPosition)
+    public void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation, MonsterStance _monsterRowPosition, MonsterStance previousRowPosition)
     {
-        monsterRowPosition = _monsterRowPosition;
+        monsterStance = _monsterRowPosition;
 
         switch (_monsterRowPosition)
         {
-            case (MonsterRowPosition.BackRow):
+            case (MonsterStance.Defensive):
                 monsterRowFrontIcon.enabled = false;
                 monsterRowBackIcon.enabled = true;
-                if (previousRowPosition == MonsterRowPosition.CenterRow)
+                if (previousRowPosition == MonsterStance.Neutral)
                 {
-                    StartCoroutine(MoveTowardPoint(-1.75f, 1.75f));
+                    //StartCoroutine(MoveTowardPoint(-1.75f, 1.75f));
                 }
                 else
-                if (previousRowPosition == MonsterRowPosition.FrontRow)
+                if (previousRowPosition == MonsterStance.Aggressive)
                 {
-                    StartCoroutine(MoveTowardPoint(-3.5f, 3f));
+                    //StartCoroutine(MoveTowardPoint(-3.5f, 3f));
                 }
                 break;
 
-            case (MonsterRowPosition.FrontRow):
+            case (MonsterStance.Aggressive):
                 monsterRowFrontIcon.enabled = true;
                 monsterRowBackIcon.enabled = false;
-                if (previousRowPosition == MonsterRowPosition.BackRow)
+                if (previousRowPosition == MonsterStance.Defensive)
                 {
-                    StartCoroutine(MoveTowardPoint(3.5f, 3f));
+                    //StartCoroutine(MoveTowardPoint(3.5f, 3f));
                 }
                 else
-                if (previousRowPosition == MonsterRowPosition.CenterRow)
+                if (previousRowPosition == MonsterStance.Neutral)
                 {
-                    StartCoroutine(MoveTowardPoint(1.75f, 1.75f));
+                    //StartCoroutine(MoveTowardPoint(1.75f, 1.75f));
                 }
                 break;
 
-            case (MonsterRowPosition.CenterRow):
+            case (MonsterStance.Neutral):
                 monsterRowFrontIcon.enabled = false;
                 monsterRowBackIcon.enabled = false;
-                if (previousRowPosition == MonsterRowPosition.BackRow)
+                if (previousRowPosition == MonsterStance.Defensive)
                 {
-                    StartCoroutine(MoveTowardPoint(1.75f, 1.75f));
+                    //StartCoroutine(MoveTowardPoint(1.75f, 1.75f));
                 }
                 else
-                if (previousRowPosition == MonsterRowPosition.FrontRow)
+                if (previousRowPosition == MonsterStance.Aggressive)
                 {
-                    StartCoroutine(MoveTowardPoint(-1.75f, 1.75f));
+                    //StartCoroutine(MoveTowardPoint(-1.75f, 1.75f));
                 }
                 break;
         }
@@ -1457,6 +1465,12 @@ public class CreateMonster : MonoBehaviour
         {
             sr.flipX = true;
         }
+
+        // Reset HUD after
+        if (combatManagerScript.monsterTurn == CombatManagerScript.MonsterTurn.AllyTurn)
+        {
+            combatManagerScript.buttonManagerScript.ResetHUD();
+        }
     }
 
     // This function is called when the monster changes rows
@@ -1467,12 +1481,12 @@ public class CreateMonster : MonoBehaviour
         {
             distance *= -1;
 
-            if (monsterRowPosition == MonsterRowPosition.BackRow)
+            if (monsterStance == MonsterStance.Defensive)
             {
                 monsterRowFrontIcon.enabled = true;
                 monsterRowBackIcon.enabled = false;
             }
-            else if (monsterRowPosition == MonsterRowPosition.FrontRow)
+            else if (monsterStance == MonsterStance.Aggressive)
             {
                 monsterRowFrontIcon.enabled = false;
                 monsterRowBackIcon.enabled = true;
@@ -1498,6 +1512,45 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
+    public void SetMonsterStance(MonsterStance newMonsterStance)
+    {
+        monsterStance = newMonsterStance;
+
+        switch (newMonsterStance)
+        {
+            case MonsterStance.Neutral:
+                monsterRowFrontIcon.enabled = false;
+                monsterRowBackIcon.enabled = false;
+                break;
+
+            case MonsterStance.Defensive:
+                if (aiType == Monster.AIType.Ally)
+                {
+                    monsterRowFrontIcon.enabled = false;
+                    monsterRowBackIcon.enabled = true;
+                }
+                else
+                {
+                    monsterRowFrontIcon.enabled = true;
+                    monsterRowBackIcon.enabled = false;
+                }
+                break;
+
+            case MonsterStance.Aggressive:
+                if (aiType == Monster.AIType.Ally)
+                {
+                    monsterRowFrontIcon.enabled = true;
+                    monsterRowBackIcon.enabled = false;
+                }
+                else
+                {
+                    monsterRowFrontIcon.enabled = false;
+                    monsterRowBackIcon.enabled = true;
+                }
+                break;
+        }
+    }
+
     // This function is a temporary rotation fix to monster UI elements facing the camera
     public void SetMonsterUIStatsRotation()
     {
@@ -1515,14 +1568,14 @@ public class CreateMonster : MonoBehaviour
         {
             nameText.color = Color.red;
             combatOrientation = CombatOrientation.Right;
-            SetPositionAndOrientation(startingPosition, combatOrientation, monsterRowPosition);
+            SetPositionAndOrientation(startingPosition, combatOrientation, monsterStance);
             monsterReference.aiLevel = aiLevel;
         }
         else if (monsterReference.aiType == Monster.AIType.Ally)
         {
             nameText.color = Color.white;
             combatOrientation = CombatOrientation.Left;
-            SetPositionAndOrientation(startingPosition, combatOrientation, monsterRowPosition);
+            SetPositionAndOrientation(startingPosition, combatOrientation, monsterStance);
             monsterReference.aiLevel = Monster.AILevel.Player;
         }
     }
@@ -1586,11 +1639,20 @@ public class CreateMonster : MonoBehaviour
         // Confirm Target
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (combatManagerScript.monsterTurn != CombatManagerScript.MonsterTurn.AllyTurn && !combatManagerScript.targeting)
+            if (!combatManagerScript.targeting)
+                return;
+
+            if (combatManagerScript.monsterTurn != CombatManagerScript.MonsterTurn.AllyTurn)
                 return;
 
             if (monsterAttackManager.currentMonsterAttack == null)
                 return;
+
+            if (monsterAttackManager.currentMonsterAttack.monsterAttackSPCost > combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.currentSP)
+            {
+                combatManagerScript.uiManager.EditCombatMessage("Not enough SP!");
+                return;
+            }
 
             if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count >= monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
                 return;
@@ -1770,19 +1832,46 @@ public class CreateMonster : MonoBehaviour
 
     // This function is called by monster attack manager to show damage popup
     public void ShowDamageOrStatusEffectPopup(float damage, string damageOrHeal)
-    {   
+    {
+        float amount = damage;
+
         // if damage is greater than 0, that means it was a heal, show healing color
         if (damageOrHeal == "Heal")
         {
             monsterStatusTextObject.SetActive(true);
             monsterStatusText.color = Color.green;
-            monsterStatusText.text = ($"+{damage}");
+            monsterStatusText.text = ($"+{amount}");
         }
         else
         {
+            amount = Mathf.Abs(amount);
+
             monsterStatusTextObject.SetActive(true);
             monsterStatusText.color = Color.red;
-            monsterStatusText.text = ($"-{damage}");
+            monsterStatusText.text = ($"-{amount}");
+        }
+    }
+
+    // This function is called by monster attack manager to create a status effect popup
+    public void CreateDamageEffectPopup(float damage, string damageOrHeal)
+    {
+        GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
+        effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
+        effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
+
+        float amount = damage;
+
+        if (damageOrHeal == "Heal")
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = Color.green;
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"+{amount}");
+        }
+        else
+        {
+            amount = Mathf.Abs(amount);
+
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"-{amount}");
         }
     }
 
@@ -1792,13 +1881,6 @@ public class CreateMonster : MonoBehaviour
         monsterStatusTextObject.SetActive(true);
         monsterStatusText.color = Color.white;
         monsterStatusText.text = ($"{condition}!");
-    }
-
-    // This function is called by monster attack manager to clear any current popups
-    public void ShowDamageOrStatusEffectPopup()
-    {
-        monsterStatusTextObject.SetActive(false);
-        monsterStatusText.text = ($"");
     }
 
     // This function is called by monster attack manager to create a buff/debuff popup
@@ -1812,42 +1894,50 @@ public class CreateMonster : MonoBehaviour
         if (statChangeType == AttackEffect.StatChangeType.Debuff)
         {
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = debuffColor;
-            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} down!");
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat} down!");
         }
         else
         {
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = buffColor;
-            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} up!");
-        }
-    }
-
-    // This function is called by monster attack manager to create a buff/debuff popup
-    public void CreateStatusEffectPopup(AttackEffect.StatToChange stat, bool isBuff, float amountChanged)
-    {
-        GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
-        effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
-        effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
-        effectPopup.GetComponentInChildren<Animator>().speed = 1.25f;
-
-        if (!isBuff)
-        {
-            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = debuffColor;
-            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} down!");
-        }
-        else
-        {
-            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = buffColor;
-            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat.ToString()} up!");
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{stat} up!");
         }
     }
 
     // This function is called by monster attack manager to create a status effect popup
-    public void CreateStatusEffectPopup(string condition)
+    public void CreateStatusEffectPopup(string condition, AttackEffect.StatChangeType statChangeType)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
         monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
         effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
         effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
         effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{condition}!");
+
+        if (statChangeType == AttackEffect.StatChangeType.Debuff)
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = debuffColor;
+        }
+        else
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = buffColor;
+        }
+    }
+
+    // This function is called by monster attack manager to create a status effect popup
+    public void CreateStatusEffectPopup(string condition, AttackEffect.StatChangeType statChangeType, bool useHigherTransform)
+    {
+        GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransformHigher);
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
+        effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
+        effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
+        effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{condition}!");
+
+        if (statChangeType == AttackEffect.StatChangeType.Debuff)
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = debuffColor;
+        }
+        else
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = buffColor;
+        }
     }
 }

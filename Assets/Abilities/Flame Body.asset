@@ -15,6 +15,14 @@ MonoBehaviour:
   abilityName: Flame Body
   abilityDescription: 'Passive: Immune to Burning status and Fire element attacks.
 
-    Post-Attack
-    and On Damage Taken: 25% Chance to inflict Burning status.'
-  listOfAbilityEffects: []
+    On
+    Damage Dealt and On Damage Taken: 15% Chance to inflict Burning status if hit
+    by or using a Physical Attack.'
+  listOfAbilityEffects:
+  - {fileID: 11400000, guid: fc86b79b0347ae44289ab7ebc82330b0, type: 2}
+  - {fileID: 11400000, guid: 611b5f8a4b0eaee4e845e3cd29e7e0bc, type: 2}
+  - {fileID: 11400000, guid: 65d550421ae23cf4799511dff31a032a, type: 2}
+  listOfAbilityTriggers:
+  - {fileID: 11400000, guid: c50e3fd70f681ed46a530249610cc2d5, type: 2}
+  - {fileID: 11400000, guid: 7edccf7bfe7129841b7d3bf060e3cae9, type: 2}
+  - {fileID: 11400000, guid: 22a00a94b2c65ff419c0db71e720d50d, type: 2}
