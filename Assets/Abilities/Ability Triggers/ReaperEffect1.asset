@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ReaperEffect1
   m_EditorClassIdentifier: 
   abilityTriggerDelay: 300
+  abilityTriggerTime: 3
   currentAttackEffectTriggered:
   - {fileID: 11400000, guid: e365ea10f5a6ff3419414f1843437505, type: 2}
   - {fileID: 11400000, guid: cb87815e79db78e46a831fa28b044c24, type: 2}

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Wowowl
   baseSprite: {fileID: 21300000, guid: 514c0da08ea083d48bd2ac1fd8f88d50, type: 3}
+  monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   aiType: 0
@@ -24,8 +25,9 @@ MonoBehaviour:
   level: 5
   health: 94
   maxHealth: 94
-  cachedHealth: 0
-  cachedMaxHealth: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
   physicalAttack: 4
   magicAttack: 3
   physicalDefense: 2
@@ -59,6 +61,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
   - {fileID: 11400000, guid: 1f5b150b34cf7cb4bbcc827883477aeb, type: 2}
   - {fileID: 11400000, guid: 8ad79bc568b7a0745a1c25260fd26dc0, type: 2}
+  cachedHealth: 0
+  cachedMaxHealth: 0
   cachedPhysicalAttack: 3
   cachedMagicAttack: 1
   cachedPhysicalDefense: 4
@@ -68,6 +72,16 @@ MonoBehaviour:
   cachedCritChance: 10
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  previouslyCachedMaxHealth: 0
+  previouslyCachedPhysicalAttack: 1
+  previouslyCachedMagicAttack: 1
+  previouslyCachedPhysicalDefense: 1
+  previouslyCachedMagicDefense: 1
+  previouslyCachedSpeed: 1
+  previouslyCachedEvasion: 0
+  previouslyCachedCritChance: 0
+  previouslyCachedBonusAccuracy: 0
+  previouslyCachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   monsterIsOwned: 0

@@ -1127,7 +1127,7 @@ public class AdventureManager : MonoBehaviour
                         if (AttackEffect.CheckTargetIsImmune(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier))
                             continue;
 
-                        AttackEffect effect = new AttackEffect(AttackEffect.StatToChange.Health, AttackEffect.StatChangeType.Buff, AttackEffect.EffectTime.RoundEnd, Modifier.StatusEffectType.None, true, false, 0, modifier.modifierAmount, 100f, combatManagerScript);
+                        AttackEffect effect = new AttackEffect(AttackEffect.StatToChange.Health, AttackEffect.StatChangeType.Buff, AttackEffect.EffectTime.RoundEnd, Modifier.StatusEffectType.None, false, 0, modifier.modifierAmount, 100f, combatManagerScript);
                         effect.AffectTargetStat(monsterRef, monsterObj, combatManagerScript.monsterAttackManager, modifier.modifierName);
 
                         break;
@@ -1262,7 +1262,7 @@ public class AdventureManager : MonoBehaviour
                     foreach(MonsterAttack attack in monster.ListOfMonsterAttacks)
                     {
                         // Create attack effect
-                        AttackEffect effect = new AttackEffect(newModifier.statModified, newModifier.statChangeType, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
+                        AttackEffect effect = new AttackEffect(newModifier.statModified, newModifier.statChangeType, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
                         effect.typeOfEffect = AttackEffect.TypeOfEffect.InflictStatusEffect;
                         effect.attackEffectStatus = Modifier.StatusEffectType.Stunned;
                         effect.attackEffectDuration = AttackEffect.AttackEffectDuration.Temporary;

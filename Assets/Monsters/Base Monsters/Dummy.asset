@@ -20,9 +20,9 @@ MonoBehaviour:
   aiType: 1
   aiLevel: 1
   monsterFlavourText: A dummy.
-  monsterAbility: {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
+  monsterAbility: {fileID: 11400000, guid: 7a0b4eda88f4f0446ac224352b1d81e6, type: 2}
   level: 20
-  health: 342
+  health: 18
   maxHealth: 2454
   initialSP: 3
   currentSP: 3
@@ -30,8 +30,8 @@ MonoBehaviour:
   physicalAttack: 66
   magicAttack: 158
   physicalDefense: 1
-  magicDefense: 1
-  speed: 2
+  magicDefense: 25
+  speed: 39
   evasion: 0
   critChance: 0
   critDamage: 1.25

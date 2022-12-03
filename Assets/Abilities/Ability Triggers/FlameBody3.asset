@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: FlameBody3
   m_EditorClassIdentifier: 
   abilityTriggerDelay: 300
+  abilityTriggerTime: 9
   currentAttackEffectTriggered:
   - {fileID: 11400000, guid: 65d550421ae23cf4799511dff31a032a, type: 2}

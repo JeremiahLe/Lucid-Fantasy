@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Unbreakable
   abilityDescription: 'Passive: Immune to Physical Defense debuffs.'
-  listOfAbilityEffects: []
+  listOfAbilityTriggers:
+  - {fileID: 11400000, guid: 3c558a0b50fda48448bee2c27532fae4, type: 2}

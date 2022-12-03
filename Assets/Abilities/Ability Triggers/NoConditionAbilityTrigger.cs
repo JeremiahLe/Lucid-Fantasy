@@ -14,9 +14,11 @@ public class NoConditionAbilityTrigger : IAbilityTrigger
     {
         await Task.Delay(abilityTriggerDelay);
 
+        Debug.Log($"Triggering {targetMonster}'s {ability.abilityName} ability!", this);
+
         foreach (AttackEffect attackEffect in currentAttackEffectTriggered)
         {
-            attackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
+            await attackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
 
             await Task.Delay(abilityTriggerDelay);
         }

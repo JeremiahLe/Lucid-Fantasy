@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a66739dccec74f8448b1c69a3ee8b880, type: 3}
   m_Name: Thorns 1
   m_EditorClassIdentifier: 
+  abilityTriggerDelay: 300
+  abilityTriggerTime: 9
   currentAttackEffectTriggered: {fileID: 11400000, guid: a9bf0c9b1cf1d4444893bc8782170f6f, type: 2}

@@ -12,8 +12,6 @@ public class Hibernate1 : IAbilityTrigger
 
     public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier)
     {
-        //await Task.Delay(abilityTriggerDelay);
-
         if (modifier.statModified == AttackEffect.StatToChange.Health && modifier.statChangeType == AttackEffect.StatChangeType.Buff)
         {
             foreach (AttackEffect attackEffect in currentAttackEffectTriggered)

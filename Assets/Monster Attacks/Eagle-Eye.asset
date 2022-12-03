@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Eagle-Eye
   m_EditorClassIdentifier: 
   monsterAttackName: Eagle-Eye
-  monsterAttackDescription: "Raise user's CritChance by 50% and CritDamage to 2.5
-    for 3 rounds. \n[1 Round Cooldown]"
+  monsterAttackDescription: Raise user's CritChance by 50% and CritDamage to 2.5
+    for 3 rounds.
   monsterAttackElement: 3
   monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 1
@@ -23,17 +23,16 @@ MonoBehaviour:
   monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 2
   monsterAttackSoundEffect: {fileID: 8300000, guid: cfdad33ec73454443952015ae32a27a0, type: 3}
-  monsterAttackDamage: 0
+  monsterAttackDamageScalar: 0
+  monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
+  monsterAttackCritChance: 5
   monsterAttackSPCost: 2
-  attackHasCooldown: 1
-  attackOnCooldown: 0
-  attackBaseCooldown: 2
-  attackCurrentCooldown: 0
   AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
+  monsterAttackSourceGameObject: {fileID: 0}
+  monsterAttackSource: {fileID: 0}
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 428188d86349ac845bf3000548781d5c, type: 2}
   - {fileID: 11400000, guid: a9acc7c95b6d8984a9bdeaa629cbc34a, type: 2}

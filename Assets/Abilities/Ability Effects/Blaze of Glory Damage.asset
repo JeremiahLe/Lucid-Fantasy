@@ -24,7 +24,7 @@ MonoBehaviour:
   elementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   uniqueAttackEffectCondition: {fileID: 0}
   scaleFromWhatStat: 3
-  scaleFromWhatTarget: 1
+  scaleFromWhatTarget: 2
   immunityType: 0
   elementImmunity: {fileID: 0}
   statusImmunity: 0
@@ -37,3 +37,4 @@ MonoBehaviour:
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
   monsterAttackTrigger: {fileID: 0}
+  monsterSource: {fileID: 0}

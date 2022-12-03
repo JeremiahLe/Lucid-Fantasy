@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e1aa93b0fcfaf243b5a0aa76d0effc3, type: 3}
   m_Name: Magic Mirror 1
   m_EditorClassIdentifier: 
+  abilityTriggerDelay: 75
+  abilityTriggerTime: 9
   currentAttackEffectTriggered: {fileID: 11400000, guid: 86bf13930f5a83640be115a26571ac05, type: 2}

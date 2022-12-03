@@ -13,6 +13,7 @@ public class Monster : ScriptableObject
     public new string name;
 
     [AssetSelector(Paths = "Assets/Sprites/Renders")]
+    [PreviewField(150)]
     public Sprite baseSprite;
 
     public enum MonsterAscensionPhase { Basic, Ascended }

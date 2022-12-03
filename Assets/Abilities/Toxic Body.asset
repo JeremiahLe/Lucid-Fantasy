@@ -15,6 +15,8 @@ MonoBehaviour:
   abilityName: Toxic Body
   abilityDescription: 'Passive: Immune to Poisoned status and Elixir element attacks.
 
-    Post-Attack
-    and On Damage Taken: 25% chance to inflict Poisoned status.'
-  listOfAbilityEffects: []
+    On
+    Damage Dealt and On Damage Taken: 15% Chance to inflict Poisoned if hit by or
+    using a Physical Attack.'
+  listOfAbilityTriggers:
+  - {fileID: 11400000, guid: b3db328afef8f61478add2eddf0a3b0c, type: 2}

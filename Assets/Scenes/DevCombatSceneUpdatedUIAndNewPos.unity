@@ -1975,11 +1975,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: listofCurrentStatusEffects.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: listofCurrentStatusEffects.Array.data[0]
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: listofCurrentStatusEffects.Array.data[1]

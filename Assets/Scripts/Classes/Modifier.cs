@@ -8,15 +8,21 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "New Modifier", menuName = "Modifiers")]
 public class Modifier : ScriptableObject
 {
+    [Header("Modifier Object Data")]
     [DisplayWithoutEdit] public string modifierSource;
 
-    public GameObject modifierOwnerGameObject;
-    public Monster modifierOwner;
+    [DisplayWithoutEdit] public GameObject modifierOwnerGameObject;
+    [DisplayWithoutEdit] public Monster modifierOwner;
 
+    [DisplayWithoutEdit] public GameObject statusEffectIconGameObject;
+    [DisplayWithoutEdit] public StatusEffectIcon statusEffectIcon;
+
+    [DisplayWithoutEdit] public AttackEffect attackEffect;
+
+    [Title("Modifier Informaton")]
     public enum ModifierDurationType { Temporary, Permanent }
     public ModifierDurationType modifierDurationType;
 
-    public AttackEffect attackEffect;
     public AttackEffect.StatToChange statModified;
     public AttackEffect.StatChangeType statChangeType;
 
@@ -31,10 +37,8 @@ public class Modifier : ScriptableObject
     public bool isStatusEffect = false;
 
     public enum StatusEffectType { None, Poisoned, Stunned, Dazed, Crippled, Weakened, Burning, Silenced, Enraged }
+    [EnableIf("isStatusEffect", true)]
     public StatusEffectType statusEffectType;
-
-    public GameObject statusEffectIconGameObject;
-    public StatusEffectIcon statusEffectIcon;
 
     [Header("Adventure Variables")]
     public string modifierName;
@@ -101,6 +105,11 @@ public class Modifier : ScriptableObject
                 case AttackEffect.ImmunityType.Damage:
                     monsterComponent.monsterImmuneToDamage = false;
                     monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to Damage!", monsterReference.aiType);
+                    break;
+
+                case AttackEffect.ImmunityType.Debuffs:
+                    monsterComponent.monsterImmuneToDebuffs = false;
+                    monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to Status Effects and Debuffs!", monsterReference.aiType);
                     break;
 
                 case AttackEffect.ImmunityType.Death:

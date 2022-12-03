@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52687a0a77e1281458b8feafa973ca11, type: 3}
   m_Name: Hibernate
   m_EditorClassIdentifier: 
-  abilityTriggerDelay: 300
+  abilityTriggerDelay: 75
+  abilityTriggerTime: 8
   currentAttackEffectTriggered:
   - {fileID: 11400000, guid: e1c5a492e24d7c74e8bc564fff5c537d, type: 2}

@@ -10,6 +10,8 @@ public abstract class IAbilityTrigger : ScriptableObject
 {
     public int abilityTriggerDelay = 300;
 
+    public AttackEffect.EffectTime abilityTriggerTime;
+
     public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability)
     {
         return 1;

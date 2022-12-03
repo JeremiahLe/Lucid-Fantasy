@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Keen Eyes
   abilityDescription: 'Passive: My attacks cannot miss.'
-  listOfAbilityEffects: []
+  listOfAbilityTriggers:
+  - {fileID: 11400000, guid: ab9e6e717e627ee42abf087ebe00ba3e, type: 2}

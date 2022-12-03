@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Ice Breath
   m_EditorClassIdentifier: 
   monsterAttackName: Ice Breath
-  monsterAttackDescription: "Glaze a target with icy breath, dealing Magical damage
-    and lowering their Speed to 1 for 2 rounds. \n[1 Round Cooldown]"
+  monsterAttackDescription: 'Glaze a target with icy breath, dealing Magical damage
+    and lowering their Speed to 1 for 2 rounds. '
   monsterAttackElement: 1
   monsterElementClass: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
   monsterAttackType: 0

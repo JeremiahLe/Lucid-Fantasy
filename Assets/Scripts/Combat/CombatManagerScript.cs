@@ -476,8 +476,6 @@ public class CombatManagerScript : MonoBehaviour
         //    monsterComponent.CheckHealth(true, null);
         //}
 
-        monsterAttackManager.SetMonsterAttackManagerState(MonsterAttackManager.AttackManagerState.PendingAttack);
-
         if (!CheckMonstersAlive())
             return;
 
@@ -1120,7 +1118,7 @@ public class CombatManagerScript : MonoBehaviour
         {
             case Monster.AIType.Ally:
                 ListOfAllys.Remove(monsterToRemove);
-                Destroy(monsterToRemove);
+                Destroy(monsterToRemove, 1f);
                 uiManager.UpdateMonsterList(ListOfAllys, Monster.AIType.Ally);
                 //Debug.Log($"Removed {monsterToRemove.GetComponent<CreateMonster>().monsterReference.name}", this);
                 if (adventureMode || testAdventureMode)
@@ -1139,7 +1137,7 @@ public class CombatManagerScript : MonoBehaviour
 
             case Monster.AIType.Enemy:
                 ListOfEnemies.Remove(monsterToRemove);
-                Destroy(monsterToRemove);
+                Destroy(monsterToRemove, 1f);
                 uiManager.UpdateMonsterList(ListOfEnemies, Monster.AIType.Enemy);
                 //Debug.Log($"Removed {monsterToRemove.GetComponent<CreateMonster>().monsterReference.name}", this);
                 if (adventureMode)

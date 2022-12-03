@@ -20,19 +20,19 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   monsterFlavourText: CONSOLE MODE
-  monsterAbility: {fileID: 11400000, guid: e30a2edc6c30a8b48b4797c1f5a081f6, type: 2}
+  monsterAbility: {fileID: 11400000, guid: cb4db506102fe30479e4bf2a2096f8bf, type: 2}
   level: 1
-  health: 342
+  health: 192
   maxHealth: 823
   initialSP: 10
   currentSP: 10
   maxSP: 10
   physicalAttack: 19
-  magicAttack: 106
+  magicAttack: 100
   physicalDefense: 1
   magicDefense: 1
-  speed: 3
-  evasion: 31
+  speed: 40
+  evasion: 0
   critChance: 0
   critDamage: 1.25
   bonusAccuracy: 100
@@ -43,10 +43,10 @@ MonoBehaviour:
   magicDefenseScaler: 1
   speedScaler: 1
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 2acc426b2e55e9b4bb97d85ff2a15cd5, type: 2}
-  - {fileID: 11400000, guid: 8ad79bc568b7a0745a1c25260fd26dc0, type: 2}
-  - {fileID: 11400000, guid: b84e32555ecf02b42a6796dcae99106f, type: 2}
   - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
+  - {fileID: 11400000, guid: 232e601ceab5faf44a4798ef71b434f1, type: 2}
+  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
+  - {fileID: 11400000, guid: b84e32555ecf02b42a6796dcae99106f, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable: []
   cachedHealth: 0

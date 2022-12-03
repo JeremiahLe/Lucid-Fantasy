@@ -97,6 +97,7 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public bool monsterActionAvailable = true;
     [DisplayWithoutEdit] public bool monsterRecievedStatBoostThisRound = false;
     [DisplayWithoutEdit] public bool monsterCriticallyStrikedThisRound = false;
+    [DisplayWithoutEdit] public bool monsterCannotMissAttacks = false;
 
     [Title("Monster Basic Immunities")]
     public bool monsterImmuneToDebuffs = false;
@@ -626,37 +627,10 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function is called on round start to refresh cooldowns if needed && reset damage taken per round
-    public void CheckCooldowns()
-    {
-        // If the attack should be off cooldown, reset its CD
-        foreach (MonsterAttack attack in monsterReference.ListOfMonsterAttacks)
-        {
-            //if (attack.attackOnCooldown)
-            //{
-            //    attack.attackCurrentCooldown -= 1;
-            //    if (attack.attackCurrentCooldown <= 0)
-            //    {
-            //        attack.attackOnCooldown = false;
-            //        attack.attackCurrentCooldown = attack.attackBaseCooldown;
-            //    }
-            //}
-
-            // Reset any attack effects that only trigger once per use per round
-            foreach (AttackEffect attackEffect in attack.ListOfAttackEffects)
-            {
-                if (attackEffect.modifierCalledOnce)
-                {
-                    attackEffect.modifierCalledOnce = false;
-                }
-            }
-        }
-    }
 
     // This function is called on round start to adjust all round start variables
     public void OnRoundStart()
     {
-        CheckCooldowns(); // Check for attack cooldowns
         ResetRoundCombatVariables(); // Refresh per-round combat variables
         StartCoroutine(CheckModifiers());
     }
@@ -1102,6 +1076,10 @@ public class CreateMonster : MonoBehaviour
                     newStatusEffectIcon.modifier.modifierDescription = ("Death Immunity");
                     break;
 
+                case AttackEffect.ImmunityType.Debuffs:
+                    newStatusEffectIcon.modifier.modifierDescription = ("Status Effects and Debuffs Immunity");
+                    break;
+
                 default:
                     newStatusEffectIcon.modifier.modifierDescription = ("Missing Immunity?");
                     break;
@@ -1113,7 +1091,7 @@ public class CreateMonster : MonoBehaviour
 
         if (modifier.modifierType != Modifier.ModifierType.equipmentModifier && statEnumToChange != AttackEffect.StatToChange.Health)
         {
-            if (modifier.modifierDuration == 0)
+            if (modifier.modifierDuration == 0 && modifier.statModified != AttackEffect.StatToChange.Debuffs)
                 return;
 
             GameObject statusIcon = Instantiate(statusEffectIcon, statusEffectHolder.transform);
@@ -1916,9 +1894,14 @@ public class CreateMonster : MonoBehaviour
         {
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = debuffColor;
         }
-        else
+        else if (statChangeType == AttackEffect.StatChangeType.Buff)
         {
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = buffColor;
+        }
+        else
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+
         }
     }
 
@@ -1935,9 +1918,13 @@ public class CreateMonster : MonoBehaviour
         {
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = debuffColor;
         }
-        else
+        else if (statChangeType == AttackEffect.StatChangeType.Debuff)
         {
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = buffColor;
+        }
+        else
+        {
+            effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
         }
     }
 }

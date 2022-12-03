@@ -15,7 +15,6 @@ MonoBehaviour:
   monsterAttackName: Healing Solvent
   monsterAttackDescription: Heal an ally by 45% Max Health and remove their Status
     Effects and Debuffs. 33% chance to raise their Physical and Magic Attack by 25%.
-    [1 Round Cooldown]
   monsterAttackElement: 9
   monsterElementClass: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
   monsterAttackType: 1
@@ -24,16 +23,15 @@ MonoBehaviour:
   monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 3
   monsterAttackSoundEffect: {fileID: 8300000, guid: 3c2948abf854c904fa95d79bdb0e7e1e, type: 3}
-  monsterAttackDamage: 0
+  monsterAttackDamageScalar: 0
+  monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 0
   monsterAttackNeverMiss: 0
+  monsterAttackCritChance: 0
   monsterAttackSPCost: 3
-  attackHasCooldown: 1
-  attackOnCooldown: 0
-  attackBaseCooldown: 2
-  attackCurrentCooldown: 0
   AttackVFX: {fileID: 0}
+  monsterAttackSourceGameObject: {fileID: 0}
+  monsterAttackSource: {fileID: 0}
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 34429eaa5d78f8f47b0fa73c37593312, type: 2}

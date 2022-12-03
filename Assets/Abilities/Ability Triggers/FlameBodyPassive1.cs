@@ -16,7 +16,7 @@ public class FlameBodyPassive1 : IAbilityTrigger
 
         foreach (AttackEffect attackEffect in currentAttackEffectTriggered)
         {
-            attackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
+            await attackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
 
             await Task.Delay(abilityTriggerDelay);
         }

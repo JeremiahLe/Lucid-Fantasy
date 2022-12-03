@@ -13,7 +13,5 @@ public class Ability : ScriptableObject
     [TextArea(5, 10)]
     public string abilityDescription;
 
-    public List<AttackEffect> listOfAbilityEffects;
-
     public List<IAbilityTrigger> listOfAbilityTriggers;
 }

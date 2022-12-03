@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Sparkigeist
   baseSprite: {fileID: 21300000, guid: 4e1ad94f47a1cc14d9e2a5391920141a, type: 3}
+  monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
   monsterSubElement: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
   aiType: 0
@@ -24,8 +25,9 @@ MonoBehaviour:
   level: 5
   health: 78
   maxHealth: 78
-  cachedHealth: 0
-  cachedMaxHealth: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
   physicalAttack: 5
   magicAttack: 5
   physicalDefense: 5
@@ -53,6 +55,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7dd8ef701b149f2438862dd21e4346bb, type: 2}
   - {fileID: 11400000, guid: 32862a257e8aead44800e9511625e79d, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  cachedHealth: 0
+  cachedMaxHealth: 0
   cachedPhysicalAttack: 1
   cachedMagicAttack: 1
   cachedPhysicalDefense: 1
@@ -62,6 +66,16 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  previouslyCachedMaxHealth: 0
+  previouslyCachedPhysicalAttack: 1
+  previouslyCachedMagicAttack: 1
+  previouslyCachedPhysicalDefense: 1
+  previouslyCachedMagicDefense: 1
+  previouslyCachedSpeed: 1
+  previouslyCachedEvasion: 0
+  previouslyCachedCritChance: 0
+  previouslyCachedBonusAccuracy: 0
+  previouslyCachedCritDamage: 0
   cachedLevel: 0
   cachedMonsterRowPosition: 0
   monsterIsOwned: 0

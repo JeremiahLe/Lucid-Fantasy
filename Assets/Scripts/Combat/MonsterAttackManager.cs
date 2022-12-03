@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using Random = UnityEngine.Random;
+using UnityEngine.Rendering.Universal.Internal;
 
 public class MonsterAttackManager : MonoBehaviour
 {
@@ -47,11 +48,6 @@ public class MonsterAttackManager : MonoBehaviour
     public Sprite dazedUISprite;
 
     [Title("Combat Variables")]
-    public enum AttackManagerState { PendingAttack, PendingEffects }
-    public AttackManagerState attackManagerState;
-
-    public Vector3 cachedTransform;
-
     public float calculatedDamage = 0;
     public float bonusDamagePercent = 0;
     public float cachedBonusDamagePercent = 0;
@@ -546,8 +542,9 @@ public class MonsterAttackManager : MonoBehaviour
             }
         }
 
-        // Trigger animations and sounds
         await TriggerAttackEffects(AttackEffect.EffectTime.PreAttack, currentMonsterTurnGameObject);
+
+        await TriggerAbilityEffects(currentMonsterTurn, currentMonsterTurnGameObject, AttackEffect.EffectTime.PreAttack, currentMonsterAttack);
 
         combatManagerScript.CurrentMonsterTurnAnimator.SetBool("attackAnimationPlaying", true);
         QueueAttackSound();
@@ -837,7 +834,7 @@ public class MonsterAttackManager : MonoBehaviour
         Debug.Log($"Current Monster Attack Source: {currentMonsterAttack.monsterAttackSource}");
 
         int totalExpGained = 0;
-        bool attackMissed = false;
+        bool attackMissed = true;
 
         foreach (GameObject targetedMonster in ListOfCurrentlyTargetedMonsters)
         {
@@ -858,19 +855,13 @@ public class MonsterAttackManager : MonoBehaviour
             // Trigger any pre-attack effects the current selected MonsterAttack may have (This is now called in 
             //await TriggerPreAttackEffects();
 
-            // Grab the targeted monster's transform for status effect popups
-            cachedTransform = currentTargetedMonsterGameObject.transform.position;
-            cachedTransform.y += 1;
-
             // Hide the targeter
             currentTargetedMonsterComponent.monsterTargeterUIGameObject.SetActive(false);
 
             // Check if the attack hits or misses
-            if (!CheckAttackHit(false))
+            if (!CheckAttackHit())
             {
                 AttackMissed();
-                ClearCachedModifiers();
-
                 await Task.Delay(500);
                 continue;
             }
@@ -903,7 +894,6 @@ public class MonsterAttackManager : MonoBehaviour
             // Check if the damage killed the targeted monster
             if (CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject))
             {
-
                 await TriggerAbilityEffects(currentMonsterTurn, currentMonsterTurnGameObject, AttackEffect.EffectTime.OnKill, currentMonsterAttack);
 
                 await TriggerAbilityEffects(currentTargetedMonster, currentTargetedMonsterGameObject, AttackEffect.EffectTime.OnDeath, currentMonsterAttack);
@@ -914,7 +904,6 @@ public class MonsterAttackManager : MonoBehaviour
                     return;
 
                 totalExpGained += CalculateExp(currentTargetedMonster);
-
             }
             else
             {
@@ -1049,9 +1038,9 @@ public class MonsterAttackManager : MonoBehaviour
     {
         //await monster.monsterAbility.ability.TriggerAbility(this);
         int i = 0;
-        foreach (AttackEffect abilityEffect in abilitySourceMonster.monsterAbility.listOfAbilityEffects)
+        foreach (IAbilityTrigger abilityTrigger in abilitySourceMonster.monsterAbility.listOfAbilityTriggers)
         {
-            if (abilityEffect.effectTime == abilityEffectTime)
+            if (abilityTrigger.abilityTriggerTime == abilityEffectTime)
             {
                 await abilitySourceMonster.monsterAbility.listOfAbilityTriggers[i].TriggerAbility(abilitySourceMonster, abilitySourceMonsterGameObject, this, abilitySourceMonster.monsterAbility);
                 //abilityEffect.TriggerEffects(this, monster.monsterAbility.abilityName, currentMonsterAttack);
@@ -1067,17 +1056,15 @@ public class MonsterAttackManager : MonoBehaviour
     // This function triggers any monster's ability effects based on what effect time is passed in
     public async Task<int> TriggerAbilityEffects(Monster abilitySourceMonster, GameObject abilitySourceMonsterGameObject, AttackEffect.EffectTime abilityEffectTime, MonsterAttack attackTrigger)
     {
-        //await monster.monsterAbility.ability.TriggerAbility(this);
         attackTrigger = currentMonsterAttack;
 
         int i = 0;
-        foreach (AttackEffect abilityEffect in abilitySourceMonster.monsterAbility.listOfAbilityEffects)
+        foreach (IAbilityTrigger abilityTrigger in abilitySourceMonster.monsterAbility.listOfAbilityTriggers)
         {
-            if (abilityEffect.effectTime == abilityEffectTime)
+            if (abilityTrigger.abilityTriggerTime == abilityEffectTime)
             {
-                Debug.Log($"Triggering {abilityEffect.name} from {abilitySourceMonster} by {attackTrigger.monsterAttackSource.name}'s {attackTrigger.monsterAttackName}!");
+                Debug.Log($"Triggering {abilityTrigger.name} from {abilitySourceMonster} by {attackTrigger.monsterAttackSource.name}'s {attackTrigger.monsterAttackName}!");
                 await abilitySourceMonster.monsterAbility.listOfAbilityTriggers[i].TriggerAbility(abilitySourceMonster, abilitySourceMonsterGameObject, this, abilitySourceMonster.monsterAbility, attackTrigger);
-                //abilityEffect.TriggerEffects(this, monster.monsterAbility.abilityName, currentMonsterAttack);
                 await Task.Delay(300);
             }
 
@@ -1092,9 +1079,9 @@ public class MonsterAttackManager : MonoBehaviour
     {
         //await monster.monsterAbility.ability.TriggerAbility(this);
         int i = 0;
-        foreach (AttackEffect abilityEffect in monster.monsterAbility.listOfAbilityEffects)
+        foreach (IAbilityTrigger abilityTrigger in monster.monsterAbility.listOfAbilityTriggers)
         {
-            if (abilityEffect.effectTime == abilityEffectTime)
+            if (abilityTrigger.abilityTriggerTime == abilityEffectTime)
             {
                 await monster.monsterAbility.listOfAbilityTriggers[i].TriggerAbility(monster, monsterGameObject, this, monster.monsterAbility, modifier);
                 //abilityEffect.TriggerEffects(this, monster.monsterAbility.abilityName, currentMonsterAttack);
@@ -1163,17 +1150,19 @@ public class MonsterAttackManager : MonoBehaviour
         soundEffectManager.AddSoundEffectToQueue(MissSound);
         soundEffectManager.BeginSoundEffectQueue();
 
-        //monsterAttackMissText.SetActive(true);
-        //monsterAttackMissText.transform.position = cachedTransform;
-
-        currentTargetedMonsterGameObject.GetComponent<CreateMonster>().ShowDamageOrStatusEffectPopup("Miss");
+        currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Miss!", AttackEffect.StatChangeType.None, true);
     }
 
     // This function is called to check accuracy and evasion
-    public bool CheckAttackHit(bool selfTargeting)
+    public bool CheckAttackHit()
     {
         // first check if never miss
         if (currentMonsterAttack.monsterAttackNeverMiss)
+        {
+            return true;
+        }
+
+        if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterCannotMissAttacks)
         {
             return true;
         }
@@ -1192,7 +1181,7 @@ public class MonsterAttackManager : MonoBehaviour
         }
 
         // don't use evasion as a stat when self-targeting or ally targeting
-        if (!selfTargeting || currentMonsterTurn.aiType != currentTargetedMonster.aiType)
+        if (currentMonsterTurn.aiType != currentTargetedMonster.aiType)
         {
             hitChance = (currentMonsterAttack.monsterAttackAccuracy + currentMonsterTurn.bonusAccuracy + rowAccuracyBonus - currentTargetedMonster.evasion) / 100;
             //Debug.Log($"Attack: {currentMonsterAttack.monsterAttackName}, Hit chance: {hitChance}% & not targeting self or ally!");
@@ -1227,6 +1216,16 @@ public class MonsterAttackManager : MonoBehaviour
         return false;
     }
 
+    public void OnCriticalHit()
+    {
+        CombatLog.SendMessageToCombatLog($"Critical Hit!");
+
+        soundEffectManager.AddSoundEffectToQueue(CritSound);
+        currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("CRIT!!!", AttackEffect.StatChangeType.None);
+
+        currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterCriticallyStrikedThisRound = true;
+    }
+
     // This function returns the current monster's highest attack stat for split or true damage
     public static MonsterAttack.MonsterAttackDamageType ReturnMonsterHighestAttackStat(Monster currentMonster)
     {
@@ -1240,173 +1239,193 @@ public class MonsterAttackManager : MonoBehaviour
         }
     }
 
-    // This function returns a damage number based on attack, defense + other calcs
+    //// This function returns a damage number based on attack, defense + other calcs
+    //public float CalculatedDamage(Monster currentMonster, MonsterAttack monsterAttack)
+    //{
+    //    // First check if monster immune to damage
+    //    if (currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack && currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage)
+    //    {
+    //        CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune to damage!");
+    //        currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
+    //        return 0;
+    //    }
+
+    //    // Second, check specific monster element immunities
+    //    if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().listOfElementImmunities.Contains(currentMonsterAttack.monsterElementClass))
+    //    {
+    //        CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune to {currentMonsterAttack.monsterElementClass.element} Element attacks!");
+    //        currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
+    //        return 0;
+    //    }
+
+    //    // Reset cached damage modifiers
+    //    calculatedDamage = 0;
+    //    bonusDamagePercent = 0;
+    //    MonsterAttack.MonsterAttackDamageType highestStatType;
+
+    //    if (recievedDamagePercentBonus)
+    //    {
+    //        bonusDamagePercent = cachedBonusDamagePercent;
+    //        recievedDamagePercentBonus = false;
+    //    }
+
+    //    // Only calculate damage if the current attack is an attack not a buff / debuff
+    //    if (currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
+    //    {
+    //        // Calculate resistances
+    //        switch (monsterAttack.monsterAttackDamageType)
+    //        {
+    //            case (MonsterAttack.MonsterAttackDamageType.Magical):
+    //                //calculatedDamage = Mathf.RoundToInt(currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.magicDefense + 1)));
+    //                calculatedDamage = Mathf.RoundToInt((95 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f)) / (145 + currentTargetedMonster.magicDefense));
+    //                break;
+
+    //            case (MonsterAttack.MonsterAttackDamageType.Physical):
+    //                //calculatedDamage = Mathf.RoundToInt(currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.physicalDefense + 1)));
+    //                calculatedDamage = Mathf.RoundToInt((95 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f)) / (145 + currentTargetedMonster.physicalDefense));
+    //                break;
+
+    //            case (MonsterAttack.MonsterAttackDamageType.True):
+    //                highestStatType = ReturnMonsterHighestAttackStat(currentMonster);
+    //                if (highestStatType == MonsterAttack.MonsterAttackDamageType.Magical)
+    //                {
+    //                    calculatedDamage = currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f));
+    //                }
+    //                else
+    //                {
+    //                    calculatedDamage = currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f));
+    //                }
+    //                break;
+
+    //            case (MonsterAttack.MonsterAttackDamageType.Split):
+    //                highestStatType = ReturnMonsterHighestAttackStat(currentMonster);
+    //                if (highestStatType == MonsterAttack.MonsterAttackDamageType.Magical)
+    //                {
+    //                    calculatedDamage = Mathf.RoundToInt((95 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f)) / (145 + currentTargetedMonster.magicDefense));
+    //                }
+    //                else
+    //                {
+    //                    calculatedDamage = Mathf.RoundToInt((95 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f)) / (145 + currentTargetedMonster.physicalDefense));
+    //                }
+    //                break;
+
+    //            default:
+    //                Debug.Log("Missing attack or attack type reference?", this);
+    //                break;
+    //        }
+
+    //        // Clear cached damage modifiers
+    //        bonusDamagePercent = 0;
+    //        cachedBonusDamagePercent = 0;
+
+    //        // Check for additional flat bonus damage
+    //        calculatedDamage += monsterAttack.monsterAttackFlatDamageBonus;
+
+    //        // Check monster main element bonus/ /  fix ToStrings?
+    //        if (monsterAttack.monsterAttackElement == currentMonster.monsterElement.element)
+    //        {
+    //            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .15f);
+    //            //Debug.Log("Main element bonus!");
+    //        }
+
+    //        // Check sub element bonus //  fix ToStrings?
+    //        if (monsterAttack.monsterAttackElement == currentMonster.monsterSubElement.element)
+    //        {
+    //            calculatedDamage += Mathf.RoundToInt(calculatedDamage * .5f);
+    //            //Debug.Log("Sub element bonus!");
+    //        }
+
+    //        // Check elemental weaknesses and resistances and apply bonus damage & Reset elemental damage bonus 
+    //        elementCheckDamageBonus = CheckElementWeakness(currentMonsterAttack.monsterAttackElement, currentTargetedMonster, true);
+    //        calculatedDamage = Mathf.RoundToInt(calculatedDamage * elementCheckDamageBonus);
+
+    //        // Check for critical hit
+    //        if (CheckAttackCrit())
+    //        {
+    //            calculatedDamage = Mathf.RoundToInt(calculatedDamage * currentMonster.critDamage);
+
+    //            OnCriticalHit();
+    //        }
+
+    //        // Apply damage percent modifiers (row bonuses and etc.)
+    //        // Check Current Monster current row position
+    //        if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Defensive)
+    //        {
+    //            Debug.Log($"Damage before Current Monster Row Bonus: {calculatedDamage}");
+    //            calculatedDamage = Mathf.RoundToInt(calculatedDamage * backRowDamagePercentBonus);
+    //            Debug.Log($"Damage after Current Monster Row Bonus: {calculatedDamage}");
+    //        }
+    //        else
+    //        if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Aggressive)
+    //        {
+    //            Debug.Log($"Damage before Current Monster Row Bonus: {calculatedDamage}");
+    //            calculatedDamage = Mathf.RoundToInt(calculatedDamage * frontRowDamagePercentBonus);
+    //            Debug.Log($"Damage after Current Monster Row Bonus: {calculatedDamage}");
+    //        }
+
+    //        // Check Target Monster current row position
+    //        if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Defensive)
+    //        {
+    //            Debug.Log($"Damage before Target Monster Row Bonus: {calculatedDamage}");
+    //            calculatedDamage = Mathf.RoundToInt(calculatedDamage * backRowDamagePercentBonus);
+    //            Debug.Log($"Damage after Target Monster Row Bonus: {calculatedDamage}");
+    //        }
+    //        else
+    //        if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Aggressive)
+    //        {
+    //            Debug.Log($"Damage before Target Monster Row Bonus: {calculatedDamage}");
+    //            calculatedDamage = Mathf.RoundToInt(calculatedDamage * frontRowDamagePercentBonus);
+    //            Debug.Log($"Damage after Target Monster Row Bonus: {calculatedDamage}");
+    //        }
+
+    //        // Final damage check
+    //        if (calculatedDamage <= 0 && currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
+    //        {
+    //            Debug.Log("Called 1 damage check!", this);
+    //            calculatedDamage = 1f;
+    //        }
+
+    //        // Display combat message
+    //        // Targeting self?
+    //        if (currentTargetedMonster == currentMonsterTurn)
+    //        {
+    //            CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
+    //                $"on itself for {calculatedDamage} damage!", currentMonsterTurn.aiType);
+    //        }
+    //        else
+    //        {
+    //            CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
+    //                $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!", currentMonsterTurn.aiType);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        // Not an attack, don't show damage dealt.
+    //        // Targeting self?
+    //        if (currentTargetedMonster == currentMonsterTurn)
+    //        {
+    //            CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
+    //                $"on itself!", currentMonsterTurn.aiType);
+    //        }
+    //        else
+    //        {
+    //            CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
+    //            $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!", currentMonsterTurn.aiType);
+    //        }
+    //    }
+
+    //    // Finally, return calculated damage
+    //    Debug.Log($"Calced Damage: {calculatedDamage}");
+    //    return calculatedDamage;
+    //}
+
     public float CalculatedDamage(Monster currentMonster, MonsterAttack monsterAttack)
     {
-        // First check if monster immune to damage
-        if (currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack && currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage)
-        {
-            CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune to damage!");
-            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
+        if (!CheckImmunities())
             return 0;
-        }
 
-        // Second, check specific monster element immunities
-        if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().listOfElementImmunities.Contains(currentMonsterAttack.monsterElementClass))
+        if (currentMonsterAttack.monsterAttackType != MonsterAttack.MonsterAttackType.Attack)
         {
-            CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune to {currentMonsterAttack.monsterElementClass.element} Element attacks!");
-            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-            return 0;
-        }
-
-        // Reset cached damage modifiers
-        calculatedDamage = 0;
-        bonusDamagePercent = 0;
-        MonsterAttack.MonsterAttackDamageType highestStatType;
-
-        if (recievedDamagePercentBonus)
-        {
-            bonusDamagePercent = cachedBonusDamagePercent;
-            recievedDamagePercentBonus = false;
-        }
-
-        // Only calculate damage if the current attack is an attack not a buff / debuff
-        if (currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
-        {
-            // Calculate resistances
-            switch (monsterAttack.monsterAttackDamageType)
-            {
-                case (MonsterAttack.MonsterAttackDamageType.Magical):
-                    //calculatedDamage = Mathf.RoundToInt(currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.magicDefense + 1)));
-                    calculatedDamage = Mathf.RoundToInt((95 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f)) / (145 + currentTargetedMonster.magicDefense));
-                    break;
-
-                case (MonsterAttack.MonsterAttackDamageType.Physical):
-                    //calculatedDamage = Mathf.RoundToInt(currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamage * .1f)) * (1 / (currentTargetedMonster.physicalDefense + 1)));
-                    calculatedDamage = Mathf.RoundToInt((95 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f)) / (145 + currentTargetedMonster.physicalDefense));
-                    break;
-
-                case (MonsterAttack.MonsterAttackDamageType.True):
-                    highestStatType = ReturnMonsterHighestAttackStat(currentMonster);
-                    if (highestStatType == MonsterAttack.MonsterAttackDamageType.Magical)
-                    {
-                        calculatedDamage = currentMonster.magicAttack + (currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f));
-                    }
-                    else
-                    {
-                        calculatedDamage = currentMonster.physicalAttack + (currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f));
-                    }
-                    break;
-
-                case (MonsterAttack.MonsterAttackDamageType.Split):
-                    highestStatType = ReturnMonsterHighestAttackStat(currentMonster);
-                    if (highestStatType == MonsterAttack.MonsterAttackDamageType.Magical)
-                    {
-                        calculatedDamage = Mathf.RoundToInt((95 * currentMonster.magicAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f)) / (145 + currentTargetedMonster.magicDefense));
-                    }
-                    else
-                    {
-                        calculatedDamage = Mathf.RoundToInt((95 * currentMonster.physicalAttack * Mathf.RoundToInt(bonusDamagePercent + currentMonsterAttack.monsterAttackDamageScalar * .1f)) / (145 + currentTargetedMonster.physicalDefense));
-                    }
-                    break;
-
-                default:
-                    Debug.Log("Missing attack or attack type reference?", this);
-                    break;
-            }
-
-            // Clear cached damage modifiers
-            bonusDamagePercent = 0;
-            cachedBonusDamagePercent = 0;
-
-            // Check for additional flat bonus damage
-            calculatedDamage += monsterAttack.monsterAttackFlatDamageBonus;
-
-            // Check monster main element bonus/ /  fix ToStrings?
-            if (monsterAttack.monsterAttackElement == currentMonster.monsterElement.element)
-            {
-                calculatedDamage += Mathf.RoundToInt(calculatedDamage * .15f);
-                //Debug.Log("Main element bonus!");
-            }
-
-            // Check sub element bonus //  fix ToStrings?
-            if (monsterAttack.monsterAttackElement == currentMonster.monsterSubElement.element)
-            {
-                calculatedDamage += Mathf.RoundToInt(calculatedDamage * .5f);
-                //Debug.Log("Sub element bonus!");
-            }
-
-            // Check elemental weaknesses and resistances and apply bonus damage & Reset elemental damage bonus 
-            elementCheckDamageBonus = CheckElementWeakness(currentMonsterAttack.monsterAttackElement, currentTargetedMonster, true);
-            calculatedDamage = Mathf.RoundToInt(calculatedDamage * elementCheckDamageBonus);
-
-            // Check for critical hit
-            if (CheckAttackCrit())
-            {
-                calculatedDamage = Mathf.RoundToInt(calculatedDamage * currentMonster.critDamage);
-                CombatLog.SendMessageToCombatLog($"Critical Hit!");
-
-                soundEffectManager.AddSoundEffectToQueue(CritSound);
-                Instantiate(monsterCritText, cachedTransform, Quaternion.identity);
-
-                currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterCriticallyStrikedThisRound = true;
-            }
-
-            // Apply damage percent modifiers (row bonuses and etc.)
-            // Check Current Monster current row position
-            if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Defensive)
-            {
-                Debug.Log($"Damage before Current Monster Row Bonus: {calculatedDamage}");
-                calculatedDamage = Mathf.RoundToInt(calculatedDamage * backRowDamagePercentBonus);
-                Debug.Log($"Damage after Current Monster Row Bonus: {calculatedDamage}");
-            }
-            else
-            if (currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Aggressive)
-            {
-                Debug.Log($"Damage before Current Monster Row Bonus: {calculatedDamage}");
-                calculatedDamage = Mathf.RoundToInt(calculatedDamage * frontRowDamagePercentBonus);
-                Debug.Log($"Damage after Current Monster Row Bonus: {calculatedDamage}");
-            }
-
-            // Check Target Monster current row position
-            if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Defensive)
-            {
-                Debug.Log($"Damage before Target Monster Row Bonus: {calculatedDamage}");
-                calculatedDamage = Mathf.RoundToInt(calculatedDamage * backRowDamagePercentBonus);
-                Debug.Log($"Damage after Target Monster Row Bonus: {calculatedDamage}");
-            }
-            else
-            if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterStance == CreateMonster.MonsterStance.Aggressive)
-            {
-                Debug.Log($"Damage before Target Monster Row Bonus: {calculatedDamage}");
-                calculatedDamage = Mathf.RoundToInt(calculatedDamage * frontRowDamagePercentBonus);
-                Debug.Log($"Damage after Target Monster Row Bonus: {calculatedDamage}");
-            }
-
-            // Final damage check
-            if (calculatedDamage <= 0 && currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
-            {
-                Debug.Log("Called 1 damage check!", this);
-                calculatedDamage = 1f;
-            }
-
-            // Display combat message
-            // Targeting self?
-            if (currentTargetedMonster == currentMonsterTurn)
-            {
-                CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
-                    $"on itself for {calculatedDamage} damage!", currentMonsterTurn.aiType);
-            }
-            else
-            {
-                CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
-                    $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calculatedDamage} damage!", currentMonsterTurn.aiType);
-            }
-        }
-        else
-        {
-            // Not an attack, don't show damage dealt.
-            // Targeting self?
             if (currentTargetedMonster == currentMonsterTurn)
             {
                 CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
@@ -1417,11 +1436,108 @@ public class MonsterAttackManager : MonoBehaviour
                 CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
                 $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name}!", currentMonsterTurn.aiType);
             }
+
+            return 0;
         }
 
-        // Finally, return calculated damage
-        Debug.Log($"Calced Damage: {calculatedDamage}");
-        return calculatedDamage;
+        // Initialize floats
+        float calcedDamage = 1f;
+
+        float elementAdvantageBonus = CheckElementWeakness(currentMonsterAttack.monsterElementClass.element, currentTargetedMonster, true);
+
+        float currentMonsterTurnStancePercent = CalculateStanceDamagePercent(currentMonsterTurn, currentMonsterTurnGameObject);
+        float currentTargetedMonsterStancePercent = CalculateStanceDamagePercent(currentTargetedMonster, currentTargetedMonsterGameObject);
+
+        float additionalDamagePercent = CalculateAdditionalDamagePercent();
+
+        MonsterAttack.MonsterAttackDamageType highestStatType;
+
+        Debug.Log($"Element Advantage Bonus | Additiional damage percent: x{elementAdvantageBonus} | x{additionalDamagePercent}");
+
+        // Calculate resistances
+        switch (monsterAttack.monsterAttackDamageType)
+        {
+            case (MonsterAttack.MonsterAttackDamageType.Magical):
+                calcedDamage =
+                     Mathf.RoundToInt( 
+                         ((95 * currentMonster.magicAttack * monsterAttack.monsterAttackDamageScalar * 0.1f) / (165 + currentTargetedMonster.magicDefense)) 
+                         * elementAdvantageBonus * currentMonsterTurnStancePercent * currentTargetedMonsterStancePercent * additionalDamagePercent);
+                break;
+
+            case (MonsterAttack.MonsterAttackDamageType.Physical):
+                calcedDamage =
+                     Mathf.RoundToInt(
+                         ((95 * currentMonster.physicalAttack * monsterAttack.monsterAttackDamageScalar * 0.1f) / (165 + currentTargetedMonster.physicalDefense))
+                         * elementAdvantageBonus * currentMonsterTurnStancePercent * currentTargetedMonsterStancePercent * additionalDamagePercent);
+                break;
+
+            case (MonsterAttack.MonsterAttackDamageType.True):
+                highestStatType = ReturnMonsterHighestAttackStat(currentMonster);
+                if (highestStatType == MonsterAttack.MonsterAttackDamageType.Physical)
+                {
+                    calcedDamage =
+                         Mathf.RoundToInt(
+                             ((95 * currentMonster.physicalAttack * monsterAttack.monsterAttackDamageScalar * 0.1f)) 
+                             * elementAdvantageBonus * currentMonsterTurnStancePercent * currentTargetedMonsterStancePercent * additionalDamagePercent);
+                }
+                else
+                {
+                    calcedDamage =
+                         Mathf.RoundToInt(
+                             ((95 * currentMonster.magicAttack * monsterAttack.monsterAttackDamageScalar * 0.1f))
+                             * elementAdvantageBonus * currentMonsterTurnStancePercent * currentTargetedMonsterStancePercent * additionalDamagePercent);
+                }
+                break;
+
+            case (MonsterAttack.MonsterAttackDamageType.Split):
+                highestStatType = ReturnMonsterHighestAttackStat(currentMonster);
+                if (highestStatType == MonsterAttack.MonsterAttackDamageType.Physical)
+                {
+                    calcedDamage =
+                         Mathf.RoundToInt(
+                             ((95 * currentMonster.physicalAttack * monsterAttack.monsterAttackDamageScalar * 0.1f) / (165 + currentTargetedMonster.physicalDefense))
+                             * elementAdvantageBonus * currentMonsterTurnStancePercent * currentTargetedMonsterStancePercent * additionalDamagePercent);
+                }
+                else
+                {
+                    calcedDamage =
+                         Mathf.RoundToInt(
+                             ((95 * currentMonster.magicAttack * monsterAttack.monsterAttackDamageScalar * 0.1f) / (165 + currentTargetedMonster.magicDefense))
+                             * elementAdvantageBonus * currentMonsterTurnStancePercent * currentTargetedMonsterStancePercent * additionalDamagePercent);
+                }
+                break;
+        }
+
+        // Add post-mitigation flat damage
+        monsterAttack.monsterAttackFlatDamageBonus = 0;
+
+        // Check for critical hit
+        if (CheckAttackCrit())
+        {
+            calcedDamage = Mathf.RoundToInt(calcedDamage * currentMonster.critDamage);
+            OnCriticalHit();
+        }
+
+        // Final damage check
+        if (calcedDamage <= 0 && currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
+        {
+            Debug.Log("Called 1 damage check!", this);
+            calcedDamage = 1f;
+        }
+
+        // Display combat message
+        if (currentTargetedMonster == currentMonsterTurn)
+        {
+            CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
+                $"on itself for {calcedDamage} damage!", currentMonsterTurn.aiType);
+        }
+        else
+        {
+            CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentMonsterAttack.monsterAttackName} " +
+                $"on {currentTargetedMonster.aiType} {currentTargetedMonster.name} for {calcedDamage} damage!", currentMonsterTurn.aiType);
+        }
+
+        return calcedDamage;
     }
 
     public float CalculatedDamage(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttack damageSource)
@@ -1461,32 +1577,59 @@ public class MonsterAttackManager : MonoBehaviour
         {
             case (MonsterAttack.MonsterAttackDamageType.Magical):
                 calcedDamage =
-                     Mathf.RoundToInt(((95 * (damageSource.monsterAttackDamageScalar / 100f) * damageSource.monsterBaseAttackStat)) / (145 + targetMonster.magicDefense) * elementDamageBonus * additionalDamagePercent);
+                     Mathf.RoundToInt(((95 * (damageSource.monsterAttackDamageScalar / 100f) * damageSource.monsterBaseAttackStat)) / (165 + targetMonster.magicDefense) * elementDamageBonus * additionalDamagePercent);
                 break;
 
             case (MonsterAttack.MonsterAttackDamageType.Physical):
                 calcedDamage = 
-                    Mathf.RoundToInt(((95 * (damageSource.monsterAttackDamageScalar / 100f) * damageSource.monsterBaseAttackStat)) / (145 + targetMonster.physicalDefense) * elementDamageBonus * additionalDamagePercent);
+                    Mathf.RoundToInt(((95 * (damageSource.monsterAttackDamageScalar / 100f) * damageSource.monsterBaseAttackStat)) / (165 + targetMonster.physicalDefense) * elementDamageBonus * additionalDamagePercent);
                 break;
 
             case (MonsterAttack.MonsterAttackDamageType.True):
                 calcedDamage =
-                    Mathf.RoundToInt(((95 * (damageSource.monsterAttackDamageScalar / 100f) * damageSource.monsterBaseAttackStat)) / 145 * elementDamageBonus * additionalDamagePercent);
+                    Mathf.RoundToInt(((95 * (damageSource.monsterAttackDamageScalar / 100f) * damageSource.monsterBaseAttackStat)) * elementDamageBonus * additionalDamagePercent);
                 break;
         }
 
         return calcedDamage;
     }
 
+    public float CalculateAdditionalDamagePercent()
+    {
+        float additionalDamagePercent = 1f;
+
+        if (currentTargetedMonster.health <= 0 || currentTargetedMonsterGameObject == null)
+            return additionalDamagePercent;
+
+        CreateMonster monsterComponent = currentTargetedMonsterGameObject.GetComponent<CreateMonster>();
+
+        // Currently targeted monster has weakened? (takes more damage)
+        if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Weakened))
+        {
+            additionalDamagePercent += 0.25f;
+        }
+
+        // Monster's elements matches attack's element
+        if (currentMonsterTurn.monsterElement == currentMonsterAttack.monsterElementClass)
+        {
+            additionalDamagePercent += 0.15f;
+        }
+
+        additionalDamagePercent += currentMonsterAttack.monsterAttackFlatDamageBonus;
+
+        return additionalDamagePercent;
+    }
+
     public float CalculateAdditionalDamagePercent(Monster targetMonster, GameObject targetMonsterGameObject)
     {
         float additionalDamagePercent = 1f;
 
-        if (targetMonster.health <= 0 || targetMonsterGameObject == null)
+        if (currentTargetedMonster.health <= 0 || currentTargetedMonsterGameObject == null)
             return additionalDamagePercent;
 
-        CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
+        CreateMonster monsterComponent = currentTargetedMonsterGameObject.GetComponent<CreateMonster>();
 
+        // Currently targeted monster has weakened? (takes more damage)
         if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Weakened))
         {
             additionalDamagePercent += 0.25f;
@@ -1518,7 +1661,6 @@ public class MonsterAttackManager : MonoBehaviour
         }
     }
 
-    // This function checks elemental weaknesses and resistances and returns a damage multipler
     public float CheckElementWeakness(ElementClass.MonsterElement attackElement, Monster targetedMonster, bool sendMessageToLog)
     {
         // Both main element and sub element are weak
@@ -1600,22 +1742,29 @@ public class MonsterAttackManager : MonoBehaviour
         return 1f;
     }
 
-    // This function clears cached damage bonuses etc. to prevent unwanted buffs
-    public void ClearCachedModifiers()
+    public bool CheckImmunities()
     {
-        bonusDamagePercent = 0;
-        cachedBonusDamagePercent = 0;
-        recievedDamagePercentBonus = false;
+        // First check if monster immune to damage
+        if (currentMonsterAttack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack && currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterImmuneToDamage)
+        {
+            CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune to damage!");
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
+            return false;
+        }
+
+        // Second, check specific monster element immunities
+        if (currentTargetedMonsterGameObject.GetComponent<CreateMonster>().listOfElementImmunities.Contains(currentMonsterAttack.monsterElementClass))
+        {
+            CombatLog.SendMessageToCombatLog($"{currentTargetedMonster.aiType} {currentTargetedMonster.name} is immune to {currentMonsterAttack.monsterElementClass.element} Element attacks!");
+            currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
+            return false;
+        }
+
+        return true;
     }
 
-    // This function calculates exp to grant to monster
     public int CalculateExp(Monster targetMonster)
     {
         return (11 * targetMonster.level) + 1;
-    }
-
-    public void SetMonsterAttackManagerState(AttackManagerState newState)
-    {
-        attackManagerState = newState;
     }
 }
