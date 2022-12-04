@@ -3537,6 +3537,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2074841548}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
+      propertyPath: monsterEnragedTarget
+      value: 
+      objectReference: {fileID: 429189206}
+    - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: statusEffectUISprite
       value: 
       objectReference: {fileID: 896763780072422933}
@@ -3574,11 +3578,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: listofCurrentStatusEffects.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: listofCurrentStatusEffects.Array.data[0]
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: listofCurrentStatusEffects.Array.data[1]

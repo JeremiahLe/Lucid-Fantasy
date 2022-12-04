@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Dummy
   baseSprite: {fileID: 21300000, guid: ff89f168bae13b14f9e2c759a24bbd2a, type: 3}
   monsterAscensionPhase: 0
-  monsterElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
+  monsterElement: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 1
   aiLevel: 1

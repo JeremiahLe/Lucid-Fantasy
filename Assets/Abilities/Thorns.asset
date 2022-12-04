@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Thorns
   m_EditorClassIdentifier: 
   abilityName: Thorns
-  abilityDescription: 'On Damage Taken: Deal 50% of Physical Attack as Damage to
-    Attacker if hit by a Physical Attack.'
-  listOfAbilityEffects:
-  - {fileID: 11400000, guid: a9bf0c9b1cf1d4444893bc8782170f6f, type: 2}
+  abilityDescription: 'On Damage Taken: Deal 50% of Physical Attack as Physical Damage
+    to Attacker if hit by a Physical Attack.'
   listOfAbilityTriggers:
   - {fileID: 11400000, guid: 8b70f931e48fc124cb61eab9ed3d14e0, type: 2}

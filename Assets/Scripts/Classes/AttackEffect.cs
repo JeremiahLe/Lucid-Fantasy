@@ -1051,7 +1051,7 @@ public class AttackEffect : ScriptableObject
         mod.modifierCurrentDuration = mod.modifierDuration;
 
         if (attackEffectSourceGameObject == null)
-            return 1;
+            attackEffectSourceGameObject = targetMonsterGameObject; // return 1
 
         mod.modifierOwnerGameObject = attackEffectSourceGameObject;
         mod.modifierOwner = attackEffectSourceGameObject.GetComponent<CreateMonster>().monsterReference;

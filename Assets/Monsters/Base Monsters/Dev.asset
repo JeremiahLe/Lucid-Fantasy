@@ -16,11 +16,11 @@ MonoBehaviour:
   baseSprite: {fileID: 21300000, guid: 16ca542876559c643b6390fbcb006c70, type: 3}
   monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
-  monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
   aiType: 0
   aiLevel: 0
   monsterFlavourText: CONSOLE MODE
-  monsterAbility: {fileID: 11400000, guid: cb4db506102fe30479e4bf2a2096f8bf, type: 2}
+  monsterAbility: {fileID: 11400000, guid: 95eb864fe3d4ec74683cac4ec74a8f24, type: 2}
   level: 1
   health: 192
   maxHealth: 823

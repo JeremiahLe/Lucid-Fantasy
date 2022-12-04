@@ -263,14 +263,6 @@ public class MonsterAttackManager : MonoBehaviour
         // Reset camera to neutral position
         //combatManagerScript.ResetCamera();
 
-        // Enemy AI manager handles this
-        //if (combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy)
-        //{
-        //    yield return new WaitForSeconds(1.3f);
-        //    Invoke("ConfirmMonsterAttack", 0.1f);
-        //    yield break;
-        //}
-
         // fix missing target bug?
         currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
         currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
@@ -504,13 +496,41 @@ public class MonsterAttackManager : MonoBehaviour
             return;
         }
 
-        // Hide buttons and Attack UI and display targeting text
-        combatManagerScript.targeting = false;
-        HideButtonsAndAttackUI();
-
         // Assign this scripts current monster turn obj and monster ref from combat manager
         currentMonsterTurnGameObject = combatManagerScript.CurrentMonsterTurn;
         currentMonsterTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference; // unrelated to UI popup (missing reassignment calls?)
+
+        // Check if current monster turn is enraged and if the target is still alive
+        CreateMonster monsterComponent = currentMonsterTurnGameObject.GetComponent<CreateMonster>();
+        if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged) 
+            && (currentMonsterAttack.monsterAttackTargetCount != MonsterAttack.MonsterAttackTargetCount.AllTargets) 
+            && currentMonsterAttack.monsterAttackTargetCount != MonsterAttack.MonsterAttackTargetCount.Everything)
+        {
+            if (monsterComponent.monsterEnragedTarget == null)
+            {
+                monsterComponent.listofCurrentStatusEffects.Remove(Modifier.StatusEffectType.Enraged);
+
+                combatManagerScript.targeting = false;
+
+                HideButtonsAndAttackUI();
+                StartCoroutine(TargetMonsterCheck());
+                return;
+            }
+
+            if (combatManagerScript.CurrentTargetedMonster != monsterComponent.monsterEnragedTarget)
+            {
+                uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is {Modifier.StatusEffectType.Enraged} " +
+                    $"and can only target {monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} " +
+                    $"{monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}!");
+
+                ListOfCurrentlyTargetedMonsters.Clear();
+                return;
+            }
+        }
+
+        // Hide buttons and Attack UI and display targeting text
+        combatManagerScript.targeting = false;
+        HideButtonsAndAttackUI();
 
         // Check if dazed/target-redirect/etc.
         StartCoroutine(TargetMonsterCheck());
@@ -850,12 +870,10 @@ public class MonsterAttackManager : MonoBehaviour
             currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
             currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference;
 
+            if (currentTargetedMonster.health <= 0)
+                continue;
+
             CreateMonster currentTargetedMonsterComponent = currentTargetedMonsterGameObject.GetComponent<CreateMonster>();
-
-            // Trigger any pre-attack effects the current selected MonsterAttack may have (This is now called in 
-            //await TriggerPreAttackEffects();
-
-            // Hide the targeter
             currentTargetedMonsterComponent.monsterTargeterUIGameObject.SetActive(false);
 
             // Check if the attack hits or misses

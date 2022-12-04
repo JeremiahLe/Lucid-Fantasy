@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Magic Mirror
   m_EditorClassIdentifier: 
   abilityName: Magic Mirror
-  abilityDescription: 'On Damage Taken: Deal 50% of Magical Attack as Damage to Attacker
-    if hit by a Magical Attack.'
-  listOfAbilityEffects:
-  - {fileID: 11400000, guid: 86bf13930f5a83640be115a26571ac05, type: 2}
+  abilityDescription: 'On Damage Taken: Deal 50% of Magical Attack as Magic Damage
+    to Attacker if hit by a Magical Attack.'
   listOfAbilityTriggers:
   - {fileID: 11400000, guid: f8d48c320128d5a44bee7e59542bc5df, type: 2}

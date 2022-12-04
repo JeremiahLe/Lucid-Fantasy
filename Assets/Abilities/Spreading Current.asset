@@ -16,4 +16,5 @@ MonoBehaviour:
   abilityDescription: 'Passive: All Ally Electric element Chimerics gain 20% Physical
     and Magic Attack if an Enemy Time or Water element Chimeric is present in the
     battle.'
-  listOfAbilityEffects: []
+  listOfAbilityTriggers:
+  - {fileID: 11400000, guid: 3341250d99838ac449dc3a3031a844e2, type: 2}

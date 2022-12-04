@@ -99,6 +99,8 @@ public class CreateMonster : MonoBehaviour
     [DisplayWithoutEdit] public bool monsterCriticallyStrikedThisRound = false;
     [DisplayWithoutEdit] public bool monsterCannotMissAttacks = false;
 
+    public GameObject monsterEnragedTarget;
+
     [Title("Monster Basic Immunities")]
     public bool monsterImmuneToDebuffs = false;
     public bool monsterImmuneToDamage = false;
@@ -1142,7 +1144,7 @@ public class CreateMonster : MonoBehaviour
 
                 case (Modifier.StatusEffectType.Enraged):
                     newStatusEffectIcon.modifier.modifierDescription +=
-                        ($", Can only target whoever Enraged me ({modifier.modifierOwner.name}).");
+                        ($", Can only target whoever Enraged me ({monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} {monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}).");
                     break;
 
                 case (Modifier.StatusEffectType.Silenced):
@@ -1614,6 +1616,12 @@ public class CreateMonster : MonoBehaviour
         if (gameObject == null)
             return;
 
+        if (combatManagerScript.CurrentMonsterTurn == null)
+            return;
+
+        CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
+        Monster monsterReference = monsterComponent.monsterReference;
+
         // Confirm Target
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -1626,7 +1634,7 @@ public class CreateMonster : MonoBehaviour
             if (monsterAttackManager.currentMonsterAttack == null)
                 return;
 
-            if (monsterAttackManager.currentMonsterAttack.monsterAttackSPCost > combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.currentSP)
+            if (monsterAttackManager.currentMonsterAttack.monsterAttackSPCost > monsterReference.currentSP)
             {
                 combatManagerScript.uiManager.EditCombatMessage("Not enough SP!");
                 return;
@@ -1638,6 +1646,14 @@ public class CreateMonster : MonoBehaviour
             // Check if the current attack is a multi-target attack and has the correct amount of targets
             if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
             {
+                if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged) && combatManagerScript.CurrentTargetedMonster != monsterComponent.monsterEnragedTarget)
+                {
+                    monsterAttackManager.uiManager.EditCombatMessage($"{monsterReference.aiType} {monsterReference.name} is {Modifier.StatusEffectType.Enraged} " +
+                    $"and can only target {monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} " +
+                    $"{monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}!");
+                    return;
+                }
+
                 if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count < monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
                 {
                     monsterAttackManager.ListOfCurrentlyTargetedMonsters.Add(combatManagerScript.CurrentTargetedMonster);
