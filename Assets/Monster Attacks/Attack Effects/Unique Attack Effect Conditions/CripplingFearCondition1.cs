@@ -43,12 +43,12 @@ public class CripplingFearCondition1 : IAbilityTrigger
             if (targetMonster.health <= 0)
                 return 1;
 
-            targetMonster = attackEffect.monsterAttackTrigger.monsterAttackSource;
-            targetMonsterGameObject = attackEffect.monsterAttackTrigger.monsterAttackSourceGameObject;
-
             currentAttackEffectTriggered[1].monsterAttackTrigger = attackEffect.monsterAttackTrigger;
             currentAttackEffectTriggered[1].monsterAttackTrigger.monsterAttackSource = attackEffect.monsterAttackTrigger.monsterAttackSource;
             currentAttackEffectTriggered[1].monsterAttackTrigger.monsterAttackSourceGameObject = attackEffect.monsterAttackTrigger.monsterAttackSourceGameObject;
+
+            targetMonster = attackEffect.monsterAttackTrigger.monsterAttackSource;
+            targetMonsterGameObject = attackEffect.monsterAttackTrigger.monsterAttackSourceGameObject;
 
             await currentAttackEffectTriggered[1].AffectTargetStat(targetMonster, targetMonsterGameObject, monsterAttackManager, currentAttackEffectTriggered[1].name);
 

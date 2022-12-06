@@ -295,6 +295,8 @@ public class MonsterAttackManager : MonoBehaviour
         // Check selected move target type
         if (dazedAttackChoice.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.SelfTarget)
         {
+            ListOfCurrentlyTargetedMonsters.Clear();
+
             combatManagerScript.CurrentTargetedMonster = combatManagerScript.CurrentMonsterTurn; // Update the combat manager, since this script references it later
 
             // Update targeting
@@ -304,7 +306,6 @@ public class MonsterAttackManager : MonoBehaviour
         }
         else if (dazedAttackChoice.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget) // Not targeting self only, grab a random list, allys or enemies
         {
-            // Clear the list first to avoid overwriting already selected targets 
             ListOfCurrentlyTargetedMonsters.Clear();
 
             for (int i = 0; i < dazedAttackChoice.monsterAttackTargetCountNumber; i++)
@@ -322,6 +323,8 @@ public class MonsterAttackManager : MonoBehaviour
         }
         else
         {
+            ListOfCurrentlyTargetedMonsters.Clear();
+
             combatManagerScript.CurrentTargetedMonster = enemyAIManager.GetRandomTarget(enemyAIManager.GetRandomList()); // this is quite the line of code
             Debug.Log($"Old Target! {currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.name}");
 
@@ -937,7 +940,7 @@ public class MonsterAttackManager : MonoBehaviour
         sourceMonsterGameObject = attackEffect.monsterAttackTrigger.monsterAttackSourceGameObject;
 
         // Fix missing source monster gameobject - rockcrash recoil killing self after previous unit killed self
-        if (sourceMonsterGameObject == null && attackEffect.monsterTargetType == AttackEffect.MonsterTargetType.Self)
+        if (sourceMonsterGameObject == null)
             sourceMonsterGameObject = targetMonsterGameObject;
 
         MonsterAttack damageSource = new MonsterAttack(attackEffect.name, attackEffect.elementClass, attackEffect.effectDamageType, attackEffect.amountToChange, calcedDamage, sourceMonster, sourceMonsterGameObject);

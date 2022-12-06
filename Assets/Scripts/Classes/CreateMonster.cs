@@ -265,6 +265,15 @@ public class CreateMonster : MonoBehaviour
             foreach (MonsterAttack attack in tempMonster.ListOfMonsterAttacks)
             {
                 MonsterAttack attackInstance = Instantiate(attack);
+
+                // Make copies of attack effects
+                attackInstance.ListOfAttackEffects.Clear();
+                foreach (AttackEffect attackEffect in attack.ListOfAttackEffects)
+                {
+                    AttackEffect attackEffectInstance = Instantiate(attackEffect);
+                    attackInstance.ListOfAttackEffects.Add(attackEffectInstance);
+                }
+
                 monsterReference.ListOfMonsterAttacks.Add(attackInstance);
             }
         }

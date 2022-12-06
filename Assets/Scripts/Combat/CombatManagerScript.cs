@@ -325,13 +325,6 @@ public class CombatManagerScript : MonoBehaviour
         StartCoroutine(IncrementNewRoundIE()); // Initiate the battle
     }
 
-    // This text function returns a color based on ai type
-    Color ReturnColor()
-    {
-        Color color = Color.red;
-        return color;
-    }
-
     // This override function sorts the monster battle sequence by speed after round increment
     public void SortMonsterBattleSequence()
     {
