@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e07dbd3cb81dad4392f1b85ed28c924, type: 3}
-  m_Name: FlameBodyPassive1
+  m_Script: {fileID: 11500000, guid: 1efbd7db8ef265c44b775bb28ed8480f, type: 3}
+  m_Name: Stormcowl Passive
   m_EditorClassIdentifier: 
-  abilityTriggerDelay: 75
+  abilityTriggerDelay: 150
   abilityTriggerTime: 5
   currentAttackEffectTriggered:
-  - {fileID: 11400000, guid: fc86b79b0347ae44289ab7ebc82330b0, type: 2}
-  - {fileID: 11400000, guid: a7e1b362a19630a4bbdd5ea35d40249e, type: 2}
+  - {fileID: 11400000, guid: f93ebb02928640041ac5a3beb1e1fc39, type: 2}

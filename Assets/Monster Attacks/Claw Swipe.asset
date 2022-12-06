@@ -10,28 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
-  m_Name: Toxic Claw
+  m_Name: Claw Swipe
   m_EditorClassIdentifier: 
-  monsterAttackName: Toxic Claw
-  monsterAttackDescription: Ravage the target with chemically soaked claws, dealing
-    Physical Damage. 40% chance to inflict Poisoned.
-  monsterAttackElement: 9
-  monsterElementClass: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
+  monsterAttackName: Claw Swipe
+  monsterAttackDescription: Swipe a with a quick claw, dealing Physical damage.
+  monsterAttackElement: 5
+  monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
   monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 3
-  monsterAttackSoundEffect: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}
-  monsterAttackDamageScalar: 55
+  monsterAttackSoundEffect: {fileID: 8300000, guid: fce162fffc8cb34418ce707e4ac9d702, type: 3}
+  monsterAttackDamageScalar: 25
   monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
-  monsterAttackAccuracy: 95
+  monsterAttackAccuracy: 100
   monsterAttackNeverMiss: 0
   monsterAttackCritChance: 5
   monsterAttackSPCost: 1
   AttackVFX: {fileID: 3979343233989466021, guid: 86083ba7748da634f897fd894b103c97, type: 3}
   monsterAttackSourceGameObject: {fileID: 0}
   monsterAttackSource: {fileID: 0}
-  ListOfAttackEffects:
-  - {fileID: 11400000, guid: 3fd155f6d508c3744b1c9aeeaeab9c3f, type: 2}
+  ListOfAttackEffects: []

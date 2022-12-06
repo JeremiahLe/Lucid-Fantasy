@@ -205,7 +205,7 @@ public class CombatManagerScript : MonoBehaviour
                     monsterPos.GetComponent<CreateMonster>().monster = Instantiate(adventureManager.ListOfEnemyBattleMonsters[i]);
                     monsterPos.GetComponent<CreateMonster>().monster.monsterIsOwned = true;
                     monsterPos.GetComponent<CreateMonster>().monster.aiType = Monster.AIType.Enemy;
-                    monsterPos.GetComponent<CreateMonster>().monster.aiLevel = Monster.AILevel.Random;
+                    monsterPos.GetComponent<CreateMonster>().monster.aiLevel = Monster.AILevel.Player;
                     monsterPos.GetComponent<CreateMonster>().monsterSpeed = (int)adventureManager.ListOfEnemyBattleMonsters[i].speed;
                     monsterPos.GetComponent<CreateMonster>().combatManagerObject = gameObject;
                     monsterPos.GetComponent<CreateMonster>().combatManagerScript = this;
@@ -448,34 +448,6 @@ public class CombatManagerScript : MonoBehaviour
     // This function sets the monster turn by speed and priority
     public async void SetCurrentMonsterTurn()
     {
-        #region Old Code
-        /*
-        if (currentIndex == 0)
-        {
-            StartCoroutine(IncrementNewRoundIE());
-        }
-        */
-
-        /*
-        if (currentIndex == 0)
-        {
-            // THIS ACTUALLY FIXED THE SPEED NEXT ROUND BUFF LMFAO
-            while (CurrentMonsterTurn != firstMonsterTurn)
-            {
-                SortMonsterBattleSequence();
-                CurrentMonsterTurn = BattleSequence[0];
-                Debug.Log("Called speed fix!");
-            }
-        }
-        */
-        #endregion
-
-        //foreach (GameObject monsterGameObject in BattleSequence.ToArray())
-        //{
-        //    CreateMonster monsterComponent = monsterGameObject.GetComponent<CreateMonster>();
-        //    monsterComponent.CheckHealth(true, null);
-        //}
-
         if (!CheckMonstersAlive())
             return;
 
@@ -499,68 +471,6 @@ public class CombatManagerScript : MonoBehaviour
 
             InitiateCombat();
         }
-
-        #region Old Code 
-        /*
-        // First check if they are the last monster in the sequence
-        if (currentIndex == BattleSequence.Count) // last monster in list ( 0,1 + 1 = 2?)
-        {
-            CurrentMonsterTurn = BattleSequence[BattleSequence.Count - 1];
-            Debug.Log("Called last sequence!");
-        }
-        else // else, next monster
-        if (BattleSequence[currentIndex] != null)
-        {
-            CurrentMonsterTurn = BattleSequence[currentIndex];
-            Debug.Log("Called normal sequence!");
-        }
-        else if (BattleSequence.Count == 2 && currentIndex == 0)
-        {
-            currentRound -= 1;
-            StartCoroutine(IncrementNewRoundIE());
-            Debug.Log("Called weird round skip sequence!");
-        }
-        else
-        {
-            NextMonsterTurn(); // idk what this does - DUAL TURNS?
-            Debug.Log("Called NextMonsterTurn due to null!");
-        }
-
-        // Final check for third turn skip bug
-        if (currentIndex != 0 && CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.speed < BattleSequence[currentIndex - 1].GetComponent<CreateMonster>().monsterReference.speed)
-        {
-            // Have they had their action yet?
-            if (BattleSequence[currentIndex - 1].GetComponent<CreateMonster>().monsterActionAvailable)
-            {
-                currentIndex--;
-                CurrentMonsterTurn = BattleSequence[currentIndex];
-                Debug.Log("Called third action skip fix!");
-            }
-        }
-
-        // Another bug fix
-        if (CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable == false)
-        {
-            currentIndex = 0;
-            NextMonsterTurn();
-            Debug.Log("Called double turn after speed loss fix!");
-        }
-        */
-
-        // After proper monster turn is selected, begin combat!
-        //InitiateCombat();
-        #endregion
-
-        #region Old Code
-        /*
-        If reached the beginning of the combat order, increment turn count
-        if (CurrentMonsterTurn == firstMonsterTurn)
-        {
-            Debug.Log("Incremented round (firstmonsterturn)"); //  implement a fix for when the first monster dies before it is their turn again
-            IncrementNewRound(false);
-        }
-        */
-        #endregion
     }
 
     // This function is called at round end to apply any round end abilities or adventure modifiers
@@ -634,7 +544,7 @@ public class CombatManagerScript : MonoBehaviour
         }
 
         // If enemy, AI move
-        if (monster.aiType == Monster.AIType.Enemy)
+        if (monster.aiType == Monster.AIType.Enemy && monster.aiLevel != Monster.AILevel.Player)
         {
             targeting = false;
             monsterTurn = MonsterTurn.EnemyTurn;
@@ -648,7 +558,7 @@ public class CombatManagerScript : MonoBehaviour
             enemyAIManager.Invoke("SelectMove", 1.7f);
         }
         // If ally, give player move
-        else if (monster.aiType == Monster.AIType.Ally)
+        else /*if (monster.aiType == Monster.AIType.Ally)*/
         {
             if (battleControlType == BattleControlType.Manual) // manual targeting
             {
@@ -694,78 +604,6 @@ public class CombatManagerScript : MonoBehaviour
         //uiManager.EditCombatMessage($"Ally {monster.name} will use {monsterAttackManager.currentMonsterAttack.monsterAttackName} on {targetedMonster.aiType} {targetedMonster.name}!");
         monsterAttackManager.Invoke("UseMonsterAttack", 0.1f);
     }
-
-    #region Old Code
-    // This override function is called on autobattle to not increment round count
-    /*
-    public void SetCurrentMonsterTurn(bool autoBattle)
-    {
-        if (BattleSequence[currentIndex] != null)
-        {
-            CurrentMonsterTurn = BattleSequence[currentIndex];
-        }
-        else
-        {
-            NextMonsterTurn(); // idk what this does - DUAL TURNS?
-        }
-
-        Monster monster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
-
-        if (!battleOver)
-        {
-            // If enemy, AI move
-            if (monster.aiType == Monster.AIType.Enemy)
-            {
-                monsterTurn = MonsterTurn.EnemyTurn;
-                buttonManagerScript.HideAllButtons("All");
-                HUDanimationManager.MonsterCurrentTurnText.text = ($"Enemy {monster.name} turn...");
-
-                // Call enemy AI script after a delay
-                enemyAIManager.currentEnemyTurnGameObject = CurrentMonsterTurn;
-                enemyAIManager.currentEnemyTurn = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
-                enemyAIManager.currentEnemyTurnGameObject.GetComponent<Animator>().SetBool("monsterCurrentTurn", true);
-                enemyAIManager.listOfAllies = ListOfAllys;
-                enemyAIManager.Invoke("SelectMove", 1.7f);
-            }
-            // If ally, give player move
-            else if (monster.aiType == Monster.AIType.Ally)
-            {
-                if (!autoBattle) // manual targeting
-                {
-                    monsterTurn = MonsterTurn.AllyTurn;
-
-                    buttonManagerScript.ListOfMonsterAttacks.Clear();
-                    HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monster.name} do?");
-                    buttonManagerScript.AssignAttackMoves(monster);
-                    buttonManagerScript.ResetHUD();
-
-                    CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
-                }
-                else // auto battle - TODO - make auto battle less random!!
-                {
-                    monsterTurn = MonsterTurn.AllyTurn;
-
-                    buttonManagerScript.ListOfMonsterAttacks.Clear();
-                    HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monster.name} do?");
-                    buttonManagerScript.AssignAttackMoves(monster);
-
-                    CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
-
-                    monsterAttackManager.currentMonsterAttack = GetRandomMove();
-                    CurrentTargetedMonster = GetRandomTarget();
-                    Monster targetedMonster = CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
-
-                    monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
-                    monsterTargeter.SetActive(true);
-
-                    uiManager.EditCombatMessage($"Ally {monster.name} will use {monsterAttackManager.currentMonsterAttack.monsterAttackName} on {targetedMonster.aiType} {targetedMonster.name}!");
-                    monsterAttackManager.Invoke("UseMonsterAttack", 2.1f);
-                }
-            }
-        }
-    }
-    */
-    #endregion
 
     // This function returns a random move from the monsters list of monster attacks
     public MonsterAttack GetRandomMove()
@@ -996,39 +834,6 @@ public class CombatManagerScript : MonoBehaviour
     // Helper function for SetNextMonsterTurn()
     public void NextMonsterTurn()
     {
-        #region Old Code
-        //if (BattleSequence.Count == currentIndex + 1) // fix an index bug
-        //{
-        //   CurrentTargetedMonster = null; // may fix a weird non-targeting bug with miss text gameobject
-        //    SetCurrentMonsterTurn();
-        //    return;
-        //}
-
-        // if the current monster turn == first monster?
-        /*
-        if (currentIndex + 1 >= BattleSequence.Count && CurrentMonsterTurn != BattleSequence[0] && CurrentMonsterTurn != null)
-        {
-            if (currentIndex + 1 == BattleSequence.Count && BattleSequence[BattleSequence.Count - 1].GetComponent<CreateMonster>().monsterActionAvailable)
-            {
-                currentIndex = BattleSequence.Count - 1;
-            }
-            else if (BattleSequence[currentIndex].GetComponent<CreateMonster>().monsterActionAvailable == false)
-            {
-                currentIndex = 0;
-                Debug.Log("index set to zero!");
-            }
-        }
-        else if (currentIndex + 1 <= BattleSequence.Count)
-        {
-            currentIndex++;
-        }
-        else if (currentIndex == BattleSequence.Count)
-        {
-            currentIndex = BattleSequence.Count - 1;
-        }
-        */
-        #endregion
-
         Debug.Log("Called Next Monster Turn!", this);
 
         // Fixes a weird non-targeting bug with miss text gameobject
@@ -1042,7 +847,7 @@ public class CombatManagerScript : MonoBehaviour
     }
 
     // This function handles all new round calls (status effects, speed adjustments etc.)
-    public IEnumerator IncrementNewRound()
+    public async void IncrementNewRound()
     {
         if (battleState == BattleState.InBattle)
         {
@@ -1067,8 +872,12 @@ public class CombatManagerScript : MonoBehaviour
             // check if any cooldowns need to be updated // toArray fixes on round start poison death
             foreach (GameObject monster in BattleSequence.ToArray())
             {
-                monster.GetComponent<CreateMonster>().OnRoundStart();
-                yield return new WaitForSeconds(0.25f);
+                if (monster == null)
+                    continue;
+
+                await monster.GetComponent<CreateMonster>().OnRoundStart();
+
+                await Task.Delay(75);
             }
 
             // Sort after monster on round starts are called
@@ -1083,7 +892,7 @@ public class CombatManagerScript : MonoBehaviour
     IEnumerator IncrementNewRoundIE()
     {
         yield return new WaitForSeconds(.15f);
-        StartCoroutine(IncrementNewRound());
+        IncrementNewRound();
     }
 
     // Coroutine to initialize HUD elements at start of match
@@ -1092,21 +901,6 @@ public class CombatManagerScript : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         GetAllMonstersInBattle();
     }
-
-    #region Old Code
-    /*
-    // This override function only increments round counter (does not increment twice)
-    public void IncrementNewRound(bool adjustBattleSequence)
-    {
-        if (!battleOver)
-        {
-            currentRound += 1;
-            uiManager.IncrementRoundCount(currentRound);
-            //SortMonsterBattleSequence(); // this should not be called
-        }
-    }
-    */
-    #endregion
 
     // This function removes a monster from a list
     public void RemoveMonsterFromList(GameObject monsterToRemove, Monster.AIType allyOrEnemy)
@@ -1155,24 +949,6 @@ public class CombatManagerScript : MonoBehaviour
         SortMonsterBattleSequence();
         //CheckMonstersAlive();
     }
-
-    #region Old Code
-    /*
-    // This function should update the visuals when something changes (death, speed, etc.)
-    public void UpdateHUD(GameObject monsterToRemove)
-    {
-        //CombatOrderTextList.text = "";
-        BattleSequence.Remove(monsterToRemove);
-
-        SortMonsterBattleSequence(false);
-        //EnemyTextList.text = "";
-
-        CheckMonstersAlive();
-
-        //GetAllMonstersInBattle(); Problematic
-    }
-    */
-    #endregion
 
     // This function emits temporary win/lose message conditions based on monster lists
     public bool CheckMonstersAlive()

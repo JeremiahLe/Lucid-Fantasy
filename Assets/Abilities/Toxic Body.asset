@@ -20,3 +20,5 @@ MonoBehaviour:
     using a Physical Attack.'
   listOfAbilityTriggers:
   - {fileID: 11400000, guid: b3db328afef8f61478add2eddf0a3b0c, type: 2}
+  - {fileID: 11400000, guid: 27204740f1ec079499bad65733c93a68, type: 2}
+  - {fileID: 11400000, guid: 6f1add7d6354a27488b3146e088f2f77, type: 2}

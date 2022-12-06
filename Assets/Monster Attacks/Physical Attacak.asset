@@ -14,26 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterAttackName: Physical Attack
   monsterAttackDescription: Phsyical Attack
-  monsterAttackElement: 6
-  monsterElementClass: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
+  monsterAttackElement: 10
+  monsterElementClass: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
   monsterAttackType: 0
   monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
-  monsterAttackTargetCountNumber: 0
+  monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 0
   monsterAttackSoundEffect: {fileID: 8300000, guid: a726e50fd1b8e5d4d9224d6415722fe9, type: 3}
-  monsterAttackMultiplier: 1
   monsterAttackDamageScalar: 1
+  monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 0
   monsterAttackNeverMiss: 1
+  monsterAttackCritChance: 0
   monsterAttackSPCost: 0
+  AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
   monsterAttackSourceGameObject: {fileID: 0}
   monsterAttackSource: {fileID: 0}
-  attackHasCooldown: 0
-  attackOnCooldown: 0
-  attackBaseCooldown: 0
-  attackCurrentCooldown: 0
-  AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
-  ListOfAttackEffects: []
+  ListOfAttackEffects:
+  - {fileID: 11400000, guid: 4fb325ee5f4c8af4293d2fed6d5a6027, type: 2}

@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
-  m_Name: Rockcrash Recoil Effect
+  m_Name: Stormcowl Passive
   m_EditorClassIdentifier: 
-  typeOfEffect: 16
-  statChangeType: 1
+  typeOfEffect: 12
+  statChangeType: 0
   attackEffectStatus: 0
-  statToChange: 0
-  effectTime: 2
+  statToChange: 20
+  effectTime: 5
   monsterTargetType: 1
   fixedDamageAmount: 0
   triggersEffects: 0
   effectDamageType: 0
-  elementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
+  elementClass: {fileID: 0}
   uniqueAttackEffectCondition: {fileID: 0}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
-  immunityType: 0
-  elementImmunity: {fileID: 0}
+  immunityType: 1
+  elementImmunity: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
   statusImmunity: 0
   statImmunity: 0
   attackEffectDuration: 0
   flatValueChange: 0
   modifierDuration: 0
-  amountToChange: 65
+  amountToChange: 0
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
   monsterAttackTrigger: {fileID: 0}

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Threading.Tasks;
 
 [Serializable]
 [CreateAssetMenu(fileName = "New Modifier", menuName = "Modifiers")]
@@ -65,22 +66,19 @@ public class Modifier : ScriptableObject
     [PreviewField(150)]
     public Sprite baseSprite;
 
-    // This function resets the modified stat that was created 
-    public void ResetModifiedStat(Monster monsterReference, GameObject monsterReferenceGameObject)
+    public async Task<int> ResetModifiedStat(Monster monsterReference, GameObject monsterReferenceGameObject)
     {
-        // Remove icon from monster's HUD
         Destroy(statusEffectIconGameObject);
 
-        // reset duration
         modifierCurrentDuration = modifierDuration;
 
         CreateMonster monsterComponent = monsterReferenceGameObject.GetComponent<CreateMonster>();
 
         if (isStatusEffect)
         {
-            monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statusEffectType.ToString()} status was cleared!", monsterReference.aiType);
+            monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statusEffectType} status was cleared!", monsterReference.aiType);
             monsterComponent.listofCurrentStatusEffects.Remove(statusEffectType);
-            return;
+            return 1;
         }
 
         if (attackEffect.typeOfEffect == AttackEffect.TypeOfEffect.GrantImmunity)
@@ -89,7 +87,7 @@ public class Modifier : ScriptableObject
             {
                 case AttackEffect.ImmunityType.Element:
                     monsterComponent.listOfElementImmunities.Remove(attackEffect.elementImmunity);
-                    monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to {attackEffect.elementImmunity.element.ToString()} Element Attacks!", monsterReference.aiType);
+                    monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to {attackEffect.elementImmunity.element} Element Attacks!", monsterReference.aiType);
                     break;
 
                 case AttackEffect.ImmunityType.Status:
@@ -113,7 +111,6 @@ public class Modifier : ScriptableObject
                     break;
 
                 case AttackEffect.ImmunityType.Death:
-                    //monsterComponent.listOfStatusImmunities.Remove(attackEffect.statusImmunity);
                     monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is no longer immune to Death!", monsterReference.aiType);
                     break;
 
@@ -121,7 +118,7 @@ public class Modifier : ScriptableObject
                     break;
             }
 
-            return;
+            return 1;
         }
 
         switch (statModified)
@@ -176,5 +173,78 @@ public class Modifier : ScriptableObject
                 Debug.Log("Missing stat modified or type?");
                 break;
         }
+
+        await Task.Delay(75);
+        return 1;
+    }
+
+    public async Task<int> CountdownModifierDuration(Monster monsterReference, GameObject monsterReferenceGameObject)
+    {
+        if (monsterReferenceGameObject == null || monsterReference.health <= 0)
+            return 1;
+
+        CreateMonster monsterComponent = monsterReferenceGameObject.GetComponent<CreateMonster>();
+
+        if (modifierDurationType == ModifierDurationType.Temporary)
+        {
+            modifierCurrentDuration -= 1;
+
+            if (statusEffectIconGameObject.TryGetComponent(out StatusEffectIcon statusEffectIcon) != false)
+            {
+                statusEffectIconGameObject.GetComponent<StatusEffectIcon>().modifierDurationText.text = ($"{modifierCurrentDuration}");
+            }
+
+            if (modifierCurrentDuration <= 0)
+            {
+                await ResetModifiedStat(monsterReference, monsterReferenceGameObject);
+
+                await monsterComponent.UpdateStats(false, null, false, 0);
+
+                monsterReference.ListOfModifiers.Remove(this);
+            }
+        }
+
+        await Task.Delay(75);
+        return 1;
+    }
+
+    public async Task<int> DealModifierStatusEffectDamage(Monster monsterReference, GameObject monsterReferenceGameObject)
+    {
+        CreateMonster monsterComponent = monsterReferenceGameObject.GetComponent<CreateMonster>();
+        float statusDamage = 0f;
+
+        switch (statusEffectType)
+        {
+            case (StatusEffectType.Poisoned):
+                statusDamage = Mathf.RoundToInt(modifierAmount * monsterReference.maxHealth);
+                break;
+
+            case (StatusEffectType.Burning):
+                statusDamage = Mathf.RoundToInt(modifierAmount * monsterReference.health);
+                break;
+
+            default:
+                Debug.Log($"Missing status effect reference? Current Status Effect Type: {statusEffectType}");
+                return 1;
+        }
+
+        monsterComponent.HitMonster();
+
+        if (statusDamage <= 0)
+            statusDamage = 1;
+
+        monsterReference.health -= statusDamage;
+        monsterComponent.monsterDamageTakenThisRound += statusDamage;
+        monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is {statusEffectType} and takes {statusDamage} damage!", monsterReference.aiType);
+
+        await monsterComponent.UpdateStats(true, modifierOwnerGameObject, true, statusDamage);
+
+        MonsterAttack blankAttack = new MonsterAttack(modifierName, attackEffect.elementClass, MonsterAttack.MonsterAttackDamageType.None, 1, 1, monsterReference, monsterReferenceGameObject);
+
+        if (monsterReference.health <= 0)
+            await monsterComponent.combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monsterReference, monsterReferenceGameObject, AttackEffect.EffectTime.OnDeath, blankAttack);
+
+        await Task.Delay(75);
+        return 1;
     }
 }

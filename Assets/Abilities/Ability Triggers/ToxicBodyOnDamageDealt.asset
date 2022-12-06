@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e07dbd3cb81dad4392f1b85ed28c924, type: 3}
-  m_Name: FlameBodyPassive1
+  m_Script: {fileID: 11500000, guid: 81e2a0fc0449f264c90289f45d86d3bf, type: 3}
+  m_Name: ToxicBodyOnDamageDealt
   m_EditorClassIdentifier: 
   abilityTriggerDelay: 75
-  abilityTriggerTime: 5
+  abilityTriggerTime: 11
   currentAttackEffectTriggered:
-  - {fileID: 11400000, guid: fc86b79b0347ae44289ab7ebc82330b0, type: 2}
-  - {fileID: 11400000, guid: a7e1b362a19630a4bbdd5ea35d40249e, type: 2}
+  - {fileID: 11400000, guid: 7b86d5edcae04cd45be2d305c6d1041f, type: 2}

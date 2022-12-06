@@ -16,8 +16,11 @@ public class SpreadingCurrent : IAbilityTrigger
 
         Debug.Log($"Triggering {abilityMonster}'s {ability.abilityName} ability!", this);
 
-        foreach (GameObject enemyMonster in monsterAttackManager.combatManagerScript.ListOfEnemies)
+        foreach (GameObject enemyMonster in monsterAttackManager.combatManagerScript.ListOfEnemies.ToArray())
         {
+            if (enemyMonster == null)
+                continue;
+
             Monster monsterReference = enemyMonster.GetComponent<CreateMonster>().monsterReference;
 
             if (monsterReference.monsterElement.element == ElementClass.MonsterElement.Time || monsterReference.monsterElement.element == ElementClass.MonsterElement.Water ||

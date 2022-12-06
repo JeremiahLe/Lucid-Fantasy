@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityTriggerDelay: 300
   abilityTriggerTime: 4
-  listOfCurrentAttackEffects:
-  - {fileID: 11400000, guid: 8bf4873107ed9c045aea893c489ea816, type: 2}
-  - {fileID: 11400000, guid: 2b1eed26ab4dd4d48bea708aeb14bf14, type: 2}
-  currentAttackEffectTriggered: {fileID: 11400000, guid: 2b1eed26ab4dd4d48bea708aeb14bf14, type: 2}
+  BlazeOfGloryBurnAll: {fileID: 11400000, guid: 8bf4873107ed9c045aea893c489ea816, type: 2}
+  BlazeOfGloryDamage: {fileID: 11400000, guid: 2b1eed26ab4dd4d48bea708aeb14bf14, type: 2}

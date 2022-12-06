@@ -10,29 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
-  m_Name: Crippling Fear
+  m_Name: Headbutt
   m_EditorClassIdentifier: 
-  monsterAttackName: Crippling Fear
-  monsterAttackDescription: Afflict all enemies with crippling fear, dealing Magical
-    damage. If the user is the slowest in the match, lower the Speed of all enemies
-    by 20%. Otherwise, lower user's Physical and Magic Attack by 20%.
-  monsterAttackElement: 4
-  monsterElementClass: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
+  monsterAttackName: Headbutt
+  monsterAttackDescription: Ram a target, dealing Physical damage.
+  monsterAttackElement: 5
+  monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   monsterAttackType: 0
-  monsterAttackDamageType: 1
-  monsterAttackTargetCount: 2
+  monsterAttackDamageType: 0
+  monsterAttackTargetCount: 0
   monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 3
-  monsterAttackSoundEffect: {fileID: 8300000, guid: 89f5721be4fad1649b74071704904251, type: 3}
-  monsterAttackDamageScalar: 15
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 6a3e45b8d5613d14d9a46133e67d1bb7, type: 3}
+  monsterAttackDamageScalar: 35
   monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
   monsterAttackNeverMiss: 0
   monsterAttackCritChance: 5
-  monsterAttackSPCost: 2
+  monsterAttackSPCost: 1
   AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
   monsterAttackSourceGameObject: {fileID: 0}
   monsterAttackSource: {fileID: 0}
-  ListOfAttackEffects:
-  - {fileID: 11400000, guid: 19ae603fe065f634c9a8bdfeaf571f88, type: 2}
+  ListOfAttackEffects: []

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 [CreateAssetMenu(fileName = "New Ability Trigger", menuName = "Ability Triggers")]
 public abstract class IAbilityTrigger : ScriptableObject
 {
-    public int abilityTriggerDelay = 300;
+    public int abilityTriggerDelay = 150;
 
     public AttackEffect.EffectTime abilityTriggerTime;
 

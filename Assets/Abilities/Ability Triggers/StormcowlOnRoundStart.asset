@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf86b8e9f98137042930be162ad7af58, type: 3}
-  m_Name: CursedReflex1
+  m_Script: {fileID: 11500000, guid: 2077c0e08e0de9f4cbe83d749a1c868d, type: 3}
+  m_Name: StormcowlOnRoundStart
   m_EditorClassIdentifier: 
   abilityTriggerDelay: 150
-  abilityTriggerTime: 9
-  currentAttackEffectTriggered:
-  - {fileID: 11400000, guid: dcb5fe8c7b0d67147bf8a93bd8dda433, type: 2}
+  abilityTriggerTime: 6
+  EnrageAttackEffect: {fileID: 11400000, guid: 1d0b56f56c1202643bea028de4628e49, type: 2}

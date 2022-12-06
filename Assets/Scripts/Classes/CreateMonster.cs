@@ -554,7 +554,7 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function is called after the player accepts the LevelUpResultsWindow
-    public async void HideLevelUpResultsWindow()
+    public void HideLevelUpResultsWindow()
     {
         LevelUpResultsWindow.SetActive(false);
 
@@ -629,150 +629,39 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-
     // This function is called on round start to adjust all round start variables
-    public void OnRoundStart()
+    public async Task<int> OnRoundStart()
     {
-        ResetRoundCombatVariables(); // Refresh per-round combat variables
-        StartCoroutine(CheckModifiers());
+        ResetRoundCombatVariables();
+
+        await CheckCurrentModifiers();
+
+        await monsterAttackManager.TriggerAbilityEffects(monsterReference, gameObject, AttackEffect.EffectTime.RoundStart);
+
+        return 1;
     }
 
-    // This function checks modifiers, permanent or tempoerary
-    public IEnumerator CheckModifiers()
+    public async Task<int> CheckCurrentModifiers()
     {
         foreach (Modifier modifier in monsterReference.ListOfModifiers.ToArray())
         {
-            // Check statuses
+            if (gameObject == null || monsterReference.health <= 0)
+                return 1;
+
             if (modifier.isStatusEffect)
             {
-                // First check if monster is immune to debuffs, if so, break out.
-                if (monsterImmuneToDebuffs)
-                {
-                    // Send immune message to combat log
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to status effects and debuffs!");
-                    CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-
-                    // Reduce the duration of temporary modifiers
-                    if (modifier.modifierDurationType == Modifier.ModifierDurationType.Temporary)
-                    {
-                        modifier.modifierCurrentDuration -= 1;
-                        if (modifier.modifierCurrentDuration == 0)
-                        {
-                            modifier.ResetModifiedStat(monsterReference, gameObject);
-                            UpdateStats(false, null, false, 0);
-                            monsterReference.ListOfModifiers.Remove(modifier);
-                        }
-
-                        if (modifier.statusEffectIconGameObject.TryGetComponent(out StatusEffectIcon statusEffectIcon) != false)
-                        {
-                            modifier.statusEffectIconGameObject.GetComponent<StatusEffectIcon>().modifierDurationText.text = ($"{modifier.modifierCurrentDuration}");
-                        }
-                        else
-                        {
-                            continue;
-                        }
-
-                        continue;
-                    }
-                }
-                else
-                {
-                    switch (modifier.statusEffectType)
-                    {
-                        case (Modifier.StatusEffectType.Poisoned):
-                            //monsterIsPoisoned = true;
-                            statusEffectUISprite.sprite = monsterAttackManager.poisonedUISprite;
-
-                            // Check if immune to damage
-                            if (monsterImmuneToDamage)
-                            {
-                                // Send immune message to combat log
-                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
-                                CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-                                continue;
-                            }
-
-                            int poisonDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.maxHealth);
-
-                            monsterAnimator.SetBool("hitAnimationPlaying", true);
-                            monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
-                            monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
-
-                            monsterReference.health -= poisonDamage;
-                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Poisoned and takes {poisonDamage} damage!", monsterReference.aiType);
-                            UpdateStats(true, modifier.modifierOwnerGameObject, true, poisonDamage);
-
-                            if (modifier.modifierOwnerGameObject != null)
-                            {
-                                modifier.modifierOwner.cachedDamageDone += poisonDamage;
-                            }
-                            break;
-
-                        case (Modifier.StatusEffectType.Burning):
-                            //monsterIsBurning = true;
-                            statusEffectUISprite.sprite = monsterAttackManager.burningUISprite;
-
-                            // Check if immune to damage
-                            if (monsterImmuneToDamage)
-                            {
-                                // Send immune message to combat log
-                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
-                                CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-                                continue;
-                            }
-
-                            int burningDamage = Mathf.RoundToInt(modifier.modifierAmount * monsterReference.health);
-                            if (burningDamage < 1)
-                            {
-                                burningDamage = 1; // Fix zero damage burn
-                            }
-
-                            monsterAnimator.SetBool("hitAnimationPlaying", true);
-                            monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
-                            monsterAttackManager.soundEffectManager.BeginSoundEffectQueue();
-
-                            monsterReference.health -= burningDamage;
-                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is Burning and takes {burningDamage} damage!", monsterReference.aiType);
-                            UpdateStats(true, modifier.modifierOwnerGameObject, true, burningDamage);
-
-                            if (modifier.modifierOwnerGameObject != null)
-                            {
-                                modifier.modifierOwner.cachedDamageDone += burningDamage;
-                            }
-                            break;
-                    }
-                }
+                await modifier.DealModifierStatusEffectDamage(monsterReference, gameObject);
             }
 
-            // Reduce the duration of temporary modifiers
-            if (modifier.modifierDurationType == Modifier.ModifierDurationType.Temporary)
-            {
-                modifier.modifierCurrentDuration -= 1;
-                if (modifier.modifierCurrentDuration == 0)
-                {
-                    modifier.ResetModifiedStat(monsterReference, gameObject);
-                    UpdateStats(false, null, false, 0);
-                    monsterReference.ListOfModifiers.Remove(modifier);
-                }
+            if (monsterReference.health <= 0)
+                return 1;
 
-                if (modifier.statusEffectIconGameObject.TryGetComponent(out StatusEffectIcon statusEffectIcon) != false)
-                {
-                    modifier.statusEffectIconGameObject.GetComponent<StatusEffectIcon>().modifierDurationText.text = ($"{modifier.modifierCurrentDuration}");
-                }
-                else
-                {
-                    continue;
-                }
-            }
+            await modifier.CountdownModifierDuration(monsterReference, gameObject);
 
-            // adjust time
-            float timeToDelay = 0.5f;
-
-            if (!modifier.isStatusEffect)
-                timeToDelay = 0.01f;
-
-            yield return new WaitForSeconds(timeToDelay);
+            await Task.Delay(75);
         }
+
+        return 1;
     }
 
     // This function modifies stats by modifier value
@@ -835,8 +724,8 @@ public class CreateMonster : MonoBehaviour
             case (AttackEffect.StatToChange.Health):
                 if (modifier.statusEffectType == Modifier.StatusEffectType.None && attackEffect.effectDamageType != MonsterAttack.MonsterAttackDamageType.None)
                 {
-                    await monsterAttackManager.Damage(monsterReference, gameObject, attackEffect, modifier.modifierOwner, modifier.modifierOwnerGameObject, modifier);
                     Debug.Log($"Calling damage on {monsterReference.name} from {attackEffect} by {modifier.modifierOwner.name}!");
+                    await monsterAttackManager.Damage(monsterReference, gameObject, attackEffect, modifier.modifierOwner, modifier.modifierOwnerGameObject, modifier);
                     return 1;
                 }
                 else
@@ -1143,6 +1032,7 @@ public class CreateMonster : MonoBehaviour
                     break;
 
                 case (Modifier.StatusEffectType.Enraged):
+                    monsterEnragedTarget = modifier.attackEffect.monsterAttackTrigger.monsterAttackSourceGameObject;
                     newStatusEffectIcon.modifier.modifierDescription +=
                         ($", Can only target whoever Enraged me ({monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} {monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}).");
                     break;
@@ -1237,6 +1127,9 @@ public class CreateMonster : MonoBehaviour
 
                 case (Modifier.StatusEffectType.Weakened):
                     return combatManagerScript.uiManager.weakenedUISprite;
+
+                case (Modifier.StatusEffectType.Enraged):
+                    return combatManagerScript.uiManager.enragedUISprite;
 
                 default:
                     return combatManagerScript.monsterAttackManager.poisonedUISprite;
@@ -1619,12 +1512,12 @@ public class CreateMonster : MonoBehaviour
         if (combatManagerScript.CurrentMonsterTurn == null)
             return;
 
-        CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
-        Monster monsterReference = monsterComponent.monsterReference;
-
         // Confirm Target
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
+            Monster monsterReference = monsterComponent.monsterReference;
+
             if (!combatManagerScript.targeting)
                 return;
 
@@ -1942,5 +1835,12 @@ public class CreateMonster : MonoBehaviour
         {
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
         }
+    }
+
+    public void HitMonster()
+    {
+        monsterAnimator.SetBool("hitAnimationPlaying", true);
+        //monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.HitSound);
     }
 }

@@ -4038,6 +4038,7 @@ MonoBehaviour:
   BattleSequence: []
   ListOfAllys: []
   ListOfEnemies: []
+  ListOfMonstersToGrantExp: []
   ListOfAllyPositions:
   - {fileID: 0}
   - {fileID: 0}
@@ -4048,7 +4049,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  wonBattle: 0
   CombatLog: {fileID: 0}
   HUDanimationManager: {fileID: 0}
   buttonManagerScript: {fileID: 0}
@@ -4063,12 +4063,12 @@ MonoBehaviour:
   CurrentMonsterTurnAnimator: {fileID: 0}
   CurrentMonsterAttack: {fileID: 0}
   monsterTurn: 0
+  battleState: 0
+  battleControlType: 0
   currentRound: 0
   previousSceneName: 
   adventureMode: 0
   testAdventureMode: 1
-  autoBattle: 0
-  battleOver: 0
   targeting: 0
   AdventureManagerGameObject: {fileID: 0}
   adventureManager: {fileID: 0}
@@ -4166,7 +4166,6 @@ MonoBehaviour:
   currentMonsterTurnGameObject: {fileID: 0}
   currentTargetedMonsterGameObject: {fileID: 0}
   currentTargetedMonster: {fileID: 0}
-  ListOfTargetMonsters: []
   ListOfCurrentlyTargetedMonsters: []
   buttonManagerScript: {fileID: 0}
   combatManagerScript: {fileID: 0}
@@ -4186,14 +4185,11 @@ MonoBehaviour:
   noUISprite: {fileID: 21300000, guid: c0eaca2cd6731af41bbe591774eb49d9, type: 3}
   burningUISprite: {fileID: 21300000, guid: 884db12ad07c0e444b5e3f1f064a979a, type: 3}
   dazedUISprite: {fileID: 21300000, guid: cce1c87a134224318ae0c69fdb6858d0, type: 3}
-  cachedTransform: {x: 0, y: 0, z: 0}
-  cachedDamage: 0
   calculatedDamage: 0
   bonusDamagePercent: 0
   cachedBonusDamagePercent: 0
   recievedDamagePercentBonus: 0
   elementCheckDamageBonus: 0
-  dontDealDamage: 0
   CritSound: {fileID: 8300000, guid: 68049c95379dcb84fb188fdedd8c569a, type: 3}
   HitSound: {fileID: 8300000, guid: 762b582ee4ca74a458d76f52b4a557ef, type: 3}
   MissSound: {fileID: 8300000, guid: 0f2966a1a653a844796724ba7d95e1e8, type: 3}
@@ -4260,9 +4256,10 @@ MonoBehaviour:
   poisonedUISprite: {fileID: 21300000, guid: 3d28b42ad0c79444bb1454843cea462f, type: 3}
   burningUISprite: {fileID: 21300000, guid: 3c0af93a925af18468620cd1c05dd164, type: 3}
   dazedUISprite: {fileID: 21300000, guid: 44ac3f8a95f5748838bd5a634f098c2f, type: 3}
-  weakenedUISprite: {fileID: 21300000, guid: 44ac3f8a95f5748838bd5a634f098c2f, type: 3}
+  weakenedUISprite: {fileID: 21300000, guid: dd52f03331fab45bbbeafd3400de0285, type: 3}
   stunnedUISprite: {fileID: 21300000, guid: 16d9b94212af646d3a32f742a7b80829, type: 3}
   crippledUISprite: {fileID: 21300000, guid: 75173ecc1697546fa960b35ab63c7537, type: 3}
+  enragedUISprite: {fileID: 21300000, guid: 360c01700b76843a1aca829fce1f2b7e, type: 3}
   damageImmuneUISprite: {fileID: 21300000, guid: 522a5d8f7ef71ab4ea50c6e8f40e572f, type: 3}
   debuffsImmuneUISprite: {fileID: 21300000, guid: 8cdcb80a3bb614f40aa722a71b30a641, type: 3}
 --- !u!114 &456137143576431242

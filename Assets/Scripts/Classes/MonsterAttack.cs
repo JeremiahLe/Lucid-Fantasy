@@ -30,7 +30,7 @@ public class MonsterAttack : ScriptableObject
     public enum MonsterAttackTargetCount { SingleTarget, MultiTarget, AllTargets, Everything };
     public MonsterAttackTargetCount monsterAttackTargetCount;
 
-    [EnableIf("monsterAttackTargetCount", MonsterAttackTargetCount.MultiTarget)]
+    //[EnableIf("monsterAttackTargetCount", MonsterAttackTargetCount.MultiTarget)]
     public int monsterAttackTargetCountNumber = 1;
 
     // What should the attack be targeting, if any limits?
@@ -58,10 +58,11 @@ public class MonsterAttack : ScriptableObject
     [Title("Monster Attack Other Data")]
     public int monsterAttackSPCost = 1;
 
+    [AssetSelector(Paths = "Assets/Prefabs/VFX")]
     public GameObject AttackVFX;
 
-    [DisplayWithoutEdit] public GameObject monsterAttackSourceGameObject;
-    [DisplayWithoutEdit] public Monster monsterAttackSource;
+    public GameObject monsterAttackSourceGameObject;
+    public Monster monsterAttackSource;
 
     [Header("Monster Attack Effect List")]
     public List<AttackEffect> ListOfAttackEffects;

@@ -5,8 +5,8 @@ using System;
 using System.Threading.Tasks;
 
 [Serializable]
-[CreateAssetMenu(fileName = "FlameBody2", menuName = "Ability Triggers/FlameBodyPassive/2")]
-public class FlameBody2 : IAbilityTrigger
+[CreateAssetMenu(fileName = "StormcowlOnDamageTaken", menuName = "Ability Triggers/Stormcowl/OnDamageTaken")]
+public class StormcowlOnDamageTaken : IAbilityTrigger
 {
     public List<AttackEffect> currentAttackEffectTriggered;
 
@@ -14,11 +14,15 @@ public class FlameBody2 : IAbilityTrigger
     {
         await Task.Delay(abilityTriggerDelay);
 
-        if (monsterAttackManager.currentMonsterAttack.monsterAttackDamageType == MonsterAttack.MonsterAttackDamageType.Physical)
+        Debug.Log($"Triggering {targetMonster}'s {ability.abilityName} ability!", this);
+
+        if (monsterAttackManager.currentMonsterAttack.monsterAttackElement == ElementClass.MonsterElement.Electric)
         {
+            Debug.Log($"{targetMonster}'s {ability.abilityName} ability condition passed!", this);
+
             foreach (AttackEffect attackEffect in currentAttackEffectTriggered)
             {
-                await attackEffect.TriggerEffects(monsterAttackManager, ability.abilityName, attackTrigger);
+                await attackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
 
                 await Task.Delay(abilityTriggerDelay);
             }

@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Stormcowl
   abilityDescription: "Passive: Immune to Electric element attacks. \nRound Start:
-    50% to Emrage for 1 Round per enemy Chimeric if they are Electric element.\nOn
+    50% Chance to Enrage for 1 Round per enemy Chimeric if they are Electric element.\nOn
     Damage Taken: If hit by an Electric element attack, increase Physical and Magic
     Defense by 15%.\n"
-  listOfAbilityTriggers: []
+  listOfAbilityTriggers:
+  - {fileID: 11400000, guid: 83095a86770f3b543910211298673b76, type: 2}
+  - {fileID: 11400000, guid: cd3690beff438a24da145203cab88705, type: 2}
+  - {fileID: 11400000, guid: 0a06806af1339cf428b4ab6669680ee0, type: 2}

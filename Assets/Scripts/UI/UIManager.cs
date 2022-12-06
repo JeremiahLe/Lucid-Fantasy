@@ -59,6 +59,8 @@ public class UIManager : MonoBehaviour
     [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
     public Sprite crippledUISprite;
     [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
+    public Sprite enragedUISprite;
+    [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
     public Sprite damageImmuneUISprite;
     [AssetSelector(Paths = "Assets/Sprites/UI/Status Effects and Stats")]
     public Sprite debuffsImmuneUISprite;

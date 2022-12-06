@@ -15,21 +15,21 @@ MonoBehaviour:
   name: Dummy
   baseSprite: {fileID: 21300000, guid: ff89f168bae13b14f9e2c759a24bbd2a, type: 3}
   monsterAscensionPhase: 0
-  monsterElement: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
+  monsterElement: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 1
   aiLevel: 1
   monsterFlavourText: A dummy.
-  monsterAbility: {fileID: 11400000, guid: 7a0b4eda88f4f0446ac224352b1d81e6, type: 2}
+  monsterAbility: {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
   level: 20
-  health: 18
+  health: 1
   maxHealth: 2454
   initialSP: 3
   currentSP: 3
   maxSP: 3
   physicalAttack: 66
   magicAttack: 158
-  physicalDefense: 1
+  physicalDefense: 1000
   magicDefense: 25
   speed: 39
   evasion: 0
