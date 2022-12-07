@@ -28,7 +28,7 @@ MonoBehaviour:
   monsterAttackAccuracy: 100
   monsterAttackNeverMiss: 1
   monsterAttackCritChance: 0
-  monsterAttackSPCost: 0
+  monsterAttackSPCost: 1
   AttackVFX: {fileID: 5066205814727768457, guid: 7ec48bce63bdc9042b32c7f9aeed7c3f, type: 3}
   monsterAttackSourceGameObject: {fileID: 0}
   monsterAttackSource: {fileID: 0}

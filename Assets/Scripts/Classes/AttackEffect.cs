@@ -106,6 +106,12 @@ public class AttackEffect : ScriptableObject
         this.combatManagerScript = combatManagerScript;
     }
 
+    public void ResetAttackEffect()
+    {
+        this.monsterSource = null;
+        this.monsterAttackTrigger = null;
+    }
+
     // Initial function that is called by monsterAttackManager that enacts attack after effects
     public async Task<int> TriggerEffects(MonsterAttackManager monsterAttackManager, string effectTrigger, MonsterAttack attackTrigger)
     {

@@ -20,7 +20,7 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   monsterFlavourText: CONSOLE MODE
-  monsterAbility: {fileID: 11400000, guid: 587c1df7c95850d42a61fefe2f135482, type: 2}
+  monsterAbility: {fileID: 11400000, guid: c01f1acd497c8564181703f6de555cce, type: 2}
   level: 1
   health: 753
   maxHealth: 823

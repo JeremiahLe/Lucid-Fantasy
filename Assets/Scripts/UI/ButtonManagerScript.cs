@@ -209,12 +209,8 @@ public class ButtonManagerScript : MonoBehaviour
     public void PassButtonClicked()
     {
         HideAllButtons("All");
-        Monster monster = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} passed!");
-        uiManager.EditCombatMessage($"{monster.aiType} {monster.name} passed!");
-        combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
 
-        Invoke("CallNextMonsterTurn", 1.0f);
+        combatManagerScript.PassTurn();
     }
 
     // This function brings up the change row buttons menu
@@ -302,12 +298,6 @@ public class ButtonManagerScript : MonoBehaviour
             default:
                 break;
         }
-    }
-
-    // This helper function calls the combatManagerScript's nextMonsterTurn function
-    public void CallNextMonsterTurn()
-    {
-        combatManagerScript.NextMonsterTurn();
     }
 
     // This function assigns the current ally monsters attack moves to each of the four attack buttons

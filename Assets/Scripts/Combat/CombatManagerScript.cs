@@ -445,6 +445,9 @@ public class CombatManagerScript : MonoBehaviour
             return;
 
         CurrentTargetedMonster = null;
+
+        monsterAttackManager.ListOfCurrentlyTargetedMonsters.Clear();
+
         CurrentMonsterTurn = MonsterNextTurn();
 
         if (CurrentMonsterTurn == null)
@@ -532,7 +535,7 @@ public class CombatManagerScript : MonoBehaviour
             CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
             HUDanimationManager.MonsterCurrentTurnText.text = ($"{monster.aiType} {monster.name} is Stunned!");
             CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is Stunned!");
-            Invoke("NextMonsterTurn", 1f);
+            Invoke(nameof(SetCurrentMonsterTurn), 1f);
             return;
         }
 
@@ -544,11 +547,7 @@ public class CombatManagerScript : MonoBehaviour
             buttonManagerScript.HideAllButtons("All");
             HUDanimationManager.MonsterCurrentTurnText.text = ($"Enemy {monster.name} turn...");
 
-            // Call enemy AI script after a delay
-            enemyAIManager.currentEnemyTurnGameObject = CurrentMonsterTurn;
-            enemyAIManager.currentEnemyTurn = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
-            enemyAIManager.listOfAllies = ListOfAllys;
-            enemyAIManager.Invoke("SelectMove", 1.7f);
+            enemyAIManager.Invoke(nameof(enemyAIManager.SelectMove), 1.7f);
         }
         // If ally, give player move
         else /*if (monster.aiType == Monster.AIType.Ally)*/
@@ -567,10 +566,25 @@ public class CombatManagerScript : MonoBehaviour
             {
                 monsterTurn = MonsterTurn.AllyTurn;
                 buttonManagerScript.ListOfMonsterAttacks.Clear();
-                HUDanimationManager.MonsterCurrentTurnText.text = ($"Ally {monster.name} turn...");
-                StartCoroutine(ReturnAllyMoveAndTargetCoroutine(monster)); // start delay
-            }
+                HUDanimationManager.MonsterCurrentTurnText.text = ($"{monster.aiType} {monster.name} turn...");
+                if (monster.aiType == Monster.AIType.Ally)
+                    StartCoroutine(ReturnAllyMoveAndTargetCoroutine(monster)); // start delay
+                else
+                    enemyAIManager.Invoke(nameof(enemyAIManager.SelectMove), 1.7f);
+            }       
         }
+    }
+
+    public void PassTurn()
+    {
+        CreateMonster monsterComponent = CurrentMonsterTurn.GetComponent<CreateMonster>();
+        Monster currentMonsterTurn = monsterComponent.monsterReference;
+
+        CombatLog.SendMessageToCombatLog($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} passed!");
+        uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} passed!");
+
+        monsterComponent.monsterActionAvailable = false;
+        Invoke(nameof(SetCurrentMonsterTurn), 1.0f);
     }
 
     // This coroutine acts as an artificial delay for autobattle similar to the enemy AI
@@ -581,8 +595,18 @@ public class CombatManagerScript : MonoBehaviour
 
         CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
 
-        monsterAttackManager.currentMonsterAttack = GetRandomMove();
+        // Get attack
+        MonsterAttack randomAttack = GetRandomMove();
 
+        if (randomAttack == null)
+        {
+            PassTurn();
+            yield break;
+        }
+
+        monsterAttackManager.currentMonsterAttack = randomAttack;
+
+        // Adjust target
         AttackTypeTargeting();
 
         // Auto-battle multi-target missing target adjustment
@@ -594,19 +618,43 @@ public class CombatManagerScript : MonoBehaviour
             }
         }
 
-        //uiManager.EditCombatMessage($"Ally {monster.name} will use {monsterAttackManager.currentMonsterAttack.monsterAttackName} on {targetedMonster.aiType} {targetedMonster.name}!");
-        monsterAttackManager.Invoke("UseMonsterAttack", 0.1f);
+        if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
+        {
+            CurrentTargetedMonster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterEnragedTarget;
+
+            if (CurrentTargetedMonster == null)
+                PassTurn();
+
+            yield break;
+        }
+
+        monsterAttackManager.Invoke(nameof(monsterAttackManager.UseMonsterAttack), 0.1f);
     }
 
     // This function returns a random move from the monsters list of monster attacks
     public MonsterAttack GetRandomMove()
     {
         Monster monster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
-        MonsterAttack randMove = monster.ListOfMonsterAttacks[Random.Range(0, monster.ListOfMonsterAttacks.Count)];
+        List<MonsterAttack> tempList = monster.ListOfMonsterAttacks;
+
+        if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
+        {
+            tempList = monster.ListOfMonsterAttacks.Where(Attack => Attack.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.EnemyTarget || Attack.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.Any).ToList();
+        }
+
+        if (tempList.Count == 0)
+            return null;
+
+        if (tempList.Where(attack => attack.monsterAttackSPCost > monster.currentSP).ToList().Count == 4)
+        {
+            return null;
+        }
+
+        MonsterAttack randMove = monster.ListOfMonsterAttacks[Random.Range(0, tempList.Count)];
 
         while (randMove.monsterAttackSPCost > monster.currentSP)
         {
-            randMove = monster.ListOfMonsterAttacks[Random.Range(0, monster.ListOfMonsterAttacks.Count)];
+            randMove = monster.ListOfMonsterAttacks[Random.Range(0, tempList.Count)];
         }
 
         return randMove;
@@ -821,22 +869,7 @@ public class CombatManagerScript : MonoBehaviour
         }
 
         if (!monsterLeveledUp)
-            NextMonsterTurn();
-    }
-
-    // Helper function for SetNextMonsterTurn()
-    public void NextMonsterTurn()
-    {
-        Debug.Log("Called Next Monster Turn!", this);
-
-        // Fixes a weird non-targeting bug with miss text gameobject
-        CurrentTargetedMonster = null; 
-
-        // Clear Target List
-        monsterAttackManager.ListOfCurrentlyTargetedMonsters.Clear();
-
-        // Next monster turn
-        SetCurrentMonsterTurn();
+            SetCurrentMonsterTurn();
     }
 
     // This function handles all new round calls (status effects, speed adjustments etc.)
@@ -868,9 +901,12 @@ public class CombatManagerScript : MonoBehaviour
                 if (monster == null)
                     continue;
 
-                await monster.GetComponent<CreateMonster>().OnRoundStart();
+                if (monster.TryGetComponent(out CreateMonster monsterComponent))
+                {
+                    await monsterComponent.OnRoundStart();
+                }
 
-                await Task.Delay(75);
+                await Task.Delay(150);
             }
 
             // Sort after monster on round starts are called
@@ -898,16 +934,17 @@ public class CombatManagerScript : MonoBehaviour
     // This function removes a monster from a list
     public void RemoveMonsterFromList(GameObject monsterToRemove, Monster.AIType allyOrEnemy)
     {
-        Monster monsterRef = monsterToRemove.GetComponent<CreateMonster>().monsterReference;
         Monster monster = monsterToRemove.GetComponent<CreateMonster>().monster;
 
         switch (allyOrEnemy)
         {
             case Monster.AIType.Ally:
                 ListOfAllys.Remove(monsterToRemove);
+
                 Destroy(monsterToRemove, 1f);
+
                 uiManager.UpdateMonsterList(ListOfAllys, Monster.AIType.Ally);
-                //Debug.Log($"Removed {monsterToRemove.GetComponent<CreateMonster>().monsterReference.name}", this);
+
                 if (adventureMode || testAdventureMode)
                 {
                     // Remove monster references from adventure manager
@@ -924,13 +961,14 @@ public class CombatManagerScript : MonoBehaviour
 
             case Monster.AIType.Enemy:
                 ListOfEnemies.Remove(monsterToRemove);
+
                 Destroy(monsterToRemove, 1f);
+
                 uiManager.UpdateMonsterList(ListOfEnemies, Monster.AIType.Enemy);
-                //Debug.Log($"Removed {monsterToRemove.GetComponent<CreateMonster>().monsterReference.name}", this);
+
                 if (adventureMode)
-                {
                     adventureManager.playerMonstersKilled += 1;
-                }
+
                 break;
 
             default:
@@ -939,8 +977,8 @@ public class CombatManagerScript : MonoBehaviour
         }
 
         BattleSequence.Remove(monsterToRemove);
+
         SortMonsterBattleSequence();
-        //CheckMonstersAlive();
     }
 
     // This function emits temporary win/lose message conditions based on monster lists
@@ -1004,11 +1042,11 @@ public class CombatManagerScript : MonoBehaviour
     {
         if (adventureMode)
         {
-            Invoke("AdventureBattleOver", 3.0f);
+            Invoke(nameof(AdventureBattleOver), 3.0f);
             return;
         }
 
-        Invoke("RestartBattleScene", 3.0f);
+        Invoke(nameof(RestartBattleScene), 3.0f);
     }
 
     // This function should call all battle over functions

@@ -290,6 +290,11 @@ public class MonsterAttackManager : MonoBehaviour
 
         // Selecting another move since Dazed
         MonsterAttack dazedAttackChoice = combatManagerScript.GetRandomMove();
+        if (dazedAttackChoice == null)
+        {
+            combatManagerScript.PassTurn();
+            yield break;
+        }
         currentMonsterAttack = dazedAttackChoice;
 
         // Check selected move target type

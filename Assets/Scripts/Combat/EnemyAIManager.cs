@@ -48,15 +48,20 @@ public class EnemyAIManager : MonoBehaviour
     // This function selects a monster attack for the enemy AI
     public void SelectMove()
     {
+        currentEnemyTurnGameObject = combatManagerScript.CurrentMonsterTurn;
+        currentEnemyTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+        listOfAllies = combatManagerScript.ListOfAllys;
         enemyListOfMonsterAttacks = currentEnemyTurn.ListOfMonsterAttacks;
 
         switch (currentEnemyTurn.aiLevel)
         {
+            case Monster.AILevel.Player:
+
             case Monster.AILevel.Random:
                 currentEnemyMonsterAttack = GetRandomAttack();
 
                 if (currentEnemyMonsterAttack == null)
-                    combatManagerScript.buttonManagerScript.PassButtonClicked();
+                    combatManagerScript.PassTurn();
 
                 // What type of attack move was selected?
                 switch (currentEnemyMonsterAttack.monsterAttackTargetType)
@@ -71,7 +76,15 @@ public class EnemyAIManager : MonoBehaviour
                         break;
 
                     default:
-                        if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed))
+                        if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
+                        {
+                            currentEnemyTargetGameObject = currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterEnragedTarget;
+                            if (currentEnemyTargetGameObject == null)
+                            {
+                                combatManagerScript.PassTurn();
+                            }
+                        }
+                        else if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed))
                         {
                             currentEnemyTargetGameObject = GetRandomTarget(GetRandomList());
                         }
@@ -109,7 +122,7 @@ public class EnemyAIManager : MonoBehaviour
                     }
                 }
 
-                monsterAttackManager.Invoke("UseMonsterAttack", 0.2f);
+                monsterAttackManager.Invoke(nameof(monsterAttackManager.UseMonsterAttack), 0.2f);
                 break;
 
             default:
@@ -122,6 +135,11 @@ public class EnemyAIManager : MonoBehaviour
     public MonsterAttack GetRandomAttack()
     {
         List<MonsterAttack> tempList = enemyListOfMonsterAttacks.Where(Attack => Attack.monsterAttackSPCost <= currentEnemyTurn.currentSP).ToList();
+
+        if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
+        {
+            tempList = enemyListOfMonsterAttacks.Where(Attack => Attack.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.EnemyTarget || Attack.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.Any).ToList();
+        }
 
         if (tempList.Count == 0)
             return null;

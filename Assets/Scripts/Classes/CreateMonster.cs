@@ -645,6 +645,9 @@ public class CreateMonster : MonoBehaviour
 
         await CheckCurrentModifiers();
 
+        if (this == null || gameObject == null)
+            return 1;
+
         await monsterAttackManager.TriggerAbilityEffects(monsterReference, gameObject, AttackEffect.EffectTime.RoundStart);
 
         return 1;
@@ -654,7 +657,7 @@ public class CreateMonster : MonoBehaviour
     {
         foreach (Modifier modifier in monsterReference.ListOfModifiers.ToArray())
         {
-            if (gameObject == null || monsterReference.health <= 0)
+            if (this == null || gameObject == null || monsterReference.health <= 0)
                 return 1;
 
             if (modifier.isStatusEffect)
@@ -662,7 +665,7 @@ public class CreateMonster : MonoBehaviour
                 await modifier.DealModifierStatusEffectDamage(monsterReference, gameObject);
             }
 
-            if (monsterReference.health <= 0)
+            if (this == null || gameObject == null || monsterReference.health <= 0)
                 return 1;
 
             await modifier.CountdownModifierDuration(monsterReference, gameObject);
@@ -1568,6 +1571,20 @@ public class CreateMonster : MonoBehaviour
 
                     if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count != monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
                         return;
+                }
+            }
+
+            // For Selecting Self or Allies with All Target Move while Enraged
+            if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
+            {
+                if (combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType != monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType)
+                {
+                    monsterAttackManager.uiManager.EditCombatMessage($"{monsterReference.aiType} {monsterReference.name} is {Modifier.StatusEffectType.Enraged} " +
+                       $"and can only target {monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} " +
+                       $"{monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}!");
+
+                    monsterAttackManager.ListOfCurrentlyTargetedMonsters.Clear();
+                    return;
                 }
             }
 
