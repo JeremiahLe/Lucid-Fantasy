@@ -470,6 +470,9 @@ Imported Various Assets/Packages
 
 [12/12/22]
 - Implement Retry and Return buttons on PostBattleResultsWindow
+- See Above
+- Fix Old TypeOfEffects (Divine Tempest)
+- Fix AdventureModifier calls
 
 Long-Term
  - Finish Room Creation and Setup
