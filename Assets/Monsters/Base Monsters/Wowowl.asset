@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wowowl
   m_EditorClassIdentifier: 
   name: Wowowl
-  baseSprite: {fileID: 21300000, guid: 514c0da08ea083d48bd2ac1fd8f88d50, type: 3}
+  baseSprite: {fileID: 21300000, guid: 3443006f6db867a4aa5ef76d41050be8, type: 3}
   monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
@@ -28,9 +28,9 @@ MonoBehaviour:
   initialSP: 3
   currentSP: 3
   maxSP: 3
-  physicalAttack: 4
-  magicAttack: 3
-  physicalDefense: 2
+  physicalAttack: 3
+  magicAttack: 1
+  physicalDefense: 4
   magicDefense: 7
   speed: 5
   evasion: 10

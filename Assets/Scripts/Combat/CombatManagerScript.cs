@@ -862,15 +862,27 @@ public class CombatManagerScript : MonoBehaviour
 
             if (monsterReference.monsterCurrentExp >= monsterReference.monsterExpToNextLevel)
             {
-                monsterComponent.Invoke("LevelUp", 0.5f);
+                monsterComponent.Invoke(nameof(monsterComponent.LevelUp), 0.5f);
                 monsterLeveledUp = true;
                 return;
             }
         }
 
-        if (!monsterLeveledUp)
+        if (battleState == BattleState.WonBattle || battleState == BattleState.LostBattle)
+        {
+            StartCoroutine(uiManager.ShowBattleResultsScreen(battleState));
+            Debug.Log($"No more level ups! Showing Battle Results Screen! {battleState}");
+            return;
+        }
+
+        if (!monsterLeveledUp && battleState == BattleState.InBattle)
+        {
             SetCurrentMonsterTurn();
+            Debug.Log("No more level ups! Returning!");
+            return;
+        }
     }
+
 
     // This function handles all new round calls (status effects, speed adjustments etc.)
     public async void IncrementNewRound()
@@ -1007,13 +1019,13 @@ public class CombatManagerScript : MonoBehaviour
         {
             case (BattleState.LostBattle):
                 buttonManagerScript.HideAllButtons("All");
-                uiManager.EditCombatMessage("You Lose!");
+                uiManager.EditCombatMessage();
                 BattleOver();
                 break;
 
             case (BattleState.WonBattle):
                 buttonManagerScript.HideAllButtons("All");
-                uiManager.EditCombatMessage("You Win!");
+                uiManager.EditCombatMessage();
                 BattleOver();
                 break;
 
@@ -1040,9 +1052,9 @@ public class CombatManagerScript : MonoBehaviour
     // This function should call all battle over functions
     public void BattleOver()
     {
-        if (adventureMode)
+        if (adventureMode || testAdventureMode)
         {
-            Invoke(nameof(AdventureBattleOver), 3.0f);
+            Invoke(nameof(AdventureBattleOver), 0.5f);
             return;
         }
 
@@ -1052,40 +1064,43 @@ public class CombatManagerScript : MonoBehaviour
     // This function should call all battle over functions
     public void AdventureBattleOver()
     {
-        if (battleState == BattleState.LostBattle)
-        {
-            adventureManager.adventureFailed = true;
-            SceneManager.LoadScene(previousSceneName);
-            return;
-        }
+        //if (battleState == BattleState.LostBattle)
+        //{
+        //    adventureManager.adventureFailed = true;
+        //    SceneManager.LoadScene(previousSceneName);
+        //    return;
+        //}
 
         // Clear out stat changes
-        foreach (Monster monster in adventureManager.ListOfAllyBattleMonsters.ToList()) // might have to remove this ToList()
+        if (!testAdventureMode)
         {
-            // Only remove non equipment modifiers
-            monster.ListOfModifiers = monster.ListOfModifiers.Where(mod => mod.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
-
-            monster.physicalAttack = monster.cachedPhysicalAttack;
-            monster.magicAttack = monster.cachedMagicAttack;
-
-            monster.physicalDefense = monster.cachedPhysicalDefense;
-            monster.magicDefense = monster.cachedMagicDefense;
-
-            monster.speed = monster.cachedSpeed;
-            monster.evasion = monster.cachedEvasion;
-            monster.critChance = monster.cachedCritChance;
-            monster.critDamage = monster.cachedCritDamage;
-
-            monster.bonusAccuracy = monster.cachedBonusAccuracy;
-
-            // Clear temporary monster attack effects
-            foreach (MonsterAttack attack in monster.ListOfMonsterAttacks.ToList()) // might have to remove this ToList()
+            foreach (Monster monster in adventureManager.ListOfAllyBattleMonsters.ToList()) // might have to remove this ToList()
             {
-                foreach (AttackEffect effect in attack.ListOfAttackEffects.ToList()) // might have to remove this ToList()
+                // Only remove non equipment modifiers
+                monster.ListOfModifiers = monster.ListOfModifiers.Where(mod => mod.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
+
+                monster.physicalAttack = monster.cachedPhysicalAttack;
+                monster.magicAttack = monster.cachedMagicAttack;
+
+                monster.physicalDefense = monster.cachedPhysicalDefense;
+                monster.magicDefense = monster.cachedMagicDefense;
+
+                monster.speed = monster.cachedSpeed;
+                monster.evasion = monster.cachedEvasion;
+                monster.critChance = monster.cachedCritChance;
+                monster.critDamage = monster.cachedCritDamage;
+
+                monster.bonusAccuracy = monster.cachedBonusAccuracy;
+
+                // Clear temporary monster attack effects
+                foreach (MonsterAttack attack in monster.ListOfMonsterAttacks.ToList()) // might have to remove this ToList()
                 {
-                    if (effect.attackEffectDuration == AttackEffect.AttackEffectDuration.Temporary)
+                    foreach (AttackEffect effect in attack.ListOfAttackEffects.ToList()) // might have to remove this ToList()
                     {
-                        attack.ListOfAttackEffects.Remove(effect);
+                        if (effect.attackEffectDuration == AttackEffect.AttackEffectDuration.Temporary)
+                        {
+                            attack.ListOfAttackEffects.Remove(effect);
+                        }
                     }
                 }
             }
@@ -1093,14 +1108,15 @@ public class CombatManagerScript : MonoBehaviour
 
         adventureManager.ListOfAllyBattleMonsters.Clear();
         adventureManager.ListOfEnemyBattleMonsters.Clear();
-
-        // If boss fight
-        if (adventureManager.BossBattle)
+        
+        foreach (GameObject allyMonster in ListOfAllys)
         {
-            adventureManager.BossDefeated = true;
+            CreateMonster monsterComponent = allyMonster.GetComponent<CreateMonster>();
+            Monster monsterReference = monsterComponent.monsterReference;
+            monsterComponent.GrantExp(Mathf.RoundToInt(.10f * monsterReference.monsterExpToNextLevel));
         }
 
-        SceneManager.LoadScene(previousSceneName);
+        CheckMonsterLevelUps();
     }
 
     // This function resets the battle scene

@@ -482,7 +482,7 @@ public class CreateMonster : MonoBehaviour
 
         // Show Level Up Results Window
         //Invoke("ShowLevelUpResultsWindow", 0.5f);
-        StartCoroutine("ShowLevelUpResultsWindow");
+        StartCoroutine(nameof(ShowLevelUpResultsWindow));
     }
 
     public void ModifySP(int sp)
@@ -574,7 +574,7 @@ public class CreateMonster : MonoBehaviour
         }
         else
         {
-            combatManagerScript.Invoke("CheckMonsterLevelUps", 0.25f);
+            combatManagerScript.Invoke(nameof(combatManagerScript.CheckMonsterLevelUps), 0.25f);
         }
     }
 
@@ -1782,6 +1782,9 @@ public class CreateMonster : MonoBehaviour
         else
         {
             amount = Mathf.Abs(amount);
+
+            if (amount == 0)
+                return;
 
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
             effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"-{amount}");

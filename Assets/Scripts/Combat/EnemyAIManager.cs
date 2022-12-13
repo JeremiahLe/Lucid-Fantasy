@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using static Modifier;
 
 public class EnemyAIManager : MonoBehaviour
 {
@@ -61,7 +62,10 @@ public class EnemyAIManager : MonoBehaviour
                 currentEnemyMonsterAttack = GetRandomAttack();
 
                 if (currentEnemyMonsterAttack == null)
+                {
                     combatManagerScript.PassTurn();
+                    return;
+                }
 
                 // What type of attack move was selected?
                 switch (currentEnemyMonsterAttack.monsterAttackTargetType)
@@ -76,15 +80,19 @@ public class EnemyAIManager : MonoBehaviour
                         break;
 
                     default:
-                        if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
+                        if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Enraged))
                         {
                             currentEnemyTargetGameObject = currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterEnragedTarget;
+
                             if (currentEnemyTargetGameObject == null)
                             {
-                                combatManagerScript.PassTurn();
+                                currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Remove(StatusEffectType.Enraged);
+                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{currentEnemyTurn.aiType} {currentEnemyTurn.name}'s {StatusEffectType.Enraged} status was cleared!", currentEnemyTurn.aiType);
+                                SelectMove();
+                                return;
                             }
                         }
-                        else if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed))
+                        else if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Dazed))
                         {
                             currentEnemyTargetGameObject = GetRandomTarget(GetRandomList());
                         }
@@ -122,6 +130,15 @@ public class EnemyAIManager : MonoBehaviour
                     }
                 }
 
+                // Adjust targeting for multitarget attacks while enraged
+                if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
+                {
+                    for (int i = 0; i < monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber; i++)
+                    {
+                        monsterAttackManager.ListOfCurrentlyTargetedMonsters.Add(currentEnemyTargetGameObject);
+                    }
+                }
+
                 monsterAttackManager.Invoke(nameof(monsterAttackManager.UseMonsterAttack), 0.2f);
                 break;
 
@@ -135,6 +152,9 @@ public class EnemyAIManager : MonoBehaviour
     public MonsterAttack GetRandomAttack()
     {
         List<MonsterAttack> tempList = enemyListOfMonsterAttacks.Where(Attack => Attack.monsterAttackSPCost <= currentEnemyTurn.currentSP).ToList();
+
+        if (tempList.Count == 0)
+            return null;
 
         if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
         {

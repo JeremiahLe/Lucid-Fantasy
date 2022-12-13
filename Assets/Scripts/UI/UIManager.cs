@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Sirenix.OdinInspector;
+using System;
+using System.Linq;
 
 public class UIManager : MonoBehaviour
 {
@@ -24,6 +26,14 @@ public class UIManager : MonoBehaviour
 
     public GameObject DetailedMonsterStatsWindow;
     public GameObject InteractableToolTipWindow;
+
+    [Header("Battle Results Window")]
+    public GameObject BattleResultsWindow;
+    public TextMeshProUGUI BattleResultsHeaderText;
+    public TextMeshProUGUI BattleResultsRewardsText;
+    public GameObject RetryBattleButton;
+    public GameObject ReturnButton;
+    public Image BattleMonsterHighlightImage;
 
     Monster monsterRef;
 
@@ -193,5 +203,94 @@ public class UIManager : MonoBehaviour
         CombatOrderTextList.text = ""; // hide combat order text list
 
         RoundCountText.text = ""; // hide round counter text
+    }
+
+    public IEnumerator ShowBattleResultsScreen(CombatManagerScript.BattleState battleResult)
+    {
+        combatManagerScript.adventureManager.GameManagerAudioSource.Stop();
+        yield return new WaitForSeconds(0.1f);
+        BattleResultsWindow.SetActive(true);
+
+        if (battleResult == CombatManagerScript.BattleState.WonBattle)
+        {
+            combatManagerScript.adventureManager.GameManagerAudioSource.PlayOneShot(combatManagerScript.adventureManager.winBGM);
+
+            yield return new WaitForSeconds(0.5f);
+
+            BattleResultsHeaderText.text = ("Victory!");
+            combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
+            yield return new WaitForSeconds(0.5f);
+
+            BattleMonsterHighlightImage.sprite = combatManagerScript.ListOfAllys.OrderByDescending(ally
+                => ally.GetComponent<CreateMonster>().monsterReference.cachedDamageDone).ToList().First().GetComponent<CreateMonster>().monsterReference.baseSprite;
+            combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
+            yield return new WaitForSeconds(0.5f);
+
+            int goldReward = combatManagerScript.adventureManager.GetGoldReward(combatManagerScript.ListOfAllys) - 2;
+
+            if (goldReward <= 0)
+                goldReward = 1;
+
+            BattleResultsRewardsText.text = ($"Rewards\n");
+            combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
+            yield return new WaitForSeconds(0.75f);
+
+            BattleResultsRewardsText.text += ($"Gold x{goldReward}\n");
+
+            List<Item> rewardList = new List<Item>();
+
+            int randNumber = UnityEngine.Random.Range(1, 3);
+            for (int i = 0; i < randNumber; i++)
+            {
+                rewardList.Add(combatManagerScript.adventureManager.GetRandomItemByRarity());
+            }
+
+            yield return new WaitForSeconds(0.5f);
+            foreach (Item item in rewardList)
+            {
+                BattleResultsRewardsText.text += ($"{item.itemName}\n");
+                combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            if (battleResult == CombatManagerScript.BattleState.WonBattle)
+            {
+                if (combatManagerScript.adventureManager.BossBattle)
+                    combatManagerScript.adventureManager.BossDefeated = true;
+
+                combatManagerScript.adventureManager.adventureFailed = false;
+            }
+
+            ReturnButton.SetActive(true);
+            combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
+        }
+
+        if (battleResult == CombatManagerScript.BattleState.LostBattle)
+        {
+            combatManagerScript.adventureManager.GameManagerAudioSource.PlayOneShot(combatManagerScript.adventureManager.defeatBGM);
+
+            yield return new WaitForSeconds(0.5f);
+
+            BattleResultsHeaderText.text = ("Defeat!");
+            combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
+            yield return new WaitForSeconds(0.5f);
+
+            BattleMonsterHighlightImage.sprite = combatManagerScript.adventureManager.ListOfAllyDeadMonsters.First().baseSprite;
+            BattleMonsterHighlightImage.color = Color.gray;
+            combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
+            yield return new WaitForSeconds(0.5f);
+
+            RetryBattleButton.SetActive(true);
+            combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
+
+            combatManagerScript.adventureManager.adventureFailed = true;
+
+            if (combatManagerScript.adventureManager.playerRetrys <= 0)
+                RetryBattleButton.GetComponent<Button>().enabled = false;
+
+            ReturnButton.SetActive(true);
+            combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
+        }
+
     }
 }

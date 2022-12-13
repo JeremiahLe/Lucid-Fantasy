@@ -9,6 +9,7 @@ using System.Linq;
 using System;
 using Random = UnityEngine.Random;
 using UnityEngine.Rendering.Universal.Internal;
+using static Modifier;
 
 public class MonsterAttackManager : MonoBehaviour
 {
@@ -510,13 +511,14 @@ public class MonsterAttackManager : MonoBehaviour
 
         // Check if current monster turn is enraged and if the target is still alive
         CreateMonster monsterComponent = currentMonsterTurnGameObject.GetComponent<CreateMonster>();
-        if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged) 
+        if (monsterComponent.listofCurrentStatusEffects.Contains(StatusEffectType.Enraged) 
             && (currentMonsterAttack.monsterAttackTargetCount != MonsterAttack.MonsterAttackTargetCount.AllTargets) 
             && currentMonsterAttack.monsterAttackTargetCount != MonsterAttack.MonsterAttackTargetCount.Everything)
         {
             if (monsterComponent.monsterEnragedTarget == null)
             {
-                monsterComponent.listofCurrentStatusEffects.Remove(Modifier.StatusEffectType.Enraged);
+                monsterComponent.listofCurrentStatusEffects.Remove(StatusEffectType.Enraged);
+                monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{currentMonsterTurn.aiType} {currentMonsterTurn.name}'s {StatusEffectType.Enraged} status was cleared!", currentMonsterTurn.aiType);
 
                 combatManagerScript.targeting = false;
 

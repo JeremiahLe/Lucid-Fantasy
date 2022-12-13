@@ -723,6 +723,9 @@ public class AttackEffect : ScriptableObject
         }
         else // if (statChangeType == StatChangeType.Debuff)
         {
+            if (modifier.modifierAmount == 0)
+                return;
+
             monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s {statToChange} was decreased by " +
                 $"{attackEffect.monsterSource.aiType} {attackEffect.monsterSource.name}'s " +
                 $"{attackEffect.name} ({modifier.modifierAmount})!", targetMonster.aiType);

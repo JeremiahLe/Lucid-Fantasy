@@ -20,22 +20,22 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   monsterFlavourText: CONSOLE MODE
-  monsterAbility: {fileID: 11400000, guid: c01f1acd497c8564181703f6de555cce, type: 2}
+  monsterAbility: {fileID: 11400000, guid: 65d9f389eedc8784cbeee6892c2292c9, type: 2}
   level: 1
-  health: 753
+  health: 308
   maxHealth: 823
   initialSP: 10
   currentSP: 10
   maxSP: 10
-  physicalAttack: 19
-  magicAttack: 100
+  physicalAttack: 1
+  magicAttack: 1
   physicalDefense: 1
-  magicDefense: 63
+  magicDefense: 1
   speed: 40
   evasion: 0
   critChance: 0
   critDamage: 1.25
-  bonusAccuracy: 100
+  bonusAccuracy: 0
   healthScaler: 1
   physicalAttackScaler: 1
   magicAttackScaler: 1
@@ -55,7 +55,7 @@ MonoBehaviour:
   cachedMagicAttack: 1
   cachedPhysicalDefense: 1
   cachedMagicDefense: 1
-  cachedSpeed: 1
+  cachedSpeed: 40
   cachedEvasion: 0
   cachedCritChance: 0
   cachedBonusAccuracy: 0

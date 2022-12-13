@@ -220,7 +220,7 @@ public class ButtonManagerScript : MonoBehaviour
 
         Monster monster = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
         CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
-        uiManager.EditCombatMessage($"Change {monster.aiType} {monster.name} to what stance? Current stance: {monsterComponent.monsterStance.ToString()}");
+        uiManager.EditCombatMessage($"Change {monster.aiType} {monster.name}'s current Stance and pass turn? Current stance: {monsterComponent.monsterStance}");
 
         RowButtonsParent.SetActive(true);
 
@@ -298,6 +298,8 @@ public class ButtonManagerScript : MonoBehaviour
             default:
                 break;
         }
+
+        PassButtonClicked();
     }
 
     // This function assigns the current ally monsters attack moves to each of the four attack buttons

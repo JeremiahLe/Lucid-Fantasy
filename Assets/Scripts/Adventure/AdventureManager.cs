@@ -135,6 +135,7 @@ public class AdventureManager : MonoBehaviour
     public int playerMonstersKilled = 0;
 
     public int adventureNGNumber = 1;
+    public int playerRetrys = 1;
 
     public List<Monster> ListOfCurrentMonsters;
 
@@ -508,72 +509,6 @@ public class AdventureManager : MonoBehaviour
                 InitiateSceneData();
                 break;
         }
-
-        #region Old Code
-        /*
-        if (scene.name == "StartScreen")
-        {
-            // Destroy manager object and clear nodes
-            Destroy(gameObject);
-            foreach (GameObject node in ListOfAllNodes)
-            {
-                Destroy(node);
-            }
-            foreach (GameObject node in ListOfSavedNodes)
-            {
-                Destroy(node);
-            }
-        }
-        else if (scene.name == "BasicAdventureScene")
-        {
-            AdventureMenu = GameObject.FindGameObjectWithTag("AdventureMenu");
-            SubscreenMenu = GameObject.FindGameObjectWithTag("SubscreenMenu");
-
-            if (SubscreenMenu == null)
-            {
-                SubscreenMenu = FindInActiveObjectByTag("SubscreenMenu");
-            }
-
-            subscreenManager = SubscreenMenu.GetComponent<SubscreenManager>();
-            InitiateSceneData();
-            adventureSceneName = SceneManager.GetActiveScene().name;
-
-            // Is the boss till alive
-            if (!BossDefeated)
-            {
-                SubscreenMenu.SetActive(false);
-            }
-
-            // Check if battle over
-            if (!adventureFailed)
-            {
-                PlayNewBGM(adventureBGM, .60f);
-            }
-            else
-            {
-                PlayNewBGM(defeatBGM, .35f);
-                ShowFinalResultsMenu(false);
-            }
-        }
-        else if (scene.name == "SetupCombatScene")
-        {
-            CombatManagerObject = GameObject.FindGameObjectWithTag("GameController");
-            combatManagerScript = CombatManagerObject.GetComponent<CombatManagerScript>();
-            combatManagerScript.adventureMode = true;
-            combatManagerScript.previousSceneName = adventureSceneName;
-
-            // Boss Music
-            if (BossBattle)
-            {
-                PlayNewBGM(bossBGM, .35f);
-                return;
-            }
-
-            // Combat Music
-            PlayNewBGM(combatBGM, .30f);
-        }
-        */
-        #endregion
     }
 
     // This function is called whenever an out of combat passive modifier is obtained
@@ -1491,70 +1426,6 @@ public class AdventureManager : MonoBehaviour
         Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
     }
 
-    #region Old Code
-    //
-    /*
-    public void InitiateSceneData2()
-    {
-        routeText = AdventureMenu.GetComponentInChildren<TextMeshProUGUI>();
-        subScreenMenuText = SubscreenMenu.GetComponentInChildren<TextMeshProUGUI>();
-        nodeSelectionTargeter = GameObject.FindGameObjectWithTag("Targeter");
-
-        if (adventureBegin == false)
-        {
-            adventureBoss = currentSelectedAdventure.adventureBoss;
-            ListOfAllNodes = GameObject.FindGameObjectsWithTag("Node");
-            foreach (GameObject node in ListOfAllNodes)
-            {
-                node.SetActive(false);
-            }
-
-            if (NodeToReturnTo == null)
-            {
-                foreach (GameObject node in ListOfAllNodes)
-                {
-                    node.SetActive(true);
-                    if (node.GetComponent<CreateNode>().nodeLocked)
-                    {
-                        ListOfLockedNodes.Add(node);
-                    }
-                }
-            }
-        }
-
-        adventureBegin = true;
-
-        foreach (GameObject node in ListOfUnlockedNodes)
-        {
-            if (node != null)
-            {
-                node.SetActive(true);
-                node.GetComponent<CreateNode>().nodeLocked = false;
-                node.GetComponent<SpriteRenderer>().color = Color.white;
-            }
-        }
-        //
-        foreach (GameObject node in ListOfLockedNodes)
-        {
-            if (node != null)
-            {
-                node.SetActive(true);
-                node.GetComponent<CreateNode>().nodeLocked = true;
-                node.GetComponent<SpriteRenderer>().color = Color.red;
-            }
-        }
-
-        //
-        if (NodeToReturnTo != null)
-        {
-            cachedSelectedNode = NodeToReturnTo;
-            ActivateNextNode();
-        }
-
-    }
-    */
-    #endregion
-
     // This function runs when a node is clicked
     public void CheckNodeLocked()
     {
@@ -1753,5 +1624,109 @@ public class AdventureManager : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public int GetGoldReward(List<GameObject> listOfMonsters)
+    {
+        int monsterAvgLevel = 0;
+
+        foreach(GameObject monsterGameObject in listOfMonsters)
+        {
+            monsterAvgLevel += monsterGameObject.GetComponent<CreateMonster>().monsterReference.level;
+        }
+
+        return monsterAvgLevel / listOfMonsters.Count;
+    }
+
+    public Item GetRandomItemByRarity()
+    {
+        if (ListOfAvailableItems.Count == 0)
+        {
+            ResetItemList();
+        }
+
+        Item randItem = null;
+        List<Item> curatedListOfItems = new List<Item>();
+
+        // First, check common
+        float randValue = Random.value;
+        Debug.Log($"Generated random value: {randValue}");
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f)
+        {
+            curatedListOfItems = ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Common).ToList();
+            if (curatedListOfItems.Count == 0)
+            {
+                ResetItemList();
+                curatedListOfItems = ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Common).ToList();
+            }
+            randItem = curatedListOfItems[Random.Range(0, curatedListOfItems.Count)];
+            //Debug.Log($"Hit common! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f}");
+        }
+
+        // Check uncommon
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Uncommon) / 100f)
+        {
+            curatedListOfItems = ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Uncommon).ToList();
+            if (curatedListOfItems.Count == 0)
+            {
+                ResetItemList();
+                curatedListOfItems = ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Uncommon).ToList();
+            }
+            randItem = curatedListOfItems[Random.Range(0, curatedListOfItems.Count)];
+            //Debug.Log($"Hit common! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f}");
+        }
+
+        // Check rare
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Rare) / 100f)
+        {
+            curatedListOfItems = ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Rare).ToList();
+            if (curatedListOfItems.Count == 0)
+            {
+                ResetItemList();
+                curatedListOfItems = ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Rare).ToList();
+            }
+            randItem = curatedListOfItems[Random.Range(0, curatedListOfItems.Count)];
+            //Debug.Log($"Hit common! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Common) / 100f}");
+        }
+
+        // Lastly, check legendary
+        if (randValue < ReturnModifierWeightedProbability(Modifier.ModifierRarity.Legendary) / 100f)
+        {
+            curatedListOfItems = ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Legendary).ToList();
+            if (curatedListOfItems.Count == 0)
+            {
+                ResetItemList();
+                curatedListOfItems = ListOfAvailableItems.Where(item => item.itemRarity == Modifier.ModifierRarity.Legendary).ToList();
+            }
+            randItem = curatedListOfItems[Random.Range(0, curatedListOfItems.Count)];
+            //Debug.Log($"Hit common! {randValue} < {ReturnModifierWeightedProbability(Modifier.ModifierRarity.Legendary) / 100f}");
+        }
+
+        //ListOfAvailableItems.Remove(randItem);
+        Item randItemSO = Instantiate(randItem);
+        curatedListOfItems.Clear();
+
+        return randItemSO;
+    }
+
+    public float ReturnModifierWeightedProbability(Modifier.ModifierRarity modifierRarity)
+    {
+        switch (modifierRarity)
+        {
+            case (Modifier.ModifierRarity.Common):
+                return commonChanceRate;
+
+            case (Modifier.ModifierRarity.Uncommon):
+                return uncommonChanceRate;
+
+            case (Modifier.ModifierRarity.Rare):
+                return rareChanceRate;
+
+            case (Modifier.ModifierRarity.Legendary):
+                return legendaryChanceRate;
+
+            default:
+                return 45;
+        }
     }
 }
