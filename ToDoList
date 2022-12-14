@@ -474,6 +474,14 @@ Imported Various Assets/Packages
 - Fix Old TypeOfEffects (Divine Tempest)
 - Fix AdventureModifier calls
 
+[12/12/22]
+- Finish Old Attacks Refactoring
+ - Healing Solvent, Nimbus Barricade
+- Test if MonsterPerRound Variables are reset per round
+- Test if Dead of Night still works as intended
+- Add VFX to all abilities & attacks. Fix Buff/Debuff/Attack VFX/Animations
+- Fix AdventureModifier calls
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
