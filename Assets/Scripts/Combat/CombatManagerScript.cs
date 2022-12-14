@@ -1122,7 +1122,17 @@ public class CombatManagerScript : MonoBehaviour
     // This function resets the battle scene
     public void RestartBattleScene()
     {
+        if (adventureManager.playerRetrys > 0)
+        {
+            adventureManager.playerRetrys--;
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ReturnToAdventureScene()
+    {
+        SceneManager.LoadScene(previousSceneName);
     }
 }
 

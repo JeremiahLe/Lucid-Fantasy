@@ -12,20 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
   m_Name: Divine Tempest Speed Buff Allies
   m_EditorClassIdentifier: 
-  typeOfEffect: 1
+  typeOfEffect: 17
   statChangeType: 0
   attackEffectStatus: 0
   statToChange: 6
   effectTime: 2
-  monsterTargetType: 0
-  currentMonsterTargetGameObject: {fileID: 0}
-  currentMonsterTarget: {fileID: 0}
+  monsterTargetType: 1
+  fixedDamageAmount: 0
+  triggersEffects: 0
+  effectDamageType: 0
+  elementClass: {fileID: 0}
+  uniqueAttackEffectCondition: {fileID: 11400000, guid: 5d5e5a8e70aee4e4a8127dd030f139e9, type: 2}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
+  immunityType: 0
+  elementImmunity: {fileID: 0}
+  statusImmunity: 0
+  statImmunity: 0
   attackEffectDuration: 0
-  modifierCalledOnce: 0
   flatValueChange: 0
   modifierDuration: 0
   amountToChange: 20
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
+  monsterAttackTrigger: {fileID: 0}
+  monsterSource: {fileID: 0}

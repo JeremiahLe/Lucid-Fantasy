@@ -1677,7 +1677,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 05c3b457422d05f4f8ae51e08be18a7b, type: 2}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfAllyBattleMonsters.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfCurrentModifiers.Array.data[0]
@@ -1694,7 +1694,7 @@ PrefabInstance:
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfAllyBattleMonsters.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 707a2c482708e77439bb81ae6ee26fad, type: 2}
+      objectReference: {fileID: 11400000, guid: 022be4908e897de4facb4e45b07b50ac, type: 2}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfAllyBattleMonsters.Array.data[2]
       value: 

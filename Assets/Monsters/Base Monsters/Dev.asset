@@ -43,10 +43,10 @@ MonoBehaviour:
   magicDefenseScaler: 1
   speedScaler: 1
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
-  - {fileID: 11400000, guid: 232e601ceab5faf44a4798ef71b434f1, type: 2}
-  - {fileID: 11400000, guid: cc536f67b15c3c2439e97a1afe2ac480, type: 2}
-  - {fileID: 11400000, guid: f8b0571367104cf42a730881bced2693, type: 2}
+  - {fileID: 11400000, guid: 3bb4d934fd63955419d688bedba37d81, type: 2}
+  - {fileID: 11400000, guid: fae4b939feef59f45a5663571dad0fd6, type: 2}
+  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
+  - {fileID: 11400000, guid: f7e3ed342b10ba848b6de742bb92c023, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable: []
   cachedHealth: 0

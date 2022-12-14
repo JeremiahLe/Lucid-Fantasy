@@ -1319,7 +1319,7 @@ public class MonsterAttackManager : MonoBehaviour
                 break;
         }
 
-        // Add post-mitigation flat damage
+        // Reset additional damage bonus
         monsterAttack.monsterAttackFlatDamageBonus = 0;
 
         // Check for critical hit
