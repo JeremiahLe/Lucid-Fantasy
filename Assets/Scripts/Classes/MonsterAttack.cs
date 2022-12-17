@@ -37,6 +37,13 @@ public class MonsterAttack : ScriptableObject
     public enum MonsterAttackTargetType { EnemyTarget, AllyTarget, SelfTarget, Any }
     public MonsterAttackTargetType monsterAttackTargetType;
 
+    // What should the attack SP cost be?
+    public int monsterAttackSPCost = 1;
+
+    // Attack VFX
+    [AssetSelector(Paths = "Assets/Prefabs/VFX")]
+    public GameObject AttackVFX;
+
     [AssetSelector(Paths = "Assets/Music/SoundEffects/MonsterAttacks")]
     public AudioClip monsterAttackSoundEffect;
 
@@ -56,11 +63,6 @@ public class MonsterAttack : ScriptableObject
     public float monsterAttackCritChance = 5f; // default crit chance
 
     [Title("Monster Attack Other Data")]
-    public int monsterAttackSPCost = 1;
-
-    [AssetSelector(Paths = "Assets/Prefabs/VFX")]
-    public GameObject AttackVFX;
-
     public GameObject monsterAttackSourceGameObject;
     public Monster monsterAttackSource;
 

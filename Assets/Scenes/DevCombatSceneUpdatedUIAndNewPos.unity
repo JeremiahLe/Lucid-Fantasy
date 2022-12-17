@@ -200,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 3197158}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterImmuneToDamage
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: listofCurrentStatusEffects.Array.size
@@ -1694,7 +1694,7 @@ PrefabInstance:
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfAllyBattleMonsters.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 022be4908e897de4facb4e45b07b50ac, type: 2}
+      objectReference: {fileID: 11400000, guid: 6b265e53011d7d34a8bea4bf4f4d14df, type: 2}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfAllyBattleMonsters.Array.data[2]
       value: 
@@ -3477,7 +3477,7 @@ PrefabInstance:
       objectReference: {fileID: 896763780072422933}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterImmuneToDamage
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterImmuneToDebuffs

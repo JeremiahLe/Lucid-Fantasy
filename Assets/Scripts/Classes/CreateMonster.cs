@@ -641,7 +641,7 @@ public class CreateMonster : MonoBehaviour
     // This function is called on round start to adjust all round start variables
     public async Task<int> OnRoundStart()
     {
-        ResetRoundCombatVariables();
+        await ResetRoundCombatVariables();
 
         await CheckCurrentModifiers();
 
@@ -1200,12 +1200,13 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function refreshs per-round combat variables
-    public void ResetRoundCombatVariables()
+    public async Task<int> ResetRoundCombatVariables()
     {
         monsterDamageTakenThisRound = 0;
         monsterActionAvailable = true;
         monsterRecievedStatBoostThisRound = false;
         monsterCriticallyStrikedThisRound = false;
+        return 1;
     }
 
     // This function checks the monster's health

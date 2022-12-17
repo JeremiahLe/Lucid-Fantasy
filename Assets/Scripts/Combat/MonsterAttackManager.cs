@@ -830,7 +830,7 @@ public class MonsterAttackManager : MonoBehaviour
             SpawnAttackEffect();
 
             // Calculate damage dealt and deal damage to targeted monster
-            float calculatedDamage = CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
+            calculatedDamage = CalculatedDamage(combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference, currentMonsterAttack);
             currentTargetedMonster.health -= calculatedDamage;
 
             // Cache damage dealt and taken for both target and user
