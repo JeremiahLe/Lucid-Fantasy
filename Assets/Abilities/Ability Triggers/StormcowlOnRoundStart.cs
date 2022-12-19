@@ -15,7 +15,14 @@ public class StormcowlOnRoundStart : IAbilityTrigger
 
         Debug.Log($"Triggering {abilitySourceMonster}'s {ability.abilityName} ability!", this);
 
-        foreach (GameObject enemyMonster in monsterAttackManager.combatManagerScript.ListOfEnemies.ToArray())
+        List<GameObject> listOfTargetMonsters;
+
+        if (abilitySourceMonster.aiType == Monster.AIType.Ally)
+            listOfTargetMonsters = monsterAttackManager.combatManagerScript.ListOfEnemies;
+        else
+            listOfTargetMonsters = monsterAttackManager.combatManagerScript.ListOfAllys;
+
+        foreach (GameObject enemyMonster in listOfTargetMonsters.ToArray())
         {
             if (enemyMonster == null)
                 continue;

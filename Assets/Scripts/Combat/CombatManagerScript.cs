@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using Sirenix.OdinInspector;
 using System.Threading.Tasks;
+using static Modifier;
 
 public class CombatManagerScript : MonoBehaviour
 {
@@ -452,9 +453,14 @@ public class CombatManagerScript : MonoBehaviour
 
         if (CurrentMonsterTurn == null)
         {
+            uiManager.ClearCombatMessage();
+
             // Call Round End Abilities or Modifiers only if the battle is NOT over
             if (battleState == BattleState.InBattle)
                 await CallRoundEndFunctions();
+
+            if (!CheckMonstersAlive())
+                return;
 
             StartCoroutine(IncrementNewRoundIE());
         }
@@ -472,33 +478,25 @@ public class CombatManagerScript : MonoBehaviour
     // This function is called at round end to apply any round end abilities or adventure modifiers
     public async Task<int> CallRoundEndFunctions()
     {
-        await Task.Delay(300);
-
-        //// Call ally round end abilities
-        //foreach(GameObject monsterObj in ListOfAllys)
-        //{
-        //    Monster monster = monsterObj.GetComponent<CreateMonster>().monsterReference;
-        //    if (monster.monsterAbility.abilityTriggerTime == Ability.AbilityTriggerTime.RoundEnd)
-        //    {
-        //       monster.monsterAbility.TriggerAbility();
-        //    }
-        //}
-
-        //// Call enemy round end abilities
-        //foreach (GameObject monsterObj in ListOfEnemies)
-        //{
-        //    Monster monster = monsterObj.GetComponent<CreateMonster>().monsterReference;
-        //    if (monster.monsterAbility.abilityTriggerTime == Ability.AbilityTriggerTime.RoundEnd)
-        //    {
-        //        monster.monsterAbility.TriggerAbility();
-        //    }
-        //}
-
         // Call Round End adventure modifiers
         if ((adventureMode || testAdventureMode) && ListOfAllys.Count > 0)
         {
-            adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Ally);
-            adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Enemy);
+            adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Ally); // needs to be awaited
+            adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Enemy); // needs to be awaited
+        }
+
+        // check if any cooldowns need to be updated // toArray fixes on round start poison death
+        foreach (GameObject monster in BattleSequence.ToArray())
+        {
+            if (monster == null)
+                continue;
+
+            if (monster.TryGetComponent(out CreateMonster monsterComponent))
+            {
+                await monsterComponent.OnRoundEnd();
+            }
+
+            await Task.Delay(150);
         }
 
         // Once all Round End effects have been called, End Round
@@ -519,25 +517,84 @@ public class CombatManagerScript : MonoBehaviour
         //StartCoroutine(cameraController.ResetPosition());
     }
 
-    // This function initiates combat and serves to clean up the SetCurrentMonsterTurn function
-    public void InitiateCombat()
+    public bool CheckMonsterIsStunned(CreateMonster monsterComponent)
     {
-        //ResetCamera();
-        uiManager.InitiateMonsterTurnIndicator(CurrentMonsterTurn);
-        Monster monster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+        // First check if the monster is stunned or doesn't have an action available
+        if (monsterComponent.listofCurrentStatusEffects.Contains(StatusEffectType.Stunned))
+        {
+            Monster monster = monsterComponent.monsterReference;
+
+            monsterComponent.monsterActionAvailable = false;
+
+            HUDanimationManager.MonsterCurrentTurnText.text = ($"{monster.aiType} {monster.name} is Stunned!");
+
+            CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is Stunned!");
+
+            Invoke(nameof(SetCurrentMonsterTurn), 1f);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public async Task<int> CheckEnragedTargetMissing(GameObject monsterObj)
+    {
+        CreateMonster monsterComponent = monsterObj.GetComponent<CreateMonster>();
+
+        if (monsterComponent.listofCurrentStatusEffects.Contains(StatusEffectType.Enraged))
+        {
+            if (monsterComponent.monsterEnragedTarget == null || monsterComponent.monsterEnragedTarget.TryGetComponent(out CreateMonster createMonster) == false || monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.health <= 0)
+            {
+                Monster monster = monsterComponent.monsterReference;
+
+                Modifier modifier = monster.ListOfModifiers.Find(modifier => modifier.statusEffectType == StatusEffectType.Enraged);
+
+                await modifier.ResetModifiedStat(monster, monsterObj);
+            }
+        }
+
+        await Task.Delay(150);
+        return 1;
+    }
+
+    public async Task<int> CheckOnMonsterDeathEvents()
+    {
+        foreach (GameObject monsterObj in BattleSequence.ToArray())
+        {
+            if (monsterObj == null)
+                continue;
+
+            if (!monsterObj.TryGetComponent(out CreateMonster createMonster))
+                continue;
+
+            await CheckEnragedTargetMissing(monsterObj);
+
+            await Task.Delay(150);
+        }
+
+        await Task.Delay(150);
+        return 1;
+    }
+
+    // This function initiates combat and serves to clean up the SetCurrentMonsterTurn function
+    public async void InitiateCombat()
+    {
+        // ResetCamera();
 
         if (battleState != BattleState.InBattle)
             return;
 
-        // First check if the monster is stunned or doesn't have an action available
-        if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Stunned))
-        {
-            CurrentMonsterTurn.GetComponent<CreateMonster>().monsterActionAvailable = false;
-            HUDanimationManager.MonsterCurrentTurnText.text = ($"{monster.aiType} {monster.name} is Stunned!");
-            CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is Stunned!");
-            Invoke(nameof(SetCurrentMonsterTurn), 1f);
+        CreateMonster monsterComponent = CurrentMonsterTurn.GetComponent<CreateMonster>();
+
+        Monster monster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+
+        uiManager.InitiateMonsterTurnIndicator(CurrentMonsterTurn);
+
+        if (CheckMonsterIsStunned(monsterComponent))
             return;
-        }
+
+        await CheckEnragedTargetMissing(CurrentMonsterTurn);
 
         // If enemy, AI move
         if (monster.aiType == Monster.AIType.Enemy && monster.aiLevel != Monster.AILevel.Player)
@@ -1019,13 +1076,13 @@ public class CombatManagerScript : MonoBehaviour
         {
             case (BattleState.LostBattle):
                 buttonManagerScript.HideAllButtons("All");
-                uiManager.EditCombatMessage();
+                uiManager.ClearCombatMessage();
                 BattleOver();
                 break;
 
             case (BattleState.WonBattle):
                 buttonManagerScript.HideAllButtons("All");
-                uiManager.EditCombatMessage();
+                uiManager.ClearCombatMessage();
                 BattleOver();
                 break;
 

@@ -511,31 +511,14 @@ public class MonsterAttackManager : MonoBehaviour
 
         // Check if current monster turn is enraged and if the target is still alive
         CreateMonster monsterComponent = currentMonsterTurnGameObject.GetComponent<CreateMonster>();
-        if (monsterComponent.listofCurrentStatusEffects.Contains(StatusEffectType.Enraged) 
-            && (currentMonsterAttack.monsterAttackTargetCount != MonsterAttack.MonsterAttackTargetCount.AllTargets) 
-            && currentMonsterAttack.monsterAttackTargetCount != MonsterAttack.MonsterAttackTargetCount.Everything)
+        if (combatManagerScript.CurrentTargetedMonster != monsterComponent.monsterEnragedTarget)
         {
-            if (monsterComponent.monsterEnragedTarget == null)
-            {
-                monsterComponent.listofCurrentStatusEffects.Remove(StatusEffectType.Enraged);
-                monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{currentMonsterTurn.aiType} {currentMonsterTurn.name}'s {StatusEffectType.Enraged} status was cleared!", currentMonsterTurn.aiType);
+            uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is {Modifier.StatusEffectType.Enraged} " +
+                $"and can only target {monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} " +
+                $"{monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}!");
 
-                combatManagerScript.targeting = false;
-
-                HideButtonsAndAttackUI();
-                StartCoroutine(TargetMonsterCheck());
-                return;
-            }
-
-            if (combatManagerScript.CurrentTargetedMonster != monsterComponent.monsterEnragedTarget)
-            {
-                uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is {Modifier.StatusEffectType.Enraged} " +
-                    $"and can only target {monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} " +
-                    $"{monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}!");
-
-                ListOfCurrentlyTargetedMonsters.Clear();
-                return;
-            }
+            ListOfCurrentlyTargetedMonsters.Clear();
+            return;
         }
 
         // Hide buttons and Attack UI and display targeting text
@@ -597,7 +580,7 @@ public class MonsterAttackManager : MonoBehaviour
     {
         buttonManagerScript.HideAllButtons("All");
         ResetHUD();
-        uiManager.EditCombatMessage();
+        uiManager.ClearCombatMessage();
     }
 
     // Update HUD elements
@@ -814,8 +797,11 @@ public class MonsterAttackManager : MonoBehaviour
             if (currentTargetedMonster.health <= 0)
                 continue;
 
-            CreateMonster currentTargetedMonsterComponent = currentTargetedMonsterGameObject.GetComponent<CreateMonster>();
-            currentTargetedMonsterComponent.monsterTargeterUIGameObject.SetActive(false);
+            if (currentTargetedMonsterGameObject.TryGetComponent(out CreateMonster currentTargetedMonsterComponent))
+            {
+                currentTargetedMonsterComponent = currentTargetedMonsterGameObject.GetComponent<CreateMonster>();
+                currentTargetedMonsterComponent.monsterTargeterUIGameObject.SetActive(false);
+            }
 
             // Check if the attack hits or misses
             if (!CheckAttackHit())
@@ -857,6 +843,8 @@ public class MonsterAttackManager : MonoBehaviour
             // Check if the damage killed the targeted monster
             if (CheckIfDamagedKilledMonster(monsterWhoUsedAttack, monsterWhoUsedAttackGameObject))
             {
+                await combatManagerScript.CheckOnMonsterDeathEvents();
+
                 await TriggerAbilityEffects(currentMonsterTurn, currentMonsterTurnGameObject, AttackEffect.EffectTime.OnKill, currentMonsterAttack);
 
                 await TriggerAbilityEffects(currentTargetedMonster, currentTargetedMonsterGameObject, AttackEffect.EffectTime.OnDeath, currentMonsterAttack);
@@ -984,6 +972,8 @@ public class MonsterAttackManager : MonoBehaviour
 
         if (CheckIfDamagedKilledMonster(targetMonster, targetMonsterGameObject, sourceMonster, sourceMonsterGameObject))
         {
+            await combatManagerScript.CheckOnMonsterDeathEvents();
+
             await TriggerAbilityEffects(sourceMonster, sourceMonsterGameObject, AttackEffect.EffectTime.OnKill, attackEffect.monsterAttackTrigger);
 
             await TriggerAbilityEffects(targetMonster, targetMonsterGameObject, AttackEffect.EffectTime.OnDeath, attackEffect.monsterAttackTrigger);
@@ -996,7 +986,10 @@ public class MonsterAttackManager : MonoBehaviour
 
             totalExpGained += CalculateExp(targetMonster);
 
-            sourceMonsterGameObject.GetComponent<CreateMonster>().GrantExp(totalExpGained);
+            if (sourceMonsterGameObject.TryGetComponent(out monsterComponent))
+            {
+                monsterComponent.GrantExp(totalExpGained);
+            }
 
             Debug.Log("Finished with 'Damage' function calls!", this);
             return 1;

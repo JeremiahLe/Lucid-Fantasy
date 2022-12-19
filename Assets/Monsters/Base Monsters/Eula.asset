@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
-  m_Name: Dev
+  m_Name: Eula
   m_EditorClassIdentifier: 
-  name: Dev
+  name: Eula
   baseSprite: {fileID: 21300000, guid: 16ca542876559c643b6390fbcb006c70, type: 3}
   monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
-  monsterSubElement: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   aiType: 0
   aiLevel: 0
   monsterFlavourText: CONSOLE MODE
@@ -43,10 +43,10 @@ MonoBehaviour:
   magicDefenseScaler: 1
   speedScaler: 1
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 3bb4d934fd63955419d688bedba37d81, type: 2}
   - {fileID: 11400000, guid: fae4b939feef59f45a5663571dad0fd6, type: 2}
   - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
   - {fileID: 11400000, guid: f7e3ed342b10ba848b6de742bb92c023, type: 2}
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable: []
   cachedHealth: 0

@@ -83,14 +83,6 @@ public class EnemyAIManager : MonoBehaviour
                         if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Enraged))
                         {
                             currentEnemyTargetGameObject = currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterEnragedTarget;
-
-                            if (currentEnemyTargetGameObject == null)
-                            {
-                                currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Remove(StatusEffectType.Enraged);
-                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{currentEnemyTurn.aiType} {currentEnemyTurn.name}'s {StatusEffectType.Enraged} status was cleared!", currentEnemyTurn.aiType);
-                                SelectMove();
-                                return;
-                            }
                         }
                         else if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Dazed))
                         {
@@ -156,7 +148,7 @@ public class EnemyAIManager : MonoBehaviour
         if (tempList.Count == 0)
             return null;
 
-        if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
+        if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Enraged))
         {
             tempList = enemyListOfMonsterAttacks.Where(Attack => Attack.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.EnemyTarget || Attack.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.Any).ToList();
         }

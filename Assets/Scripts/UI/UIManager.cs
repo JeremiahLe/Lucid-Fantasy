@@ -178,7 +178,7 @@ public class UIManager : MonoBehaviour
     }
 
     // This function sets the combat message to nothing
-    public void EditCombatMessage()
+    public void ClearCombatMessage()
     {
         HUDanimationManager.MonsterCurrentTurnText.text = "";
     }
@@ -196,7 +196,7 @@ public class UIManager : MonoBehaviour
     // This is a startup function to hide everything then renable it on round start
     public void HideEverything()
     {
-        EditCombatMessage(); // hide combat message
+        ClearCombatMessage(); // hide combat message
 
         AllyTextList.text = ""; // hide ally text list
         EnemyTextList.text = ""; // hide ally text list

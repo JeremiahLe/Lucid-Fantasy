@@ -77,7 +77,12 @@ public class Modifier : ScriptableObject
         if (isStatusEffect)
         {
             monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statusEffectType} status was cleared!", monsterReference.aiType);
+            monsterComponent.CreateStatusEffectPopup($"{statusEffectType} cleared!", AttackEffect.StatChangeType.None);
             monsterComponent.listofCurrentStatusEffects.Remove(statusEffectType);
+
+            if (statusEffectType == StatusEffectType.Enraged)
+                monsterComponent.monsterEnragedTarget = null;
+
             return 1;
         }
 
@@ -189,7 +194,7 @@ public class Modifier : ScriptableObject
         {
             modifierCurrentDuration -= 1;
 
-            if (statusEffectIconGameObject.TryGetComponent(out StatusEffectIcon statusEffectIcon) != false)
+            if (statusEffectIconGameObject != null && statusEffectIconGameObject.TryGetComponent(out StatusEffectIcon statusEffectIcon) != false)
             {
                 statusEffectIconGameObject.GetComponent<StatusEffectIcon>().modifierDurationText.text = ($"{modifierCurrentDuration}");
             }

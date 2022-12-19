@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
-  m_Name: Healing Solvent Heal
+  m_Name: Healing Solvent
   m_EditorClassIdentifier: 
-  typeOfEffect: 16
+  typeOfEffect: 17
   statChangeType: 0
   attackEffectStatus: 0
   statToChange: 0
   effectTime: 2
   monsterTargetType: 0
-  fixedDamageAmount: 1
+  fixedDamageAmount: 0
   triggersEffects: 0
-  effectDamageType: 4
-  elementClass: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
-  uniqueAttackEffectCondition: {fileID: 0}
+  effectDamageType: 0
+  elementClass: {fileID: 0}
+  uniqueAttackEffectCondition: {fileID: 11400000, guid: 27662e4049cab8e40b6df6bc517a045f, type: 2}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
   immunityType: 0
@@ -32,8 +32,8 @@ MonoBehaviour:
   attackEffectDuration: 0
   flatValueChange: 0
   modifierDuration: 0
-  amountToChange: 40
-  effectTriggerChance: 100
+  amountToChange: 25
+  effectTriggerChance: 33
   combatManagerScript: {fileID: 0}
   monsterAttackTrigger: {fileID: 0}
   monsterSource: {fileID: 0}

@@ -696,9 +696,11 @@ public class AttackEffect : ScriptableObject
             return;
 
         if (attackEffect.monsterSource == null)
-        {
             attackEffect.monsterSource = modifier.modifierOwner;
-        }
+
+        // Pass in the ability name if necessary
+        //if (attackEffect.monsterAttackTrigger == null)
+        //    monsterAttackTrigger = monsterAttackManager.currentMonsterAttack;
 
         if (statChangeType == StatChangeType.Buff)
         {

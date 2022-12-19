@@ -193,7 +193,7 @@ public class CreateMonster : MonoBehaviour
         monsterSpeed = (int)monsterReference.speed;
 
         nameText.text = ($"{monster.name} Lvl: {monsterReference.level}");
-        healthText.text = ($"{monsterReference.health.ToString()}/{monster.maxHealth.ToString()}");
+        healthText.text = ($"{monsterReference.health}/{monster.maxHealth}");
         sr.sprite = monster.baseSprite;
     }
 
@@ -220,7 +220,7 @@ public class CreateMonster : MonoBehaviour
         for (int i = 0; i < monsterReference.maxSP; i++)
         {
             var icon = Instantiate(monsterSPIcon, monsterCanvas.transform);
-            icon.transform.localPosition = new Vector3(icon.transform.localPosition.x + (i * 1.1f), icon.transform.localPosition.y, icon.transform.localPosition.z);
+            icon.transform.localPosition = new Vector3(icon.transform.localPosition.x + (i * 1.1f), icon.transform.localPosition.y + .5f, icon.transform.localPosition.z);
             ListOfSPIcons.Add(icon);
         }
 
@@ -643,12 +643,22 @@ public class CreateMonster : MonoBehaviour
     {
         await ResetRoundCombatVariables();
 
+        if (this == null || gameObject == null)
+            return 1;
+
+        await monsterAttackManager.TriggerAbilityEffects(monsterReference, gameObject, AttackEffect.EffectTime.RoundStart);
+
+        return 1;
+    }
+
+    public async Task<int> OnRoundEnd()
+    {
         await CheckCurrentModifiers();
 
         if (this == null || gameObject == null)
             return 1;
 
-        await monsterAttackManager.TriggerAbilityEffects(monsterReference, gameObject, AttackEffect.EffectTime.RoundStart);
+        await monsterAttackManager.TriggerAbilityEffects(monsterReference, gameObject, AttackEffect.EffectTime.RoundEnd);
 
         return 1;
     }
@@ -734,7 +744,7 @@ public class CreateMonster : MonoBehaviour
                 break;
 
             case (AttackEffect.StatToChange.Health):
-                if (modifier.statusEffectType == Modifier.StatusEffectType.None && attackEffect.effectDamageType != MonsterAttack.MonsterAttackDamageType.None)
+                if (modifier.statusEffectType == Modifier.StatusEffectType.None && attackEffect.effectDamageType != MonsterAttack.MonsterAttackDamageType.None && attackEffect.statChangeType == AttackEffect.StatChangeType.Debuff)
                 {
                     Debug.Log($"Calling damage on {monsterReference.name} from {attackEffect} by {modifier.modifierOwner.name}!");
                     await monsterAttackManager.Damage(monsterReference, gameObject, attackEffect, modifier.modifierOwner, modifier.modifierOwnerGameObject, modifier);
