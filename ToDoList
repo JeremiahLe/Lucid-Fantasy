@@ -489,6 +489,14 @@ Imported Various Assets/Packages
 - Add VFX to all abilities & attacks. Fix Buff/Debuff/Attack VFX/Animations
 - Fix AdventureModifier calls
 
+[12/18/22]
+- Test if Dead of Night still works as intended
+- Add VFX to all abilities & attacks. Fix Buff/Debuff/Attack VFX/Animations
+ Make Equipment Apply In The Window, rather than at Game Start
+- Fix the Round 1 Start Delay
+- Adjust SP regens
+- Implement Items
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
