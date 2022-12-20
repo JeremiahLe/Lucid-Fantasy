@@ -1519,10 +1519,12 @@ public class CreateMonster : MonoBehaviour
             return;
 
         combatManagerScript.CycleTargets(gameObject);
+
+        combatManagerScript.uiManager.TargetCurrentlyTargetedMonster();
+
         if (currentTime < delayTime)
-        {
             return;
-        }
+
         DisplayStatScreenWindow(true);
     }
 
@@ -1559,17 +1561,17 @@ public class CreateMonster : MonoBehaviour
             if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count >= monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
                 return;
 
+            if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged) && combatManagerScript.CurrentTargetedMonster != monsterComponent.monsterEnragedTarget)
+            {
+                monsterAttackManager.uiManager.EditCombatMessage($"{monsterReference.aiType} {monsterReference.name} is {Modifier.StatusEffectType.Enraged} " +
+                $"and can only target {monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} " +
+                $"{monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}!");
+                return;
+            }
+
             // Check if the current attack is a multi-target attack and has the correct amount of targets
             if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
             {
-                if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged) && combatManagerScript.CurrentTargetedMonster != monsterComponent.monsterEnragedTarget)
-                {
-                    monsterAttackManager.uiManager.EditCombatMessage($"{monsterReference.aiType} {monsterReference.name} is {Modifier.StatusEffectType.Enraged} " +
-                    $"and can only target {monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} " +
-                    $"{monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}!");
-                    return;
-                }
-
                 if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count < monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
                 {
                     monsterAttackManager.ListOfCurrentlyTargetedMonsters.Add(combatManagerScript.CurrentTargetedMonster);
@@ -1582,20 +1584,6 @@ public class CreateMonster : MonoBehaviour
 
                     if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count != monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
                         return;
-                }
-            }
-
-            // For Selecting Self or Allies with All Target Move while Enraged
-            if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
-            {
-                if (combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType != monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType)
-                {
-                    monsterAttackManager.uiManager.EditCombatMessage($"{monsterReference.aiType} {monsterReference.name} is {Modifier.StatusEffectType.Enraged} " +
-                       $"and can only target {monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} " +
-                       $"{monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}!");
-
-                    monsterAttackManager.ListOfCurrentlyTargetedMonsters.Clear();
-                    return;
                 }
             }
 

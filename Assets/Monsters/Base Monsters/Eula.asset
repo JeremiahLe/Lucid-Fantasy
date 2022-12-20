@@ -32,7 +32,7 @@ MonoBehaviour:
   physicalDefense: 1
   magicDefense: 1
   speed: 40
-  evasion: 0
+  evasion: 20
   critChance: 0
   critDamage: 1.25
   bonusAccuracy: 0
@@ -44,9 +44,9 @@ MonoBehaviour:
   speedScaler: 1
   ListOfMonsterAttacks:
   - {fileID: 11400000, guid: fae4b939feef59f45a5663571dad0fd6, type: 2}
-  - {fileID: 11400000, guid: f225d41b9f6f1d741a010152ab8af87c, type: 2}
   - {fileID: 11400000, guid: f7e3ed342b10ba848b6de742bb92c023, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  - {fileID: 11400000, guid: 2439c4c37b304ce4784f0ed8780da9f7, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable: []
   cachedHealth: 0

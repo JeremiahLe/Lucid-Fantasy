@@ -498,7 +498,7 @@ public class AttackEffect : ScriptableObject
 
         Debug.Log($"Attack effect targeting has passed all checks. Calling Attack Effect! {effectTriggerName}");
 
-        CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
+        //CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
 
         float statChangeAmount = CalculateStatChange(targetMonster, this, statToChange);
 
@@ -521,7 +521,7 @@ public class AttackEffect : ScriptableObject
 
         float fromValue = 1;
 
-        CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
+        //CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
 
         // What target is being used to calculate stat change?
         if (scaleFromWhatTarget == ScaleFromWhatTarget.monsterUsingAttack)
@@ -564,6 +564,7 @@ public class AttackEffect : ScriptableObject
         if (monsterComponent.listofCurrentStatusEffects.Contains(attackEffectStatus))
         {
             combatManagerScript = monsterAttackManager.combatManagerScript;
+            monsterComponent.CreateStatusEffectPopup("No Effect!", StatChangeType.None);
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name} is already {attackEffectStatus}!", targetMonster.aiType);
             return;
         }
@@ -888,10 +889,14 @@ public class AttackEffect : ScriptableObject
     public static bool CheckTargetIsImmune(Monster targetMonster, MonsterAttackManager monsterAttackManager, GameObject targetMonsterGameObject, AttackEffect attackEffect)
     {
         CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
+
         Debug.Log("Checking if monsterComponent is null!");
+
         if (monsterComponent == null)
             return false;
+
         Debug.Log("MonsterComponent is not null!");
+
         if (attackEffect.statChangeType == StatChangeType.Buff)
         {
             if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Crippled))

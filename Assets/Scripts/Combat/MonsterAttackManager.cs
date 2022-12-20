@@ -185,9 +185,7 @@ public class MonsterAttackManager : MonoBehaviour
 
         // Fixes a weird targeting bug
         if (combatManagerScript.CurrentTargetedMonster == null)
-        {
             return;
-        }
 
         // Check if the current attack is a multi-target attack
         if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
@@ -508,18 +506,6 @@ public class MonsterAttackManager : MonoBehaviour
         // Assign this scripts current monster turn obj and monster ref from combat manager
         currentMonsterTurnGameObject = combatManagerScript.CurrentMonsterTurn;
         currentMonsterTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference; // unrelated to UI popup (missing reassignment calls?)
-
-        // Check if current monster turn is enraged and if the target is still alive
-        CreateMonster monsterComponent = currentMonsterTurnGameObject.GetComponent<CreateMonster>();
-        if (combatManagerScript.CurrentTargetedMonster != monsterComponent.monsterEnragedTarget)
-        {
-            uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} is {Modifier.StatusEffectType.Enraged} " +
-                $"and can only target {monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.aiType} " +
-                $"{monsterComponent.monsterEnragedTarget.GetComponent<CreateMonster>().monsterReference.name}!");
-
-            ListOfCurrentlyTargetedMonsters.Clear();
-            return;
-        }
 
         // Hide buttons and Attack UI and display targeting text
         combatManagerScript.targeting = false;

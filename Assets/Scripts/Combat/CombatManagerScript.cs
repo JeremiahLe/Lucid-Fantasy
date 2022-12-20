@@ -229,13 +229,11 @@ public class CombatManagerScript : MonoBehaviour
             if (monster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Ally && ListOfAllys.Contains(monster) != true)
             {
                 ListOfAllys.Add(monster);
-                UpdateMonsterList(monster, Monster.AIType.Ally);
                 BattleSequence.Add(monster);
             }
             else if (monster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy && ListOfEnemies.Contains(monster) != true)
             {
                 ListOfEnemies.Add(monster);
-                UpdateMonsterList(monster, Monster.AIType.Enemy);
                 BattleSequence.Add(monster);
             }
         }
@@ -263,7 +261,7 @@ public class CombatManagerScript : MonoBehaviour
         }
 
         firstMonsterTurn = BattleSequence[0];
-        uiManager.CombatOrderTextList.text = ($"Combat Order:\n");
+        uiManager.CombatOrderTextList.text = ($"");
 
         for (int i = 0; i < BattleSequence.Count; i++)
         {
@@ -272,11 +270,11 @@ public class CombatManagerScript : MonoBehaviour
             // Get text color
             if (monster.aiType == Monster.AIType.Ally)
             {
-                uiManager.CombatOrderTextList.text += ($"{monster.aiType} {monster.name} || Speed: <b>{monster.speed}</b>\n");
+                //uiManager.CombatOrderTextList.text += ($"{monster.aiType} {monster.name} || Speed: <b>{monster.speed}</b>\n");
             }
             else if (monster.aiType == Monster.AIType.Enemy)
             {
-                uiManager.CombatOrderTextList.text += ($"<color=red>{monster.aiType} {monster.name}</color> || Speed: <b>{monster.speed}</b>\n");
+                //uiManager.CombatOrderTextList.text += ($"<color=red>{monster.aiType} {monster.name}</color> || Speed: <b>{monster.speed}</b>\n");
             }
 
             if (monsterJoinedBattle)
@@ -392,20 +390,6 @@ public class CombatManagerScript : MonoBehaviour
         }
     }
     
-    // This function properly updates the lists of ally and enemy monsters based on what is passed in
-    public void UpdateMonsterList(GameObject monster, Monster.AIType aIType)
-    {
-        Monster _monster = monster.GetComponent<CreateMonster>().monsterReference;
-
-        if (aIType == Monster.AIType.Ally)
-        {
-            uiManager.UpdateMonsterList(ListOfAllys, Monster.AIType.Ally);
-        }
-        else if (aIType == Monster.AIType.Enemy)
-        {
-            uiManager.UpdateMonsterList(ListOfEnemies, Monster.AIType.Enemy);
-        }
-    }
 
     // This new godlike function returns the monster with the highest speed that hasn't had an action yet
     GameObject MonsterNextTurn()
@@ -807,90 +791,9 @@ public class CombatManagerScript : MonoBehaviour
         if (newTarget == null)
             return;
 
-        // Set the old targeter UI object off and set the new target
-        CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject.SetActive(false);
-
         CurrentTargetedMonster = newTarget;
-        CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject.SetActive(true);
 
-        // If the current monster attack targets all targets, adjust the targeters accordingly
-        if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
-        {
-            // Disable each targeter first
-            foreach (GameObject monster in BattleSequence)
-            {
-                monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
-                monsterTargeter.SetActive(false);
-            }
-
-            // If the current targeted monster is an enemy, show all enemy targeters
-            if (CurrentTargetedMonster.GetComponent<CreateMonster>().monster.aiType == Monster.AIType.Enemy)
-            {
-                foreach (GameObject monster in ListOfEnemies)
-                {
-                    monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
-                    monsterTargeter.SetActive(true);
-                }
-            }
-            else  // Else, show all allied targeters
-            {
-                foreach (GameObject monster in ListOfAllys)
-                {
-                    monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
-                    monsterTargeter.SetActive(true);
-                }
-            }
-        }
-
-        // Update the targeted monster combat text
         monsterAttackManager.UpdateCurrentTargetText();
-
-        #region Old Code
-        /*
-        int index;
-
-        switch (targetingWho)
-        {
-            case Monster.AIType.Ally:
-
-                index = ListOfAllys.IndexOf(CurrentTargetedMonster);
-
-                if (index + 1 >= ListOfAllys.Count || index - 1 <= ListOfAllys.Count)
-                {
-                    CurrentTargetedMonster = ListOfAllys[0];
-                    monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
-                }
-                else
-                {
-                    CurrentTargetedMonster = ListOfAllys[index + 1];
-                    monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
-                }
-                break;
-
-            case Monster.AIType.Enemy:
-
-                index = ListOfEnemies.IndexOf(CurrentTargetedMonster);
-
-                if (index + 1 >= ListOfEnemies.Count)
-                {
-                    CurrentTargetedMonster = ListOfEnemies[0];
-                    monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
-                    monsterAttackManager.UpdateCurrentTargetText();
-                }
-                else
-                {
-                    CurrentTargetedMonster = ListOfEnemies[index];
-                    monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 2.5f, CurrentTargetedMonster.transform.position.z);
-                    monsterAttackManager.UpdateCurrentTargetText();
-                }
-                break;
-
-            default:
-                Debug.Log($"Missing list of targets or monster type reference?", this);
-                break;
-        }
-        */
-        #endregion
     }
 
     // This function updates the targeter position on daze call or otherwise
@@ -975,7 +878,7 @@ public class CombatManagerScript : MonoBehaviour
                     await monsterComponent.OnRoundStart();
                 }
 
-                await Task.Delay(150);
+                await Task.Delay(75);
             }
 
             // Sort after monster on round starts are called
@@ -989,7 +892,7 @@ public class CombatManagerScript : MonoBehaviour
     // Coroutine to to increment round counter after a delay
     IEnumerator IncrementNewRoundIE()
     {
-        yield return new WaitForSeconds(.15f);
+        yield return new WaitForSeconds(.10f);
         IncrementNewRound();
     }
 
@@ -1012,8 +915,6 @@ public class CombatManagerScript : MonoBehaviour
 
                 Destroy(monsterToRemove, 1f);
 
-                uiManager.UpdateMonsterList(ListOfAllys, Monster.AIType.Ally);
-
                 if (adventureMode || testAdventureMode)
                 {
                     // Remove monster references from adventure manager
@@ -1032,8 +933,6 @@ public class CombatManagerScript : MonoBehaviour
                 ListOfEnemies.Remove(monsterToRemove);
 
                 Destroy(monsterToRemove, 1f);
-
-                uiManager.UpdateMonsterList(ListOfEnemies, Monster.AIType.Enemy);
 
                 if (adventureMode)
                     adventureManager.playerMonstersKilled += 1;

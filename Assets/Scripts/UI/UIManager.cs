@@ -15,9 +15,6 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI RoundCountText;
 
-    public TextMeshProUGUI AllyTextList;
-    public TextMeshProUGUI EnemyTextList;
-
     public GameObject monsterTargeter;
     public GameObject monsterTurnIndicator;
 
@@ -26,6 +23,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject DetailedMonsterStatsWindow;
     public GameObject InteractableToolTipWindow;
+
+    public List<GameObject> ListOfTargeters;
 
     [Header("Battle Results Window")]
     public GameObject BattleResultsWindow;
@@ -96,9 +95,6 @@ public class UIManager : MonoBehaviour
         RoundStartTextPopup.CrossFadeAlpha(0f, 0.01f, false); // set round start invisible at start
         FadeText(BattleStartTextPopup); // fade battle start text
         RoundStartTextPopup.CrossFadeAlpha(1f, 1f, false); // fade in round start
-
-        AllyTextList.text = ("Allies:\n");
-        EnemyTextList.text = ("Enemies:\n");
     }
 
     // This function handles the monster turn indicator UI object
@@ -107,7 +103,7 @@ public class UIManager : MonoBehaviour
         monsterTurnIndicator.SetActive(true);
         if (currentMonsterTurn != null)
         {
-            monsterTurnIndicator.transform.position = new Vector3(currentMonsterTurn.transform.position.x, currentMonsterTurn.transform.position.y + 2.0f, currentMonsterTurn.transform.position.z);
+            monsterTurnIndicator.transform.position = new Vector3(currentMonsterTurn.transform.position.x, currentMonsterTurn.transform.position.y + 1.5f, currentMonsterTurn.transform.position.z);
         }
         else
         {
@@ -115,40 +111,20 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // This function updates the UI elements on screen when called (monster init, list clearing/updating)
-    public void UpdateMonsterList(List<GameObject> monsterList, Monster.AIType aIType)
+    public void TargetCurrentlyTargetedMonster()
     {
-        Monster monsterRef = null;
+        GameObject targetMonster = combatManagerScript.CurrentTargetedMonster;
+        var targeter = Instantiate(monsterTargeter);
+        ListOfTargeters.Add(targeter);
 
-        switch (aIType)
+        targeter.transform.position = new Vector3(targetMonster.transform.position.x, targetMonster.transform.position.y + 2f, targetMonster.transform.position.z);
+    }
+
+    public void HideTargeters()
+    {
+        foreach (GameObject targeter in ListOfTargeters.ToArray())
         {
-            case Monster.AIType.Ally:
-                AllyTextList.text = ("Allies:\n");
-                foreach (GameObject monster in monsterList)
-                {
-                    monsterRef = monster.GetComponent<CreateMonster>().monsterReference;
-                    if (monsterRef.name != "")
-                    {
-                        AllyTextList.text += ($"{monsterRef.name}, Lvl: {monsterRef.level}\n");
-                    }
-                }
-                break;
-
-            case Monster.AIType.Enemy:
-                EnemyTextList.text = ("Enemies:\n");
-                foreach (GameObject monster in monsterList)
-                {
-                    monsterRef = monster.GetComponent<CreateMonster>().monsterReference;
-                    if (monsterRef.name != "")
-                    {
-                        EnemyTextList.text += ($"{monsterRef.name}, Lvl: {monsterRef.level}\n");
-                    }
-                }
-                break;
-
-            default:
-                Debug.Log("Missing monster, list, or AIType reference?", this);
-                break;
+            Destroy(targeter, 0.1f);
         }
     }
 
@@ -190,7 +166,7 @@ public class UIManager : MonoBehaviour
         RoundStartTextPopup.text = ($"Round {currentRound}");
 
         RoundStartTextPopup.CrossFadeAlpha(1f, .5f, true);
-        Invoke("FadeRoundText", .75f);
+        Invoke(nameof(FadeRoundText), .75f);
     }
 
     // This is a startup function to hide everything then renable it on round start
@@ -198,8 +174,6 @@ public class UIManager : MonoBehaviour
     {
         ClearCombatMessage(); // hide combat message
 
-        AllyTextList.text = ""; // hide ally text list
-        EnemyTextList.text = ""; // hide ally text list
         CombatOrderTextList.text = ""; // hide combat order text list
 
         RoundCountText.text = ""; // hide round counter text
