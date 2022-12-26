@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     public GameObject InteractableToolTipWindow;
 
     public List<GameObject> ListOfTargeters;
+    public List<GameObject> ListOfLockedTargeters;
 
     [Header("Battle Results Window")]
     public GameObject BattleResultsWindow;
@@ -111,22 +112,80 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void TargetCurrentlyTargetedMonster()
+    public void GetCurrentlyTargetedMonsters()
     {
+        ClearAllTargeters();
+
+        MonsterAttack currentMonsterAttack = combatManagerScript.monsterAttackManager.currentMonsterAttack;
         GameObject targetMonster = combatManagerScript.CurrentTargetedMonster;
+
+        if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.SingleTarget)
+        {
+            InstantiateTargeterToMonsterPosition(targetMonster);
+            return;
+        }
+
+        if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
+        {
+            foreach (GameObject monster in combatManagerScript.monsterAttackManager.ListOfCurrentlyTargetedMonsters)
+                InstantiateTargeterToMonsterPosition(monster);
+            return;
+        }
+
+        if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
+        {
+            if (targetMonster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy) 
+            {
+                foreach (GameObject monster in combatManagerScript.ListOfEnemies)
+                {
+                    InstantiateTargeterToMonsterPosition(monster);
+                }
+            }
+            else
+            {
+                foreach (GameObject monster in combatManagerScript.ListOfAllys)
+                {
+                    InstantiateTargeterToMonsterPosition(monster);
+                }
+            }
+        }
+    }
+
+    public void InstantiateTargeterToMonsterPosition(GameObject targetMonster)
+    {
         var targeter = Instantiate(monsterTargeter);
-        ListOfTargeters.Add(targeter);
+        targeter.SetActive(true);
+
+        if (combatManagerScript.monsterAttackManager.ListOfCurrentlyTargetedMonsters.Contains(targetMonster))
+            ListOfLockedTargeters.Add(targeter);
+        else
+            ListOfTargeters.Add(targeter);
 
         targeter.transform.position = new Vector3(targetMonster.transform.position.x, targetMonster.transform.position.y + 2f, targetMonster.transform.position.z);
     }
 
-    public void HideTargeters()
+    public void ClearTargeters()
     {
         foreach (GameObject targeter in ListOfTargeters.ToArray())
         {
-            Destroy(targeter, 0.1f);
+            Destroy(targeter, 0.01f);
         }
     }
+
+    public void ClearLockedTargeters()
+    {
+        foreach (GameObject targeter in ListOfLockedTargeters.ToArray())
+        {
+            Destroy(targeter, 0.01f);
+        }
+    }
+
+    public void ClearAllTargeters()
+    {
+        ClearTargeters();
+        ClearLockedTargeters();
+    }
+
 
     // This function fades text passed in
     public void FadeText(TextMeshProUGUI textToFade)

@@ -1520,7 +1520,32 @@ public class CreateMonster : MonoBehaviour
 
         combatManagerScript.CycleTargets(gameObject);
 
-        combatManagerScript.uiManager.TargetCurrentlyTargetedMonster();
+        if (combatManagerScript.targeting)
+        {
+            combatManagerScript.uiManager.ClearTargeters();
+
+            if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
+            {
+                if (gameObject.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy)
+                {
+                    foreach (GameObject monster in combatManagerScript.ListOfEnemies)
+                    {
+                        combatManagerScript.uiManager.InstantiateTargeterToMonsterPosition(monster);
+                    }
+                }
+                else
+                {
+                    foreach (GameObject monster in combatManagerScript.ListOfAllys)
+                    {
+                        combatManagerScript.uiManager.InstantiateTargeterToMonsterPosition(monster);
+                    }
+                }
+
+                return;
+            }
+
+            combatManagerScript.uiManager.InstantiateTargeterToMonsterPosition(gameObject);
+        }
 
         if (currentTime < delayTime)
             return;
@@ -1575,12 +1600,11 @@ public class CreateMonster : MonoBehaviour
                 if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count < monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
                 {
                     monsterAttackManager.ListOfCurrentlyTargetedMonsters.Add(combatManagerScript.CurrentTargetedMonster);
+                    combatManagerScript.uiManager.InstantiateTargeterToMonsterPosition(gameObject);
 
                     if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count != monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
                         monsterAttackManager.HUDanimationManager.MonsterCurrentTurnText.text =
                             ($"Select {monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber - monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count} target(s)...");
-
-                    combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject.SetActive(true);
 
                     if (monsterAttackManager.ListOfCurrentlyTargetedMonsters.Count != monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber)
                         return;

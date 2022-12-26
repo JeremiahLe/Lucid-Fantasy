@@ -433,6 +433,8 @@ public class CombatManagerScript : MonoBehaviour
 
         monsterAttackManager.ListOfCurrentlyTargetedMonsters.Clear();
 
+        uiManager.ClearAllTargeters();
+
         CurrentMonsterTurn = MonsterNextTurn();
 
         if (CurrentMonsterTurn == null)
@@ -535,6 +537,8 @@ public class CombatManagerScript : MonoBehaviour
                 Modifier modifier = monster.ListOfModifiers.Find(modifier => modifier.statusEffectType == StatusEffectType.Enraged);
 
                 await modifier.ResetModifiedStat(monster, monsterObj);
+
+                monster.ListOfModifiers.Remove(modifier);
             }
         }
 
@@ -637,7 +641,7 @@ public class CombatManagerScript : MonoBehaviour
         CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
 
         // Get attack
-        MonsterAttack randomAttack = GetRandomMove();
+        MonsterAttack randomAttack = enemyAIManager.GetRandomAttack();
 
         if (randomAttack == null)
         {
@@ -659,7 +663,7 @@ public class CombatManagerScript : MonoBehaviour
             }
         }
 
-        if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
+        if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Enraged))
         {
             CurrentTargetedMonster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterEnragedTarget;
 
@@ -743,40 +747,12 @@ public class CombatManagerScript : MonoBehaviour
                 Debug.Log("Targeting");
                 targeting = true;
                 AttackTypeTargeting(); // for autoBattle fixme properly
-                if (currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
-                {
-                    if (CurrentTargetedMonster.GetComponent<CreateMonster>().monster.aiType == Monster.AIType.Enemy)
-                    {
-                        foreach (GameObject monster in ListOfEnemies)
-                        {
-                            monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
-                            monsterTargeter.SetActive(true);
-                        }
-                    }
-                    else
-                    {
-                        foreach (GameObject monster in ListOfAllys)
-                        {
-                            monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
-                            monsterTargeter.SetActive(true);
-                        }
-                    }
-                    return;
-                }
-
-                monsterTargeter = CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
-                monsterTargeter.SetActive(true);
-                //monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
+                uiManager.GetCurrentlyTargetedMonsters();
                 break;
 
             case false:
                 Debug.Log("Not Targeting");
                 targeting = false;
-                foreach (GameObject monster in BattleSequence)
-                {
-                    monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
-                    monsterTargeter.SetActive(false);
-                }
                 break;
         }
     }

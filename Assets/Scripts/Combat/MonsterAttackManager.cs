@@ -40,9 +40,6 @@ public class MonsterAttackManager : MonoBehaviour
     public GameObject monsterAttackMissText;
     public GameObject monsterCritText;
 
-    public GameObject monsterCombatPredictionWindow;
-    public TextMeshProUGUI monsterCombatPredictionText;
-
     public Sprite poisonedUISprite;
     public Sprite noUISprite;
     public Sprite burningUISprite;
@@ -306,7 +303,6 @@ public class MonsterAttackManager : MonoBehaviour
             // Update targeting
             currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
             currentTargetedMonster = currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
-            combatManagerScript.UpdateTargeterPosition(currentMonsterTurnGameObject);
         }
         else if (dazedAttackChoice.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget) // Not targeting self only, grab a random list, allys or enemies
         {
@@ -323,7 +319,6 @@ public class MonsterAttackManager : MonoBehaviour
 
             currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
             currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
-            combatManagerScript.UpdateTargeterPosition(currentMonsterTurnGameObject);
         }
         else
         {
@@ -335,7 +330,6 @@ public class MonsterAttackManager : MonoBehaviour
             // Update targeting
             currentTargetedMonsterGameObject = combatManagerScript.CurrentTargetedMonster;
             currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
-            combatManagerScript.UpdateTargeterPosition(currentMonsterTurnGameObject);
             Debug.Log($"New Target! {currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference.name}");
         }
 
@@ -488,7 +482,7 @@ public class MonsterAttackManager : MonoBehaviour
         }
 
         // Targeter position fix for
-        //combatManagerScript.UpdateTargeterPosition(ListOfCurrentlyTargetedMonsters[0]);
+        uiManager.GetCurrentlyTargetedMonsters();
 
         Invoke("ConfirmMonsterAttack", 1.3f);
     }
