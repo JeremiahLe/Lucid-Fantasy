@@ -509,6 +509,15 @@ Imported Various Assets/Packages
 - Adjust SP regens
 - Implement Items
 
+[12/27/22]
+- Add VFX to all abilities & attacks. Fix Buff/Debuff/Attack VFX/Animations
+- Make Equipment Apply In The Window, rather than at Game Start
+- Adjust SP regens
+- Implement Items
+
+- Finish ConsumableWindowScript()
+- 
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
