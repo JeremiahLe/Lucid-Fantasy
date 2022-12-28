@@ -36,7 +36,7 @@ public class Monster : ScriptableObject
     public enum AIType { Ally, Enemy };
     public AIType aiType;
 
-    public enum AILevel { Smart, Random, Bad, Player };
+    public enum AILevel { Offensive, Random, Supportive, Player };
     public AILevel aiLevel;
 
     // The monster's flavour text and ability

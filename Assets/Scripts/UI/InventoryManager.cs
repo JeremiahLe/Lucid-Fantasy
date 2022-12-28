@@ -301,22 +301,20 @@ public class InventoryManager : MonoBehaviour
         monsterBaseImage.sprite = currentMonsterEquipment.baseSprite;
         monsterBaseText.text =
             ($"<b>{currentMonsterEquipment.name}</b>" +
-            $"\nLv.{currentMonsterEquipment.level} | Exp: {currentMonsterEquipment.monsterCurrentExp}/{currentMonsterEquipment.monsterExpToNextLevel}" +
-            $"\n\n<b>Ability: {currentMonsterEquipment.monsterAbility.abilityName}</b>" +
-            $"\n{currentMonsterEquipment.monsterAbility.abilityDescription}");
+            $"\nLv.{currentMonsterEquipment.level} | Exp: {currentMonsterEquipment.monsterCurrentExp}/{currentMonsterEquipment.monsterExpToNextLevel}");
 
         // Display monster elements
         if (currentMonsterEquipment.monsterSubElement.element != ElementClass.MonsterElement.None)
         {
             monsterElementsText.text =
                 ($"<b>Elements</b>" +
-                $"\n{currentMonsterEquipment.monsterElement.element.ToString()} / {currentMonsterEquipment.monsterSubElement.element.ToString()}");
+                $"\n{currentMonsterEquipment.monsterElement.element} / {currentMonsterEquipment.monsterSubElement.element}");
         }
         else
         {
             monsterElementsText.text =
                 ($"<b>Element</b>" +
-                $"\n{currentMonsterEquipment.monsterElement.element.ToString()}");
+                $"\n{currentMonsterEquipment.monsterElement.element}");
         }
 
         // Disable ascension buttons before checking 
@@ -408,7 +406,7 @@ public class InventoryManager : MonoBehaviour
         // Display Ascension Traits
         ascensionTraits.text =
             ($"New Ability: {currentAscensionPath.monsterAbility.abilityName}" +
-            $"\nNew Command: {currentAscensionPath.monsterAscensionAttack.monsterAttackName}");
+            $"\nNew Attack: {currentAscensionPath.monsterAscensionAttack.monsterAttackName}");
 
         // Monster Ability Text
         monsterNewAbility.GetComponent<Interactable>().interactableName = currentAscensionPath.monsterAbility.abilityName;
@@ -567,7 +565,7 @@ public class InventoryManager : MonoBehaviour
         ascendedMonster.sprite = currentMonsterEquipment.baseSprite;
         ascendedMonsterText.text = 
             ($"{preAscensionReference.name} ascended into {currentMonsterEquipment.name}!" +
-            $"\n\nReplace an existing command with {currentMonsterEquipment.monsterAscensionAttack.monsterAttackName}?");
+            $"\n\nReplace an existing attack with {currentMonsterEquipment.monsterAscensionAttack.monsterAttackName}?");
 
         // Display new command
         DragCommandController newAttackHolder = newCommandHolder.GetComponent<DragCommandController>();

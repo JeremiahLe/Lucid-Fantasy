@@ -220,7 +220,7 @@ public class CreateMonster : MonoBehaviour
         for (int i = 0; i < monsterReference.maxSP; i++)
         {
             var icon = Instantiate(monsterSPIcon, monsterCanvas.transform);
-            icon.transform.localPosition = new Vector3(icon.transform.localPosition.x + (i * 1.1f), icon.transform.localPosition.y + .5f, icon.transform.localPosition.z);
+            icon.transform.localPosition = new Vector3(icon.transform.localPosition.x + (i * 1.1f), icon.transform.localPosition.y + 0.90f, icon.transform.localPosition.z); //0.95f
             ListOfSPIcons.Add(icon);
         }
 

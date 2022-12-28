@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1efbd7db8ef265c44b775bb28ed8480f, type: 3}
   m_Name: Stormcowl Passive
   m_EditorClassIdentifier: 
-  abilityTriggerDelay: 150
+  abilityTriggerDelay: 75
   abilityTriggerTime: 5
   currentAttackEffectTriggered:
   - {fileID: 11400000, guid: f93ebb02928640041ac5a3beb1e1fc39, type: 2}

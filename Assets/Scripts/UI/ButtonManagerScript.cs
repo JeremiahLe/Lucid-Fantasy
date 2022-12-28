@@ -213,6 +213,11 @@ public class ButtonManagerScript : MonoBehaviour
         combatManagerScript.PassTurn();
     }
 
+    public void ItemButtonClicked()
+    {
+        uiManager.ShowConsumableWindow();
+    }
+
     // This function brings up the change row buttons menu
     public void ChangeButtonClicked()
     {

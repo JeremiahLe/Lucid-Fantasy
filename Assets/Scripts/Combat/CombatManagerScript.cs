@@ -579,6 +579,8 @@ public class CombatManagerScript : MonoBehaviour
 
         uiManager.InitiateMonsterTurnIndicator(CurrentMonsterTurn);
 
+        CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
+
         if (CheckMonsterIsStunned(monsterComponent))
             return;
 
@@ -591,8 +593,7 @@ public class CombatManagerScript : MonoBehaviour
             monsterTurn = MonsterTurn.EnemyTurn;
             buttonManagerScript.HideAllButtons("All");
             HUDanimationManager.MonsterCurrentTurnText.text = ($"Enemy {monster.name} turn...");
-
-            enemyAIManager.Invoke(nameof(enemyAIManager.SelectMove), 1.7f);
+            enemyAIManager.Invoke(nameof(enemyAIManager.SelectMonsterAttackByAILevel), 1.7f);
         }
         // If ally, give player move
         else /*if (monster.aiType == Monster.AIType.Ally)*/
@@ -604,18 +605,13 @@ public class CombatManagerScript : MonoBehaviour
                 HUDanimationManager.MonsterCurrentTurnText.text = ($"What will {monster.name} do?");
                 buttonManagerScript.AssignAttackMoves(monster);
                 buttonManagerScript.ResetHUD();
-
-                CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
             }
             else // auto battle - TODO - make auto battle less random!!
             {
                 monsterTurn = MonsterTurn.AllyTurn;
                 buttonManagerScript.ListOfMonsterAttacks.Clear();
                 HUDanimationManager.MonsterCurrentTurnText.text = ($"{monster.aiType} {monster.name} turn...");
-                if (monster.aiType == Monster.AIType.Ally)
-                    StartCoroutine(ReturnAllyMoveAndTargetCoroutine(monster)); // start delay
-                else
-                    enemyAIManager.Invoke(nameof(enemyAIManager.SelectMove), 1.7f);
+                enemyAIManager.Invoke(nameof(enemyAIManager.SelectMonsterAttackByAILevel), 1.7f);
             }       
         }
     }
@@ -633,48 +629,48 @@ public class CombatManagerScript : MonoBehaviour
     }
 
     // This coroutine acts as an artificial delay for autobattle similar to the enemy AI
-    IEnumerator ReturnAllyMoveAndTargetCoroutine(Monster monster)
-    {
-        yield return new WaitForSeconds(1.5f);
-        buttonManagerScript.AssignAttackMoves(monster);
+    //IEnumerator ReturnAllyMoveAndTargetCoroutine(Monster monster)
+    //{
+    //    yield return new WaitForSeconds(1.5f);
+    //    buttonManagerScript.AssignAttackMoves(monster);
 
-        CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
+    //    CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
 
-        // Get attack
-        MonsterAttack randomAttack = enemyAIManager.GetRandomAttack();
+    //    // Get attack
+    //    MonsterAttack randomAttack = enemyAIManager.GetRandomAttack();
 
-        if (randomAttack == null)
-        {
-            PassTurn();
-            yield break;
-        }
+    //    if (randomAttack == null)
+    //    {
+    //        PassTurn();
+    //        yield break;
+    //    }
 
-        monsterAttackManager.currentMonsterAttack = randomAttack;
+    //    monsterAttackManager.currentMonsterAttack = randomAttack;
 
-        // Adjust target
-        AttackTypeTargeting();
+    //    // Adjust target
+    //    AttackTypeTargeting();
 
-        // Auto-battle multi-target missing target adjustment
-        if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
-        {
-            for (int i = 0; i < monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber; i++)
-            {
-                monsterAttackManager.ListOfCurrentlyTargetedMonsters.Add(GetRandomTarget(ListOfEnemies));
-            }
-        }
+    //    // Auto-battle multi-target missing target adjustment
+    //    if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
+    //    {
+    //        for (int i = 0; i < monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber; i++)
+    //        {
+    //            monsterAttackManager.ListOfCurrentlyTargetedMonsters.Add(GetRandomTarget(ListOfEnemies));
+    //        }
+    //    }
 
-        if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Enraged))
-        {
-            CurrentTargetedMonster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterEnragedTarget;
+    //    if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Enraged))
+    //    {
+    //        CurrentTargetedMonster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterEnragedTarget;
 
-            if (CurrentTargetedMonster == null)
-                PassTurn();
+    //        if (CurrentTargetedMonster == null)
+    //            PassTurn();
 
-            yield break;
-        }
+    //        yield break;
+    //    }
 
-        monsterAttackManager.Invoke(nameof(monsterAttackManager.UseMonsterAttack), 0.1f);
-    }
+    //    monsterAttackManager.Invoke(nameof(monsterAttackManager.UseMonsterAttack), 0.1f);
+    //}
 
     // This function returns a random move from the monsters list of monster attacks
     public MonsterAttack GetRandomMove()
@@ -682,7 +678,7 @@ public class CombatManagerScript : MonoBehaviour
         Monster monster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
         List<MonsterAttack> tempList = monster.ListOfMonsterAttacks;
 
-        if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Enraged))
+        if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Enraged))
         {
             tempList = monster.ListOfMonsterAttacks.Where(Attack => Attack.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.EnemyTarget || Attack.monsterAttackTargetType == MonsterAttack.MonsterAttackTargetType.Any).ToList();
         }

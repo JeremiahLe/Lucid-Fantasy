@@ -14,6 +14,7 @@ TagManager:
   - Targeter
   - modifierWindow
   - FxTemporaire
+  - Tooltip
   layers:
   - Default
   - TransparentFX

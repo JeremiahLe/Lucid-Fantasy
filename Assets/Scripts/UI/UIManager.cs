@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour
     public GameObject DetailedMonsterStatsWindow;
     public GameObject InteractableToolTipWindow;
 
+    public GameObject ConsumableWindow;
+
     public List<GameObject> ListOfTargeters;
     public List<GameObject> ListOfLockedTargeters;
 
@@ -104,7 +106,7 @@ public class UIManager : MonoBehaviour
         monsterTurnIndicator.SetActive(true);
         if (currentMonsterTurn != null)
         {
-            monsterTurnIndicator.transform.position = new Vector3(currentMonsterTurn.transform.position.x, currentMonsterTurn.transform.position.y + 1.5f, currentMonsterTurn.transform.position.z);
+            monsterTurnIndicator.transform.position = new Vector3(currentMonsterTurn.transform.position.x, currentMonsterTurn.transform.position.y + (0.01f * currentMonsterTurn.GetComponent<CreateMonster>().monsterReference.baseSprite.pixelsPerUnit), currentMonsterTurn.transform.position.z);
         }
         else
         {
@@ -161,7 +163,7 @@ public class UIManager : MonoBehaviour
         else
             ListOfTargeters.Add(targeter);
 
-        targeter.transform.position = new Vector3(targetMonster.transform.position.x, targetMonster.transform.position.y + 2f, targetMonster.transform.position.z);
+        targeter.transform.position = new Vector3(targetMonster.transform.position.x, targetMonster.transform.position.y + (0.01f * targetMonster.GetComponent<CreateMonster>().monsterReference.baseSprite.pixelsPerUnit), targetMonster.transform.position.z);
     }
 
     public void ClearTargeters()
@@ -325,5 +327,10 @@ public class UIManager : MonoBehaviour
             combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
         }
 
+    }
+
+    public void ShowConsumableWindow()
+    {
+        ConsumableWindow.SetActive(true);
     }
 }

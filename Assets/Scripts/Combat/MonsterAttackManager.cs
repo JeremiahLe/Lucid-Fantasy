@@ -264,7 +264,7 @@ public class MonsterAttackManager : MonoBehaviour
         currentTargetedMonster = currentTargetedMonsterGameObject.GetComponent<CreateMonster>().monsterReference; // wtf?
 
         // If the current monster is not dazed, skip dazed logic
-        if (!currentMonsterTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed))
+        if (!currentMonsterTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Dazed))
         {
             yield return new WaitForSeconds(0.1f);
             UpdateCombatText(false);
@@ -375,25 +375,10 @@ public class MonsterAttackManager : MonoBehaviour
                             ($"{monster.aiType} {monster.name}");
                     }
 
-                    //if (ListOfCurrentlyTargetedMonsters.Where(m => m.name == monsterGameObject.name).Count() > 1)
-                    //{
-                    //    HUDanimationManager.MonsterCurrentTurnText.text +=
-                    //    ($"x{ListOfCurrentlyTargetedMonsters.Where(m => m.name == monsterGameObject.name).Count()}");
-                    //}
-                    //else
-                    //{
-                    //    HUDanimationManager.MonsterCurrentTurnText.text +=
-                    //    ($"{monster.aiType} {monster.name}");
-                    //}
-
                     if (i == ListOfCurrentlyTargetedMonsters.Count - 1)
-                    {
                         HUDanimationManager.MonsterCurrentTurnText.text += ("!");
-                    }
                     else
-                    {
                         HUDanimationManager.MonsterCurrentTurnText.text += (" and ");
-                    }
                 }
             }
 
@@ -484,7 +469,7 @@ public class MonsterAttackManager : MonoBehaviour
         // Targeter position fix for
         uiManager.GetCurrentlyTargetedMonsters();
 
-        Invoke("ConfirmMonsterAttack", 1.3f);
+        Invoke(nameof(ConfirmMonsterAttack), 1.3f);
     }
 
     // This function uses the selected monster attack on the selected monster
