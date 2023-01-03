@@ -516,7 +516,12 @@ Imported Various Assets/Packages
 - Implement Items
 
 - Finish ConsumableWindowScript()
-- 
+
+[1/2/22]
+- Add VFX to all abilities & attacks. Fix Buff/Debuff/Attack VFX/Animations
+- Make Equipment Apply In The Window, rather than at Game Start
+- Adjust SP regens
+- Test AI Types
 
 Long-Term
  - Finish Room Creation and Setup
