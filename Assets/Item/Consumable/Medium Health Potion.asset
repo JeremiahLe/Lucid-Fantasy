@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   itemName: Medium Health Potion
-  itemDescription: Use to restore Health to a Chimeric.
+  itemDescription: Use to restore 100 Health to a Chimeric.
   baseSprite: {fileID: 21300000, guid: 6029a8834e8604a3f9feb17851223288, type: 3}
-  consumableStatToChange: 0
-  consumableAmount: 100
-  consumableFlatAmount: 1
   itemRarity: 1
+  listOfItemEffects:
+  - {fileID: 11400000, guid: a6e32c37f5bded84daa35888fcf97a70, type: 2}
+  listOfItemEffectTriggers:
+  - {fileID: 11400000, guid: c2c0e8129db5a6d48a785855af308b81, type: 2}

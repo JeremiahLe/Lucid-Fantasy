@@ -32,4 +32,9 @@ public abstract class IAbilityTrigger : ScriptableObject
     {
         return 1;
     }
+
+    public virtual async Task<int> TriggerItem(Item currentItem, CombatManagerScript combatManagerScript)
+    {
+        return 1;
+    }
 }

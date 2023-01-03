@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   itemName: Minor Health Potion
-  itemDescription: Use to restore Health to a Chimeric.
+  itemDescription: Use to restore 40 Health to a Chimeric.
   baseSprite: {fileID: 21300000, guid: b247ef8a899ae4425b46bad4a10a76b8, type: 3}
-  consumableStatToChange: 0
-  consumableAmount: 40
-  consumableFlatAmount: 1
   itemRarity: 0
+  listOfItemEffects:
+  - {fileID: 11400000, guid: 15cc9db44c4b05e4e95f0c84142a57cb, type: 2}
+  listOfItemEffectTriggers:
+  - {fileID: 11400000, guid: c2c0e8129db5a6d48a785855af308b81, type: 2}

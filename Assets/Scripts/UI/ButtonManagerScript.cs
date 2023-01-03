@@ -14,6 +14,8 @@ public class ButtonManagerScript : MonoBehaviour
     public GameObject ChangeButton;
     public GameObject ItemsButton;
 
+    public GameObject ReturnFromItemButton;
+
     public GameObject FrontRowButton;
     public GameObject CenterRowButton;
     public GameObject BackRowButton;
@@ -173,6 +175,7 @@ public class ButtonManagerScript : MonoBehaviour
         QuitButton.SetActive(true);
         BackButton.SetActive(false);
         HideButton(RowButtonsParent);
+        HideButton(ReturnFromItemButton);
 
         combatManagerScript.CurrentMonsterAttack = null;
         combatManagerScript.targeting = false;
@@ -213,6 +216,13 @@ public class ButtonManagerScript : MonoBehaviour
         combatManagerScript.PassTurn();
     }
 
+    public void StanceButtonClicked()
+    {
+        HideAllButtons("All");
+
+        combatManagerScript.StanceChanged();
+    }
+
     public void ItemButtonClicked()
     {
         uiManager.ShowConsumableWindow();
@@ -225,7 +235,7 @@ public class ButtonManagerScript : MonoBehaviour
 
         Monster monster = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
         CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
-        uiManager.EditCombatMessage($"Change {monster.aiType} {monster.name}'s current Stance and pass turn? Current stance: {monsterComponent.monsterStance}");
+        uiManager.EditCombatMessage($"Change {monster.aiType} {monster.name}'s current Stance? Current stance: {monsterComponent.monsterStance}");
 
         RowButtonsParent.SetActive(true);
 
@@ -304,7 +314,7 @@ public class ButtonManagerScript : MonoBehaviour
                 break;
         }
 
-        PassButtonClicked();
+        StanceButtonClicked();
     }
 
     // This function assigns the current ally monsters attack moves to each of the four attack buttons

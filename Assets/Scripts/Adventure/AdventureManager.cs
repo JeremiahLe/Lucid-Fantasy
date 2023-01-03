@@ -32,8 +32,8 @@ public class AdventureManager : MonoBehaviour
     {
         for (int i = 0; i < 16; i++)
         {
-            ListOfInventoryItems.Add(subscreenManager.GetRandomItem());
-            ResetItemList();
+            ListOfInventoryItems.Add(GetRandomItemByRarity());
+            //ResetItemList();
         }
     }
 
@@ -371,7 +371,8 @@ public class AdventureManager : MonoBehaviour
                 itemDescription = item.itemDescription,
                 baseSprite = item.baseSprite,
                 itemRarity = item.itemRarity,
-                itemType = item.itemType
+                itemType = item.itemType,
+                listOfItemEffectTriggers = item.listOfItemEffectTriggers
             });
         }
     }
@@ -1704,6 +1705,8 @@ public class AdventureManager : MonoBehaviour
 
         //ListOfAvailableItems.Remove(randItem);
         Item randItemSO = Instantiate(randItem);
+        randItemSO.name = randItemSO.itemName;
+
         curatedListOfItems.Clear();
 
         return randItemSO;
@@ -1728,5 +1731,19 @@ public class AdventureManager : MonoBehaviour
             default:
                 return 45;
         }
+    }
+
+    public Item GetRandomItem()
+    {
+        if (ListOfAvailableItems.Count == 0)
+        {
+            return null;
+        }
+
+        Item randItem = ListOfAvailableItems[Random.Range(0, ListOfAvailableItems.Count)];
+        ListOfAvailableItems.Remove(randItem);
+
+        Item randItemSO = Instantiate(randItem);
+        return randItemSO;
     }
 }

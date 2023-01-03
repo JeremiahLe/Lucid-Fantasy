@@ -1524,7 +1524,7 @@ public class CreateMonster : MonoBehaviour
         {
             combatManagerScript.uiManager.ClearTargeters();
 
-            if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
+            if (monsterAttackManager.currentMonsterAttack != null && monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
             {
                 if (gameObject.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy)
                 {
@@ -1567,6 +1567,12 @@ public class CreateMonster : MonoBehaviour
         {
             CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
             Monster monsterReference = monsterComponent.monsterReference;
+
+            if (combatManagerScript.itemPending)
+            {
+                combatManagerScript.UseItem(gameObject);
+                return;
+            }
 
             if (!combatManagerScript.targeting)
                 return;

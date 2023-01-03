@@ -54,12 +54,18 @@ public class CombatManagerScript : MonoBehaviour
     public int currentRound = 1;
 
     public string previousSceneName;
+
     public bool adventureMode = false;
+
     public bool testAdventureMode = false;
+
     public bool targeting = false;
+
+    public bool itemPending = false;
 
     public GameObject AdventureManagerGameObject;
     public AdventureManager adventureManager;
+    public ConsumableWindowScript consumableWindowScript;
 
     // Start is called before the first frame update
     void Start()
@@ -628,49 +634,79 @@ public class CombatManagerScript : MonoBehaviour
         Invoke(nameof(SetCurrentMonsterTurn), 1.0f);
     }
 
-    // This coroutine acts as an artificial delay for autobattle similar to the enemy AI
-    //IEnumerator ReturnAllyMoveAndTargetCoroutine(Monster monster)
-    //{
-    //    yield return new WaitForSeconds(1.5f);
-    //    buttonManagerScript.AssignAttackMoves(monster);
+    public void StanceChanged()
+    {
+        CreateMonster monsterComponent = CurrentMonsterTurn.GetComponent<CreateMonster>();
+        Monster currentMonsterTurn = monsterComponent.monsterReference;
 
-    //    CurrentMonsterTurnAnimator = CurrentMonsterTurn.GetComponent<Animator>();
+        CombatLog.SendMessageToCombatLog($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} has changed to {monsterComponent.monsterStance} stance!");
+        uiManager.EditCombatMessage($"{currentMonsterTurn.aiType} {currentMonsterTurn.name} has changed to {monsterComponent.monsterStance} stance!");
 
-    //    // Get attack
-    //    MonsterAttack randomAttack = enemyAIManager.GetRandomAttack();
+        monsterComponent.monsterActionAvailable = false;
+        Invoke(nameof(SetCurrentMonsterTurn), 1.0f);
+    }
 
-    //    if (randomAttack == null)
-    //    {
-    //        PassTurn();
-    //        yield break;
-    //    }
+    public void ReturnFromItems()
+    {
+        targeting = false;
+        itemPending = false;
 
-    //    monsterAttackManager.currentMonsterAttack = randomAttack;
+        buttonManagerScript.ResetHUD();
+    }
 
-    //    // Adjust target
-    //    AttackTypeTargeting();
+    public void ItemUsed()
+    {
+        CreateMonster monsterComponent = CurrentMonsterTurn.GetComponent<CreateMonster>();
 
-    //    // Auto-battle multi-target missing target adjustment
-    //    if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
-    //    {
-    //        for (int i = 0; i < monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber; i++)
-    //        {
-    //            monsterAttackManager.ListOfCurrentlyTargetedMonsters.Add(GetRandomTarget(ListOfEnemies));
-    //        }
-    //    }
+        monsterComponent.monsterActionAvailable = false;
+        Invoke(nameof(SetCurrentMonsterTurn), 1.0f);
+    }
 
-    //    if (CurrentMonsterTurn.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Enraged))
-    //    {
-    //        CurrentTargetedMonster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterEnragedTarget;
+    public void QueueUsableItem(Item currentItem)
+    {
+        itemPending = true;
+        targeting = true;
 
-    //        if (CurrentTargetedMonster == null)
-    //            PassTurn();
+        Monster currentMonster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
 
-    //        yield break;
-    //    }
+        buttonManagerScript.HideAllButtons("All");
 
-    //    monsterAttackManager.Invoke(nameof(monsterAttackManager.UseMonsterAttack), 0.1f);
-    //}
+        uiManager.EditCombatMessage($"{currentMonster.aiType} {currentMonster.name} will use {currentItem.itemName} on {currentMonster.aiType} {currentMonster.name}?");
+    }
+
+    public void UseItem(GameObject targetMonsterGameObject)
+    {
+        itemPending = false;
+        targeting = false;
+        buttonManagerScript.HideButton(buttonManagerScript.ReturnFromItemButton);
+
+        Monster currentMonster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+        Monster targetMonster = targetMonsterGameObject.GetComponent<CreateMonster>().monsterReference;
+        Item currentItem = uiManager.ConsumableWindow.GetComponent<ConsumableWindowScript>().GetCurrentItem();
+
+        uiManager.EditCombatMessage($"{currentMonster.aiType} {currentMonster.name} used {currentItem.itemName} on {targetMonster.aiType} {targetMonster.name}!");
+        CombatLog.SendMessageToCombatLog($"{currentMonster.aiType} {currentMonster.name} used {currentItem.itemName} on {targetMonster.aiType} {targetMonster.name}!");
+
+        TriggerItemEffects();
+    }
+
+    public async void TriggerItemEffects()
+    {
+        Item currentItem = uiManager.ConsumableWindow.GetComponent<ConsumableWindowScript>().GetCurrentItem();
+
+        foreach (IAbilityTrigger abilityTrigger in currentItem.listOfItemEffectTriggers)
+        {
+            await Task.Delay(150);
+
+            await abilityTrigger.TriggerItem(currentItem, this);
+        }
+
+        uiManager.ConsumableWindow.GetComponent<ConsumableWindowScript>().SetCurrentItem(null);
+
+        adventureManager.ListOfInventoryItems.Remove(currentItem);
+
+        ItemUsed();
+    }
 
     // This function returns a random move from the monsters list of monster attacks
     public MonsterAttack GetRandomMove()
@@ -764,6 +800,14 @@ public class CombatManagerScript : MonoBehaviour
             return;
 
         CurrentTargetedMonster = newTarget;
+
+        if (itemPending)
+        {
+            Monster currentMonster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+            Monster targetMonster = CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference;
+            uiManager.EditCombatMessage($"{currentMonster.aiType} {currentMonster.name} will use {uiManager.ConsumableWindow.GetComponent<ConsumableWindowScript>().GetCurrentItem().itemName} on {targetMonster.aiType} {targetMonster.name}?");
+            return;
+        }
 
         monsterAttackManager.UpdateCurrentTargetText();
     }

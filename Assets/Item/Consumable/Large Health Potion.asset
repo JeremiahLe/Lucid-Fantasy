@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   itemName: Large Health Potion
-  itemDescription: Use to restore Health to a Chimeric.
+  itemDescription: Use to restore 200 Health to a Chimeric.
   baseSprite: {fileID: 21300000, guid: 00d24408568984f129b7023cb677c0cd, type: 3}
-  consumableStatToChange: 0
-  consumableAmount: 200
-  consumableFlatAmount: 1
   itemRarity: 2
+  listOfItemEffects:
+  - {fileID: 11400000, guid: 5549aeaa10921644da00c6d8954bd437, type: 2}
+  listOfItemEffectTriggers:
+  - {fileID: 11400000, guid: c2c0e8129db5a6d48a785855af308b81, type: 2}

@@ -18,14 +18,11 @@ public class Item : ScriptableObject
 
     public Sprite baseSprite;
 
-    [EnableIf("itemType", ItemType.Consumable)]
-    public AttackEffect.StatToChange consumableStatToChange;
-
-    [EnableIf("itemType", ItemType.Consumable)]
-    public float consumableAmount;
-
-    [EnableIf("itemType", ItemType.Consumable)]
-    public bool consumableFlatAmount;
-
     public Modifier.ModifierRarity itemRarity;
+
+    [EnableIf("itemType", ItemType.Consumable)]
+    public List<AttackEffect> listOfItemEffects;
+
+    [EnableIf("itemType", ItemType.Consumable)]
+    public List<IAbilityTrigger> listOfItemEffectTriggers;
 }
