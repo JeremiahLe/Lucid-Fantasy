@@ -35,11 +35,15 @@ public class SpreadingCurrent : IAbilityTrigger
                     if (allyMonsterReference.monsterElement.element == ElementClass.MonsterElement.Electric 
                         || allyMonsterReference.monsterSubElement.element == ElementClass.MonsterElement.Electric)
                     {
+                        await Task.Delay(abilityTriggerDelay);
+
                         await physicalAttackBuffEffect.TriggerEffects(allyMonsterReference, allyMonster, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
 
                         await Task.Delay(abilityTriggerDelay);
 
                         await magicAttackBuffEffect.TriggerEffects(allyMonsterReference, allyMonster, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
+
+                        await Task.Delay(abilityTriggerDelay);
                     }
 
                     await Task.Delay(abilityTriggerDelay);

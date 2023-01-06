@@ -37,7 +37,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
             return;
         }
 
-        if (!itemSlot.inventoryManager.currentMonsterEquipment.monsterIsOwned)
+        if (!itemSlot.inventoryManager.currentMonster.monsterIsOwned)
         {
             itemSlot.GetComponent<Interactable>().ShowInteractable("Cannot adjust equipment of unowned Chimeric!");
             return;
@@ -49,7 +49,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
             if (slotType == SlotType.Unequipped && itemSlot.itemSlotEquipment != null)
             {
                 // first check if inventory is already full
-                if (itemSlot.inventoryManager.currentMonsterEquipment.ListOfModifiers.Count >= 4)
+                if (itemSlot.inventoryManager.currentMonster.ListOfModifiers.Count >= 4)
                 {
                     itemSlot.GetComponent<Interactable>().ShowInteractable("Chimeric has max amount of equipment!");
                     return;
@@ -66,9 +66,9 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 }
 
                 // Add equipment to monster inventory and remove from global inventory
-                itemSlot.inventoryManager.currentMonsterEquipment.ListOfModifiers.Add(itemSlot.itemSlotEquipment);
+                itemSlot.inventoryManager.currentMonster.ListOfModifiers.Add(itemSlot.itemSlotEquipment);
                 //itemSlot.inventoryManager.adventureManager.ListOfCurrentEquipment.Remove(itemSlot.itemSlotEquipment);
-                itemSlot.itemSlotEquipment.modifierOwner = itemSlot.inventoryManager.currentMonsterEquipment;
+                itemSlot.itemSlotEquipment.modifierOwner = itemSlot.inventoryManager.currentMonster;
 
                 // Clear the inventory sprite, modifier, and interactable
                 //itemSlot.itemSlotEquipment = null;
@@ -94,7 +94,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 // Add equipment to global inventory and remove from monster inventory
                 //itemSlot.inventoryManager.adventureManager.ListOfCurrentEquipment.Add(itemSlot.itemSlotEquipment);
-                itemSlot.inventoryManager.currentMonsterEquipment.ListOfModifiers.Remove(itemSlot.itemSlotEquipment);
+                itemSlot.inventoryManager.currentMonster.ListOfModifiers.Remove(itemSlot.itemSlotEquipment);
                 itemSlot.itemSlotEquipment.modifierOwner = null;
 
                 // Clear the inventory sprite, modifier, and interactable

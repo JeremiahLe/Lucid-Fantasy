@@ -271,7 +271,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 monsterStatScreenScript.DisplayMonsterStatScreenStats(monsterReward);
                 monsterStatScreenScript.monstersSubScreenManager = subscreenManager.monstersSubScreenManager;
                 inventoryManager = monsterStatScreenScript.gameObject.GetComponent<InventoryManager>();
-                inventoryManager.currentMonsterEquipment = monsterReward;
+                inventoryManager.currentMonster = monsterReward;
             }
         }
     }

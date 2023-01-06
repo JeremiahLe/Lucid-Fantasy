@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Linq;
+using System.Threading.Tasks;
 
 public class AdventureManager : MonoBehaviour
 {
@@ -183,11 +184,17 @@ public class AdventureManager : MonoBehaviour
     public int randomBattleMonsterLimit;
 
     [Title("Adventure - Battle Setup and Components")]
+    public string standardBattleSceneName;
+
     public GameObject CombatManagerObject;
     public CombatManagerScript combatManagerScript;
 
+    public List<Monster> ListOfInitialEnemyBattleMonsters;
+
     public List<Monster> ListOfEnemyBattleMonsters;
+
     public List<Monster> ListOfAllyBattleMonsters;
+
     public List<Modifier> ListOfEnemyModifiers;
 
     public void Start()
@@ -441,7 +448,7 @@ public class AdventureManager : MonoBehaviour
 
         lockEquipmentInCombat = true;
 
-        SceneManager.LoadScene("SetupCombatSceneUpdated");
+        SceneManager.LoadScene("AdventureBattleScene");
     }
 
     // This function goes to selected adventure scene
@@ -487,7 +494,7 @@ public class AdventureManager : MonoBehaviour
                 break;
                 
 
-            case ("SetupCombatSceneUpdated"):
+            case ("AdventureBattleScene"):
 
                 // Get combat scene components
                 CombatManagerObject = GameObject.FindGameObjectWithTag("GameController");
@@ -1396,11 +1403,24 @@ public class AdventureManager : MonoBehaviour
     {
         rerollAmount = 3;
 
+        playerGold = 0;
+
+        playerMonstersKilled = 0;
+
+        playerMonstersLost = 0;
+
+        timesRerolled = 0;
+
         BossBattle = false;
+
         BossDefeated = false;
+
         adventureFailed = false;
+
         adventureBegin = false;
+
         NodeToReturnTo = null;
+
         lockEquipmentInCombat = false;
 
         // Clear lists
@@ -1418,10 +1438,20 @@ public class AdventureManager : MonoBehaviour
 
         // Reset Modifiers + Equipment
         ListOfCurrentModifiers.Clear();
+
         ListOfInventoryItems.Clear();
+
+        ListOfCurrentEquipment.Clear();
 
         // Reset Allys and Enemies
         ListOfCurrentMonsters.Clear();
+
+        ListOfAllMonsters.Clear();
+
+        ListOfAllyDeadMonsters.Clear();
+
+        ListOfInitialEnemyBattleMonsters.Clear();
+
         ListOfEnemyBattleMonsters.Clear();
 
         Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
@@ -1745,5 +1775,123 @@ public class AdventureManager : MonoBehaviour
 
         Item randItemSO = Instantiate(randItem);
         return randItemSO;
+    }
+
+    public void ReviveAllDeadAlliedMonsters()
+    {
+        foreach(Monster allyMonster in ListOfAllyDeadMonsters)
+        {
+            ListOfCurrentMonsters.Add(allyMonster);
+            allyMonster.health = allyMonster.maxHealth;
+        }
+
+        ListOfAllyDeadMonsters.Clear();
+    }
+
+    public void ReviveAllDeadAlliedMonstersBeforeBattle()
+    {
+        foreach (Monster allyMonster in ListOfAllyDeadMonsters)
+        {
+            Monster revivedAlly = Instantiate(allyMonster);
+
+            ListOfCurrentMonsters.Add(revivedAlly);
+
+            ListOfAllyBattleMonsters.Add(revivedAlly);
+
+            revivedAlly.health = revivedAlly.cachedHealthAtBattleStart;
+
+            if (revivedAlly.health <= 0)
+                revivedAlly.health = 1;
+
+            revivedAlly.ListOfModifiers = revivedAlly.ListOfModifiers.Where(mod => mod.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
+
+            revivedAlly.physicalAttack = revivedAlly.cachedPhysicalAttack;
+
+            revivedAlly.magicAttack = revivedAlly.cachedMagicAttack;
+
+            revivedAlly.physicalDefense = revivedAlly.cachedPhysicalDefense;
+
+            revivedAlly.magicDefense = revivedAlly.cachedMagicDefense;
+
+            revivedAlly.speed = revivedAlly.cachedSpeed;
+
+            revivedAlly.evasion = revivedAlly.cachedEvasion;
+
+            revivedAlly.critChance = revivedAlly.cachedCritChance;
+
+            revivedAlly.critDamage = revivedAlly.cachedCritDamage;
+
+            revivedAlly.bonusAccuracy = revivedAlly.cachedBonusAccuracy;
+
+            // Clear temporary monster attack effects
+            foreach (MonsterAttack attack in revivedAlly.ListOfMonsterAttacks.ToList()) // might have to remove this ToList()
+            {
+                foreach (AttackEffect effect in attack.ListOfAttackEffects.ToList()) // might have to remove this ToList()
+                {
+                    if (effect.attackEffectDuration == AttackEffect.AttackEffectDuration.Temporary)
+                    {
+                        attack.ListOfAttackEffects.Remove(effect);
+                    }
+                }
+            }
+        }
+
+        ListOfAllyDeadMonsters.Clear();
+    }
+
+    public void ReviveAllDeadEnemyMonstersBeforeBattle()
+    {
+        foreach (Monster allyMonster in ListOfInitialEnemyBattleMonsters)
+        {
+            Monster revivedAlly = Instantiate(allyMonster);
+
+            ListOfEnemyBattleMonsters.Add(revivedAlly);
+
+            revivedAlly.health = revivedAlly.cachedHealthAtBattleStart;
+
+            if (revivedAlly.health <= 0)
+                revivedAlly.health = 1;
+
+            revivedAlly.ListOfModifiers = revivedAlly.ListOfModifiers.Where(mod => mod.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
+
+            revivedAlly.physicalAttack = revivedAlly.cachedPhysicalAttack;
+
+            revivedAlly.magicAttack = revivedAlly.cachedMagicAttack;
+
+            revivedAlly.physicalDefense = revivedAlly.cachedPhysicalDefense;
+
+            revivedAlly.magicDefense = revivedAlly.cachedMagicDefense;
+
+            revivedAlly.speed = revivedAlly.cachedSpeed;
+
+            revivedAlly.evasion = revivedAlly.cachedEvasion;
+
+            revivedAlly.critChance = revivedAlly.cachedCritChance;
+
+            revivedAlly.critDamage = revivedAlly.cachedCritDamage;
+
+            revivedAlly.bonusAccuracy = revivedAlly.cachedBonusAccuracy;
+
+            // Clear temporary monster attack effects
+            foreach (MonsterAttack attack in revivedAlly.ListOfMonsterAttacks.ToList()) // might have to remove this ToList()
+            {
+                foreach (AttackEffect effect in attack.ListOfAttackEffects.ToList()) // might have to remove this ToList()
+                {
+                    if (effect.attackEffectDuration == AttackEffect.AttackEffectDuration.Temporary)
+                    {
+                        attack.ListOfAttackEffects.Remove(effect);
+                    }
+                }
+            }
+        }
+
+        ListOfInitialEnemyBattleMonsters.Clear();
+    }
+
+    public  void RetryBattle()
+    {
+        ReviveAllDeadAlliedMonstersBeforeBattle();
+
+        ReviveAllDeadEnemyMonstersBeforeBattle();
     }
 }

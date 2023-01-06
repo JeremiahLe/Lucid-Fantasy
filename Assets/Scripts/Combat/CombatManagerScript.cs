@@ -149,6 +149,8 @@ public class CombatManagerScript : MonoBehaviour
             AdventureManagerGameObject = GameObject.FindGameObjectWithTag("GameManager");
             adventureManager = AdventureManagerGameObject.GetComponent<AdventureManager>();
 
+            adventureManager.ListOfInitialEnemyBattleMonsters.Clear();
+
             // initiate allies
             int i = 0;
             foreach(GameObject monsterPos in ListOfAllyPositions)
@@ -175,6 +177,8 @@ public class CombatManagerScript : MonoBehaviour
                     monsterPos.GetComponent<CreateMonster>().monster.aiType = Monster.AIType.Enemy;
                     monsterPos.GetComponent<CreateMonster>().monster.aiLevel = Monster.AILevel.Random;
                     monsterPos.GetComponent<CreateMonster>().monsterSpeed = (int)adventureManager.ListOfEnemyBattleMonsters[i].speed;
+
+                    adventureManager.ListOfInitialEnemyBattleMonsters.Add(adventureManager.ListOfEnemyBattleMonsters[i]);
                 }
                 i++;
             }
@@ -277,6 +281,7 @@ public class CombatManagerScript : MonoBehaviour
             if (monster.aiType == Monster.AIType.Ally)
             {
                 //uiManager.CombatOrderTextList.text += ($"{monster.aiType} {monster.name} || Speed: <b>{monster.speed}</b>\n");
+                monster.cachedHealthAtBattleStart = monster.health;
             }
             else if (monster.aiType == Monster.AIType.Enemy)
             {
@@ -297,16 +302,16 @@ public class CombatManagerScript : MonoBehaviour
                 CreateMonster monsterComponent = monsterObj.GetComponent<CreateMonster>();
                 Monster monster = monsterComponent.monsterReference;
 
-                adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Ally);
+                //adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Ally);
 
-                monsterComponent.CheckAdventureEquipment();
+                //monsterComponent.CheckAdventureEquipment();
 
                 await monsterAttackManager.TriggerAbilityEffects(monster, monsterObj, monster, AttackEffect.EffectTime.GameStart, monsterObj);
 
                 await monsterComponent.UpdateStats(false, null, false, 0);
             }
 
-            adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Ally);
+            //adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Ally);
 
             // Enemy modifiers and equipment
             foreach (GameObject monsterObj in ListOfEnemies)
@@ -314,16 +319,16 @@ public class CombatManagerScript : MonoBehaviour
                 CreateMonster monsterComponent = monsterObj.GetComponent<CreateMonster>();
                 Monster monster = monsterComponent.monsterReference;
 
-                adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Enemy);
+                //adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Enemy);
 
-                monsterComponent.CheckAdventureEquipment();
+                //monsterComponent.CheckAdventureEquipment();
 
                 await monsterAttackManager.TriggerAbilityEffects(monster, monsterObj, monster, AttackEffect.EffectTime.GameStart, monsterObj);
 
                 await monsterComponent.UpdateStats(false, null, false, 0);
             }
 
-            adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Enemy);
+            //adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Enemy);
         }
 
         SetBattleState(BattleState.InBattle);
@@ -461,7 +466,7 @@ public class CombatManagerScript : MonoBehaviour
             CreateMonster monsterComponent = CurrentMonsterTurn.GetComponent<CreateMonster>();
 
             if (monsterComponent.monsterReference.currentSP < monsterComponent.monsterReference.maxSP)
-                monsterComponent.ModifySP(1);
+                monsterComponent.ModifySP(monsterComponent.monsterReference.spRegen);
 
             InitiateCombat();
         }
@@ -812,21 +817,6 @@ public class CombatManagerScript : MonoBehaviour
         monsterAttackManager.UpdateCurrentTargetText();
     }
 
-    // This function updates the targeter position on daze call or otherwise
-    public void UpdateTargeterPosition(GameObject newTarget)
-    {
-        // Disable each targeter first
-        foreach (GameObject monster in BattleSequence)
-        {
-            monsterTargeter = monster.GetComponent<CreateMonster>().monsterTargeterUIGameObject;
-            monsterTargeter.SetActive(false);
-        }
-
-        CurrentTargetedMonster = newTarget;
-        CurrentTargetedMonster.GetComponent<CreateMonster>().monsterTargeterUIGameObject.SetActive(true);
-        //monsterTargeter.transform.position = new Vector3(CurrentTargetedMonster.transform.position.x, CurrentTargetedMonster.transform.position.y + 1.75f, CurrentTargetedMonster.transform.position.z);
-    }
-
     public void CheckMonsterLevelUps()
     {
         bool monsterLeveledUp = false;
@@ -939,7 +929,7 @@ public class CombatManagerScript : MonoBehaviour
 
                     // Add ally to list of dead monsters (for potential revival) and remove equipped equipment
                     adventureManager.ListOfAllyDeadMonsters.Add(monster);
-                    adventureManager.RemoveMonsterEquipment(monster);
+                    //adventureManager.RemoveMonsterEquipment(monster);
 
                     adventureManager.playerMonstersLost += 1;
                 }
@@ -1079,6 +1069,7 @@ public class CombatManagerScript : MonoBehaviour
         }
 
         adventureManager.ListOfAllyBattleMonsters.Clear();
+
         adventureManager.ListOfEnemyBattleMonsters.Clear();
         
         foreach (GameObject allyMonster in ListOfAllys)
@@ -1098,6 +1089,8 @@ public class CombatManagerScript : MonoBehaviour
         {
             adventureManager.playerRetrys--;
         }
+
+        adventureManager.RetryBattle();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

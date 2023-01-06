@@ -18,14 +18,22 @@ MonoBehaviour:
   statToChange: 7
   effectTime: 2
   monsterTargetType: 1
-  currentMonsterTargetGameObject: {fileID: 0}
-  currentMonsterTarget: {fileID: 0}
+  fixedDamageAmount: 0
+  triggersEffects: 0
+  effectDamageType: 0
+  elementClass: {fileID: 0}
+  uniqueAttackEffectCondition: {fileID: 0}
   scaleFromWhatStat: 0
   scaleFromWhatTarget: 0
+  immunityType: 0
+  elementImmunity: {fileID: 0}
+  statusImmunity: 0
+  statImmunity: 0
   attackEffectDuration: 0
-  modifierCalledOnce: 0
-  flatValueChange: 0
+  flatValueChange: 1
   modifierDuration: 1
   amountToChange: 50
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
+  monsterAttackTrigger: {fileID: 0}
+  monsterSource: {fileID: 0}

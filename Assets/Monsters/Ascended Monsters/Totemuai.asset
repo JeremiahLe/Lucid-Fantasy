@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
+  m_Name: Totemuai
+  m_EditorClassIdentifier: 
+  name: Totemuai
+  baseSprite: {fileID: 21300000, guid: 830ae9c569746284ab3334893a6bef0d, type: 3}
+  monsterAscensionPhase: 1
+  monsterElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: 27405038644d4d648afcefa75e264c2f, type: 2}
+  aiType: 0
+  aiLevel: 0
+  monsterFlavourText: When the great volcano is angry, Totemuai answers the call.
+  monsterAbility: {fileID: 11400000, guid: 110f7c2e9196d704cad8fe1368ff1c15, type: 2}
+  level: 1
+  health: 1
+  maxHealth: 1
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
+  physicalAttack: 1
+  magicAttack: 1
+  physicalDefense: 1
+  magicDefense: 1
+  speed: 1
+  evasion: 0
+  critChance: 0
+  critDamage: 1.25
+  bonusAccuracy: 0
+  healthScaler: 5
+  physicalAttackScaler: 1
+  magicAttackScaler: 5
+  physicalDefenseScaler: 2
+  magicDefenseScaler: 4
+  speedScaler: 1
+  ListOfMonsterAttacks:
+  - {fileID: 11400000, guid: 2acc426b2e55e9b4bb97d85ff2a15cd5, type: 2}
+  - {fileID: 11400000, guid: 7383ff6108a44f14989412b34e91a637, type: 2}
+  - {fileID: 11400000, guid: 088624301c21364408a42b2e6fbeb5b4, type: 2}
+  - {fileID: 11400000, guid: 088624301c21364408a42b2e6fbeb5b4, type: 2}
+  ListOfModifiers: []
+  ListOfMonsterAttacksAvailable:
+  - {fileID: 11400000, guid: 7383ff6108a44f14989412b34e91a637, type: 2}
+  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
+  - {fileID: 11400000, guid: 088624301c21364408a42b2e6fbeb5b4, type: 2}
+  - {fileID: 11400000, guid: 61c4c5159eda87947ba2fdefbd4779bf, type: 2}
+  - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  - {fileID: 11400000, guid: e99082d6380a9e444aa569ffb028e0bc, type: 2}
+  - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
+  - {fileID: 11400000, guid: 7ab31fe3800ad4c4b9ed05b763aee7cd, type: 2}
+  - {fileID: 11400000, guid: 7dd8ef701b149f2438862dd21e4346bb, type: 2}
+  - {fileID: 11400000, guid: c25107f645a56b64eaa69da9fedd4f57, type: 2}
+  - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
+  cachedHealth: 0
+  cachedMaxHealth: 0
+  cachedPhysicalAttack: 1
+  cachedMagicAttack: 1
+  cachedPhysicalDefense: 1
+  cachedMagicDefense: 1
+  cachedSpeed: 1
+  cachedEvasion: 0
+  cachedCritChance: 0
+  cachedBonusAccuracy: 0
+  cachedCritDamage: 0
+  previouslyCachedMaxHealth: 0
+  previouslyCachedPhysicalAttack: 1
+  previouslyCachedMagicAttack: 1
+  previouslyCachedPhysicalDefense: 1
+  previouslyCachedMagicDefense: 1
+  previouslyCachedSpeed: 1
+  previouslyCachedEvasion: 0
+  previouslyCachedCritChance: 0
+  previouslyCachedBonusAccuracy: 0
+  previouslyCachedCritDamage: 0
+  cachedLevel: 0
+  cachedMonsterRowPosition: 0
+  monsterIsOwned: 0
+  cachedDamageDone: 0
+  monsterKills: 0
+  monsterCurrentExp: 0
+  monsterExpToNextLevel: 105
+  cachedHealthAtBattleStart: 0
+  monsterAscensionAttack: {fileID: 0}
+  ascensionGoldRequirement: 10
+  ascensionType: 8
+  firstEvolutionPath: {fileID: 0}
+  firstEvolutionLevelReq: 20
+  ascensionOneMaterial: {fileID: 0}
+  ascensionOneMaterialAmount: 1
+  secondEvolutionPath: {fileID: 0}
+  secondEvolutionLevelReq: 20
+  ascensionTwoMaterial: {fileID: 0}
+  ascensionTwoMaterialAmount: 1
+  healthGrowth: 50
+  physicalAttackGrowth: 0
+  magicAttackGrowth: 10
+  physicalDefenseGrowth: 2
+  magicDefenseGrowth: 5
+  speedGrowth: 3
+  evasionGrowth: 5
+  critChanceGrowth: 0
+  bonusAccuracyGrowth: 0

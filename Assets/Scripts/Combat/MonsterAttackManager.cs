@@ -765,7 +765,6 @@ public class MonsterAttackManager : MonoBehaviour
             if (currentTargetedMonsterGameObject.TryGetComponent(out CreateMonster currentTargetedMonsterComponent))
             {
                 currentTargetedMonsterComponent = currentTargetedMonsterGameObject.GetComponent<CreateMonster>();
-                currentTargetedMonsterComponent.monsterTargeterUIGameObject.SetActive(false);
             }
 
             // Check if the attack hits or misses

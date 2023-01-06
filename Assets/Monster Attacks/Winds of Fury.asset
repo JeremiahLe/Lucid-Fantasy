@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Winds of Fury
   m_EditorClassIdentifier: 
   monsterAttackName: Winds of Fury
-  monsterAttackDescription: Deal 15% Max Health damage. Raise their Speed by 55%
-    and Physical and Magic Attack by 35%.
+  monsterAttackDescription: Deal bonus damage equal to 15% Max Health. Raise their
+    Speed by 55% and Physical and Magic Attack by 35% for 2 rounds.
   monsterAttackElement: 3
   monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 0
@@ -22,15 +22,15 @@ MonoBehaviour:
   monsterAttackTargetCount: 0
   monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 3
-  monsterAttackSoundEffect: {fileID: 8300000, guid: cfdad33ec73454443952015ae32a27a0, type: 3}
-  monsterAttackDamageScalar: 0
-  monsterBaseAttackStat: 0
-  monsterAttackFlatDamageBonus: 0
-  monsterAttackAccuracy: 90
-  monsterAttackNeverMiss: 0
-  monsterAttackCritChance: 0
   monsterAttackSPCost: 2
   AttackVFX: {fileID: 3923125925641639501, guid: 8698fd2d0e204764fbe9b0db31cd32df, type: 3}
+  monsterAttackSoundEffect: {fileID: 8300000, guid: cfdad33ec73454443952015ae32a27a0, type: 3}
+  monsterAttackDamageScalar: 10
+  monsterBaseAttackStat: 0
+  monsterAttackFlatDamageBonus: 0
+  monsterAttackAccuracy: 95
+  monsterAttackNeverMiss: 0
+  monsterAttackCritChance: 0
   monsterAttackSourceGameObject: {fileID: 0}
   monsterAttackSource: {fileID: 0}
   ListOfAttackEffects:

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Windwoof
   baseSprite: {fileID: 21300000, guid: ba3d41af14ff2ff498f55ce5d95e1b8a, type: 3}
+  monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
@@ -24,8 +25,10 @@ MonoBehaviour:
   level: 5
   health: 100
   maxHealth: 100
-  cachedHealth: 0
-  cachedMaxHealth: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
   physicalAttack: 3
   magicAttack: 5
   physicalDefense: 1
@@ -56,6 +59,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 37c11d1b94d71b7468efe3b467d58085, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  cachedHealth: 0
+  cachedMaxHealth: 0
   cachedPhysicalAttack: 3
   cachedMagicAttack: 5
   cachedPhysicalDefense: 1
@@ -82,15 +87,16 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 100
+  cachedHealthAtBattleStart: 0
   monsterAscensionAttack: {fileID: 0}
   ascensionGoldRequirement: 10
   ascensionType: 0
   firstEvolutionPath: {fileID: 11400000, guid: 1526e02488ea3094b8eab99e70a805d2, type: 2}
-  firstEvolutionLevelReq: 20
+  firstEvolutionLevelReq: 15
   ascensionOneMaterial: {fileID: 11400000, guid: 4d5f77c954ff36a4392d349537d1b6b4, type: 2}
   ascensionOneMaterialAmount: 1
   secondEvolutionPath: {fileID: 11400000, guid: 6b265e53011d7d34a8bea4bf4f4d14df, type: 2}
-  secondEvolutionLevelReq: 20
+  secondEvolutionLevelReq: 15
   ascensionTwoMaterial: {fileID: 11400000, guid: c62c6e248f483b34684f95d72b7f59d3, type: 2}
   ascensionTwoMaterialAmount: 1
   healthGrowth: 50

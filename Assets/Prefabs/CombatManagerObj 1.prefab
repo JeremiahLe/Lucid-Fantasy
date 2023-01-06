@@ -4071,7 +4071,7 @@ MonoBehaviour:
   currentRound: 0
   previousSceneName: 
   adventureMode: 0
-  testAdventureMode: 1
+  testAdventureMode: 0
   targeting: 0
   itemPending: 0
   AdventureManagerGameObject: {fileID: 0}

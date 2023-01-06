@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Frejeow
   baseSprite: {fileID: 21300000, guid: 0d5982a703e6a5b4288fa42f00698c7d, type: 3}
+  monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   aiType: 0
@@ -23,8 +24,10 @@ MonoBehaviour:
   level: 5
   health: 97
   maxHealth: 97
-  cachedHealth: 0
-  cachedMaxHealth: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
   physicalAttack: 4
   magicAttack: 4
   physicalDefense: 3
@@ -55,6 +58,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8ad79bc568b7a0745a1c25260fd26dc0, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
+  cachedHealth: 0
+  cachedMaxHealth: 0
   cachedPhysicalAttack: 4
   cachedMagicAttack: 4
   cachedPhysicalDefense: 3
@@ -81,15 +86,16 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 100
+  cachedHealthAtBattleStart: 0
   monsterAscensionAttack: {fileID: 0}
   ascensionGoldRequirement: 10
   ascensionType: 0
   firstEvolutionPath: {fileID: 0}
-  firstEvolutionLevelReq: 20
+  firstEvolutionLevelReq: 15
   ascensionOneMaterial: {fileID: 11400000, guid: aea3175f613b0a94ebd543a1be5ec9bd, type: 2}
   ascensionOneMaterialAmount: 1
   secondEvolutionPath: {fileID: 0}
-  secondEvolutionLevelReq: 20
+  secondEvolutionLevelReq: 15
   ascensionTwoMaterial: {fileID: 11400000, guid: 1c86e7ed5c2f2e044bd1681112bb6223, type: 2}
   ascensionTwoMaterialAmount: 1
   healthGrowth: 50

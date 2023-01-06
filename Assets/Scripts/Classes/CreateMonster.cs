@@ -20,8 +20,8 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private SpriteRenderer sr;
-    [SerializeField] private Image monsterRowFrontIcon;
-    [SerializeField] private Image monsterRowBackIcon;
+    [SerializeField] private Image monsterOffensiveStanceIcon;
+    [SerializeField] private Image monsterDefensiveStanceIcon;
     public Vector3 cameraOffset;
 
     public Color32 healColor;
@@ -57,7 +57,6 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] public Transform popupPosTransform;
     [SerializeField] public Transform popupPosTransformHigher;
     [SerializeField] private GameObject monsterStatusTextObjectCanvas;
-    [SerializeField] public GameObject monsterTargeterUIGameObject;
 
     [Title("Healthbar")]
     [SerializeField] public Slider HealthbarSlider;
@@ -74,8 +73,6 @@ public class CreateMonster : MonoBehaviour
     [SerializeField] private Monster.AIType aiType;
     [SerializeField] private Monster.AILevel aiLevel;
     [SerializeField] public Transform startingPosition;
-    public enum CombatOrientation { Left, Right };
-    public CombatOrientation combatOrientation;
 
     [Title("Combat Stats To Display")]
     [DisplayWithoutEdit] private int monsterLevel;
@@ -123,10 +120,13 @@ public class CreateMonster : MonoBehaviour
     private void Start()
     {
         InitiateStats();
+
         InitializeComponents();
+
         InitiateCreateMonsterObjectStats();
 
         InitiateHealthBars();
+
         InitializeSPBar();
 
         SetAIType();
@@ -174,6 +174,9 @@ public class CreateMonster : MonoBehaviour
 
             monster.cachedBonusAccuracy = monsterReference.bonusAccuracy;
             monsterStance = monster.cachedMonsterRowPosition;
+
+            monsterReference.currentSP = monsterReference.initialSP;
+            monsterReference.cachedHealthAtBattleStart = monsterReference.health;
 
             //monster.maxHealth = monster.health; not needed?
         }
@@ -279,39 +282,22 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    
-    // Check any adventure equipment modifiers at game start
-    public void CheckAdventureEquipment()
-    {
-        foreach (Modifier equipment in monsterReference.ListOfModifiers)
-        {
-            if (equipment.modifierType == Modifier.ModifierType.equipmentModifier)
-            {
-                ModifyStats(equipment.statModified, equipment, "adventure");
-                UpdateStats(false, null, false, 0);
-            }
-        }
-    }
-
     // Update current health bar and call damaged healthbar fade
-    public void UpdateHealthBar(bool damageTaken)
+    public void UpdateHealthBar()
     {
-        if (damageTaken)
-        {
-            // Should also be called when healed
-            HealthbarSlider.value = monsterReference.health;
-            HealthbarSliderFill.color = new Color(Mathf.Clamp((1 - monsterReference.health / monsterReference.maxHealth), 0, .75f), Mathf.Clamp((monsterReference.health / monsterReference.maxHealth), 0, .75f), 0, 1f);
+        // Should also be called when healed
+        HealthbarSlider.value = monsterReference.health;
+        HealthbarSliderFill.color = new Color(Mathf.Clamp((1 - monsterReference.health / monsterReference.maxHealth), 0, .75f), Mathf.Clamp((monsterReference.health / monsterReference.maxHealth), 0, .75f), 0, 1f);
 
-            // Fade out damaged healthbar
-            Invoke("FadeHealthBarDamageTaken", .5f);
-        }
+        // Fade out damaged healthbar
+        Invoke(nameof(FadeHealthBarDamageTaken), .5f);
     }
 
     // Fades the damaged health bar
     public void FadeHealthBarDamageTaken()
     {
         HealthbarSliderFillDamagedFade.CrossFadeAlpha(0, .75f, false);
-        Invoke("AdjustHealthBarDamageTaken", .75f);
+        Invoke(nameof(AdjustHealthBarDamageTaken), .75f);
     }
 
     // Adjusts the damaged health bar to match the current health bar after its faded
@@ -321,14 +307,6 @@ public class CreateMonster : MonoBehaviour
         HealthbarSliderFillDamagedFade.CrossFadeAlpha(1, .1f, false);
     }
 
-    // This function is called to update the monster's current row position (back row or front row) to adjust it stat bonuses
-    public void UpdateMonsterRowPosition(MonsterStance newRowPosition)
-    {
-        monsterStance = newRowPosition;
-
-        // Update visual position in battle
-        SetPositionAndOrientation(startingPosition, combatOrientation, newRowPosition);
-    }
 
     // This function should be called when stats get updated
     public async Task<int> UpdateStats(bool damageTaken, GameObject damageSourceGameObject, bool externalDamageTaken, float calculatedDamage)
@@ -346,11 +324,8 @@ public class CreateMonster : MonoBehaviour
                 monsterAttackManager.HitTarget(gameObject, calculatedDamage);
 
             CheckHealth(externalDamageTaken, damageSourceGameObject);
-            UpdateHealthBar(damageTaken);
-        }
-        else
-        {
-            UpdateHealthBar(false);
+
+            UpdateHealthBar();
         }
 
         // Update all stats
@@ -376,7 +351,7 @@ public class CreateMonster : MonoBehaviour
         CheckStatsCap();
 
         // Update healthbar and text
-        healthText.text = ($"{monsterReference.health}/{monster.maxHealth}"); // \nSpeed: { monsterReference.speed.ToString()}
+        healthText.text = ($"{monsterReference.health}/{monster.maxHealth}");
 
         // Only check monster is alive if damage was taken - Fixes dual death call bug
         if (damageTaken && gameObject.GetComponent<BoxCollider2D>().enabled)
@@ -385,11 +360,8 @@ public class CreateMonster : MonoBehaviour
                 monsterAttackManager.HitTarget(gameObject, calculatedDamage);
 
             CheckHealth(externalDamageTaken, damageSourceGameObject);
-            UpdateHealthBar(damageTaken);
-        }
-        else
-        {
-            UpdateHealthBar(false);
+
+            UpdateHealthBar();
         }
 
         // Update all stats
@@ -412,6 +384,9 @@ public class CreateMonster : MonoBehaviour
     public void GrantExp(int expGained)
     {
         if (expGained <= 0)
+            return;
+
+        if (aiType == Monster.AIType.Enemy)
             return;
 
         // Gain exp
@@ -485,7 +460,7 @@ public class CreateMonster : MonoBehaviour
         StartCoroutine(nameof(ShowLevelUpResultsWindow));
     }
 
-    public void ModifySP(int sp)
+    public void ModifySP(float sp)
     {
         monsterReference.currentSP += sp;
         UpdateSPBar();
@@ -869,87 +844,6 @@ public class CreateMonster : MonoBehaviour
         AddSpecialStatusIcon(modifier);
     }
 
-    // This function modifies stats by modifier value from an adventure equipment
-    public void ModifyStats(AttackEffect.StatToChange statToModify, Modifier modifier, string equipmentName)
-    {
-        Debug.Log("Modify Stats with equipment got called!");
-
-        // If buff is not flat, calculate buff
-        if (!modifier.modifierAmountFlatBuff)
-        {
-            modifier.modifierAmount = Mathf.RoundToInt((modifier.modifierAmount / 100f) * GetStatToChange(statToModify, monsterReference));
-
-            if (modifier.modifierAmount < 1)
-            {
-                modifier.modifierAmount = 1;
-            }
-        }
-
-        switch (statToModify)
-        {
-            case (AttackEffect.StatToChange.Evasion):
-                monsterReference.evasion += modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.Speed):
-                monsterReference.speed += (int)modifier.modifierAmount;
-                UpdateStats(false, null, false, 0);
-                break;
-
-            case (AttackEffect.StatToChange.MagicAttack):
-                monsterReference.magicAttack += (int)modifier.modifierAmount;
-                break;
-            case (AttackEffect.StatToChange.MagicDefense):
-                monsterReference.magicDefense += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.PhysicalAttack):
-                monsterReference.physicalAttack += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.PhysicalDefense):
-                monsterReference.physicalDefense += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.CritChance):
-                monsterReference.critChance += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.CritDamage):
-                monsterReference.critDamage += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.Debuffs):
-                monsterImmuneToDebuffs = true;
-                break;
-
-            //case (AttackEffect.StatEnumToChange.Buffs):
-            //    monsterImmuneToBuffs = true;
-            //    break;
-
-            case (AttackEffect.StatToChange.Damage):
-                monsterImmuneToDamage = true;
-                break;
-
-            case (AttackEffect.StatToChange.BothOffensiveStats):
-                monsterReference.physicalAttack += (int)modifier.modifierAmount;
-                monsterReference.magicAttack += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.Accuracy):
-                monsterReference.bonusAccuracy += (int)modifier.modifierAmount;
-                break;
-
-            default:
-                Debug.Log("Missing stat to modify to modifier?", this);
-                break;
-        }
-
-        // Send log message
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {statToModify} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!", monsterReference.aiType);
-        AddStatusIcon(modifier, statToModify, modifier.modifierCurrentDuration);
-    }
-
     // This function adds the modifer's icon to the monster's HUD
     public void AddStatusIcon(Modifier modifier, AttackEffect.StatToChange statEnumToChange, int effectDuration)
     {
@@ -1226,7 +1120,6 @@ public class CreateMonster : MonoBehaviour
         if (monsterReference.health <= 0)
         {
             // Remove outside components
-            Destroy(monsterTargeterUIGameObject);
             transform.DetachChildren();
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
 
@@ -1248,166 +1141,6 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function sets monster sprite orientation at battle start
-    public void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation, MonsterStance _monsterRowPosition)
-    {
-        monsterStance = _monsterRowPosition;
-
-        switch (_monsterRowPosition)
-        {
-            case (MonsterStance.Aggressive):
-                if (aiType == Monster.AIType.Ally)
-                {
-                    //transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
-                    monsterRowFrontIcon.enabled = true;
-                    monsterRowBackIcon.enabled = false;
-                }
-                else
-                {
-                    transform.position = new Vector3(startingPosition.transform.position.x + 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
-                    monsterRowFrontIcon.enabled = true;
-                    monsterRowBackIcon.enabled = false;
-                }
-                break;
-
-            case (MonsterStance.Defensive):
-                if (aiType == Monster.AIType.Ally)
-                {
-                    //transform.position = new Vector3(startingPosition.transform.position.x + 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
-                    monsterRowFrontIcon.enabled = false;
-                    monsterRowBackIcon.enabled = true;
-                }
-                else
-                {
-                    //transform.position = new Vector3(startingPosition.transform.position.x - 1.75f, startingPosition.transform.position.y, startingPosition.transform.position.z);
-                    monsterRowFrontIcon.enabled = false;
-                    monsterRowBackIcon.enabled = true;
-                }
-                break;
-
-            case (MonsterStance.Neutral):
-
-                monsterRowFrontIcon.enabled = false;
-                monsterRowBackIcon.enabled = false;
-                break;
-        }
-
-        if (monsterReference.aiType == Monster.AIType.Ally)
-        {
-            sr.flipX = false;
-        }
-        else if (monsterReference.aiType == Monster.AIType.Enemy)
-        {
-            sr.flipX = true;
-        }
-
-    }
-
-    // This function sets monster sprite orientation
-    public void SetPositionAndOrientation(Transform _startPos, CombatOrientation _combatOrientation, MonsterStance _monsterRowPosition, MonsterStance previousRowPosition)
-    {
-        monsterStance = _monsterRowPosition;
-
-        switch (_monsterRowPosition)
-        {
-            case (MonsterStance.Defensive):
-                monsterRowFrontIcon.enabled = false;
-                monsterRowBackIcon.enabled = true;
-                if (previousRowPosition == MonsterStance.Neutral)
-                {
-                    //StartCoroutine(MoveTowardPoint(-1.75f, 1.75f));
-                }
-                else
-                if (previousRowPosition == MonsterStance.Aggressive)
-                {
-                    //StartCoroutine(MoveTowardPoint(-3.5f, 3f));
-                }
-                break;
-
-            case (MonsterStance.Aggressive):
-                monsterRowFrontIcon.enabled = true;
-                monsterRowBackIcon.enabled = false;
-                if (previousRowPosition == MonsterStance.Defensive)
-                {
-                    //StartCoroutine(MoveTowardPoint(3.5f, 3f));
-                }
-                else
-                if (previousRowPosition == MonsterStance.Neutral)
-                {
-                    //StartCoroutine(MoveTowardPoint(1.75f, 1.75f));
-                }
-                break;
-
-            case (MonsterStance.Neutral):
-                monsterRowFrontIcon.enabled = false;
-                monsterRowBackIcon.enabled = false;
-                if (previousRowPosition == MonsterStance.Defensive)
-                {
-                    //StartCoroutine(MoveTowardPoint(1.75f, 1.75f));
-                }
-                else
-                if (previousRowPosition == MonsterStance.Aggressive)
-                {
-                    //StartCoroutine(MoveTowardPoint(-1.75f, 1.75f));
-                }
-                break;
-        }
-
-        if (monsterReference.aiType == Monster.AIType.Ally)
-        {
-            sr.flipX = false;
-        }
-        else if (monsterReference.aiType == Monster.AIType.Enemy)
-        {
-            sr.flipX = true;
-        }
-
-        // Reset HUD after
-        if (combatManagerScript.monsterTurn == CombatManagerScript.MonsterTurn.AllyTurn)
-        {
-            combatManagerScript.buttonManagerScript.ResetHUD();
-        }
-    }
-
-    // This function is called when the monster changes rows
-    IEnumerator MoveTowardPoint(float distance, float speed)
-    {
-        // Fix enemy orientation
-        if (monsterReference.aiType == Monster.AIType.Enemy)
-        {
-            distance *= -1;
-
-            if (monsterStance == MonsterStance.Defensive)
-            {
-                monsterRowFrontIcon.enabled = true;
-                monsterRowBackIcon.enabled = false;
-            }
-            else if (monsterStance == MonsterStance.Aggressive)
-            {
-                monsterRowFrontIcon.enabled = false;
-                monsterRowBackIcon.enabled = true;
-            }
-
-        }
-
-        Vector3 newPosition;
-        newPosition = new Vector3(startingPosition.transform.position.x + distance, startingPosition.transform.position.y, startingPosition.transform.position.z);
-
-        while (transform.position != newPosition)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, newPosition, speed * Time.deltaTime);
-            yield return null;
-        }
-
-        combatManagerScript.uiManager.InitiateMonsterTurnIndicator(combatManagerScript.CurrentMonsterTurn);
-
-        // Reset HUD after
-        if (combatManagerScript.monsterTurn == CombatManagerScript.MonsterTurn.AllyTurn)
-        {
-            combatManagerScript.buttonManagerScript.ResetHUD();
-        }
-    }
-
     public void SetMonsterStance(MonsterStance newMonsterStance)
     {
         monsterStance = newMonsterStance;
@@ -1415,34 +1148,18 @@ public class CreateMonster : MonoBehaviour
         switch (newMonsterStance)
         {
             case MonsterStance.Neutral:
-                monsterRowFrontIcon.enabled = false;
-                monsterRowBackIcon.enabled = false;
+                monsterOffensiveStanceIcon.enabled = false;
+                monsterDefensiveStanceIcon.enabled = false;
                 break;
 
             case MonsterStance.Defensive:
-                if (aiType == Monster.AIType.Ally)
-                {
-                    monsterRowFrontIcon.enabled = false;
-                    monsterRowBackIcon.enabled = true;
-                }
-                else
-                {
-                    monsterRowFrontIcon.enabled = true;
-                    monsterRowBackIcon.enabled = false;
-                }
+                monsterOffensiveStanceIcon.enabled = false;
+                monsterDefensiveStanceIcon.enabled = true;
                 break;
 
             case MonsterStance.Aggressive:
-                if (aiType == Monster.AIType.Ally)
-                {
-                    monsterRowFrontIcon.enabled = true;
-                    monsterRowBackIcon.enabled = false;
-                }
-                else
-                {
-                    monsterRowFrontIcon.enabled = false;
-                    monsterRowBackIcon.enabled = true;
-                }
+                monsterOffensiveStanceIcon.enabled = true;
+                monsterDefensiveStanceIcon.enabled = false;
                 break;
         }
     }
@@ -1463,18 +1180,30 @@ public class CreateMonster : MonoBehaviour
         if (monsterReference.aiType == Monster.AIType.Enemy)
         {
             nameText.color = Color.red;
-            combatOrientation = CombatOrientation.Right;
-            SetPositionAndOrientation(startingPosition, combatOrientation, monsterStance);
+
+            SetMonsterStance(monsterStance);
+            
             monsterReference.aiLevel = aiLevel;
+
+            sr.flipX = true;
+
+            return;
         }
-        else if (monsterReference.aiType == Monster.AIType.Ally)
+
+        if (monsterReference.aiType == Monster.AIType.Ally)
         {
             nameText.color = Color.white;
-            combatOrientation = CombatOrientation.Left;
-            SetPositionAndOrientation(startingPosition, combatOrientation, monsterStance);
+
+            SetMonsterStance(monsterStance);
+
             monsterReference.aiLevel = Monster.AILevel.Player;
+
+            sr.flipX = false;
+
+            return;
         }
     }
+
 
     // This function ends the attack animation, and calls other scripts 
     public void AttackAnimationEnd()
@@ -1625,7 +1354,7 @@ public class CreateMonster : MonoBehaviour
         {
             combatManagerScript.uiManager.DetailedMonsterStatsWindow.SetActive(true);
             combatManagerScript.uiManager.DetailedMonsterStatsWindow.GetComponent<MonsterStatScreenScript>().DisplayMonsterStatScreenStats(monsterReference);
-            combatManagerScript.uiManager.DetailedMonsterStatsWindow.GetComponent<InventoryManager>().currentMonsterEquipment = monster;
+            combatManagerScript.uiManager.DetailedMonsterStatsWindow.GetComponent<InventoryManager>().currentMonster = monster;
         }
 
         if (currentTime >= delayTime)

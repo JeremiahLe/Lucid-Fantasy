@@ -56,6 +56,7 @@ public class Monster : ScriptableObject
     [Range(0, 10)] public float initialSP = 3;
     [Range(0, 10)] public float currentSP = 3;
     [Range(1, 10)] public float maxSP = 3;
+    [Range(1, 3)] public float spRegen = 1;
 
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 300)] public float physicalAttack;
@@ -145,6 +146,8 @@ public class Monster : ScriptableObject
 
     public int monsterCurrentExp;
     public int monsterExpToNextLevel = 105;
+
+    [DisplayWithoutEdit] public float cachedHealthAtBattleStart;
 
     [Title("Ascension Stats")]
     [EnableIf("monsterAscensionPhase", MonsterAscensionPhase.Ascended)]

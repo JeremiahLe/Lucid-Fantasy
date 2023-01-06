@@ -299,18 +299,19 @@ public class ButtonManagerScript : MonoBehaviour
         switch (newRow)
         {
             case ("FrontRow"):
-                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterStance.Aggressive, monsterComponent.monsterStance);
+                monsterComponent.SetMonsterStance(CreateMonster.MonsterStance.Aggressive);
                 break;
 
             case ("CenterRow"):
-                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterStance.Neutral, monsterComponent.monsterStance);
+                monsterComponent.SetMonsterStance(CreateMonster.MonsterStance.Neutral);
                 break;
 
             case ("BackRow"):
-                monsterComponent.SetPositionAndOrientation(monsterComponent.transform, monsterComponent.combatOrientation, CreateMonster.MonsterStance.Defensive, monsterComponent.monsterStance);
+                monsterComponent.SetMonsterStance(CreateMonster.MonsterStance.Defensive);
                 break;
 
             default:
+                monsterComponent.SetMonsterStance(CreateMonster.MonsterStance.Neutral);
                 break;
         }
 

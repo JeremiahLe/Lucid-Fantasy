@@ -63,19 +63,19 @@ public class DragCommandController : MonoBehaviour, IPointerDownHandler, IDragHa
                         // If the current dragged command is being replaced, only update the other command
                         if (currentTransform.GetSiblingIndex() == 4)
                         {
-                            inventoryManager.currentMonsterEquipment.ListOfMonsterAttacks[otherTransform.GetSiblingIndex()] = otherTransform.GetComponent<DragCommandController>().monsterAttackReference;
+                            inventoryManager.currentMonster.ListOfMonsterAttacks[otherTransform.GetSiblingIndex()] = otherTransform.GetComponent<DragCommandController>().monsterAttackReference;
                             continue;
                         }
 
                         // If the other command is being replaced, only update the current command
                         if (otherTransform.GetSiblingIndex() == 4)
                         {
-                            inventoryManager.currentMonsterEquipment.ListOfMonsterAttacks[currentTransform.GetSiblingIndex()] = currentTransform.GetComponent<DragCommandController>().monsterAttackReference;
+                            inventoryManager.currentMonster.ListOfMonsterAttacks[currentTransform.GetSiblingIndex()] = currentTransform.GetComponent<DragCommandController>().monsterAttackReference;
                             continue;
                         }
 
-                        inventoryManager.currentMonsterEquipment.ListOfMonsterAttacks[currentTransform.GetSiblingIndex()] = currentTransform.GetComponent<DragCommandController>().monsterAttackReference;
-                        inventoryManager.currentMonsterEquipment.ListOfMonsterAttacks[otherTransform.GetSiblingIndex()] = otherTransform.GetComponent<DragCommandController>().monsterAttackReference;
+                        inventoryManager.currentMonster.ListOfMonsterAttacks[currentTransform.GetSiblingIndex()] = currentTransform.GetComponent<DragCommandController>().monsterAttackReference;
+                        inventoryManager.currentMonster.ListOfMonsterAttacks[otherTransform.GetSiblingIndex()] = otherTransform.GetComponent<DragCommandController>().monsterAttackReference;
                         continue;
                     }
 

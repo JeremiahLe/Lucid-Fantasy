@@ -44,7 +44,7 @@ public class EnemyAIManager : MonoBehaviour
 
         if (CheckAndChangeMonsterStance(currentMonsterGameObject))
         {
-            combatManagerScript.PassTurn();
+            combatManagerScript.StanceChanged();
             return;
         }
 
@@ -224,106 +224,16 @@ public class EnemyAIManager : MonoBehaviour
         return randomAttack;
     }
 
-    //// This function selects a monster attack for the enemy AI
-    //public void SelectMove()
-    //{
-    //    currentEnemyTurnGameObject = combatManagerScript.CurrentMonsterTurn;
-    //    currentEnemyTurn = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
-    //    listOfAllies = combatManagerScript.ListOfAllys;
-    //    enemyListOfMonsterAttacks = currentEnemyTurn.ListOfMonsterAttacks;
-
-    //    switch (currentEnemyTurn.aiLevel)
-    //    {
-    //        case Monster.AILevel.Player:
-
-    //        case Monster.AILevel.Random:
-    //            currentEnemyMonsterAttack = GetRandomAttack();
-
-    //            if (currentEnemyMonsterAttack == null)
-    //            {
-    //                combatManagerScript.PassTurn();
-    //                return;
-    //            }
-
-    //            // What type of attack move was selected?
-    //            switch (currentEnemyMonsterAttack.monsterAttackTargetType)
-    //            {
-    //                // If self targeting move, return self
-    //                case (MonsterAttack.MonsterAttackTargetType.SelfTarget):
-    //                    currentEnemyTargetGameObject = combatManagerScript.CurrentMonsterTurn;
-    //                    break;
-
-    //                case (MonsterAttack.MonsterAttackTargetType.AllyTarget):
-    //                    currentEnemyTargetGameObject = GetRandomTarget(combatManagerScript.ListOfEnemies);
-    //                    break;
-
-    //                default:
-    //                    if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Enraged))
-    //                    {
-    //                        currentEnemyTargetGameObject = currentEnemyTurnGameObject.GetComponent<CreateMonster>().monsterEnragedTarget;
-    //                    }
-    //                    else if (currentEnemyTurnGameObject.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(StatusEffectType.Dazed))
-    //                    {
-    //                        currentEnemyTargetGameObject = GetRandomTarget(GetRandomList());
-    //                    }
-    //                    else
-    //                    {
-    //                        currentEnemyTargetGameObject = GetRandomTarget(combatManagerScript.ListOfAllys);
-    //                    }
-    //                    break;
-    //            }
-
-    //            currentEnemyTarget = currentEnemyTargetGameObject.GetComponent<CreateMonster>().monsterReference;
-
-    //            combatManagerScript.CurrentMonsterTurnAnimator = currentEnemyTurnGameObject.GetComponent<Animator>();
-    //            combatManagerScript.CurrentTargetedMonster = currentEnemyTargetGameObject;
-    //            monsterAttackManager.currentMonsterAttack = currentEnemyMonsterAttack;
-
-    //            // Random chance to change row position
-    //            CreateMonster.MonsterStance newStance = GetRandomStance();
-    //            CreateMonster monsterComponent = combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>();
-
-    //            if (newStance != monsterComponent.monsterStance)
-    //            {
-    //                monsterComponent.SetMonsterStance(newStance);
-    //            }
-
-    //            if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
-    //            {
-    //                if (combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>().monsterReference.aiType == Monster.AIType.Enemy)
-    //                {
-    //                    combatManagerScript.CurrentTargetedMonster = combatManagerScript.ListOfEnemies[0];
-    //                }
-    //                else
-    //                {
-    //                    combatManagerScript.CurrentTargetedMonster = combatManagerScript.ListOfAllys[0];
-    //                }
-    //            }
-
-    //            // Adjust targeting for multitarget attacks while enraged
-    //            if (monsterAttackManager.currentMonsterAttack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.MultiTarget)
-    //            {
-    //                for (int i = 0; i < monsterAttackManager.currentMonsterAttack.monsterAttackTargetCountNumber; i++)
-    //                {
-    //                    monsterAttackManager.ListOfCurrentlyTargetedMonsters.Add(currentEnemyTargetGameObject);
-    //                }
-    //            }
-
-    //            monsterAttackManager.Invoke(nameof(monsterAttackManager.UseMonsterAttack), 0.2f);
-    //            break;
-
-    //        default:
-    //            Debug.Log("Missing AI Level or monster reference?", this);
-    //            break;
-    //    }
-    //}
-
     // This function returns a random move from the monsters list of monster attacks
     public MonsterAttack GetRandomAttack(GameObject currentMonsterGameObject)
     {
         CreateMonster monsterComponent = currentMonsterGameObject.GetComponent<CreateMonster>();
         Monster currentMonster = monsterComponent.monsterReference;
         List<MonsterAttack> tempList = currentMonster.ListOfMonsterAttacks.Where(Attack => Attack.monsterAttackSPCost <= currentMonster.currentSP).ToList();
+
+        if (currentMonster.currentSP == 1)
+            if (RandomChanceToChangeStance(.35f))
+                return null;
 
         if (tempList.Count == 0)
             return null;

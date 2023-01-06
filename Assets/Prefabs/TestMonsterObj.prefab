@@ -646,8 +646,8 @@ MonoBehaviour:
   nameText: {fileID: 896763781175474198}
   healthText: {fileID: 4110540380990497173}
   sr: {fileID: 896763779794199983}
-  monsterRowFrontIcon: {fileID: 269163642547223407}
-  monsterRowBackIcon: {fileID: 7354757900654953358}
+  monsterOffensiveStanceIcon: {fileID: 269163642547223407}
+  monsterDefensiveStanceIcon: {fileID: 7354757900654953358}
   cameraOffset: {x: 0, y: 0, z: 0}
   healColor:
     serializedVersion: 2
@@ -2022,7 +2022,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3118219361387363308}
   m_HandleRect: {fileID: 7484986387405580994}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

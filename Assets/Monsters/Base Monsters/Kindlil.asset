@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Kindlil
   baseSprite: {fileID: 21300000, guid: 2c5790dd696c7d7408bd84406a4f6c9e, type: 3}
+  monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}
   aiType: 0
@@ -23,8 +24,10 @@ MonoBehaviour:
   level: 6
   health: 82
   maxHealth: 82
-  cachedHealth: 0
-  cachedMaxHealth: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
   physicalAttack: 1
   magicAttack: 5
   physicalDefense: 4
@@ -53,6 +56,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61c4c5159eda87947ba2fdefbd4779bf, type: 2}
   - {fileID: 11400000, guid: 5a48337cbd6f0634899eea842e5e7dd4, type: 2}
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  cachedHealth: 0
+  cachedMaxHealth: 0
   cachedPhysicalAttack: 1
   cachedMagicAttack: 7
   cachedPhysicalDefense: 4
@@ -79,15 +84,16 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 100
+  cachedHealthAtBattleStart: 0
   monsterAscensionAttack: {fileID: 0}
   ascensionGoldRequirement: 10
   ascensionType: 0
   firstEvolutionPath: {fileID: 11400000, guid: 43c7cfa2d59d87d42974da26a9731322, type: 2}
-  firstEvolutionLevelReq: 20
+  firstEvolutionLevelReq: 15
   ascensionOneMaterial: {fileID: 11400000, guid: 4c889ff0c7a86e94792a06c7d32e99d0, type: 2}
   ascensionOneMaterialAmount: 1
-  secondEvolutionPath: {fileID: 0}
-  secondEvolutionLevelReq: 20
+  secondEvolutionPath: {fileID: 11400000, guid: 90fc8a5a4431c6f4fa8b0efd8a327936, type: 2}
+  secondEvolutionLevelReq: 15
   ascensionTwoMaterial: {fileID: 11400000, guid: 44d68414f0b854d45ae7cf20b5e630c4, type: 2}
   ascensionTwoMaterialAmount: 1
   healthGrowth: 50

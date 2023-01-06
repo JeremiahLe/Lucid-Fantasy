@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09f832eab63de442aa468b9ae4404a2, type: 3}
   m_Name: SpreadingCurrent
   m_EditorClassIdentifier: 
-  abilityTriggerDelay: 75
+  abilityTriggerDelay: 85
   abilityTriggerTime: 5
   physicalAttackBuffEffect: {fileID: 11400000, guid: 758a07dc20b8def49a9c7d8c4ebe9df3, type: 2}
   magicAttackBuffEffect: {fileID: 11400000, guid: 565bbcc0304b90d4e92dbfa90c91c6ec, type: 2}

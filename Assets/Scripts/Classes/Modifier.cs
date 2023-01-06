@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Threading.Tasks;
+using static AttackEffect;
 
 [Serializable]
 [CreateAssetMenu(fileName = "New Modifier", menuName = "Modifiers")]
@@ -230,7 +231,16 @@ public class Modifier : ScriptableObject
 
             default:
                 Debug.Log($"Missing status effect reference? Current Status Effect Type: {statusEffectType}");
+                await Task.Delay(75);
                 return 1;
+        }
+
+        if (monsterComponent.monsterImmuneToDamage)
+        {
+            monsterComponent.combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} is immune to damage!");
+            monsterComponent.CreateStatusEffectPopup("Immune!!", StatChangeType.None);
+            await Task.Delay(75);
+            return 1;
         }
 
         monsterComponent.HitMonster();
@@ -249,7 +259,7 @@ public class Modifier : ScriptableObject
         if (monsterReference.health <= 0)
             await monsterComponent.combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monsterReference, monsterReferenceGameObject, AttackEffect.EffectTime.OnDeath, blankAttack);
 
-        await Task.Delay(75);
+        await Task.Delay(115);
         return 1;
     }
 }

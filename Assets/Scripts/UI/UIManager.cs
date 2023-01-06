@@ -243,7 +243,7 @@ public class UIManager : MonoBehaviour
     public IEnumerator ShowBattleResultsScreen(CombatManagerScript.BattleState battleResult)
     {
         combatManagerScript.adventureManager.GameManagerAudioSource.Stop();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.35f);
         BattleResultsWindow.SetActive(true);
 
         if (battleResult == CombatManagerScript.BattleState.WonBattle)
@@ -266,6 +266,8 @@ public class UIManager : MonoBehaviour
             if (goldReward <= 0)
                 goldReward = 1;
 
+            combatManagerScript.adventureManager.playerGold += goldReward;
+
             BattleResultsRewardsText.text = ($"Rewards\n");
             combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
             yield return new WaitForSeconds(0.75f);
@@ -284,7 +286,11 @@ public class UIManager : MonoBehaviour
             foreach (Item item in rewardList)
             {
                 BattleResultsRewardsText.text += ($"{item.itemName}\n");
+
                 combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
+
+                combatManagerScript.adventureManager.ListOfInventoryItems.Add(item);
+
                 yield return new WaitForSeconds(0.5f);
             }
 
@@ -321,7 +327,11 @@ public class UIManager : MonoBehaviour
             combatManagerScript.adventureManager.adventureFailed = true;
 
             if (combatManagerScript.adventureManager.playerRetrys <= 0)
+            {
                 RetryBattleButton.GetComponent<Button>().enabled = false;
+                RetryBattleButton.GetComponent<Button>().image.color = new Color(255, 255, 255, 0.5f);
+                RetryBattleButton.GetComponentInChildren<TextMeshProUGUI>().text = "No Retrys Remaining!";
+            }
 
             ReturnButton.SetActive(true);
             combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);

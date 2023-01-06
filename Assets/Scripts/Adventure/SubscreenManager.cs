@@ -544,6 +544,7 @@ public class SubscreenManager : MonoBehaviour
         Modifier randModifierSO = Instantiate(randModifier);
         curatedListOfModifiers.Clear();
 
+        randModifierSO.name = randModifierSO.modifierName;
         return randModifierSO;
     }
 
@@ -559,6 +560,7 @@ public class SubscreenManager : MonoBehaviour
         adventureManager.ListOfAvailableItems.Remove(randItem);
 
         Item randItemSO = Instantiate(randItem);
+        randItemSO.name = randItemSO.itemName;
         return randItemSO;
     }
 
@@ -630,6 +632,7 @@ public class SubscreenManager : MonoBehaviour
         Item randItemSO = Instantiate(randItem);
         curatedListOfItems.Clear();
 
+        randItemSO.name = randItemSO.name;
         return randItemSO;
     }
 
@@ -673,6 +676,7 @@ public class SubscreenManager : MonoBehaviour
         randModifierSO.modifierAmountFlatBuff = randModifier.modifierAmountFlatBuff;
         randModifierSO.modifierAmount = randModifier.modifierAmount;
 
+        randModifierSO.name = randModifierSO.modifierName;
         return randModifierSO;
     }
 
@@ -692,6 +696,7 @@ public class SubscreenManager : MonoBehaviour
         randModifierSO.modifierAmountFlatBuff = randModifier.modifierAmountFlatBuff;
         randModifierSO.modifierAmount = randModifier.modifierAmount;
 
+        randModifierSO.name = randModifierSO.modifierName;
         return randModifierSO;
     }
 

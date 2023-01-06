@@ -28,6 +28,7 @@ MonoBehaviour:
   initialSP: 3
   currentSP: 3
   maxSP: 3
+  spRegen: 1
   physicalAttack: 6
   magicAttack: 1
   physicalDefense: 4
@@ -86,15 +87,16 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 100
+  cachedHealthAtBattleStart: 0
   monsterAscensionAttack: {fileID: 0}
   ascensionGoldRequirement: 10
   ascensionType: 0
   firstEvolutionPath: {fileID: 0}
-  firstEvolutionLevelReq: 20
+  firstEvolutionLevelReq: 15
   ascensionOneMaterial: {fileID: 11400000, guid: 540c518caf65a024ea7b14cffb726003, type: 2}
   ascensionOneMaterialAmount: 1
   secondEvolutionPath: {fileID: 0}
-  secondEvolutionLevelReq: 20
+  secondEvolutionLevelReq: 15
   ascensionTwoMaterial: {fileID: 11400000, guid: e64ab1f513974d549853a335e4986b3f, type: 2}
   ascensionTwoMaterialAmount: 1
   healthGrowth: 50

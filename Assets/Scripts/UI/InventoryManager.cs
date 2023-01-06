@@ -9,7 +9,7 @@ public class InventoryManager : MonoBehaviour
 {
     [Header("Equipment Window")]
     public Modifier currentDraggedEquipment;
-    public Monster currentMonsterEquipment;
+    public Monster currentMonster;
 
     public List<GameObject> inventorySlots;
     public List<GameObject> monsterEquipmentSlots;
@@ -121,7 +121,7 @@ public class InventoryManager : MonoBehaviour
 
         // Initialize the monster's current equipment
         i = 0;
-        List<Modifier> tempList = currentMonsterEquipment.ListOfModifiers.Where(modifier => modifier.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
+        List<Modifier> tempList = currentMonster.ListOfModifiers.Where(modifier => modifier.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
 
         //Debug.Log($"tempList count: {tempList.Count}" +
         //    $"\ncurrent monster: {currentMonsterEquipment.name}");
@@ -154,16 +154,16 @@ public class InventoryManager : MonoBehaviour
         }
 
         // Display current monster and name
-        currentMonsterEquipmentImage.sprite = currentMonsterEquipment.baseSprite;
-        currentMonsterEquipmentName.text = ($"{currentMonsterEquipment.name} Lv.{currentMonsterEquipment.level}");
+        currentMonsterEquipmentImage.sprite = currentMonster.baseSprite;
+        currentMonsterEquipmentName.text = ($"{currentMonster.name} Lv.{currentMonster.level}");
 
-        if (!currentMonsterEquipment.monsterIsOwned)
+        if (!currentMonster.monsterIsOwned)
         {
             monsterSelectCounter.text = ($"1 / 1");
             return;
         }
 
-        monsterSelectCounter.text = ($"{adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) + 1} / {adventureManager.ListOfCurrentMonsters.Count}");
+        monsterSelectCounter.text = ($"{adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster) + 1} / {adventureManager.ListOfCurrentMonsters.Count}");
     }
 
     // Override function to play equip animation on recently equipped itemSlot
@@ -205,7 +205,7 @@ public class InventoryManager : MonoBehaviour
 
         // Initialize the monster's current equipment
         i = 0;
-        List<Modifier> tempList = currentMonsterEquipment.ListOfModifiers.Where(modifier => modifier.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
+        List<Modifier> tempList = currentMonster.ListOfModifiers.Where(modifier => modifier.modifierType == Modifier.ModifierType.equipmentModifier).ToList();
 
         //Debug.Log($"tempList count: {tempList.Count}" +
         //    $"\ncurrent monster: {currentMonsterEquipment.name}");
@@ -240,35 +240,77 @@ public class InventoryManager : MonoBehaviour
         }
 
         // Display current monster and name
-        currentMonsterEquipmentImage.sprite = currentMonsterEquipment.baseSprite;
-        currentMonsterEquipmentName.text = ($"{currentMonsterEquipment.name} Lv.{currentMonsterEquipment.level}");
+        currentMonsterEquipmentImage.sprite = currentMonster.baseSprite;
+        currentMonsterEquipmentName.text = ($"{currentMonster.name} Lv.{currentMonster.level}");
 
-        if (!currentMonsterEquipment.monsterIsOwned)
+        if (!currentMonster.monsterIsOwned)
         {
             monsterSelectCounter.text = ($"1 / 1");
             return;
         }
 
-        monsterSelectCounter.text = ($"{adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) + 1} / {adventureManager.ListOfCurrentMonsters.Count}");
+        monsterSelectCounter.text = ($"{adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster) + 1} / {adventureManager.ListOfCurrentMonsters.Count}");
+    }
+
+    public void ResetAllMonsterEquipment()
+    {
+        // Reset flat multipliers
+        foreach (Modifier equipment in currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier && equipment.modifierAmountFlatBuff == true).ToList())
+        {
+            float statModified = ReturnModifiedStat(equipment.statModified, currentMonster);
+
+            statModified += -1f * equipment.modifierAmount;
+        }
+
+        // Reset percentage multipliers
+        foreach (Modifier equipment in currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier && equipment.modifierAmountFlatBuff == false).ToList())
+        {
+            float statModified = ReturnModifiedStat(equipment.statModified, currentMonster);
+
+            float percentageModifierAmount = equipment.modifierAmount / 100f;
+
+            statModified += Mathf.RoundToInt(statModified * equipment.modifierAmount) * -1f;
+        }
+    }
+
+    public void CalculateAllMonsterEquipment()
+    {
+        // Add flat multipliers
+        foreach (Modifier equipment in currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier && equipment.modifierAmountFlatBuff == true).ToList())
+        {
+            float statModified = ReturnModifiedStat(equipment.statModified, currentMonster);
+
+            statModified += equipment.modifierAmount;
+        }
+
+        // Add percentage multipliers
+        foreach (Modifier equipment in currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier && equipment.modifierAmountFlatBuff == false).ToList())
+        {
+            float statModified = ReturnModifiedStat(equipment.statModified, currentMonster);
+
+            float percentageModifierAmount = equipment.modifierAmount / 100f;
+
+            statModified += Mathf.RoundToInt(statModified * equipment.modifierAmount);
+        }
     }
 
     // Increment monster in list
     public void NextMonsterEquipment()
     {
-        if (!currentMonsterEquipment.monsterIsOwned)
+        if (!currentMonster.monsterIsOwned)
             return;
 
-        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) + 1 < adventureManager.ListOfCurrentMonsters.Count)
+        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster) + 1 < adventureManager.ListOfCurrentMonsters.Count)
         {
-            currentMonsterEquipment = adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) + 1];
-            monsterStatScreenScript.currentMonster = currentMonsterEquipment;
+            currentMonster = adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster) + 1];
+            monsterStatScreenScript.currentMonster = currentMonster;
             InitializeInventorySlots();
         }
         else 
-        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) + 1 == adventureManager.ListOfCurrentMonsters.Count)
+        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster) + 1 == adventureManager.ListOfCurrentMonsters.Count)
         {
-            currentMonsterEquipment = adventureManager.ListOfCurrentMonsters[0];
-            monsterStatScreenScript.currentMonster = currentMonsterEquipment;
+            currentMonster = adventureManager.ListOfCurrentMonsters[0];
+            monsterStatScreenScript.currentMonster = currentMonster;
             InitializeInventorySlots();
         }
     }
@@ -276,20 +318,20 @@ public class InventoryManager : MonoBehaviour
     // Decrement monster in list
     public void PreviousMonsterEquipment()
     {
-        if (!currentMonsterEquipment.monsterIsOwned)
+        if (!currentMonster.monsterIsOwned)
             return;
 
-        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) - 1 > -1)
+        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster) - 1 > -1)
         {
-            currentMonsterEquipment = adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) - 1];
-            monsterStatScreenScript.currentMonster = currentMonsterEquipment;
+            currentMonster = adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster) - 1];
+            monsterStatScreenScript.currentMonster = currentMonster;
             InitializeInventorySlots();
         }
         else
-        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment) - 1 == -1)
+        if (adventureManager.ListOfCurrentMonsters.Count != 1 && adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster) - 1 == -1)
         {
-            currentMonsterEquipment = adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.Count - 1];
-            monsterStatScreenScript.currentMonster = currentMonsterEquipment;
+            currentMonster = adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.Count - 1];
+            monsterStatScreenScript.currentMonster = currentMonster;
             InitializeInventorySlots();
         }
     }
@@ -298,23 +340,23 @@ public class InventoryManager : MonoBehaviour
     public void InitializeAscensionWindow()
     {
         // Initialize base monster info
-        monsterBaseImage.sprite = currentMonsterEquipment.baseSprite;
+        monsterBaseImage.sprite = currentMonster.baseSprite;
         monsterBaseText.text =
-            ($"<b>{currentMonsterEquipment.name}</b>" +
-            $"\nLv.{currentMonsterEquipment.level} | Exp: {currentMonsterEquipment.monsterCurrentExp}/{currentMonsterEquipment.monsterExpToNextLevel}");
+            ($"<b>{currentMonster.name}</b>" +
+            $"\nLv.{currentMonster.level} | Exp: {currentMonster.monsterCurrentExp}/{currentMonster.monsterExpToNextLevel}");
 
         // Display monster elements
-        if (currentMonsterEquipment.monsterSubElement.element != ElementClass.MonsterElement.None)
+        if (currentMonster.monsterSubElement.element != ElementClass.MonsterElement.None)
         {
             monsterElementsText.text =
                 ($"<b>Elements</b>" +
-                $"\n{currentMonsterEquipment.monsterElement.element} / {currentMonsterEquipment.monsterSubElement.element}");
+                $"\n{currentMonster.monsterElement.element} / {currentMonster.monsterSubElement.element}");
         }
         else
         {
             monsterElementsText.text =
                 ($"<b>Element</b>" +
-                $"\n{currentMonsterEquipment.monsterElement.element}");
+                $"\n{currentMonster.monsterElement.element}");
         }
 
         // Disable ascension buttons before checking 
@@ -322,17 +364,17 @@ public class InventoryManager : MonoBehaviour
         ascendTwoButton.interactable = false;
 
         // Initialize monster ascension one info
-        if (currentMonsterEquipment.firstEvolutionPath != null)
+        if (currentMonster.firstEvolutionPath != null)
         {
-            monsterAscensionOneImage.sprite = currentMonsterEquipment.firstEvolutionPath.baseSprite;
+            monsterAscensionOneImage.sprite = currentMonster.firstEvolutionPath.baseSprite;
             monsterAscensionOneText.text =
-                ($"{currentMonsterEquipment.firstEvolutionPath.ascensionType.ToString()} Ascension");
+                ($"{currentMonster.firstEvolutionPath.ascensionType.ToString()} Ascension");
             ascendOneButton.interactable = true;
 
             // If level req is met, reveal monster sprite and name
-            if (currentMonsterEquipment.level == currentMonsterEquipment.firstEvolutionLevelReq)
+            if (currentMonster.level == currentMonster.firstEvolutionLevelReq)
             {
-                monsterAscensionOneText.text += ($"\n{currentMonsterEquipment.firstEvolutionPath.name}");
+                monsterAscensionOneText.text += ($"\n{currentMonster.firstEvolutionPath.name}");
             }
             else
             {
@@ -347,17 +389,17 @@ public class InventoryManager : MonoBehaviour
         }
 
         // Initialize monster ascension two info
-        if (currentMonsterEquipment.secondEvolutionPath != null)
+        if (currentMonster.secondEvolutionPath != null)
         {
-            monsterAscensionTwoImage.sprite = currentMonsterEquipment.secondEvolutionPath.baseSprite;
+            monsterAscensionTwoImage.sprite = currentMonster.secondEvolutionPath.baseSprite;
             monsterAscensionTwoText.text =
-                ($"{currentMonsterEquipment.secondEvolutionPath.ascensionType.ToString()} Ascension");
+                ($"{currentMonster.secondEvolutionPath.ascensionType.ToString()} Ascension");
             ascendTwoButton.interactable = true;
 
             // If level req is met, reveal monster sprite and name
-            if (currentMonsterEquipment.level == currentMonsterEquipment.secondEvolutionLevelReq)
+            if (currentMonster.level == currentMonster.secondEvolutionLevelReq)
             {
-                monsterAscensionTwoText.text += ($"\n{currentMonsterEquipment.secondEvolutionPath.name}");
+                monsterAscensionTwoText.text += ($"\n{currentMonster.secondEvolutionPath.name}");
             }
             else
             {
@@ -390,16 +432,16 @@ public class InventoryManager : MonoBehaviour
         // Assign the monster ascension path
         if (ascensionNumber == 1)
         {
-            currentAscensionPath = currentMonsterEquipment.firstEvolutionPath;
-            levelReq = currentMonsterEquipment.firstEvolutionLevelReq;
-            ascensionMaterial = currentMonsterEquipment.ascensionOneMaterial;
+            currentAscensionPath = currentMonster.firstEvolutionPath;
+            levelReq = currentMonster.firstEvolutionLevelReq;
+            ascensionMaterial = currentMonster.ascensionOneMaterial;
             goldReq = currentAscensionPath.ascensionGoldRequirement;
         }
         else if (ascensionNumber == 2)
         {
-            currentAscensionPath = currentMonsterEquipment.secondEvolutionPath;
-            levelReq = currentMonsterEquipment.secondEvolutionLevelReq;
-            ascensionMaterial = currentMonsterEquipment.ascensionTwoMaterial;
+            currentAscensionPath = currentMonster.secondEvolutionPath;
+            levelReq = currentMonster.secondEvolutionLevelReq;
+            ascensionMaterial = currentMonster.ascensionTwoMaterial;
             goldReq = currentAscensionPath.ascensionGoldRequirement;
         }
 
@@ -418,22 +460,22 @@ public class InventoryManager : MonoBehaviour
             $"\n{currentAscensionPath.monsterAscensionAttack.monsterAttackDescription}");
 
         // Assign base and ascension sprites and names
-        monsterBaseImageCheckAscension.sprite = currentMonsterEquipment.baseSprite;
-        monsterBaseCheckAscensionText.text = ($"{currentMonsterEquipment.name}");
+        monsterBaseImageCheckAscension.sprite = currentMonster.baseSprite;
+        monsterBaseCheckAscensionText.text = ($"{currentMonster.name}");
 
         // Display monster elements
-        if (currentMonsterEquipment.monsterSubElement.element != ElementClass.MonsterElement.None)
+        if (currentMonster.monsterSubElement.element != ElementClass.MonsterElement.None)
         {
-            monsterBaseCheckAscensionText.text += ($"\n{currentMonsterEquipment.monsterElement.element.ToString()} / {currentMonsterEquipment.monsterSubElement.element.ToString()}");
+            monsterBaseCheckAscensionText.text += ($"\n{currentMonster.monsterElement.element.ToString()} / {currentMonster.monsterSubElement.element.ToString()}");
         }
         else
         {
-            monsterBaseCheckAscensionText.text += ($"\n{currentMonsterEquipment.monsterElement.element.ToString()}");
+            monsterBaseCheckAscensionText.text += ($"\n{currentMonster.monsterElement.element.ToString()}");
         }
 
         // Show name only if level req is met
         monsterAscensionCheckAscension.sprite = currentAscensionPath.baseSprite;
-        if (currentMonsterEquipment.level == levelReq)
+        if (currentMonster.level == levelReq)
         {
             monsterAscensionCheckAscensionText.text = ($"{currentAscensionPath.name}");
         }
@@ -454,17 +496,17 @@ public class InventoryManager : MonoBehaviour
 
         // Show Requirements
         ascensionRequirements.text =
-            ($"Lv.{levelReq} ({currentMonsterEquipment.level})"+
+            ($"Lv.{levelReq} ({currentMonster.level})"+
             $"\n{ascensionMaterial.itemName} x 1 ({adventureManager.ListOfInventoryItems.Where(item => item.itemName == ascensionMaterial.itemName).ToList().Count})" +
             $"\n{goldReq} Gold ({adventureManager.playerGold})");
 
         // Check requirements
-        levelReqImage.sprite = levelReq == currentMonsterEquipment.level ? requirementMetSprite : requirementUnmetSprite;
+        levelReqImage.sprite = levelReq == currentMonster.level ? requirementMetSprite : requirementUnmetSprite;
         matReqImage.sprite = adventureManager.ListOfInventoryItems.Where(item => item.itemName == ascensionMaterial.itemName).ToList().Count >= 1 ? requirementMetSprite : requirementUnmetSprite;
         goldReqImage.sprite = goldReq <= adventureManager.playerGold ? requirementMetSprite : requirementUnmetSprite;
 
         // Enable ascension if reqs met
-        if (levelReq == currentMonsterEquipment.level)
+        if (levelReq == currentMonster.level)
             reqsMet++;
 
         if (adventureManager.ListOfInventoryItems.Where(item => item.itemName == ascensionMaterial.itemName).ToList().Count >= 1)
@@ -494,25 +536,25 @@ public class InventoryManager : MonoBehaviour
         // BonusAccuracy
 
         monsterAscensionStatGrowths.text =
-            ($"{currentMonsterEquipment.maxHealth} -> {currentMonsterEquipment.maxHealth + currentAscensionPath.healthGrowth} (<b>+{currentAscensionPath.healthGrowth}</b>)" +
+            ($"{currentMonster.maxHealth} -> {currentMonster.maxHealth + currentAscensionPath.healthGrowth} (<b>+{currentAscensionPath.healthGrowth}</b>)" +
 
-            $"\n{currentMonsterEquipment.physicalAttack} -> {currentMonsterEquipment.physicalAttack + currentAscensionPath.physicalAttackGrowth} (<b>{ReturnSign(currentAscensionPath.physicalAttackGrowth)}{currentAscensionPath.physicalAttackGrowth}</b>)" +
-            $"\n{currentMonsterEquipment.magicAttack} -> {currentMonsterEquipment.magicAttack + currentAscensionPath.magicAttackGrowth} (<b>{ReturnSign(currentAscensionPath.magicAttackGrowth)}{currentAscensionPath.magicAttackGrowth}</b>)" +
+            $"\n{currentMonster.physicalAttack} -> {currentMonster.physicalAttack + currentAscensionPath.physicalAttackGrowth} (<b>{ReturnSign(currentAscensionPath.physicalAttackGrowth)}{currentAscensionPath.physicalAttackGrowth}</b>)" +
+            $"\n{currentMonster.magicAttack} -> {currentMonster.magicAttack + currentAscensionPath.magicAttackGrowth} (<b>{ReturnSign(currentAscensionPath.magicAttackGrowth)}{currentAscensionPath.magicAttackGrowth}</b>)" +
 
-            $"\n{currentMonsterEquipment.physicalDefense} -> {currentMonsterEquipment.physicalDefense + currentAscensionPath.physicalDefenseGrowth} (<b>{ReturnSign(currentAscensionPath.physicalDefenseGrowth)}{currentAscensionPath.physicalDefenseGrowth}</b>)" +
-            $"\n{currentMonsterEquipment.magicDefense} -> {currentMonsterEquipment.magicDefense + currentAscensionPath.magicDefenseGrowth} (<b>{ReturnSign(currentAscensionPath.magicDefenseGrowth)}{currentAscensionPath.magicDefenseGrowth}</b>)" +
+            $"\n{currentMonster.physicalDefense} -> {currentMonster.physicalDefense + currentAscensionPath.physicalDefenseGrowth} (<b>{ReturnSign(currentAscensionPath.physicalDefenseGrowth)}{currentAscensionPath.physicalDefenseGrowth}</b>)" +
+            $"\n{currentMonster.magicDefense} -> {currentMonster.magicDefense + currentAscensionPath.magicDefenseGrowth} (<b>{ReturnSign(currentAscensionPath.magicDefenseGrowth)}{currentAscensionPath.magicDefenseGrowth}</b>)" +
 
-            $"\n{currentMonsterEquipment.speed} -> {currentMonsterEquipment.speed + currentAscensionPath.speedGrowth} (<b>{ReturnSign(currentAscensionPath.speedGrowth)}{currentAscensionPath.speedGrowth}</b>)" +
+            $"\n{currentMonster.speed} -> {currentMonster.speed + currentAscensionPath.speedGrowth} (<b>{ReturnSign(currentAscensionPath.speedGrowth)}{currentAscensionPath.speedGrowth}</b>)" +
 
-            $"\n{currentMonsterEquipment.evasion} -> {currentMonsterEquipment.evasion + currentAscensionPath.evasionGrowth} (<b>{ReturnSign(currentAscensionPath.evasionGrowth)}{currentAscensionPath.evasionGrowth}</b>)" +
-            $"\n{currentMonsterEquipment.critChance} -> {currentMonsterEquipment.critChance + currentAscensionPath.critChanceGrowth} (<b>{ReturnSign(currentAscensionPath.critChanceGrowth)}{currentAscensionPath.critChanceGrowth}</b>)" +
-            $"\n{currentMonsterEquipment.bonusAccuracy} -> {currentMonsterEquipment.bonusAccuracy + currentAscensionPath.bonusAccuracyGrowth} (<b>{ReturnSign(currentAscensionPath.bonusAccuracyGrowth)}{currentAscensionPath.bonusAccuracyGrowth}</b>)");
+            $"\n{currentMonster.evasion} -> {currentMonster.evasion + currentAscensionPath.evasionGrowth} (<b>{ReturnSign(currentAscensionPath.evasionGrowth)}{currentAscensionPath.evasionGrowth}</b>)" +
+            $"\n{currentMonster.critChance} -> {currentMonster.critChance + currentAscensionPath.critChanceGrowth} (<b>{ReturnSign(currentAscensionPath.critChanceGrowth)}{currentAscensionPath.critChanceGrowth}</b>)" +
+            $"\n{currentMonster.bonusAccuracy} -> {currentMonster.bonusAccuracy + currentAscensionPath.bonusAccuracyGrowth} (<b>{ReturnSign(currentAscensionPath.bonusAccuracyGrowth)}{currentAscensionPath.bonusAccuracyGrowth}</b>)");
     }
 
     // Play monster ascension animation
     public void BeginMonsterAscension()
     {
-        ascendingMonsterSprite.sprite = currentMonsterEquipment.baseSprite;
+        ascendingMonsterSprite.sprite = currentMonster.baseSprite;
         ascendingMonsterSprite.GetComponent<Animator>().SetBool("Ascend", true);
     }
 
@@ -532,27 +574,27 @@ public class InventoryManager : MonoBehaviour
         // Copy moves of previous monster
         for (int i = 0; i < 4; i++)
         {
-            newMonster.ListOfMonsterAttacks[i] = currentMonsterEquipment.ListOfMonsterAttacks[i];
+            newMonster.ListOfMonsterAttacks[i] = currentMonster.ListOfMonsterAttacks[i];
         }
 
         // Copy equipment of previous monster
-        int equipmentCount = currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList().Count;
+        int equipmentCount = currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList().Count;
 
         for (int i = 0; i < equipmentCount; i++)
         {
-            newMonster.ListOfModifiers.Add(currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList()[i]);
-            currentMonsterEquipment.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList()[i].modifierOwner = newMonster;
+            newMonster.ListOfModifiers.Add(currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList()[i]);
+            currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList()[i].modifierOwner = newMonster;
         }
 
         // Update current monster reference
-        adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.IndexOf(currentMonsterEquipment)] = newMonster;
-        adventureManager.ListOfAllMonsters[adventureManager.ListOfAllMonsters.IndexOf(currentMonsterEquipment)] = newMonster;
+        adventureManager.ListOfCurrentMonsters[adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster)] = newMonster;
+        adventureManager.ListOfAllMonsters[adventureManager.ListOfAllMonsters.IndexOf(currentMonster)] = newMonster;
 
         // Store reference
-        preAscensionReference = currentMonsterEquipment;
+        preAscensionReference = currentMonster;
 
         monsterStatScreenScript.currentMonster = newMonster;
-        currentMonsterEquipment = newMonster;
+        currentMonster = newMonster;
 
         // Show continue button
         continueToAfterAscensionButton.SetActive(true);
@@ -562,14 +604,14 @@ public class InventoryManager : MonoBehaviour
     public void ShowAscendedMonsterWindow()
     {
         // Display image and text
-        ascendedMonster.sprite = currentMonsterEquipment.baseSprite;
+        ascendedMonster.sprite = currentMonster.baseSprite;
         ascendedMonsterText.text = 
-            ($"{preAscensionReference.name} ascended into {currentMonsterEquipment.name}!" +
-            $"\n\nReplace an existing attack with {currentMonsterEquipment.monsterAscensionAttack.monsterAttackName}?");
+            ($"{preAscensionReference.name} ascended into {currentMonster.name}!" +
+            $"\n\nReplace an existing attack with {currentMonster.monsterAscensionAttack.monsterAttackName}?");
 
         // Display new command
         DragCommandController newAttackHolder = newCommandHolder.GetComponent<DragCommandController>();
-        newAttackHolder.monsterAttackReference = currentMonsterEquipment.monsterAscensionAttack;
+        newAttackHolder.monsterAttackReference = currentMonster.monsterAscensionAttack;
 
         newAttackHolder.GetComponent<Interactable>().interactableName = newAttackHolder.monsterAttackReference.monsterAttackName;
         newAttackHolder.GetComponent<Interactable>().interactableDescription = newAttackHolder.monsterAttackReference.monsterAttackDescription;
@@ -599,7 +641,7 @@ public class InventoryManager : MonoBehaviour
 
             // Grab reference to command holder and assign it's monster attack reference
             DragCommandController dragController = monsterAttackHolder.GetComponent<DragCommandController>();
-            dragController.monsterAttackReference = currentMonsterEquipment.ListOfMonsterAttacks[i];
+            dragController.monsterAttackReference = currentMonster.ListOfMonsterAttacks[i];
 
             // Initialize the command holder's interactable component
             dragController.GetComponent<Interactable>().interactableName = dragController.monsterAttackReference.monsterAttackName;
@@ -637,5 +679,51 @@ public class InventoryManager : MonoBehaviour
 
         // regular buff
         return "+";
+    }
+
+    public float ReturnModifiedStat(AttackEffect.StatToChange modifiedStat, Monster currentMonster)
+    {
+        switch (modifiedStat)
+        {
+            case (AttackEffect.StatToChange.PhysicalAttack):
+                return currentMonster.physicalAttack;
+
+            case (AttackEffect.StatToChange.MagicAttack):
+                return currentMonster.magicAttack;
+
+            case (AttackEffect.StatToChange.PhysicalDefense):
+                return currentMonster.physicalDefense;
+
+            case (AttackEffect.StatToChange.MagicDefense):
+                return currentMonster.magicDefense;
+
+            case (AttackEffect.StatToChange.Speed):
+                return currentMonster.speed;
+
+            case (AttackEffect.StatToChange.Evasion):
+                return currentMonster.evasion;
+
+            case (AttackEffect.StatToChange.Accuracy):
+                return currentMonster.bonusAccuracy;
+
+            case (AttackEffect.StatToChange.CritChance):
+                return currentMonster.critChance;
+
+            case (AttackEffect.StatToChange.CritDamage):
+                return currentMonster.critDamage;
+
+            case (AttackEffect.StatToChange.MaxHealth):
+                return currentMonster.maxHealth;
+
+            case (AttackEffect.StatToChange.MaxSP):
+                return currentMonster.maxSP;
+
+            case (AttackEffect.StatToChange.SPRegen):
+                return currentMonster.spRegen;
+
+            default:
+                Debug.Log("Missing stat or monster reference?", this);
+                return 0;
+        }
     }
 }

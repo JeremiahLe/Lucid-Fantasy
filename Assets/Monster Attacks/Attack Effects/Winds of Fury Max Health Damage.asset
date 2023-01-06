@@ -17,7 +17,7 @@ MonoBehaviour:
   attackEffectStatus: 0
   statToChange: 14
   effectTime: 0
-  monsterTargetType: 1
+  monsterTargetType: 0
   fixedDamageAmount: 0
   triggersEffects: 0
   effectDamageType: 1
@@ -30,10 +30,10 @@ MonoBehaviour:
   statusImmunity: 0
   statImmunity: 0
   attackEffectDuration: 0
-  modifierCalledOnce: 0
   flatValueChange: 0
   modifierDuration: 0
   amountToChange: 15
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
   monsterAttackTrigger: {fileID: 0}
+  monsterSource: {fileID: 0}
