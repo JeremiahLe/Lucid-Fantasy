@@ -523,6 +523,12 @@ Imported Various Assets/Packages
 - Adjust SP regens
 - Test AI Types
 
+[1/5/22]
+- Add VFX to all abilities & attacks. Fix Buff/Debuff/Attack VFX/Animations
+- Make Equipment Apply In The Window, rather than at Game Start
+- Test AI Types
+- Add Shop
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
