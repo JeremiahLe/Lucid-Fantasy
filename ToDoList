@@ -528,6 +528,7 @@ Imported Various Assets/Packages
 - Make Equipment Apply In The Window, rather than at Game Start
 - Test AI Types
 - Add Shop
+- Reset all chimerics to initial stance
 
 Long-Term
  - Finish Room Creation and Setup
