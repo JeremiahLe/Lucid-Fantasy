@@ -62,6 +62,8 @@ public class Modifier : ScriptableObject
     public int equipmentRank = 1;
     [EnableIf("modifierType", ModifierType.equipmentModifier)]
     public static int equipmentMaxRank = 3;
+    [EnableIf("modifierType", ModifierType.equipmentModifier)]
+    public float equipmentCachedAmount;
 
     [AssetSelector(Paths = "Assets/Sprites/UI")]
     [PreviewField(150)]

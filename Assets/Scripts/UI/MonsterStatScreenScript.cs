@@ -174,4 +174,9 @@ public class MonsterStatScreenScript : MonoBehaviour
             inventoryManager.ascensionButton.interactable = true;
         }
     }
+
+    public void NewUIScreenSelected()
+    {
+        monstersSubScreenManager.adventureManager.NewUIScreenSelected();
+    }
 }

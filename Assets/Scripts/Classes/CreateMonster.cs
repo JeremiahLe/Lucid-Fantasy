@@ -174,6 +174,7 @@ public class CreateMonster : MonoBehaviour
 
             monster.cachedBonusAccuracy = monsterReference.bonusAccuracy;
             monsterStance = monster.cachedMonsterRowPosition;
+            monster.cachedMonsterRowPosition = monsterStance;
 
             monsterReference.currentSP = monsterReference.initialSP;
             monsterReference.cachedHealthAtBattleStart = monsterReference.health;

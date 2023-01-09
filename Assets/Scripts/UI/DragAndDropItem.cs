@@ -22,6 +22,8 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         canvasGroup.alpha = .6f;
+
+        itemSlot.adventureManager.PlaySFX(itemSlot.adventureManager.UIHoverSFX);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -66,9 +68,15 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 }
 
                 // Add equipment to monster inventory and remove from global inventory
+                itemSlot.inventoryManager.ResetAllMonsterEquipment();
+
                 itemSlot.inventoryManager.currentMonster.ListOfModifiers.Add(itemSlot.itemSlotEquipment);
-                //itemSlot.inventoryManager.adventureManager.ListOfCurrentEquipment.Remove(itemSlot.itemSlotEquipment);
+
+                itemSlot.inventoryManager.adventureManager.PlaySFX(itemSlot.adventureManager.equipmentSelectSFX);
+
                 itemSlot.itemSlotEquipment.modifierOwner = itemSlot.inventoryManager.currentMonster;
+
+                itemSlot.inventoryManager.CalculateAllMonsterEquipment();
 
                 // Clear the inventory sprite, modifier, and interactable
                 //itemSlot.itemSlotEquipment = null;
@@ -94,8 +102,16 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 // Add equipment to global inventory and remove from monster inventory
                 //itemSlot.inventoryManager.adventureManager.ListOfCurrentEquipment.Add(itemSlot.itemSlotEquipment);
+
+                itemSlot.inventoryManager.ResetAllMonsterEquipment();
+
                 itemSlot.inventoryManager.currentMonster.ListOfModifiers.Remove(itemSlot.itemSlotEquipment);
+
+                itemSlot.inventoryManager.adventureManager.PlaySFX(itemSlot.adventureManager.equipmentDeselectSFX);
+
                 itemSlot.itemSlotEquipment.modifierOwner = null;
+
+                itemSlot.inventoryManager.CalculateAllMonsterEquipment();
 
                 // Clear the inventory sprite, modifier, and interactable
                 itemSlot.itemSlotEquipment = null;

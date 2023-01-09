@@ -164,6 +164,8 @@ public class InventoryManager : MonoBehaviour
         }
 
         monsterSelectCounter.text = ($"{adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster) + 1} / {adventureManager.ListOfCurrentMonsters.Count}");
+
+        ResetThenCalculateEquipment();
     }
 
     // Override function to play equip animation on recently equipped itemSlot
@@ -250,26 +252,25 @@ public class InventoryManager : MonoBehaviour
         }
 
         monsterSelectCounter.text = ($"{adventureManager.ListOfCurrentMonsters.IndexOf(currentMonster) + 1} / {adventureManager.ListOfCurrentMonsters.Count}");
+
+        ResetThenCalculateEquipment();
+    }
+
+    public void ResetThenCalculateEquipment()
+    {
+        ResetAllMonsterEquipment();
+
+        CalculateAllMonsterEquipment();
     }
 
     public void ResetAllMonsterEquipment()
     {
         // Reset flat multipliers
-        foreach (Modifier equipment in currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier && equipment.modifierAmountFlatBuff == true).ToList())
+        foreach (Modifier equipment in currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList())
         {
-            float statModified = ReturnModifiedStat(equipment.statModified, currentMonster);
+            float removedStatValue = equipment.equipmentCachedAmount * -1f;
 
-            statModified += -1f * equipment.modifierAmount;
-        }
-
-        // Reset percentage multipliers
-        foreach (Modifier equipment in currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier && equipment.modifierAmountFlatBuff == false).ToList())
-        {
-            float statModified = ReturnModifiedStat(equipment.statModified, currentMonster);
-
-            float percentageModifierAmount = equipment.modifierAmount / 100f;
-
-            statModified += Mathf.RoundToInt(statModified * equipment.modifierAmount) * -1f;
+            AdjustModifiedStatToNewValue(equipment.statModified, currentMonster, removedStatValue);
         }
     }
 
@@ -278,9 +279,13 @@ public class InventoryManager : MonoBehaviour
         // Add flat multipliers
         foreach (Modifier equipment in currentMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier && equipment.modifierAmountFlatBuff == true).ToList())
         {
-            float statModified = ReturnModifiedStat(equipment.statModified, currentMonster);
+            //float statModified = ReturnModifiedStat(equipment.statModified, currentMonster);
 
-            statModified += equipment.modifierAmount;
+            equipment.equipmentCachedAmount = equipment.modifierAmount;
+
+            float additionalStatValue = equipment.equipmentCachedAmount;
+
+            AdjustModifiedStatToNewValue(equipment.statModified, currentMonster, additionalStatValue);
         }
 
         // Add percentage multipliers
@@ -290,7 +295,14 @@ public class InventoryManager : MonoBehaviour
 
             float percentageModifierAmount = equipment.modifierAmount / 100f;
 
-            statModified += Mathf.RoundToInt(statModified * equipment.modifierAmount);
+            float additionalStatValue = Mathf.RoundToInt(statModified * percentageModifierAmount);
+
+            if (additionalStatValue <= 0)
+                additionalStatValue = 1;
+
+            equipment.equipmentCachedAmount = additionalStatValue;
+
+            AdjustModifiedStatToNewValue(equipment.statModified, currentMonster, additionalStatValue);
         }
     }
 
@@ -724,6 +736,64 @@ public class InventoryManager : MonoBehaviour
             default:
                 Debug.Log("Missing stat or monster reference?", this);
                 return 0;
+        }
+    }
+
+    public void AdjustModifiedStatToNewValue(AttackEffect.StatToChange modifiedStat, Monster currentMonster, float additionalStatValue)
+    {
+        switch (modifiedStat)
+        {
+            case (AttackEffect.StatToChange.PhysicalAttack):
+                currentMonster.physicalAttack += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.MagicAttack):
+                currentMonster.magicAttack += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.PhysicalDefense):
+                currentMonster.physicalDefense += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.MagicDefense):
+                currentMonster.magicDefense += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.Speed):
+                currentMonster.speed += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.Evasion):
+                currentMonster.evasion += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.Accuracy):
+                currentMonster.bonusAccuracy += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.CritChance):
+                currentMonster.critChance += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.CritDamage):
+                currentMonster.critDamage += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.MaxHealth):
+                currentMonster.maxHealth += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.MaxSP):
+                currentMonster.maxSP += additionalStatValue;
+                break;
+
+            case (AttackEffect.StatToChange.SPRegen):
+                currentMonster.spRegen += additionalStatValue;
+                break;
+
+            default:
+                Debug.Log("Missing stat or monster reference?", this);
+                break;
         }
     }
 }

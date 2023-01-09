@@ -2474,13 +2474,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 960093470}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: UIHoverSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: a496b4e0d52477d49bf195d92b6d5f4d, type: 3}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: rareChanceRate
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: UIScreenSelectSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: e28c6c9738371d84f847dd48f6eed1fc, type: 3}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: adventureNGNumber
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: equipmentSelectSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 5560998f522ae48468a21156b93055f7, type: 3}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: legendaryChanceRate
       value: 12
@@ -2489,6 +2501,10 @@ PrefabInstance:
       propertyPath: ConfirmAdventureMenu
       value: 
       objectReference: {fileID: 420426851}
+    - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
+      propertyPath: equipmentDeselectSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 8ed6060fb0bf49d489367dca3698eb9b, type: 3}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfAvailableRewardEquipment.Array.size
       value: 11

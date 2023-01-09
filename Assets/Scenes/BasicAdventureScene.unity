@@ -6462,11 +6462,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Center Row
+    - m_Text: Neutral
       m_Image: {fileID: 0}
-    - m_Text: Back Row
+    - m_Text: Defensive
       m_Image: {fileID: 0}
-    - m_Text: Front Row
+    - m_Text: Aggressive
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11609,7 +11609,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Center Row
+  m_text: Neutral
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -11778,11 +11778,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Center Row
+    - m_Text: Neutral
       m_Image: {fileID: 0}
-    - m_Text: Back Row
+    - m_Text: Defensive
       m_Image: {fileID: 0}
-    - m_Text: Front Row
+    - m_Text: Aggressive
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12701,7 +12701,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Center Row
+  m_text: Neutral
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -14110,7 +14110,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Center Row
+  m_text: Neutral
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -14279,11 +14279,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Center Row
+    - m_Text: Neutral
       m_Image: {fileID: 0}
-    - m_Text: Back Row
+    - m_Text: Defensive
       m_Image: {fileID: 0}
-    - m_Text: Front Row
+    - m_Text: Aggressive
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15298,11 +15298,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Center Row
+    - m_Text: Neutral
       m_Image: {fileID: 0}
-    - m_Text: Back Row
+    - m_Text: Defensive
       m_Image: {fileID: 0}
-    - m_Text: Front Row
+    - m_Text: Aggressive
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -19275,7 +19275,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Center Row
+  m_text: Neutral
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -20573,6 +20573,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1932943010}
     m_Modifications:
+    - target: {fileID: 909956413255491687, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 909956413255491687, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 909956413255491687, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1805156704}
+    - target: {fileID: 909956413255491687, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 909956413255491687, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: NewUIScreenSelected
+      objectReference: {fileID: 0}
+    - target: {fileID: 909956413255491687, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: MonsterStatScreenScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 909956413255491687, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1008367272625485904, guid: 2771602646003fb4c912f471d38165c5, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -20584,6 +20612,38 @@ PrefabInstance:
     - target: {fileID: 2912272699933874734, guid: 2771602646003fb4c912f471d38165c5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784806826437650329, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784806826437650329, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784806826437650329, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1805156704}
+    - target: {fileID: 4784806826437650329, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784806826437650329, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: NewUIScreenSelected
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784806826437650329, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: MonsterStatScreenScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784806826437650329, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784806826437650329, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4787520204604575739, guid: 2771602646003fb4c912f471d38165c5, type: 3}
       propertyPath: m_IsActive
@@ -20597,6 +20657,34 @@ PrefabInstance:
       propertyPath: canvasRectTransform
       value: 
       objectReference: {fileID: 1101214616}
+    - target: {fileID: 6895412533943376744, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895412533943376744, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895412533943376744, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1805156704}
+    - target: {fileID: 6895412533943376744, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895412533943376744, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: UpdateMonsterSubScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895412533943376744, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: MonsterStatScreenScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895412533943376744, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6895412534109772686, guid: 2771602646003fb4c912f471d38165c5, type: 3}
       propertyPath: m_Name
       value: MonsterStatsWindowScreen
@@ -20701,6 +20789,38 @@ PrefabInstance:
       propertyPath: monsterAdvancedStats
       value: 
       objectReference: {fileID: 7506496207535568272}
+    - target: {fileID: 8824709522305904283, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824709522305904283, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824709522305904283, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1805156704}
+    - target: {fileID: 8824709522305904283, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824709522305904283, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: NewUIScreenSelected
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824709522305904283, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: MonsterStatScreenScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824709522305904283, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824709522305904283, guid: 2771602646003fb4c912f471d38165c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2771602646003fb4c912f471d38165c5, type: 3}
 --- !u!114 &7215387680445438165 stripped

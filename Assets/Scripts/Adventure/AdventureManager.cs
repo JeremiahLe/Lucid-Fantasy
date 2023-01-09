@@ -82,6 +82,10 @@ public class AdventureManager : MonoBehaviour
     public AudioSource GameManagerSFXSource;
 
     public AudioClip monsterAscendedSFX;
+    public AudioClip UIHoverSFX;
+    public AudioClip equipmentSelectSFX;
+    public AudioClip equipmentDeselectSFX;
+    public AudioClip UIScreenSelectSFX;
 
     [Title("BGM")]
     public AudioClip adventureBGM;
@@ -1649,6 +1653,11 @@ public class AdventureManager : MonoBehaviour
     public void PlaySFX(AudioClip _sound)
     {
         GameManagerSFXSource.PlayOneShot(_sound);
+    }
+
+    public void NewUIScreenSelected()
+    {
+        GameManagerSFXSource.PlayOneShot(UIScreenSelectSFX);
     }
 
     // Unload adventure mode data
