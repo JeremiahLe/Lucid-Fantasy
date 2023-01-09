@@ -530,6 +530,11 @@ Imported Various Assets/Packages
 - Add Shop
 - Reset all chimerics to initial stance
 
+[1/8/22]
+- Add VFX to all abilities & attacks. Fix Buff/Debuff/Attack VFX/Animations
+- Test AI Types
+- Add Shop
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
