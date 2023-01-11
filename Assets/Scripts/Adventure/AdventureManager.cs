@@ -724,299 +724,34 @@ public class AdventureManager : MonoBehaviour
     }
 
     // This function is called every Round Start by CombatManagerScript, to apply any adventure modifiers
-    public IEnumerator ApplyRoundStartAdventureModifiers(Monster.AIType aIType)
+    public async Task<int> TriggerAdventureModifiers(AttackEffect.EffectTime triggerTime, Monster.AIType aIType)
     {
-        List<Modifier> whatListShouldIUse;
-        List<GameObject> listOfUnstatusedEnemies;
-        GameObject monsterObj;
-        Monster monsterRef;
-        Modifier newModifier;
-        List<Modifier> modList;
+        List<Modifier> listOfAdventureModifiers;
 
-        // Apply ally or enemy modifiers?
         if (aIType == Monster.AIType.Ally)
-        {
-            whatListShouldIUse = ListOfCurrentModifiers;
-        }
+            listOfAdventureModifiers = ListOfCurrentModifiers;
         else
-        {
-            whatListShouldIUse = ListOfEnemyModifiers;
-        }
+            listOfAdventureModifiers = ListOfEnemyModifiers;
 
-        foreach (Modifier modifier in whatListShouldIUse)
+        foreach (Modifier modifier in listOfAdventureModifiers)
         {
-            // Only apply Round Start modifiers
-            if (modifier.modifierAdventureCallTime == Modifier.ModifierAdventureCallTime.RoundStart)
+            int i = 0;
+            foreach (IAbilityTrigger modifierTrigger in modifier.listOfModifierTriggers)
             {
-                // Get specific Modifier
-                switch (modifier.modifierAdventureReference)
-                {               
-                    #region Virulent Venom
-                    case AdventureModifiers.AdventureModifierReferenceList.VirulentVenom:
-
-                        // Get random enemy from list of unpoisoned enemies
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Poisoned)).ToList();
-                        }
-                        else
-                        {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isPoisoned => isPoisoned.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Poisoned)).ToList();
-                        }
-
-                        // If no monsters are unpoisoned, break out
-                        if (listOfUnstatusedEnemies.Count() == 0)
-                        {
-                            continue;
-                        }
-
-                        // Otherwise, poison randomly selected monster
-                        if (listOfUnstatusedEnemies.Count != 0) {
-                            GameObject randomEnemyToPoison = combatManagerScript.GetRandomTarget(listOfUnstatusedEnemies);
-                            Monster monster = randomEnemyToPoison.GetComponent<CreateMonster>().monsterReference;
-
-                            // Check if monster immune to specific status?
-                            if (randomEnemyToPoison.GetComponent<CreateMonster>().listOfStatusImmunities.Contains(Modifier.StatusEffectType.Poisoned))
-                            {
-                                // Send immune message to combat log
-                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to Poisoned status!");
-                                randomEnemyToPoison.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-                                continue;
-                            }
-
-                            // First check if monster is immune to debuffs, if so, break out.
-                            if (randomEnemyToPoison.GetComponent<CreateMonster>().monsterImmuneToDebuffs)
-                            {
-                                // Send immune message to combat log
-                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
-                                randomEnemyToPoison.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-                                continue;
-                            }
-
-                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was poisoned by {modifier.modifierName}.");
-                            //randomEnemyToPoison.GetComponent<CreateMonster>().monsterIsPoisoned = true;
-
-                            if (aIType == Monster.AIType.Ally)
-                            {
-                                modifier.modifierOwnerGameObject = combatManagerScript.ListOfAllys[0];
-                                modifier.modifierOwner = modifier.modifierOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
-                            }
-
-                            newModifier = Instantiate(modifier);
-                            monster.ListOfModifiers.Add(newModifier);
-                            randomEnemyToPoison.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Poisoned);
-                            randomEnemyToPoison.GetComponent<CreateMonster>().AddStatusIcon(newModifier, newModifier.statModified, newModifier.modifierCurrentDuration);
-                        }
-
-                        // Clear list
-                        listOfUnstatusedEnemies.Clear();
-                        break;
-                    #endregion
-
-                    #region Raging Fire
-                    case AdventureModifiers.AdventureModifierReferenceList.RagingFire:
-
-                        // Get random enemy from list of unpoisoned enemies
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isBurning => isBurning.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Burning)).ToList();
-                        }
-                        else
-                        {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isBurning => isBurning.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Burning)).ToList();
-                        }
-
-                        // If no monsters are unpoisoned, break out
-                        if (listOfUnstatusedEnemies.Count == 0)
-                        {
-                            continue;
-                        }
-
-                        // Otherwise, poison randomly selected monster
-                        if (listOfUnstatusedEnemies.Count != 0)
-                        {
-                            GameObject randomEnemyToBurn = combatManagerScript.GetRandomTarget(listOfUnstatusedEnemies);
-                            Monster monster = randomEnemyToBurn.GetComponent<CreateMonster>().monsterReference;
-
-                            // Check if monster immune to specific status?
-                            if (randomEnemyToBurn.GetComponent<CreateMonster>().listOfStatusImmunities.Contains(Modifier.StatusEffectType.Burning))
-                            {
-                                // Send immune message to combat log
-                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to Burning status!");
-                                randomEnemyToBurn.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-                                continue;
-                            }
-
-                            // First check if monster is immune to debuffs, if so, break out.
-                            if (randomEnemyToBurn.GetComponent<CreateMonster>().monsterImmuneToDebuffs)
-                            {
-                                // Send immune message to combat log
-                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
-                                randomEnemyToBurn.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-                                continue;
-                            }
-
-                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was burned by {modifier.modifierName}.");
-                            //randomEnemyToBurn.GetComponent<CreateMonster>().monsterIsBurning = true;
-
-                            if (aIType == Monster.AIType.Ally)
-                            {
-                                modifier.modifierOwnerGameObject = combatManagerScript.ListOfAllys[0];
-                                modifier.modifierOwner = modifier.modifierOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
-                            }
-
-                            newModifier = Instantiate(modifier);
-                            monster.ListOfModifiers.Add(newModifier);
-                            randomEnemyToBurn.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Burning);
-                            randomEnemyToBurn.GetComponent<CreateMonster>().AddStatusIcon(newModifier, newModifier.statModified, newModifier.modifierCurrentDuration);
-                        }
-
-                        // Clear list
-                        listOfUnstatusedEnemies.Clear();
-                        break;
-                    #endregion Raging Fire
-
-                    #region Chaos Waves
-                    case AdventureModifiers.AdventureModifierReferenceList.ChaosWaves:
-
-                        // Get random enemy from list of unstatused enemies
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies.Where(isDazed => isDazed.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed)).ToList();
-                        }
-                        else
-                        {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys.Where(isDazed => isDazed.GetComponent<CreateMonster>().listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Dazed)).ToList();
-                        }
-
-                        // If no monsters are unpoisoned, break out
-                        if (listOfUnstatusedEnemies.Count == 0)
-                        {
-                            continue;
-                        }
-
-                        // Otherwise, poison randomly selected monster
-                        if (listOfUnstatusedEnemies.Count != 0)
-                        {
-                            GameObject randomEnemyToDaze = combatManagerScript.GetRandomTarget(listOfUnstatusedEnemies);
-                            Monster monster = randomEnemyToDaze.GetComponent<CreateMonster>().monsterReference;
-
-                            // Check if monster immune to specific status?
-                            if (randomEnemyToDaze.GetComponent<CreateMonster>().listOfStatusImmunities.Contains(Modifier.StatusEffectType.Dazed))
-                            {
-                                // Send immune message to combat log
-                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to Dazed status!");
-                                randomEnemyToDaze.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-                                continue;
-                            }
-
-                            // First check if monster is immune to debuffs, if so, break out.
-                            if (randomEnemyToDaze.GetComponent<CreateMonster>().monsterImmuneToDebuffs)
-                            {
-                                // Send immune message to combat log
-                                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
-                                randomEnemyToDaze.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-                                continue;
-                            }
-
-                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was dazed by {modifier.modifierName}.");
-                            //randomEnemyToDaze.GetComponent<CreateMonster>().monsterIsDazed = true;
-
-                            if (aIType == Monster.AIType.Ally)
-                            {
-                                modifier.modifierOwnerGameObject = combatManagerScript.ListOfAllys[0];
-                                modifier.modifierOwner = modifier.modifierOwnerGameObject.GetComponent<CreateMonster>().monsterReference;
-                            }
-
-                            newModifier = Instantiate(modifier);
-                            monster.ListOfModifiers.Add(newModifier);
-                            randomEnemyToDaze.GetComponent<CreateMonster>().InflictStatus(Modifier.StatusEffectType.Dazed);
-                            randomEnemyToDaze.GetComponent<CreateMonster>().AddStatusIcon(newModifier, newModifier.statModified, newModifier.modifierCurrentDuration);
-                        }
-
-                        // Clear list
-                        listOfUnstatusedEnemies.Clear();
-                        break;
-                    #endregion
-
-                    #region Elusive Spirit
-                    case AdventureModifiers.AdventureModifierReferenceList.ElusiveSpirit:
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
-                        }
-                        else
-                        {
-                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfEnemies);
-                        }
-                        monsterRef = monsterObj.GetComponent<CreateMonster>().monster;
-
-                        // Check immunities
-                        if (AttackEffect.CheckTargetIsImmune(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                            continue;
-
-                        newModifier = Instantiate(modifier);
-                        monsterRef.ListOfModifiers.Add(newModifier);
-                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
-                        break;
-                    #endregion
-
-                    #region Combat Training
-                    case (AdventureModifiers.AdventureModifierReferenceList.CombatTraining):
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            monsterObj = combatManagerScript.ListOfAllys[0];
-                        }
-                        else
-                        {
-                            monsterObj = combatManagerScript.ListOfEnemies[0];
-                        }
-                        monsterRef = monsterObj.GetComponent<CreateMonster>().monster;
-
-                        // Check immunities
-                        if (AttackEffect.CheckTargetIsImmune(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                            continue;
-
-                        // Increase stats
-                        float modAmount = modifier.modifierAmount / 100f;
-                        monsterRef.physicalAttack += Mathf.RoundToInt(monsterRef.physicalAttack * modAmount) + 1;
-                        monsterRef.magicAttack += Mathf.RoundToInt(monsterRef.magicAttack * modAmount) + 1;
-                        monsterRef.physicalDefense += Mathf.RoundToInt(monsterRef.physicalDefense * modAmount) + 1;
-                        monsterRef.magicDefense += Mathf.RoundToInt(monsterRef.magicDefense * modAmount) + 1;
-                        monsterRef.evasion += Mathf.RoundToInt(monsterRef.evasion * modAmount) + 1;
-                        monsterRef.critChance += Mathf.RoundToInt(monsterRef.critChance * modAmount) + 1;
-                        monsterRef.speed += Mathf.RoundToInt(monsterRef.speed * modAmount) + 1;
-
-                        newModifier = Instantiate(modifier);
-                        newModifier.modifierName = modifier.modifierName;
-                        monsterRef.ListOfModifiers.Add(newModifier);
-
-                        modList = monsterRef.ListOfModifiers.Where(mod => mod.modifierName == newModifier.modifierName).ToList();
-
-                        if (modList.Count > 1)
-                        {
-                            StatusEffectIcon statusEffectIconScript = modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>();
-                            modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>().currentModifierStack += 1;
-                            modList.First().statusEffectIconGameObject.GetComponent<StatusEffectIcon>().modifierDurationText.text = ($"x{statusEffectIconScript.currentModifierStack}");
-                            monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s stats was increased by {modifier.modifierName} ({modifier.modifierAmount}%)!");
-                            continue;
-                        }
-
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
-
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterRef.aiType} {monsterRef.name}'s stats was increased by {modifier.modifierName} ({modifier.modifierAmount}%)!");
-                        break;
-                    #endregion
-
-                    default:
-                        break;
+                if (modifierTrigger.abilityTriggerTime == triggerTime)
+                {
+                    Debug.Log($"Triggering {aIType} {modifier.modifierName}!");
+                    
+                    await modifier.listOfModifierTriggers[i].TriggerModifier();
+                   
+                    await Task.Delay(300);
                 }
-                yield return new WaitForSeconds(0.5f);
+
+                i++;
             }
         }
+
+        return 1;
     }
 
     // This function is called at Round End to apply Round End Modifiers

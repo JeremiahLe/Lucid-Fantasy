@@ -869,8 +869,9 @@ public class CombatManagerScript : MonoBehaviour
             // Call All Round Staret
             if (adventureMode || testAdventureMode)
             {
-                StartCoroutine(adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Ally));
-                StartCoroutine(adventureManager.ApplyRoundStartAdventureModifiers(Monster.AIType.Enemy));
+                await adventureManager.TriggerAdventureModifiers(AttackEffect.EffectTime.RoundStart, Monster.AIType.Ally);
+                
+                await adventureManager.TriggerAdventureModifiers(AttackEffect.EffectTime.RoundStart, Monster.AIType.Enemy);
             }
 
             // check if any cooldowns need to be updated // toArray fixes on round start poison death

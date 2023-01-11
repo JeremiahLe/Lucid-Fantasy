@@ -37,4 +37,9 @@ public abstract class IAbilityTrigger : ScriptableObject
     {
         return 1;
     }
+
+    public virtual async Task<int> TriggerModifier()
+    {
+        return 1;
+    }
 }

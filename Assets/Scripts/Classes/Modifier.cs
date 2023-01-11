@@ -21,6 +21,8 @@ public class Modifier : ScriptableObject
 
     [DisplayWithoutEdit] public AttackEffect attackEffect;
 
+    public List<IAbilityTrigger> listOfModifierTriggers;
+
     [Title("Modifier Informaton")]
     public enum ModifierDurationType { Temporary, Permanent }
     public ModifierDurationType modifierDurationType;
@@ -47,6 +49,8 @@ public class Modifier : ScriptableObject
 
     [EnableIf("modifierType", ModifierType.adventureModifier)]
     public AdventureModifiers.AdventureModifierReferenceList modifierAdventureReference;
+
+    [TextArea]
     public string modifierDescription;
 
     public enum ModifierType { regularModifier, adventureModifier, equipmentModifier }
