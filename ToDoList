@@ -541,6 +541,13 @@ Imported Various Assets/Packages
 - Add Shop
 - Finish Adventure Modifiers rework
 
+[1/11/23]
+- Add VFX to all abilities & attacks. Fix Buff/Debuff/Attack VFX/Animations
+- Add Shop
+- Finish Adventure Modifiers rework
+- Fix highlighted item not being reset when selecting a different item window
+- Remove equipment slot SFX and add Page SFX to all UI buttons
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
