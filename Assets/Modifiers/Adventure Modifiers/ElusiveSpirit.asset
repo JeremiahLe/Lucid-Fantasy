@@ -15,6 +15,10 @@ MonoBehaviour:
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
+  attackEffect: {fileID: 0}
+  listOfModifierTriggers: []
   modifierDurationType: 0
   statModified: 7
   statChangeType: 0
@@ -22,16 +26,15 @@ MonoBehaviour:
   modifierCurrentDuration: 2
   modifierAmount: 30
   modifierAmountFlatBuff: 1
-  statusEffect: 0
+  isStatusEffect: 0
   statusEffectType: 0
-  statusEffectIconGameObject: {fileID: 0}
-  statusEffectIcon: {fileID: 0}
   modifierName: Elusive Spirit
   modifierAdventureReference: 11
   modifierDescription: 'Round Start: A random allied monster gains +30 Evasion this
     round.'
   modifierType: 1
   modifierAdventureCallTime: 1
-  modifierRarity: 2
+  modifierRarity: 1
   equipmentRank: 1
+  equipmentCachedAmount: 0
   baseSprite: {fileID: 21300000, guid: 9ac72d99001c70b4d9efc5fb2cb21798, type: 3}

@@ -36,7 +36,7 @@ public class AttackEffect : ScriptableObject
     public MonsterTargetType monsterTargetType;
 
     public bool fixedDamageAmount = false;
-    public bool triggersEffects = false;
+    public bool doesTriggersEffects = false;
 
     [EnableIf("statToChange", StatToChange.Health)]
     public MonsterAttack.MonsterAttackDamageType effectDamageType;
@@ -104,12 +104,6 @@ public class AttackEffect : ScriptableObject
         this.amountToChange = amountToChange;
         this.effectTriggerChance = effectTriggerChance;
         this.combatManagerScript = combatManagerScript;
-    }
-
-    public void ResetAttackEffect()
-    {
-        this.monsterSource = null;
-        this.monsterAttackTrigger = null;
     }
 
     // Initial function that is called by monsterAttackManager that enacts attack after effects
@@ -218,6 +212,56 @@ public class AttackEffect : ScriptableObject
 
             case TypeOfEffect.UniqueAttackEffectCondition:
                 await UniqueAttackEffectCondition(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTrigger);
+                break;
+
+            default:
+                Debug.Log("Missing attack effect or monster attack reference?", this);
+                break;
+        }
+
+        return 1;
+    }
+
+    public async Task<int> TriggerEffects(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, string effectTriggerName)
+    {
+        if (targetMonster == null)
+            return 1;
+
+        if (targetMonsterGameObject == null)
+            return 1;
+
+        switch (typeOfEffect)
+        {
+            case TypeOfEffect.AddBonusDamage:
+                await AddBonusDamage(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                break;
+
+            case TypeOfEffect.AddBonusDamageFlat:
+                await AddBonusDamageFlat(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                break;
+
+            case TypeOfEffect.GrantImmunity:
+                GrantTargetImmunity(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTriggerName);
+                break;
+
+            case TypeOfEffect.InflictStatusEffect:
+                InflictStatusEffect(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTriggerName);
+                break;
+
+            case TypeOfEffect.DamageBonusIfTargetStatusEffect:
+                BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTriggerName);
+                break;
+
+            case TypeOfEffect.AffectTargetStat:
+                await AffectTargetStat(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTriggerName);
+                break;
+
+            case TypeOfEffect.AffectTargetByAnotherStat:
+                await AffectTargetStatByAnotherStat(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTriggerName, null);
+                break;
+
+            case TypeOfEffect.UniqueAttackEffectCondition:
+                await UniqueAttackEffectCondition(targetMonster, targetMonsterGameObject, monsterAttackManager, effectTriggerName);
                 break;
 
             default:
@@ -413,81 +457,6 @@ public class AttackEffect : ScriptableObject
         return 1;
     }
 
-    public void OnCriticalStrikeBuff(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
-    {
-        // Check if the monster critically struck with attack this round
-        if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterCriticallyStrikedThisRound)
-        {
-            switch (statToChange)
-            {
-                case (StatToChange.PhysicalAttack):
-
-                    // Calculate buff
-                    float fromValue = monsterReference.physicalAttack;
-                    float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
-                    if (toValue <= 1)
-                    {
-                        toValue = 1; // prevent buffs of 0
-                    }
-
-                    // Check if immune to skip modifiers
-                    if (CheckTargetIsImmune(monsterReference, monsterAttackManager, monsterReferenceGameObject, this))
-                    {
-                        return;
-                    }
-
-                    // Add modifiers
-                    //AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject);
-
-                    // Send buff message to combat log
-                    combatManagerScript = monsterAttackManager.combatManagerScript;
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statToChange.ToString()}!");
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatToChange.PhysicalAttack, statChangeType);
-
-                    // Update monster's UI health element
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
-
-                    break;
-
-                case (StatToChange.MagicAttack):
-
-                    // Calculate buff
-                    fromValue = monsterReference.physicalAttack;
-                    toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
-                    if (toValue <= 1)
-                    {
-                        toValue = 1; // prevent buffs of 0
-                    }
-
-                    // Check if immune to skip modifiers
-                    if (CheckTargetIsImmune(monsterReference, monsterAttackManager, monsterReferenceGameObject, this))
-                    {
-                        return;
-                    }
-
-                    // Add modifiers
-                    //AddModifiers(toValue, false, monsterReference, monsterReferenceGameObject);
-
-                    // Send buff message to combat log
-                    combatManagerScript = monsterAttackManager.combatManagerScript;
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name} raised its {statToChange.ToString()}!");
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatToChange.MagicAttack, statChangeType);
-
-                    // Update monster's UI health element
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                    monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
-
-                    break;
-
-                default:
-                    Debug.Log("Missing enum type?", this);
-                    break;
-            }
-        }
-
-
-    }
 
     #region Generic Attack Effect Methods
 

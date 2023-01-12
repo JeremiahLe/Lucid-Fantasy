@@ -15,6 +15,11 @@ MonoBehaviour:
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
+  attackEffect: {fileID: 0}
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: c8b9071b41a991a468a2dc8362308681, type: 2}
   modifierDurationType: 1
   statModified: 0
   statChangeType: 0
@@ -24,8 +29,6 @@ MonoBehaviour:
   modifierAmountFlatBuff: 0
   isStatusEffect: 0
   statusEffectType: 0
-  statusEffectIconGameObject: {fileID: 0}
-  statusEffectIcon: {fileID: 0}
   modifierName: Blessing of Earth
   modifierAdventureReference: 16
   modifierDescription: 'Round End: Your lowest health monster heals for 20% of their
@@ -34,4 +37,5 @@ MonoBehaviour:
   modifierAdventureCallTime: 3
   modifierRarity: 0
   equipmentRank: 1
+  equipmentCachedAmount: 0
   baseSprite: {fileID: 21300000, guid: e4cf4a7c1ea905d4b910609f47721e97, type: 3}

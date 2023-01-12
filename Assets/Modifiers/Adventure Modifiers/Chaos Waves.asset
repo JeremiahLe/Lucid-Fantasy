@@ -15,6 +15,11 @@ MonoBehaviour:
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
+  attackEffect: {fileID: 0}
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 2ed04012e1708ab44a83bef6bee24b6d, type: 2}
   modifierDurationType: 0
   statModified: 0
   statChangeType: 1
@@ -22,16 +27,15 @@ MonoBehaviour:
   modifierCurrentDuration: 4
   modifierAmount: 0
   modifierAmountFlatBuff: 0
-  statusEffect: 1
+  isStatusEffect: 0
   statusEffectType: 3
-  statusEffectIconGameObject: {fileID: 0}
-  statusEffectIcon: {fileID: 0}
   modifierName: Chaos Waves
   modifierAdventureReference: 9
   modifierDescription: 'Round Start: Apply Dazed to a random, non-Dazed enemy for
     3 rounds.'
   modifierType: 1
   modifierAdventureCallTime: 1
-  modifierRarity: 1
+  modifierRarity: 2
   equipmentRank: 1
+  equipmentCachedAmount: 0
   baseSprite: {fileID: 21300000, guid: ed5b84d5db2586640afaf5fbf4646bc6, type: 3}

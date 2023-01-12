@@ -15,6 +15,10 @@ MonoBehaviour:
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
+  attackEffect: {fileID: 0}
+  listOfModifierTriggers: []
   modifierDurationType: 1
   statModified: 16
   statChangeType: 0
@@ -22,15 +26,14 @@ MonoBehaviour:
   modifierCurrentDuration: 0
   modifierAmount: 40
   modifierAmountFlatBuff: 0
-  statusEffect: 0
+  isStatusEffect: 0
   statusEffectType: 0
-  statusEffectIconGameObject: {fileID: 0}
-  statusEffectIcon: {fileID: 0}
   modifierName: Rising Potential
   modifierAdventureReference: 8
   modifierDescription: 'Passive: All allied monsters gain 40% more Exp.'
   modifierType: 1
   modifierAdventureCallTime: 2
-  modifierRarity: 0
+  modifierRarity: 1
   equipmentRank: 1
+  equipmentCachedAmount: 0
   baseSprite: {fileID: 21300000, guid: c71e80215e9da0a49b488b1db19bc870, type: 3}

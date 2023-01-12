@@ -15,6 +15,11 @@ MonoBehaviour:
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
+  attackEffect: {fileID: 0}
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: b9220ebc4cc87d1418068a41858162c1, type: 2}
   modifierDurationType: 1
   statModified: 2
   statChangeType: 0
@@ -22,10 +27,8 @@ MonoBehaviour:
   modifierCurrentDuration: 0
   modifierAmount: 15
   modifierAmountFlatBuff: 0
-  statusEffect: 0
+  isStatusEffect: 0
   statusEffectType: 0
-  statusEffectIconGameObject: {fileID: 0}
-  statusEffectIcon: {fileID: 0}
   modifierName: Tempered Offense
   modifierAdventureReference: 1
   modifierDescription: 'Game Start: All allied monsters gain +15% physical and magic
@@ -34,4 +37,5 @@ MonoBehaviour:
   modifierAdventureCallTime: 0
   modifierRarity: 0
   equipmentRank: 1
+  equipmentCachedAmount: 0
   baseSprite: {fileID: 21300000, guid: a78065a1c934179448214262df19e409, type: 3}

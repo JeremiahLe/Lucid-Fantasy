@@ -311,8 +311,6 @@ public class CombatManagerScript : MonoBehaviour
                 await monsterComponent.UpdateStats(false, null, false, 0);
             }
 
-            //adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Ally);
-
             // Enemy modifiers and equipment
             foreach (GameObject monsterObj in ListOfEnemies)
             {
@@ -331,7 +329,12 @@ public class CombatManagerScript : MonoBehaviour
             //adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Enemy);
         }
 
+        await adventureManager.TriggerAdventureModifiers(AttackEffect.EffectTime.GameStart, Monster.AIType.Ally);
+
+        await adventureManager.TriggerAdventureModifiers(AttackEffect.EffectTime.GameStart, Monster.AIType.Enemy);
+
         SetBattleState(BattleState.InBattle);
+
         StartCoroutine(IncrementNewRoundIE()); // Initiate the battle
     }
 
@@ -478,8 +481,9 @@ public class CombatManagerScript : MonoBehaviour
         // Call Round End adventure modifiers
         if ((adventureMode || testAdventureMode) && ListOfAllys.Count > 0)
         {
-            adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Ally); // needs to be awaited
-            adventureManager.ApplyRoundEndAdventureModifiers(Monster.AIType.Enemy); // needs to be awaited
+            await adventureManager.TriggerAdventureModifiers(AttackEffect.EffectTime.RoundEnd, Monster.AIType.Ally); // needs to be awaited
+
+            await adventureManager.TriggerAdventureModifiers(AttackEffect.EffectTime.RoundEnd, Monster.AIType.Enemy); // needs to be awaited
         }
 
         // check if any cooldowns need to be updated // toArray fixes on round start poison death

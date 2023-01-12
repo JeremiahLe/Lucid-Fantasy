@@ -15,6 +15,11 @@ MonoBehaviour:
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
+  attackEffect: {fileID: 0}
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: dfe71dc73b5e30b46ad21919925ca679, type: 2}
   modifierDurationType: 1
   statModified: 0
   statChangeType: 0
@@ -22,10 +27,8 @@ MonoBehaviour:
   modifierCurrentDuration: 0
   modifierAmount: 20
   modifierAmountFlatBuff: 0
-  statusEffect: 0
+  isStatusEffect: 0
   statusEffectType: 0
-  statusEffectIconGameObject: {fileID: 0}
-  statusEffectIcon: {fileID: 0}
   modifierName: Tempered Defense
   modifierAdventureReference: 3
   modifierDescription: 'Game Start: All allied monsters gain +20% physical and magic
@@ -34,4 +37,5 @@ MonoBehaviour:
   modifierAdventureCallTime: 0
   modifierRarity: 0
   equipmentRank: 1
+  equipmentCachedAmount: 0
   baseSprite: {fileID: 21300000, guid: f5e01c1b43f4e7a44a8fbe95f4df5746, type: 3}

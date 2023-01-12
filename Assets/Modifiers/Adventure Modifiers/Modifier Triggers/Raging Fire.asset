@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb269a6fe0dcbc340bd016d9ef1a3243, type: 3}
+  m_Name: Raging Fire
+  m_EditorClassIdentifier: 
+  abilityTriggerDelay: 150
+  abilityTriggerTime: 6
+  adventureModifier: {fileID: 11400000, guid: 797c177fae28a274083518819cd7344a, type: 2}
+  statusEffect: {fileID: 11400000, guid: dc963a855aefb37459983165d28bb1f3, type: 2}

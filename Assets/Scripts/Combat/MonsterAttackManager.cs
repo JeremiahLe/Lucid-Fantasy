@@ -926,10 +926,10 @@ public class MonsterAttackManager : MonoBehaviour
 
         attackEffect.CallStatAdjustment(targetMonster, monsterComponent, this, attackEffect, modifier);
 
-        if (attackEffect.triggersEffects)
+        if (attackEffect.doesTriggersEffects)
             await TriggerAbilityEffects(sourceMonster, sourceMonsterGameObject, AttackEffect.EffectTime.OnDamageDealt, attackEffect.monsterAttackTrigger);
 
-        if (attackEffect.triggersEffects)
+        if (attackEffect.doesTriggersEffects)
             await TriggerAbilityEffects(targetMonster, sourceMonsterGameObject, AttackEffect.EffectTime.OnDamageTaken, attackEffect.monsterAttackTrigger);
 
         await monsterComponent.UpdateStats(true, sourceMonsterGameObject, false, calcedDamage);
@@ -1214,6 +1214,7 @@ public class MonsterAttackManager : MonoBehaviour
         float elementAdvantageBonus = CheckElementWeakness(currentMonsterAttack.monsterElementClass.element, currentTargetedMonster, true);
 
         float currentMonsterTurnStancePercent = CalculateStanceDamagePercent(currentMonsterTurn, currentMonsterTurnGameObject);
+
         float currentTargetedMonsterStancePercent = CalculateStanceDamagePercent(currentTargetedMonster, currentTargetedMonsterGameObject);
 
         float additionalDamagePercent = CalculateAdditionalDamagePercent();

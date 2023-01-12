@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc0d960d4836ed459a88adcd0f95e74, type: 3}
+  m_Name: Tempered Defense
+  m_EditorClassIdentifier: 
+  abilityTriggerDelay: 150
+  abilityTriggerTime: 5
+  adventureModifier: {fileID: 11400000, guid: 546598aa11e3ae946af8e11355d7589e, type: 2}
+  listOfAdventureModifierEffects:
+  - {fileID: 11400000, guid: b8cdde5d934fa0b458ed400c24d8cbaa, type: 2}
+  - {fileID: 11400000, guid: fe013d3216e98ff42a3f7a7a35c96978, type: 2}

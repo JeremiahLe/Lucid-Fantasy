@@ -742,7 +742,7 @@ public class AdventureManager : MonoBehaviour
                 {
                     Debug.Log($"Triggering {aIType} {modifier.modifierName}!");
                     
-                    await modifier.listOfModifierTriggers[i].TriggerModifier();
+                    await modifier.listOfModifierTriggers[i].TriggerModifier(combatManagerScript, aIType);
                    
                     await Task.Delay(300);
                 }

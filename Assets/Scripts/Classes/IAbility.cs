@@ -38,7 +38,7 @@ public abstract class IAbilityTrigger : ScriptableObject
         return 1;
     }
 
-    public virtual async Task<int> TriggerModifier()
+    public virtual async Task<int> TriggerModifier(CombatManagerScript combatManagerScript, Monster.AIType aiType)
     {
         return 1;
     }
