@@ -29,7 +29,7 @@ public class AttackEffect : ScriptableObject
     public enum StatToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various, AddOffensiveAttackEffect, HighestAttackStat, Buffs, Immunity, MaxSP, SPRegen }
     public StatToChange statToChange;
 
-    public enum EffectTime { PreAttack, DuringAttack, PostAttack, OnKill, OnDeath, GameStart, RoundStart, RoundEnd, OnStatChange, OnDamageTaken, PreOtherAttack, OnDamageDealt, OnDamageNullified }
+    public enum EffectTime { PreAttack, DuringAttack, PostAttack, OnKill, OnDeath, GameStart, RoundStart, RoundEnd, OnStatChange, OnDamageTaken, PreOtherAttack, OnDamageDealt, OnDamageNullified, OutOfCombatPassive }
     public EffectTime effectTime;
 
     public enum MonsterTargetType { Target, Self }
@@ -588,7 +588,9 @@ public class AttackEffect : ScriptableObject
                 break;
 
             case ImmunityType.Damage:
-                throw new NotImplementedException();
+                monsterComponent.monsterImmuneToDamage = true;
+                CreateModifier(amountToChange, targetMonster, targetMonsterGameObject, targetMonsterGameObject, this, monsterAttackManager);
+                break;
 
             case ImmunityType.Death:
                 throw new NotImplementedException();

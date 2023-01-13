@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3949c45fa5945a949bb9791a70786f3b, type: 3}
+  m_Name: Guardian Angel
+  m_EditorClassIdentifier: 
+  abilityTriggerDelay: 150
+  abilityTriggerTime: 5
+  adventureModifier: {fileID: 11400000, guid: 2705cadcca9898f4fbab9f615de8dd8d, type: 2}
+  listOfAdventureModifierEffects:
+  - {fileID: 11400000, guid: 844a6847fcce47947a7c9bc844dbd5d4, type: 2}

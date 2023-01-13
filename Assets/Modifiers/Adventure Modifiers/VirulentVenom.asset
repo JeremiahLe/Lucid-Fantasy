@@ -31,8 +31,8 @@ MonoBehaviour:
   statusEffectType: 1
   modifierName: Virulent Venom
   modifierAdventureReference: 2
-  modifierDescription: 'Round Start: Apply Poisoned (10% max health per round) to
-    a random, non-poisoned enemy.'
+  modifierDescription: 'Round Start: Apply Poisoned (10% max health damage per round)
+    to a random, non-poisoned enemy.'
   modifierType: 1
   modifierAdventureCallTime: 1
   modifierRarity: 2

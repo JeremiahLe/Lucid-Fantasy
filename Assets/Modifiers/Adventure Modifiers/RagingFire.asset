@@ -25,14 +25,14 @@ MonoBehaviour:
   statChangeType: 1
   modifierDuration: 3
   modifierCurrentDuration: 3
-  modifierAmount: 0.2
+  modifierAmount: 0.1
   modifierAmountFlatBuff: 0
   isStatusEffect: 0
   statusEffectType: 6
   modifierName: Raging Fire
   modifierAdventureReference: 5
-  modifierDescription: 'Round Start: Apply Burning (10% current health per round)
-    to a random, non-Burning enemy for 3 rounds.'
+  modifierDescription: 'Round Start: Apply Burning (15% current health damage per
+    round) to a random, non-Burning enemy for 3 rounds.'
   modifierType: 1
   modifierAdventureCallTime: 1
   modifierRarity: 2

@@ -15,6 +15,11 @@ MonoBehaviour:
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
+  attackEffect: {fileID: 0}
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: a74867b3cf3aec64981642ca4e60ae8b, type: 2}
   modifierDurationType: 0
   statModified: 16
   statChangeType: 0
@@ -22,16 +27,15 @@ MonoBehaviour:
   modifierCurrentDuration: 2
   modifierAmount: 125
   modifierAmountFlatBuff: 0
-  statusEffect: 0
+  isStatusEffect: 0
   statusEffectType: 0
-  statusEffectIconGameObject: {fileID: 0}
-  statusEffectIcon: {fileID: 0}
   modifierName: Opening Gambit
   modifierAdventureReference: 12
-  modifierDescription: 'Game Start: Your fastest monster gains 1.25x physical and
-    magic attack, and 100% crit chance for 1 round.'
+  modifierDescription: 'Game Start: Your Fastest monster gains +25% physical and
+    magic attack and +100 crit chance for 1 round.'
   modifierType: 1
   modifierAdventureCallTime: 0
   modifierRarity: 1
   equipmentRank: 1
+  equipmentCachedAmount: 0
   baseSprite: {fileID: 21300000, guid: 8116593c8ed670d47b2da5f916b62163, type: 3}

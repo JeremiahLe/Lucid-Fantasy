@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d77ed2ef6a0bb44983720b254e18f72, type: 3}
+  m_Name: Opening Gambit
+  m_EditorClassIdentifier: 
+  abilityTriggerDelay: 150
+  abilityTriggerTime: 5
+  adventureModifier: {fileID: 11400000, guid: 9b06567df3ccf79468f022d45ee3b240, type: 2}
+  listOfAdventureModifierEffects:
+  - {fileID: 11400000, guid: c6b0d5595bc428843b63698d29322244, type: 2}
+  - {fileID: 11400000, guid: a2e09064e7a79004ab5457795746440f, type: 2}
+  - {fileID: 11400000, guid: 845e1a91f0cea9f48a204b655d840490, type: 2}

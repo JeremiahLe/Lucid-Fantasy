@@ -55,50 +55,42 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 }
 
                 monsterReward.monsterIsOwned = true;
+
                 adventureManager.ListOfCurrentMonsters.Add(monsterReward);
+
                 adventureManager.ListOfAllMonsters.Add(monsterReward);
+
                 monsterReward = null;
+
                 adventureManager.SubscreenMenu.SetActive(false);
+
                 adventureManager.ActivateNextNode();
             }
             else if (rewardType == AdventureManager.RewardType.Modifier)
             {
                 adventureManager.ListOfCurrentModifiers.Add(modifierReward);
-                adventureManager.ApplyPassiveModifiers();
+
+                adventureManager.ApplyPassiveModifiers(modifierReward);
+
                 modifierReward = null;
+
                 adventureManager.ResetModifierList();
+
                 adventureManager.SubscreenMenu.SetActive(false);
+
                 adventureManager.ActivateNextNode();
             }
             else if (rewardType == AdventureManager.RewardType.Equipment)
             {
-                // Reset screen and return to adventure screen
                 adventureManager.ListOfCurrentEquipment.Add(modifierReward);
+
                 modifierReward = null;
+
                 adventureManager.ResetEquipmentList();
+
                 adventureManager.SubscreenMenu.SetActive(false);
+
                 adventureManager.ActivateNextNode();
-
-                //if (!selected)
-                //{
-                //    foreach (GameObject monsterEquipmentSelection in subscreenManager.listOfRewardSlots)
-                //    {
-                //        monsterEquipmentSelection.GetComponent<CreateReward>().rewardImage.sprite = monsterEquipmentSelection.GetComponent<CreateReward>().modifierReward.baseSprite;
-                //        monsterEquipmentSelection.GetComponent<CreateReward>().selected = false;
-                //    }
-
-                //    selected = true;
-                //    rewardImage = GetComponent<Image>();
-                //    rewardImage.sprite = selectedSprite;
-                //    adventureManager.currentSelectedEquipment = modifierReward;
-                //}
-                //else
-                //{
-                //    selected = false;
-                //    rewardImage = GetComponent<Image>();
-                //    rewardImage.sprite = modifierReward.baseSprite;
-                //    adventureManager.currentSelectedEquipment = null;
-                //}
             }
         }
     }

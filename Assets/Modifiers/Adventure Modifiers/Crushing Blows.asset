@@ -31,7 +31,7 @@ MonoBehaviour:
   modifierName: Crushing Blows
   modifierAdventureReference: 15
   modifierDescription: 'Game Start: All allied monsters gain 35% chance to apply
-    Stunned to enemies on hit for 1 round.'
+    Stunned 1 round when they deal damage with attacks.'
   modifierType: 1
   modifierAdventureCallTime: 0
   modifierRarity: 2

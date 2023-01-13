@@ -15,6 +15,11 @@ MonoBehaviour:
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
   modifierOwner: {fileID: 0}
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
+  attackEffect: {fileID: 0}
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: b5c4ff9b7d3ed2e44a4b9739cf4b5a30, type: 2}
   modifierDurationType: 0
   statModified: 11
   statChangeType: 0
@@ -22,10 +27,8 @@ MonoBehaviour:
   modifierCurrentDuration: 3
   modifierAmount: 0
   modifierAmountFlatBuff: 0
-  statusEffect: 0
+  isStatusEffect: 0
   statusEffectType: 0
-  statusEffectIconGameObject: {fileID: 0}
-  statusEffectIcon: {fileID: 0}
   modifierName: Guardian Angel
   modifierAdventureReference: 10
   modifierDescription: 'Game Start: Your First monster gains immunity to Damage for
@@ -34,4 +37,5 @@ MonoBehaviour:
   modifierAdventureCallTime: 0
   modifierRarity: 3
   equipmentRank: 1
+  equipmentCachedAmount: 0
   baseSprite: {fileID: 21300000, guid: 522a5d8f7ef71ab4ea50c6e8f40e572f, type: 3}

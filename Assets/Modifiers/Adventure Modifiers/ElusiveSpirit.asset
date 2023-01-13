@@ -18,7 +18,8 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers: []
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 6761efe0f36605245b8e6bf8e22ab0ce, type: 2}
   modifierDurationType: 0
   statModified: 7
   statChangeType: 0

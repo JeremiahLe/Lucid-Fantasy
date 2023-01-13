@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Linq;
 using System.Threading.Tasks;
+using static Monster;
 
 public class AdventureManager : MonoBehaviour
 {
@@ -262,7 +263,8 @@ public class AdventureManager : MonoBehaviour
                 baseSprite = item.baseSprite,
                 isStatusEffect = item.isStatusEffect,
                 statusEffectType = item.statusEffectType,
-                statChangeType = item.statChangeType
+                statChangeType = item.statChangeType,
+                listOfModifierTriggers = item.listOfModifierTriggers
             });
         }
     }
@@ -335,7 +337,8 @@ public class AdventureManager : MonoBehaviour
                 baseSprite = item.baseSprite,
                 isStatusEffect = item.isStatusEffect,
                 statusEffectType = item.statusEffectType,
-                statChangeType = item.statChangeType
+                statChangeType = item.statChangeType,
+                listOfModifierTriggers = item.listOfModifierTriggers
             });
         }
     }
@@ -524,23 +527,14 @@ public class AdventureManager : MonoBehaviour
     }
 
     // This function is called whenever an out of combat passive modifier is obtained
-    public void ApplyPassiveModifiers()
+    public async void ApplyPassiveModifiers(Modifier modifier)
     {
-        foreach (Modifier mod in ListOfCurrentModifiers)
+        foreach (IAbilityTrigger modifierTrigger in modifier.listOfModifierTriggers)
         {
-            if (mod.modifierAdventureCallTime == Modifier.ModifierAdventureCallTime.OOCPassive)
-            {
-                switch (mod.modifierAdventureReference)
-                {
-                    case (AdventureModifiers.AdventureModifierReferenceList.RisingPotential):
-                        bonusExp += (mod.modifierAmount / 100f);
-                        break;
+            if (modifierTrigger.abilityTriggerTime != AttackEffect.EffectTime.OutOfCombatPassive)
+                continue;
 
-                    default:
-                        Debug.Log("Missing OOC Passive reference?", this);
-                        break;
-                }
-            }
+            await modifierTrigger.TriggerModifier(this);
         }
     }
 

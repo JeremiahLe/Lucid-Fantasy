@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cc0d960d4836ed459a88adcd0f95e74, type: 3}
-  m_Name: NoConditionAdventureModifierTrigger
+  m_Name: TenaciousGuard
   m_EditorClassIdentifier: 
   abilityTriggerDelay: 150
   abilityTriggerTime: 5
-  adventureModifier: {fileID: 11400000, guid: 237ae308f32b21d429d1b8bd091ab8ca, type: 2}
+  adventureModifier: {fileID: 11400000, guid: 01ef827449fc15548b01bab4b96bfe0c, type: 2}
   listOfAdventureModifierEffects:
-  - {fileID: 11400000, guid: 1db879337944efd46b5163e098db237b, type: 2}
+  - {fileID: 11400000, guid: 0d99cb6cd7a08234c9f7afb814b23523, type: 2}
