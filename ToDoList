@@ -548,6 +548,14 @@ Imported Various Assets/Packages
 - Fix highlighted item not being reset when selecting a different item window
 - Remove equipment slot SFX and add Page SFX to all UI buttons
 
+[1/12/23]
+- Add VFX to all abilities & attacks. Fix Buff/Debuff/Attack VFX/Animations
+- Add Shop
+- Finish Adventure Modifiers rework
+- Fix highlighted item not being reset when selecting a different item window
+- Remove equipment slot SFX and add Page SFX to all UI buttons
+
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
