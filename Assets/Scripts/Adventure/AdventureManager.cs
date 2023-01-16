@@ -150,6 +150,7 @@ public class AdventureManager : MonoBehaviour
     public List<Monster> ListOfAllMonsters;
 
     public List<Modifier> ListOfCurrentEquipment;
+
     public List<Item> ListOfInventoryItems;
 
     public List<Monster> ListOfAllyDeadMonsters;
@@ -167,9 +168,6 @@ public class AdventureManager : MonoBehaviour
     [Title("Nodes")]
     public GameObject dontDisappear;
     public GameObject NodeToReturnTo;
-
-    //public List<GameObject> ListOfUnlockedNodes;
-    //public List<GameObject> ListOfLockedNodes;
 
     public GameObject[] ListOfAllNodes;
     public GameObject[] ListOfSavedNodes;
@@ -189,9 +187,8 @@ public class AdventureManager : MonoBehaviour
     public int randomBattleMonsterLimit;
 
     [Title("Adventure - Battle Setup and Components")]
-    public string standardBattleSceneName;
-
     public GameObject CombatManagerObject;
+
     public CombatManagerScript combatManagerScript;
 
     public List<Monster> ListOfInitialEnemyBattleMonsters;
@@ -249,9 +246,7 @@ public class AdventureManager : MonoBehaviour
             DefaultListOfAvailableRewardModifiers.Add(new Modifier
             {
                 modifierName = item.modifierName,
-                modifierAdventureReference = item.modifierAdventureReference,
                 modifierType = item.modifierType,
-                modifierAdventureCallTime = item.modifierAdventureCallTime,
                 modifierAmount = item.modifierAmount,
                 modifierDescription = item.modifierDescription,
                 modifierCurrentDuration = item.modifierCurrentDuration,
@@ -278,9 +273,7 @@ public class AdventureManager : MonoBehaviour
             DefaultListOfAvailableRewardEquipment.Add(new Modifier
             {
                 modifierName = item.modifierName,
-                modifierAdventureReference = item.modifierAdventureReference,
                 modifierType = item.modifierType,
-                modifierAdventureCallTime = item.modifierAdventureCallTime,
                 modifierAmount = item.modifierAmount,
                 modifierDescription = item.modifierDescription,
                 modifierCurrentDuration = item.modifierCurrentDuration,
@@ -323,9 +316,7 @@ public class AdventureManager : MonoBehaviour
             ListOfAvailableRewardModifiers.Add(new Modifier
             {
                 modifierName = item.modifierName,
-                modifierAdventureReference = item.modifierAdventureReference,
                 modifierType = item.modifierType,
-                modifierAdventureCallTime = item.modifierAdventureCallTime,
                 modifierAmount = item.modifierAmount,
                 modifierDescription = item.modifierDescription,
                 modifierCurrentDuration = item.modifierCurrentDuration,
@@ -354,9 +345,7 @@ public class AdventureManager : MonoBehaviour
             ListOfAvailableRewardEquipment.Add(new Modifier
             {
                 modifierName = item.modifierName,
-                modifierAdventureReference = item.modifierAdventureReference,
                 modifierType = item.modifierType,
-                modifierAdventureCallTime = item.modifierAdventureCallTime,
                 modifierAmount = item.modifierAmount,
                 modifierDescription = item.modifierDescription,
                 modifierCurrentDuration = item.modifierCurrentDuration,
@@ -413,20 +402,6 @@ public class AdventureManager : MonoBehaviour
         // save nodes
         if (ListOfSavedNodes.Count() == 0 || ListOfSavedNodes[0] == null)
         {
-            //foreach (GameObject node in ListOfUnlockedNodes)
-            //{
-            //    node.SetActive(false);
-            //    DontDestroyOnLoad(node);
-            //}
-
-            ////
-            //foreach (GameObject node in ListOfLockedNodes)
-            //{
-            //    node.SetActive(false);
-            //    DontDestroyOnLoad(node);
-            //}
-
-            //
             foreach (GameObject node in ListOfAllNodes)
             {
                 node.GetComponent<CreateNode>().nodeInDefaultState = false;
@@ -538,187 +513,7 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
-    // This function is called at Game Start, before Round 1, to apply any adventure modifiers to a single-target
-    public void ApplyGameStartAdventureModifiers(Monster.AIType aIType)
-    {
-        List<Modifier> whatListShouldIUse;
-        GameObject monsterObj;
-        Monster monster;
-        Modifier newModifier;
-
-        // Apply ally or enemy modifiers?
-        if (aIType == Monster.AIType.Ally)
-        {
-            whatListShouldIUse = ListOfCurrentModifiers;
-        }
-        else
-        {
-            whatListShouldIUse = ListOfEnemyModifiers;
-        }
-
-        foreach (Modifier modifier in whatListShouldIUse)
-        {
-            // Only apply Game Start modifiers
-            if (modifier.modifierAdventureCallTime == Modifier.ModifierAdventureCallTime.GameStart)
-            {
-                // Get specific Modifier
-                switch (modifier.modifierAdventureReference)
-                {
-                    #region WindsweptBoots
-                    case (AdventureModifiers.AdventureModifierReferenceList.WindsweptBoots):
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
-                        }
-                        else
-                        {
-                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfEnemies);
-                        }
-                        monster = monsterObj.GetComponent<CreateMonster>().monster;
-
-                        // Check immunities
-                        if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                            continue;
-
-                        newModifier = Instantiate(modifier);
-                        monster.ListOfModifiers.Add(newModifier);
-                        monsterObj.GetComponent<CreateMonster>().ModifyStats(modifier.statModified, modifier, true);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
-                        break;
-                    #endregion
-
-                    #region Chosen One
-                    case (AdventureModifiers.AdventureModifierReferenceList.ChosenOne):
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfAllys);
-                        }
-                        else
-                        {
-                            monsterObj = GetRandomMonsterGameObject(combatManagerScript.ListOfEnemies);
-                        }
-                        monster = monsterObj.GetComponent<CreateMonster>().monster;
-
-                        // Check immunities
-                        if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                            continue;
-
-                        // Increase stats
-                        float modAmount = modifier.modifierAmount / 100f;
-                        monster.physicalAttack = Mathf.RoundToInt(monster.physicalAttack * modAmount);
-                        monster.magicAttack = Mathf.RoundToInt(monster.magicAttack * modAmount);
-                        monster.physicalDefense = Mathf.RoundToInt(monster.physicalDefense * modAmount);
-                        monster.magicDefense = Mathf.RoundToInt(monster.magicDefense * modAmount);
-                        monster.evasion = Mathf.RoundToInt(monster.evasion * modAmount);
-                        monster.critChance = Mathf.RoundToInt(monster.critChance * modAmount);
-                        monster.speed = Mathf.RoundToInt(monster.speed * modAmount);
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                        monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(modifier);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s stats was increased by {modifier.modifierName} (x{modAmount})!");
-                        break;
-                    #endregion
-
-                    #region Guardian Angel
-                    case (AdventureModifiers.AdventureModifierReferenceList.GuardianAngel):
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            monsterObj = combatManagerScript.ListOfAllys[0];
-                        }
-                        else
-                        {
-                            monsterObj = combatManagerScript.ListOfEnemies[0];
-                        }
-                        monster = monsterObj.GetComponent<CreateMonster>().monster;
-
-                        // Check immunities
-                        if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                            continue;
-
-                        // Increase stats
-                        newModifier = Instantiate(modifier);
-                        monster.ListOfModifiers.Add(newModifier);
-                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was granted damage immunity by {newModifier.modifierName} for {newModifier.modifierDuration - 1} rounds!");
-                        break;
-                    #endregion
-
-                    #region Opening Gambit
-                    case (AdventureModifiers.AdventureModifierReferenceList.OpeningGambit):
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            monsterObj = combatManagerScript.ListOfAllys.OrderByDescending(FastestMonster => FastestMonster.GetComponent<CreateMonster>().monsterReference.speed).ToList().First();
-                        }
-                        else
-                        {
-                            monsterObj = combatManagerScript.ListOfEnemies.OrderByDescending(FastestMonster => FastestMonster.GetComponent<CreateMonster>().monsterReference.speed).ToList().First();
-                        }
-                        monster = monsterObj.GetComponent<CreateMonster>().monster;
-
-                        // Check immunities
-                        if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                            continue;
-
-                        // Physical Attack
-                        newModifier = Instantiate(modifier);
-                        newModifier.statModified = AttackEffect.StatToChange.PhysicalAttack;
-                        float oldStat = monsterObj.GetComponent<CreateMonster>().GetStatToChange(newModifier.statModified, monster);
-                        newModifier.modifierAmount = Mathf.RoundToInt(oldStat * (newModifier.modifierAmount / 100f) - oldStat);
-                        monster.ListOfModifiers.Add(newModifier);
-                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
-
-                        // Magic Attack
-                        Modifier newModifier2 = Instantiate(modifier);
-                        newModifier2.statModified = AttackEffect.StatToChange.MagicAttack;
-                        oldStat = monsterObj.GetComponent<CreateMonster>().GetStatToChange(newModifier2.statModified, monster);
-                        newModifier2.modifierAmount = Mathf.RoundToInt(oldStat * (newModifier2.modifierAmount / 100f) - oldStat);
-                        monster.ListOfModifiers.Add(newModifier2);
-                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier2.statModified, newModifier2, true);
-
-                        // CritChance
-                        Modifier newModifier3 = Instantiate(modifier);
-                        newModifier3.modifierAmount = 100f;
-                        newModifier3.statModified = AttackEffect.StatToChange.CritChance;
-                        monster.ListOfModifiers.Add(newModifier3);
-                        monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier3.statModified, newModifier3, true);
-
-                        monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} was gained 1.5x physical and magic attack and 100% CritChance by {newModifier.modifierName} for {newModifier.modifierDuration - 1} rounds!");
-                        break;
-                    #endregion
-
-                    #region Deadeye
-                    case (AdventureModifiers.AdventureModifierReferenceList.Deadeye):
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            monsterObj = combatManagerScript.ListOfAllys[0];
-                        }
-                        else
-                        {
-                            monsterObj = combatManagerScript.ListOfEnemies[0];
-                        }
-                        monster = monsterObj.GetComponent<CreateMonster>().monster;
-
-                        // Check immunities
-                        if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                            continue;
-
-                        newModifier = Instantiate(modifier);
-                        monster.ListOfModifiers.Add(newModifier);
-                        monsterObj.GetComponent<CreateMonster>().ModifyStats(modifier.statModified, modifier, true);
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s {modifier.statModified} was increased by {modifier.modifierName} (+{modifier.modifierAmount})!");
-                        break;
-                    #endregion
-
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-
-    // This function is called every Round Start by CombatManagerScript, to apply any adventure modifiers
-    public async Task<int> TriggerAdventureModifiers(AttackEffect.EffectTime triggerTime, Monster.AIType aIType)
+    public async Task<int> TriggerAdventureModifiers(AttackEffect.EffectTime triggerTime, AIType aIType)
     {
         List<Modifier> listOfAdventureModifiers;
 
@@ -736,7 +531,7 @@ public class AdventureManager : MonoBehaviour
                 {
                     Debug.Log($"Triggering {aIType} {modifier.modifierName}!");
                     
-                    await modifier.listOfModifierTriggers[i].TriggerModifier(combatManagerScript, aIType);
+                    await modifier.listOfModifierTriggers[i].TriggerModifier(combatManagerScript, aIType, triggerTime);
                    
                     await Task.Delay(300);
                 }
@@ -746,224 +541,6 @@ public class AdventureManager : MonoBehaviour
         }
 
         return 1;
-    }
-
-    // This function is called at Round End to apply Round End Modifiers
-    public void ApplyRoundEndAdventureModifiers(Monster.AIType aIType)
-    {
-        List<Modifier> whatListShouldIUse;
-        List<GameObject> listOfUnstatusedEnemies;
-        GameObject monsterObj;
-        Monster monsterRef;
-        Modifier newModifier;
-
-        // Apply ally or enemy modifiers?
-        if (aIType == Monster.AIType.Ally)
-        {
-            whatListShouldIUse = ListOfCurrentModifiers;
-        }
-        else
-        {
-            whatListShouldIUse = ListOfEnemyModifiers;
-        }
-
-        foreach (Modifier modifier in whatListShouldIUse)
-        {
-            // Only apply Round End modifiers
-            if (modifier.modifierAdventureCallTime == Modifier.ModifierAdventureCallTime.RoundEnd)
-            {
-
-                // Get specific Modifier
-                switch (modifier.modifierAdventureReference)
-                {
-                    #region Blessing 0f Earth
-                    case (AdventureModifiers.AdventureModifierReferenceList.BlessingOfEarth):
-
-                        if (aIType == Monster.AIType.Ally)
-                        {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfAllys;
-                        }
-                        else
-                        {
-                            listOfUnstatusedEnemies = combatManagerScript.ListOfEnemies;
-                        }
-
-                        foreach(GameObject monster in listOfUnstatusedEnemies)
-                        {
-                            Debug.Log($"{monster.name}");
-                        }
-
-                        // Get monster with lowest health
-                        monsterObj = listOfUnstatusedEnemies.OrderByDescending(monsterWithLowestHealth => monsterWithLowestHealth.GetComponent<CreateMonster>().monsterReference.health / monsterWithLowestHealth.GetComponent<CreateMonster>().monsterReference.maxHealth).ToList().Last();
-                        monsterRef = monsterObj.GetComponent<CreateMonster>().monsterReference;
-
-                        combatManagerScript.CombatLog.SendMessageToCombatLog($"{modifier.modifierName} was activated!");
-
-                        // Check immunities
-                        if (AttackEffect.CheckTargetIsImmune(monsterRef, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                            continue;
-
-                        AttackEffect effect = new AttackEffect(AttackEffect.StatToChange.Health, AttackEffect.StatChangeType.Buff, AttackEffect.EffectTime.RoundEnd, Modifier.StatusEffectType.None, false, 0, modifier.modifierAmount, 100f, combatManagerScript);
-                        effect.AffectTargetStat(monsterRef, monsterObj, combatManagerScript.monsterAttackManager, modifier.modifierName);
-
-                        break;
-                    #endregion
-
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-    
-    // This function is called at Game Start by CombatManagerScript as it registers every Monster in Combat, before Round 1
-    public void ApplyAdventureModifiers(Monster monster, GameObject monsterObj, Monster.AIType aIType)
-    {
-        Modifier newModifier = null;
-        List<Modifier> whatListShouldIUse;
-        CreateMonster monsterComponent = monsterObj.GetComponent<CreateMonster>();
-
-        // Apply ally or enemy modifiers?
-        if (aIType == Monster.AIType.Ally)
-        {
-            whatListShouldIUse = ListOfCurrentModifiers;
-        }
-        else
-        {
-            whatListShouldIUse = ListOfEnemyModifiers;
-        }
-
-        foreach (Modifier modifier in whatListShouldIUse)
-        {
-            // First check if modifier is buff and current monster is Crippled (immune to buffs)
-            if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Crippled) && modifier.statChangeType == AttackEffect.StatChangeType.Buff)
-            {
-                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is Crippled and immune to buffs!");
-                monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Debuff);
-            }
-
-            // Also check if modifier is debuff and current monster is Immune to Debuffs
-            if (monsterComponent.monsterImmuneToDebuffs && modifier.statChangeType == AttackEffect.StatChangeType.Debuff)
-            {
-                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} is immune to status effects and debuffs!");
-                monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup("Immune!", AttackEffect.StatChangeType.Buff);
-            }
-
-            // Get specific Modifier
-            switch (modifier.modifierAdventureReference)
-            {
-                case AdventureModifiers.AdventureModifierReferenceList.WildFervor:
-
-                    // Check immunities
-                    if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                        continue;
-
-                    monster.critChance += modifier.modifierAmount;
-
-                    // Increase stats
-                    newModifier = Instantiate(modifier);
-                    monster.ListOfModifiers.Add(newModifier);
-                    monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(newModifier);
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s critical chance was increased by {modifier.modifierName} (+{modifier.modifierAmount}).");
-                    break;
-
-                case AdventureModifiers.AdventureModifierReferenceList.TemperedOffense:
-
-                    // Check immunities
-                    if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                        continue;
-
-                    int physicalAttackIncrease = Mathf.RoundToInt(monster.cachedPhysicalAttack * (modifier.modifierAmount / 100f) + 1f);
-                    monster.physicalAttack += physicalAttackIncrease;
-                    int magicAttackIncrease = Mathf.RoundToInt(monster.cachedMagicAttack * (modifier.modifierAmount / 100f) + 1f);
-                    monster.magicAttack += magicAttackIncrease;
-                    // Increase stats
-                    newModifier = Instantiate(modifier);
-                    monster.ListOfModifiers.Add(newModifier);
-                    monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(newModifier);
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s physical and magic attack was increased by {modifier.modifierName} (+{physicalAttackIncrease}|+{magicAttackIncrease}).");
-                    break;
-
-                case AdventureModifiers.AdventureModifierReferenceList.TemperedDefense:
-
-                    // Check immunities
-                    if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                        continue;
-
-                    int physicalDefenseIncrease = Mathf.RoundToInt(monster.cachedPhysicalDefense * (modifier.modifierAmount / 100f) + 1f);
-                    monster.physicalDefense += physicalDefenseIncrease;
-                    int magicDefenseIncrease = Mathf.RoundToInt(monster.cachedMagicDefense * (modifier.modifierAmount / 100f) + 1f);
-                    monster.magicDefense += magicDefenseIncrease;
-                    // Increase stats
-                    newModifier = Instantiate(modifier);
-                    monster.ListOfModifiers.Add(newModifier);
-                    monsterObj.GetComponent<CreateMonster>().AddSpecialStatusIcon(newModifier);
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name}'s physical and magic defense was increased by {modifier.modifierName} (+{physicalDefenseIncrease}|+{magicDefenseIncrease}).");
-                    break;
-
-                case AdventureModifiers.AdventureModifierReferenceList.TenaciousGuard:
-
-                    // Check immunities
-                    if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                        continue;
-
-                    //AttackEffect temp = AttackEffect.CreateInstance<AttackEffect>();
-                    // Increase stats
-                    newModifier = Instantiate(modifier);
-                    monster.ListOfModifiers.Add(newModifier);
-                    monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
-                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                    //temp.CreateAndAddModifiers(0, false, monster, monsterObj, modifier.modifierDuration, monsterObj, modifier.statModified);
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} gained immunity to statuses and debuffs for 3 rounds!");
-                    break;
-
-                case AdventureModifiers.AdventureModifierReferenceList.CrushingBlows:
-
-                    // Check immunities
-                    if (AttackEffect.CheckTargetIsImmune(monster, combatManagerScript.monsterAttackManager, monsterObj, modifier))
-                        continue;
-
-                    // Increase stats
-                    newModifier = Instantiate(modifier);
-                    monster.ListOfModifiers.Add(newModifier);
-                    monsterObj.GetComponent<CreateMonster>().ModifyStats(newModifier.statModified, newModifier, true);
-                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-
-                    // Create attack effect
-                    //AttackEffect effect = new AttackEffect(newModifier.statModified, AttackEffect.StatChangeType.Debuff, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, false, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
-                    //effect.typeOfEffect = AttackEffect.TypeOfEffect.InflictStunned;
-                    //effect.attackEffectDuration = AttackEffect.AttackEffectDuration.Temporary;
-
-                    // Add stun attack effect to each attack if offensive move
-                    foreach(MonsterAttack attack in monster.ListOfMonsterAttacks)
-                    {
-                        // Create attack effect
-                        AttackEffect effect = new AttackEffect(newModifier.statModified, newModifier.statChangeType, AttackEffect.EffectTime.PostAttack, newModifier.statusEffectType, false, 1, 1, newModifier.modifierAmount, combatManagerScript);
-                        effect.typeOfEffect = AttackEffect.TypeOfEffect.InflictStatusEffect;
-                        effect.attackEffectStatus = Modifier.StatusEffectType.Stunned;
-                        effect.attackEffectDuration = AttackEffect.AttackEffectDuration.Temporary;
-
-                        if (attack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack)
-                        {
-                            if (attack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.AllTargets)
-                            {
-                                effect.effectTime = AttackEffect.EffectTime.DuringAttack;
-                            }
-                            else if (attack.monsterAttackTargetCount == MonsterAttack.MonsterAttackTargetCount.SingleTarget)
-                            {
-                                effect.effectTime = AttackEffect.EffectTime.PostAttack;
-                            }
-
-                            attack.ListOfAttackEffects.Add(effect);
-                        }
-                    }
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} gained {newModifier.modifierAmount}% chance to stun on hit from {newModifier.modifierName}!");
-                    break;
-
-                default:
-                    break;
-            }
-        }
     }
 
     // This function is called as soon as the adventure scene is loaded
@@ -1515,17 +1092,6 @@ public class AdventureManager : MonoBehaviour
         return randItemSO;
     }
 
-    public void ReviveAllDeadAlliedMonsters()
-    {
-        foreach(Monster allyMonster in ListOfAllyDeadMonsters)
-        {
-            ListOfCurrentMonsters.Add(allyMonster);
-            allyMonster.health = allyMonster.maxHealth;
-        }
-
-        ListOfAllyDeadMonsters.Clear();
-    }
-
     public void ReviveAllDeadAlliedMonstersBeforeBattle()
     {
         foreach (Monster allyMonster in ListOfAllyDeadMonsters)
@@ -1560,18 +1126,6 @@ public class AdventureManager : MonoBehaviour
             revivedAlly.critDamage = revivedAlly.cachedCritDamage;
 
             revivedAlly.bonusAccuracy = revivedAlly.cachedBonusAccuracy;
-
-            // Clear temporary monster attack effects
-            foreach (MonsterAttack attack in revivedAlly.ListOfMonsterAttacks.ToList()) // might have to remove this ToList()
-            {
-                foreach (AttackEffect effect in attack.ListOfAttackEffects.ToList()) // might have to remove this ToList()
-                {
-                    if (effect.attackEffectDuration == AttackEffect.AttackEffectDuration.Temporary)
-                    {
-                        attack.ListOfAttackEffects.Remove(effect);
-                    }
-                }
-            }
         }
 
         ListOfAllyDeadMonsters.Clear();
@@ -1609,18 +1163,6 @@ public class AdventureManager : MonoBehaviour
             revivedAlly.critDamage = revivedAlly.cachedCritDamage;
 
             revivedAlly.bonusAccuracy = revivedAlly.cachedBonusAccuracy;
-
-            // Clear temporary monster attack effects
-            foreach (MonsterAttack attack in revivedAlly.ListOfMonsterAttacks.ToList()) // might have to remove this ToList()
-            {
-                foreach (AttackEffect effect in attack.ListOfAttackEffects.ToList()) // might have to remove this ToList()
-                {
-                    if (effect.attackEffectDuration == AttackEffect.AttackEffectDuration.Temporary)
-                    {
-                        attack.ListOfAttackEffects.Remove(effect);
-                    }
-                }
-            }
         }
 
         ListOfInitialEnemyBattleMonsters.Clear();

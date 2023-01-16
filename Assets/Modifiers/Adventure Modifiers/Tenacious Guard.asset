@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: 9636875d62c64a940a5113ebe55ad770, type: 2}
   modifierDurationType: 0
   statModified: 20
   statChangeType: 0
@@ -30,11 +28,11 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Tenacious Guard
-  modifierAdventureReference: 6
-  modifierDescription: 'Game Start: All allied monsters gain immunity to debuffs
-    and status effects for 3 rounds.'
+  modifierDescription: 'Game Start: All Allied Chimerics gain Immunity to Debuffs
+    for 3 Rounds.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 9636875d62c64a940a5113ebe55ad770, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 0
   modifierRarity: 2
   equipmentRank: 1
   equipmentCachedAmount: 0

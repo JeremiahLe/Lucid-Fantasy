@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: 786ef1cbdfb34fa438723ab85addbcc2, type: 2}
   modifierDurationType: 0
   statModified: 0
   statChangeType: 1
@@ -30,11 +28,11 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 6
   modifierName: Raging Fire
-  modifierAdventureReference: 5
-  modifierDescription: 'Round Start: Apply Burning (15% current health damage per
-    round) to a random, non-Burning enemy for 3 rounds.'
+  modifierDescription: 'Round Start: Apply Burning (15% Current Health damage per
+    round) to a Random Enemy without it for 3 rounds.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 786ef1cbdfb34fa438723ab85addbcc2, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 1
   modifierRarity: 2
   equipmentRank: 1
   equipmentCachedAmount: 0

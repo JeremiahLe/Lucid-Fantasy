@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: 6761efe0f36605245b8e6bf8e22ab0ce, type: 2}
   modifierDurationType: 0
   statModified: 7
   statChangeType: 0
@@ -30,11 +28,11 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Elusive Spirit
-  modifierAdventureReference: 11
-  modifierDescription: 'Round Start: A random allied monster gains +30 Evasion this
-    round.'
+  modifierDescription: 'Round Start: A Random Allied Chimeric gains +30 Evasion for
+    1 round.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 6761efe0f36605245b8e6bf8e22ab0ce, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 1
   modifierRarity: 1
   equipmentRank: 1
   equipmentCachedAmount: 0

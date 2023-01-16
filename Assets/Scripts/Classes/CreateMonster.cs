@@ -390,8 +390,10 @@ public class CreateMonster : MonoBehaviour
         if (aiType == Monster.AIType.Enemy)
             return;
 
+        expGained += Mathf.RoundToInt(expGained * (combatManagerScript.adventureManager.bonusExp / 100));
+
         // Gain exp
-        monsterReference.monsterCurrentExp += Mathf.RoundToInt(expGained * combatManagerScript.adventureManager.bonusExp);
+        monsterReference.monsterCurrentExp += Mathf.RoundToInt(expGained);
 
         // Show level up animation
         CreateStatusEffectPopup($"+{expGained} Exp", AttackEffect.StatChangeType.Buff);
@@ -422,31 +424,31 @@ public class CreateMonster : MonoBehaviour
 
         // Physical Attack
         monster.previouslyCachedPhysicalAttack = monster.cachedPhysicalAttack;
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalAttack) + Random.Range(1, monsterReference.physicalAttackScaler + 1));
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalAttack) + Random.Range(0, monsterReference.physicalAttackScaler + 1));
         monsterReference.physicalAttack += newStatToCache - monsterReference.cachedPhysicalAttack;
         monster.cachedPhysicalAttack = newStatToCache;
 
         // Magic Attack
         monster.previouslyCachedMagicAttack = monster.cachedMagicAttack;
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicAttack) + Random.Range(1, monsterReference.magicAttackScaler + 1));
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicAttack) + Random.Range(0, monsterReference.magicAttackScaler + 1));
         monsterReference.magicAttack += newStatToCache - monsterReference.cachedMagicAttack;
         monster.cachedMagicAttack = newStatToCache;
 
         // Physical Defense
         monster.previouslyCachedPhysicalDefense = monster.cachedPhysicalDefense;
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalDefense) + Random.Range(1, monsterReference.physicalDefenseScaler + 1));
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedPhysicalDefense) + Random.Range(0, monsterReference.physicalDefenseScaler + 1));
         monsterReference.physicalDefense += newStatToCache - monsterReference.cachedPhysicalDefense;
         monster.cachedPhysicalDefense = newStatToCache;
 
         // Magic Defense
         monster.previouslyCachedMagicDefense = monster.cachedMagicDefense;
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicDefense) + Random.Range(1, monsterReference.magicDefenseScaler + 1));
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedMagicDefense) + Random.Range(0, monsterReference.magicDefenseScaler + 1));
         monsterReference.magicDefense += newStatToCache - monsterReference.cachedMagicDefense;
         monster.cachedMagicDefense = newStatToCache;
 
         // Speed
         monster.previouslyCachedSpeed = monster.cachedSpeed;
-        newStatToCache = Mathf.RoundToInt((monsterReference.cachedSpeed) + Random.Range(1, monsterReference.speedScaler + 1));
+        newStatToCache = Mathf.RoundToInt((monsterReference.cachedSpeed) + Random.Range(0, monsterReference.speedScaler + 1));
         monsterReference.speed += newStatToCache - monsterReference.cachedSpeed;
         monster.cachedSpeed = newStatToCache;
 
@@ -750,7 +752,7 @@ public class CreateMonster : MonoBehaviour
                 break;
 
             case (AttackEffect.StatToChange.Immunity):
-                Debug.Log($"Gained {attackEffect.immunityType}!", this);
+                CreateStatusEffectPopup($"{attackEffect.immunityType} Immunity!", AttackEffect.StatChangeType.Buff);
                 break;
 
             default:
@@ -767,82 +769,6 @@ public class CreateMonster : MonoBehaviour
         AddStatusIcon(modifier, attackEffect.statToChange, modifier.modifierCurrentDuration);
 
         return 1;
-    }
-
-    // This function modifies stats by modifier value
-    public void ModifyStats(AttackEffect.StatToChange statToModify, Modifier modifier, bool specialModifier)
-    {
-        //Debug.Log("Modify Stats got called!");
-
-        switch (statToModify)
-        {
-            case (AttackEffect.StatToChange.Evasion):
-                monsterReference.evasion += modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.Speed):
-                monsterReference.speed += (int)modifier.modifierAmount;
-                UpdateStats(false, null, false, 0);
-                break;
-
-            case (AttackEffect.StatToChange.MagicAttack):
-                monsterReference.magicAttack += (int)modifier.modifierAmount;
-                break;
-            case (AttackEffect.StatToChange.MagicDefense):
-                monsterReference.magicDefense += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.PhysicalAttack):
-                monsterReference.physicalAttack += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.PhysicalDefense):
-                monsterReference.physicalDefense += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.CritChance):
-                monsterReference.critChance += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.CritDamage):
-                monsterReference.critDamage += modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.Debuffs):
-                monsterImmuneToDebuffs = true;
-                // Create popup
-                CreateStatusEffectPopup("Debuff and Status Immunity!", AttackEffect.StatChangeType.Buff);
-                break;
-
-            //case (AttackEffect.StatEnumToChange.Buffs):
-            //    monsterImmuneToBuffs = true;
-            //    break;
-
-            case (AttackEffect.StatToChange.Damage):
-                monsterImmuneToDamage = true;
-                // Create popup
-                CreateStatusEffectPopup("Damage Immunity!", AttackEffect.StatChangeType.Buff);
-                break;
-
-            case (AttackEffect.StatToChange.BothOffensiveStats):
-                monsterReference.physicalAttack += (int)modifier.modifierAmount;
-                monsterReference.magicAttack += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.Health):
-                monsterReference.health += (int)modifier.modifierAmount;
-                break;
-
-            case (AttackEffect.StatToChange.Accuracy):
-                monsterReference.bonusAccuracy += (int)modifier.modifierAmount;
-                break;
-
-            default:
-                Debug.Log("Missing stat to modify to modifier?", this);
-                break;
-        }
-
-        AddSpecialStatusIcon(modifier);
     }
 
     // This function adds the modifer's icon to the monster's HUD
@@ -1412,7 +1338,6 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function returns a negative or positive sign for text applications
     public string ReturnSign(float currentStat, float baseStat)
     {
         // if currentStat is smaller than baseStat, must be stat debuffed
@@ -1425,7 +1350,6 @@ public class CreateMonster : MonoBehaviour
         return "+";
     }
 
-    // Override function that returns a sign based on a modifier's stat change type
     public string ReturnSign(AttackEffect.StatChangeType statChangeType)
     {
         if (statChangeType == AttackEffect.StatChangeType.Buff)
@@ -1438,7 +1362,6 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function returns a negative or positive sign for text applications
     public string ReturnStatusEffectDescription(Modifier.StatusEffectType statusEffectType)
     {
         switch (statusEffectType)
@@ -1467,64 +1390,6 @@ public class CreateMonster : MonoBehaviour
         
     }
 
-    // This function returns a bonus damage source based on the enum StatEnumToChange
-    public float GetStatToChange(AttackEffect.StatToChange statEnumToChange, Monster monsterRef)
-    {
-        switch (statEnumToChange)
-        {
-            case (AttackEffect.StatToChange.Speed):
-                return monsterRef.speed;
-
-            case (AttackEffect.StatToChange.PhysicalAttack):
-                return monsterRef.physicalAttack;
-
-            case (AttackEffect.StatToChange.PhysicalDefense):
-                return monsterRef.physicalDefense;
-
-            case (AttackEffect.StatToChange.MagicAttack):
-                return monsterRef.magicAttack;
-
-            case (AttackEffect.StatToChange.MagicDefense):
-                return monsterRef.magicDefense;
-
-            case (AttackEffect.StatToChange.Evasion):
-                return monsterRef.evasion;
-
-            case (AttackEffect.StatToChange.CritChance):
-                return monsterRef.critChance;
-
-            case (AttackEffect.StatToChange.CritDamage):
-                return monsterRef.critDamage;
-            default:
-                Debug.Log("Missing stat or monster reference?", this);
-                return 0;
-        }
-
-    }
-
-    // This function is called by monster attack manager to show damage popup
-    public void ShowDamageOrStatusEffectPopup(float damage, string damageOrHeal)
-    {
-        float amount = damage;
-
-        // if damage is greater than 0, that means it was a heal, show healing color
-        if (damageOrHeal == "Heal")
-        {
-            monsterStatusTextObject.SetActive(true);
-            monsterStatusText.color = Color.green;
-            monsterStatusText.text = ($"+{amount}");
-        }
-        else
-        {
-            amount = Mathf.Abs(amount);
-
-            monsterStatusTextObject.SetActive(true);
-            monsterStatusText.color = Color.red;
-            monsterStatusText.text = ($"-{amount}");
-        }
-    }
-
-    // This function is called by monster attack manager to create a status effect popup
     public void CreateDamageEffectPopup(float damage, string damageOrHeal)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
@@ -1550,15 +1415,6 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function is called by monster attack manager to show condition popup
-    public void ShowDamageOrStatusEffectPopup(string condition)
-    {
-        monsterStatusTextObject.SetActive(true);
-        monsterStatusText.color = Color.white;
-        monsterStatusText.text = ($"{condition}!");
-    }
-
-    // This function is called by monster attack manager to create a buff/debuff popup
     public void CreateStatusEffectPopup(AttackEffect.StatToChange stat, AttackEffect.StatChangeType statChangeType)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
@@ -1578,7 +1434,6 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function is called by monster attack manager to create a status effect popup
     public void CreateStatusEffectPopup(string condition, AttackEffect.StatChangeType statChangeType)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
@@ -1602,7 +1457,6 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    // This function is called by monster attack manager to create a status effect popup
     public void CreateStatusEffectPopup(string condition, AttackEffect.StatChangeType statChangeType, bool useHigherTransform)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransformHigher);
@@ -1628,7 +1482,6 @@ public class CreateMonster : MonoBehaviour
     public void HitMonster()
     {
         monsterAnimator.SetBool("hitAnimationPlaying", true);
-        //monsterAttackManager.soundEffectManager.AddSoundEffectToQueue(monsterAttackManager.HitSound);
         monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.HitSound);
     }
 }

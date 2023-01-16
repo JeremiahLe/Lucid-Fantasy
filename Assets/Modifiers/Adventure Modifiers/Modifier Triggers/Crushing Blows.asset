@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00473780c963c1a4ca2892ba18b645e6, type: 3}
+  m_Name: Crushing Blows
+  m_EditorClassIdentifier: 
+  abilityTriggerDelay: 150
+  abilityTriggerTime: 5
+  adventureModifier: {fileID: 11400000, guid: 05c3b457422d05f4f8ae51e08be18a7b, type: 2}
+  listOfAdventureModifierAbilityTriggers:
+  - {fileID: 11400000, guid: d830de9f4ff57a14c8c4bc15a266b071, type: 2}
+  - {fileID: 11400000, guid: 802fe2cf421b9cc499918fea5c3aeceb, type: 2}

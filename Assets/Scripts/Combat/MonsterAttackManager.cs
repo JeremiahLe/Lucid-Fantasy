@@ -49,7 +49,6 @@ public class MonsterAttackManager : MonoBehaviour
     public float calculatedDamage = 0;
     public float bonusDamagePercent = 0;
     public float cachedBonusDamagePercent = 0;
-    public bool recievedDamagePercentBonus = false;
 
     public float elementCheckDamageBonus = 0;
     private float backRowDamagePercentBonus = 0.85f;
@@ -579,6 +578,8 @@ public class MonsterAttackManager : MonoBehaviour
                 await Task.Delay(300);
             }
         }
+
+        await combatManagerScript.CheckOnEventModifiers(effectTime, monsterAttackSourceGameObject.GetComponent<CreateMonster>().monsterReference.aiType);
 
         return 1;
     }
@@ -1375,7 +1376,7 @@ public class MonsterAttackManager : MonoBehaviour
         CreateMonster monsterComponent = currentTargetedMonsterGameObject.GetComponent<CreateMonster>();
 
         // Currently targeted monster has weakened? (takes more damage)
-        if (monsterComponent.listofCurrentStatusEffects.Contains(Modifier.StatusEffectType.Weakened))
+        if (monsterComponent.listofCurrentStatusEffects.Contains(StatusEffectType.Weakened))
         {
             additionalDamagePercent += 0.25f;
         }
@@ -1383,7 +1384,7 @@ public class MonsterAttackManager : MonoBehaviour
         // Monster's elements matches attack's element
         if (currentMonsterTurn.monsterElement == currentMonsterAttack.monsterElementClass)
         {
-            additionalDamagePercent += 0.15f;
+            additionalDamagePercent += 0.25f;
         }
 
         additionalDamagePercent += currentMonsterAttack.monsterAttackFlatDamageBonus;

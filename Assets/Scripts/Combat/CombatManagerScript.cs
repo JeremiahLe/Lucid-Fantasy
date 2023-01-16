@@ -32,12 +32,15 @@ public class CombatManagerScript : MonoBehaviour
     public SoundEffectManager soundEffectManager;
     //public CameraController cameraController;
 
+    [Title("Battle Passives")]
+    public List<IAbilityTrigger> ListOfAllyCombatPassives;
+    public List<IAbilityTrigger> ListOfEnemyCombatPassives;
+
     [Title("Battle Variables")]
     public GameObject firstMonsterTurn;
     public GameObject CurrentMonsterTurn;
 
     public GameObject CurrentTargetedMonster;
-    public GameObject monsterTargeter;
 
     public Animator CurrentMonsterTurnAnimator;
     public MonsterAttack CurrentMonsterAttack;
@@ -478,6 +481,8 @@ public class CombatManagerScript : MonoBehaviour
     // This function is called at round end to apply any round end abilities or adventure modifiers
     public async Task<int> CallRoundEndFunctions()
     {
+        uiManager.monsterTurnIndicator.SetActive(false);
+
         // Call Round End adventure modifiers
         if ((adventureMode || testAdventureMode) && ListOfAllys.Count > 0)
         {
@@ -501,7 +506,7 @@ public class CombatManagerScript : MonoBehaviour
         }
 
         // Once all Round End effects have been called, End Round
-        await Task.Delay(500);
+        await Task.Delay(75);
         return 1;
     }
 
@@ -580,7 +585,28 @@ public class CombatManagerScript : MonoBehaviour
         return 1;
     }
 
-    // This function initiates combat and serves to clean up the SetCurrentMonsterTurn function
+    public async Task<int> CheckOnEventModifiers(AttackEffect.EffectTime effectTime, Monster.AIType aIType)
+    {
+        List<IAbilityTrigger> targetListOfModifierEffects;
+
+        if (aIType == Monster.AIType.Ally)
+            targetListOfModifierEffects = ListOfAllyCombatPassives;
+        else
+            targetListOfModifierEffects = ListOfEnemyCombatPassives;
+
+        foreach (IAbilityTrigger abilityEffect in targetListOfModifierEffects)
+        {
+            if (abilityEffect.abilityTriggerTime == effectTime)
+            {
+                await abilityEffect.TriggerModifier(this, aIType, effectTime);
+
+                await Task.Delay(abilityEffect.abilityTriggerDelay);
+            }
+        }
+
+        return 1;
+    }
+
     public async void InitiateCombat()
     {
         // ResetCamera();
@@ -853,7 +879,6 @@ public class CombatManagerScript : MonoBehaviour
         }
     }
 
-
     // This function handles all new round calls (status effects, speed adjustments etc.)
     public async void IncrementNewRound()
     {
@@ -1024,8 +1049,6 @@ public class CombatManagerScript : MonoBehaviour
             Invoke(nameof(AdventureBattleOver), 0.5f);
             return;
         }
-
-        Invoke(nameof(RestartBattleScene), 3.0f);
     }
 
     // This function should call all battle over functions

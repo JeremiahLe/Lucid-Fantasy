@@ -18,7 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers: []
   modifierDurationType: 1
   statModified: 17
   statChangeType: 1
@@ -29,11 +28,11 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 2
   modifierName: Crushing Blows
-  modifierAdventureReference: 15
-  modifierDescription: 'Game Start: All allied monsters gain 35% chance to apply
-    Stunned 1 round when they deal damage with attacks.'
+  modifierDescription: 'Passive: All Allied Chimerics have a 35% chance to apply
+    Stunned for 1 round when they deal damage with Attacks.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 6a3cd6ac04e58a242aea7b3989298423, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 0
   modifierRarity: 2
   equipmentRank: 1
   equipmentCachedAmount: 0

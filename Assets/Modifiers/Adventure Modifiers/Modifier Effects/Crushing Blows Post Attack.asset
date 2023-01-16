@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
+  m_Name: Crushing Blows Post Attack
+  m_EditorClassIdentifier: 
+  typeOfEffect: 15
+  statChangeType: 1
+  attackEffectStatus: 2
+  statToChange: 0
+  effectTime: 2
+  monsterTargetType: 0
+  fixedDamageAmount: 0
+  doesTriggersEffects: 0
+  effectDamageType: 0
+  elementClass: {fileID: 0}
+  uniqueAttackEffectCondition: {fileID: 0}
+  scaleFromWhatStat: 0
+  scaleFromWhatTarget: 0
+  immunityType: 0
+  elementImmunity: {fileID: 0}
+  statusImmunity: 0
+  statImmunity: 0
+  attackEffectDuration: 0
+  flatValueChange: 0
+  modifierDuration: 1
+  amountToChange: 0
+  effectTriggerChance: 35
+  combatManagerScript: {fileID: 0}
+  monsterAttackTrigger: {fileID: 0}
+  monsterSource: {fileID: 0}

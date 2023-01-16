@@ -15,6 +15,9 @@ public class RisingWindsPreAttack : IAbilityTrigger
 
         Debug.Log($"Triggering {abilityMonster}'s {ability.abilityName} ability!", this);
 
+        if (monsterAttackManager.currentMonsterAttack.monsterAttackElement != ElementClass.MonsterElement.Wind)
+            return 1;
+
         GameObject targetMonsterGameObject = monsterAttackManager.combatManagerScript.CurrentTargetedMonster;
         Monster targetMonster = targetMonsterGameObject.GetComponent<CreateMonster>().monsterReference;
 
@@ -22,6 +25,8 @@ public class RisingWindsPreAttack : IAbilityTrigger
 
         if (bonusDamage <= 0)
             bonusDamage = 0.01f;
+
+        bonusDamage *= 2;
 
         attackTrigger.monsterAttackFlatDamageBonus += bonusDamage;
 

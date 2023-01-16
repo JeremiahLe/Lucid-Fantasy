@@ -33,12 +33,17 @@ public abstract class IAbilityTrigger : ScriptableObject
         return 1;
     }
 
+    public virtual async Task<int> TriggerAttackEffect(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, string effectName)
+    {
+        return 1;
+    }
+
     public virtual async Task<int> TriggerItem(Item currentItem, CombatManagerScript combatManagerScript)
     {
         return 1;
     }
 
-    public virtual async Task<int> TriggerModifier(CombatManagerScript combatManagerScript, Monster.AIType aiType)
+    public virtual async Task<int> TriggerModifier(CombatManagerScript combatManagerScript, Monster.AIType aiType, AttackEffect.EffectTime effectTime)
     {
         return 1;
     }

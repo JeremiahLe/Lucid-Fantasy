@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: c8b9071b41a991a468a2dc8362308681, type: 2}
   modifierDurationType: 1
   statModified: 0
   statChangeType: 0
@@ -30,11 +28,11 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Blessing of Earth
-  modifierAdventureReference: 16
-  modifierDescription: 'Round End: Your lowest health monster heals for 20% of their
-    missing health.'
+  modifierDescription: 'Round End: Your Lowest Health Chimeric heals 20% of their
+    Max Health.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: c8b9071b41a991a468a2dc8362308681, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 3
   modifierRarity: 0
   equipmentRank: 1
   equipmentCachedAmount: 0

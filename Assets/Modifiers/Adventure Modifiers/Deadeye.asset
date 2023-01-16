@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: 5410e20ff6840304f909a60a46c6fd31, type: 2}
   modifierDurationType: 1
   statModified: 15
   statChangeType: 0
@@ -30,10 +28,10 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Deadeye
-  modifierAdventureReference: 14
-  modifierDescription: 'Game Start: Your First monster gains +50 bonus accuracy.'
+  modifierDescription: 'Game Start: Your First Chimeric gains +50 Accuracy.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 5410e20ff6840304f909a60a46c6fd31, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 0
   modifierRarity: 2
   equipmentRank: 1
   equipmentCachedAmount: 0

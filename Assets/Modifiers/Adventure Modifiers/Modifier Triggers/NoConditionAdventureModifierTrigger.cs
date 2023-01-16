@@ -12,7 +12,7 @@ public class NoConditionAdventureModifierTrigger : IAbilityTrigger
 
     public List<AttackEffect> listOfAdventureModifierEffects;
 
-    public override async Task<int> TriggerModifier(CombatManagerScript combatManagerScript, Monster.AIType aiType)
+    public override async Task<int> TriggerModifier(CombatManagerScript combatManagerScript, Monster.AIType aiType, AttackEffect.EffectTime effectTime)
     {
         Debug.Log($"Triggering {adventureModifier.modifierName}!");
 

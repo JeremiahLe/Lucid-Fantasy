@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3949c45fa5945a949bb9791a70786f3b, type: 3}
+  m_Name: Combat Training
+  m_EditorClassIdentifier: 
+  abilityTriggerDelay: 150
+  abilityTriggerTime: 6
+  adventureModifier: {fileID: 11400000, guid: 3efd7fc1d52414a41958995ab4499cc6, type: 2}
+  listOfAdventureModifierEffects:
+  - {fileID: 11400000, guid: a9b72852d96d89c448d640a0fc52dc78, type: 2}
+  - {fileID: 11400000, guid: 478d251a1dfe970449f62e432dbada70, type: 2}
+  - {fileID: 11400000, guid: 67e29fbfdf0ef9b4987849758f4b8784, type: 2}
+  - {fileID: 11400000, guid: 37e9d9f1ccb717548a42bbc27c853e71, type: 2}
+  - {fileID: 11400000, guid: 90910241698b00341a5ff0a7cfbac1b1, type: 2}

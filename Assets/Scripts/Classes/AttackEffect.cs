@@ -307,7 +307,6 @@ public class AttackEffect : ScriptableObject
 
             // Send buff message to combat log
             combatManagerScript = monsterAttackManager.combatManagerScript;
-            monsterReferenceGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Gained Bonus Damage!", StatChangeType.Buff);
             combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained bonus damage!");
         }
     }
@@ -422,10 +421,6 @@ public class AttackEffect : ScriptableObject
 
     public async Task<int> AddBonusDamageFlat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
-        // Adjust targeting
-        monsterReference = monsterAttackManager.currentMonsterTurn;
-        monsterReferenceGameObject = monsterAttackManager.currentMonsterTurnGameObject;
-
         // Get bonus damage amount source
         float bonusAmountSource = GetBonusDamageSource(statToChange, monsterReference);
 
@@ -446,7 +441,6 @@ public class AttackEffect : ScriptableObject
         float bonusAmountSource = GetBonusDamageSource(statToChange, monsterReference);
 
         // calc bonus
-        monsterAttackManager.recievedDamagePercentBonus = true;
         monsterAttackManager.cachedBonusDamagePercent = Mathf.RoundToInt((bonusAmountSource * (amountToChange / 100)) / 2);
 
         // Send buff message to combat log

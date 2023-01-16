@@ -21,23 +21,30 @@ public class Modifier : ScriptableObject
 
     [DisplayWithoutEdit] public AttackEffect attackEffect;
 
-    public List<IAbilityTrigger> listOfModifierTriggers;
-
     [Title("Modifier Informaton")]
     public enum ModifierDurationType { Temporary, Permanent }
+    [DisableIf("modifierType", ModifierType.adventureModifier)]
     public ModifierDurationType modifierDurationType;
 
-    public AttackEffect.StatToChange statModified;
-    public AttackEffect.StatChangeType statChangeType;
+    [DisableIf("modifierType", ModifierType.adventureModifier)]
+    public StatToChange statModified;
+
+    [DisableIf("modifierType", ModifierType.adventureModifier)]
+    public StatChangeType statChangeType;
 
     [DisableIf("modifierDurationType", ModifierDurationType.Permanent)]
     public int modifierDuration;
+
     [DisableIf("modifierDurationType", ModifierDurationType.Permanent)]
     public int modifierCurrentDuration;
 
+    [DisableIf("modifierType", ModifierType.adventureModifier)]
     public float modifierAmount;
+
+    [DisableIf("modifierType", ModifierType.adventureModifier)]
     public bool modifierAmountFlatBuff;
 
+    [DisableIf("modifierType", ModifierType.adventureModifier)]
     public bool isStatusEffect = false;
 
     public enum StatusEffectType { None, Poisoned, Stunned, Dazed, Crippled, Weakened, Burning, Silenced, Enraged }
@@ -47,17 +54,13 @@ public class Modifier : ScriptableObject
     [Header("Adventure Variables")]
     public string modifierName;
 
-    [EnableIf("modifierType", ModifierType.adventureModifier)]
-    public AdventureModifiers.AdventureModifierReferenceList modifierAdventureReference;
-
     [TextArea]
     public string modifierDescription;
 
+    public List<IAbilityTrigger> listOfModifierTriggers;
+
     public enum ModifierType { regularModifier, adventureModifier, equipmentModifier }
     public ModifierType modifierType;
-
-    public enum ModifierAdventureCallTime { GameStart, RoundStart, OOCPassive, RoundEnd }
-    public ModifierAdventureCallTime modifierAdventureCallTime;
 
     public enum ModifierRarity { Common, Uncommon, Rare, Legendary }
     public ModifierRarity modifierRarity;
@@ -263,7 +266,11 @@ public class Modifier : ScriptableObject
         MonsterAttack blankAttack = new MonsterAttack(modifierName, attackEffect.elementClass, MonsterAttack.MonsterAttackDamageType.None, 1, 1, monsterReference, monsterReferenceGameObject);
 
         if (monsterReference.health <= 0)
-            await monsterComponent.combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monsterReference, monsterReferenceGameObject, AttackEffect.EffectTime.OnDeath, blankAttack);
+        {
+            await monsterComponent.combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monsterReference, monsterReferenceGameObject, EffectTime.OnDeath, blankAttack);
+
+            await monsterComponent.combatManagerScript.CheckOnMonsterDeathEvents();
+        }
 
         await Task.Delay(115);
         return 1;

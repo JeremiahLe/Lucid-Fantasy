@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterAttackName: Galeforce
   monsterAttackDescription: Blast the target with incredibly fast splitting winds,
-    dealing Magical damage. Deals additional damage equal to 225% of user's Speed.
+    dealing Magical damage. Gains bonus damage equal to 300% of user's Speed.
   monsterAttackElement: 3
   monsterElementClass: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterAttackType: 0
@@ -22,15 +22,15 @@ MonoBehaviour:
   monsterAttackTargetCount: 0
   monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 3
+  monsterAttackSPCost: 2
+  AttackVFX: {fileID: 3923125925641639501, guid: 8698fd2d0e204764fbe9b0db31cd32df, type: 3}
   monsterAttackSoundEffect: {fileID: 8300000, guid: 863a4aefa06f6354394638fe929c64fb, type: 3}
-  monsterAttackDamageScalar: 15
+  monsterAttackDamageScalar: 30
   monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 19
   monsterAttackAccuracy: 85
   monsterAttackNeverMiss: 0
   monsterAttackCritChance: 5
-  monsterAttackSPCost: 2
-  AttackVFX: {fileID: 3923125925641639501, guid: 8698fd2d0e204764fbe9b0db31cd32df, type: 3}
   monsterAttackSourceGameObject: {fileID: 0}
   monsterAttackSource: {fileID: 0}
   ListOfAttackEffects:

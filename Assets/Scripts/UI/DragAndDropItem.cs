@@ -22,8 +22,6 @@ public class DragAndDropItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         canvasGroup.alpha = .6f;
-
-        itemSlot.adventureManager.PlaySFX(itemSlot.adventureManager.UIHoverSFX);
     }
 
     public void OnPointerExit(PointerEventData eventData)

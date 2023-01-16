@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: 2ed04012e1708ab44a83bef6bee24b6d, type: 2}
   modifierDurationType: 0
   statModified: 0
   statChangeType: 1
@@ -30,11 +28,11 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 3
   modifierName: Chaos Waves
-  modifierAdventureReference: 9
-  modifierDescription: 'Round Start: Apply Dazed to a random, non-Dazed enemy for
-    3 rounds.'
+  modifierDescription: 'Round Start: Apply Dazed (50% chance to select a random move
+    and/or target) to a Random Enemy without it for 3 rounds.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 2ed04012e1708ab44a83bef6bee24b6d, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 1
   modifierRarity: 2
   equipmentRank: 1
   equipmentCachedAmount: 0

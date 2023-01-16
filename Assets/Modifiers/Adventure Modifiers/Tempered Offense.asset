@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: b9220ebc4cc87d1418068a41858162c1, type: 2}
   modifierDurationType: 1
   statModified: 2
   statChangeType: 0
@@ -30,11 +28,11 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Tempered Offense
-  modifierAdventureReference: 1
-  modifierDescription: 'Game Start: All allied monsters gain +15% physical and magic
-    attack.'
+  modifierDescription: 'Game Start: All Allied Chimerics gain +15% Physical and Magic
+    Attack.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: b9220ebc4cc87d1418068a41858162c1, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 0
   modifierRarity: 0
   equipmentRank: 1
   equipmentCachedAmount: 0

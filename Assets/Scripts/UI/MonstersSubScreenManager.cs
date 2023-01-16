@@ -43,12 +43,17 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void OnEnable()
     {
+        PlayNewUIScreenSFX();
+
         playerGoldAmount.text = ($"{adventureManager.playerGold}");
+
         InventoryMenu.SetActive(false);
     }
 
     public void ShowAvailableMonsters()
     {
+        PlayNewUIScreenSFX();
+
         // Hide other menus
         ResetMenus();
 
@@ -86,6 +91,8 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void ShowAvailableModifiers()
     {
+        PlayNewUIScreenSFX();
+
         // Hide other menus
         ResetMenus();
 
@@ -103,6 +110,8 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void ShowStatus()
     {
+        PlayNewUIScreenSFX();
+
         // Hide other menus
         ResetMenus();
 
@@ -112,6 +121,8 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void ShowInventory()
     {
+        PlayNewUIScreenSFX();
+
         // Hide other menus
         ResetMenus();
 
@@ -142,6 +153,8 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void InitializeConsumables()
     {
+        PlayNewUIScreenSFX();
+
         // Update text
         inventoryHeaderText.text =
             ($"Consumables");
@@ -191,6 +204,8 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void InitializeEquipment()
     {
+        PlayNewUIScreenSFX();
+
         // Update text
         inventoryHeaderText.text =
             ($"Equipment");
@@ -240,6 +255,8 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void InitializeAcensionMaterials()
     {
+        PlayNewUIScreenSFX();
+
         // Update text
         inventoryHeaderText.text =
             ($"Ascension Materials");
@@ -306,6 +323,11 @@ public class MonstersSubScreenManager : MonoBehaviour
         {
             slot.SetActive(false);
         }
+    }
+
+    public void PlayNewUIScreenSFX()
+    {
+        adventureManager.NewUIScreenSelected();
     }
 
     public void Update()

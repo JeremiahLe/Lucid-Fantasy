@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: 127964361f2aa6f44943892d97f7718c, type: 2}
   modifierDurationType: 1
   statModified: 6
   statChangeType: 0
@@ -30,10 +28,10 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Windswept Gale
-  modifierAdventureReference: 4
-  modifierDescription: 'Game Start: A random allied monster gains +5 speed.'
+  modifierDescription: 'Game Start: A Random Allied Chimeric gains +5 Speed.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 127964361f2aa6f44943892d97f7718c, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 0
   modifierRarity: 1
   equipmentRank: 1
   equipmentCachedAmount: 0

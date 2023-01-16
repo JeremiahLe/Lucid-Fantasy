@@ -18,7 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers: []
   modifierDurationType: 1
   statModified: 16
   statChangeType: 0
@@ -29,10 +28,10 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Combat Training
-  modifierAdventureReference: 13
-  modifierDescription: 'Round Start: Your First monster gains +5% all basic stats.'
+  modifierDescription: 'Round Start: Your First Chimeric gains +5% Basic Stats.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 6d0852a2f17cb2a44a03857a17d02f69, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 1
   modifierRarity: 0
   equipmentRank: 1
   equipmentCachedAmount: 0

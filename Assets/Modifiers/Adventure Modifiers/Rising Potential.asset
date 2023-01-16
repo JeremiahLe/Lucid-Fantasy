@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: db8436b19d26e5f41b887aa4958f4f2d, type: 2}
   modifierDurationType: 1
   statModified: 16
   statChangeType: 0
@@ -30,10 +28,10 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Rising Potential
-  modifierAdventureReference: 8
-  modifierDescription: 'Passive: All allied monsters gain +40% more Exp.'
+  modifierDescription: 'Passive: All Allied Chimerics gain +40% Exp.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: db8436b19d26e5f41b887aa4958f4f2d, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 2
   modifierRarity: 1
   equipmentRank: 1
   equipmentCachedAmount: 0

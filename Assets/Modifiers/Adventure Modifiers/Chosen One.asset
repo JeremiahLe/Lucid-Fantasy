@@ -18,7 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers: []
   modifierDurationType: 1
   statModified: 16
   statChangeType: 0
@@ -29,10 +28,10 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Chosen One
-  modifierAdventureReference: 7
-  modifierDescription: 'Game Start: A random allied monster gains +50% basic stats.'
+  modifierDescription: 'Game Start: A Random Allied Chimeric gains +50% Basic Stats.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: f87bff7f01b90db45b62f1e91a817e3b, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 0
   modifierRarity: 3
   equipmentRank: 1
   equipmentCachedAmount: 0

@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: 3ee2176c0e7de244191e633a07e7dca7, type: 2}
   modifierDurationType: 1
   statModified: 8
   statChangeType: 0
@@ -30,10 +28,10 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Wild Fervor
-  modifierAdventureReference: 0
-  modifierDescription: 'Game Start: All allied monsters gain +25% critical chance.'
+  modifierDescription: 'Game Start: All Allied Chimerics gain +25 CritChance.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 3ee2176c0e7de244191e633a07e7dca7, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 0
   modifierRarity: 3
   equipmentRank: 1
   equipmentCachedAmount: 0

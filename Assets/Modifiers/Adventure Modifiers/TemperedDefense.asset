@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: dfe71dc73b5e30b46ad21919925ca679, type: 2}
   modifierDurationType: 1
   statModified: 0
   statChangeType: 0
@@ -30,11 +28,11 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Tempered Defense
-  modifierAdventureReference: 3
-  modifierDescription: 'Game Start: All allied monsters gain +20% physical and magic
-    defense.'
+  modifierDescription: 'Game Start: All Allied Chimerics gain +20% Physical and Magic
+    Defense.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: dfe71dc73b5e30b46ad21919925ca679, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 0
   modifierRarity: 0
   equipmentRank: 1
   equipmentCachedAmount: 0

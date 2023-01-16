@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: b5c4ff9b7d3ed2e44a4b9739cf4b5a30, type: 2}
   modifierDurationType: 0
   statModified: 11
   statChangeType: 0
@@ -30,11 +28,11 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 0
   modifierName: Guardian Angel
-  modifierAdventureReference: 10
-  modifierDescription: 'Game Start: Your First monster gains immunity to Damage for
-    2 rounds.'
+  modifierDescription: 'Game Start: Your First Chimeric gains Immunity to Damage
+    for 2 rounds.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: b5c4ff9b7d3ed2e44a4b9739cf4b5a30, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 0
   modifierRarity: 3
   equipmentRank: 1
   equipmentCachedAmount: 0

@@ -18,8 +18,6 @@ MonoBehaviour:
   statusEffectIconGameObject: {fileID: 0}
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
-  listOfModifierTriggers:
-  - {fileID: 11400000, guid: dcaa1c6244afc884e84ee2caf9b2bd66, type: 2}
   modifierDurationType: 1
   statModified: 0
   statChangeType: 1
@@ -30,11 +28,11 @@ MonoBehaviour:
   isStatusEffect: 0
   statusEffectType: 1
   modifierName: Virulent Venom
-  modifierAdventureReference: 2
-  modifierDescription: 'Round Start: Apply Poisoned (10% max health damage per round)
-    to a random, non-poisoned enemy.'
+  modifierDescription: 'Round Start: Apply Poisoned (10% Max Health damage per round)
+    to a Random Enemy without it.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: dcaa1c6244afc884e84ee2caf9b2bd66, type: 2}
   modifierType: 1
-  modifierAdventureCallTime: 1
   modifierRarity: 2
   equipmentRank: 1
   equipmentCachedAmount: 0
