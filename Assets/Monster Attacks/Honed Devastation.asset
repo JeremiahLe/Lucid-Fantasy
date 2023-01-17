@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Honed Devastation
   m_EditorClassIdentifier: 
   monsterAttackName: Honed Devastation
-  monsterAttackDescription: Raise user's CritDamage multiplier by 1 for 3 rounds.
+  monsterAttackDescription: Raise user's CritDamage by 1 for 3 rounds.
   monsterAttackElement: 5
   monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
   monsterAttackType: 1
@@ -21,17 +21,16 @@ MonoBehaviour:
   monsterAttackTargetCount: 0
   monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 2
+  monsterAttackSPCost: 1
+  AttackVFX: {fileID: 4923460609481425163, guid: 6fdd9b5b447da3e43bf0ab49841cc581, type: 3}
   monsterAttackSoundEffect: {fileID: 8300000, guid: 6829232b53ad5ed489696df0ad4924b2, type: 3}
-  monsterAttackDamage: 0
+  monsterAttackDamageScalar: 0
+  monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 0
-  monsterAttackSPCost: 1
-  attackHasCooldown: 0
-  attackOnCooldown: 0
-  attackBaseCooldown: 0
-  attackCurrentCooldown: 0
-  AttackVFX: {fileID: 4923460609481425163, guid: 6fdd9b5b447da3e43bf0ab49841cc581, type: 3}
+  monsterAttackCritChance: 5
+  monsterAttackSourceGameObject: {fileID: 0}
+  monsterAttackSource: {fileID: 0}
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 89253154d9726034bb44836e918d5c08, type: 2}

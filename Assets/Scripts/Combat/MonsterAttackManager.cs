@@ -500,8 +500,7 @@ public class MonsterAttackManager : MonoBehaviour
         currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterActionAvailable = false;
 
         // use SP
-        currentMonsterTurn.currentSP -= currentMonsterAttack.monsterAttackSPCost;
-        currentMonsterTurnGameObject.GetComponent<CreateMonster>().UpdateSPBar();
+        currentMonsterTurnGameObject.GetComponent<CreateMonster>().ModifySP(-currentMonsterAttack.monsterAttackSPCost);
 
         currentMonsterAttack.monsterAttackSource = currentMonsterTurn;
         currentMonsterAttack.monsterAttackSourceGameObject = currentMonsterTurnGameObject;
@@ -718,17 +717,6 @@ public class MonsterAttackManager : MonoBehaviour
         combatManagerScript.Invoke("NextMonsterTurn", 0.25f);
         */
         #endregion
-    }
-
-    public void HitTarget(GameObject currentTargetedMonsterGameObject, float damageAmount)
-    {
-        // Show the damage number and damaged animation of target
-        currentTargetedMonsterGameObject.GetComponent<Animator>().SetBool("hitAnimationPlaying", true);
-        currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateDamageEffectPopup(damageAmount, "Damage");
-
-        // Play damage sound
-        soundEffectManager.AddSoundEffectToQueue(HitSound);
-        soundEffectManager.BeginSoundEffectQueue();
     }
 
     // This function handles damaging multiple targeted monsters
@@ -1382,9 +1370,9 @@ public class MonsterAttackManager : MonoBehaviour
         }
 
         // Monster's elements matches attack's element
-        if (currentMonsterTurn.monsterElement == currentMonsterAttack.monsterElementClass)
+        if (currentMonsterTurn.monsterElement == currentMonsterAttack.monsterElementClass || currentMonsterTurn.monsterSubElement == currentMonsterAttack.monsterElementClass)
         {
-            additionalDamagePercent += 0.25f;
+            additionalDamagePercent += 0.30f;
         }
 
         additionalDamagePercent += currentMonsterAttack.monsterAttackFlatDamageBonus;

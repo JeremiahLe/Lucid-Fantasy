@@ -303,11 +303,10 @@ public class CombatManagerScript : MonoBehaviour
             foreach (GameObject monsterObj in ListOfAllys)
             {
                 CreateMonster monsterComponent = monsterObj.GetComponent<CreateMonster>();
+
                 Monster monster = monsterComponent.monsterReference;
 
-                //adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Ally);
-
-                //monsterComponent.CheckAdventureEquipment();
+                await monsterComponent.InitializeComponents();
 
                 await monsterAttackManager.TriggerAbilityEffects(monster, monsterObj, monster, AttackEffect.EffectTime.GameStart, monsterObj);
 
@@ -318,18 +317,15 @@ public class CombatManagerScript : MonoBehaviour
             foreach (GameObject monsterObj in ListOfEnemies)
             {
                 CreateMonster monsterComponent = monsterObj.GetComponent<CreateMonster>();
+
                 Monster monster = monsterComponent.monsterReference;
 
-                //adventureManager.ApplyAdventureModifiers(monster, monsterObj, Monster.AIType.Enemy);
-
-                //monsterComponent.CheckAdventureEquipment();
+                await monsterComponent.InitializeComponents();
 
                 await monsterAttackManager.TriggerAbilityEffects(monster, monsterObj, monster, AttackEffect.EffectTime.GameStart, monsterObj);
 
                 await monsterComponent.UpdateStats(false, null, false, 0);
             }
-
-            //adventureManager.ApplyGameStartAdventureModifiers(Monster.AIType.Enemy);
         }
 
         await adventureManager.TriggerAdventureModifiers(AttackEffect.EffectTime.GameStart, Monster.AIType.Ally);
@@ -469,11 +465,6 @@ public class CombatManagerScript : MonoBehaviour
         }
         else
         {
-            CreateMonster monsterComponent = CurrentMonsterTurn.GetComponent<CreateMonster>();
-
-            if (monsterComponent.monsterReference.currentSP < monsterComponent.monsterReference.maxSP)
-                monsterComponent.ModifySP(monsterComponent.monsterReference.spRegen);
-
             InitiateCombat();
         }
     }
@@ -617,6 +608,8 @@ public class CombatManagerScript : MonoBehaviour
         CreateMonster monsterComponent = CurrentMonsterTurn.GetComponent<CreateMonster>();
 
         Monster monster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
+
+        monsterComponent.ModifySP(monsterComponent.monsterReference.spRegen);
 
         uiManager.InitiateMonsterTurnIndicator(CurrentMonsterTurn);
 

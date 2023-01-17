@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityTriggerDelay: 75
   abilityTriggerTime: 8
-  currentAttackEffectTriggered:
-  - {fileID: 11400000, guid: e1c5a492e24d7c74e8bc564fff5c537d, type: 2}
+  hibernateHealingIncreaseAttackEffect: {fileID: 11400000, guid: e1c5a492e24d7c74e8bc564fff5c537d, type: 2}
+  hibernateReduceSpeedAttackEffect: {fileID: 11400000, guid: d26ad91f0cd9085479713dc70a497cb1, type: 2}

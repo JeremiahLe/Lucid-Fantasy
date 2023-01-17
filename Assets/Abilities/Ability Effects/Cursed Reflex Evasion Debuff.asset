@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
-  m_Name: Chemical Rush Bonus Damage Effect
+  m_Name: Cursed Reflex Evasion Debuff
   m_EditorClassIdentifier: 
-  typeOfEffect: 13
-  statChangeType: 0
-  attackEffectStatus: 1
-  statToChange: 0
-  effectTime: 0
-  monsterTargetType: 1
+  typeOfEffect: 16
+  statChangeType: 1
+  attackEffectStatus: 0
+  statToChange: 7
+  effectTime: 9
+  monsterTargetType: 0
   fixedDamageAmount: 0
   doesTriggersEffects: 0
   effectDamageType: 0
@@ -31,8 +31,8 @@ MonoBehaviour:
   statImmunity: 0
   attackEffectDuration: 0
   flatValueChange: 0
-  modifierDuration: 0
-  amountToChange: 100
+  modifierDuration: 2
+  amountToChange: 10
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
   monsterAttackTrigger: {fileID: 0}

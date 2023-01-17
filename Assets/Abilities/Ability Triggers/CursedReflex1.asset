@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityTriggerDelay: 150
   abilityTriggerTime: 9
-  currentAttackEffectTriggered:
-  - {fileID: 11400000, guid: dcb5fe8c7b0d67147bf8a93bd8dda433, type: 2}
+  cursedReflexSlow: {fileID: 11400000, guid: dcb5fe8c7b0d67147bf8a93bd8dda433, type: 2}
+  cursedReflexEvasion: {fileID: 11400000, guid: 33f21ce646d0cd24c8378ad3cfa19b18, type: 2}

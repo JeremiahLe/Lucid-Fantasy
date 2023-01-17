@@ -121,8 +121,6 @@ public class CreateMonster : MonoBehaviour
     {
         InitiateStats();
 
-        InitializeComponents();
-
         InitiateCreateMonsterObjectStats();
 
         InitiateHealthBars();
@@ -255,32 +253,43 @@ public class CreateMonster : MonoBehaviour
     }
 
     // This function initializes a gameObjects components
-    public void InitializeComponents()
+    public async Task<int> InitializeComponents()
     {
         monsterAnimator = GetComponent<Animator>();
+
         monsterAttackManager = combatManagerObject.GetComponent<MonsterAttackManager>();
+
         InteractableToolTipWindow = combatManagerScript.uiManager.InteractableToolTipWindow;
 
         // Create instances of the monster's attacks
-        if (!combatManagerScript.adventureMode) // accuracy is alterable now
+        if (combatManagerScript.adventureMode)
         {
-            Monster tempMonster = Instantiate(monsterReference);
-            monsterReference.ListOfMonsterAttacks.Clear();
-            foreach (MonsterAttack attack in tempMonster.ListOfMonsterAttacks)
+            monsterReference.ListOfCachedMonsterAttacks.Clear();
+
+            foreach (MonsterAttack initialAttack in monsterReference.ListOfMonsterAttacks)
             {
-                MonsterAttack attackInstance = Instantiate(attack);
+                MonsterAttack newAttack = Instantiate(initialAttack);
 
-                // Make copies of attack effects
-                attackInstance.ListOfAttackEffects.Clear();
-                foreach (AttackEffect attackEffect in attack.ListOfAttackEffects)
-                {
-                    AttackEffect attackEffectInstance = Instantiate(attackEffect);
-                    attackInstance.ListOfAttackEffects.Add(attackEffectInstance);
-                }
+                newAttack.name = newAttack.monsterAttackName + " (Non Alterable Clone)";
 
-                monsterReference.ListOfMonsterAttacks.Add(attackInstance);
+                monsterReference.ListOfCachedMonsterAttacks.Add(newAttack);
+            }
+
+            monsterReference.ListOfMonsterAttacks.Clear();
+
+            foreach (MonsterAttack cachedAttack in monsterReference.ListOfCachedMonsterAttacks)
+            {
+                MonsterAttack newAttack = Instantiate(cachedAttack);
+
+                newAttack.name = newAttack.monsterAttackName + " (Alterable Clone)";
+
+                monsterReference.ListOfMonsterAttacks.Add(newAttack);
             }
         }
+
+        await Task.Delay(1);
+
+        return 1;
     }
 
     // Update current health bar and call damaged healthbar fade
@@ -322,7 +331,7 @@ public class CreateMonster : MonoBehaviour
         if (damageTaken && gameObject.GetComponent<BoxCollider2D>().enabled)
         {
             if (calculatedDamage > 0)
-                monsterAttackManager.HitTarget(gameObject, calculatedDamage);
+                HitMonster(calculatedDamage);
 
             CheckHealth(externalDamageTaken, damageSourceGameObject);
 
@@ -358,7 +367,7 @@ public class CreateMonster : MonoBehaviour
         if (damageTaken && gameObject.GetComponent<BoxCollider2D>().enabled)
         {
             if (calculatedDamage > 0 && !dontShowDamagePopup)
-                monsterAttackManager.HitTarget(gameObject, calculatedDamage);
+                HitMonster(calculatedDamage);
 
             CheckHealth(externalDamageTaken, damageSourceGameObject);
 
@@ -465,7 +474,19 @@ public class CreateMonster : MonoBehaviour
 
     public void ModifySP(float sp)
     {
+        if (sp > 0 && monsterReference.currentSP != monsterReference.maxSP)
+            CreateStatusEffectPopup($"+{sp} SP!", AttackEffect.StatChangeType.Buff, true);
+        else if (sp < 0)
+            CreateStatusEffectPopup($"{sp} SP!", AttackEffect.StatChangeType.Debuff, true);
+
         monsterReference.currentSP += sp;
+
+        if (monsterReference.currentSP > monsterReference.maxSP)
+            monsterReference.currentSP = monsterReference.maxSP;
+
+        if (monsterReference.currentSP < 0)
+            monsterReference.currentSP = 0;
+
         UpdateSPBar();
     }
 
@@ -1479,9 +1500,12 @@ public class CreateMonster : MonoBehaviour
         }
     }
 
-    public void HitMonster()
+    public void HitMonster(float damageAmount)
     {
         monsterAnimator.SetBool("hitAnimationPlaying", true);
+
         monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.HitSound);
+
+        CreateDamageEffectPopup(damageAmount, "Damage");
     }
 }

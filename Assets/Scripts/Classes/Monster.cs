@@ -19,7 +19,6 @@ public class Monster : ScriptableObject
     public enum MonsterAscensionPhase { Basic, Ascended }
     public MonsterAscensionPhase monsterAscensionPhase;
 
-
     // The monster's elements
     [Title("Setup")]
     public enum MonsterElement
@@ -116,6 +115,8 @@ public class Monster : ScriptableObject
     [Range(0, 100)] public float cachedCritChance;
     [Range(0f, 100f)] public float cachedBonusAccuracy;
     [Range(0f, 100f)] public float cachedCritDamage;
+
+    public List<MonsterAttack> ListOfCachedMonsterAttacks;
 
     [Title("Adventure - Monster Cached Stats Before Level Up")]
     [PropertySpace(SpaceBefore = 15)]

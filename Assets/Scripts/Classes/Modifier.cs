@@ -252,8 +252,6 @@ public class Modifier : ScriptableObject
             return 1;
         }
 
-        monsterComponent.HitMonster();
-
         if (statusDamage <= 0)
             statusDamage = 1;
 
