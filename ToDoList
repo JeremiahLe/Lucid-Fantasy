@@ -560,6 +560,30 @@ Imported Various Assets/Packages
 - Add Shop
 - Fix highlighted item not being reset when selecting a different item window
 
+[1/16/23]
+- Add VFX to all abilities & attacks. Fix Buff/Debuff/Attack VFX/Animations
+- Add Shop
+- Fix highlighted item not being reset when selecting a different item window
+
+- Fix sound effect manager
+- Fix On Retry Monsters not keeping proper Battle Order Index
+- Add MonsterAttackDescription to when queueing and item + item VFX on target
+- Fix SpecificStatImmunity Text Popup
+- Add countdown SFX and popup animation to Status Effect Icons
+- Add Page SFX to Ascension Window
+- Bold the text of Attacks in Attacks list
+- Add arrow tabbing to first monster stats screen
+- Add SFX and popup animation to stance changing
+- Add Retry counter to battle results screen and main adventure screen, add tooltip
+- Reduce delay of Round End, Add loading icon during ending, remove battle start or round start faster while game start effects are happening
+- Add additional info about stance and item to tooltip
+- Fix incorrect cached health upon retry and then levelup (visual text bug only)
+- Fix Blessing of Earth being called even though lowest monster is full health
+- Fix health bar colors not be set properly on retry / starting battle not full health
+- Randomize Modifiers of enemy per run (randomize per node? or only add certain selected node)
+- Show battle node preview
+- Show damage preview
+
 Long-Term
  - Finish Room Creation and Setup
  - Finish Multiplayer setup
