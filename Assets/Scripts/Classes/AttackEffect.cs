@@ -29,7 +29,7 @@ public class AttackEffect : ScriptableObject
     public enum StatToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various, AddOffensiveAttackEffect, HighestAttackStat, Buffs, Immunity, MaxSP, SPRegen }
     public StatToChange statToChange;
 
-    public enum EffectTime { PreAttack, DuringAttack, PostAttack, OnKill, OnDeath, GameStart, RoundStart, RoundEnd, OnStatChange, OnDamageTaken, PreOtherAttack, OnDamageDealt, OnDamageNullified, OutOfCombatPassive }
+    public enum EffectTime { PreAttack, DuringAttack, PostAttack, OnKill, OnDeath, GameStart, RoundStart, RoundEnd, OnStatChange, OnDamageTaken, PreOtherAttack, OnDamageDealt, OnDamageNullified, OutOfCombatPassive, OnDebuffNullified }
     public EffectTime effectTime;
 
     public enum MonsterTargetType { Target, Self }
@@ -311,104 +311,6 @@ public class AttackEffect : ScriptableObject
         }
     }
 
-    public void SpeedBuffAllies(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
-    {
-        combatManagerScript = monsterAttackManager.combatManagerScript;
-
-        if (monsterReferenceGameObject == null)
-        {
-            return;
-        }
-
-        if (monsterReference != null)
-        {
-            // Calculate speed buff (% of current speed)
-            if (monsterReference.aiType == Monster.AIType.Ally)
-            {
-                foreach (GameObject monsterObj in combatManagerScript.ListOfAllys.ToArray()) //ToArray avoids missing lists
-                {
-                    if (monsterObj == null)
-                    {
-                        continue;
-                    }
-
-                    Monster monster = monsterObj.GetComponent<CreateMonster>().monsterReference;
-
-                    if (monster.health <= 0) // fixed dual combat log calls
-                    {
-                        continue;
-                    }
-
-                    float fromValue = monster.speed;
-                    float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
-                    if (toValue <= 1)
-                    {
-                        toValue = 1; // prevent buffs of 0
-                    }
-
-                    // Check if immune to skip modifiers
-                    if (CheckTargetIsImmune(monster, monsterAttackManager, monsterObj, this))
-                    {
-                        return;
-                    }
-
-                    // Add modifiers
-                    //AddModifiers(toValue, false, monster, monsterObj);
-
-                    // Send speed buff message to combat log
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} raised its {statToChange.ToString()}!");
-                    monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatToChange.Speed, statChangeType);
-
-                    // Update monster's speed element
-                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                    monsterObj.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
-
-                    // Does this actually work?
-                    combatManagerScript.SortMonsterBattleSequence();
-                }
-            }
-            else if (monsterReference.aiType == Monster.AIType.Enemy)
-            {
-                foreach (GameObject monsterObj in combatManagerScript.ListOfEnemies) //ToArray avoids missing lists
-                {
-                    if (monsterObj == null)
-                    {
-                        continue;
-                    }
-
-                    Monster monster = monsterObj.GetComponent<CreateMonster>().monsterReference;
-
-                    float fromValue = monster.speed;
-                    float toValue = Mathf.RoundToInt(fromValue * amountToChange / 100);
-                    if (toValue <= 1)
-                    {
-                        toValue = 1; // prevent buffs of 0
-                    }
-
-                    // Check if immune to skip modifiers
-                    if (CheckTargetIsImmune(monster, monsterAttackManager, monsterObj, this))
-                    {
-                        return;
-                    }
-
-                    // Add modifiers
-                    //AddModifiers(toValue, false, monster, monsterObj);
-
-                    // Send speed buff message to combat log
-                    combatManagerScript.CombatLog.SendMessageToCombatLog($"{monster.aiType} {monster.name} raised its {statToChange.ToString()}!");
-                    monsterObj.GetComponent<CreateMonster>().CreateStatusEffectPopup(StatToChange.Speed, statChangeType);
-
-                    // Update monster's speed element
-                    monsterObj.GetComponent<CreateMonster>().UpdateStats(false, null, false, 0);
-                    monsterObj.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound = true;
-
-                    // Does this actually work?
-                    combatManagerScript.SortMonsterBattleSequence();
-                }
-            }
-        }
-    }
-
     public void Counter(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
         // Check the amount of damage taken this round
@@ -456,7 +358,7 @@ public class AttackEffect : ScriptableObject
 
     public async Task<int> AffectTargetStat(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, string effectTriggerName)
     {
-        if (!CheckAttackEffectTargeting(targetMonster, targetMonsterGameObject, monsterAttackManager))
+        if (CheckAttackEffectTargeting(targetMonster, targetMonsterGameObject, monsterAttackManager).Result == false)
             return 1;
 
         Debug.Log($"Attack effect targeting has passed all checks. Calling Attack Effect! {effectTriggerName}");
@@ -479,7 +381,7 @@ public class AttackEffect : ScriptableObject
 
     public async Task<int> AffectTargetStatByAnotherStat(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, string effectTriggerName, MonsterAttack attackTrigger)
     {
-        if (!CheckAttackEffectTargeting(targetMonster, targetMonsterGameObject, monsterAttackManager))
+        if (CheckAttackEffectTargeting(targetMonster, targetMonsterGameObject, monsterAttackManager).Result == false)
             return 1;
 
         float fromValue = 1;
@@ -519,7 +421,7 @@ public class AttackEffect : ScriptableObject
 
     public void InflictStatusEffect(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, string effectTriggerName)
     {
-        if (!CheckAttackEffectTargeting(targetMonster, targetMonsterGameObject, monsterAttackManager))
+        if (CheckAttackEffectTargeting(targetMonster, targetMonsterGameObject, monsterAttackManager).Result == false)
             return;
 
         CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
@@ -551,7 +453,7 @@ public class AttackEffect : ScriptableObject
 
     public void GrantTargetImmunity(Monster targetMonster, MonsterAttackManager monsterAttackManager, GameObject targetMonsterGameObject, string effectTriggerName)
     {
-        if (!CheckAttackEffectTargeting(targetMonster, targetMonsterGameObject, monsterAttackManager))
+        if (CheckAttackEffectTargeting(targetMonster, targetMonsterGameObject, monsterAttackManager).Result == false)
             return;
 
         if (!CheckPreExistingImmunity(targetMonster, targetMonsterGameObject, monsterAttackManager, immunityType, this))
@@ -772,7 +674,7 @@ public class AttackEffect : ScriptableObject
         return false;
     }
 
-    public bool CheckAttackEffectTargeting(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager)
+    public async Task<bool> CheckAttackEffectTargeting(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager)
     {
         if (targetMonster == null || targetMonsterGameObject == null || targetMonster.health <= 0)
         {
@@ -780,8 +682,12 @@ public class AttackEffect : ScriptableObject
             return false;
         }
 
-        if (CheckTargetIsImmune(targetMonster, monsterAttackManager, targetMonsterGameObject, this))
+        if (CheckTargetIsImmune(targetMonster, monsterAttackManager, targetMonsterGameObject, this).Result == true)
+        {
+            await monsterAttackManager.TriggerAbilityEffects(targetMonster, EffectTime.OnDebuffNullified, targetMonsterGameObject, null, this);
+
             return false;
+        }
 
         if (!CheckAttackEffectHit())
             return false;
@@ -851,7 +757,7 @@ public class AttackEffect : ScriptableObject
         return false;
     }
 
-    public static bool CheckTargetIsImmune(Monster targetMonster, MonsterAttackManager monsterAttackManager, GameObject targetMonsterGameObject, AttackEffect attackEffect)
+    public async Task<bool> CheckTargetIsImmune(Monster targetMonster, MonsterAttackManager monsterAttackManager, GameObject targetMonsterGameObject, AttackEffect attackEffect)
     {
         CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
 
@@ -874,10 +780,13 @@ public class AttackEffect : ScriptableObject
 
         if (attackEffect.statChangeType == StatChangeType.Debuff)
         {
+            bool monsterIsImmune = false;
+
             if (monsterComponent.monsterImmuneToDebuffs)
             {
                 monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name} is Immune to Debuffs!");
                 monsterComponent.CreateStatusEffectPopup("Immune!!", StatChangeType.Buff);
+                monsterIsImmune = true;
                 return true;
             }
 
@@ -885,6 +794,7 @@ public class AttackEffect : ScriptableObject
             {
                 monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name} is Immune to {attackEffect.elementClass.element} Element Attacks!");
                 monsterComponent.CreateStatusEffectPopup("Immune!!", StatChangeType.Buff);
+                monsterIsImmune = true;
                 return true;
             }
 
@@ -892,6 +802,7 @@ public class AttackEffect : ScriptableObject
             {
                 monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name} is Immune to {attackEffect.statToChange} Debuffs!");
                 monsterComponent.CreateStatusEffectPopup("Immune!!", StatChangeType.Buff);
+                monsterIsImmune = true;
                 return true;
             }
 
@@ -899,7 +810,13 @@ public class AttackEffect : ScriptableObject
             {
                 monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name} is Immune to {attackEffect.attackEffectStatus} Status!");
                 monsterComponent.CreateStatusEffectPopup("Immune!!", StatChangeType.Debuff);
+                monsterIsImmune = true;
                 return true;
+            }
+
+            if (monsterIsImmune)
+            {
+
             }
         }
 

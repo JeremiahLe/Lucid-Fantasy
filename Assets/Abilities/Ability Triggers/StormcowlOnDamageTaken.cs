@@ -14,7 +14,7 @@ public class StormcowlOnDamageTaken : IAbilityTrigger
     {
         await Task.Delay(abilityTriggerDelay);
 
-        Debug.Log($"Triggering {targetMonster}'s {ability.abilityName} ability!", this);
+        //Debug.Log($"Triggering {targetMonster}'s {ability.abilityName} ability!", this);
 
         if (monsterAttackManager.currentMonsterAttack.monsterAttackElement == ElementClass.MonsterElement.Electric)
         {

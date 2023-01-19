@@ -952,7 +952,6 @@ public class CombatManagerScript : MonoBehaviour
 
                     // Add ally to list of dead monsters (for potential revival) and remove equipped equipment
                     adventureManager.ListOfAllyDeadMonsters.Add(monster);
-                    //adventureManager.RemoveMonsterEquipment(monster);
 
                     adventureManager.playerMonstersLost += 1;
                 }
@@ -1104,6 +1103,7 @@ public class CombatManagerScript : MonoBehaviour
     }
 
     // This function resets the battle scene
+    [Button(50)]
     public void RestartBattleScene()
     {
         if (adventureManager.playerRetrys > 0)

@@ -116,6 +116,8 @@ public class Monster : ScriptableObject
     [Range(0f, 100f)] public float cachedBonusAccuracy;
     [Range(0f, 100f)] public float cachedCritDamage;
 
+    public int monsterCachedBattleIndex;
+
     public List<MonsterAttack> ListOfCachedMonsterAttacks;
 
     [Title("Adventure - Monster Cached Stats Before Level Up")]

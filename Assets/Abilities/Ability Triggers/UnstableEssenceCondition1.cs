@@ -10,7 +10,7 @@ public class UnstableEssenceCondition1 : IAbilityTrigger
 {
     public List<AttackEffect> currentAttackEffectTriggered;
 
-    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier)
+    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier, AttackEffect effect)
     {
         if (modifier.statusEffectType == Modifier.StatusEffectType.None)
         {

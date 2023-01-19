@@ -1094,7 +1094,7 @@ public class AdventureManager : MonoBehaviour
 
     public void ReviveAllDeadAlliedMonstersBeforeBattle()
     {
-        foreach (Monster allyMonster in ListOfAllyDeadMonsters)
+        foreach (Monster allyMonster in ListOfAllyDeadMonsters.OrderBy(monsterIndex => monsterIndex.monsterCachedBattleIndex).ToList())
         {
             Monster revivedAlly = Instantiate(allyMonster);
 
@@ -1133,7 +1133,7 @@ public class AdventureManager : MonoBehaviour
 
     public void ReviveAllDeadEnemyMonstersBeforeBattle()
     {
-        foreach (Monster allyMonster in ListOfInitialEnemyBattleMonsters)
+        foreach (Monster allyMonster in ListOfInitialEnemyBattleMonsters.OrderBy(monsterIndex => monsterIndex.monsterCachedBattleIndex).ToList())
         {
             Monster revivedAlly = Instantiate(allyMonster);
 

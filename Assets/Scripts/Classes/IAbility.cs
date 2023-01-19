@@ -23,7 +23,7 @@ public abstract class IAbilityTrigger : ScriptableObject
     }
 
 
-    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier)
+    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier, AttackEffect attackEffect)
     {
         return 1;
     }

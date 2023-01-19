@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Unbreakable
   m_EditorClassIdentifier: 
   abilityName: Unbreakable
-  abilityDescription: 'Passive: Immune to Physical Defense debuffs.'
+  abilityDescription: 'Passive: Immune to Physical Defense debuffs. When my Physical
+    Defense would be lowered, instead increase my Physical Attack and Physical Defense
+    by 15%.'
   listOfAbilityTriggers:
-  - {fileID: 11400000, guid: 3c558a0b50fda48448bee2c27532fae4, type: 2}
+  - {fileID: 11400000, guid: 4c6cd8f9ee101a9498c13e126c326bd1, type: 2}

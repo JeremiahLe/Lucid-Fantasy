@@ -261,6 +261,8 @@ public class CreateMonster : MonoBehaviour
 
         InteractableToolTipWindow = combatManagerScript.uiManager.InteractableToolTipWindow;
 
+        monsterReference.monsterCachedBattleIndex = combatManagerScript.ListOfAllys.IndexOf(gameObject);
+
         // Create instances of the monster's attacks
         if (combatManagerScript.adventureMode)
         {
@@ -688,7 +690,7 @@ public class CreateMonster : MonoBehaviour
     // This function modifies stats by modifier value
     public async Task<int> ModifyStats(AttackEffect attackEffect, Modifier modifier)
     {
-        await monsterAttackManager.TriggerAbilityEffects(monsterReference, AttackEffect.EffectTime.OnStatChange, gameObject, modifier);
+        await monsterAttackManager.TriggerAbilityEffects(monsterReference, AttackEffect.EffectTime.OnStatChange, gameObject, modifier, attackEffect);
 
         switch (attackEffect.statToChange)
         {

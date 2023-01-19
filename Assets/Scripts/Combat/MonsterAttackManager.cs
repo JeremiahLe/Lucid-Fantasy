@@ -951,7 +951,7 @@ public class MonsterAttackManager : MonoBehaviour
         return 1;
     }
 
-    // This function triggers any monster's ability effects based on what effect time is passed in. Only called at Game Start
+    // Game Start
     public async Task<int> TriggerAbilityEffects(Monster abilitySourceMonster, GameObject abilitySourceMonsterGameObject, Monster targetMonster, AttackEffect.EffectTime abilityEffectTime, GameObject targetMonsterGameObject)
     {
         //await monster.monsterAbility.ability.TriggerAbility(this);
@@ -971,6 +971,7 @@ public class MonsterAttackManager : MonoBehaviour
         return 1;
     }
 
+    //
     public async Task<int> TriggerAbilityEffects(Monster abilitySourceMonster, GameObject abilitySourceMonsterGameObject, AttackEffect.EffectTime abilityEffectTime)
     {
         //await monster.monsterAbility.ability.TriggerAbility(this);
@@ -990,7 +991,7 @@ public class MonsterAttackManager : MonoBehaviour
         return 1;
     }
 
-    // This function triggers any monster's ability effects based on what effect time is passed in
+    // Attack related
     public async Task<int> TriggerAbilityEffects(Monster abilitySourceMonster, GameObject abilitySourceMonsterGameObject, AttackEffect.EffectTime abilityEffectTime, MonsterAttack attackTrigger)
     {
         //attackTrigger = currentMonsterAttack;
@@ -1011,8 +1012,8 @@ public class MonsterAttackManager : MonoBehaviour
         return 1;
     }
 
-    // This function triggers any monster's ability effects based on what effect time is passed in
-    public async Task<int> TriggerAbilityEffects(Monster monster, AttackEffect.EffectTime abilityEffectTime, GameObject monsterGameObject, Modifier modifier)
+    // On Stat Change!
+    public async Task<int> TriggerAbilityEffects(Monster monster, AttackEffect.EffectTime abilityEffectTime, GameObject monsterGameObject, Modifier modifier, AttackEffect attackEffect)
     {
         //await monster.monsterAbility.ability.TriggerAbility(this);
         int i = 0;
@@ -1020,7 +1021,7 @@ public class MonsterAttackManager : MonoBehaviour
         {
             if (abilityTrigger.abilityTriggerTime == abilityEffectTime)
             {
-                await monster.monsterAbility.listOfAbilityTriggers[i].TriggerAbility(monster, monsterGameObject, this, monster.monsterAbility, modifier);
+                await monster.monsterAbility.listOfAbilityTriggers[i].TriggerAbility(monster, monsterGameObject, this, monster.monsterAbility, modifier, attackEffect);
                 //abilityEffect.TriggerEffects(this, monster.monsterAbility.abilityName, currentMonsterAttack);
                 await Task.Delay(300);
             }
