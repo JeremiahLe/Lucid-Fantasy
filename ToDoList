@@ -566,7 +566,8 @@ Imported Various Assets/Packages
 - Fix highlighted item not being reset when selecting a different item window
 
 - Fix sound effect manager
-- Fix On Retry Monsters not keeping proper Battle Order Index
+ - Misses proc multiple sfx
+- RARE Weird immune to dying bug with self killing 'damage' effects?
 - Add MonsterAttackDescription to when queueing and item + item VFX on target
 - Fix SpecificStatImmunity Text Popup
 - Add countdown SFX and popup animation to Status Effect Icons
