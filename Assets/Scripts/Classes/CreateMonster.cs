@@ -706,13 +706,13 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatToChange.Speed):
                 monsterReference.speed += (int)modifier.modifierAmount;
-                UpdateStats(false, null, false, 0);
                 combatManagerScript.SortMonsterBattleSequence();
                 break;
 
             case (AttackEffect.StatToChange.MagicAttack):
                 monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
+
             case (AttackEffect.StatToChange.MagicDefense):
                 monsterReference.magicDefense += (int)modifier.modifierAmount;
                 break;
@@ -735,19 +735,12 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatToChange.Debuffs):
                 monsterImmuneToDebuffs = true;
-                // Create popup
                 CreateStatusEffectPopup("Debuff and Status Immunity!", AttackEffect.StatChangeType.Buff);
                 break;
 
             case (AttackEffect.StatToChange.Damage):
                 monsterImmuneToDamage = true;
-                // Create popup
                 CreateStatusEffectPopup("Damage Immunity!", AttackEffect.StatChangeType.Buff);
-                break;
-
-            case (AttackEffect.StatToChange.BothOffensiveStats):
-                monsterReference.physicalAttack += (int)modifier.modifierAmount;
-                monsterReference.magicAttack += (int)modifier.modifierAmount;
                 break;
 
             case (AttackEffect.StatToChange.Health):
@@ -792,7 +785,7 @@ public class CreateMonster : MonoBehaviour
         if (modifier.statusEffectType == Modifier.StatusEffectType.None)
             attackEffect.CallStatAdjustment(monsterReference, this, monsterAttackManager, attackEffect, modifier);
 
-        if (modifier.statChangeType == AttackEffect.StatChangeType.Buff)
+        if (modifier.statChangeType == AttackEffect.StatChangeType.Buff && modifier.modifierAmount != 0)
             monsterRecievedStatBoostThisRound = true;
 
         AddStatusIcon(modifier, attackEffect.statToChange, modifier.modifierCurrentDuration);

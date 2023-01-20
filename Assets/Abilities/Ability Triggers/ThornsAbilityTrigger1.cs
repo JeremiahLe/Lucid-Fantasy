@@ -20,6 +20,8 @@ public class ThornsAbilityTrigger1 : IAbilityTrigger
 
             MonsterAttack damageSource = new MonsterAttack(currentAttackEffectTriggered.name, currentAttackEffectTriggered.elementClass, currentAttackEffectTriggered.effectDamageType, currentAttackEffectTriggered.amountToChange, 1, targetMonster, targetMonsterGameObject);
 
+            currentAttackEffectTriggered.attackEffectSourceName = ($"{ability.abilityName} ability");
+            
             await currentAttackEffectTriggered.AffectTargetStatByAnotherStat(attackTrigger.monsterAttackSource, attackTrigger.monsterAttackSourceGameObject, monsterAttackManager, ability.abilityName, damageSource);
 
             return 1;

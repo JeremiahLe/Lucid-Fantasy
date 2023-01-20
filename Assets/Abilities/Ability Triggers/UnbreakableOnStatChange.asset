@@ -15,4 +15,4 @@ MonoBehaviour:
   abilityTriggerDelay: 150
   abilityTriggerTime: 8
   UnbreakablePhysicalDefenseBuff: {fileID: 11400000, guid: b2ca31c52c2fc8547a24604a348f7afa, type: 2}
-  UnbreakablePhysicalAttackBuff: {fileID: 0}
+  UnbreakablePhysicalAttackBuff: {fileID: 11400000, guid: 7b7df766eff403b469a0efba84f29917, type: 2}

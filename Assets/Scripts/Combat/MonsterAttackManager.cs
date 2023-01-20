@@ -1352,6 +1352,11 @@ public class MonsterAttackManager : MonoBehaviour
                 break;
         }
 
+        if (calcedDamage < 1)
+            calcedDamage = 1;
+
+        Debug.Log($"Calced damage: {calcedDamage}");
+
         return calcedDamage;
     }
 

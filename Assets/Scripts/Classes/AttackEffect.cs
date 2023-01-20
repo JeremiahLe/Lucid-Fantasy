@@ -20,6 +20,8 @@ public class AttackEffect : ScriptableObject
 
     public TypeOfEffect typeOfEffect;
 
+    public string attackEffectSourceName;
+
     public enum StatChangeType { Buff, Debuff, None }
     public StatChangeType statChangeType;
 
@@ -110,6 +112,7 @@ public class AttackEffect : ScriptableObject
     public async Task<int> TriggerEffects(MonsterAttackManager monsterAttackManager, string effectTrigger, MonsterAttack attackTrigger)
     {
         Monster targetMonster = monsterAttackManager.currentTargetedMonster;
+
         GameObject targetMonsterGameObject = monsterAttackManager.currentTargetedMonsterGameObject;
 
         if (monsterAttackManager.currentMonsterTurn == null)
@@ -129,6 +132,8 @@ public class AttackEffect : ScriptableObject
         {
             monsterAttackTrigger = monsterAttackManager.currentMonsterAttack;
         }
+
+        attackEffectSourceName = effectTrigger;
 
         switch (typeOfEffect)
         {
@@ -180,6 +185,8 @@ public class AttackEffect : ScriptableObject
         if (targetMonsterGameObject == null)
             return 1;
 
+        attackEffectSourceName = effectTrigger;
+
         switch (typeOfEffect)
         {
             case TypeOfEffect.AddBonusDamage:
@@ -229,6 +236,8 @@ public class AttackEffect : ScriptableObject
 
         if (targetMonsterGameObject == null)
             return 1;
+
+        attackEffectSourceName = effectTriggerName;
 
         switch (typeOfEffect)
         {
@@ -558,28 +567,24 @@ public class AttackEffect : ScriptableObject
 
     public async void CallStatAdjustment(Monster targetMonster, CreateMonster monsterComponent, MonsterAttackManager monsterAttackManager, AttackEffect attackEffect, Modifier modifier)
     {
-        //await monsterAttackManager.TriggerAbilityEffects(targetMonster, EffectTime.OnStatChange, monsterComponent.gameObject, modifier); 
-
         if (typeOfEffect == TypeOfEffect.GrantImmunity)
+            return;
+
+        if (modifier.modifierAmount == 0)
             return;
 
         if (attackEffect.monsterSource == null)
             attackEffect.monsterSource = modifier.modifierOwner;
 
-        // Pass in the ability name if necessary
-        //if (attackEffect.monsterAttackTrigger == null)
-        //    monsterAttackTrigger = monsterAttackManager.currentMonsterAttack;
-
         if (statChangeType == StatChangeType.Buff)
         {
             monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s {statToChange} was increased by " +
                 $"{attackEffect.monsterSource.aiType} {attackEffect.monsterSource.name}'s " +
-                $"{attackEffect.name} (+{modifier.modifierAmount})!", targetMonster.aiType);
+                $"{attackEffect.attackEffectSourceName} (+{modifier.modifierAmount})!", targetMonster.aiType);
 
             if (statToChange == StatToChange.Health)
             {
                 monsterComponent.UpdateStats(true, null, false, modifier.modifierAmount, true);
-                //monsterComponent.ShowDamageOrStatusEffectPopup(modifier.modifierAmount, "Heal");
                 monsterComponent.CreateDamageEffectPopup(modifier.modifierAmount, "Heal");
             }
             else
@@ -593,17 +598,13 @@ public class AttackEffect : ScriptableObject
         }
         else // if (statChangeType == StatChangeType.Debuff)
         {
-            if (modifier.modifierAmount == 0)
-                return;
-
             monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s {statToChange} was decreased by " +
                 $"{attackEffect.monsterSource.aiType} {attackEffect.monsterSource.name}'s " +
-                $"{attackEffect.name} ({modifier.modifierAmount})!", targetMonster.aiType);
+                $"{attackEffect.attackEffectSourceName} ({modifier.modifierAmount})!", targetMonster.aiType);
 
             if (statToChange == StatToChange.Health)
             {
                 monsterComponent.UpdateStats(true, null, false, modifier.modifierAmount, true);
-                //monsterComponent.ShowDamageOrStatusEffectPopup(modifier.modifierAmount, "Damage");
                 monsterComponent.CreateDamageEffectPopup(modifier.modifierAmount, "Damage");
             }
             else
@@ -934,7 +935,7 @@ public class AttackEffect : ScriptableObject
         mod.modifierCurrentDuration = mod.modifierDuration;
 
         if (attackEffectSourceGameObject == null)
-            attackEffectSourceGameObject = targetMonsterGameObject; // return 1
+            attackEffectSourceGameObject = targetMonsterGameObject;
 
         mod.modifierOwnerGameObject = attackEffectSourceGameObject;
         mod.modifierOwner = attackEffectSourceGameObject.GetComponent<CreateMonster>().monsterReference;
@@ -960,8 +961,5 @@ public class AttackEffect : ScriptableObject
         await targetMonsterGameObject.GetComponent<CreateMonster>().ModifyStats(attackEffect, mod);
 
         return 1;
-
-        //if (mod.statusEffectType == Modifier.StatusEffectType.None)
-            //CallStatAdjustment(targetMonster, targetMonsterGameObject.GetComponent<CreateMonster>(), monsterAttackManager, attackEffect.name, mod);
     }
 }

@@ -4643,7 +4643,7 @@ PrefabInstance:
       objectReference: {fileID: 896763780072422933}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterImmuneToDamage
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896763779794199981, guid: 3f42844e56eeb2943abc8e21ffbbaba0, type: 3}
       propertyPath: monsterImmuneToDebuffs
