@@ -20,7 +20,7 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   monsterFlavourText: CONSOLE MODE
-  monsterAbility: {fileID: 11400000, guid: 65d9f389eedc8784cbeee6892c2292c9, type: 2}
+  monsterAbility: {fileID: 11400000, guid: 7cdb0a6f0dbb33645b6be7825e0c8e8b, type: 2}
   level: 1
   health: 308
   maxHealth: 823
@@ -61,6 +61,8 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1

@@ -2058,7 +2058,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 05c3b457422d05f4f8ae51e08be18a7b, type: 2}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfAllyBattleMonsters.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfCurrentModifiers.Array.data[0]
@@ -2066,7 +2066,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 6edd471234fe17943b4d652650d80090, type: 2}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfEnemyBattleMonsters.Array.size
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfAllyBattleMonsters.Array.data[0]
@@ -2091,11 +2091,11 @@ PrefabInstance:
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfEnemyBattleMonsters.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 022be4908e897de4facb4e45b07b50ac, type: 2}
+      objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfEnemyBattleMonsters.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 707a2c482708e77439bb81ae6ee26fad, type: 2}
+      objectReference: {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
     - target: {fileID: 2696380187499916258, guid: 74a135f70148f7b4bb09d05c5e1dc5b7, type: 3}
       propertyPath: ListOfEnemyBattleMonsters.Array.data[3]
       value: 
@@ -3754,10 +3754,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 456137143460706268, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.00024414062
+      objectReference: {fileID: 0}
     - target: {fileID: 456137143576431234, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
       propertyPath: monsterTargeter
       value: 
       objectReference: {fileID: 2209808008108150645}
+    - target: {fileID: 456137143576431234, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
+      propertyPath: testAdventureMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 456137143576431234, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
       propertyPath: ListOfAllyPositions.Array.size
       value: 4
@@ -3891,6 +3899,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 456137144032297836, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00003051752
+      objectReference: {fileID: 0}
+    - target: {fileID: 456137144032297836, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 253.40242
       objectReference: {fileID: 0}
@@ -3945,6 +3957,14 @@ PrefabInstance:
     - target: {fileID: 456137144320270693, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 456137144583483985, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 554.0829
+      objectReference: {fileID: 0}
+    - target: {fileID: 456137144583483985, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -678.09015
       objectReference: {fileID: 0}
     - target: {fileID: 823019064387294787, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
       propertyPath: m_IsActive

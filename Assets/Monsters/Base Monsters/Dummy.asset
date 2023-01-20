@@ -44,10 +44,10 @@ MonoBehaviour:
   magicDefenseScaler: 1
   speedScaler: 1
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 232e601ceab5faf44a4798ef71b434f1, type: 2}
-  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
-  - {fileID: 11400000, guid: 9210e8036d79b7d4d8e82849686868b0, type: 2}
-  - {fileID: 11400000, guid: 534c8c91b17f6584e8c68ba789a54465, type: 2}
+  - {fileID: 11400000, guid: 8278351ea2b51fd42a8929a14afa74fb, type: 2}
+  - {fileID: 11400000, guid: 8278351ea2b51fd42a8929a14afa74fb, type: 2}
+  - {fileID: 11400000, guid: 8278351ea2b51fd42a8929a14afa74fb, type: 2}
+  - {fileID: 11400000, guid: 8278351ea2b51fd42a8929a14afa74fb, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
   - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
@@ -65,6 +65,8 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1

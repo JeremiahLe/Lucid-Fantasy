@@ -15,17 +15,32 @@ public class Unbreakable : IAbilityTrigger
     {
         Debug.Log($"Triggering {targetMonster}'s {ability.abilityName} ability!", this);
 
-        if (attackEffect.statChangeType == AttackEffect.StatChangeType.Debuff && attackEffect.statToChange == AttackEffect.StatToChange.PhysicalDefense)
-        {         
-            monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s {ability.abilityName} Ability prevented Physical Defense Debuffs!");
+        if (modifier.statChangeType == AttackEffect.StatChangeType.Debuff && modifier.statModified == AttackEffect.StatToChange.PhysicalDefense)
+        {
+            //monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s {ability.abilityName} Ability prevented Physical Defense Debuffs!");
 
-            await UnbreakablePhysicalDefenseBuff.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName);
+            //await UnbreakablePhysicalDefenseBuff.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName);
+
+            modifier.statChangeType = AttackEffect.StatChangeType.Buff;
+
+            modifier.modifierAmount = (UnbreakablePhysicalDefenseBuff.amountToChange / 100f) * UnbreakablePhysicalDefenseBuff.GetBonusDamageSource(UnbreakablePhysicalDefenseBuff.statToChange, targetMonster);
+
+            modifier.modifierAmount = Mathf.RoundToInt(modifier.modifierAmount);
+
+            if (modifier.modifierAmount < 1)
+            {
+                modifier.modifierAmount = 1;
+            }
+
+            monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s {ability.abilityName} Ability negated the incoming debuff!");
 
             await Task.Delay(abilityTriggerDelay);
 
-            //await hibernateReduceSpeedAttackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName);
+            await UnbreakablePhysicalAttackBuff.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName);
 
             await Task.Delay(abilityTriggerDelay);
+
+            return 1;
         }
 
         return 1;

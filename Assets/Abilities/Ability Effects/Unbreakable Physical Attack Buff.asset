@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ff966f8dd23dc6478ed3dba87ba382f, type: 3}
-  m_Name: Dummy Effect 1
+  m_Name: Unbreakable Physical Attack Buff
   m_EditorClassIdentifier: 
   typeOfEffect: 16
-  statChangeType: 1
+  statChangeType: 0
   attackEffectStatus: 0
-  statToChange: 4
-  effectTime: 2
+  statToChange: 2
+  effectTime: 8
   monsterTargetType: 0
   fixedDamageAmount: 0
   doesTriggersEffects: 0
@@ -32,8 +32,8 @@ MonoBehaviour:
   attackEffectDuration: 0
   flatValueChange: 0
   modifierDuration: 0
-  amountToChange: 10
+  amountToChange: 15
   effectTriggerChance: 100
   combatManagerScript: {fileID: 0}
-  monsterAttackTrigger: {fileID: 11400000, guid: 8278351ea2b51fd42a8929a14afa74fb, type: 2}
+  monsterAttackTrigger: {fileID: 0}
   monsterSource: {fileID: 0}

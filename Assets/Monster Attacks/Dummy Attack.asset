@@ -16,22 +16,21 @@ MonoBehaviour:
   monsterAttackDescription: Sussy baka
   monsterAttackElement: 5
   monsterElementClass: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}
-  monsterAttackType: 1
+  monsterAttackType: 0
   monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
   monsterAttackTargetCountNumber: 1
   monsterAttackTargetType: 3
+  monsterAttackSPCost: 1
+  AttackVFX: {fileID: 0}
   monsterAttackSoundEffect: {fileID: 0}
-  monsterAttackDamage: 10
+  monsterAttackDamageScalar: 0
+  monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100
-  monsterAttackCritChance: 5
   monsterAttackNeverMiss: 1
-  monsterAttackSPCost: 1
-  attackHasCooldown: 0
-  attackOnCooldown: 0
-  attackBaseCooldown: 0
-  attackCurrentCooldown: 0
-  AttackVFX: {fileID: 0}
+  monsterAttackCritChance: 5
+  monsterAttackSourceGameObject: {fileID: 0}
+  monsterAttackSource: {fileID: 0}
   ListOfAttackEffects:
   - {fileID: 11400000, guid: 0f9cc0183b76a36488a84080a7af8186, type: 2}

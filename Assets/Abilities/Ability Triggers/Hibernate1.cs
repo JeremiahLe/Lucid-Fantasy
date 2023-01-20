@@ -19,6 +19,11 @@ public class Hibernate1 : IAbilityTrigger
 
             modifier.modifierAmount = Mathf.RoundToInt(modifier.modifierAmount);
 
+            if (modifier.modifierAmount < 1)
+            {
+                modifier.modifierAmount = 1;
+            }
+
             monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s {ability.abilityName} Ability increased its incoming {modifier.statModified} (+{Mathf.RoundToInt(modifier.modifierAmount / 1.5f)})!");
 
             await Task.Delay(abilityTriggerDelay);

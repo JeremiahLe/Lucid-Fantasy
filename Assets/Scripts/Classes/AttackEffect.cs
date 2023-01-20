@@ -369,10 +369,10 @@ public class AttackEffect : ScriptableObject
 
         Debug.Log($"Stat Change Amount calculated: {statChangeAmount}");
 
-        if (CheckIfStatChangeClamps(statChangeAmount, statToChange, targetMonster, targetMonsterGameObject, monsterAttackManager, this))
-            return 1;
+        //if (CheckIfStatChangeClamps(statChangeAmount, statToChange, targetMonster, targetMonsterGameObject, monsterAttackManager, this))
+            //return 1;
 
-        Debug.Log("Stat does not clamp. Creating Modifier!");
+        //Debug.Log("Stat does not clamp. Creating Modifier!");
 
         await CreateModifier(statChangeAmount, targetMonster, targetMonsterGameObject, monsterAttackManager.currentMonsterTurnGameObject, this, monsterAttackManager);
 
@@ -409,8 +409,8 @@ public class AttackEffect : ScriptableObject
 
         Debug.Log($"Stat Change Amount: {statChangeAmount}");
 
-        if (CheckIfStatChangeClamps(statChangeAmount, statToChange, targetMonster, targetMonsterGameObject, monsterAttackManager, this))
-            return 1;
+        //if (CheckIfStatChangeClamps(statChangeAmount, statToChange, targetMonster, targetMonsterGameObject, monsterAttackManager, this))
+            //return 1;
 
         monsterAttackTrigger = attackTrigger;
 
@@ -617,22 +617,28 @@ public class AttackEffect : ScriptableObject
         }
     }
 
-    private bool CheckIfStatChangeClamps(float statChangeAmount, StatToChange statToChange, Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, AttackEffect attackEffect)
+    public bool CheckIfStatChangeClamps(float statChangeAmount, StatToChange statToChange, Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, StatChangeType currentStatChangeType)
     {
         CreateMonster monsterComponent = targetMonsterGameObject.GetComponent<CreateMonster>();
+
         Debug.Log("Checking if monsterComponent is null!");
+
         if (monsterComponent == null)
             return false;
+
         Debug.Log("monsterComponent is not null!");
-        if (attackEffect.statChangeType == StatChangeType.Debuff && GetBonusDamageSource(statToChange, targetMonster) <= 1)
+
+        if (currentStatChangeType == StatChangeType.Debuff && GetBonusDamageSource(statToChange, targetMonster) <= 1)
         {
             monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s " +
                 $"{statToChange} couldn't go any lower!", targetMonster.aiType);
+
             monsterComponent.CreateStatusEffectPopup($"No Effect on {statToChange}!", StatChangeType.Buff);
+
             return true;
         }
 
-        if (attackEffect.statChangeType == StatChangeType.Buff)
+        if (currentStatChangeType == StatChangeType.Buff)
         {
             switch (statToChange)
             {
@@ -683,11 +689,7 @@ public class AttackEffect : ScriptableObject
         }
 
         if (CheckTargetIsImmune(targetMonster, monsterAttackManager, targetMonsterGameObject, this).Result == true)
-        {
-            await monsterAttackManager.TriggerAbilityEffects(targetMonster, EffectTime.OnDebuffNullified, targetMonsterGameObject, null, this);
-
             return false;
-        }
 
         if (!CheckAttackEffectHit())
             return false;
@@ -780,13 +782,10 @@ public class AttackEffect : ScriptableObject
 
         if (attackEffect.statChangeType == StatChangeType.Debuff)
         {
-            bool monsterIsImmune = false;
-
             if (monsterComponent.monsterImmuneToDebuffs)
             {
                 monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name} is Immune to Debuffs!");
                 monsterComponent.CreateStatusEffectPopup("Immune!!", StatChangeType.Buff);
-                monsterIsImmune = true;
                 return true;
             }
 
@@ -794,7 +793,6 @@ public class AttackEffect : ScriptableObject
             {
                 monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name} is Immune to {attackEffect.elementClass.element} Element Attacks!");
                 monsterComponent.CreateStatusEffectPopup("Immune!!", StatChangeType.Buff);
-                monsterIsImmune = true;
                 return true;
             }
 
@@ -802,7 +800,6 @@ public class AttackEffect : ScriptableObject
             {
                 monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name} is Immune to {attackEffect.statToChange} Debuffs!");
                 monsterComponent.CreateStatusEffectPopup("Immune!!", StatChangeType.Buff);
-                monsterIsImmune = true;
                 return true;
             }
 
@@ -810,13 +807,7 @@ public class AttackEffect : ScriptableObject
             {
                 monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name} is Immune to {attackEffect.attackEffectStatus} Status!");
                 monsterComponent.CreateStatusEffectPopup("Immune!!", StatChangeType.Debuff);
-                monsterIsImmune = true;
                 return true;
-            }
-
-            if (monsterIsImmune)
-            {
-
             }
         }
 
@@ -867,7 +858,7 @@ public class AttackEffect : ScriptableObject
         return false;
     }
 
-    float GetBonusDamageSource(StatToChange statEnumToChange, Monster monsterRef)
+    public float GetBonusDamageSource(StatToChange statEnumToChange, Monster monsterRef)
     {
         Debug.Log($"Getting stat source...");
 

@@ -264,7 +264,7 @@ public class CreateMonster : MonoBehaviour
         monsterReference.monsterCachedBattleIndex = combatManagerScript.ListOfAllys.IndexOf(gameObject);
 
         // Create instances of the monster's attacks
-        if (combatManagerScript.adventureMode)
+        if (combatManagerScript.adventureMode || combatManagerScript.testAdventureMode)
         {
             monsterReference.ListOfCachedMonsterAttacks.Clear();
 
@@ -691,6 +691,12 @@ public class CreateMonster : MonoBehaviour
     public async Task<int> ModifyStats(AttackEffect attackEffect, Modifier modifier)
     {
         await monsterAttackManager.TriggerAbilityEffects(monsterReference, AttackEffect.EffectTime.OnStatChange, gameObject, modifier, attackEffect);
+
+        if (attackEffect.CheckIfStatChangeClamps(modifier.modifierAmount, modifier.statModified, monsterReference, gameObject, monsterAttackManager, modifier.statChangeType))
+        {
+            monsterReference.ListOfModifiers.Remove(modifier);         
+            return 1;
+        }
 
         switch (attackEffect.statToChange)
         {
