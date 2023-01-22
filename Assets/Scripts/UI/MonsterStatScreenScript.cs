@@ -143,9 +143,9 @@ public class MonsterStatScreenScript : MonoBehaviour
             dragController.GetComponent<Interactable>().interactableDescription = dragController.monsterAttackReference.monsterAttackDescription;
 
             dragController.GetComponentInChildren<TextMeshProUGUI>().text =
-                ($"{dragController.monsterAttackReference.monsterAttackName}" +
+                ($"<b>{dragController.monsterAttackReference.monsterAttackName}</b>" +
                 $"\nSP: {dragController.monsterAttackReference.monsterAttackSPCost}" +
-                $"\nElement: {dragController.monsterAttackReference.monsterElementClass.element.ToString()} | Type: {dragController.monsterAttackReference.monsterAttackDamageType}");
+                $"\nElement: {dragController.monsterAttackReference.monsterElementClass.element} | Type: {dragController.monsterAttackReference.monsterAttackDamageType}");
 
             if (dragController.monsterAttackReference.monsterAttackType == MonsterAttack.MonsterAttackType.Attack) {
                 dragController.GetComponentInChildren<TextMeshProUGUI>().text +=

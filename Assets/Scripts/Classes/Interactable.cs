@@ -118,4 +118,9 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         interactableText.text =
             ($"{message}");
     }
+
+    public void DisableImage()
+    {
+        gameObject.GetComponent<Image>().enabled = false;
+    }
 }

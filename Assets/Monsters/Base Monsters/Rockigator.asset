@@ -22,6 +22,9 @@ MonoBehaviour:
   monsterFlavourText: Rockigator often crunch rocks for food, strengthening their
     own solid body.
   monsterAbility: {fileID: 11400000, guid: 7cdb0a6f0dbb33645b6be7825e0c8e8b, type: 2}
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 7cdb0a6f0dbb33645b6be7825e0c8e8b, type: 2}
+  - {fileID: 11400000, guid: ee0a6e5e92824e4419c745bf6c09da4f, type: 2}
   level: 5
   health: 124
   maxHealth: 124
@@ -70,6 +73,8 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1

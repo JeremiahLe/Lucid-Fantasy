@@ -213,6 +213,8 @@ public class CreateMonster : MonoBehaviour
         damagedColor.a = 1f;
         damagedColor = Color.white;
         HealthbarSliderFillDamagedFade.color = damagedColor;
+
+        UpdateHealthBar();
     }
 
     public void InitializeSPBar()
@@ -1097,18 +1099,22 @@ public class CreateMonster : MonoBehaviour
         switch (newMonsterStance)
         {
             case MonsterStance.Neutral:
-                monsterOffensiveStanceIcon.enabled = false;
-                monsterDefensiveStanceIcon.enabled = false;
+                monsterDefensiveStanceIcon.GetComponent<Animator>().SetTrigger("Disable");
+                monsterOffensiveStanceIcon.GetComponent<Animator>().SetTrigger("Disable");
                 break;
 
             case MonsterStance.Defensive:
                 monsterOffensiveStanceIcon.enabled = false;
                 monsterDefensiveStanceIcon.enabled = true;
+                monsterDefensiveStanceIcon.GetComponent<Animator>().SetTrigger("Enable");
+                combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
                 break;
 
             case MonsterStance.Aggressive:
                 monsterOffensiveStanceIcon.enabled = true;
                 monsterDefensiveStanceIcon.enabled = false;
+                monsterOffensiveStanceIcon.GetComponent<Animator>().SetTrigger("Enable");
+                combatManagerScript.monsterAttackManager.soundEffectManager.PlaySoundEffect(combatManagerScript.monsterAttackManager.soundEffectManager.UISelectSFX1);
                 break;
         }
     }

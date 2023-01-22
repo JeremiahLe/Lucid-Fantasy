@@ -676,7 +676,6 @@ MonoBehaviour:
   popupPosTransform: {fileID: 3345668676856179339}
   popupPosTransformHigher: {fileID: 6969824815913093155}
   monsterStatusTextObjectCanvas: {fileID: 7304222136101105127, guid: b19eccd9433d42e4fab187f2c7d1725c, type: 3}
-  monsterTargeterUIGameObject: {fileID: 842823180269752996}
   HealthbarSlider: {fileID: 5389198327649574877}
   HealthbarSliderDamaged: {fileID: 3118624955949541971}
   HealthbarSliderFill: {fileID: 7870381011620827181}
@@ -686,7 +685,6 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   startingPosition: {fileID: 0}
-  combatOrientation: 0
   monsterSpeed: 7
   monsterPhysicalAttack: 0
   monsterMagicAttack: 0
@@ -2022,7 +2020,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3118219361387363308}
   m_HandleRect: {fileID: 7484986387405580994}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2659,6 +2657,7 @@ GameObject:
   - component: {fileID: 4585336640156257758}
   - component: {fileID: 269163642547223407}
   - component: {fileID: 5293450168631921596}
+  - component: {fileID: 8678180987742482240}
   m_Layer: 5
   m_Name: monsterAggressiveStanceIcon
   m_TagString: Untagged
@@ -2682,7 +2681,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.84, y: -1.64}
+  m_AnchoredPosition: {x: 3.142, y: -1.658}
   m_SizeDelta: {x: 0.8242, y: 0.8242}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4585336640156257758
@@ -2730,7 +2729,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4077661047086397483}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
@@ -2745,6 +2744,25 @@ MonoBehaviour:
   interactableDescription: Deal 15% and take 15% more damage. +5 Accuracy. More likely
     to be randomly targeted by enemies.
   interactableText: {fileID: 0}
+--- !u!95 &8678180987742482240
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4077661047086397483}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: affe742e0bfa75243a5a5ea8bbf3b643, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4081824056088776682
 GameObject:
   m_ObjectHideFlags: 0
@@ -3744,6 +3762,7 @@ GameObject:
   - component: {fileID: 7376789138667901203}
   - component: {fileID: 7354757900654953358}
   - component: {fileID: 332503394322258291}
+  - component: {fileID: 3145117666801415232}
   m_Layer: 5
   m_Name: monsterDefensiveStanceIcon
   m_TagString: Untagged
@@ -3767,7 +3786,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.84, y: -1.6999999}
+  m_AnchoredPosition: {x: 3.142, y: -1.6999999}
   m_SizeDelta: {x: 0.8242, y: 0.8242}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7376789138667901203
@@ -3815,7 +3834,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6929456107369802050}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d65fcb2aeaf1a074aad7c2423df75674, type: 3}
   m_Name: 
@@ -3830,6 +3849,25 @@ MonoBehaviour:
   interactableDescription: Deal 15% and take 15% less damage. -5 Accuracy. Less likely
     to be randomly targeted by enemies.
   interactableText: {fileID: 0}
+--- !u!95 &3145117666801415232
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6929456107369802050}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: affe742e0bfa75243a5a5ea8bbf3b643, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7075853435219823598
 GameObject:
   m_ObjectHideFlags: 0
@@ -4969,11 +5007,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b7500393c60bb546b0888f96bf88ba6, type: 3}
---- !u!1 &842823180269752996 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 872251463515729346, guid: 8b7500393c60bb546b0888f96bf88ba6, type: 3}
-  m_PrefabInstance: {fileID: 551852729159057254}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &842823180269752998 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 872251463515729344, guid: 8b7500393c60bb546b0888f96bf88ba6, type: 3}
@@ -5092,11 +5125,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
---- !u!1 &5462754220034899461 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6752945556582352175, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
-  m_PrefabInstance: {fileID: 1619275175341521706}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6291276595391632394 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4699445232555192096, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
@@ -5113,6 +5141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5462754220034899461 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6752945556582352175, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
+  m_PrefabInstance: {fileID: 1619275175341521706}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1661880554574862941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5313,6 +5346,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fb8a1ceeceb9af4f85643b6d8e1b62e, type: 3}
+--- !u!1 &423240088708962907 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4293184826451261328, guid: 5fb8a1ceeceb9af4f85643b6d8e1b62e, type: 3}
+  m_PrefabInstance: {fileID: 4488912643935612363}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1970549986678200937 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2671512547413227426, guid: 5fb8a1ceeceb9af4f85643b6d8e1b62e, type: 3}
+  m_PrefabInstance: {fileID: 4488912643935612363}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2350419127440000339 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2221840297192777880, guid: 5fb8a1ceeceb9af4f85643b6d8e1b62e, type: 3}
@@ -5335,16 +5378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1970549986678200937 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2671512547413227426, guid: 5fb8a1ceeceb9af4f85643b6d8e1b62e, type: 3}
-  m_PrefabInstance: {fileID: 4488912643935612363}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &423240088708962907 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4293184826451261328, guid: 5fb8a1ceeceb9af4f85643b6d8e1b62e, type: 3}
-  m_PrefabInstance: {fileID: 4488912643935612363}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5048319540176560479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5462,14 +5495,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
---- !u!224 &520433306164645503 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4699445232555192096, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
-  m_PrefabInstance: {fileID: 5048319540176560479}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1997473890431394928 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6752945556582352175, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
+  m_PrefabInstance: {fileID: 5048319540176560479}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &520433306164645503 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4699445232555192096, guid: 095c0239d25830c42b82ca58daab542f, type: 3}
   m_PrefabInstance: {fileID: 5048319540176560479}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5297227314139016569

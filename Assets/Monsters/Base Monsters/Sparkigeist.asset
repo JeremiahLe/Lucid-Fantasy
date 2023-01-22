@@ -22,6 +22,8 @@ MonoBehaviour:
   monsterFlavourText: Sparkigeist often haunt electrical outlets and feed off the
     electricity.
   monsterAbility: {fileID: 11400000, guid: 95eb864fe3d4ec74683cac4ec74a8f24, type: 2}
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 95eb864fe3d4ec74683cac4ec74a8f24, type: 2}
   level: 5
   health: 78
   maxHealth: 78
@@ -67,6 +69,8 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1

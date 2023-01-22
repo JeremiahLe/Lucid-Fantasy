@@ -22,6 +22,8 @@ MonoBehaviour:
   monsterFlavourText: Vile are the result of vicious lab experimentation. Dangerous
     toxins flow through its veins.
   monsterAbility: {fileID: 11400000, guid: 451ee0c393b4781488b125919853ef30, type: 2}
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 451ee0c393b4781488b125919853ef30, type: 2}
   level: 5
   health: 81
   maxHealth: 81
@@ -69,6 +71,8 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1

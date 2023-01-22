@@ -198,39 +198,6 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    // This function confirms the player's equipment and monster selection
-    public void ConfirmEquipment()
-    {
-        // Make sure the the player has selected an equipment and mpnster before confirming equipment selection
-        if (adventureManager.currentSelectedEquipment != null && adventureManager.currentSelectedMonsterForEquipment != null)
-        {
-            // Only add the equipment if the monster has less than 4.
-            if (adventureManager.currentSelectedMonsterForEquipment.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList().Count < 4)
-            {
-                // Add the selected equipment to the selected monster
-                adventureManager.currentSelectedMonsterForEquipment.ListOfModifiers.Add(adventureManager.currentSelectedEquipment);
-
-                // Disable buttons
-                subscreenManager.ShowAlliedMonstersAvailableEquipment(false);
-                subscreenManager.ConfirmEquipmentButton.SetActive(false);
-
-                // Reset screen and return to adventure screen
-                modifierReward = null;
-                adventureManager.ResetEquipmentList();
-                adventureManager.SubscreenMenu.SetActive(false);
-                adventureManager.ActivateNextNode();
-            }
-            else
-            {
-                adventureManager.subScreenMenuText.text = ($"Chimeric already has 4 equipment!");
-            }
-        }
-        else
-        {
-            adventureManager.subScreenMenuText.text = ($"Please select 1 equipment and chimeric.");
-        }
-    }
-
     // This function travels to the battle scene once the player selects their monsters
     public void GoToBattleScene()
     {

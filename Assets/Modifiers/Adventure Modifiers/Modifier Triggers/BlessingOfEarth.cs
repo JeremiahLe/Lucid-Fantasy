@@ -28,6 +28,13 @@ public class BlessingOfEarth : IAbilityTrigger
         
         Monster targetMonster = monsterObj.GetComponent<CreateMonster>().monsterReference;
 
+        if (targetMonster.health / targetMonster.maxHealth == 1)
+        {
+            return 1;
+        }
+
+        combatManagerScript.CombatLog.SendMessageToCombatLog($"Activating {aiType} {adventureModifier.modifierName}!");
+
         foreach (AttackEffect modifierEffect in listOfAdventureModifierEffects)
         {
             await modifierEffect.TriggerEffects(targetMonster, monsterObj, combatManagerScript.monsterAttackManager, adventureModifier.modifierName);

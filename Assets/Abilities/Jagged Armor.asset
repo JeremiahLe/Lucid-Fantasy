@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Jagged Armor
   m_EditorClassIdentifier: 
   abilityName: Jagged Armor
-  abilityDescription: 'On Damage Taken: Deal 75% of Physical Defense as Physical
+  abilityDescription: 'On Damage Taken: Deal 125% of Physical Defense as Physical
     Damage to Attacker if hit by a Physical Attack.'
   listOfAbilityTriggers:
   - {fileID: 11400000, guid: ef050259376e2574a82cbc9c95caea2b, type: 2}

@@ -22,6 +22,9 @@ MonoBehaviour:
   monsterFlavourText: Embear are eternally sleepy. The fire on their hindend represent
     their overall health.
   monsterAbility: {fileID: 11400000, guid: c01f1acd497c8564181703f6de555cce, type: 2}
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: c01f1acd497c8564181703f6de555cce, type: 2}
+  - {fileID: 11400000, guid: 110f7c2e9196d704cad8fe1368ff1c15, type: 2}
   level: 7
   health: 142
   maxHealth: 142
@@ -70,6 +73,8 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1

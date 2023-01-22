@@ -22,6 +22,8 @@ MonoBehaviour:
   monsterFlavourText: Voogoat are the result of cursed stuffed animals that are filled
     with their late owner's regrets.
   monsterAbility: {fileID: 11400000, guid: 65d9f389eedc8784cbeee6892c2292c9, type: 2}
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 65d9f389eedc8784cbeee6892c2292c9, type: 2}
   level: 6
   health: 135
   maxHealth: 135
@@ -70,6 +72,8 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 1.25
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1

@@ -3769,6 +3769,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 456137144320270690, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
+      propertyPath: interactableDescription
+      value: View and use consumable items. (Costs the current Chimeric's action)
+      objectReference: {fileID: 0}
     - target: {fileID: 456137144320270693, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -3816,6 +3820,11 @@ PrefabInstance:
     - target: {fileID: 456137144583483985, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -413
+      objectReference: {fileID: 0}
+    - target: {fileID: 456137144672149210, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
+      propertyPath: interactableDescription
+      value: Change the current Chimeric's Stance. (Costs the current Chimeric's
+        action)
       objectReference: {fileID: 0}
     - target: {fileID: 823019064387294787, guid: 903b7969a056dca4399e87525f03c84e, type: 3}
       propertyPath: m_IsActive

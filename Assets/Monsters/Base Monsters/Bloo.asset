@@ -21,6 +21,8 @@ MonoBehaviour:
   aiLevel: 1
   monsterFlavourText: Bloo are apparitions that screech horribly.
   monsterAbility: {fileID: 11400000, guid: 65d9f389eedc8784cbeee6892c2292c9, type: 2}
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 65d9f389eedc8784cbeee6892c2292c9, type: 2}
   level: 5
   health: 90
   maxHealth: 90
@@ -69,6 +71,8 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1

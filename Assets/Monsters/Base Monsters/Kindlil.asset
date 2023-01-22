@@ -21,6 +21,9 @@ MonoBehaviour:
   aiLevel: 0
   monsterFlavourText: Kindlil love to dance and commit arson.
   monsterAbility: {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 110f7c2e9196d704cad8fe1368ff1c15, type: 2}
+  - {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
   level: 6
   health: 82
   maxHealth: 82
@@ -67,6 +70,8 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1

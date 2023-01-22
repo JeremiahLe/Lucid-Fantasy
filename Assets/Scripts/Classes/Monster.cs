@@ -44,6 +44,8 @@ public class Monster : ScriptableObject
 
     public Ability monsterAbility;
 
+    public List<Ability> listOfPotentialMonsterAbilities;
+
     [Title("Monster Combat Stats")]
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 50)] public int level;

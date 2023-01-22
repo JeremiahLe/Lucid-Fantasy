@@ -262,43 +262,6 @@ public class SubscreenManager : MonoBehaviour
         }
     }
 
-    // This function shows the player's currently available monsters to recieve an equipment
-    public void ShowAlliedMonstersAvailableEquipment()
-    {
-        // Show allied monsters
-        int i = 0;
-        foreach (GameObject monsterSlot in listOfMonsterSlotsEquipment)
-        {
-            if (adventureManager.ListOfCurrentMonsters.Count > i)
-            {
-                monsterSlot.SetActive(true);
-                monsterSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
-                monsterSlot.GetComponent<CreateReward>().subscreenManager = this;
-                monsterSlot.GetComponent<CreateReward>().monsterStatScreenScript = monsterStatScreenScript;
-                monsterSlot.GetComponent<CreateReward>().monsterReward = adventureManager.ListOfCurrentMonsters[i];
-                monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
-                monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"{monsterSlot.GetComponent<CreateReward>().monsterReward.name} Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
-                    $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}" +
-                    $"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[0].monsterAttackName}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[1].monsterAttackName}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[2].monsterAttackName}" +
-                        $"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[3].monsterAttackName}");
-            }
-
-            i++;
-        }
-    }
-
-    // This function hides the player's currently available monsters to recieve an equipment
-    public void DisableAlliedMonstersAvailableEquipment()
-    {
-        foreach (GameObject monsterSlot in listOfMonsterSlotsEquipment)
-        {
-            monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
-        }
-    }
-
     // This function hides the player's selected equipment
     public void DisableEquipmentSlots()
     {
@@ -359,6 +322,9 @@ public class SubscreenManager : MonoBehaviour
     {
         Monster randMonster = Instantiate(adventureManager.ListOfAvailableRewardMonsters[Random.Range(0, adventureManager.ListOfAvailableRewardMonsters.Count)]);
 
+        // random ability
+        randMonster.monsterAbility = randMonster.listOfPotentialMonsterAbilities[Random.Range(0, randMonster.listOfPotentialMonsterAbilities.Count)];
+
         // random moves
         for (int i = 0; i < 4; i++)
         {
@@ -392,6 +358,9 @@ public class SubscreenManager : MonoBehaviour
         int scaledLevel = enemyLevelScaler - 2;
 
         Monster randMonster = Instantiate(adventureManager.ListOfAvailableRewardMonsters[Random.Range(0, adventureManager.ListOfAvailableRewardMonsters.Count)]);
+
+        // random ability
+        randMonster.monsterAbility = randMonster.listOfPotentialMonsterAbilities[Random.Range(0, randMonster.listOfPotentialMonsterAbilities.Count)];
 
         // random moves
         for (int i = 0; i < 4; i++)
@@ -431,6 +400,9 @@ public class SubscreenManager : MonoBehaviour
     public Monster GetBossMonster(Monster setMonster, int level)
     {
         Monster newMonster = Instantiate(setMonster);
+
+        // random ability
+        newMonster.monsterAbility = newMonster.listOfPotentialMonsterAbilities[Random.Range(0, newMonster.listOfPotentialMonsterAbilities.Count)];
 
         // random moves
         for (int i = 0; i < 4; i++)

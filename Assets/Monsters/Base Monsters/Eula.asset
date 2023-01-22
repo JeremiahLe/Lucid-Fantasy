@@ -21,6 +21,7 @@ MonoBehaviour:
   aiLevel: 0
   monsterFlavourText: CONSOLE MODE
   monsterAbility: {fileID: 11400000, guid: ee0a6e5e92824e4419c745bf6c09da4f, type: 2}
+  listOfPotentialMonsterAbilities: []
   level: 1
   health: 308
   maxHealth: 823
