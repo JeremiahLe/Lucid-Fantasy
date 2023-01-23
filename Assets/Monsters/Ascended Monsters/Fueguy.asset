@@ -22,12 +22,10 @@ MonoBehaviour:
   monsterFlavourText: Fueguy do nothing but laugh and dance all day long, unfazed
     by the annoyance of others.
   monsterAbility: {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
+  listOfPotentialMonsterAbilities: []
   level: 50
   health: 1800
   maxHealth: 1800
-  initialSP: 3
-  currentSP: 3
-  maxSP: 3
   physicalAttack: 50
   magicAttack: 200
   physicalDefense: 125
@@ -37,6 +35,13 @@ MonoBehaviour:
   critChance: 0
   critDamage: 1.25
   bonusAccuracy: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
+  lifeStealPercent: 0
+  bonusDamagePercent: 0
+  damageReductionPercent: 0
   healthScaler: 1
   physicalAttackScaler: 1
   magicAttackScaler: 1
@@ -68,6 +73,13 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  cachedMaxSP: 1
+  cachedSpRegen: 1
+  cachedLifeStealPercent: 0
+  cachedBonusDamagePercent: 0
+  cachedDamageReductionPercent: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1
@@ -85,6 +97,7 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  cachedHealthAtBattleStart: 0
   monsterAscensionAttack: {fileID: 11400000, guid: e99082d6380a9e444aa569ffb028e0bc, type: 2}
   ascensionGoldRequirement: 10
   ascensionType: 9

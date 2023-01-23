@@ -22,12 +22,10 @@ MonoBehaviour:
   monsterFlavourText: Hurrikanine reside in the heavenly space in the eye of storms,
     often creating them themselves with simple wing movements.
   monsterAbility: {fileID: 11400000, guid: cb4db506102fe30479e4bf2a2096f8bf, type: 2}
+  listOfPotentialMonsterAbilities: []
   level: 50
   health: 2100
   maxHealth: 2100
-  initialSP: 3
-  currentSP: 3
-  maxSP: 3
   physicalAttack: 75
   magicAttack: 300
   physicalDefense: 125
@@ -37,6 +35,13 @@ MonoBehaviour:
   critChance: 0
   critDamage: 1.25
   bonusAccuracy: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
+  lifeStealPercent: 0
+  bonusDamagePercent: 0
+  damageReductionPercent: 0
   healthScaler: 1
   physicalAttackScaler: 1
   magicAttackScaler: 1
@@ -71,6 +76,13 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  cachedMaxSP: 1
+  cachedSpRegen: 1
+  cachedLifeStealPercent: 0
+  cachedBonusDamagePercent: 0
+  cachedDamageReductionPercent: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1
@@ -88,6 +100,7 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  cachedHealthAtBattleStart: 0
   monsterAscensionAttack: {fileID: 11400000, guid: 3bb4d934fd63955419d688bedba37d81, type: 2}
   ascensionGoldRequirement: 10
   ascensionType: 0

@@ -27,10 +27,6 @@ MonoBehaviour:
   level: 5
   health: 94
   maxHealth: 94
-  initialSP: 3
-  currentSP: 3
-  maxSP: 3
-  spRegen: 1
   physicalAttack: 3
   magicAttack: 1
   physicalDefense: 4
@@ -40,6 +36,13 @@ MonoBehaviour:
   critChance: 10
   critDamage: 1.25
   bonusAccuracy: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
+  lifeStealPercent: 0
+  bonusDamagePercent: 0
+  damageReductionPercent: 0
   healthScaler: 10
   physicalAttackScaler: 2
   magicAttackScaler: 2
@@ -75,6 +78,11 @@ MonoBehaviour:
   cachedCritChance: 10
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  cachedMaxSP: 1
+  cachedSpRegen: 1
+  cachedLifeStealPercent: 0
+  cachedBonusDamagePercent: 0
+  cachedDamageReductionPercent: 0
   monsterCachedBattleIndex: 0
   ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0

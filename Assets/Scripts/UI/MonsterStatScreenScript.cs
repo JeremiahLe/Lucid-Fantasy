@@ -11,6 +11,10 @@ public class MonsterStatScreenScript : MonoBehaviour
     public TextMeshProUGUI monsterBaseStats;
     public TextMeshProUGUI monsterAdvancedStats;
 
+    public GameObject BasicStatsWindow;
+    public GameObject AdvancedStatsWindow;
+    public TextMeshProUGUI monsterSecondPageStats;
+
     public TextMeshProUGUI monsterElements;
     public TextMeshProUGUI monsterAbilityDescription;
     public TextMeshProUGUI monsterFlavourText;
@@ -106,31 +110,7 @@ public class MonsterStatScreenScript : MonoBehaviour
             }
         }
 
-        // Display monster basic stats
-        monsterBaseStats.text =
-            ($"{monster.health}/{monster.maxHealth}" +
-            $"\n{monster.physicalAttack}" +
-            $"\n{monster.magicAttack}" +
-            $"\n{monster.physicalDefense}" +
-            $"\n{monster.magicDefense}");
-
-        // Display monster advanced stats
-        monsterAdvancedStats.text =
-            ($"{monster.speed}" +
-            $"\n{monster.evasion}" +
-            $"\n{monster.critChance} <size=50%>(x{monster.critDamage})" +
-            $"\n<size=100%>{monster.bonusAccuracy}");
-
-        //// Display monster attacks
-        //monsterAttacks.text = ("- Attacks -");
-        //foreach(MonsterAttack attack in monster.ListOfMonsterAttacks)
-        //{
-        //    monsterAttacks.text += 
-        //        ($"\n{attack.monsterAttackName}" +
-        //        $"\nPower: {attack.monsterAttackDamage} | Accuracy: {attack.monsterAttackAccuracy}" +
-        //        $"\nType: {attack.monsterAttackDamageType} | Element: {attack.monsterAttackElement}" +
-        //        $"\n{attack.monsterAttackDescription}\n");
-        //}
+        ShowBasicStats();
 
         // Display monster attacks
         int i = 0;
@@ -173,6 +153,44 @@ public class MonsterStatScreenScript : MonoBehaviour
             inventoryManager.equipmentButton.interactable = true;
             inventoryManager.ascensionButton.interactable = true;
         }
+    }
+
+    public void ShowAdvancedStats()
+    {
+        AdvancedStatsWindow.SetActive(true);
+        BasicStatsWindow.SetActive(false);
+
+        monsterSecondPageStats.text =
+            ($"x{currentMonster.critDamage}" +
+            $"\n{currentMonster.lifeStealPercent}%" +
+            $"\n{currentMonster.bonusDamagePercent}%" +
+            $"\n{currentMonster.damageReductionPercent}%");
+
+        monsterAdvancedStats.text =
+            ($"{currentMonster.currentSP}/{currentMonster.maxSP}" +
+            $"\n{currentMonster.spRegen}" +
+            $"\n{currentMonster.initialSP}");
+    }
+
+    public void ShowBasicStats()
+    {
+        AdvancedStatsWindow.SetActive(false);
+        BasicStatsWindow.SetActive(true);
+
+        // Display monster basic stats
+        monsterBaseStats.text =
+            ($"{currentMonster.health}/{currentMonster.maxHealth}" +
+            $"\n{currentMonster.physicalAttack}" +
+            $"\n{currentMonster.magicAttack}" +
+            $"\n{currentMonster.physicalDefense}" +
+            $"\n{currentMonster.magicDefense}");
+
+        // Display monster advanced stats
+        monsterAdvancedStats.text =
+            ($"{currentMonster.speed}" +
+            $"\n{currentMonster.evasion}%" +
+            $"\n{currentMonster.critChance}%" +
+            $"\n{currentMonster.bonusAccuracy}%");
     }
 
     public void NewUIScreenSelected()

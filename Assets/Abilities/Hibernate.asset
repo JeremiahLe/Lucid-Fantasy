@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hibernate
   m_EditorClassIdentifier: 
   abilityName: Hibernate
-  abilityDescription: 'On Stat Change: Increase my Healing by 50% but lower Speed
-    by 15% for 2 rounds.'
+  abilityDescription: 'On Stat Change: When I''m healed, increase the amount by 50%
+    but lower my Speed by 15% for 2 rounds.'
   listOfAbilityTriggers:
   - {fileID: 11400000, guid: 043aefa42c61b754a9865c12302ec20c, type: 2}

@@ -25,19 +25,22 @@ MonoBehaviour:
   level: 1
   health: 308
   maxHealth: 823
-  initialSP: 10
-  currentSP: 10
-  maxSP: 10
-  spRegen: 1
   physicalAttack: 1
   magicAttack: 1
-  physicalDefense: 1
+  physicalDefense: 1000
   magicDefense: 1
   speed: 40
   evasion: 20
   critChance: 0
   critDamage: 1.25
   bonusAccuracy: 0
+  initialSP: 10
+  currentSP: 10
+  maxSP: 10
+  spRegen: 1
+  lifeStealPercent: 0
+  bonusDamagePercent: 0
+  damageReductionPercent: 0
   healthScaler: 1
   physicalAttackScaler: 1
   magicAttackScaler: 1
@@ -48,7 +51,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 232e601ceab5faf44a4798ef71b434f1, type: 2}
   - {fileID: 11400000, guid: 232e601ceab5faf44a4798ef71b434f1, type: 2}
   - {fileID: 11400000, guid: 232e601ceab5faf44a4798ef71b434f1, type: 2}
-  - {fileID: 11400000, guid: 232e601ceab5faf44a4798ef71b434f1, type: 2}
+  - {fileID: 11400000, guid: 908c4c32a1cab834bae68ad91a2a617c, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable: []
   cachedHealth: 0
@@ -62,6 +65,11 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  cachedMaxSP: 1
+  cachedSpRegen: 1
+  cachedLifeStealPercent: 0
+  cachedBonusDamagePercent: 0
+  cachedDamageReductionPercent: 0
   monsterCachedBattleIndex: 0
   ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0

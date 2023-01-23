@@ -681,6 +681,18 @@ public class AdventureManager : MonoBehaviour
         NodeToReturnTo = null;
         lockEquipmentInCombat = false;
 
+        // Return equipped equipment from dead allies and then clear the graveyard
+        foreach(Monster allyDeadMonster in ListOfAllyDeadMonsters)
+        {
+            foreach (Modifier equipment in allyDeadMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList())
+            {
+                allyDeadMonster.ListOfModifiers.Where(equipment => equipment.modifierType == Modifier.ModifierType.equipmentModifier).ToList().Remove(equipment);
+                equipment.modifierOwner = null;
+            }
+        }
+
+        ListOfAllyDeadMonsters.Clear();
+
         // start giving enemies modifiers
         if (adventureNGNumber >= 3)
         {

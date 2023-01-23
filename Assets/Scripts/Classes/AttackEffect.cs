@@ -28,7 +28,7 @@ public class AttackEffect : ScriptableObject
     [EnableIf("typeOfEffect", TypeOfEffect.InflictStatusEffect)]
     public Modifier.StatusEffectType attackEffectStatus;
 
-    public enum StatToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various, AddOffensiveAttackEffect, HighestAttackStat, Buffs, Immunity, MaxSP, SPRegen }
+    public enum StatToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various, AddOffensiveAttackEffect, HighestAttackStat, Buffs, Immunity, MaxSP, SPRegen, LifeSteal, SP, InitialSP, BonusDamagePercent, DamageReduction }
     public StatToChange statToChange;
 
     public enum EffectTime { PreAttack, DuringAttack, PostAttack, OnKill, OnDeath, GameStart, RoundStart, RoundEnd, OnStatChange, OnDamageTaken, PreOtherAttack, OnDamageDealt, OnDamageNullified, OutOfCombatPassive, OnDebuffNullified }

@@ -22,12 +22,10 @@ MonoBehaviour:
   monsterFlavourText: Ziegesaw are the manifestation of terribly cursed Voogoat.
     Voogoat who reach this stage have unrestrained murderous intent.
   monsterAbility: {fileID: 11400000, guid: e30a2edc6c30a8b48b4797c1f5a081f6, type: 2}
+  listOfPotentialMonsterAbilities: []
   level: 50
   health: 2750
   maxHealth: 2750
-  initialSP: 3
-  currentSP: 3
-  maxSP: 3
   physicalAttack: 285
   magicAttack: 100
   physicalDefense: 160
@@ -37,6 +35,13 @@ MonoBehaviour:
   critChance: 5
   critDamage: 1.25
   bonusAccuracy: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
+  lifeStealPercent: 0
+  bonusDamagePercent: 0
+  damageReductionPercent: 0
   healthScaler: 1
   physicalAttackScaler: 1
   magicAttackScaler: 1
@@ -70,6 +75,13 @@ MonoBehaviour:
   cachedCritChance: 5
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  cachedMaxSP: 1
+  cachedSpRegen: 1
+  cachedLifeStealPercent: 0
+  cachedBonusDamagePercent: 0
+  cachedDamageReductionPercent: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1
@@ -87,6 +99,7 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  cachedHealthAtBattleStart: 0
   monsterAscensionAttack: {fileID: 11400000, guid: 2acc426b2e55e9b4bb97d85ff2a15cd5, type: 2}
   ascensionGoldRequirement: 10
   ascensionType: 3

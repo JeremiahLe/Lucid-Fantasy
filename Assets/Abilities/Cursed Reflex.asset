@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Cursed Reflex
   abilityDescription: 'On Damage Taken: Reduce me and my attacker''s Speed by 15%,
-    and my attacker''s Evasion by 15% for 3 rounds.'
+    and my attacker''s Evasion by 25% for 3 rounds.'
   listOfAbilityTriggers:
-  - {fileID: 11400000, guid: 3c558a0b50fda48448bee2c27532fae4, type: 2}
-  - {fileID: 11400000, guid: 4c6cd8f9ee101a9498c13e126c326bd1, type: 2}
+  - {fileID: 11400000, guid: 490e2721eb9f3ed47abcbf60c4097372, type: 2}

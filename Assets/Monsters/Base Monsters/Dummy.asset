@@ -20,14 +20,11 @@ MonoBehaviour:
   aiType: 1
   aiLevel: 1
   monsterFlavourText: A dummy.
-  monsterAbility: {fileID: 11400000, guid: 587c1df7c95850d42a61fefe2f135482, type: 2}
+  monsterAbility: {fileID: 11400000, guid: ee0a6e5e92824e4419c745bf6c09da4f, type: 2}
+  listOfPotentialMonsterAbilities: []
   level: 20
-  health: 1
+  health: 834
   maxHealth: 2454
-  initialSP: 3
-  currentSP: 3
-  maxSP: 3
-  spRegen: 1
   physicalAttack: 66
   magicAttack: 158
   physicalDefense: 1000
@@ -37,6 +34,13 @@ MonoBehaviour:
   critChance: 0
   critDamage: 1.25
   bonusAccuracy: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
+  lifeStealPercent: 0
+  bonusDamagePercent: 0
+  damageReductionPercent: 0
   healthScaler: 1
   physicalAttackScaler: 1
   magicAttackScaler: 1
@@ -65,6 +69,11 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  cachedMaxSP: 1
+  cachedSpRegen: 1
+  cachedLifeStealPercent: 0
+  cachedBonusDamagePercent: 0
+  cachedDamageReductionPercent: 0
   monsterCachedBattleIndex: 0
   ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0

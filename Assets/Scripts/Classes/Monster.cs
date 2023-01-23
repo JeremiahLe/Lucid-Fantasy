@@ -21,13 +21,6 @@ public class Monster : ScriptableObject
 
     // The monster's elements
     [Title("Setup")]
-    public enum MonsterElement
-    {
-        Fire, Water, Earth, Wind,
-        Shadow, Neutral, None, Light, Time,
-        Elixir, Electric, Stone, Sound
-    };
-
     public ElementClass monsterElement;
     public ElementClass monsterSubElement;
 
@@ -50,14 +43,9 @@ public class Monster : ScriptableObject
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 50)] public int level;
 
+    [Title("Monster Basic Stats")]
     [Range(1, 10000)] public float health;
     [Range(1, 10000)] public float maxHealth;
-
-    [SerializeField]
-    [Range(0, 10)] public float initialSP = 3;
-    [Range(0, 10)] public float currentSP = 3;
-    [Range(1, 10)] public float maxSP = 3;
-    [Range(1, 3)] public float spRegen = 1;
 
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 300)] public float physicalAttack;
@@ -69,10 +57,23 @@ public class Monster : ScriptableObject
 
     [PropertySpace(SpaceBefore = 15)]
     [Range(1, 100)] public float speed;
+
+    [Title("Monster Advanced Stats")]
     [Range(0, 99)] public float evasion;
     [Range(0, 100)] public float critChance;
     [Range(1.25f, 2.5f)] public float critDamage;
     [Range(0f, 100f)] public float bonusAccuracy;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(0, 10)] public float initialSP = 3;
+    [Range(0, 10)] public float currentSP = 3;
+    [Range(1, 10)] public float maxSP = 3;
+    [Range(1, 3)] public float spRegen = 1;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(0, 100)] public float lifeStealPercent = 0;
+    [Range(0, 100)] public float bonusDamagePercent = 0;
+    [Range(0, 99)] public float damageReductionPercent = 0;
 
     [Title("Monster Scaling Stats")]
     [PropertySpace(SpaceBefore = 15)]
@@ -117,6 +118,13 @@ public class Monster : ScriptableObject
     [Range(0, 100)] public float cachedCritChance;
     [Range(0f, 100f)] public float cachedBonusAccuracy;
     [Range(0f, 100f)] public float cachedCritDamage;
+
+    [PropertySpace(SpaceBefore = 15)]
+    [Range(1, 10)] public float cachedMaxSP;
+    [Range(1, 3)] public float cachedSpRegen;
+    [Range(0, 100)] public float cachedLifeStealPercent;
+    [Range(0, 100)] public float cachedBonusDamagePercent;
+    [Range(0, 99)] public float cachedDamageReductionPercent;
 
     public int monsterCachedBattleIndex;
 

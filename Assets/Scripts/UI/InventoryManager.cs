@@ -441,6 +441,8 @@ public class InventoryManager : MonoBehaviour
         int goldReq = 0;
         int reqsMet = 0;
 
+        adventureManager.NewUIScreenSelected();
+
         // Assign the monster ascension path
         if (ascensionNumber == 1)
         {
@@ -478,11 +480,11 @@ public class InventoryManager : MonoBehaviour
         // Display monster elements
         if (currentMonster.monsterSubElement.element != ElementClass.MonsterElement.None)
         {
-            monsterBaseCheckAscensionText.text += ($"\n{currentMonster.monsterElement.element.ToString()} / {currentMonster.monsterSubElement.element.ToString()}");
+            monsterBaseCheckAscensionText.text += ($"\n{currentMonster.monsterElement.element} / {currentMonster.monsterSubElement.element}");
         }
         else
         {
-            monsterBaseCheckAscensionText.text += ($"\n{currentMonster.monsterElement.element.ToString()}");
+            monsterBaseCheckAscensionText.text += ($"\n{currentMonster.monsterElement.element}");
         }
 
         // Show name only if level req is met
@@ -499,11 +501,11 @@ public class InventoryManager : MonoBehaviour
         // Display ascension monster elements
         if (currentAscensionPath.monsterSubElement.element != ElementClass.MonsterElement.None)
         {
-            monsterAscensionCheckAscensionText.text += ($"\n{currentAscensionPath.monsterElement.element.ToString()} / {currentAscensionPath.monsterSubElement.element.ToString()}");
+            monsterAscensionCheckAscensionText.text += ($"\n{currentAscensionPath.monsterElement.element} / {currentAscensionPath.monsterSubElement.element}");
         }
         else
         {
-            monsterAscensionCheckAscensionText.text += ($"\n{currentAscensionPath.monsterElement.element.ToString()}");
+            monsterAscensionCheckAscensionText.text += ($"\n{currentAscensionPath.monsterElement.element}");
         }
 
         // Show Requirements

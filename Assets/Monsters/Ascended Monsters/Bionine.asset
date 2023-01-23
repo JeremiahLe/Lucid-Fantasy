@@ -22,12 +22,10 @@ MonoBehaviour:
   monsterFlavourText: Bionine run at breakneck speeds thank to chemically-enhanced
     bodies. Their toxic secretions are incredibly deadly.
   monsterAbility: {fileID: 11400000, guid: 451ee0c393b4781488b125919853ef30, type: 2}
+  listOfPotentialMonsterAbilities: []
   level: 50
   health: 2500
   maxHealth: 2500
-  initialSP: 3
-  currentSP: 3
-  maxSP: 3
   physicalAttack: 185
   magicAttack: 125
   physicalDefense: 75
@@ -37,6 +35,13 @@ MonoBehaviour:
   critChance: 0
   critDamage: 1.25
   bonusAccuracy: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
+  lifeStealPercent: 0
+  bonusDamagePercent: 0
+  damageReductionPercent: 0
   healthScaler: 1
   physicalAttackScaler: 1
   magicAttackScaler: 1
@@ -69,6 +74,13 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  cachedMaxSP: 1
+  cachedSpRegen: 1
+  cachedLifeStealPercent: 0
+  cachedBonusDamagePercent: 0
+  cachedDamageReductionPercent: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1
@@ -86,6 +98,7 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  cachedHealthAtBattleStart: 0
   monsterAscensionAttack: {fileID: 11400000, guid: b84e32555ecf02b42a6796dcae99106f, type: 2}
   ascensionGoldRequirement: 10
   ascensionType: 14

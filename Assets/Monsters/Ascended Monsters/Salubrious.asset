@@ -22,12 +22,10 @@ MonoBehaviour:
   monsterFlavourText: One drop from the flask on a Salubrious's tail is said to cure
     any illness.
   monsterAbility: {fileID: 11400000, guid: f1e478e58f09eb142a2919d66d11bfbd, type: 2}
+  listOfPotentialMonsterAbilities: []
   level: 50
   health: 3000
   maxHealth: 3000
-  initialSP: 3
-  currentSP: 3
-  maxSP: 3
   physicalAttack: 50
   magicAttack: 125
   physicalDefense: 50
@@ -37,6 +35,13 @@ MonoBehaviour:
   critChance: 0
   critDamage: 1.25
   bonusAccuracy: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
+  lifeStealPercent: 0
+  bonusDamagePercent: 0
+  damageReductionPercent: 0
   healthScaler: 1
   physicalAttackScaler: 1
   magicAttackScaler: 1
@@ -65,6 +70,13 @@ MonoBehaviour:
   cachedCritChance: 0
   cachedBonusAccuracy: 0
   cachedCritDamage: 0
+  cachedMaxSP: 1
+  cachedSpRegen: 1
+  cachedLifeStealPercent: 0
+  cachedBonusDamagePercent: 0
+  cachedDamageReductionPercent: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1
@@ -82,6 +94,7 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 125
+  cachedHealthAtBattleStart: 0
   monsterAscensionAttack: {fileID: 11400000, guid: fae4b939feef59f45a5663571dad0fd6, type: 2}
   ascensionGoldRequirement: 10
   ascensionType: 15
