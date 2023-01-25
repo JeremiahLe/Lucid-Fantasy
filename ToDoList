@@ -565,20 +565,13 @@ Imported Various Assets/Packages
 - Add Shop
 - Fix highlighted item not being reset when selecting a different item window
 
-- Fix sound effect manager
- - Misses proc multiple sfx
 - RARE Weird immune to dying bug with self killing 'damage' effects?
-- Add MonsterAttackDescription to when queueing and item + item VFX on target
-- Add countdown SFX and popup animation to Status Effect Icons
 - Add Retry counter to battle results screen and main adventure screen, add tooltip
 - Reduce delay of Round End, Add loading icon during ending, remove battle start or round start faster while game start effects are happening
 - Fix incorrect cached health upon retry and then levelup (visual text bug only)
 - Randomize Modifiers of enemy per run (randomize per node? or only add certain selected node)
 - Show battle node preview
 - Show damage preview
-
-[1/20/23]
-See Above
 
 Long-Term
  - Finish Room Creation and Setup
