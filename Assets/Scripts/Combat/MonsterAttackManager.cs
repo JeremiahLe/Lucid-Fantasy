@@ -47,21 +47,11 @@ public class MonsterAttackManager : MonoBehaviour
 
     [Title("Combat Variables")]
     public float calculatedDamage = 0;
-    public float bonusDamagePercent = 0;
-    public float cachedBonusDamagePercent = 0;
 
-    public float elementCheckDamageBonus = 0;
+    public float elementCheckDamageBonus = 0f;
     private float backRowDamagePercentBonus = 0.85f;
     private float frontRowDamagePercentBonus = 1.15f;
 
-    [Title("Combat Audio Elements")]
-    public AudioClip CritSound;
-    public AudioClip HitSound;
-    public AudioClip MissSound;
-    public AudioClip LevelUpSound;
-    public AudioClip ResistSound;
-    public AudioClip debuffSound;
-    public AudioClip buffSound;
 
     // Start is called before the first frame update
     void Start()
@@ -140,6 +130,25 @@ public class MonsterAttackManager : MonoBehaviour
                 TextBackImageBorder.enabled = true;
                 break;
         }
+    }
+
+    public void ShowItemDescription(Item item)
+    {
+        TextBackImage.enabled = true;
+        TextBackImageBorder.enabled = true;
+
+        currentMonsterAttackDescription.gameObject.SetActive(true);
+
+        currentMonsterAttackDescription.text = ($"<b>{item.itemName} | {item.itemRarity}</b>" +
+                   $"\n{item.itemDescription}");
+    }
+
+    public void HideAttackDescription()
+    {
+        TextBackImage.enabled = false;
+        TextBackImageBorder.enabled = false;
+        currentMonsterAttackDescription.gameObject.SetActive(false);
+        currentMonsterAttackDescription.text = "";
     }
 
     // This function returns the proper accuracy number if targeting ally or enemy
@@ -523,7 +532,7 @@ public class MonsterAttackManager : MonoBehaviour
         await TriggerAbilityEffects(currentMonsterTurn, currentMonsterTurnGameObject, AttackEffect.EffectTime.PreAttack, currentMonsterAttack);
 
         combatManagerScript.CurrentMonsterTurnAnimator.SetBool("attackAnimationPlaying", true);
-        QueueAttackSound();
+
         UpdateHUDElements();
     }
 
@@ -551,13 +560,6 @@ public class MonsterAttackManager : MonoBehaviour
     {
         buttonManagerScript.HideAllButtons("All");
         ResetHUD();
-    }
-
-    // Queue Attack Sound
-    public void QueueAttackSound()
-    {
-        AudioClip monsterAttackSound = currentMonsterAttack.monsterAttackSoundEffect;
-        soundEffectManager.AddSoundEffectToQueue(monsterAttackSound);
     }
 
     public async Task<int> TriggerAttackEffects(AttackEffect.EffectTime effectTime, GameObject monsterAttackSourceGameObject)
@@ -913,7 +915,7 @@ public class MonsterAttackManager : MonoBehaviour
 
         monsterComponent.monsterDamageTakenThisRound += calcedDamage;
 
-        attackEffect.CallStatAdjustment(targetMonster, monsterComponent, this, attackEffect, modifier);
+        attackEffect.DisplayAndLogStatChange(targetMonster, monsterComponent, this, attackEffect, modifier);
 
         if (attackEffect.doesTriggersEffects)
             await TriggerAbilityEffects(sourceMonster, sourceMonsterGameObject, AttackEffect.EffectTime.OnDamageDealt, attackEffect.monsterAttackTrigger);
@@ -1085,8 +1087,7 @@ public class MonsterAttackManager : MonoBehaviour
                 $"{combatManagerScript.CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference.name}'s " +
                 $"{currentMonsterAttack.monsterAttackName} missed {currentTargetedMonster.aiType} {currentTargetedMonster.name}!", currentMonsterTurn.aiType);
 
-        soundEffectManager.AddSoundEffectToQueue(MissSound);
-        soundEffectManager.BeginSoundEffectQueue();
+        soundEffectManager.PlaySoundEffect(soundEffectManager.MissSound);
 
         currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Miss!", AttackEffect.StatChangeType.None, true);
     }
@@ -1158,7 +1159,7 @@ public class MonsterAttackManager : MonoBehaviour
     {
         CombatLog.SendMessageToCombatLog($"Critical Hit!");
 
-        soundEffectManager.AddSoundEffectToQueue(CritSound);
+        soundEffectManager.PlaySoundEffect(soundEffectManager.CritSound);
         currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("CRIT!!!", AttackEffect.StatChangeType.None);
 
         currentMonsterTurnGameObject.GetComponent<CreateMonster>().monsterCriticallyStrikedThisRound = true;
@@ -1436,7 +1437,7 @@ public class MonsterAttackManager : MonoBehaviour
             if (sendMessageToLog)
             {
                 CombatLog.SendMessageToCombatLog($"It was incredibly effective (x2)!");
-                soundEffectManager.AddSoundEffectToQueue(CritSound);
+                soundEffectManager.PlaySoundEffect(soundEffectManager.CritSound);
                 currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Super Weak!", AttackEffect.StatChangeType.Buff, true);
             }
             return 2f;
@@ -1453,7 +1454,7 @@ public class MonsterAttackManager : MonoBehaviour
                 if (sendMessageToLog)
                 {
                     CombatLog.SendMessageToCombatLog($"It was highly effective (x1.5)!");
-                    soundEffectManager.AddSoundEffectToQueue(CritSound);
+                    soundEffectManager.PlaySoundEffect(soundEffectManager.CritSound);
                     currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Weak!", AttackEffect.StatChangeType.Buff, true);
                 }
                 return 1.5f;
@@ -1480,7 +1481,7 @@ public class MonsterAttackManager : MonoBehaviour
             if (sendMessageToLog)
             {
                 CombatLog.SendMessageToCombatLog($"It was highly resisted (x0.25)!");
-                soundEffectManager.AddSoundEffectToQueue(ResistSound);
+                soundEffectManager.PlaySoundEffect(soundEffectManager.ResistSound);
                 currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Super Resist!", AttackEffect.StatChangeType.Debuff, true);
             }
             return 0.25f;
@@ -1496,7 +1497,7 @@ public class MonsterAttackManager : MonoBehaviour
                 if (sendMessageToLog)
                 {
                     CombatLog.SendMessageToCombatLog($"It was resisted (x0.5)!");
-                    soundEffectManager.AddSoundEffectToQueue(ResistSound);
+                    soundEffectManager.PlaySoundEffect(soundEffectManager.ResistSound);
                     currentTargetedMonsterGameObject.GetComponent<CreateMonster>().CreateStatusEffectPopup("Resist!", AttackEffect.StatChangeType.Debuff, true);
                 }
                 return 0.5f;

@@ -4059,10 +4059,11 @@ MonoBehaviour:
   monsterAttackManager: {fileID: 0}
   uiManager: {fileID: 0}
   soundEffectManager: {fileID: 0}
+  ListOfAllyCombatPassives: []
+  ListOfEnemyCombatPassives: []
   firstMonsterTurn: {fileID: 0}
   CurrentMonsterTurn: {fileID: 0}
   CurrentTargetedMonster: {fileID: 0}
-  monsterTargeter: {fileID: 0}
   CurrentMonsterTurnAnimator: {fileID: 0}
   CurrentMonsterAttack: {fileID: 0}
   monsterTurn: 0
@@ -4190,17 +4191,7 @@ MonoBehaviour:
   burningUISprite: {fileID: 21300000, guid: 884db12ad07c0e444b5e3f1f064a979a, type: 3}
   dazedUISprite: {fileID: 21300000, guid: cce1c87a134224318ae0c69fdb6858d0, type: 3}
   calculatedDamage: 0
-  bonusDamagePercent: 0
-  cachedBonusDamagePercent: 0
-  recievedDamagePercentBonus: 0
   elementCheckDamageBonus: 0
-  CritSound: {fileID: 8300000, guid: 68049c95379dcb84fb188fdedd8c569a, type: 3}
-  HitSound: {fileID: 8300000, guid: 762b582ee4ca74a458d76f52b4a557ef, type: 3}
-  MissSound: {fileID: 8300000, guid: 0f2966a1a653a844796724ba7d95e1e8, type: 3}
-  LevelUpSound: {fileID: 8300000, guid: e7237d086cb65044e8f78c01f93a957f, type: 3}
-  ResistSound: {fileID: 8300000, guid: 8be0690036fa97d448d8f5d96c9a3f5b, type: 3}
-  debuffSound: {fileID: 8300000, guid: 13747b6b4b3d1c2418b7c58d3263b919, type: 3}
-  buffSound: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}
 --- !u!114 &456137143576431244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4279,7 +4270,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEffectAudioSource: {fileID: 456137143576431241}
   soundEffectQueue: []
+  LevelUpSound: {fileID: 8300000, guid: e7237d086cb65044e8f78c01f93a957f, type: 3}
   UISelectSFX1: {fileID: 8300000, guid: c8a11eb92cf88f148aab4b9d45c217ab, type: 3}
+  CritSound: {fileID: 8300000, guid: 68049c95379dcb84fb188fdedd8c569a, type: 3}
+  HitSound: {fileID: 8300000, guid: 762b582ee4ca74a458d76f52b4a557ef, type: 3}
+  MissSound: {fileID: 8300000, guid: e72f34642fe71df41806c082c501a8e6, type: 3}
+  ResistSound: {fileID: 8300000, guid: 7e1b307156779254690a9333c49e3773, type: 3}
+  debuffSound: {fileID: 8300000, guid: 13747b6b4b3d1c2418b7c58d3263b919, type: 3}
+  buffSound: {fileID: 8300000, guid: 33061086e6668944ea00d51a9696a654, type: 3}
 --- !u!82 &456137143576431241
 AudioSource:
   m_ObjectHideFlags: 0

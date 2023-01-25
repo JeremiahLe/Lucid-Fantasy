@@ -22,7 +22,8 @@ MonoBehaviour:
   monsterFlavourText: Yagiscente are the manifestation of terribly cursed Voogoat.
     Voogoat who reach this stage have tremendous untapped cosmic power.
   monsterAbility: {fileID: 11400000, guid: e1ca365971933e947b9668be50adbfc7, type: 2}
-  listOfPotentialMonsterAbilities: []
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: e1ca365971933e947b9668be50adbfc7, type: 2}
   level: 50
   health: 2500
   maxHealth: 2500

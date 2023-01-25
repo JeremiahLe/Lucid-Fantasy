@@ -418,7 +418,7 @@ public class CreateMonster : MonoBehaviour
         // Show level up animation
         LevelUp_VFX.Play();
         CreateStatusEffectPopup("Level Up!!!", AttackEffect.StatChangeType.Buff);
-        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.LevelUpSound);
+        monsterAttackManager.soundEffectManager.PlaySoundEffectLevelUp();
 
         List<float> ListOfMonstersLevelUpPrimaryStats = new List<float>();
         List<float> ListOfMonstersLevelUpSecondaryStats = new List<float>();
@@ -785,7 +785,7 @@ public class CreateMonster : MonoBehaviour
         }
 
         if (modifier.statusEffectType == Modifier.StatusEffectType.None)
-            attackEffect.CallStatAdjustment(monsterReference, this, monsterAttackManager, attackEffect, modifier);
+            attackEffect.DisplayAndLogStatChange(monsterReference, this, monsterAttackManager, attackEffect, modifier);
 
         if (modifier.statChangeType == AttackEffect.StatChangeType.Buff && modifier.modifierAmount != 0)
             monsterRecievedStatBoostThisRound = true;
@@ -1465,7 +1465,7 @@ public class CreateMonster : MonoBehaviour
     public void CreateStatusEffectPopup(string condition, AttackEffect.StatChangeType statChangeType)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransform);
-        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.soundEffectManager.buffSound);
         effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
         effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
         effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{condition}!");
@@ -1488,7 +1488,7 @@ public class CreateMonster : MonoBehaviour
     public void CreateStatusEffectPopup(string condition, AttackEffect.StatChangeType statChangeType, bool useHigherTransform)
     {
         GameObject effectPopup = Instantiate(monsterStatusTextObjectCanvas, popupPosTransformHigher);
-        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.soundEffectManager.buffSound);
         effectPopup.GetComponentInChildren<PopupScript>().instantiated = true;
         effectPopup.GetComponentInChildren<PopupScript>().parentObj = effectPopup;
         effectPopup.GetComponentInChildren<TextMeshProUGUI>().text = ($"{condition}!");
@@ -1511,7 +1511,7 @@ public class CreateMonster : MonoBehaviour
     {
         monsterAnimator.SetBool("hitAnimationPlaying", true);
 
-        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.HitSound);
+        monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.soundEffectManager.HitSound);
 
         CreateDamageEffectPopup(damageAmount, "Damage");
     }

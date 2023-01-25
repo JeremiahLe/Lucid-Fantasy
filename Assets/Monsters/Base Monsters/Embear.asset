@@ -104,7 +104,7 @@ MonoBehaviour:
   monsterAscensionAttack: {fileID: 0}
   ascensionGoldRequirement: 10
   ascensionType: 0
-  firstEvolutionPath: {fileID: 0}
+  firstEvolutionPath: {fileID: 11400000, guid: 29e341e173335c542b72214f8248baa5, type: 2}
   firstEvolutionLevelReq: 15
   ascensionOneMaterial: {fileID: 11400000, guid: 4c889ff0c7a86e94792a06c7d32e99d0, type: 2}
   ascensionOneMaterialAmount: 1

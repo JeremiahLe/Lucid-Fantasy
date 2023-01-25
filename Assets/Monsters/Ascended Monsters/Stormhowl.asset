@@ -22,7 +22,8 @@ MonoBehaviour:
   monsterFlavourText: Stormhowl have a code of honor, and strike with valourous bolts
     of lightning.
   monsterAbility: {fileID: 11400000, guid: 587c1df7c95850d42a61fefe2f135482, type: 2}
-  listOfPotentialMonsterAbilities: []
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 587c1df7c95850d42a61fefe2f135482, type: 2}
   level: 50
   health: 4750
   maxHealth: 4750

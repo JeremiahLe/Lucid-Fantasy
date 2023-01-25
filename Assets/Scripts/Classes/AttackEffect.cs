@@ -349,14 +349,14 @@ public class AttackEffect : ScriptableObject
     public async Task<int> AddBonusDamage(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
     {
         // Get bonus damage amount source
-        float bonusAmountSource = GetBonusDamageSource(statToChange, monsterReference);
+        //float bonusAmountSource = GetBonusDamageSource(statToChange, monsterReference);
 
         // calc bonus
-        monsterAttackManager.cachedBonusDamagePercent = Mathf.RoundToInt((bonusAmountSource * (amountToChange / 100)) / 2);
+        //monsterAttackManager.cachedBonusDamagePercent = Mathf.RoundToInt((bonusAmountSource * (amountToChange / 100)) / 2);
 
         // Send buff message to combat log
-        combatManagerScript = monsterAttackManager.combatManagerScript;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained {monsterAttackManager.cachedBonusDamagePercent}% damage bonus!");
+        //combatManagerScript = monsterAttackManager.combatManagerScript;
+        //combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained {monsterAttackManager.cachedBonusDamagePercent}% damage bonus!");
 
         await Task.Delay(10);
         return 1;
@@ -565,7 +565,7 @@ public class AttackEffect : ScriptableObject
 
     #region Helper Functions
 
-    public async void CallStatAdjustment(Monster targetMonster, CreateMonster monsterComponent, MonsterAttackManager monsterAttackManager, AttackEffect attackEffect, Modifier modifier)
+    public async void DisplayAndLogStatChange(Monster targetMonster, CreateMonster monsterComponent, MonsterAttackManager monsterAttackManager, AttackEffect attackEffect, Modifier modifier)
     {
         if (typeOfEffect == TypeOfEffect.GrantImmunity)
             return;
@@ -594,7 +594,7 @@ public class AttackEffect : ScriptableObject
             }
 
             monsterComponent.GetComponent<Animator>().SetBool("buffAnimationPlaying", true);
-            monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.buffSound);
+            monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.soundEffectManager.buffSound);
         }
         else // if (statChangeType == StatChangeType.Debuff)
         {
@@ -614,7 +614,7 @@ public class AttackEffect : ScriptableObject
             }
 
             monsterComponent.GetComponent<Animator>().SetBool("debuffAnimationPlaying", true);
-            monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.debuffSound);
+            monsterAttackManager.soundEffectManager.PlaySoundEffect(monsterAttackManager.soundEffectManager.debuffSound);
         }
     }
 

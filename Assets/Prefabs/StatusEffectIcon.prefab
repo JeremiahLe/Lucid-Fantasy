@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 7353960103160910594}
   - component: {fileID: 3960000035738337813}
   - component: {fileID: 632554724281427388}
+  - component: {fileID: 3123172037306810614}
   m_Layer: 5
   m_Name: StatusEffectIcon
   m_TagString: Untagged
@@ -232,3 +233,22 @@ MonoBehaviour:
   interactableName: 
   interactableDescription: 
   interactableText: {fileID: 0}
+--- !u!95 &3123172037306810614
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4223221832268652329}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: affe742e0bfa75243a5a5ea8bbf3b643, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

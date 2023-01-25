@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faacc323ae4d7a1419b4a290ced0b30f, type: 3}
+  m_Name: Armageddon
+  m_EditorClassIdentifier: 
+  monsterAttackName: Armageddon
+  monsterAttackDescription: Initiate a fiery cataclysm, dealing Magic Damage and
+    applying a Fiery Countdown status to the target hit. The Fiery Countdown status
+    starts with a 3 round duration. When it counts down completely, it deals 200%
+    Fire Magic Damage to the target plus an additional 25% per Fire or Time attack
+    that hits the target when it has the Fiery Countdown status.
+  monsterAttackElement: 0
+  monsterElementClass: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
+  monsterAttackType: 0
+  monsterAttackDamageType: 1
+  monsterAttackTargetCount: 0
+  monsterAttackTargetCountNumber: 1
+  monsterAttackTargetType: 3
+  monsterAttackSPCost: 2
+  AttackVFX: {fileID: 2319980196903359264, guid: e9a9513bae5fdb0468a4be025626707b, type: 3}
+  monsterAttackSoundEffect: {fileID: 8300000, guid: 2d12df8cc3f4bdd41b6884c04497c1e1, type: 3}
+  monsterAttackDamageScalar: 30
+  monsterBaseAttackStat: 0
+  monsterAttackFlatDamageBonus: 0
+  monsterAttackAccuracy: 110
+  monsterAttackNeverMiss: 0
+  monsterAttackCritChance: 0
+  monsterAttackSourceGameObject: {fileID: 0}
+  monsterAttackSource: {fileID: 0}
+  ListOfAttackEffects: []

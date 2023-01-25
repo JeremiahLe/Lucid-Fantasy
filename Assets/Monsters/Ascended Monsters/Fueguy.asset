@@ -22,7 +22,9 @@ MonoBehaviour:
   monsterFlavourText: Fueguy do nothing but laugh and dance all day long, unfazed
     by the annoyance of others.
   monsterAbility: {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
-  listOfPotentialMonsterAbilities: []
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: b1cf3d5e174cc34479734223abc269df, type: 2}
+  - {fileID: 11400000, guid: 110f7c2e9196d704cad8fe1368ff1c15, type: 2}
   level: 50
   health: 1800
   maxHealth: 1800

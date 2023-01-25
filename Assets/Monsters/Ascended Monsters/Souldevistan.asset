@@ -22,7 +22,8 @@ MonoBehaviour:
   monsterFlavourText: Souldevistan are able to travel along currents of electricity,
     while fading in and out of permeance. They often haunt abandoned power plants.
   monsterAbility: {fileID: 11400000, guid: 95eb864fe3d4ec74683cac4ec74a8f24, type: 2}
-  listOfPotentialMonsterAbilities: []
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 95eb864fe3d4ec74683cac4ec74a8f24, type: 2}
   level: 1
   health: 1
   maxHealth: 1

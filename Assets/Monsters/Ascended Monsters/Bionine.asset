@@ -22,7 +22,8 @@ MonoBehaviour:
   monsterFlavourText: Bionine run at breakneck speeds thank to chemically-enhanced
     bodies. Their toxic secretions are incredibly deadly.
   monsterAbility: {fileID: 11400000, guid: 451ee0c393b4781488b125919853ef30, type: 2}
-  listOfPotentialMonsterAbilities: []
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 451ee0c393b4781488b125919853ef30, type: 2}
   level: 50
   health: 2500
   maxHealth: 2500

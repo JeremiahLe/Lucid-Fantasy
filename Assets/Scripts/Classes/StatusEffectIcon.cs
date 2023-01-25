@@ -44,7 +44,10 @@ public class StatusEffectIcon : MonoBehaviour
     public void InitiateStatusEffectIcon(CreateMonster _monsterRef)
     {
         modifierDurationText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
+
         interactable = GetComponent<Interactable>();
+
+        GetComponent<Animator>().SetTrigger("Enable");
 
         if (modifier != null)
         {

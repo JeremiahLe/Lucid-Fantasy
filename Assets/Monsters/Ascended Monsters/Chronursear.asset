@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1683b3d324d78cc409af262de21b7fdd, type: 3}
+  m_Name: Chronursear
+  m_EditorClassIdentifier: 
+  name: Chronursear
+  baseSprite: {fileID: 21300000, guid: b3b2998818674c54cbebbba2604dcac1, type: 3}
+  monsterAscensionPhase: 1
+  monsterElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
+  monsterSubElement: {fileID: 11400000, guid: 4cbae71e10f45744a9ba65f0d509dc3a, type: 2}
+  aiType: 0
+  aiLevel: 0
+  monsterFlavourText: Legend has it that an Embear died in a fire protecting a clocktower.
+    In favor, higher powers sourced from the Aether granted his soul the power to
+    witness time. Thus, Chronursear was born.
+  monsterAbility: {fileID: 11400000, guid: 110f7c2e9196d704cad8fe1368ff1c15, type: 2}
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 110f7c2e9196d704cad8fe1368ff1c15, type: 2}
+  level: 1
+  health: 1
+  maxHealth: 1
+  physicalAttack: 1
+  magicAttack: 1
+  physicalDefense: 1
+  magicDefense: 1
+  speed: 1
+  evasion: 0
+  critChance: 0
+  critDamage: 1.25
+  bonusAccuracy: 0
+  initialSP: 3
+  currentSP: 3
+  maxSP: 3
+  spRegen: 1
+  lifeStealPercent: 0
+  bonusDamagePercent: 0
+  damageReductionPercent: 0
+  healthScaler: 1
+  physicalAttackScaler: 1
+  magicAttackScaler: 1
+  physicalDefenseScaler: 1
+  magicDefenseScaler: 1
+  speedScaler: 1
+  ListOfMonsterAttacks: []
+  ListOfModifiers: []
+  ListOfMonsterAttacksAvailable: []
+  cachedHealth: 0
+  cachedMaxHealth: 0
+  cachedPhysicalAttack: 1
+  cachedMagicAttack: 1
+  cachedPhysicalDefense: 1
+  cachedMagicDefense: 1
+  cachedSpeed: 1
+  cachedEvasion: 0
+  cachedCritChance: 0
+  cachedBonusAccuracy: 0
+  cachedCritDamage: 0
+  cachedMaxSP: 1
+  cachedSpRegen: 1
+  cachedLifeStealPercent: 0
+  cachedBonusDamagePercent: 0
+  cachedDamageReductionPercent: 0
+  monsterCachedBattleIndex: 0
+  ListOfCachedMonsterAttacks: []
+  previouslyCachedMaxHealth: 0
+  previouslyCachedPhysicalAttack: 1
+  previouslyCachedMagicAttack: 1
+  previouslyCachedPhysicalDefense: 1
+  previouslyCachedMagicDefense: 1
+  previouslyCachedSpeed: 1
+  previouslyCachedEvasion: 0
+  previouslyCachedCritChance: 0
+  previouslyCachedBonusAccuracy: 0
+  previouslyCachedCritDamage: 0
+  cachedLevel: 0
+  cachedMonsterRowPosition: 0
+  monsterIsOwned: 0
+  cachedDamageDone: 0
+  monsterKills: 0
+  monsterCurrentExp: 0
+  monsterExpToNextLevel: 105
+  cachedHealthAtBattleStart: 0
+  monsterAscensionAttack: {fileID: 11400000, guid: 186baa88eefba1e41ac3652a60fb9952, type: 2}
+  ascensionGoldRequirement: 10
+  ascensionType: 9
+  firstEvolutionPath: {fileID: 0}
+  firstEvolutionLevelReq: 20
+  ascensionOneMaterial: {fileID: 0}
+  ascensionOneMaterialAmount: 1
+  secondEvolutionPath: {fileID: 0}
+  secondEvolutionLevelReq: 20
+  ascensionTwoMaterial: {fileID: 0}
+  ascensionTwoMaterialAmount: 1
+  healthGrowth: 50
+  physicalAttackGrowth: 0
+  magicAttackGrowth: 0
+  physicalDefenseGrowth: 0
+  magicDefenseGrowth: 0
+  speedGrowth: 0
+  evasionGrowth: 0
+  critChanceGrowth: 0
+  bonusAccuracyGrowth: 0

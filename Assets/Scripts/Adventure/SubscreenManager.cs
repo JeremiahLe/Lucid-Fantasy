@@ -370,6 +370,8 @@ public class SubscreenManager : MonoBehaviour
             randMonster.ListOfMonsterAttacksAvailable.Remove(randomAttack);
         }
 
+        ValidateMonsterAttacks(randMonster);
+
         // random stats 
         randMonster.level = GetMonsterRandomLevelRange() + scaledLevel;
         randMonster.health = Mathf.RoundToInt((randMonster.health + randMonster.level + randMonster.healthScaler + 10) * (.37f + adventureManager.adventureNGNumber * .27f));
@@ -408,9 +410,13 @@ public class SubscreenManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             MonsterAttack randomAttack = newMonster.ListOfMonsterAttacksAvailable[Random.Range(0, newMonster.ListOfMonsterAttacksAvailable.Count)];
+
             newMonster.ListOfMonsterAttacks[i] = Instantiate(randomAttack);
+
             newMonster.ListOfMonsterAttacksAvailable.Remove(randomAttack);
         }
+
+        ValidateMonsterAttacks(newMonster);
 
         // bonus stats
         newMonster.level = level;
@@ -429,6 +435,18 @@ public class SubscreenManager : MonoBehaviour
         newMonster.name += ($" <Boss>")
 ;
         return newMonster;
+    }
+
+    private void ValidateMonsterAttacks(Monster monster)
+    {
+        if (monster.ListOfMonsterAttacks.Where(Attack => Attack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack).ToList().Count == 0)
+        {
+            List<MonsterAttack> listOfAttacks = monster.ListOfMonsterAttacksAvailable.Where(Attack => Attack.monsterAttackType == MonsterAttack.MonsterAttackType.Attack).ToList();
+
+            MonsterAttack randomAttack = listOfAttacks[Random.Range(0, listOfAttacks.Count)];
+
+            monster.ListOfMonsterAttacks[0] = randomAttack;
+        }
     }
 
     // This function returns a random modifier

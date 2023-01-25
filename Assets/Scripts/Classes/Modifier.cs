@@ -78,6 +78,13 @@ public class Modifier : ScriptableObject
 
     public async Task<int> ResetModifiedStat(Monster monsterReference, GameObject monsterReferenceGameObject)
     {
+        if (statusEffectIconGameObject.TryGetComponent(out Animator anim))
+        {
+            anim.SetTrigger("Disable");
+
+            await Task.Delay(75);
+        }
+
         Destroy(statusEffectIconGameObject);
 
         modifierCurrentDuration = modifierDuration;
@@ -202,10 +209,14 @@ public class Modifier : ScriptableObject
 
         if (modifierDurationType == ModifierDurationType.Temporary)
         {
-            modifierCurrentDuration -= 1;
-
             if (statusEffectIconGameObject != null && statusEffectIconGameObject.TryGetComponent(out StatusEffectIcon statusEffectIcon) != false)
             {
+                statusEffectIconGameObject.GetComponent<Animator>().SetTrigger("Countdown");
+
+                statusEffectIconGameObject.GetComponent<StatusEffectIcon>().monsterRef.monsterAttackManager.soundEffectManager.PlaySoundEffectBasicUISFX();
+
+                modifierCurrentDuration -= 1;
+
                 statusEffectIconGameObject.GetComponent<StatusEffectIcon>().modifierDurationText.text = ($"{modifierCurrentDuration}");
             }
 
@@ -216,6 +227,8 @@ public class Modifier : ScriptableObject
                 await monsterComponent.UpdateStats(false, null, false, 0);
 
                 monsterReference.ListOfModifiers.Remove(this);
+
+                Destroy(this, 3f);
             }
         }
 

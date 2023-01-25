@@ -699,6 +699,8 @@ public class CombatManagerScript : MonoBehaviour
 
         buttonManagerScript.HideAllButtons("All");
 
+        monsterAttackManager.ShowItemDescription(currentItem);
+
         uiManager.EditCombatMessage($"{currentMonster.aiType} {currentMonster.name} will use {currentItem.itemName} on {currentMonster.aiType} {currentMonster.name}?");
     }
 
@@ -706,7 +708,9 @@ public class CombatManagerScript : MonoBehaviour
     {
         itemPending = false;
         targeting = false;
+
         buttonManagerScript.HideButton(buttonManagerScript.ReturnFromItemButton);
+        monsterAttackManager.HideAttackDescription();
 
         Monster currentMonster = CurrentMonsterTurn.GetComponent<CreateMonster>().monsterReference;
         Monster targetMonster = targetMonsterGameObject.GetComponent<CreateMonster>().monsterReference;

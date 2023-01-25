@@ -20,8 +20,10 @@ MonoBehaviour:
   aiType: 0
   aiLevel: 0
   monsterFlavourText: When the great volcano is angry, Totemuai answers the call.
-  monsterAbility: {fileID: 11400000, guid: 110f7c2e9196d704cad8fe1368ff1c15, type: 2}
-  listOfPotentialMonsterAbilities: []
+  monsterAbility: {fileID: 11400000, guid: f270c0db5b22571419dee184b2fb6a93, type: 2}
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: 110f7c2e9196d704cad8fe1368ff1c15, type: 2}
+  - {fileID: 11400000, guid: f270c0db5b22571419dee184b2fb6a93, type: 2}
   level: 1
   health: 1
   maxHealth: 1

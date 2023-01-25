@@ -22,7 +22,9 @@ MonoBehaviour:
   monsterFlavourText: Hurrikanine reside in the heavenly space in the eye of storms,
     often creating them themselves with simple wing movements.
   monsterAbility: {fileID: 11400000, guid: cb4db506102fe30479e4bf2a2096f8bf, type: 2}
-  listOfPotentialMonsterAbilities: []
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: cb4db506102fe30479e4bf2a2096f8bf, type: 2}
+  - {fileID: 11400000, guid: f1e478e58f09eb142a2919d66d11bfbd, type: 2}
   level: 50
   health: 2100
   maxHealth: 2100

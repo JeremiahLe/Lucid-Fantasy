@@ -22,7 +22,8 @@ MonoBehaviour:
   monsterFlavourText: Ziegesaw are the manifestation of terribly cursed Voogoat.
     Voogoat who reach this stage have unrestrained murderous intent.
   monsterAbility: {fileID: 11400000, guid: e30a2edc6c30a8b48b4797c1f5a081f6, type: 2}
-  listOfPotentialMonsterAbilities: []
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: e30a2edc6c30a8b48b4797c1f5a081f6, type: 2}
   level: 50
   health: 2750
   maxHealth: 2750

@@ -93,5 +93,11 @@ public class ConsumableWindowScript : MonoBehaviour
         AssignItemSlots();
 
         SetCurrentItem(null);
+
+        adventureManager.combatManagerScript.monsterAttackManager.HideAttackDescription();
+
+        adventureManager.combatManagerScript.itemPending = false;
+
+        adventureManager.combatManagerScript.targeting = false;
     }
 }

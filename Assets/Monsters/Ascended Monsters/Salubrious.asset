@@ -22,7 +22,9 @@ MonoBehaviour:
   monsterFlavourText: One drop from the flask on a Salubrious's tail is said to cure
     any illness.
   monsterAbility: {fileID: 11400000, guid: f1e478e58f09eb142a2919d66d11bfbd, type: 2}
-  listOfPotentialMonsterAbilities: []
+  listOfPotentialMonsterAbilities:
+  - {fileID: 11400000, guid: f1e478e58f09eb142a2919d66d11bfbd, type: 2}
+  - {fileID: 11400000, guid: 7a0b4eda88f4f0446ac224352b1d81e6, type: 2}
   level: 50
   health: 3000
   maxHealth: 3000
