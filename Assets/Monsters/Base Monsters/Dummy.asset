@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Dummy
   baseSprite: {fileID: 21300000, guid: ff89f168bae13b14f9e2c759a24bbd2a, type: 3}
+  monsterSelectCard: {fileID: 7167132065791997810, guid: 3becd3f64db705a4e8149cbf86db93f2, type: 3}
   monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}

@@ -47,10 +47,13 @@ public class SubscreenManager : MonoBehaviour
     public GameObject monsterStatsWindow;
     public MonsterStatScreenScript monsterStatScreenScript;
     public MonstersSubScreenManager monstersSubScreenManager;
+    public MonsterSelectPanelManager monstersSelectPanelManager;
 
     public int randomBattleMonsterCount;
     public int randomBattleMonsterLimit;
     bool bossAdded = false;
+
+    public Transform monsterSelectCardStartPosition;
 
     [Header("Particle Systems")]
     public ParticleSystem ascensionVFX;
@@ -117,7 +120,7 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = modifier.baseSprite;
                     //rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{modifier.modifierName}" +
                         //$"\n- {modifier.modifierDescription}");
-                    rewardSlot.GetComponent<CreateReward>().SetRarityColor();
+                    rewardSlot.GetComponent<CreateReward>().SetTextRarityColor();
                 }
                 break;
 
@@ -136,7 +139,7 @@ public class SubscreenManager : MonoBehaviour
                     rewardSlot.GetComponent<CreateReward>().rewardImage.sprite = modifier.baseSprite;
                     //rewardSlot.GetComponent<CreateReward>().rewardName.text = ($"{modifier.modifierName}" +
                         //$"\n- {modifier.modifierDescription}");
-                    rewardSlot.GetComponent<CreateReward>().SetRarityColor();
+                    rewardSlot.GetComponent<CreateReward>().SetTextRarityColor();
                 }
                 break;
 
@@ -231,35 +234,8 @@ public class SubscreenManager : MonoBehaviour
 
     // This function shows the player's currently available monsters for battle
     public void ShowAlliedMonstersAvailable()
-    {   
-        foreach(GameObject slotBG in listOfMonsterSlotBGs)
-        {
-            slotBG.SetActive(true);
-        }
-
-        // Show allied monsters
-        int i = 0;
-        foreach (GameObject monsterSlot in listOfMonsterSlots)
-        {
-            if (adventureManager.ListOfCurrentMonsters.Count > i)
-            {
-                monsterSlot.SetActive(true);
-                monsterSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
-                monsterSlot.GetComponent<CreateReward>().subscreenManager = this;
-                monsterSlot.GetComponent<CreateReward>().monsterStatScreenScript = monsterStatScreenScript;
-                monsterSlot.GetComponent<CreateReward>().monsterReward = adventureManager.ListOfCurrentMonsters[i];
-                monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
-                monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"<b>{monsterSlot.GetComponent<CreateReward>().monsterReward.name}</b> Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
-                    $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}");
-                    //$"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}");
-                        //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[0].monsterAttackName}" +
-                        //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[1].monsterAttackName}" +
-                        //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[2].monsterAttackName}" +
-                        //$"\n- {monsterSlot.GetComponent<CreateReward>().monsterReward.ListOfMonsterAttacks[3].monsterAttackName}");
-            }
-
-            i++;
-        }
+    {
+        monstersSelectPanelManager.InitializeMonsterSelectCards(adventureManager, CreateReward.TypeOfMonsterSelect.PreBattle);
     }
 
     // This function hides the player's selected equipment

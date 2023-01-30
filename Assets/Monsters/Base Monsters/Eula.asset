@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Eula
   baseSprite: {fileID: 21300000, guid: 16ca542876559c643b6390fbcb006c70, type: 3}
+  monsterSelectCard: {fileID: 7167132065791997810, guid: 3becd3f64db705a4e8149cbf86db93f2, type: 3}
   monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
   monsterSubElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}

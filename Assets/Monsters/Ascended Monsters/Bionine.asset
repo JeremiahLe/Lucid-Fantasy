@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Bionine
   baseSprite: {fileID: 21300000, guid: a6b376644589ef34895ee43b49996650, type: 3}
+  monsterSelectCard: {fileID: 5068056384497296617, guid: 86597f52c192f9649b6b8eaee4dce362, type: 3}
   monsterAscensionPhase: 1
   monsterElement: {fileID: 11400000, guid: 3c7608d7ec54c7947b33cb8972a088e0, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}

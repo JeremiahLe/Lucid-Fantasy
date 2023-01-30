@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Bloo
   baseSprite: {fileID: 21300000, guid: 1874c472cccf8f04882aa49b260a1c36, type: 3}
+  monsterSelectCard: {fileID: 176772853061998513, guid: 609ce50212da47f418465e172392c6a7, type: 3}
   monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: ec9ecd56522a5744486571ef5548086b, type: 2}
   monsterSubElement: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}

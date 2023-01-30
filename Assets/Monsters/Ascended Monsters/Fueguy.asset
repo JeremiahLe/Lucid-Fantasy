@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Fueguy
   baseSprite: {fileID: 21300000, guid: 4bdc5978122ca10408738df0a61dd367, type: 3}
+  monsterSelectCard: {fileID: 3536479361002499062, guid: 108cb26cfcff1164baeefff87e8efdb8, type: 3}
   monsterAscensionPhase: 1
   monsterElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 4262258355edf6045bbabf5730d8e416, type: 2}

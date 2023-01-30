@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Linq;
+using System;
+using Sirenix.OdinInspector.Editor;
+using Sirenix.OdinInspector;
 
 public class CreateReward : MonoBehaviour, IPointerClickHandler
 {
@@ -25,21 +28,113 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
 
     public TextMeshProUGUI rewardName;
     public TextMeshProUGUI rewardDescription;
+    public enum TypeOfMonsterSelect { View, ReceiveItem, PreBattle }
+    public TypeOfMonsterSelect typeOfMonsterSelect;
 
-    public bool selected;
-    public Sprite selectedSprite;
-    public Sprite baseSprite;
     public bool selectable = true;
+    public bool selected;
+
+    public Color32 baseColor;
+    public Color32 selectedColor;
+
+    [Header("Monster Select Card")]
+    public Image monsterSelectCardBase;
 
     public TMP_Dropdown monsterRowSelect;
+
     public TextMeshProUGUI monsterSelectionIndex;
+    public Image monsterSelectMiniSprite;
+    public TextMeshProUGUI monsterSelectData;
+
+    [BoxGroup("Elements")]
+    public Color32 windColor;
+    [BoxGroup("Elements")]
+    public Color32 shadowColor;
+    [BoxGroup("Elements")]
+    public Color32 waterColor;
+    [BoxGroup("Elements")]
+    public Color32 soundColor;
+    [BoxGroup("Elements")]
+    public Color32 fireColor;
+    [BoxGroup("Elements")]
+    public Color32 stoneColor;
+    [BoxGroup("Elements")]
+    public Color32 electricColor;
+    [BoxGroup("Elements")]
+    public Color32 elixirColor;
+    [BoxGroup("Elements")]
+    public Color32 earthColor;
+    [BoxGroup("Elements")]
+    public Color32 timeColor;
+    [BoxGroup("Elements")]
+    public Color32 lightColor;
 
     public void Awake()
     {
         rewardImage = GetComponent<Image>();
     }
 
-    // This function handles the selection of rewards
+    public void InitializeSelectable(AdventureManager _adventureManager, TypeOfMonsterSelect _typeOfMonsterSelect)
+    {
+        adventureManager = _adventureManager;
+        subscreenManager = _adventureManager.subscreenManager;
+        monsterStatScreenScript = subscreenManager.monsterStatScreenScript;
+        typeOfMonsterSelect = _typeOfMonsterSelect;
+
+        if (typeOfMonsterSelect == TypeOfMonsterSelect.View)
+        {
+            monsterRowSelect.interactable = false;
+        }
+    }
+
+    public void InitializeMonsterSelectCardData(Monster monster)
+    {
+        monsterReward = monster;
+        monsterSelectData.text =
+            ($"{monsterReward.name}\n" +
+            $"Lvl: {monsterReward.level}\n" +
+            $"HP: {monsterReward.health}/{monsterReward.maxHealth}");
+
+        monsterSelectMiniSprite.sprite = monsterReward.baseSprite;
+
+        monsterSelectCardBase.color = GetElementColor(monsterReward.monsterElement);
+    }
+
+    public Color32 GetElementColor(ElementClass element)
+    {
+        switch (element.element)
+        {
+            case ElementClass.MonsterElement.Fire:
+                return fireColor;
+            case ElementClass.MonsterElement.Water:
+                return waterColor;
+            case ElementClass.MonsterElement.Earth:
+                return earthColor;
+            case ElementClass.MonsterElement.Wind:
+                return windColor;
+            case ElementClass.MonsterElement.Shadow:
+                return shadowColor;
+            case ElementClass.MonsterElement.Neutral:
+                return Color.gray;
+            case ElementClass.MonsterElement.None:
+                return Color.gray;
+            case ElementClass.MonsterElement.Light:
+                return lightColor;
+            case ElementClass.MonsterElement.Time:
+                return timeColor;
+            case ElementClass.MonsterElement.Elixir:
+                return elixirColor;
+            case ElementClass.MonsterElement.Electric:
+                return electricColor;
+            case ElementClass.MonsterElement.Stone:
+                return stoneColor;
+            case ElementClass.MonsterElement.Sound:
+                return soundColor;
+            default:
+                return Color.gray;
+        }
+    }
+
     public void SelectReward()
     {
         adventureManager.routeText.text = ($"Select Destination...");
@@ -48,7 +143,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         {
             if (rewardType == AdventureManager.RewardType.Monster)
             {
-                if (adventureManager.ListOfCurrentMonsters.Count == 4)
+                if (adventureManager.ListOfCurrentMonsters.Count == adventureManager.playerMonsterLimit)
                 {
                     adventureManager.subScreenMenuText.text = ($"Chimeric limit reached!");
                     return;
@@ -95,8 +190,27 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    // This function handles the appearance of the reward
-    public void SetRarityColor()
+    public void SelectMonsterToReceiveConsumableHealing()
+    {
+        if (monsterReward == null)
+            return;
+
+        Item currentItem = monsterStatScreenScript.monstersSubScreenManager.currentItem;
+
+        if (currentItem == null)
+            return;
+
+        if (monsterReward.health == monsterReward.maxHealth)
+        {
+            // Text = "Chimeric is already full health! It cannot be healed."
+            Debug.Log($"{monsterReward} is already at full health!");
+            return;
+        }
+
+        adventureManager.HealMonster(monsterReward, currentItem.modifierAmount);
+    }
+
+    public void SetTextRarityColor()
     {
         switch (modifierReward.modifierRarity)
         {
@@ -129,32 +243,37 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    // This function selects a monster for battle
     public void SelectMonsterForBattle()
     {
+        if (typeOfMonsterSelect != TypeOfMonsterSelect.PreBattle)
+            return;
+
         if (selectable)
         {
             if (!selected)
             {
                 selected = true;
-                rewardImage = container.GetComponent<Image>();
-                rewardImage.sprite = selectedSprite;
+
                 adventureManager.ListOfAllyBattleMonsters.Add(monsterReward);
+
                 AssignMonsterRowPosition();
+
                 adventureManager.subScreenMenuText.text = ($"Current Chimerics: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
+
                 monsterSelectionIndex.text = ($"{adventureManager.ListOfAllyBattleMonsters.IndexOf(monsterReward) + 1}");
             }
             else
             {
                 selected = false;
-                rewardImage = container.GetComponent<Image>();
-                rewardImage.sprite = baseSprite;
+
                 adventureManager.ListOfAllyBattleMonsters.Remove(monsterReward);
+
                 adventureManager.subScreenMenuText.text = ($"Current Chimerics: {adventureManager.ListOfAllyBattleMonsters.Count}/{adventureManager.randomBattleMonsterLimit}");
+
                 monsterSelectionIndex.text = ("");
 
                 // Adjust other monsters index
-                foreach (GameObject monsterSlot in subscreenManager.listOfMonsterSlots)
+                foreach (GameObject monsterSlot in subscreenManager.monstersSelectPanelManager.monsterSelectCards)
                 {
                     if (monsterSlot != this.gameObject)
                     {
@@ -167,38 +286,6 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    // This function selects a monster to recieve an equipment
-    public void SelectMonsterForEquipment()
-    {
-        if (selectable)
-        {
-            if (!selected)
-            {
-                foreach (GameObject monsterEquipmentSelection in subscreenManager.listOfMonsterSlotsEquipment)
-                {
-                    if (monsterEquipmentSelection.activeInHierarchy)
-                    {
-                        monsterEquipmentSelection.GetComponent<CreateReward>().rewardImage.sprite = monsterEquipmentSelection.GetComponent<CreateReward>().monsterReward.baseSprite;
-                        monsterEquipmentSelection.GetComponent<CreateReward>().selected = false;
-                    }
-                }
-
-                selected = true;
-                rewardImage = GetComponent<Image>();
-                rewardImage.sprite = selectedSprite;
-                adventureManager.currentSelectedMonsterForEquipment = monsterReward;
-            }
-            else
-            {
-                selected = false;
-                rewardImage = GetComponent<Image>();
-                rewardImage.sprite = monsterReward.baseSprite;
-                adventureManager.currentSelectedMonsterForEquipment = null;
-            }
-        }
-    }
-
-    // This function travels to the battle scene once the player selects their monsters
     public void GoToBattleScene()
     {
         if (selectable)
@@ -219,7 +306,6 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    // This function displays monster stats on right-click
     public void OnPointerClick(PointerEventData eventData)
     {
         if (rewardType == AdventureManager.RewardType.Monster && monsterReward != null)
@@ -235,7 +321,6 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    // This function assigns the current monster slot a row position before the battle begins
     public void AssignMonsterRowPosition()
     {
         string monsterRowPosition = monsterRowSelect.captionText.text;

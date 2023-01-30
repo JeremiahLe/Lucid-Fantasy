@@ -22505,6 +22505,8 @@ MonoBehaviour:
   currentMonster: {fileID: 0}
   currentMonsterElementMatchups: {fileID: 7070853627135535711}
   monstersSubScreenManager: {fileID: 0}
+  BasicStatsButton: {fileID: 874100930313303052}
+  AdvancedStatsButton: {fileID: 4375734132477484088}
 --- !u!114 &5926338460304940300
 MonoBehaviour:
   m_ObjectHideFlags: 0

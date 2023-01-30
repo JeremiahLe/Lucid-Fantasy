@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Stormhowl
   baseSprite: {fileID: 21300000, guid: 19473c3289a779a4ca2d8d3e24b7b7e9, type: 3}
+  monsterSelectCard: {fileID: 8019009963267078014, guid: 06739be84fb2f314a8e2c8297f9eda7b, type: 3}
   monsterAscensionPhase: 1
   monsterElement: {fileID: 11400000, guid: aca5c1a05510ddf4498c4cc73e67d3b7, type: 2}
   monsterSubElement: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}

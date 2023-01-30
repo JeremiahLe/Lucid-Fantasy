@@ -708,7 +708,6 @@ public class CreateMonster : MonoBehaviour
 
             case (AttackEffect.StatToChange.Speed):
                 monsterReference.speed += (int)modifier.modifierAmount;
-                combatManagerScript.SortMonsterBattleSequence();
                 break;
 
             case (AttackEffect.StatToChange.MagicAttack):
@@ -783,6 +782,10 @@ public class CreateMonster : MonoBehaviour
                 Debug.Log("Missing stat to modify to modifier?", this);
                 break;
         }
+
+        CheckStatsCap();
+
+        combatManagerScript.SortMonsterBattleSequence();
 
         if (modifier.statusEffectType == Modifier.StatusEffectType.None)
             attackEffect.DisplayAndLogStatChange(monsterReference, this, monsterAttackManager, attackEffect, modifier);

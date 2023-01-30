@@ -18,6 +18,8 @@ public class Item : ScriptableObject
 
     public Sprite baseSprite;
 
+    public float modifierAmount;
+
     public Modifier.ModifierRarity itemRarity;
 
     [EnableIf("itemType", ItemType.Consumable)]

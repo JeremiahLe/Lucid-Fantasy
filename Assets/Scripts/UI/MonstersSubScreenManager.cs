@@ -41,6 +41,8 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public List<GameObject> inventorySlots;
 
+    public MonsterSelectPanelManager monsterSelectPanelManager;
+
     public void OnEnable()
     {
         PlayNewUIScreenSFX();
@@ -59,34 +61,48 @@ public class MonstersSubScreenManager : MonoBehaviour
 
         // Update text
         monsterAmountText.text =
-            ($"<b>Chimerics: ({adventureManager.ListOfCurrentMonsters.Count}/4)</b>" +
-            $"\n[Right-click for more info.]");
+            ($"<b>Chimerics: ({adventureManager.ListOfCurrentMonsters.Count}/{adventureManager.playerMonsterLimit})</b>");
 
-        // Show allied monster images
-        foreach(GameObject slot in monsterSlotImages)
-        {
-            slot.SetActive(true);
-        }
+        monsterSelectPanelManager.InitializeMonsterSelectCards(adventureManager, CreateReward.TypeOfMonsterSelect.View);
 
-        // Show allied monsters
-        int i = 0;
-        foreach (GameObject monsterSlot in listOfMonsterSlots)
-        {
-            if (adventureManager.ListOfCurrentMonsters.Count > i)
-            {
-                monsterSlot.SetActive(true);
-                monsterSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
-                monsterSlot.GetComponent<CreateReward>().subscreenManager = adventureManager.subscreenManager;
-                monsterSlot.GetComponent<CreateReward>().monsterStatScreenScript = adventureManager.subscreenManager.monsterStatScreenScript;
-                monsterSlot.GetComponent<CreateReward>().monsterReward = adventureManager.ListOfCurrentMonsters[i];
-                monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
-                monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"<b>{monsterSlot.GetComponent<CreateReward>().monsterReward.name}</b> Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
-                    $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}");
-                    //$"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}");
-            }
+        //// Show allied monster images
+        //foreach(GameObject slot in monsterSlotImages)
+        //{
+        //    slot.SetActive(true);
+        //}
 
-            i++;
-        }
+        //// Show allied monsters
+        //int i = 0;
+        //foreach (GameObject monsterSlot in listOfMonsterSlots)
+        //{
+        //    if (adventureManager.ListOfCurrentMonsters.Count > i)
+        //    {
+        //        monsterSlot.SetActive(true);
+        //        monsterSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
+        //        monsterSlot.GetComponent<CreateReward>().subscreenManager = adventureManager.subscreenManager;
+        //        monsterSlot.GetComponent<CreateReward>().monsterStatScreenScript = adventureManager.subscreenManager.monsterStatScreenScript;
+        //        monsterSlot.GetComponent<CreateReward>().monsterStatScreenScript.monstersSubScreenManager = this;
+        //        monsterSlot.GetComponent<CreateReward>().monsterReward = adventureManager.ListOfCurrentMonsters[i];
+        //        monsterSlot.GetComponent<CreateReward>().rewardImage.sprite = monsterSlot.GetComponent<CreateReward>().monsterReward.baseSprite;
+        //        monsterSlot.GetComponentInChildren<TextMeshProUGUI>().text = ($"<b>{monsterSlot.GetComponent<CreateReward>().monsterReward.name}</b> Lvl.{monsterSlot.GetComponent<CreateReward>().monsterReward.level}" +
+        //            $"\nHP: {monsterSlot.GetComponent<CreateReward>().monsterReward.health}/{monsterSlot.GetComponent<CreateReward>().monsterReward.maxHealth}");
+        //            //$"\n{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterElement.element.ToString()}/{monsterSlot.GetComponent<CreateReward>().monsterReward.monsterSubElement.element.ToString()}");
+        //    }
+
+        //    i++;
+        //}
+    }
+
+    public void QueueHealingConsumable()
+    {
+        if (currentItem == null)
+            return;
+
+        monsterAmountText.text =
+            ($"<b>Select a Chimeric to heal...</b>" +
+            $"\nCurrent Item: {currentItem.itemName} - {currentItem.itemDescription}");
+
+        // Show Return To Items Button
     }
 
     public void ShowAvailableModifiers()
@@ -312,17 +328,7 @@ public class MonstersSubScreenManager : MonoBehaviour
         // Hide inventory menuy
         InventoryMenu.SetActive(false);
 
-        // Hide allied monster slots
-        foreach (GameObject slot in listOfMonsterSlots)
-        {
-            slot.SetActive(false);
-        }
-
-        // Hide allied monster images
-        foreach (GameObject slot in monsterSlotImages)
-        {
-            slot.SetActive(false);
-        }
+        monsterSelectPanelManager.HideMonsterSelectCards();
     }
 
     public void PlayNewUIScreenSFX()

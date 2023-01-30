@@ -131,6 +131,8 @@ public class AdventureManager : MonoBehaviour
     public float commonChanceRate = 100f;
 
     [Title("Adventure - Player Components")]
+    public int playerMonsterLimit = 4;
+
     public int rerollAmount = 0;
     public int timesRerolled = 0;
 
@@ -1185,5 +1187,10 @@ public class AdventureManager : MonoBehaviour
         ReviveAllDeadAlliedMonstersBeforeBattle();
 
         ReviveAllDeadEnemyMonstersBeforeBattle();
+    }
+
+    internal void HealMonster(Monster monsterToHeal, float modifierAmount)
+    {
+        throw new System.NotImplementedException();
     }
 }

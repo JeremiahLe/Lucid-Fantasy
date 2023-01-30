@@ -33,6 +33,9 @@ public class MonsterStatScreenScript : MonoBehaviour
 
     public MonstersSubScreenManager monstersSubScreenManager;
 
+    public Button BasicStatsButton;
+    public Button AdvancedStatsButton;
+
     public void DisplayMonsterStatsScreen()
     {
         DisplayMonsterStatScreenStats(currentMonster);
@@ -160,6 +163,9 @@ public class MonsterStatScreenScript : MonoBehaviour
         AdvancedStatsWindow.SetActive(true);
         BasicStatsWindow.SetActive(false);
 
+        BasicStatsButton.enabled = true;
+        AdvancedStatsButton.enabled = false;
+
         monsterSecondPageStats.text =
             ($"x{currentMonster.critDamage}" +
             $"\n{currentMonster.lifeStealPercent}%" +
@@ -175,7 +181,11 @@ public class MonsterStatScreenScript : MonoBehaviour
     public void ShowBasicStats()
     {
         AdvancedStatsWindow.SetActive(false);
+
         BasicStatsWindow.SetActive(true);
+
+        BasicStatsButton.enabled = false;
+        AdvancedStatsButton.enabled = true;
 
         // Display monster basic stats
         monsterBaseStats.text =

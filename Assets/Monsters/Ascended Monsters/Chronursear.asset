@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Chronursear
   baseSprite: {fileID: 21300000, guid: b3b2998818674c54cbebbba2604dcac1, type: 3}
+  monsterSelectCard: {fileID: 1446205529175019790, guid: f2b25cdfb4231b741838846593683e19, type: 3}
   monsterAscensionPhase: 1
   monsterElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 4cbae71e10f45744a9ba65f0d509dc3a, type: 2}

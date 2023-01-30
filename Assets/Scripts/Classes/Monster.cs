@@ -16,6 +16,9 @@ public class Monster : ScriptableObject
     [PreviewField(150)]
     public Sprite baseSprite;
 
+    [AssetSelector(Paths = "Assets/Prefabs/UI/Monster Select Cards")]
+    public GameObject monsterSelectCard;
+
     public enum MonsterAscensionPhase { Basic, Ascended }
     public MonsterAscensionPhase monsterAscensionPhase;
 

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Frejeow
   baseSprite: {fileID: 21300000, guid: 0d5982a703e6a5b4288fa42f00698c7d, type: 3}
+  monsterSelectCard: {fileID: 2871371210668926895, guid: 557a4ed3a29acbd46841b0b4ec6181be, type: 3}
   monsterAscensionPhase: 0
   monsterElement: {fileID: 11400000, guid: 22c47b4d40f324443bdc910e7f922b7c, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 30dbb69d475d839429d931735d03407f, type: 2}

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Totemuai
   baseSprite: {fileID: 21300000, guid: 830ae9c569746284ab3334893a6bef0d, type: 3}
+  monsterSelectCard: {fileID: 944453048536779737, guid: 3d1f2da5b6240f446935a2743ad23b95, type: 3}
   monsterAscensionPhase: 1
   monsterElement: {fileID: 11400000, guid: a145f53243e33b2418c72ccc8aec9b4e, type: 2}
   monsterSubElement: {fileID: 11400000, guid: 27405038644d4d648afcefa75e264c2f, type: 2}
