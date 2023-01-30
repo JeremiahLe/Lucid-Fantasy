@@ -571,7 +571,7 @@ Imported Various Assets/Packages
 - Fix incorrect cached health upon retry and then levelup (visual text bug only)
 - Randomize Modifiers of enemy per run (randomize per node? or only add certain selected node)
 - Show battle node preview
-- Show damage preview
+- Show damage preview.
 
 Long-Term
  - Finish Room Creation and Setup
