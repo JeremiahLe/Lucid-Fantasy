@@ -1341,7 +1341,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5063487201194549428}
         m_TargetAssemblyTypeName: CreateReward, Assembly-CSharp
-        m_MethodName: SelectMonsterForBattle
+        m_MethodName: Interact
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

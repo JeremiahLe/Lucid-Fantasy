@@ -81,9 +81,22 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         monsterStatScreenScript = subscreenManager.monsterStatScreenScript;
         typeOfMonsterSelect = _typeOfMonsterSelect;
 
-        if (typeOfMonsterSelect == TypeOfMonsterSelect.View)
+        switch (typeOfMonsterSelect)
         {
-            monsterRowSelect.interactable = false;
+            case TypeOfMonsterSelect.View:
+                monsterRowSelect.gameObject.SetActive(false);
+                break;
+
+            case TypeOfMonsterSelect.ReceiveItem:
+                monsterRowSelect.gameObject.SetActive(false);
+                break;
+
+            case TypeOfMonsterSelect.PreBattle:
+                monsterRowSelect.interactable = true;
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -188,6 +201,28 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 adventureManager.ActivateNextNode();
             }
         }
+    }
+
+    public void Interact()
+    {
+        switch (typeOfMonsterSelect)
+        {
+            case TypeOfMonsterSelect.View:
+                DisplayMonsterStats();
+                break;
+
+            case TypeOfMonsterSelect.ReceiveItem:
+                SelectMonsterToReceiveConsumableHealing();
+                break;
+
+            case TypeOfMonsterSelect.PreBattle:
+                SelectMonsterForBattle();
+                break;
+
+            default:
+                break;
+        }
+
     }
 
     public void SelectMonsterToReceiveConsumableHealing()
@@ -312,13 +347,22 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         {
             if (eventData.button == PointerEventData.InputButton.Right)
             {
-                subscreenManager.monsterStatsWindow.SetActive(true);
-                monsterStatScreenScript.DisplayMonsterStatScreenStats(monsterReward);
-                monsterStatScreenScript.monstersSubScreenManager = subscreenManager.monstersSubScreenManager;
-                inventoryManager = monsterStatScreenScript.gameObject.GetComponent<InventoryManager>();
-                inventoryManager.currentMonster = monsterReward;
+                DisplayMonsterStats();
             }
         }
+    }
+
+    public void DisplayMonsterStats()
+    {
+        subscreenManager.monsterStatsWindow.SetActive(true);
+
+        monsterStatScreenScript.DisplayMonsterStatScreenStats(monsterReward);
+
+        monsterStatScreenScript.monstersSubScreenManager = subscreenManager.monstersSubScreenManager;
+
+        inventoryManager = monsterStatScreenScript.gameObject.GetComponent<InventoryManager>();
+
+        inventoryManager.currentMonster = monsterReward;
     }
 
     public void AssignMonsterRowPosition()

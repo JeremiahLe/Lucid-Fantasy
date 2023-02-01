@@ -45,8 +45,6 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void OnEnable()
     {
-        PlayNewUIScreenSFX();
-
         playerGoldAmount.text = ($"{adventureManager.playerGold}");
 
         InventoryMenu.SetActive(false);
@@ -95,12 +93,16 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void QueueHealingConsumable()
     {
+        ResetMenus();
+
         if (currentItem == null)
             return;
 
         monsterAmountText.text =
             ($"<b>Select a Chimeric to heal...</b>" +
             $"\nCurrent Item: {currentItem.itemName} - {currentItem.itemDescription}");
+
+        monsterSelectPanelManager.InitializeMonsterSelectCards(adventureManager, CreateReward.TypeOfMonsterSelect.ReceiveItem);
 
         // Show Return To Items Button
     }
@@ -137,8 +139,6 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public void ShowInventory()
     {
-        PlayNewUIScreenSFX();
-
         // Hide other menus
         ResetMenus();
 
