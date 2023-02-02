@@ -18,6 +18,7 @@ public class MonstersSubScreenManager : MonoBehaviour
     public bool updateTimerVisual;
 
     public TextMeshProUGUI playerGoldAmount;
+    public TextMeshProUGUI playerRerollAmount;
 
     [Header("Inventory Menu")]
     public Item currentItem;
@@ -43,9 +44,19 @@ public class MonstersSubScreenManager : MonoBehaviour
 
     public MonsterSelectPanelManager monsterSelectPanelManager;
 
+    public void InitializeComponent(AdventureManager _adventureManager)
+    {
+        if (adventureManager == null)
+            adventureManager = _adventureManager;
+
+        playerGoldAmount.text = ($"{adventureManager.playerGold}");
+        playerRerollAmount.text = ($"{adventureManager.rerollAmount}");
+    }
+
     public void OnEnable()
     {
         playerGoldAmount.text = ($"{adventureManager.playerGold}");
+        playerRerollAmount.text = ($"{adventureManager.rerollAmount}");
 
         InventoryMenu.SetActive(false);
     }

@@ -8,6 +8,7 @@ using System.Linq;
 using System;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.OdinInspector;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class CreateReward : MonoBehaviour, IPointerClickHandler
 {
@@ -15,6 +16,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
 
     public Monster monsterReward;
     public Modifier modifierReward;
+    public Item itemReward;
 
     public GameObject StatScreenWindowGameObject;
     public GameObject container;
@@ -25,10 +27,11 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
     public AdventureManager adventureManager;
     public MonsterStatScreenScript monsterStatScreenScript;
     public InventoryManager inventoryManager;
+    public ShopManager shopManager;
 
     public TextMeshProUGUI rewardName;
     public TextMeshProUGUI rewardDescription;
-    public enum TypeOfMonsterSelect { View, ReceiveItem, PreBattle }
+    public enum TypeOfMonsterSelect { View, ReceiveItem, PreBattle, ShopItem }
     public TypeOfMonsterSelect typeOfMonsterSelect;
 
     public bool selectable = true;
@@ -95,9 +98,76 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 monsterRowSelect.interactable = true;
                 break;
 
+            case TypeOfMonsterSelect.ShopItem:
+                InitializeItem();
+                break;
+
             default:
                 break;
         }
+    }
+
+    public void InitializeItem()
+    {
+        AdventureManager.RewardType newReward = GetRandomRewardType();
+
+        switch (newReward)
+        {
+            case AdventureManager.RewardType.Monster:
+                monsterReward = subscreenManager.GetRandomMonster();
+                rewardImage.sprite = monsterReward.baseSprite;
+                rewardName.text = ($"{monsterReward.name} Lv. {monsterReward.level}");
+                break;
+
+            case AdventureManager.RewardType.Modifier:
+                modifierReward = subscreenManager.GetRandomModifier();
+                rewardImage.sprite = modifierReward.baseSprite;
+                SetTextRarityColor();
+                break;
+
+            case AdventureManager.RewardType.Equipment:
+                modifierReward = subscreenManager.GetRandomEquipment();
+                rewardImage.sprite = modifierReward.baseSprite;
+                SetTextRarityColor();
+                break;
+
+            case AdventureManager.RewardType.Item:
+                itemReward = subscreenManager.GetRandomItemByRarity();
+                rewardImage.sprite = itemReward.baseSprite;
+                SetTextRarityColor(itemReward);
+                break;
+
+            default:
+
+                break;
+        }
+
+    }
+
+    public AdventureManager.RewardType GetRandomRewardType()
+    {
+        var totalWeight = 0;
+
+        foreach (var entry in shopManager.itemTypes)
+        {
+            totalWeight += entry.itemWeight;
+        }
+
+        var randomWeightValue = UnityEngine.Random.Range(1, totalWeight + 1);
+
+        var processedWeight = 0;
+
+        foreach (var entry in shopManager.itemTypes)
+        {
+            processedWeight += entry.itemWeight;
+
+            if (randomWeightValue <= processedWeight)
+            {
+                return entry.rewardType;
+            }
+        }
+
+        return AdventureManager.RewardType.Item;
     }
 
     public void InitializeMonsterSelectCardData(Monster monster)
@@ -271,6 +341,39 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
                 //#<f0a346>
                 rewardName.text = ($"<b><#f0a346>{modifierReward.modifierName}</color></b>" +
                     $"\n{modifierReward.modifierDescription}");
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void SetTextRarityColor(Item item)
+    {
+        switch (item.itemRarity)
+        {
+            case Modifier.ModifierRarity.Common:
+                //<#24d152>
+                rewardName.text = ($"<b><#24d152>{item.itemName}</color></b>" +
+                    $"\n{item.itemDescription}");
+                break;
+
+            case Modifier.ModifierRarity.Uncommon:
+                //#5255b3<#c55fde>
+                rewardName.text = ($"<b><#2596be>{item.itemName}</color></b>" +
+                    $"\n{item.itemDescription}");
+                break;
+
+            case Modifier.ModifierRarity.Rare:
+                //#<c55fde><#2596be>
+                rewardName.text = ($"<b><#9925be>{item.itemName}</color></b>" +
+                    $"\n{item.itemDescription}");
+                break;
+
+            case Modifier.ModifierRarity.Legendary:
+                //#<f0a346>
+                rewardName.text = ($"<b><#f0a346>{item.itemName}</color></b>" +
+                    $"\n{item.itemDescription}");
                 break;
 
             default:

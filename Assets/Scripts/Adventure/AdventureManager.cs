@@ -16,7 +16,7 @@ public class AdventureManager : MonoBehaviour
     public void AddRerolls()
     {
         rerollAmount += 100;
-        subscreenManager.rerollsLeftText.text = ($"Rerolls left: {rerollAmount}");
+        monstersSubScreenManager.playerRerollAmount.text = ($"{rerollAmount}");
     }
 
     [Button(50)]
@@ -158,7 +158,7 @@ public class AdventureManager : MonoBehaviour
     public List<Monster> ListOfAllyDeadMonsters;
 
     [Title("Other Adventure Modules")]
-    public enum RewardType { Monster, Modifier, Equipment }
+    public enum RewardType { Monster, Modifier, Equipment, Item }
     public RewardType currentRewardType;
 
     public Monster currentHoveredRewardMonster;
@@ -563,8 +563,12 @@ public class AdventureManager : MonoBehaviour
         }
 
         subscreenManager = SubscreenMenu.GetComponent<SubscreenManager>();
+
         subScreenMenuText = SubscreenMenu.GetComponentInChildren<TextMeshProUGUI>();
+
         monstersSubScreenManager = subscreenManager.monstersSubScreenManager;
+
+        monstersSubScreenManager.InitializeComponent(this);
 
         nodeSelectionTargeter = GameObject.FindGameObjectWithTag("Targeter");
 
@@ -838,6 +842,12 @@ public class AdventureManager : MonoBehaviour
     // This function displays the subscreen menu, showing either pre-combat data or avaiable rewards - Extend to show current team/modifiers/equipment
     public void ShowSubscreenMenu()
     {
+        if (NodeComponent.nodeType == CreateNode.NodeType.Shop)
+        {
+            subscreenManager.ShowShopInterface();
+            return;
+        }
+
         SubscreenMenu.SetActive(true);
         cachedSelectedNode = currentSelectedNode;
 

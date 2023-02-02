@@ -27,6 +27,9 @@ public class CrushingBlows : IAbilityTrigger
             GameObject targetMonsterGameObject = combatManagerScript.monsterAttackManager.currentTargetedMonsterGameObject;
             Monster targetMonster = null;
 
+            if (targetMonsterGameObject == null)
+                return 1;
+
             if (targetMonsterGameObject.TryGetComponent(out CreateMonster monsterComponent))
                 targetMonster = monsterComponent.monsterReference;
 

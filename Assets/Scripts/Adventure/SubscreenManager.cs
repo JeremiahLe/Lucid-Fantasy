@@ -25,7 +25,7 @@ public class SubscreenManager : MonoBehaviour
     public GameObject ToolTipWindow;
     public TextMeshProUGUI ToolTipWindowTextComponent;
 
-    public AdventureManager.RewardType thisRewardType;
+    public AdventureManager.RewardType currentRewardSelection;
 
     public List<GameObject> listOfMonsterSlots;
     public List<GameObject> listOfMonsterSlotsEquipment;
@@ -37,7 +37,6 @@ public class SubscreenManager : MonoBehaviour
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI summaryText;
     public TextMeshProUGUI monsterListText;
-    public TextMeshProUGUI rerollsLeftText;
     public TextMeshProUGUI currentRunText;
 
     public GameObject BattleImage;
@@ -48,6 +47,8 @@ public class SubscreenManager : MonoBehaviour
     public MonsterStatScreenScript monsterStatScreenScript;
     public MonstersSubScreenManager monstersSubScreenManager;
     public MonsterSelectPanelManager monstersSelectPanelManager;
+
+    public GameObject ShopInterface;
 
     public int randomBattleMonsterCount;
     public int randomBattleMonsterLimit;
@@ -67,7 +68,6 @@ public class SubscreenManager : MonoBehaviour
     // This function grabs random rewards and displays them on screen
     public void LoadRewardSlots(AdventureManager.RewardType rewardType)
     {
-        rerollsLeftText.text = ($"Rerolls left: {adventureManager.rerollAmount}");
         RerollButton.SetActive(true);
         SkipButton.SetActive(true);
 
@@ -77,7 +77,7 @@ public class SubscreenManager : MonoBehaviour
                 foreach (GameObject rewardSlot in listOfRewardSlots)
                 {
                     rewardSlot.SetActive(true);
-                    thisRewardType = rewardType;
+                    currentRewardSelection = rewardType;
                     Monster monster = GetRandomMonster();
                     rewardSlot.GetComponent<CreateReward>().subscreenManager = this;
                     rewardSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
@@ -111,7 +111,7 @@ public class SubscreenManager : MonoBehaviour
                 foreach (GameObject rewardSlot in listOfRewardSlots)
                 {
                     rewardSlot.SetActive(true);
-                    thisRewardType = rewardType;
+                    currentRewardSelection = rewardType;
                     Modifier modifier = GetRandomModifier();
                     rewardSlot.GetComponent<CreateReward>().subscreenManager = this;
                     rewardSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
@@ -130,7 +130,7 @@ public class SubscreenManager : MonoBehaviour
                 foreach (GameObject rewardSlot in listOfRewardSlots)
                 {
                     rewardSlot.SetActive(true);
-                    thisRewardType = rewardType;
+                    currentRewardSelection = rewardType;
                     Modifier modifier = GetRandomEquipment();
                     rewardSlot.GetComponent<CreateReward>().subscreenManager = this;
                     rewardSlot.GetComponent<CreateReward>().adventureManager = adventureManager;
@@ -151,7 +151,6 @@ public class SubscreenManager : MonoBehaviour
     // This function hides all displayed rewards
     public void HideRewardSlots()
     {
-        rerollsLeftText.text = ("");
         RerollButton.SetActive(false);
         SkipButton.SetActive(false);
 
@@ -308,6 +307,8 @@ public class SubscreenManager : MonoBehaviour
             randMonster.ListOfMonsterAttacks[i] = Instantiate(randomAttack);
             randMonster.ListOfMonsterAttacksAvailable.Remove(randomAttack);
         }
+
+        ValidateMonsterAttacks(randMonster);
 
         // random stats 
         randMonster.level = GetMonsterRandomLevelRange();
@@ -760,20 +761,24 @@ public class SubscreenManager : MonoBehaviour
             adventureManager.rerollAmount -= 1;
             adventureManager.timesRerolled += 1;
 
-            if (thisRewardType == AdventureManager.RewardType.Modifier)
+            monstersSubScreenManager.playerRerollAmount.text = ($"{adventureManager.rerollAmount}");
+
+            switch (currentRewardSelection)
             {
-                adventureManager.ResetModifierList();
+                case AdventureManager.RewardType.Monster:
+                    break;
+
+                case AdventureManager.RewardType.Modifier:
+                    adventureManager.ResetModifierList();
+                    break;
+
+                case AdventureManager.RewardType.Equipment:
+                    adventureManager.ResetEquipmentList();
+                    break;
             }
 
-            if (thisRewardType == AdventureManager.RewardType.Equipment)
-            {
-                adventureManager.ResetEquipmentList();
-                adventureManager.currentSelectedEquipment = null;
-                adventureManager.currentSelectedMonsterForEquipment = null;
-            }
-
-            LoadRewardSlots(thisRewardType);
-        } 
+            LoadRewardSlots(currentRewardSelection);
+        }
     }
 
     // This function skips the reward screen
@@ -792,5 +797,12 @@ public class SubscreenManager : MonoBehaviour
 
         adventureManager.SubscreenMenu.SetActive(false);
         adventureManager.ActivateNextNode();
+    }
+
+    internal void ShowShopInterface()
+    {
+        ShopInterface.GetComponent<ShopManager>().adventureManager = adventureManager;
+
+        ShopInterface.SetActive(true);
     }
 }
