@@ -30,7 +30,12 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
     public ShopManager shopManager;
 
     public TextMeshProUGUI rewardName;
-    public TextMeshProUGUI rewardDescription;
+    public TextMeshProUGUI shopItemCostText;
+
+    public int shopItemCost = 1;
+    public enum ShopItemState { Unpurchased, Purchased }
+    public ShopItemState shopItemState;
+
     public enum TypeOfMonsterSelect { View, ReceiveItem, PreBattle, ShopItem }
     public TypeOfMonsterSelect typeOfMonsterSelect;
 
@@ -110,38 +115,124 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
     public void InitializeItem()
     {
         AdventureManager.RewardType newReward = GetRandomRewardType();
+        rewardType = newReward;
+
+        shopItemState = ShopItemState.Unpurchased;
+        rewardName.fontStyle = FontStyles.Normal;
 
         switch (newReward)
         {
             case AdventureManager.RewardType.Monster:
                 monsterReward = subscreenManager.GetRandomMonster();
+
                 rewardImage.sprite = monsterReward.baseSprite;
+
                 rewardName.text = ($"{monsterReward.name} Lv. {monsterReward.level}");
+
+                shopItemCost = InitializeItemCost(newReward);
+                shopItemCostText.text = ($"{shopItemCost}");
+
                 break;
 
             case AdventureManager.RewardType.Modifier:
                 modifierReward = subscreenManager.GetRandomModifier();
+
                 rewardImage.sprite = modifierReward.baseSprite;
+
                 SetTextRarityColor();
+
+                shopItemCost = InitializeItemCost(newReward);
+                shopItemCostText.text = ($"{shopItemCost}");
+
                 break;
 
             case AdventureManager.RewardType.Equipment:
                 modifierReward = subscreenManager.GetRandomEquipment();
+
                 rewardImage.sprite = modifierReward.baseSprite;
+
                 SetTextRarityColor();
+
+                shopItemCost = InitializeItemCost(newReward);
+                shopItemCostText.text = ($"{shopItemCost}");
+
                 break;
 
             case AdventureManager.RewardType.Item:
                 itemReward = subscreenManager.GetRandomItemByRarity();
+
                 rewardImage.sprite = itemReward.baseSprite;
+
                 SetTextRarityColor(itemReward);
+
+                shopItemCost = InitializeItemCost(newReward);
+                shopItemCostText.text = ($"{shopItemCost}");
+
                 break;
 
             default:
-
                 break;
         }
 
+    }
+
+    public int InitializeItemCost(AdventureManager.RewardType rewardType)
+    {
+        int cost = 0;
+
+        switch (rewardType)
+        {
+            case AdventureManager.RewardType.Monster:
+                cost = (Mathf.RoundToInt(monsterReward.level / 2) + 1);
+                break;
+
+            case AdventureManager.RewardType.Modifier:
+                cost = GetCostByRarity(modifierReward.modifierRarity);
+                break;
+
+            case AdventureManager.RewardType.Equipment:
+                cost =  GetCostByRarity(modifierReward.modifierRarity) - 3;
+                break;
+
+            case AdventureManager.RewardType.Item:
+                cost = GetCostByRarity(itemReward.itemRarity) - 3;
+                break;
+
+            default:
+                return 1;
+        }
+
+        if (cost <= 0)
+            return 1;
+
+        return cost;
+    }
+
+    public int GetCostByRarity(Modifier.ModifierRarity itemRarity)
+    {
+        switch (itemRarity) 
+        {
+            case (Modifier.ModifierRarity.Common):
+                return 5;
+
+            case (Modifier.ModifierRarity.Uncommon):
+                return 7;
+
+            case (Modifier.ModifierRarity.Rare):
+                return 10;
+
+            case (Modifier.ModifierRarity.Legendary):
+                return 12;
+
+            default:
+                return 1;
+        }
+    }
+
+    public void ItemPurchased() 
+    {
+        shopItemState = ShopItemState.Purchased;
+        rewardName.fontStyle = FontStyles.Strikethrough;
     }
 
     public AdventureManager.RewardType GetRandomRewardType()
@@ -287,6 +378,10 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
 
             case TypeOfMonsterSelect.PreBattle:
                 SelectMonsterForBattle();
+                break;
+
+            case TypeOfMonsterSelect.ShopItem:
+                shopManager.ValidatePurchase(this);
                 break;
 
             default:

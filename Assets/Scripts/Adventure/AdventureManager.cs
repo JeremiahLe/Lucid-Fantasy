@@ -40,6 +40,13 @@ public class AdventureManager : MonoBehaviour
     }
 
     [Button(50)]
+    public void AddGold()
+    {
+        playerGold += 20;
+        monstersSubScreenManager.playerGoldAmount.text = ($"{playerGold}");
+    }
+
+    [Button(50)]
     public void LevelUpMonsters()
     {
         foreach (Monster monster in ListOfCurrentMonsters)
@@ -842,6 +849,8 @@ public class AdventureManager : MonoBehaviour
     // This function displays the subscreen menu, showing either pre-combat data or avaiable rewards - Extend to show current team/modifiers/equipment
     public void ShowSubscreenMenu()
     {
+        cachedSelectedNode = currentSelectedNode;
+
         if (NodeComponent.nodeType == CreateNode.NodeType.Shop)
         {
             subscreenManager.ShowShopInterface();
@@ -849,7 +858,6 @@ public class AdventureManager : MonoBehaviour
         }
 
         SubscreenMenu.SetActive(true);
-        cachedSelectedNode = currentSelectedNode;
 
         switch (NodeComponent.nodeType)
         {

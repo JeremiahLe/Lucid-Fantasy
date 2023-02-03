@@ -67,6 +67,22 @@ public class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
+    public void DisplayPopUpMessage(string message, string subMessage)
+    {
+        interactableDescriptionWindow.SetActive(true);
+
+        interactableText.text =
+            ($"<b>{message}</b>" +
+            $"\n{subMessage}");
+
+        Invoke(nameof(DisableGameObject), 3.0f);
+    }
+
+    public void DisableGameObject()
+    {
+        interactableDescriptionWindow.SetActive(false);
+    }
+
     public void InitiateInteractable(Item _item)
     {
         item = _item;

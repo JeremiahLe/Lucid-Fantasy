@@ -1238,6 +1238,7 @@ MonoBehaviour:
   rewardImage: {fileID: 0}
   monsterReward: {fileID: 0}
   modifierReward: {fileID: 0}
+  itemReward: {fileID: 0}
   StatScreenWindowGameObject: {fileID: 0}
   container: {fileID: 0}
   StatScreenWindowText: {fileID: 0}
@@ -1246,8 +1247,11 @@ MonoBehaviour:
   adventureManager: {fileID: 0}
   monsterStatScreenScript: {fileID: 0}
   inventoryManager: {fileID: 0}
+  shopManager: {fileID: 0}
   rewardName: {fileID: 0}
-  rewardDescription: {fileID: 0}
+  shopItemCostText: {fileID: 0}
+  shopItemCost: 1
+  shopItemState: 0
   typeOfMonsterSelect: 0
   selectable: 1
   selected: 0
@@ -1282,7 +1286,7 @@ MonoBehaviour:
     rgba: 4281551729
   electricColor:
     serializedVersion: 2
-    rgba: 4281709231
+    rgba: 4284267208
   elixirColor:
     serializedVersion: 2
     rgba: 4283064338

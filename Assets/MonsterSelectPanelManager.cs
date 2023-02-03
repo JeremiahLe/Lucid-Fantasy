@@ -61,6 +61,8 @@ public class MonsterSelectPanelManager : MonoBehaviour
 
     public void HideMonsterSelectCards()
     {
+        ClearMonsterSelectCards();
+
         gameObject.SetActive(false);
     }
 }
