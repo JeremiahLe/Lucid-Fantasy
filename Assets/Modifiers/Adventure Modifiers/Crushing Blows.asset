@@ -36,4 +36,4 @@ MonoBehaviour:
   modifierRarity: 2
   equipmentRank: 1
   equipmentCachedAmount: 0
-  baseSprite: {fileID: 21300000, guid: e2c4b7160b20497419b8f76e8c5d9d85, type: 3}
+  baseSprite: {fileID: 21300000, guid: 893dfcb7e300671468ecab57a6785be2, type: 3}

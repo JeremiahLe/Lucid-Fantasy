@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &4338947877023641895
+--- !u!1001 &1664018569451530403
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -62,7 +62,7 @@ PrefabInstance:
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: GameManagerSFXSource
       value: 
-      objectReference: {fileID: 689135760999768}
+      objectReference: {fileID: 3108241080963734748}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: equipmentDeselectSFX
       value: 
@@ -74,7 +74,7 @@ PrefabInstance:
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: GameManagerAudioSource
       value: 
-      objectReference: {fileID: 1024219073573602734}
+      objectReference: {fileID: 2672327664998210602}
     - target: {fileID: 1827473419063040709, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
       propertyPath: ListOfAvailableItems.Array.size
       value: 25
@@ -481,13 +481,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
---- !u!82 &1024219073573602734 stripped
+--- !u!82 &2672327664998210602 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 3603385240357516425, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
-  m_PrefabInstance: {fileID: 4338947877023641895}
+  m_PrefabInstance: {fileID: 1664018569451530403}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &689135760999768 stripped
+--- !u!82 &3108241080963734748 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 4338506689726739583, guid: 00f93015a45c4ae4b93bda245f7412f5, type: 3}
-  m_PrefabInstance: {fileID: 4338947877023641895}
+  m_PrefabInstance: {fileID: 1664018569451530403}
   m_PrefabAsset: {fileID: 0}

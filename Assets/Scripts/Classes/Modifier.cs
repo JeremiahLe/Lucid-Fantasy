@@ -72,7 +72,7 @@ public class Modifier : ScriptableObject
     [EnableIf("modifierType", ModifierType.equipmentModifier)]
     public float equipmentCachedAmount;
 
-    [AssetSelector(Paths = "Assets/Sprites/UI")]
+    [AssetSelector(Paths = "Assets/Sprites/UI/Adventure Modifiers/Updated Custom Icons/")]
     [PreviewField(150)]
     public Sprite baseSprite;
 

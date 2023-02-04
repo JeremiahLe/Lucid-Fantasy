@@ -1,0 +1,456 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8887218391834516552
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8887218391834516553}
+  - component: {fileID: 8887218391834516558}
+  - component: {fileID: 8887218391834516559}
+  - component: {fileID: 8887218391834516556}
+  - component: {fileID: 8887218391834516557}
+  - component: {fileID: 5766868835214881282}
+  - component: {fileID: 8458055987984145592}
+  m_Layer: 0
+  m_Name: BasicAdventureGameManager
+  m_TagString: GameManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8887218391834516553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887218391834516552}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1500.3018, y: 29.35144, z: 4041.0537}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &8887218391834516558
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887218391834516552}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: eb7ae0a03637bfe4db9da0c8530e26b8, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.08
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 63
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &8887218391834516559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887218391834516552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a48577f1dbf6bef47b9e8983c1bf1cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launcherScript: {fileID: 0}
+  connectingText: {fileID: 0}
+  SceneTransitions: {fileID: 0}
+  MainMenu: {fileID: 0}
+  CreateRoomMenu: {fileID: 0}
+  QuickplaySettingsMenu: {fileID: 0}
+  MultiplayerMenu: {fileID: 0}
+  TeamBuilderMenu: {fileID: 0}
+  SingleplayerMenu: {fileID: 0}
+  CreditsMenu: {fileID: 0}
+  QuickplayButton: {fileID: 0}
+  MultiplayerButton: {fileID: 0}
+  BackButton: {fileID: 0}
+  CreditsButton: {fileID: 0}
+  CreateMatchButton: {fileID: 0}
+  FindMatchButton: {fileID: 0}
+  QuitButton: {fileID: 0}
+--- !u!114 &8887218391834516556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887218391834516552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183717d44a7a3cc4e9333fcda7674c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8887218391834516557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887218391834516552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b073b006b53916479c2d15dca6dab6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxTeams: 12
+  currentSelectedTeam:
+    teamName: 
+    teamDate: 
+    teamNameObject: {fileID: 0}
+    teamButtonIcon: {fileID: 0}
+    teamButtonScript: {fileID: 0}
+    teamListOfMonsters: []
+  TeamListLog: {fileID: 0}
+  TeamButtonObject: {fileID: 5040782623180309060, guid: 74378fa26f831304cac8c1569bd4a097, type: 3}
+  TeamViewerObject: {fileID: 0}
+  TeamMaxAlertText: {fileID: 0}
+  teamNameInput: {fileID: 0}
+  teamList: []
+--- !u!114 &5766868835214881282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887218391834516552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd4322b95cde9654d83ccf4a6502a8ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  adventureBegin: 0
+  AdventureMode: 0
+  adventureFailed: 0
+  BossDefeated: 0
+  BossBattle: 0
+  lockEquipmentInCombat: 0
+  ConfirmAdventureMenu: {fileID: 0}
+  sceneButtonManager: {fileID: 0}
+  GameManagerAudioSource: {fileID: 8887218391834516558}
+  GameManagerSFXSource: {fileID: 8458055987984145592}
+  monsterAscendedSFX: {fileID: 8300000, guid: 3acb9f5948956ab4b93071d32f94e22f, type: 3}
+  UIHoverSFX: {fileID: 8300000, guid: a496b4e0d52477d49bf195d92b6d5f4d, type: 3}
+  equipmentSelectSFX: {fileID: 8300000, guid: 5560998f522ae48468a21156b93055f7, type: 3}
+  equipmentDeselectSFX: {fileID: 8300000, guid: 8ed6060fb0bf49d489367dca3698eb9b, type: 3}
+  UIScreenSelectSFX: {fileID: 8300000, guid: e28c6c9738371d84f847dd48f6eed1fc, type: 3}
+  adventureBGM: {fileID: 8300000, guid: eb7ae0a03637bfe4db9da0c8530e26b8, type: 3}
+  combatBGM: {fileID: 8300000, guid: b9e11bdfb87f4a545b606bfe8248b101, type: 3}
+  bossBGM: {fileID: 8300000, guid: 7aeefde7b06a83541967aa266f9e0293, type: 3}
+  winBGM: {fileID: 8300000, guid: 610538fc2b0ebb0419a2217320df6263, type: 3}
+  defeatBGM: {fileID: 8300000, guid: bc95cab475244de4f8ffa3ab17abc636, type: 3}
+  adventureTimer: 0
+  timeStarted: 0
+  nodeSelectionTargeter: {fileID: 0}
+  adventureSceneName: 
+  currentSelectedAdventure: {fileID: 0}
+  currentSelectedNode: {fileID: 0}
+  cachedSelectedNode: {fileID: 0}
+  NodeComponent: {fileID: 0}
+  adventureBoss: {fileID: 0}
+  AdventureMenu: {fileID: 0}
+  SubscreenMenu: {fileID: 0}
+  MonstersSubscreen: {fileID: 0}
+  routeText: {fileID: 0}
+  subScreenMenuText: {fileID: 0}
+  subscreenManager: {fileID: 0}
+  monstersSubScreenManager: {fileID: 0}
+  RewardSlotOne: {fileID: 0}
+  RewardSlotTwo: {fileID: 0}
+  RewardSlotThree: {fileID: 0}
+  bonusExp: 1
+  legendaryChanceRate: 12
+  rareChanceRate: 30
+  uncommonChanceRate: 55
+  commonChanceRate: 100
+  playerMonsterLimit: 4
+  rerollAmount: 1
+  timesRerolled: 0
+  playerGold: 0
+  playerGoldSpent: 0
+  playerMonstersLost: 0
+  playerMonstersKilled: 0
+  adventureNGNumber: 1
+  playerRetrys: 1
+  ListOfCurrentMonsters: []
+  ListOfCurrentModifiers: []
+  ListOfAllMonsters: []
+  ListOfCurrentEquipment: []
+  ListOfInventoryItems: []
+  ListOfAllyDeadMonsters: []
+  currentRewardType: 0
+  currentHoveredRewardMonster: {fileID: 0}
+  currentHoveredRewardModifier: {fileID: 0}
+  currentSelectedEquipment: {fileID: 0}
+  currentSelectedMonsterForEquipment: {fileID: 0}
+  dontDisappear: {fileID: 0}
+  NodeToReturnTo: {fileID: 0}
+  ListOfAllNodes: []
+  ListOfSavedNodes: []
+  ListOfAvailableRewardMonsters:
+  - {fileID: 11400000, guid: 992be654725a3e64895704cfb30bfedd, type: 2}
+  - {fileID: 11400000, guid: 5efd682e756fd9e4fa674fb3b5b32b31, type: 2}
+  - {fileID: 11400000, guid: 27d63b029fab7b34ab0597f840c5c531, type: 2}
+  - {fileID: 11400000, guid: aa870661d7d028f4f800ed129db05300, type: 2}
+  - {fileID: 11400000, guid: 622d592c26c65d24e9df7d9906fc1807, type: 2}
+  - {fileID: 11400000, guid: 707a2c482708e77439bb81ae6ee26fad, type: 2}
+  - {fileID: 11400000, guid: 53682ef80a39d0d408cebe19a557e246, type: 2}
+  - {fileID: 11400000, guid: 2b978e158b386b4458dc9860976bdc49, type: 2}
+  - {fileID: 11400000, guid: 1ebc49514d1f7ab4195517aaad8dd6c4, type: 2}
+  - {fileID: 11400000, guid: a2e1f37c1bcdd6342a5d9b3841bc35d5, type: 2}
+  ListOfAvailableRewardModifiers:
+  - {fileID: 11400000, guid: aa51da2736b0c534cac0f515d1634c06, type: 2}
+  - {fileID: 11400000, guid: 546598aa11e3ae946af8e11355d7589e, type: 2}
+  - {fileID: 11400000, guid: 31007e97733cce44f8874d212e4037da, type: 2}
+  - {fileID: 11400000, guid: 797c177fae28a274083518819cd7344a, type: 2}
+  - {fileID: 11400000, guid: fb914f9f53c3c334ba0cac03b7052d18, type: 2}
+  - {fileID: 11400000, guid: 01ef827449fc15548b01bab4b96bfe0c, type: 2}
+  - {fileID: 11400000, guid: 237ae308f32b21d429d1b8bd091ab8ca, type: 2}
+  - {fileID: 11400000, guid: 395254d09a7231e4e865f18710ea2c89, type: 2}
+  - {fileID: 11400000, guid: 483237379550f0b4791237054cc104dd, type: 2}
+  - {fileID: 11400000, guid: 001a9614f79e04a4b99f58a24ae05b75, type: 2}
+  - {fileID: 11400000, guid: 2705cadcca9898f4fbab9f615de8dd8d, type: 2}
+  - {fileID: 11400000, guid: dc23ebc54131e7b43adb65d1b0d51b61, type: 2}
+  - {fileID: 11400000, guid: 9b06567df3ccf79468f022d45ee3b240, type: 2}
+  - {fileID: 11400000, guid: 3efd7fc1d52414a41958995ab4499cc6, type: 2}
+  - {fileID: 11400000, guid: 881e8d9446fe4c34d9ba85e594f9bf2f, type: 2}
+  - {fileID: 11400000, guid: 05c3b457422d05f4f8ae51e08be18a7b, type: 2}
+  - {fileID: 11400000, guid: 6edd471234fe17943b4d652650d80090, type: 2}
+  - {fileID: 11400000, guid: 6ebfc8e395818db4481aaba1a6bd537f, type: 2}
+  ListOfAvailableRewardEquipment:
+  - {fileID: 11400000, guid: 56dac17aa4fb9144f9b4a0f5e57cf0b3, type: 2}
+  - {fileID: 11400000, guid: 2073b73193998f244addabad7d24fa0e, type: 2}
+  - {fileID: 11400000, guid: c116024eb9800eb4280694fad48d8fea, type: 2}
+  - {fileID: 11400000, guid: 4f7c093e00482fb4db989616cd4798ca, type: 2}
+  - {fileID: 11400000, guid: e572260d8ce61b743a7a433d3dc39b78, type: 2}
+  - {fileID: 11400000, guid: e8b2fd35f2c31254fbd3b827fdb68ea0, type: 2}
+  - {fileID: 11400000, guid: 13a228b924b3e224bb53764a5d17093f, type: 2}
+  - {fileID: 11400000, guid: d80dbcfa21499df458a1c575d8bb3df0, type: 2}
+  - {fileID: 11400000, guid: c343d677dc0e0904086317faf92080cb, type: 2}
+  - {fileID: 11400000, guid: 672f8721a1ddd6b48847d0dcb43430c7, type: 2}
+  - {fileID: 11400000, guid: 0dd014e6b9e912942b5cd58bd3de2153, type: 2}
+  ListOfAvailableItems:
+  - {fileID: 11400000, guid: a9e243293f413cd42ba793a581a14246, type: 2}
+  - {fileID: 11400000, guid: 0ff01de870003834385615f226386aed, type: 2}
+  - {fileID: 11400000, guid: 856ace343a8a41542ab0b677afd625e5, type: 2}
+  - {fileID: 11400000, guid: 4f985c1d97cff3a46be04da7c45b277d, type: 2}
+  - {fileID: 11400000, guid: 4d5f77c954ff36a4392d349537d1b6b4, type: 2}
+  - {fileID: 11400000, guid: 2836025b9b700d64da4d203f49d7d7f1, type: 2}
+  - {fileID: 11400000, guid: aea3175f613b0a94ebd543a1be5ec9bd, type: 2}
+  - {fileID: 11400000, guid: 4c889ff0c7a86e94792a06c7d32e99d0, type: 2}
+  - {fileID: 11400000, guid: c329ef972dfba014ca1983dd7ba6f74a, type: 2}
+  - {fileID: 11400000, guid: efe9845f152d85c4bbf86fb9f3bcf142, type: 2}
+  - {fileID: 11400000, guid: 44d68414f0b854d45ae7cf20b5e630c4, type: 2}
+  - {fileID: 11400000, guid: e64ab1f513974d549853a335e4986b3f, type: 2}
+  - {fileID: 11400000, guid: 58c1d6b00a092ab4e9c0670fbf98709c, type: 2}
+  - {fileID: 11400000, guid: bd9915b2665462d499278a5369ecc4d1, type: 2}
+  - {fileID: 11400000, guid: 8dc71874c79660247b3349ce5edf1d8a, type: 2}
+  - {fileID: 11400000, guid: e62edb5798797254fa1216ae0d077bd4, type: 2}
+  - {fileID: 11400000, guid: 0ebbea00ac71767498de8da7a7b9f25a, type: 2}
+  - {fileID: 11400000, guid: d87c7849c7a03d04fb5e03475e18638e, type: 2}
+  - {fileID: 11400000, guid: 540c518caf65a024ea7b14cffb726003, type: 2}
+  - {fileID: 11400000, guid: c62c6e248f483b34684f95d72b7f59d3, type: 2}
+  - {fileID: 11400000, guid: 1c86e7ed5c2f2e044bd1681112bb6223, type: 2}
+  - {fileID: 11400000, guid: 908e1554aefce644ab2c9b7cc0d92dbd, type: 2}
+  - {fileID: 11400000, guid: b7e9302da7a434f489dc05afaefa2334, type: 2}
+  - {fileID: 11400000, guid: 7182d25483f5c2b4f90fde68623fcb59, type: 2}
+  - {fileID: 11400000, guid: a666cf9997203bb48b1c972bce99d891, type: 2}
+  DefaultListOfAvailableRewardModifiers: []
+  DefaultListOfAvailableRewardEquipment: []
+  DefaultListOfAvailableItems: []
+  randomBattleMonsterCount: 0
+  randomBattleMonsterLimit: 0
+  CombatManagerObject: {fileID: 0}
+  combatManagerScript: {fileID: 0}
+  ListOfInitialEnemyBattleMonsters: []
+  ListOfEnemyBattleMonsters: []
+  ListOfAllyBattleMonsters: []
+  ListOfEnemyModifiers: []
+--- !u!82 &8458055987984145592
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887218391834516552}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.308
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

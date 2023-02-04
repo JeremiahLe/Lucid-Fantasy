@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cc0d960d4836ed459a88adcd0f95e74, type: 3}
-  m_Name: TenaciousGuard
+  m_Name: TenaciousAura
   m_EditorClassIdentifier: 
   abilityTriggerDelay: 150
   abilityTriggerTime: 5

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
-  m_Name: Tenacious Guard
+  m_Name: Teambuilder
   m_EditorClassIdentifier: 
   modifierSource: 
   modifierOwnerGameObject: {fileID: 0}
@@ -19,21 +19,20 @@ MonoBehaviour:
   statusEffectIcon: {fileID: 0}
   attackEffect: {fileID: 0}
   modifierDurationType: 0
-  statModified: 20
+  statModified: 0
   statChangeType: 0
-  modifierDuration: 4
-  modifierCurrentDuration: 4
-  modifierAmount: 0
+  modifierDuration: 0
+  modifierCurrentDuration: 0
+  modifierAmount: 1
   modifierAmountFlatBuff: 0
   isStatusEffect: 0
   statusEffectType: 0
-  modifierName: Tenacious Guard
-  modifierDescription: 'Game Start: All Allied Chimerics gain Immunity to Debuffs
-    for 3 Rounds.'
+  modifierName: Teambuilder
+  modifierDescription: 'Passive: Increase your max Chimeric limit by 1.'
   listOfModifierTriggers:
-  - {fileID: 11400000, guid: 9636875d62c64a940a5113ebe55ad770, type: 2}
+  - {fileID: 11400000, guid: 397baa87b637c4942be2e909bb370fa4, type: 2}
   modifierType: 1
-  modifierRarity: 2
+  modifierRarity: 0
   equipmentRank: 1
   equipmentCachedAmount: 0
-  baseSprite: {fileID: 21300000, guid: 8cdcb80a3bb614f40aa722a71b30a641, type: 3}
+  baseSprite: {fileID: 21300000, guid: f1874df06252346429bc456d820460ee, type: 3}
