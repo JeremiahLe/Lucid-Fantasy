@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System.Linq;
 using System;
-using Sirenix.OdinInspector.Editor;
 using Sirenix.OdinInspector;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -395,7 +394,7 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         if (monsterReward == null)
             return;
 
-        Item currentItem = monsterStatScreenScript.monstersSubScreenManager.currentItem;
+        Item currentItem = subscreenManager.monstersSubScreenManager.currentItem;
 
         if (currentItem == null)
             return;
@@ -408,6 +407,12 @@ public class CreateReward : MonoBehaviour, IPointerClickHandler
         }
 
         adventureManager.HealMonster(monsterReward, currentItem.modifierAmount);
+
+        adventureManager.ListOfInventoryItems.Remove(currentItem);
+
+        subscreenManager.monstersSubScreenManager.ResetMenus();
+
+        subscreenManager.ShowAlliedMonstersAvailable();
     }
 
     public void SetTextRarityColor()

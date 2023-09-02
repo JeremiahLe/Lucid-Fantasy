@@ -11,7 +11,7 @@ public class Unbreakable : IAbilityTrigger
     public AttackEffect UnbreakablePhysicalDefenseBuff;
     public AttackEffect UnbreakablePhysicalAttackBuff;
 
-    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier, AttackEffect attackEffect)
+    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier, AttackEffect attackEffect, bool displayLogMessage)
     {
         Debug.Log($"Triggering {targetMonster}'s {ability.abilityName} ability!", this);
 
@@ -19,11 +19,11 @@ public class Unbreakable : IAbilityTrigger
         {
             monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{targetMonster.aiType} {targetMonster.name}'s {ability.abilityName} Ability prevented Physical Defense Debuffs!");
 
-            await UnbreakablePhysicalDefenseBuff.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName);
+            await UnbreakablePhysicalDefenseBuff.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName, displayLogMessage);
 
             await Task.Delay(abilityTriggerDelay);
 
-            await UnbreakablePhysicalAttackBuff.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName);
+            await UnbreakablePhysicalAttackBuff.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName, displayLogMessage);
 
             await Task.Delay(abilityTriggerDelay);
 

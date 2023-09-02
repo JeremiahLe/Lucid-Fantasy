@@ -10,13 +10,13 @@ public class ReaperTrigger1 : IAbilityTrigger
 {
     public List<AttackEffect> currentAttackEffectTriggered;
 
-    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger)
+    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger, bool displayLogMessage)
     {
         await Task.Delay(abilityTriggerDelay);
 
         foreach (AttackEffect attackEffect in currentAttackEffectTriggered)
         {
-            await attackEffect.TriggerEffects(monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
+            await attackEffect.TriggerEffects(monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack, displayLogMessage);
 
             await Task.Delay(abilityTriggerDelay);
         }

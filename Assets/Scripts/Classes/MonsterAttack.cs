@@ -49,7 +49,7 @@ public class MonsterAttack : ScriptableObject
 
     [Title("Monster Attack Combat Stats")]
     [DisableIf("monsterAttackType", MonsterAttackType.Status)]
-    public float monsterAttackDamageScalar;
+    public float baseDamage;
 
     [DisplayWithoutEdit] public float monsterBaseAttackStat = 1;
 
@@ -76,7 +76,7 @@ public class MonsterAttack : ScriptableObject
         monsterElementClass = _elementClass;
         monsterAttackDamageType = _damageType;
 
-        monsterAttackDamageScalar = _monsterAttackMultiplier;
+        baseDamage = _monsterAttackMultiplier;
         monsterBaseAttackStat = _monsterAttackDamageScalar;
 
         monsterAttackSource = _monsterAttackSource;

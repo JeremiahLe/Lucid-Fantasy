@@ -31,7 +31,7 @@ public class AttackEffect : ScriptableObject
     public enum StatToChange { Health, Mana, PhysicalAttack, MagicAttack, PhysicalDefense, MagicDefense, Speed, Evasion, CritChance, Debuffs, StatChanges, Damage, BothOffensiveStats, CritDamage, MaxHealth, Accuracy, Various, AddOffensiveAttackEffect, HighestAttackStat, Buffs, Immunity, MaxSP, SPRegen, LifeSteal, SP, InitialSP, BonusDamagePercent, DamageReduction }
     public StatToChange statToChange;
 
-    public enum EffectTime { PreAttack, DuringAttack, PostAttack, OnKill, OnDeath, GameStart, RoundStart, RoundEnd, OnStatChange, OnDamageTaken, PreOtherAttack, OnDamageDealt, OnDamageNullified, OutOfCombatPassive, OnDebuffNullified }
+    public enum EffectTime { PreAttack, DuringAttack, PostAttack, OnKill, OnDeath, GameStart, RoundStart, RoundEnd, OnStatChange, OnDamageTaken, PreOtherAttack, OnDamageDealt, OnDamageNullified, OutOfCombatPassive, OnDebuffNullified, OnItemUsed }
     public EffectTime effectTime;
 
     public enum MonsterTargetType { Target, Self }
@@ -109,7 +109,7 @@ public class AttackEffect : ScriptableObject
     }
 
     // Initial function that is called by monsterAttackManager that enacts attack after effects
-    public async Task<int> TriggerEffects(MonsterAttackManager monsterAttackManager, string effectTrigger, MonsterAttack attackTrigger)
+    public async Task<int> TriggerEffects(MonsterAttackManager monsterAttackManager, string effectTrigger, MonsterAttack attackTrigger, bool displayLogMessages)
     {
         Monster targetMonster = monsterAttackManager.currentTargetedMonster;
 
@@ -142,7 +142,7 @@ public class AttackEffect : ScriptableObject
                 break;
 
             case TypeOfEffect.AddBonusDamageFlat:
-                await AddBonusDamageFlat(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                await AddBonusDamageFlat(targetMonster, monsterAttackManager, targetMonsterGameObject, displayLogMessages);
                 break;
 
             case TypeOfEffect.GrantImmunity:
@@ -154,7 +154,7 @@ public class AttackEffect : ScriptableObject
                 break;
 
             case TypeOfEffect.DamageBonusIfTargetStatusEffect:
-                BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger, displayLogMessages);
                 break;
 
             case TypeOfEffect.AffectTargetStat:
@@ -177,7 +177,7 @@ public class AttackEffect : ScriptableObject
         return 1;
     }
 
-    public async Task<int> TriggerEffects(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, string effectTrigger, MonsterAttack attackTrigger)
+    public async Task<int> TriggerEffects(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, string effectTrigger, MonsterAttack attackTrigger, bool displayLogMessages)
     {
         if (targetMonster == null)
             return 1;
@@ -194,7 +194,7 @@ public class AttackEffect : ScriptableObject
                 break;
 
             case TypeOfEffect.AddBonusDamageFlat:
-                await AddBonusDamageFlat(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                await AddBonusDamageFlat(targetMonster, monsterAttackManager, targetMonsterGameObject, displayLogMessages);
                 break;
 
             case TypeOfEffect.GrantImmunity:
@@ -206,7 +206,7 @@ public class AttackEffect : ScriptableObject
                 break;
 
             case TypeOfEffect.DamageBonusIfTargetStatusEffect:
-                BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger);
+                BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTrigger, displayLogMessages);
                 break;
 
             case TypeOfEffect.AffectTargetStat:
@@ -229,7 +229,7 @@ public class AttackEffect : ScriptableObject
         return 1;
     }
 
-    public async Task<int> TriggerEffects(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, string effectTriggerName)
+    public async Task<int> TriggerEffects(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, string effectTriggerName, bool displayLogMessages)
     {
         if (targetMonster == null)
             return 1;
@@ -246,7 +246,7 @@ public class AttackEffect : ScriptableObject
                 break;
 
             case TypeOfEffect.AddBonusDamageFlat:
-                await AddBonusDamageFlat(targetMonster, monsterAttackManager, targetMonsterGameObject);
+                await AddBonusDamageFlat(targetMonster, monsterAttackManager, targetMonsterGameObject, displayLogMessages);
                 break;
 
             case TypeOfEffect.GrantImmunity:
@@ -258,7 +258,7 @@ public class AttackEffect : ScriptableObject
                 break;
 
             case TypeOfEffect.DamageBonusIfTargetStatusEffect:
-                BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTriggerName);
+                BonusDamageIfTargetStatusEffect(targetMonster, monsterAttackManager, targetMonsterGameObject, effectTriggerName, displayLogMessages);
                 break;
 
             case TypeOfEffect.AffectTargetStat:
@@ -293,7 +293,7 @@ public class AttackEffect : ScriptableObject
         // Check if the monster had recieved a stat boost this round
         if (monsterReferenceGameObject.GetComponent<CreateMonster>().monsterRecievedStatBoostThisRound)
         {
-            monsterAttackManager.currentMonsterAttack.monsterAttackDamageScalar *= 2f;
+            monsterAttackManager.currentMonsterAttack.baseDamage *= 2f;
 
             // Send buff message to combat log
             combatManagerScript = monsterAttackManager.combatManagerScript;
@@ -302,7 +302,7 @@ public class AttackEffect : ScriptableObject
         }
     }
 
-    public void BonusDamageIfTargetStatusEffect(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName)
+    public void BonusDamageIfTargetStatusEffect(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, string effectTriggerName, bool displayLogMessage)
     {
         CreateMonster monsterComponent = monsterAttackManager.combatManagerScript.CurrentTargetedMonster.GetComponent<CreateMonster>();
 
@@ -316,7 +316,8 @@ public class AttackEffect : ScriptableObject
 
             // Send buff message to combat log
             combatManagerScript = monsterAttackManager.combatManagerScript;
-            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained bonus damage!");
+            if (displayLogMessage)
+                combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained bonus damage!");
         }
     }
 
@@ -330,17 +331,18 @@ public class AttackEffect : ScriptableObject
         combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained {monsterAttackManager.currentMonsterAttack.monsterAttackFlatDamageBonus} additional damage!");
     }
 
-    public async Task<int> AddBonusDamageFlat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject)
+    public async Task<int> AddBonusDamageFlat(Monster monsterReference, MonsterAttackManager monsterAttackManager, GameObject monsterReferenceGameObject, bool displayLogMessages)
     {
         // Get bonus damage amount source
         float bonusAmountSource = GetBonusDamageSource(statToChange, monsterReference);
 
         // calc bonus
-        monsterAttackManager.currentMonsterAttack.monsterAttackFlatDamageBonus = bonusAmountSource * (amountToChange / 100) / 100;
+        monsterAttackManager.currentMonsterAttack.monsterAttackFlatDamageBonus += bonusAmountSource * (amountToChange / 100) / 100;
 
         // Send buff message to combat log
         combatManagerScript = monsterAttackManager.combatManagerScript;
-        combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained {monsterAttackManager.currentMonsterAttack.monsterAttackFlatDamageBonus * 100}% bonus damage!");
+        if (displayLogMessages)
+            combatManagerScript.CombatLog.SendMessageToCombatLog($"{monsterReference.aiType} {monsterReference.name}'s {monsterAttackManager.currentMonsterAttack.monsterAttackName} gained {monsterAttackManager.currentMonsterAttack.monsterAttackFlatDamageBonus * 100}% bonus damage!");
 
         await Task.Delay(10);
         return 1;
@@ -899,7 +901,7 @@ public class AttackEffect : ScriptableObject
                 return monsterRef.bonusAccuracy;
 
             case (StatToChange.HighestAttackStat):
-                if (MonsterAttackManager.ReturnMonsterHighestAttackStat(monsterRef) == MonsterAttack.MonsterAttackDamageType.Magical)
+                if (MonsterAttackManager.ReturnMonsterHighestAttackStatType(monsterRef) == MonsterAttack.MonsterAttackDamageType.Magical)
                 {
                     statToChange = StatToChange.MagicAttack;
                     return monsterRef.magicAttack;

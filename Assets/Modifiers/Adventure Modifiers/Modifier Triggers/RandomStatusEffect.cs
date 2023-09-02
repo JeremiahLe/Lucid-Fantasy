@@ -36,7 +36,7 @@ public class RandomStatusEffect : IAbilityTrigger
 
         await Task.Delay(abilityTriggerDelay);
 
-        await statusEffect.TriggerEffects(targetMonster, monsterObj, combatManagerScript.monsterAttackManager, adventureModifier.modifierName);
+        await statusEffect.TriggerEffects(targetMonster, monsterObj, combatManagerScript.monsterAttackManager, adventureModifier.modifierName, true);
 
         await Task.Delay(abilityTriggerDelay);
 

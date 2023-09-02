@@ -309,7 +309,9 @@ public class AdventureManager : MonoBehaviour
                 itemDescription = item.itemDescription,
                 baseSprite = item.baseSprite,
                 itemRarity = item.itemRarity,
-                itemType = item.itemType
+                itemType = item.itemType,
+                listOfItemEffects = item.listOfItemEffects,
+                listOfItemEffectTriggers = item.listOfItemEffectTriggers
             });
         }
     }
@@ -384,6 +386,7 @@ public class AdventureManager : MonoBehaviour
                 baseSprite = item.baseSprite,
                 itemRarity = item.itemRarity,
                 itemType = item.itemType,
+                listOfItemEffects = item.listOfItemEffects,
                 listOfItemEffectTriggers = item.listOfItemEffectTriggers
             });
         }
@@ -490,7 +493,7 @@ public class AdventureManager : MonoBehaviour
                 // Get combat scene components
                 CombatManagerObject = GameObject.FindGameObjectWithTag("GameController");
                 combatManagerScript = CombatManagerObject.GetComponent<CombatManagerScript>();
-                combatManagerScript.adventureMode = true;
+                combatManagerScript.adventureMode = CombatManagerScript.AdventureMode.Adventure;
                 combatManagerScript.previousSceneName = adventureSceneName;
 
                 // Boss Music
@@ -1209,6 +1212,23 @@ public class AdventureManager : MonoBehaviour
 
     internal void HealMonster(Monster monsterToHeal, float modifierAmount)
     {
-        throw new System.NotImplementedException();
+        foreach (Modifier mod in ListOfCurrentModifiers)
+        {
+            foreach (IAbilityTrigger trigger in mod.listOfModifierTriggers)
+            {
+                if (trigger.abilityTriggerTime == AttackEffect.EffectTime.OnItemUsed)
+                {
+                    trigger.TriggerModifier(this);
+                }
+            }
+        }
+
+        monsterToHeal.health += modifierAmount;
+
+        if (monsterToHeal.health > monsterToHeal.maxHealth)
+        {
+            monsterToHeal.health = monsterToHeal.maxHealth;
+        }
+
     }
 }

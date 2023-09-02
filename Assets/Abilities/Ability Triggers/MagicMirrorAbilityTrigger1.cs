@@ -10,7 +10,7 @@ public class MagicMirrorAbilityTrigger1 : IAbilityTrigger
 {
     public AttackEffect currentAttackEffectTriggered;
 
-    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger)
+    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger, bool displayLogMessage)
     {
         if (attackTrigger.monsterAttackDamageType == MonsterAttack.MonsterAttackDamageType.Magical)
         {

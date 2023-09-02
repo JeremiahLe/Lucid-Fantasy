@@ -278,7 +278,7 @@ public class Modifier : ScriptableObject
 
         if (monsterReference.health <= 0)
         {
-            await monsterComponent.combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monsterReference, monsterReferenceGameObject, EffectTime.OnDeath, blankAttack);
+            await monsterComponent.combatManagerScript.monsterAttackManager.TriggerAbilityEffects(monsterReference, monsterReferenceGameObject, EffectTime.OnDeath, blankAttack, displayLogMessages: true);
 
             await monsterComponent.combatManagerScript.CheckOnMonsterDeathEvents();
         }

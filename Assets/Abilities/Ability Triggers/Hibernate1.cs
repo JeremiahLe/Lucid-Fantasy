@@ -11,7 +11,7 @@ public class Hibernate1 : IAbilityTrigger
     public AttackEffect hibernateHealingIncreaseAttackEffect;
     public AttackEffect hibernateReduceSpeedAttackEffect;
 
-    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier, AttackEffect attackEffect)
+    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier, AttackEffect attackEffect, bool displayLogMessage)
     {
         if (modifier.statModified == AttackEffect.StatToChange.Health && modifier.statChangeType == AttackEffect.StatChangeType.Buff)
         {
@@ -28,7 +28,7 @@ public class Hibernate1 : IAbilityTrigger
 
             await Task.Delay(abilityTriggerDelay);
 
-            await hibernateReduceSpeedAttackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName);
+            await hibernateReduceSpeedAttackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName, displayLogMessage);
 
             await Task.Delay(abilityTriggerDelay);
         }

@@ -10,7 +10,7 @@ public class SpreadingCurrent : IAbilityTrigger
 {
     public AttackEffect physicalAttackBuffEffect;
     public AttackEffect magicAttackBuffEffect;
-    public override async Task<int> TriggerAbility(Monster abilityMonster, GameObject abilityMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability)
+    public override async Task<int> TriggerAbility(Monster abilityMonster, GameObject abilityMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, bool displayLogMessage)
     {
         await Task.Delay(abilityTriggerDelay);
 

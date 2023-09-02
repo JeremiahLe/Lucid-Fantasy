@@ -6,15 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/StartScreen.unity
+    path: Assets/Scenes/Core/Main.unity
     guid: a8a15194b48dfc84fa160a91d6d87b3e
+  - enabled: 0
+    path: Assets/Scenes/Core/AdventureMain.unity
+    guid: 1248220a3a0d2c747bfa66076674707c
   - enabled: 1
-    path: Assets/Scenes/AdventureBeginScene.unity
+    path: Assets/Scenes/Adventure/AdventureBeginScene.unity
     guid: e9e5d247305953545a7eaaa34d097990
   - enabled: 1
-    path: Assets/Scenes/BasicAdventureScene.unity
+    path: Assets/Scenes/Adventure/BasicAdventureScene.unity
     guid: cf90873ff6115d94a97d72f88b730bc7
   - enabled: 1
-    path: Assets/Scenes/AdventureBattleScene.unity
+    path: Assets/Scenes/Adventure/AdventureBattleScene.unity
     guid: ea6a1531d4436ee42b60dd39394cd80d
   m_configObjects: {}

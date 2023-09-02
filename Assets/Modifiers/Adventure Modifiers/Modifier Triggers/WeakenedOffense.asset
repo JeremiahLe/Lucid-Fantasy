@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb5d1cf61fdb91f4eb243b8f7caf6b38, type: 3}
+  m_Name: WeakenedOffense
+  m_EditorClassIdentifier: 
+  abilityTriggerDelay: 150
+  abilityTriggerTime: 5
+  adventureModifier: {fileID: 11400000, guid: 743d8167f48c98a4d9dccf9600db425c, type: 2}
+  listOfAdventureModifierEffects:
+  - {fileID: 11400000, guid: c7ebb8d67b24f3e4db5de6b37ecd40ce, type: 2}
+  - {fileID: 11400000, guid: 18076817eaf75c54e978a90a1f340b52, type: 2}

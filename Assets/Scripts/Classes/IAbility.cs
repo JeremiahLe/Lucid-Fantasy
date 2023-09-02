@@ -12,18 +12,19 @@ public abstract class IAbilityTrigger : ScriptableObject
 
     public AttackEffect.EffectTime abilityTriggerTime;
 
-    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability)
+    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, bool displayLogMessage)
     {
         return 1;
     }
 
-    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger)
+    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger, bool displayLogMessage)
     {
         return 1;
     }
 
 
-    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier, AttackEffect attackEffect)
+
+    public virtual async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, Modifier modifier, AttackEffect attackEffect, bool displayLogMessage)
     {
         return 1;
     }
@@ -52,4 +53,5 @@ public abstract class IAbilityTrigger : ScriptableObject
     {
         return 1;
     }
+
 }

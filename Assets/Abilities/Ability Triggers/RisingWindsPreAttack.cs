@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 public class RisingWindsPreAttack : IAbilityTrigger
 {
     public AttackEffect currentAttackEffectTriggered;
-    public override async Task<int> TriggerAbility(Monster abilityMonster, GameObject abilityMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger)
+    public override async Task<int> TriggerAbility(Monster abilityMonster, GameObject abilityMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger, bool displayLogMessage)
     {
-        await Task.Delay(abilityTriggerDelay);
+        //await Task.Delay(abilityTriggerDelay);
 
         Debug.Log($"Triggering {abilityMonster}'s {ability.abilityName} ability!", this);
 
@@ -30,7 +30,8 @@ public class RisingWindsPreAttack : IAbilityTrigger
 
         attackTrigger.monsterAttackFlatDamageBonus += bonusDamage;
 
-        monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{abilityMonster.aiType} {abilityMonster.name} gained {bonusDamage * 100}% bonus damage from its {ability.name} ability!");
+        if (displayLogMessage)
+            monsterAttackManager.combatManagerScript.CombatLog.SendMessageToCombatLog($"{abilityMonster.aiType} {abilityMonster.name} gained {bonusDamage * 100}% bonus damage from its {ability.name} ability!");
 
         return 1;
     }

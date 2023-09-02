@@ -27,7 +27,7 @@ public class FirstMonsterEffect : IAbilityTrigger
 
         foreach (AttackEffect modifierEffect in listOfAdventureModifierEffects)
         {
-            await modifierEffect.TriggerEffects(targetMonster, monsterObj, combatManagerScript.monsterAttackManager, adventureModifier.modifierName);
+            await modifierEffect.TriggerEffects(targetMonster, monsterObj, combatManagerScript.monsterAttackManager, adventureModifier.modifierName, true);
 
             await Task.Delay(abilityTriggerDelay);
         }

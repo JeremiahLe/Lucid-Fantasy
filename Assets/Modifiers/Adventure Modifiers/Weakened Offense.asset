@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209145e7329ba3488b1d89166c28784, type: 3}
+  m_Name: Weakened Offense
+  m_EditorClassIdentifier: 
+  modifierSource: 
+  modifierOwnerGameObject: {fileID: 0}
+  modifierOwner: {fileID: 0}
+  statusEffectIconGameObject: {fileID: 0}
+  statusEffectIcon: {fileID: 0}
+  attackEffect: {fileID: 0}
+  modifierDurationType: 0
+  statModified: 0
+  statChangeType: 0
+  modifierDuration: 0
+  modifierCurrentDuration: 0
+  modifierAmount: 0
+  modifierAmountFlatBuff: 0
+  isStatusEffect: 0
+  statusEffectType: 0
+  modifierName: Weakened Offense
+  modifierDescription: 'Game Start: All Enemy Chimerics lose -12% Physical and Magic
+    Attack.'
+  listOfModifierTriggers:
+  - {fileID: 11400000, guid: 709d4c30e6ccf9b468870c8c069bf941, type: 2}
+  modifierType: 1
+  modifierRarity: 0
+  equipmentRank: 1
+  equipmentCachedAmount: 0
+  baseSprite: {fileID: 21300000, guid: a2acda359556d0b4ba741063bbfd1ef7, type: 3}

@@ -11,7 +11,7 @@ public class BlazeOfGloryAbilityTrigger1 : IAbilityTrigger
     public AttackEffect BlazeOfGloryBurnAll;
     public AttackEffect BlazeOfGloryDamage;
 
-    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger)
+    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger, bool displayLogMessage)
     {
         foreach (GameObject _targetMonsterGameObject in monsterAttackManager.combatManagerScript.BattleSequence.ToArray())
         {
@@ -30,13 +30,13 @@ public class BlazeOfGloryAbilityTrigger1 : IAbilityTrigger
                 monsterAttackManager.currentTargetedMonster = monsterComponent.monsterReference;
 
                 BlazeOfGloryDamage.monsterSource = targetMonster;
-                await BlazeOfGloryDamage.TriggerEffects(_targetMonster, _targetMonsterGameObject, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
+                await BlazeOfGloryDamage.TriggerEffects(_targetMonster, _targetMonsterGameObject, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack, displayLogMessage);
 
                 await Task.Delay(abilityTriggerDelay);
                 continue;
             }
 
-            await BlazeOfGloryBurnAll.TriggerEffects(_targetMonster, _targetMonsterGameObject, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack);
+            await BlazeOfGloryBurnAll.TriggerEffects(_targetMonster, _targetMonsterGameObject, monsterAttackManager, ability.abilityName, monsterAttackManager.currentMonsterAttack, displayLogMessage);
 
             await Task.Delay(abilityTriggerDelay);
         }

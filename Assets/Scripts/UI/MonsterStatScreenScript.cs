@@ -132,7 +132,7 @@ public class MonsterStatScreenScript : MonoBehaviour
 
             if (dragController.monsterAttackReference.monsterAttackType == MonsterAttack.MonsterAttackType.Attack) {
                 dragController.GetComponentInChildren<TextMeshProUGUI>().text +=
-                    ($"\nBase Power: {dragController.monsterAttackReference.monsterAttackDamageScalar} | Accuracy: {dragController.monsterAttackReference.monsterAttackAccuracy}%");
+                    ($"\nBase Power: {dragController.monsterAttackReference.baseDamage} | Accuracy: {dragController.monsterAttackReference.monsterAttackAccuracy}%");
             }
             else
             {

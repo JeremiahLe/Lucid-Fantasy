@@ -11,7 +11,7 @@ public class CursedReflex1 : IAbilityTrigger
     public AttackEffect cursedReflexSlow;
     public AttackEffect cursedReflexEvasion;
 
-    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger)
+    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger, bool displayLogMessage)
     {
         // Slow Attacker
         await Task.Delay(abilityTriggerDelay);
@@ -19,7 +19,7 @@ public class CursedReflex1 : IAbilityTrigger
         cursedReflexSlow.monsterAttackTrigger = attackTrigger;
         cursedReflexSlow.monsterSource = targetMonster;
 
-        await cursedReflexSlow.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName, attackTrigger);
+        await cursedReflexSlow.TriggerEffects(targetMonster, targetMonsterGameObject, monsterAttackManager, ability.abilityName, attackTrigger, displayLogMessage);
 
         // Reduce Attacker Evasion
         await Task.Delay(abilityTriggerDelay);
@@ -27,7 +27,7 @@ public class CursedReflex1 : IAbilityTrigger
         cursedReflexEvasion.monsterAttackTrigger = attackTrigger;
         cursedReflexEvasion.monsterSource = targetMonster;
 
-        await cursedReflexEvasion.TriggerEffects(monsterAttackManager.currentMonsterTurn, monsterAttackManager.currentMonsterTurnGameObject, monsterAttackManager, ability.abilityName, attackTrigger);
+        await cursedReflexEvasion.TriggerEffects(monsterAttackManager.currentMonsterTurn, monsterAttackManager.currentMonsterTurnGameObject, monsterAttackManager, ability.abilityName, attackTrigger, displayLogMessage);
 
         // Slow Self
         await Task.Delay(abilityTriggerDelay);
@@ -35,7 +35,7 @@ public class CursedReflex1 : IAbilityTrigger
         cursedReflexSlow.monsterAttackTrigger = attackTrigger;
         cursedReflexSlow.monsterSource = targetMonster;
 
-        await cursedReflexSlow.TriggerEffects(monsterAttackManager.currentMonsterTurn, monsterAttackManager.currentMonsterTurnGameObject, monsterAttackManager, ability.abilityName, attackTrigger);
+        await cursedReflexSlow.TriggerEffects(monsterAttackManager.currentMonsterTurn, monsterAttackManager.currentMonsterTurnGameObject, monsterAttackManager, ability.abilityName, attackTrigger, displayLogMessage);
 
         await Task.Delay(abilityTriggerDelay);
 

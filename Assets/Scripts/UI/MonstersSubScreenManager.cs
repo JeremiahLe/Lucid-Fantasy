@@ -20,6 +20,8 @@ public class MonstersSubScreenManager : MonoBehaviour
     public TextMeshProUGUI playerGoldAmount;
     public TextMeshProUGUI playerRerollAmount;
 
+    public GameObject currentItemQueuedHolder;
+
     [Header("Inventory Menu")]
     public Item currentItem;
     public Modifier currentEquipment;
@@ -57,6 +59,8 @@ public class MonstersSubScreenManager : MonoBehaviour
     {
         playerGoldAmount.text = ($"{adventureManager.playerGold}");
         playerRerollAmount.text = ($"{adventureManager.rerollAmount}");
+
+        currentItemQueuedHolder.SetActive(false);
 
         InventoryMenu.SetActive(false);
     }
@@ -110,8 +114,10 @@ public class MonstersSubScreenManager : MonoBehaviour
             return;
 
         monsterAmountText.text =
-            ($"<b>Select a Chimeric to heal...</b>" +
-            $"\nCurrent Item: {currentItem.itemName} - {currentItem.itemDescription}");
+            ($"<b>Select a Chimeric...</b>");
+
+        currentItemQueuedHolder.SetActive(true);
+        currentItemQueuedHolder.GetComponentInChildren<TextMeshProUGUI>().text = ($"{currentItem.itemName}\n{currentItem.itemDescription}");
 
         monsterSelectPanelManager.InitializeMonsterSelectCards(adventureManager, CreateReward.TypeOfMonsterSelect.ReceiveItem);
 
@@ -340,6 +346,8 @@ public class MonstersSubScreenManager : MonoBehaviour
         InventoryMenu.SetActive(false);
 
         monsterSelectPanelManager.HideMonsterSelectCards();
+
+        currentItemQueuedHolder.SetActive(false);
     }
 
     public void PlayNewUIScreenSFX()

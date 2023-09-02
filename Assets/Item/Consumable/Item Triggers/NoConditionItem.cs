@@ -18,7 +18,7 @@ public class NoConditionItem : IAbilityTrigger
 
         foreach (AttackEffect effect in currentItem.listOfItemEffects)
         {
-            await effect.TriggerEffects(targetMonster, combatManagerScript.CurrentTargetedMonster, combatManagerScript.monsterAttackManager, currentItem.itemName, null);
+            await effect.TriggerEffects(targetMonster, combatManagerScript.CurrentTargetedMonster, combatManagerScript.monsterAttackManager, currentItem.itemName, null, true);
 
             await Task.Delay(abilityTriggerDelay);
         }

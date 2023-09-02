@@ -54,13 +54,12 @@ public class CombatManagerScript : MonoBehaviour
     public enum BattleControlType { Manual, Auto }
     public BattleControlType battleControlType;
 
+    public enum AdventureMode { Adventure, Testing, Classic }
+    public AdventureMode adventureMode;
+
     public int currentRound = 1;
 
     public string previousSceneName;
-
-    public bool adventureMode = false;
-
-    public bool testAdventureMode = false;
 
     public bool targeting = false;
 
@@ -88,7 +87,7 @@ public class CombatManagerScript : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
-        else if (Input.GetKeyDown(KeyCode.R) && !adventureMode)
+        else if (Input.GetKeyDown(KeyCode.R) && adventureMode != AdventureMode.Adventure)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
@@ -146,8 +145,10 @@ public class CombatManagerScript : MonoBehaviour
         CombatLog = GetComponent<MessageManager>();
         //Camera.main.GetComponent<CameraController>();
 
+        if (adventureManager == null) adventureMode = AdventureMode.Testing;
+
         // Adventure mode
-        if (adventureMode)
+        if (adventureMode == AdventureMode.Adventure)
         {
             AdventureManagerGameObject = GameObject.FindGameObjectWithTag("GameManager");
             adventureManager = AdventureManagerGameObject.GetComponent<AdventureManager>();
@@ -186,7 +187,7 @@ public class CombatManagerScript : MonoBehaviour
                 i++;
             }
         }
-        else if (testAdventureMode)
+        else if (adventureMode == AdventureMode.Testing)
         {
             AdventureManagerGameObject = GameObject.FindGameObjectWithTag("GameManager");
             adventureManager = AdventureManagerGameObject.GetComponent<AdventureManager>();
@@ -298,7 +299,7 @@ public class CombatManagerScript : MonoBehaviour
         }
 
         // if adventure mode, check adventure modifiers
-        if (adventureMode || testAdventureMode)
+        if (adventureMode != AdventureMode.Classic)
         {
             foreach (GameObject monsterObj in ListOfAllys)
             {
@@ -475,8 +476,10 @@ public class CombatManagerScript : MonoBehaviour
         uiManager.monsterTurnIndicator.SetActive(false);
 
         // Call Round End adventure modifiers
-        if ((adventureMode || testAdventureMode) && ListOfAllys.Count > 0)
+        if ((adventureMode != AdventureMode.Classic) && ListOfAllys.Count > 0)
         {
+            Debug.Log("Calling Round End Adventure Modifiers!");
+
             await adventureManager.TriggerAdventureModifiers(AttackEffect.EffectTime.RoundEnd, Monster.AIType.Ally); // needs to be awaited
 
             await adventureManager.TriggerAdventureModifiers(AttackEffect.EffectTime.RoundEnd, Monster.AIType.Enemy); // needs to be awaited
@@ -788,6 +791,8 @@ public class CombatManagerScript : MonoBehaviour
                 CurrentTargetedMonster = GetRandomTarget(ListOfEnemies);
                 break;
         }
+
+        monsterAttackManager.UpdateCurrentTargetText();
     }
 
     // This function returns a random target from the list of ally monsters // GitHub edit
@@ -893,7 +898,7 @@ public class CombatManagerScript : MonoBehaviour
             SortMonsterBattleSequence(); 
 
             // Call All Round Staret
-            if (adventureMode || testAdventureMode)
+            if (adventureMode != AdventureMode.Classic)
             {
                 await adventureManager.TriggerAdventureModifiers(AttackEffect.EffectTime.RoundStart, Monster.AIType.Ally);
                 
@@ -948,7 +953,7 @@ public class CombatManagerScript : MonoBehaviour
 
                 Destroy(monsterToRemove, 1f);
 
-                if (adventureMode || testAdventureMode)
+                if (adventureMode == AdventureMode.Adventure)
                 {
                     // Remove monster references from adventure manager
                     adventureManager.ListOfAllyBattleMonsters.Remove(monster);
@@ -966,7 +971,7 @@ public class CombatManagerScript : MonoBehaviour
 
                 Destroy(monsterToRemove, 1f);
 
-                if (adventureMode)
+                if (adventureMode == AdventureMode.Adventure)
                     adventureManager.playerMonstersKilled += 1;
 
                 break;
@@ -1040,7 +1045,7 @@ public class CombatManagerScript : MonoBehaviour
     // This function should call all battle over functions
     public void BattleOver()
     {
-        if (adventureMode || testAdventureMode)
+        if (adventureMode != AdventureMode.Classic)
         {
             Invoke(nameof(AdventureBattleOver), 0.5f);
             return;
@@ -1050,15 +1055,8 @@ public class CombatManagerScript : MonoBehaviour
     // This function should call all battle over functions
     public void AdventureBattleOver()
     {
-        //if (battleState == BattleState.LostBattle)
-        //{
-        //    adventureManager.adventureFailed = true;
-        //    SceneManager.LoadScene(previousSceneName);
-        //    return;
-        //}
-
         // Clear out stat changes
-        if (!testAdventureMode)
+        if (adventureMode == AdventureMode.Adventure)
         {
             foreach (Monster monster in adventureManager.ListOfAllyBattleMonsters.ToList()) // might have to remove this ToList()
             {
@@ -1077,6 +1075,12 @@ public class CombatManagerScript : MonoBehaviour
                 monster.critDamage = monster.cachedCritDamage;
 
                 monster.bonusAccuracy = monster.cachedBonusAccuracy;
+
+                monster.maxSP = monster.cachedMaxSP;
+                monster.spRegen = monster.cachedSpRegen;
+                monster.lifeStealPercent = monster.cachedLifeStealPercent;
+                monster.bonusDamagePercent = monster.cachedBonusDamagePercent;
+                monster.damageReductionPercent = monster.cachedDamageReductionPercent;
 
                 // Clear temporary monster attack effects
                 foreach (MonsterAttack attack in monster.ListOfMonsterAttacks.ToList()) // might have to remove this ToList()

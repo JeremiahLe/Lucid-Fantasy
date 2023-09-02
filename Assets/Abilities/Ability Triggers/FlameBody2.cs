@@ -10,7 +10,7 @@ public class FlameBody2 : IAbilityTrigger
 {
     public List<AttackEffect> currentAttackEffectTriggered;
 
-    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger)
+    public override async Task<int> TriggerAbility(Monster targetMonster, GameObject targetMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, MonsterAttack attackTrigger, bool displayLogMessages)
     {
         await Task.Delay(abilityTriggerDelay);
 
@@ -18,7 +18,7 @@ public class FlameBody2 : IAbilityTrigger
         {
             foreach (AttackEffect attackEffect in currentAttackEffectTriggered)
             {
-                await attackEffect.TriggerEffects(monsterAttackManager, ability.abilityName, attackTrigger);
+                await attackEffect.TriggerEffects(monsterAttackManager, ability.abilityName, attackTrigger, displayLogMessages);
 
                 await Task.Delay(abilityTriggerDelay);
             }

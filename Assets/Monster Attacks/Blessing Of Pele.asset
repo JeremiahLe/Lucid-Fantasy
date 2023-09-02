@@ -19,7 +19,7 @@ MonoBehaviour:
     If the target is an enemy, apply 18% current Health Burning for 5 rounds.
   monsterAttackElement: 0
   monsterElementClass: {fileID: 0}
-  monsterAttackType: 0
+  monsterAttackType: 1
   monsterAttackDamageType: 0
   monsterAttackTargetCount: 0
   monsterAttackTargetCountNumber: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
   monsterAttackSPCost: 0
   AttackVFX: {fileID: 0}
   monsterAttackSoundEffect: {fileID: 0}
-  monsterAttackDamageScalar: 0
+  baseDamage: 0
   monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 0

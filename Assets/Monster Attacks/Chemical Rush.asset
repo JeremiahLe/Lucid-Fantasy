@@ -27,7 +27,7 @@ MonoBehaviour:
   monsterAttackSPCost: 4
   AttackVFX: {fileID: 3979343233989466021, guid: 86083ba7748da634f897fd894b103c97, type: 3}
   monsterAttackSoundEffect: {fileID: 8300000, guid: 89f5721be4fad1649b74071704904251, type: 3}
-  monsterAttackDamageScalar: 40
+  baseDamage: 45
   monsterBaseAttackStat: 0
   monsterAttackFlatDamageBonus: 0
   monsterAttackAccuracy: 100

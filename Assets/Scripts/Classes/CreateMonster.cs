@@ -130,13 +130,22 @@ public class CreateMonster : MonoBehaviour
         SetAIType();
     }
 
+    public void LateUpdate()
+    {
+        if (monsterAttackManager && monsterAttackManager.currentCombatState == MonsterAttackManager.CombatState.Targeting)
+        {
+            //var blinkingColor = Mathf.Lerp(0.1f, 1f, Mathf.PingPong(Time.deltaTime * 2, 1));
+            //HealthbarSliderFillDamagedFade.color = Mathf.Lerp(0.1f, 1f, Mathf.PingPong(Time.deltaTime * 2, 1));
+        }
+    }
+
     // This function sets monster stats on HUD at battle start
     private void InitiateStats()
     {
         combatManagerScript = combatManagerObject.GetComponent<CombatManagerScript>();
 
         // this is needed to create instances of the scriptable objects rather than editing them
-        if (!combatManagerScript.adventureMode)
+        if (combatManagerScript.adventureMode != CombatManagerScript.AdventureMode.Adventure)
         {
             monsterReference = Instantiate(monster);
             monsterReference.aiType = aiType;
@@ -155,7 +164,7 @@ public class CreateMonster : MonoBehaviour
         }
 
         // if adventure mode, cache stats only for Player
-        if (combatManagerScript.adventureMode || combatManagerScript.testAdventureMode)
+        if (combatManagerScript.adventureMode == CombatManagerScript.AdventureMode.Adventure)
         {
             monsterReference = monster;
             monster.cachedLevel = monsterReference.level;
@@ -217,6 +226,16 @@ public class CreateMonster : MonoBehaviour
         UpdateHealthBar();
     }
 
+    public void AnimateHealthbarPreview(float estimatedDamage)
+    {
+        HealthbarSlider.value = monsterReference.health - estimatedDamage;
+    }
+
+    public void ResetHealthbarPreview()
+    {
+        HealthbarSlider.value = monsterReference.health;
+    }
+
     public void InitializeSPBar()
     {
         ListOfSPIcons.Clear();
@@ -266,7 +285,7 @@ public class CreateMonster : MonoBehaviour
         monsterReference.monsterCachedBattleIndex = combatManagerScript.ListOfAllys.IndexOf(gameObject);
 
         // Create instances of the monster's attacks
-        if (combatManagerScript.adventureMode || combatManagerScript.testAdventureMode)
+        if (combatManagerScript.adventureMode != CombatManagerScript.AdventureMode.Classic)
         {
             monsterReference.ListOfCachedMonsterAttacks.Clear();
 
@@ -762,12 +781,12 @@ public class CreateMonster : MonoBehaviour
                 break;
 
             case (AttackEffect.StatToChange.HighestAttackStat):
-                if (MonsterAttackManager.ReturnMonsterHighestAttackStat(monsterReference) == MonsterAttack.MonsterAttackDamageType.Magical)
+                if (MonsterAttackManager.ReturnMonsterHighestAttackStatType(monsterReference) == MonsterAttack.MonsterAttackDamageType.Magical)
                 {
                     modifier.statModified = AttackEffect.StatToChange.MagicAttack;
                     monsterReference.magicAttack += (int)modifier.modifierAmount;
                 }
-                else if (MonsterAttackManager.ReturnMonsterHighestAttackStat(monsterReference) == MonsterAttack.MonsterAttackDamageType.Physical)
+                else if (MonsterAttackManager.ReturnMonsterHighestAttackStatType(monsterReference) == MonsterAttack.MonsterAttackDamageType.Physical)
                 {
                     modifier.statModified = AttackEffect.StatToChange.PhysicalAttack;
                     monsterReference.physicalAttack += (int)modifier.modifierAmount;

@@ -33,9 +33,9 @@ public class ChainsawsHeartCondition1 : IAbilityTrigger
 
             await targetMonsterGameObject.GetComponent<CreateMonster>().UpdateStats(true, monsterAttackManager.currentMonsterTurnGameObject, false, currentHealth);
 
-            await monsterAttackManager.TriggerAbilityEffects(attackEffect.monsterAttackTrigger.monsterAttackSource, attackEffect.monsterAttackTrigger.monsterAttackSourceGameObject, AttackEffect.EffectTime.OnKill, attackEffect.monsterAttackTrigger);
+            await monsterAttackManager.TriggerAbilityEffects(attackEffect.monsterAttackTrigger.monsterAttackSource, attackEffect.monsterAttackTrigger.monsterAttackSourceGameObject, AttackEffect.EffectTime.OnKill, attackEffect.monsterAttackTrigger, displayLogMessages: true);
 
-            await monsterAttackManager.TriggerAbilityEffects(targetMonster, targetMonsterGameObject, AttackEffect.EffectTime.OnDeath, attackEffect.monsterAttackTrigger);
+            await monsterAttackManager.TriggerAbilityEffects(targetMonster, targetMonsterGameObject, AttackEffect.EffectTime.OnDeath, attackEffect.monsterAttackTrigger, displayLogMessages: true);
 
             attackEffect.monsterAttackTrigger.monsterAttackSource.monsterKills += 1;
 

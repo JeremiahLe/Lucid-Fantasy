@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 public class StormcowlOnRoundStart : IAbilityTrigger
 {
     public AttackEffect EnrageAttackEffect;
-    public override async Task<int> TriggerAbility(Monster abilitySourceMonster, GameObject abilitySourceMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability)
+    public override async Task<int> TriggerAbility(Monster abilitySourceMonster, GameObject abilitySourceMonsterGameObject, MonsterAttackManager monsterAttackManager, Ability ability, bool displayLogMessage)
     {
         await Task.Delay(abilityTriggerDelay);
 
@@ -33,7 +33,7 @@ public class StormcowlOnRoundStart : IAbilityTrigger
             {
                 MonsterAttack blankAttack = new MonsterAttack(ability.abilityName, EnrageAttackEffect.elementClass, EnrageAttackEffect.effectDamageType, 0, 0, abilitySourceMonster, abilitySourceMonsterGameObject);
                 EnrageAttackEffect.monsterAttackTrigger = blankAttack;
-                await EnrageAttackEffect.TriggerEffects(monsterReference, enemyMonster, monsterAttackManager, EnrageAttackEffect.name, blankAttack);
+                await EnrageAttackEffect.TriggerEffects(monsterReference, enemyMonster, monsterAttackManager, EnrageAttackEffect.name, blankAttack, displayLogMessage);
             }
 
             await Task.Delay(abilityTriggerDelay);

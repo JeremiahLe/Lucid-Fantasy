@@ -35,7 +35,7 @@ public class CrushingBlows : IAbilityTrigger
 
             await Task.Delay(abilityTriggerDelay);
 
-            await OnPostAttackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, combatManagerScript.monsterAttackManager, OnPostAttackEffect.name);
+            await OnPostAttackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, combatManagerScript.monsterAttackManager, OnPostAttackEffect.name, true);
 
             return 1;
         }
@@ -50,7 +50,7 @@ public class CrushingBlows : IAbilityTrigger
 
             await Task.Delay(abilityTriggerDelay);
 
-            await OnDuringAttackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, combatManagerScript.monsterAttackManager, OnDuringAttackEffect.name);
+            await OnDuringAttackEffect.TriggerEffects(targetMonster, targetMonsterGameObject, combatManagerScript.monsterAttackManager, OnDuringAttackEffect.name, displayLogMessages: true);
 
             return 1;
         }

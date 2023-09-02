@@ -51,10 +51,10 @@ MonoBehaviour:
   magicDefenseScaler: 1
   speedScaler: 1
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
-  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
-  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
-  - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
+  - {fileID: 11400000, guid: 7dd8ef701b149f2438862dd21e4346bb, type: 2}
+  - {fileID: 11400000, guid: f2727f88e849c3840ae05a8ce85d9108, type: 2}
+  - {fileID: 11400000, guid: 2439c4c37b304ce4784f0ed8780da9f7, type: 2}
+  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
   - {fileID: 11400000, guid: d2dd4effb84e51742869a21882276ec9, type: 2}
@@ -81,8 +81,12 @@ MonoBehaviour:
   cachedLifeStealPercent: 0
   cachedBonusDamagePercent: 0
   cachedDamageReductionPercent: 0
-  monsterCachedBattleIndex: 0
-  ListOfCachedMonsterAttacks: []
+  monsterCachedBattleIndex: 1
+  ListOfCachedMonsterAttacks:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1
@@ -100,7 +104,7 @@ MonoBehaviour:
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 100
-  cachedHealthAtBattleStart: 0
+  cachedHealthAtBattleStart: 135
   monsterAscensionAttack: {fileID: 0}
   ascensionGoldRequirement: 10
   ascensionType: 0

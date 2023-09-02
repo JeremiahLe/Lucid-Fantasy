@@ -19,7 +19,7 @@ MonoBehaviour:
   monsterElement: {fileID: 11400000, guid: dfae7defb3df0564dad46becd5668609, type: 2}
   monsterSubElement: {fileID: 11400000, guid: ee78d8dead00fd74ba789a4822c195a6, type: 2}
   aiType: 0
-  aiLevel: 0
+  aiLevel: 3
   monsterFlavourText: Sparkigeist often haunt electrical outlets and feed off the
     electricity.
   monsterAbility: {fileID: 11400000, guid: 95eb864fe3d4ec74683cac4ec74a8f24, type: 2}
@@ -51,10 +51,10 @@ MonoBehaviour:
   magicDefenseScaler: 1
   speedScaler: 3
   ListOfMonsterAttacks:
-  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
-  - {fileID: 11400000, guid: 543a91073afd4624eb698cdd66994d96, type: 2}
-  - {fileID: 11400000, guid: 7dd8ef701b149f2438862dd21e4346bb, type: 2}
   - {fileID: 11400000, guid: 32862a257e8aead44800e9511625e79d, type: 2}
+  - {fileID: 11400000, guid: c25107f645a56b64eaa69da9fedd4f57, type: 2}
+  - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
+  - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
   ListOfModifiers: []
   ListOfMonsterAttacksAvailable:
   - {fileID: 11400000, guid: 13366ab9f7eb7c143ad20d67e370e5a9, type: 2}
@@ -64,22 +64,26 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c732e8f562fec504f83fe771d9a84e8d, type: 2}
   cachedHealth: 0
   cachedMaxHealth: 0
-  cachedPhysicalAttack: 1
-  cachedMagicAttack: 1
-  cachedPhysicalDefense: 1
-  cachedMagicDefense: 1
-  cachedSpeed: 1
-  cachedEvasion: 0
+  cachedPhysicalAttack: 5
+  cachedMagicAttack: 5
+  cachedPhysicalDefense: 5
+  cachedMagicDefense: 3
+  cachedSpeed: 10
+  cachedEvasion: 5
   cachedCritChance: 0
   cachedBonusAccuracy: 0
-  cachedCritDamage: 0
+  cachedCritDamage: 1.25
   cachedMaxSP: 1
   cachedSpRegen: 1
   cachedLifeStealPercent: 0
   cachedBonusDamagePercent: 0
   cachedDamageReductionPercent: 0
-  monsterCachedBattleIndex: 0
-  ListOfCachedMonsterAttacks: []
+  monsterCachedBattleIndex: 2
+  ListOfCachedMonsterAttacks:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   previouslyCachedMaxHealth: 0
   previouslyCachedPhysicalAttack: 1
   previouslyCachedMagicAttack: 1
@@ -90,14 +94,14 @@ MonoBehaviour:
   previouslyCachedCritChance: 0
   previouslyCachedBonusAccuracy: 0
   previouslyCachedCritDamage: 0
-  cachedLevel: 0
+  cachedLevel: 5
   cachedMonsterRowPosition: 0
   monsterIsOwned: 0
   cachedDamageDone: 0
   monsterKills: 0
   monsterCurrentExp: 0
   monsterExpToNextLevel: 100
-  cachedHealthAtBattleStart: 0
+  cachedHealthAtBattleStart: 78
   monsterAscensionAttack: {fileID: 0}
   ascensionGoldRequirement: 10
   ascensionType: 0

@@ -243,7 +243,7 @@ public class UIManager : MonoBehaviour
     public IEnumerator ShowBattleResultsScreen(CombatManagerScript.BattleState battleResult)
     {
         combatManagerScript.adventureManager.GameManagerAudioSource.Stop();
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.75f);
         BattleResultsWindow.SetActive(true);
 
         if (battleResult == CombatManagerScript.BattleState.WonBattle)

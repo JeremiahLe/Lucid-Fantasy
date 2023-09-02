@@ -12,6 +12,11 @@ public class SceneButtonManager : MonoBehaviour
     public TextMeshProUGUI connectingText;
     public Animator SceneTransitions;
 
+    [Header("Scene Paths")]
+    [SerializeField] private const string Main = "Main";
+    [SerializeField] private const string AdventureMenu = "AdventureBeginScene";
+
+
     [Header("Menus")]
     public GameObject MainMenu;
     public GameObject CreateRoomMenu;
@@ -100,13 +105,13 @@ public class SceneButtonManager : MonoBehaviour
     // This function is called when Adventure is clicked
     public void AdventureClicked()
     {
-        StartCoroutine(SceneTransition("AdventureBeginScene"));
+        StartCoroutine(SceneTransition(AdventureMenu));
     }
 
     // This function is called when return to main menu is clicked
     public void ReturnToMainMenuClicked()
     {
-        StartCoroutine(SceneTransition("StartScreen"));
+        StartCoroutine(SceneTransition(Main));
     }
 
     IEnumerator SceneTransition(string sceneName)
